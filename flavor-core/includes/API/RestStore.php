@@ -278,6 +278,10 @@ class RestStore {
 	 * @param \WP_REST_Request $request Request.
 	 */
 	public function otp_request( \WP_REST_Request $request ) {
+		$limited = \FlavorCore\Support\RateLimit::guard( 'otp', 8, 10 * MINUTE_IN_SECONDS );
+		if ( is_wp_error( $limited ) ) {
+			return $limited;
+		}
 		$body = $request->get_json_params();
 		$body = is_array( $body ) ? $body : array();
 		$out  = OtpAuth::request( (string) ( $body['mobile'] ?? '' ) );

@@ -110,6 +110,8 @@ final class Plugin {
 		( new RestController() )->hooks();
 		( new Admin\AdminMenus() )->hooks();
 		( new Support\Rewrites() )->hooks();
+		( new Support\Privacy() )->hooks();
+		( new Support\CacheHints() )->hooks();
 
 		/**
 		 * Fires after Flavor Core has booted.

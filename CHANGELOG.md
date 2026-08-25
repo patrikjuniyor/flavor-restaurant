@@ -5,6 +5,16 @@ All notable changes to **رستوران مستقیم** (Flavor theme + Flavor Co
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.0] - 2026-08-25
+
+### Added
+
+- Conditional assets, font preload, hero LCP hint
+- Restaurant / Menu / Breadcrumb JSON-LD and Open Graph
+- REST rate limits, privacy export/erase, cache exclusion hints
+- Persian manuals, video scripts, Raastichin listing copy
+- Launch version lock for theme + plugin
+
 ## [0.4.0] - 2026-08-25
 
 ### Added

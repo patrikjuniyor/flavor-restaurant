@@ -177,6 +177,10 @@ class RestExperience {
 	 * @param \WP_REST_Request $request Request.
 	 */
 	public function book( \WP_REST_Request $request ) {
+		$limited = \FlavorCore\Support\RateLimit::guard( 'reservation', 10, 10 * MINUTE_IN_SECONDS );
+		if ( is_wp_error( $limited ) ) {
+			return $limited;
+		}
 		$body = $request->get_json_params();
 		$out  = ReservationService::book( is_array( $body ) ? $body : array() );
 		if ( is_wp_error( $out ) ) {
@@ -207,6 +211,10 @@ class RestExperience {
 	 * @param \WP_REST_Request $request Request.
 	 */
 	public function coupon( \WP_REST_Request $request ) {
+		$limited = \FlavorCore\Support\RateLimit::guard( 'coupon', 20, 10 * MINUTE_IN_SECONDS );
+		if ( is_wp_error( $limited ) ) {
+			return $limited;
+		}
 		$body = $request->get_json_params();
 		$code = is_array( $body ) ? (string) ( $body['code'] ?? '' ) : '';
 		$out  = DiscountManager::apply( $code );

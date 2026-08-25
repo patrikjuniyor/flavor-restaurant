@@ -28,7 +28,7 @@ if ( ! $image ) {
 ?>
 <section class="flavor-hero">
 	<?php if ( $image ) : ?>
-		<img class="flavor-hero__bg" src="<?php echo esc_url( $image ); ?>" alt="" />
+		<img class="flavor-hero__bg" src="<?php echo esc_url( $image ); ?>" alt="" fetchpriority="high" decoding="async" />
 	<?php endif; ?>
 	<div class="flavor-hero__inner">
 		<h1><?php echo esc_html( $title ); ?></h1>
