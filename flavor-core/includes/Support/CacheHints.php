@@ -51,16 +51,6 @@ class CacheHints {
 	}
 
 	/**
-	 * Tell LiteSpeed the flavor session cookie is private.
-	 */
-	public function litespeed_cookies(): void {
-		if ( ! defined( 'LSCWP_V' ) ) {
-			return;
-		}
-		do_action( 'litespeed_control_set_nocache', 'flavor-private' );
-	}
-
-	/**
 	 * One-time setup hint.
 	 */
 	public function notice(): void {
