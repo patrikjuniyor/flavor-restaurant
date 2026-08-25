@@ -5,6 +5,19 @@ All notable changes to **رستوران مستقیم** (Flavor theme + Flavor Co
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] - 2026-08-25
+
+### Added
+
+- Jalali calendar helper and reservation booking (slots, capacity pool, walk-in, SMS confirm/reminder cron)
+- Front-end reservation template with Shamsi month grid
+- Menu time windows (breakfast/lunch/dinner/late night) with per-branch override
+- Availability admin toggles (ناموجود لحظه‌ای)
+- WooCommerce coupon extras: Jalali expiry, branch lock, first-order-only
+- Cart coupon REST + drawer field
+- Phone-order desk (customer lookup, recent orders, modifiers, send to kitchen)
+- Loyalty points + stamp card, admin adjust, `/me` summary
+
 ## [0.2.0] - 2026-08-25
 
 ### Added

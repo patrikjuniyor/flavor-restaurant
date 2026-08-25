@@ -49,6 +49,12 @@ defined( 'ABSPATH' ) || exit;
 				</label>
 				<p class="flavor-zone-msg" id="flavor-zone-msg"></p>
 			</div>
+			<p>
+				<label><?php esc_html_e( 'کد تخفیف', 'flavor' ); ?>
+					<input type="text" id="flavor-coupon" />
+				</label>
+				<button type="button" class="flavor-btn" id="flavor-coupon-btn"><?php esc_html_e( 'اعمال', 'flavor' ); ?></button>
+			</p>
 			<fieldset id="flavor-pay-box">
 				<legend><?php esc_html_e( 'پرداخت', 'flavor' ); ?></legend>
 			</fieldset>

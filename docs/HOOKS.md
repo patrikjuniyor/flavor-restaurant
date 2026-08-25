@@ -11,6 +11,9 @@ Text domain: `flavor-core`.
 | `flavor_core_kitchen_status_changed` | `int $ticket_id, string $from, string $to` | Legal status transition |
 | `flavor_core_otp_requested` | `string $mobile` | OTP issued |
 | `flavor_core_otp_verified` | `WP_User $user, string $mobile` | Customer logged in |
+| `flavor_core_reservation_created` | `int $id, array $row` | New reservation |
+| `flavor_core_reservation_status_changed` | `int $id, string $status` | Status change |
+| `flavor_core_reservation_reminders` | (cron) | Hourly reminder pass |
 
 ## Filters
 
@@ -50,6 +53,12 @@ Namespace: `flavor/v1`
 | POST | `/zones/check` | public |
 | GET | `/tables` | public |
 | GET | `/me` | public |
+| GET | `/calendar` | public |
+| GET | `/reservations/slots` | public |
+| POST | `/reservations` | `X-WP-Nonce` |
+| GET | `/reservations` | `flavor_manage_reservations` |
+| POST | `/coupon` | `X-WP-Nonce` |
+| GET | `/staff/customer` | `flavor_create_phone_order` |
 
 ## Capabilities
 

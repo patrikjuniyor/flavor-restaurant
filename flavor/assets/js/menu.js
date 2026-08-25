@@ -75,6 +75,7 @@
 			'<p class="flavor-card__meta">' +
 			esc(item.short || '') +
 			(item.prep_time ? ' · ' + item.prep_time + ' دقیقه' : '') +
+			(item.available_at && item.in_schedule === false ? ' · ' + esc(item.available_at) : '') +
 			'</p>' +
 			'<strong>' +
 			esc(item.price_html || '') +
@@ -448,6 +449,22 @@
 	}
 	if (hood) hood.addEventListener('change', checkZone);
 	if (city) city.addEventListener('change', checkZone);
+
+	var couponBtn = document.getElementById('flavor-coupon-btn');
+	if (couponBtn) {
+		couponBtn.addEventListener('click', function () {
+			var code = (document.getElementById('flavor-coupon') || {}).value || '';
+			api('coupon', {
+				method: 'POST',
+				headers: headers(true),
+				body: JSON.stringify({ code: code }),
+			})
+				.then(drawCart)
+				.catch(function (err) {
+					alert(err.message);
+				});
+		});
+	}
 
 	var form = document.getElementById('flavor-checkout');
 	if (form) {

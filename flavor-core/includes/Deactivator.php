@@ -18,6 +18,7 @@ class Deactivator {
 	 * Deactivation callback.
 	 */
 	public static function deactivate(): void {
+		\FlavorCore\Reservation\ReminderCron::clear();
 		flush_rewrite_rules();
 	}
 }

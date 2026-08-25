@@ -340,6 +340,56 @@ a {
 	font-weight: 400;
 }
 
+.flavor-cal__nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 12px 0;
+}
+
+.flavor-cal__week,
+.flavor-cal__grid {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 4px;
+	text-align: center;
+}
+
+.flavor-cal__week {
+	font-size: 0.8rem;
+	color: var(--flavor-muted);
+}
+
+.flavor-cal__day,
+.flavor-slot {
+	border: 1px solid var(--flavor-line);
+	background: var(--flavor-surface);
+	border-radius: 8px;
+	padding: 8px 4px;
+	font: inherit;
+	cursor: pointer;
+}
+
+.flavor-cal__day.is-past,
+.flavor-slot.is-off {
+	opacity: 0.35;
+	cursor: not-allowed;
+}
+
+.flavor-cal__day.is-active,
+.flavor-slot.is-active {
+	background: var(--flavor-olive);
+	color: #fff;
+	border-color: var(--flavor-olive);
+}
+
+.flavor-slots {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 12px 0;
+}
+
 @media (min-width: 900px) {
 	.flavor-sheet__panel {
 		inset-inline: auto;

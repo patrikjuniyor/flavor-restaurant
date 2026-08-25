@@ -170,7 +170,11 @@ class CheckoutService {
 		$order->update_meta_data( '_flavor_table_number', $table_number );
 		$order->update_meta_data( '_flavor_order_mode', $mode );
 		$order->update_meta_data( '_flavor_mobile', $mobile );
-		$order->update_meta_data( '_flavor_source', 'online' );
+		$source = sanitize_key( (string) ( $payload['source'] ?? 'online' ) );
+		if ( ! in_array( $source, array( 'online', 'phone', 'walk_in' ), true ) ) {
+			$source = 'online';
+		}
+		$order->update_meta_data( '_flavor_source', $source );
 		if ( $zone ) {
 			$order->update_meta_data( '_flavor_zone_id', (int) $zone['id'] );
 			$order->update_meta_data( '_flavor_zone_name', (string) $zone['name'] );

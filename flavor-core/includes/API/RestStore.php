@@ -437,6 +437,7 @@ class RestStore {
 				'id'        => $user->ID,
 				'name'      => $user->display_name,
 				'mobile'    => (string) get_user_meta( $user->ID, OtpAuth::META_MOBILE, true ),
+				'loyalty'   => \FlavorCore\Loyalty\PointsManager::summary( $user->ID ),
 			)
 		);
 	}

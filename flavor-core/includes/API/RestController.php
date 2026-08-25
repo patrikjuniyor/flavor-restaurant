@@ -131,6 +131,7 @@ class RestController {
 		);
 
 		( new RestStore() )->register();
+		( new RestExperience() )->register();
 	}
 
 	/**
@@ -227,7 +228,14 @@ class RestController {
 		$items = array();
 		if ( is_object( $result ) && ! empty( $result->products ) ) {
 			foreach ( $result->products as $product ) {
-				$items[] = $this->serialize_product( $product, $branch_id );
+				$state = \FlavorCore\Menu\MenuScheduler::product_state( $branch_id, $product->get_id() );
+				if ( empty( $state['visible'] ) ) {
+					continue;
+				}
+				$card = $this->serialize_product( $product, $branch_id );
+				$card['in_schedule'] = ! empty( $state['now'] );
+				$card['available_at'] = $state['next'] ?? '';
+				$items[] = $card;
 			}
 		}
 
@@ -275,6 +283,17 @@ class RestController {
 		$id    = $product->get_id();
 		$image = wp_get_attachment_image_url( $product->get_image_id(), 'medium' );
 		$price = (int) round( (float) $product->get_price() );
+		$terms = get_the_terms( $id, 'product_cat' );
+		$cat   = array();
+		if ( is_array( $terms ) ) {
+			foreach ( $terms as $term ) {
+				$cat[] = array(
+					'id'   => $term->term_id,
+					'name' => $term->name,
+					'slug' => $term->slug,
+				);
+			}
+		}
 
 		// Catalog price is in WC currency. Convert to storage then format.
 		$wc_code   = strtoupper( (string) get_woocommerce_currency() );

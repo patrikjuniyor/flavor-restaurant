@@ -79,7 +79,13 @@ class Activator {
 			'guest_checkout'        => 'yes',
 			'sms_provider'          => 'dev',
 			'sms_templates'         => array(),
-			'kitchen_sound'         => 'yes',
+			'kitchen_sound'           => 'yes',
+			'hide_offschedule'        => 'yes',
+			'reservation_duration'    => 90,
+			'loyalty_unit_toman'      => 10000,
+			'loyalty_points_per_unit' => 1,
+			'loyalty_toman_per_point' => 1000,
+			'loyalty_stamp_target'    => 10,
 		);
 	}
 

@@ -8,6 +8,11 @@
 namespace FlavorCore\Admin;
 
 use FlavorCore\Delivery\ZoneAdmin;
+use FlavorCore\Loyalty\LoyaltyAdmin;
+use FlavorCore\Menu\AvailabilityAdmin;
+use FlavorCore\Menu\ScheduleAdmin;
+use FlavorCore\Order\PhoneOrderAdmin;
+use FlavorCore\Reservation\ReservationAdmin;
 use FlavorCore\SMS\SmsManager;
 use FlavorCore\Support\Settings;
 use FlavorCore\Table\TableAdmin;
@@ -86,6 +91,51 @@ class AdminMenus {
 			'flavor_manage_kitchen',
 			'flavor-kitchen',
 			array( $this, 'render_kitchen_admin' )
+		);
+
+		add_submenu_page(
+			'flavor-core',
+			__( 'رزرو میز', 'flavor-core' ),
+			__( 'رزرو میز', 'flavor-core' ),
+			'flavor_manage_reservations',
+			'flavor-reservations',
+			array( ReservationAdmin::class, 'render' )
+		);
+
+		add_submenu_page(
+			'flavor-core',
+			__( 'سفارش تلفنی', 'flavor-core' ),
+			__( 'سفارش تلفنی', 'flavor-core' ),
+			'flavor_create_phone_order',
+			'flavor-phone',
+			array( PhoneOrderAdmin::class, 'render' )
+		);
+
+		add_submenu_page(
+			'flavor-core',
+			__( 'زمان‌بندی منو', 'flavor-core' ),
+			__( 'زمان‌بندی منو', 'flavor-core' ),
+			'flavor_manage_branch',
+			'flavor-schedules',
+			array( ScheduleAdmin::class, 'render' )
+		);
+
+		add_submenu_page(
+			'flavor-core',
+			__( 'موجودی لحظه‌ای', 'flavor-core' ),
+			__( 'موجودی لحظه‌ای', 'flavor-core' ),
+			'flavor_manage_kitchen',
+			'flavor-availability',
+			array( AvailabilityAdmin::class, 'render' )
+		);
+
+		add_submenu_page(
+			'flavor-core',
+			__( 'باشگاه مشتریان', 'flavor-core' ),
+			__( 'باشگاه مشتریان', 'flavor-core' ),
+			'flavor_manage_loyalty',
+			'flavor-loyalty',
+			array( LoyaltyAdmin::class, 'render' )
 		);
 	}
 
@@ -172,11 +222,11 @@ class AdminMenus {
 		?>
 		<div class="wrap flavor-admin">
 			<h1><?php esc_html_e( 'رستوران مستقیم', 'flavor-core' ); ?></h1>
-			<p><?php esc_html_e( 'فاز ۱ — معماری، اسکیما، شعبه، مدیفایر و لایه ارز آماده است.', 'flavor-core' ); ?></p>
+			<p><?php esc_html_e( 'فاز ۳ — رزرو شمسی، زمان‌بندی منو، تخفیف، سفارش تلفنی و باشگاه مشتریان.', 'flavor-core' ); ?></p>
 			<ul class="flavor-admin__checklist">
-				<li><?php esc_html_e( 'یک شعبه بسازید یا شعبه مرکزی را ویرایش کنید.', 'flavor-core' ); ?></li>
-				<li><?php esc_html_e( 'محصول ساده ووکامرس بسازید و تب «غذا» را پر کنید.', 'flavor-core' ); ?></li>
-				<li><?php esc_html_e( 'از منوی میزها، میز ۱ تا ۱۰ را بسازید.', 'flavor-core' ); ?></li>
+				<li><?php esc_html_e( 'صفحه با قالب «رزرو میز» بسازید.', 'flavor-core' ); ?></li>
+				<li><?php esc_html_e( 'از منوی رزرو، ورود حضوری را تست کنید.', 'flavor-core' ); ?></li>
+				<li><?php esc_html_e( 'کد تخفیف ووکامرس بسازید و انقضای شمسی را پر کنید.', 'flavor-core' ); ?></li>
 				<li><?php echo esc_html( sprintf( /* translators: formatted money */ __( 'نمونه نمایش ارز: %s', 'flavor-core' ), $sample ) ); ?></li>
 			</ul>
 		</div>
@@ -253,6 +303,18 @@ class AdminMenus {
 							</select>
 							<p class="description"><?php esc_html_e( 'اگر درگاهی نصب نباشد، کد OTP در حالت توسعه فقط لاگ می‌شود.', 'flavor-core' ); ?></p>
 						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'بافر رزرو (دقیقه)', 'flavor-core' ); ?></th>
+						<td><input type="number" min="0" max="120" name="<?php echo esc_attr( Settings::OPTION ); ?>[reservation_buffer]" value="<?php echo esc_attr( (string) ( $s['reservation_buffer'] ?? 30 ) ); ?>" /></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'مدت رزرو (دقیقه)', 'flavor-core' ); ?></th>
+						<td><input type="number" min="30" max="240" name="<?php echo esc_attr( Settings::OPTION ); ?>[reservation_duration]" value="<?php echo esc_attr( (string) ( $s['reservation_duration'] ?? 90 ) ); ?>" /></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'پنهان کردن آیتم خارج از وعده', 'flavor-core' ); ?></th>
+						<td><label><input type="checkbox" name="<?php echo esc_attr( Settings::OPTION ); ?>[hide_offschedule]" value="1" <?php checked( $s['hide_offschedule'] ?? 'yes', 'yes' ); ?> /> <?php esc_html_e( 'فعال', 'flavor-core' ); ?></label></td>
 					</tr>
 					<tr>
 						<th><?php esc_html_e( 'بازه نظرسنجی آشپزخانه (ثانیه)', 'flavor-core' ); ?></th>
