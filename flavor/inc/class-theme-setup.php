@@ -113,6 +113,8 @@ class Theme_Setup {
 	public static function body_class( array $classes ): array {
 		$classes[] = 'flavor-theme';
 		$classes[] = defined( 'FLAVOR_CORE_VERSION' ) ? 'flavor-has-core' : 'flavor-no-core';
+		$classes[] = 'flavor-skin-' . Design::current_skin();
+		$classes[] = 'flavor-header-' . sanitize_html_class( (string) get_theme_mod( 'flavor_header_layout', 'default' ) );
 		return $classes;
 	}
 

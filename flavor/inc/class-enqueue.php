@@ -40,6 +40,13 @@ class Enqueue {
 			FLAVOR_VERSION
 		);
 
+		wp_enqueue_style(
+			'flavor-marketing',
+			FLAVOR_URI . '/assets/css/marketing.css',
+			array( 'flavor-main' ),
+			FLAVOR_VERSION
+		);
+
 		wp_enqueue_script(
 			'flavor-menu',
 			FLAVOR_URI . '/assets/js/menu.js',

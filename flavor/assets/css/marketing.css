@@ -1,0 +1,93 @@
+.flavor-hero {
+	position: relative;
+	min-height: min(72vh, 640px);
+	display: grid;
+	place-items: end stretch;
+	overflow: hidden;
+	margin: -24px 0 32px;
+	background: var(--flavor-ink);
+	color: #fff;
+}
+
+.flavor-hero__bg {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0.55;
+}
+
+.flavor-hero__inner {
+	position: relative;
+	width: min(1100px, calc(100% - 32px));
+	margin: 0 auto;
+	padding: 48px 0 56px;
+}
+
+.flavor-hero h1 {
+	font-size: clamp(1.8rem, 4vw, 3rem);
+	margin: 0 0 12px;
+	max-width: 16ch;
+}
+
+.flavor-hero p {
+	max-width: 42ch;
+	font-size: 1.05rem;
+}
+
+body.flavor-skin-fine-dining .flavor-hero {
+	min-height: 80vh;
+}
+
+body.flavor-skin-cloud-kitchen .flavor-hero {
+	min-height: 52vh;
+}
+
+body.flavor-header-centered .flavor-header__inner {
+	flex-direction: column;
+	padding-block: 10px;
+}
+
+body.flavor-header-minimal .flavor-header {
+	background: transparent;
+	border: 0;
+	position: absolute;
+	inset-inline: 0;
+}
+
+.flavor-about {
+	padding-block: 24px 40px;
+}
+
+.flavor-about h2,
+.flavor-quotes h2 {
+	margin-top: 0;
+}
+
+.flavor-gallery__grid,
+.flavor-quotes__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 16px;
+}
+
+.flavor-quotes blockquote {
+	margin: 0;
+	background: var(--flavor-surface);
+	border: 1px solid var(--flavor-line);
+	border-radius: var(--flavor-radius);
+	padding: 16px 18px;
+}
+
+.flavor-quotes footer {
+	color: var(--flavor-muted);
+	font-size: 0.9rem;
+}
+
+.flavor-gallery img {
+	width: 100%;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	border-radius: var(--flavor-radius);
+}
