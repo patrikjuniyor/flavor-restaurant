@@ -9,6 +9,8 @@ Text domain: `flavor-core`.
 | `flavor_core_booted` | `Plugin $plugin` | After all Phase-1 modules registered |
 | `flavor_core_kitchen_ticket_created` | `int $ticket_id, array $row` | First insert of a kitchen ticket |
 | `flavor_core_kitchen_status_changed` | `int $ticket_id, string $from, string $to` | Legal status transition |
+| `flavor_core_otp_requested` | `string $mobile` | OTP issued |
+| `flavor_core_otp_verified` | `WP_User $user, string $mobile` | Customer logged in |
 
 ## Filters
 
