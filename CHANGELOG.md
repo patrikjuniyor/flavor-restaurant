@@ -5,6 +5,16 @@ All notable changes to **رستوران مستقیم** (Flavor theme + Flavor Co
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.0] - 2026-08-25
+
+### Added
+
+- Eight demo skins + Customizer branding
+- One-click demo importer (pages, 22-item menus, branch, tables, hero)
+- Front-page marketing hero/about
+- Elementor widgets and Gutenberg dynamic blocks
+- Bundled hero photography per demo
+
 ## [0.3.0] - 2026-08-25
 
 ### Added
