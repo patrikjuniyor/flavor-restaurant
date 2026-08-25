@@ -1,0 +1,4 @@
+/*
+ * Flavor is RTL-first. This file exists so WordPress's locale switcher
+ * has a hook; do not invert the main stylesheet here.
+ */

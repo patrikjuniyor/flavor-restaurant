@@ -1,0 +1,22 @@
+/*
+Theme Name: Flavor
+Theme URI: https://github.com/flavor-restaurant/flavor-restaurant
+Author: Flavor
+Author URI: https://github.com/flavor-restaurant/flavor-restaurant
+Description: قالب موبایل‌اول رستوران مستقیم. RTL، تومان، منوی سریع. منطق سفارش در افزونه Flavor Core است.
+Version: 0.1.0
+Requires at least: 6.4
+Tested up to: 6.6
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: flavor
+Tags: rtl-language-support, e-commerce, food-and-drink, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready, block-styles
+*/
+
+/* Structural fallback if assets/css/main.css fails to load. */
+body {
+	margin: 0;
+	background: #f6f1ea;
+	color: #2b2118;
+}

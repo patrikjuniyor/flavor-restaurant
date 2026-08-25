@@ -1,0 +1,28 @@
+@page {
+	size: 80mm auto;
+	margin: 4mm;
+}
+
+body.flavor-receipt {
+	width: 72mm;
+	font-family: Vazirmatn, Tahoma, sans-serif;
+	font-size: 12px;
+	direction: rtl;
+	color: #000;
+}
+
+.flavor-receipt__brand {
+	text-align: center;
+	font-weight: 700;
+}
+
+.flavor-receipt table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.flavor-receipt th,
+.flavor-receipt td {
+	text-align: right;
+	padding: 2px 0;
+}

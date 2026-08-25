@@ -1,0 +1,32 @@
+@font-face {
+	font-family: "Vazirmatn";
+	src: url("../fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Vazirmatn";
+	src: url("../fonts/vazirmatn/Vazirmatn-Medium.woff2") format("woff2");
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Vazirmatn";
+	src: url("../fonts/vazirmatn/Vazirmatn-Bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Optional licensed IRANSans drop-in. Place files in assets/fonts/iransans/. */
+@font-face {
+	font-family: "IRANSans";
+	src: local("IRANSans"), url("../fonts/iransans/IRANSans.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}

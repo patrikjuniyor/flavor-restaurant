@@ -1,0 +1,45 @@
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Dependencies / build (not shipped; plugin has its own PSR-4 autoloader)
+node_modules/
+vendor/
+dist/
+build/
+.cache/
+.parcel-cache/
+.turbo/
+coverage/
+.phpunit.cache/
+.phpunit.result.cache
+
+# Env / secrets — never commit tokens
+.env
+.env.*
+!.env.example
+auth.json
+*.pem
+
+# Logs
+*.log
+npm-debug.log*
+
+# WordPress runtime if someone copies this into a WP install
+wp-config.php
+.htaccess
+
+# Composer lock is kept for the plugin dev tooling
+# /flavor-core/composer.lock is committed when present
+
+# Generated language binaries can be rebuilt
+# Keep .pot and .po; ignore machine-specific .mo if needed
+# *.mo

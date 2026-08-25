@@ -1,0 +1,16 @@
+.flavor-admin {
+	max-width: 880px;
+}
+
+.flavor-admin__checklist {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	padding: 12px 28px;
+	line-height: 1.9;
+}
+
+.flavor-branch-grid input[type="text"],
+.flavor-branch-grid textarea {
+	max-width: 420px;
+}
