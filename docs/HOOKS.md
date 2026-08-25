@@ -17,6 +17,11 @@ Text domain: `flavor-core`.
 | `flavor_core_setting` | mixed, `$key` | Override a single setting at read time |
 | `flavor_core_get_setting` | mixed, `$key` | Alternate read path used internally |
 | `flavor_core_kitchen_view` | `string $path` | Theme can swap kitchen PHP markup |
+| `flavor_core_sms_providers` | `ProviderInterface[]` | Register extra SMS drivers |
+| `flavor_core_sms_sent` | `array $result, $mobile, $message, $event` | After send |
+| `flavor_core_sms_melipayamak` | driver result or null | Glue to Melipayamak SDK |
+| `flavor_core_sms_faraz` | driver result or null | Glue to Faraz |
+| `flavor_core_sms_kavenegar` | driver result or null | Glue to Kavenegar |
 
 ## REST
 
@@ -31,6 +36,18 @@ Namespace: `flavor/v1`
 | POST | `/context` | `X-WP-Nonce: wp_rest` |
 | GET | `/kitchen/tickets` | `flavor_manage_kitchen` |
 | POST | `/kitchen/tickets/{id}/status` | `flavor_manage_kitchen` |
+| POST | `/kitchen/tickets/{id}/item` | `flavor_manage_kitchen` |
+| POST | `/kitchen/availability` | `flavor_manage_kitchen` |
+| GET | `/cart` | public (session) |
+| POST | `/cart/add` | `X-WP-Nonce` |
+| POST | `/cart/item` | `X-WP-Nonce` |
+| GET | `/checkout/options` | public |
+| POST | `/checkout` | `X-WP-Nonce` |
+| POST | `/auth/otp/request` | public + rate limit |
+| POST | `/auth/otp/verify` | public + rate limit |
+| POST | `/zones/check` | public |
+| GET | `/tables` | public |
+| GET | `/me` | public |
 
 ## Capabilities
 

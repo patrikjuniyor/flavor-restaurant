@@ -264,6 +264,82 @@ a {
 	border-bottom: 1px solid var(--flavor-line);
 }
 
+.flavor-card.is-unavailable {
+	opacity: 0.55;
+}
+
+.flavor-badge {
+	display: inline-block;
+	background: #888;
+	color: #fff;
+	font-size: 0.7rem;
+	padding: 1px 6px;
+	border-radius: 999px;
+	vertical-align: middle;
+}
+
+.flavor-modes {
+	display: flex;
+	gap: 6px;
+	margin-bottom: 10px;
+}
+
+.flavor-modes button {
+	flex: 1;
+	border: 1px solid var(--flavor-line);
+	background: var(--flavor-surface);
+	border-radius: 999px;
+	padding: 8px;
+	font: inherit;
+	cursor: pointer;
+}
+
+.flavor-modes button.is-active {
+	background: var(--flavor-olive);
+	color: #fff;
+	border-color: var(--flavor-olive);
+}
+
+.flavor-checkout label,
+.flavor-sheet__panel fieldset {
+	display: block;
+	margin: 8px 0;
+}
+
+.flavor-checkout input[type="text"],
+.flavor-checkout input[type="tel"],
+.flavor-checkout select {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid var(--flavor-line);
+	border-radius: 8px;
+	font: inherit;
+}
+
+.flavor-qty {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 12px 0;
+}
+
+.flavor-line {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 8px 0;
+	border-bottom: 1px solid var(--flavor-line);
+}
+
+.flavor-checkout__err {
+	color: #a00;
+}
+
+.flavor-sheet__panel fieldset label {
+	display: block;
+	font-weight: 400;
+}
+
 @media (min-width: 900px) {
 	.flavor-sheet__panel {
 		inset-inline: auto;

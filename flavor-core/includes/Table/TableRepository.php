@@ -140,7 +140,47 @@ class TableRepository {
 	}
 
 	/**
-	 * Public URL the QR should encode. PNG/SVG generation is Phase 2.
+	 * Update mutable fields.
+	 *
+	 * @param int                  $id   Table id.
+	 * @param array<string, mixed> $data Data.
+	 */
+	public static function update( int $id, array $data ): bool {
+		global $wpdb;
+		$row = array( 'updated_at' => current_time( 'mysql' ) );
+		foreach ( array( 'label', 'table_number' ) as $str ) {
+			if ( isset( $data[ $str ] ) ) {
+				$row[ $str ] = sanitize_text_field( (string) $data[ $str ] );
+			}
+		}
+		if ( isset( $data['capacity'] ) ) {
+			$row['capacity'] = max( 1, min( 50, (int) $data['capacity'] ) );
+		}
+		if ( isset( $data['section'] ) && in_array( $data['section'], self::SECTIONS, true ) ) {
+			$row['section'] = $data['section'];
+		}
+		if ( isset( $data['is_active'] ) ) {
+			$row['is_active'] = (int) (bool) $data['is_active'];
+		}
+		if ( isset( $data['sort_order'] ) ) {
+			$row['sort_order'] = (int) $data['sort_order'];
+		}
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->update( self::table(), $row, array( 'id' => $id ) );
+		return true;
+	}
+
+	/**
+	 * Soft-ish hard delete.
+	 */
+	public static function delete( int $id ): void {
+		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->delete( self::table(), array( 'id' => $id ), array( '%d' ) );
+	}
+
+	/**
+	 * Public URL the QR should encode.
 	 *
 	 * @param array<string, mixed> $table Table row.
 	 */

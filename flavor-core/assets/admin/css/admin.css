@@ -2,6 +2,13 @@
 	max-width: 880px;
 }
 
+.flavor-admin__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 16px;
+	margin: 1rem 0 2rem;
+}
+
 .flavor-admin__checklist {
 	background: #fff;
 	border: 1px solid #dcdcde;

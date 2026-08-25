@@ -75,7 +75,11 @@ class Activator {
 			'default_branch_id'     => 0,
 			'pay_at_counter'        => 'yes',
 			'cash_on_delivery'      => 'yes',
+			'card_on_delivery'      => 'yes',
 			'guest_checkout'        => 'yes',
+			'sms_provider'          => 'dev',
+			'sms_templates'         => array(),
+			'kitchen_sound'         => 'yes',
 		);
 	}
 

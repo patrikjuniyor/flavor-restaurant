@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'FLAVOR_VERSION', '0.1.0' );
+define( 'FLAVOR_VERSION', '0.2.0' );
 define( 'FLAVOR_DIR', get_template_directory() );
 define( 'FLAVOR_URI', get_template_directory_uri() );
 

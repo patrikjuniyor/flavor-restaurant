@@ -12,6 +12,7 @@
 
 namespace FlavorCore\API;
 
+use FlavorCore\Menu\AvailabilityManager;
 use FlavorCore\Order\KitchenTicketRepository;
 use FlavorCore\Order\OrderModes;
 use FlavorCore\PostTypes\BranchPostType;
@@ -128,6 +129,8 @@ class RestController {
 				'permission_callback' => array( $this, 'require_kitchen' ),
 			)
 		);
+
+		( new RestStore() )->register();
 	}
 
 	/**
@@ -204,7 +207,7 @@ class RestController {
 			'limit'    => min( 50, max( 1, (int) $request->get_param( 'per_page' ) ) ),
 			'page'     => max( 1, (int) $request->get_param( 'page' ) ),
 			'paginate' => true,
-			'type'     => 'simple',
+			'type'     => array( 'simple', 'variable' ),
 		);
 
 		$search = sanitize_text_field( (string) $request->get_param( 'search' ) );
@@ -228,6 +231,19 @@ class RestController {
 			}
 		}
 
+		$cats = array();
+		if ( taxonomy_exists( 'product_cat' ) ) {
+			foreach ( get_terms( array( 'taxonomy' => 'product_cat', 'hide_empty' => true ) ) as $term ) {
+				if ( $term instanceof \WP_Term ) {
+					$cats[] = array(
+						'id'   => $term->term_id,
+						'name' => $term->name,
+						'slug' => $term->slug,
+					);
+				}
+			}
+		}
+
 		$response = rest_ensure_response(
 			array(
 				'branch_id'    => $branch_id,
@@ -237,6 +253,7 @@ class RestController {
 					'display' => Currency::display_unit(),
 					'label'   => Currency::display_label(),
 				),
+				'categories'   => $cats,
 				'items'        => $items,
 				'total'        => is_object( $result ) ? (int) $result->total : 0,
 				'page'         => (int) $args['page'],
@@ -279,7 +296,8 @@ class RestController {
 			'modifiers'   => ProductModifiers::get_modifiers( $id ),
 			'permalink'   => get_permalink( $id ),
 			'branch_id'   => $branch_id,
-			'available'   => true,
+			'available'   => AvailabilityManager::is_available( $branch_id, $id ),
+			'categories'  => $cat,
 		);
 	}
 
@@ -306,6 +324,12 @@ class RestController {
 		}
 		if ( isset( $body['order_mode'] ) && in_array( $body['order_mode'], array( 'dine_in', 'takeaway', 'delivery' ), true ) ) {
 			$ctx['order_mode'] = $body['order_mode'];
+		}
+		if ( isset( $body['table_id'] ) ) {
+			$ctx['table_id'] = absint( $body['table_id'] );
+		}
+		if ( isset( $body['table_number'] ) ) {
+			$ctx['table_number'] = sanitize_text_field( (string) $body['table_number'] );
 		}
 		OrderModes::set( $ctx );
 		return rest_ensure_response( $ctx );

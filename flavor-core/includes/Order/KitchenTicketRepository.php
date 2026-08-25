@@ -286,6 +286,23 @@ class KitchenTicketRepository {
 	}
 
 	/**
+	 * Mark a ticket line ready / pending.
+	 */
+	public static function set_item_status( int $item_id, string $status ): bool {
+		$status = 'ready' === $status ? 'ready' : 'pending';
+		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		return false !== $wpdb->update(
+			self::items_table(),
+			array(
+				'item_status' => $status,
+				'updated_at'  => current_time( 'mysql' ),
+			),
+			array( 'id' => $item_id )
+		);
+	}
+
+	/**
 	 * Public payload for the kitchen UI.
 	 *
 	 * @param array<string, mixed> $ticket Ticket row.

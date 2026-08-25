@@ -7,6 +7,8 @@
 
 namespace FlavorCore\Admin;
 
+use FlavorCore\Delivery\ZoneAdmin;
+use FlavorCore\SMS\SmsManager;
 use FlavorCore\Support\Settings;
 use FlavorCore\Table\TableAdmin;
 use FlavorCore\WooCommerce\Currency;
@@ -70,6 +72,15 @@ class AdminMenus {
 
 		add_submenu_page(
 			'flavor-core',
+			__( 'مناطق ارسال', 'flavor-core' ),
+			__( 'مناطق ارسال', 'flavor-core' ),
+			'flavor_manage_branch',
+			'flavor-zones',
+			array( ZoneAdmin::class, 'render' )
+		);
+
+		add_submenu_page(
+			'flavor-core',
 			__( 'آشپزخانه', 'flavor-core' ),
 			__( 'آشپزخانه', 'flavor-core' ),
 			'flavor_manage_kitchen',
@@ -127,7 +138,11 @@ class AdminMenus {
 		$current['kitchen_poll_seconds'] = min( 60, max( 5, absint( $input['kitchen_poll_seconds'] ?? 15 ) ) );
 		$current['pay_at_counter']       = ! empty( $input['pay_at_counter'] ) ? 'yes' : 'no';
 		$current['cash_on_delivery']     = ! empty( $input['cash_on_delivery'] ) ? 'yes' : 'no';
+		$current['card_on_delivery']     = ! empty( $input['card_on_delivery'] ) ? 'yes' : 'no';
 		$current['guest_checkout']       = ! empty( $input['guest_checkout'] ) ? 'yes' : 'no';
+		$current['kitchen_sound']        = ! empty( $input['kitchen_sound'] ) ? 'yes' : 'no';
+		$allowed_sms                     = array( 'dev', 'melipayamak', 'faraz', 'kavenegar' );
+		$current['sms_provider']         = in_array( $input['sms_provider'] ?? '', $allowed_sms, true ) ? $input['sms_provider'] : 'dev';
 
 		return $current;
 	}
@@ -216,7 +231,28 @@ class AdminMenus {
 					</tr>
 					<tr>
 						<th><?php esc_html_e( 'پرداخت هنگام تحویل', 'flavor-core' ); ?></th>
-						<td><label><input type="checkbox" name="<?php echo esc_attr( Settings::OPTION ); ?>[cash_on_delivery]" value="1" <?php checked( $s['cash_on_delivery'], 'yes' ); ?> /> <?php esc_html_e( 'فعال', 'flavor-core' ); ?></label></td>
+						<td><label><input type="checkbox" name="<?php echo esc_attr( Settings::OPTION ); ?>[cash_on_delivery]" value="1" <?php checked( $s['cash_on_delivery'] ?? 'yes', 'yes' ); ?> /> <?php esc_html_e( 'فعال', 'flavor-core' ); ?></label></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'کارت‌خوان دم در', 'flavor-core' ); ?></th>
+						<td><label><input type="checkbox" name="<?php echo esc_attr( Settings::OPTION ); ?>[card_on_delivery]" value="1" <?php checked( $s['card_on_delivery'] ?? 'yes', 'yes' ); ?> /> <?php esc_html_e( 'فعال', 'flavor-core' ); ?></label></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'صدای سفارش جدید', 'flavor-core' ); ?></th>
+						<td><label><input type="checkbox" name="<?php echo esc_attr( Settings::OPTION ); ?>[kitchen_sound]" value="1" <?php checked( $s['kitchen_sound'] ?? 'yes', 'yes' ); ?> /> <?php esc_html_e( 'فعال', 'flavor-core' ); ?></label></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'ارائه‌دهنده پیامک', 'flavor-core' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( Settings::OPTION ); ?>[sms_provider]">
+								<?php foreach ( SmsManager::providers() as $p ) : ?>
+									<option value="<?php echo esc_attr( $p->slug() ); ?>" <?php selected( $s['sms_provider'] ?? 'dev', $p->slug() ); ?>>
+										<?php echo esc_html( $p->label() . ( $p->is_available() ? '' : ' — ' . __( 'نصب نشده', 'flavor-core' ) ) ); ?>
+									</option>
+								<?php endforeach; ?>
+							</select>
+							<p class="description"><?php esc_html_e( 'اگر درگاهی نصب نباشد، کد OTP در حالت توسعه فقط لاگ می‌شود.', 'flavor-core' ); ?></p>
+						</td>
 					</tr>
 					<tr>
 						<th><?php esc_html_e( 'بازه نظرسنجی آشپزخانه (ثانیه)', 'flavor-core' ); ?></th>

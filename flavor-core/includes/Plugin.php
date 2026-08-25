@@ -10,12 +10,16 @@ namespace FlavorCore;
 use FlavorCore\API\RestController;
 use FlavorCore\Branch\BranchSeeder;
 use FlavorCore\Database\Schema;
+use FlavorCore\Delivery\ZoneAdmin;
+use FlavorCore\Menu\AvailabilityManager;
 use FlavorCore\Order\KitchenTicketSync;
 use FlavorCore\Order\OrderModes;
 use FlavorCore\PostTypes\BranchPostType;
+use FlavorCore\SMS\SmsManager;
 use FlavorCore\Support\Settings;
 use FlavorCore\Table\TableAdmin;
 use FlavorCore\WooCommerce\Currency;
+use FlavorCore\WooCommerce\GatewayRegistrar;
 use FlavorCore\WooCommerce\ProductModifiers;
 
 defined( 'ABSPATH' ) || exit;
@@ -70,14 +74,23 @@ final class Plugin {
 
 		Schema::maybe_upgrade();
 
+		if ( (string) get_option( 'flavor_core_plugin_version', '' ) !== FLAVOR_CORE_VERSION ) {
+			flush_rewrite_rules( false );
+			update_option( 'flavor_core_plugin_version', FLAVOR_CORE_VERSION, false );
+		}
+
 		( new Settings() )->hooks();
 		( new BranchPostType() )->hooks();
 		( new BranchSeeder() )->hooks();
 		( new TableAdmin() )->hooks();
+		( new ZoneAdmin() )->hooks();
 		( new Currency() )->hooks();
 		( new ProductModifiers() )->hooks();
+		( new GatewayRegistrar() )->hooks();
 		( new OrderModes() )->hooks();
 		( new KitchenTicketSync() )->hooks();
+		( new SmsManager() )->hooks();
+		( new AvailabilityManager() )->hooks();
 		( new RestController() )->hooks();
 		( new Admin\AdminMenus() )->hooks();
 		( new Support\Rewrites() )->hooks();

@@ -12,6 +12,7 @@ namespace FlavorCore\Support;
 
 use FlavorCore\Order\OrderModes;
 use FlavorCore\PostTypes\BranchPostType;
+use FlavorCore\Receipt\ReceiptRenderer;
 use FlavorCore\Table\TableRepository;
 
 defined( 'ABSPATH' ) || exit;
@@ -44,6 +45,11 @@ class Rewrites {
 			'index.php?flavor_branch_slug=$matches[1]&flavor_table_number=$matches[2]',
 			'top'
 		);
+		add_rewrite_rule(
+			'^kitchen-receipt/([0-9]+)/([^/]+)/?$',
+			'index.php?flavor_receipt=$matches[1]&flavor_receipt_kind=$matches[2]',
+			'top'
+		);
 	}
 
 	/**
@@ -56,6 +62,8 @@ class Rewrites {
 		$vars[] = 'flavor_kitchen';
 		$vars[] = 'flavor_branch_slug';
 		$vars[] = 'flavor_table_number';
+		$vars[] = 'flavor_receipt';
+		$vars[] = 'flavor_receipt_kind';
 		return $vars;
 	}
 
@@ -65,6 +73,16 @@ class Rewrites {
 	public function dispatch(): void {
 		if ( get_query_var( 'flavor_kitchen' ) ) {
 			$this->kitchen();
+			return;
+		}
+
+		$receipt = (int) get_query_var( 'flavor_receipt' );
+		if ( $receipt ) {
+			if ( ! is_user_logged_in() || ! current_user_can( 'flavor_manage_kitchen' ) ) {
+				auth_redirect();
+				exit;
+			}
+			ReceiptRenderer::render( $receipt, (string) get_query_var( 'flavor_receipt_kind' ) );
 			return;
 		}
 

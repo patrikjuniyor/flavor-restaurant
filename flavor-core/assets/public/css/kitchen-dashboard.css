@@ -1,0 +1,133 @@
+body.flavor-kitchen-kiosk {
+	margin: 0;
+	background: #161616;
+	color: #f5f5f5;
+	font-family: Vazirmatn, Tahoma, sans-serif;
+}
+
+.flavor-kitchen {
+	padding: 12px 16px 24px;
+}
+
+.flavor-kitchen__bar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 14px;
+}
+
+.flavor-kitchen__bar h1 {
+	margin: 0;
+	font-size: 1.25rem;
+}
+
+.flavor-kitchen__filters button,
+.flavor-kitchen__bar button,
+.flavor-kitchen__bar select {
+	font: inherit;
+	border-radius: 8px;
+	border: 1px solid #444;
+	background: #222;
+	color: #fff;
+	padding: 6px 10px;
+	cursor: pointer;
+}
+
+.flavor-kitchen__filters button.is-active {
+	background: #5c6b3a;
+	border-color: #5c6b3a;
+}
+
+.flavor-kitchen__lanes {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.flavor-kitchen__lanes section {
+	background: #222;
+	border-radius: 12px;
+	padding: 10px;
+	min-height: 70vh;
+}
+
+.flavor-kitchen__lanes section[data-lane="new"] h2 { color: #e6b800; }
+.flavor-kitchen__lanes section[data-lane="preparing"] h2 { color: #f08a24; }
+.flavor-kitchen__lanes section[data-lane="ready"] h2 { color: #3dba6d; }
+
+.flavor-kitchen__lanes h2 {
+	margin: 0 0 10px;
+	font-size: 1rem;
+}
+
+.flavor-kcard {
+	background: #fff;
+	color: #111;
+	border-radius: 10px;
+	padding: 10px 12px;
+	margin-bottom: 8px;
+}
+
+.flavor-kcard[data-urgency="yellow"] { box-shadow: inset 5px 0 0 #e6b800; }
+.flavor-kcard[data-urgency="red"] { box-shadow: inset 5px 0 0 #d63638; }
+
+.flavor-kcard__top {
+	display: flex;
+	justify-content: space-between;
+	font-weight: 700;
+}
+
+.flavor-kcard__meta {
+	font-size: 0.85rem;
+	color: #555;
+	margin: 4px 0 8px;
+}
+
+.flavor-kcard ul {
+	margin: 0 0 8px;
+	padding: 0 16px 0 0;
+}
+
+.flavor-kcard .mod {
+	color: #8a5a2b;
+	font-size: 0.85rem;
+}
+
+.flavor-kcard .note {
+	font-weight: 700;
+	color: #a00;
+}
+
+.flavor-kcard__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.flavor-kcard__actions button,
+.flavor-kcard__actions a {
+	font: inherit;
+	border: 0;
+	border-radius: 999px;
+	padding: 6px 10px;
+	background: #2b2118;
+	color: #fff;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.flavor-kcard li.is-ready {
+	opacity: 0.5;
+	text-decoration: line-through;
+}
+
+@media (max-width: 900px) {
+	.flavor-kitchen__lanes {
+		grid-template-columns: 1fr;
+	}
+	.flavor-kitchen__lanes section {
+		min-height: auto;
+	}
+}
