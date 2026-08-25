@@ -366,7 +366,7 @@ class ProductModifiers {
 		$ids      = array();
 		if ( isset( $posted['ids'] ) && is_array( $posted['ids'] ) ) {
 			$ids = $posted['ids'];
-		} elseif ( array_is_list( $posted ) ) {
+		} elseif ( $posted && array_keys( $posted ) === range( 0, count( $posted ) - 1 ) ) {
 			$ids = $posted;
 		}
 
