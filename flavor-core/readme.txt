@@ -38,6 +38,12 @@ WooCommerce 8.5+ with HPOS is required.
 
 == Changelog ==
 
+= 0.3.0 =
+* Reservations (Jalali), menu schedules, coupons, phone orders, loyalty.
+
+= 0.2.0 =
+* QR codes, order modes, kitchen dashboard, delivery zones, OTP, SMS adapters.
+
 = 0.1.0 =
 * Initial public foundation for Phase 1.
 
