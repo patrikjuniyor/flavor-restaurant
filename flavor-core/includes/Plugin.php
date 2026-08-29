@@ -8,6 +8,7 @@
 namespace FlavorCore;
 
 use FlavorCore\API\RestController;
+use FlavorCore\API\RestSearch;
 use FlavorCore\Branch\BranchSeeder;
 use FlavorCore\Database\Schema;
 use FlavorCore\Delivery\ZoneAdmin;
@@ -21,6 +22,7 @@ use FlavorCore\Order\KitchenTicketSync;
 use FlavorCore\Order\OrderModes;
 use FlavorCore\Order\PhoneOrderAdmin;
 use FlavorCore\PostTypes\BranchPostType;
+use FlavorCore\Search\SearchIndex;
 use FlavorCore\Reservation\ReminderCron;
 use FlavorCore\Reservation\ReservationAdmin;
 use FlavorCore\SMS\SmsManager;
@@ -108,6 +110,8 @@ final class Plugin {
 		( new SmsManager() )->hooks();
 		( new AvailabilityManager() )->hooks();
 		( new RestController() )->hooks();
+		( new RestSearch() )->hooks();
+		( new SearchIndex() )->hooks();
 		( new Admin\AdminMenus() )->hooks();
 		( new Support\Rewrites() )->hooks();
 		( new Support\Privacy() )->hooks();

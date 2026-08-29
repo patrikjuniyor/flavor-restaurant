@@ -1,0 +1,264 @@
+/**
+ * Smart AJAX search — RTL first, matches the Flavor design tokens.
+ */
+
+.flavor-search {
+	position: relative;
+	max-width: 720px;
+	margin: 16px auto 8px;
+	padding: 0 16px;
+}
+
+.flavor-search__form {
+	margin: 0;
+}
+
+.flavor-search__field {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	background: var(--flavor-surface, #fffdf8);
+	border: 1px solid var(--flavor-line, #e6d8c8);
+	border-radius: var(--flavor-radius, 16px);
+	padding: 6px 12px;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.flavor-search__field:focus-within {
+	border-color: var(--flavor-accent, #8a5a2b);
+	box-shadow: 0 0 0 3px rgba(138, 90, 43, 0.14);
+}
+
+.flavor-search__icon {
+	width: 20px;
+	height: 20px;
+	flex: 0 0 auto;
+	color: var(--flavor-muted, #6b5b4f);
+}
+
+.flavor-search__input {
+	flex: 1 1 auto;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	font: inherit;
+	color: inherit;
+	padding: 10px 0;
+	min-width: 0;
+}
+
+.flavor-search__input::-webkit-search-cancel-button {
+	display: none;
+}
+
+.flavor-search__clear {
+	border: 0;
+	background: transparent;
+	font-size: 22px;
+	line-height: 1;
+	cursor: pointer;
+	color: var(--flavor-muted, #6b5b4f);
+	padding: 0 4px;
+}
+
+.flavor-search__spinner {
+	width: 16px;
+	height: 16px;
+	border: 2px solid var(--flavor-line, #e6d8c8);
+	border-top-color: var(--flavor-accent, #8a5a2b);
+	border-radius: 50%;
+	animation: flavor-spin 0.7s linear infinite;
+	flex: 0 0 auto;
+}
+
+@keyframes flavor-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flavor-search__spinner {
+		animation-duration: 2s;
+	}
+}
+
+.flavor-search__hint {
+	margin: 6px 4px 0;
+	font-size: 12px;
+	color: var(--flavor-muted, #6b5b4f);
+}
+
+.flavor-search__chips {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	margin-top: 8px;
+}
+
+.flavor-search__chips-label {
+	font-size: 12px;
+	color: var(--flavor-muted, #6b5b4f);
+}
+
+.flavor-chip {
+	border: 1px solid var(--flavor-line, #e6d8c8);
+	background: var(--flavor-surface, #fffdf8);
+	border-radius: 999px;
+	padding: 4px 12px;
+	font: inherit;
+	font-size: 13px;
+	cursor: pointer;
+	color: var(--flavor-ink, #2b2118);
+}
+
+.flavor-chip:hover,
+.flavor-chip:focus-visible {
+	border-color: var(--flavor-accent, #8a5a2b);
+	color: var(--flavor-accent, #8a5a2b);
+}
+
+/* ------------------------------------------------------------- results */
+
+.flavor-search__panel {
+	position: absolute;
+	z-index: 40;
+	inset-inline: 16px;
+	margin-top: 6px;
+	background: var(--flavor-surface, #fffdf8);
+	border: 1px solid var(--flavor-line, #e6d8c8);
+	border-radius: var(--flavor-radius, 16px);
+	box-shadow: 0 12px 32px rgba(43, 33, 24, 0.14);
+	overflow: hidden;
+	max-height: 70vh;
+	overflow-y: auto;
+}
+
+.flavor-search__status {
+	margin: 0;
+	padding: 10px 14px;
+	font-size: 13px;
+	color: var(--flavor-muted, #6b5b4f);
+	border-bottom: 1px solid var(--flavor-line, #e6d8c8);
+}
+
+.flavor-search__results {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.flavor-search__row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 14px;
+	cursor: pointer;
+	border-bottom: 1px solid rgba(230, 216, 200, 0.6);
+}
+
+.flavor-search__row:last-child {
+	border-bottom: 0;
+}
+
+.flavor-search__row:hover,
+.flavor-search__row.is-active {
+	background: rgba(138, 90, 43, 0.07);
+}
+
+.flavor-search__thumb img,
+.flavor-search__thumb-ph {
+	display: block;
+	width: 56px;
+	height: 56px;
+	border-radius: 12px;
+	object-fit: cover;
+	background: var(--flavor-bg, #f6f1ea);
+}
+
+.flavor-search__body {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.flavor-search__name {
+	font-weight: 600;
+}
+
+.flavor-search__name mark {
+	background: rgba(220, 178, 84, 0.45);
+	color: inherit;
+	border-radius: 4px;
+	padding: 0 2px;
+}
+
+.flavor-search__meta {
+	font-size: 12px;
+	color: var(--flavor-muted, #6b5b4f);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.flavor-search__badges {
+	display: flex;
+	gap: 4px;
+	flex-wrap: wrap;
+}
+
+.flavor-search__badge {
+	font-size: 11px;
+	border-radius: 999px;
+	padding: 1px 8px;
+	background: rgba(92, 107, 58, 0.14);
+	color: var(--flavor-olive, #5c6b3a);
+}
+
+.flavor-search__badge.is-out {
+	background: rgba(180, 60, 40, 0.14);
+	color: #b43c28;
+}
+
+.flavor-search__price {
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+.flavor-search__empty,
+.flavor-search__popular {
+	margin: 0;
+	padding: 12px 14px;
+	font-size: 14px;
+}
+
+.flavor-search__mean {
+	border: 0;
+	background: transparent;
+	color: var(--flavor-accent, #8a5a2b);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+/* Grid narrowing while a search is active. */
+.flavor-menu__grid .flavor-card.is-search-hidden {
+	display: none;
+}
+
+@media (max-width: 480px) {
+	.flavor-search__panel {
+		max-height: 60vh;
+	}
+
+	.flavor-search__thumb img,
+	.flavor-search__thumb-ph {
+		width: 44px;
+		height: 44px;
+	}
+}

@@ -5,7 +5,7 @@ Requires at least: 6.4
 Tested up to: 6.6
 Requires PHP: 8.0
 WC requires at least: 8.5
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,10 @@ WooCommerce 8.5+ with HPOS is required.
 5. Open رستوران مستقیم → Settings and edit the default branch.
 
 == Changelog ==
+
+= 1.1.0 =
+* Smart AJAX menu search: Persian normalisation, typo tolerance, ranking, facets, did-you-mean.
+* New REST routes flavor/v1/search, /search/suggest, /search/popular with an admin-ajax fallback.
 
 = 0.3.0 =
 * Reservations (Jalali), menu schedules, coupons, phone orders, loyalty.

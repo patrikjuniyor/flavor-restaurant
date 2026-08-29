@@ -73,6 +73,9 @@ class Enqueue {
 			),
 		);
 
+		$payload['ajax']     = esc_url_raw( admin_url( 'admin-ajax.php' ) );
+		$payload['branchId'] = self::current_branch_id();
+
 		$is_menu = is_page_template( 'page-templates/template-menu.php' );
 		if ( $is_menu ) {
 			wp_enqueue_script(
@@ -86,6 +89,42 @@ class Enqueue {
 				)
 			);
 			wp_localize_script( 'flavor-menu', 'flavorData', $payload );
+
+			wp_enqueue_style(
+				'flavor-search',
+				FLAVOR_URI . '/assets/css/search.css',
+				array( 'flavor-main' ),
+				FLAVOR_VERSION
+			);
+
+			wp_enqueue_script(
+				'flavor-search',
+				FLAVOR_URI . '/assets/js/search.js',
+				array(),
+				FLAVOR_VERSION,
+				array(
+					'in_footer' => true,
+					'strategy'  => 'defer',
+				)
+			);
+
+			$search_payload          = $payload;
+			$search_payload['i18n']  = array_merge(
+				$payload['i18n'],
+				array(
+					'recent'       => __( 'جست‌وجوهای اخیر', 'flavor' ),
+					'popular'      => __( 'پرجست‌وجوها', 'flavor' ),
+					'noResults'    => __( 'چیزی پیدا نشد.', 'flavor' ),
+					'didYouMean'   => __( 'منظورتان این بود؟', 'flavor' ),
+					'resultsFound' => __( 'نتیجه برای', 'flavor' ),
+					'unavailable'  => __( 'ناموجود', 'flavor' ),
+					'minutes'      => __( 'دقیقه', 'flavor' ),
+					'kcal'         => __( 'کالری', 'flavor' ),
+					'error'        => __( 'جست‌وجو ناموفق بود. دوباره تلاش کنید.', 'flavor' ),
+				)
+			);
+
+			wp_localize_script( 'flavor-search', 'flavorSearchData', $search_payload );
 		}
 
 		if ( is_page_template( 'page-templates/template-reservation.php' ) ) {
@@ -101,6 +140,19 @@ class Enqueue {
 			);
 			wp_localize_script( 'flavor-reservation', 'flavorData', $payload );
 		}
+	}
+
+	/**
+	 * Branch id from the Flavor Core order context, when available.
+	 */
+	public static function current_branch_id(): int {
+		if ( class_exists( '\\FlavorCore\\Order\\OrderModes' ) ) {
+			$ctx = \FlavorCore\Order\OrderModes::get();
+			if ( is_array( $ctx ) && ! empty( $ctx['branch_id'] ) ) {
+				return (int) $ctx['branch_id'];
+			}
+		}
+		return 0;
 	}
 
 	/**

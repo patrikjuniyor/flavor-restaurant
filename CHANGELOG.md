@@ -5,6 +5,19 @@ All notable changes to **رستوران مستقیم** (Flavor theme + Flavor Co
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-08-30
+
+### Added
+
+- Smart AJAX menu search: live results, debounce, request cancellation, in-memory cache
+- Persian text normalisation (Arabic yeh/kaf folding, digits, diacritics, ZWNJ) and light stemming
+- Typo-tolerant fuzzy matching (UTF-8 Levenshtein) with weighted relevance ranking
+- REST routes `GET flavor/v1/search`, `/search/suggest`, `/search/popular` plus an `admin-ajax` fallback for fully cached pages
+- Cached per-branch search index with automatic invalidation on product / category / availability changes
+- Did-you-mean suggestions, popular terms, recent searches, facet counts
+- Keyboard navigation (arrows, Enter, Esc, Ctrl/Cmd+K) and an accessible combobox/listbox pattern
+- Unit tests for Persian normalisation and search ranking; Persian docs at `docs/fa/06-jostojoo-hooshmand.md`
+
 ## [1.0.0] - 2026-08-25
 
 ### Added
