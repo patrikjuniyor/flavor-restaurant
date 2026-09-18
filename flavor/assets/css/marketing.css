@@ -1,12 +1,85 @@
+/**
+ * Flavor Marketing Sections Stylesheet.
+ * Reusable homepage components, interactive promo banners and landing sections.
+ */
+
+/* -------------------------------------------------------------
+ * 1. Section Headers & Global Wrappers
+ * ------------------------------------------------------------- */
+.flavor-section {
+	padding-block: 72px;
+	position: relative;
+}
+
+@media (max-width: 768px) {
+	.flavor-section {
+		padding-block: 48px;
+	}
+}
+
+.flavor-section:nth-of-type(even) {
+	background: var(--flavor-surface-alt);
+}
+
+.flavor-section-header {
+	text-align: center;
+	max-width: 680px;
+	margin: 0 auto 48px;
+}
+
+.flavor-section-header--with-action {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	max-width: 100%;
+	text-align: right;
+	margin-bottom: 36px;
+}
+
+.flavor-section-header__tag {
+	display: inline-block;
+	background: rgba(var(--flavor-primary-rgb), 0.1);
+	color: var(--flavor-primary);
+	font-size: 13px;
+	font-weight: 700;
+	padding: 4px 14px;
+	border-radius: 999px;
+	margin-bottom: 12px;
+}
+
+.flavor-section-header__title {
+	font-size: clamp(1.6rem, 3vw, 2.4rem);
+	color: var(--flavor-ink);
+	margin: 0 0 12px;
+	font-weight: 800;
+}
+
+.flavor-section-header__desc {
+	font-size: 15px;
+	color: var(--flavor-muted);
+	margin: 0;
+	line-height: 1.7;
+}
+
+/* -------------------------------------------------------------
+ * 2. Hero Section (Fullscreen & Split & Minimal)
+ * ------------------------------------------------------------- */
 .flavor-hero {
 	position: relative;
-	min-height: min(72vh, 640px);
-	display: grid;
-	place-items: end stretch;
-	overflow: hidden;
-	margin: -24px 0 32px;
+	min-height: min(85vh, 760px);
+	display: flex;
+	align-items: center;
 	background: var(--flavor-ink);
-	color: #fff;
+	color: #ffffff;
+	overflow: hidden;
+	padding: 80px 0;
+}
+
+.flavor-hero--split {
+	background: var(--flavor-bg);
+	color: var(--flavor-ink);
+	min-height: auto;
+	padding-block: 60px 80px;
 }
 
 .flavor-hero__bg {
@@ -15,79 +88,780 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	opacity: 0.55;
+	z-index: 1;
 }
 
-.flavor-hero__inner {
-	position: relative;
-	width: min(1100px, calc(100% - 32px));
-	margin: 0 auto;
-	padding: 48px 0 56px;
-}
-
-.flavor-hero h1 {
-	font-size: clamp(1.8rem, 4vw, 3rem);
-	margin: 0 0 12px;
-	max-width: 16ch;
-}
-
-.flavor-hero p {
-	max-width: 42ch;
-	font-size: 1.05rem;
-}
-
-body.flavor-skin-fine-dining .flavor-hero {
-	min-height: 80vh;
-}
-
-body.flavor-skin-cloud-kitchen .flavor-hero {
-	min-height: 52vh;
-}
-
-body.flavor-header-centered .flavor-header__inner {
-	flex-direction: column;
-	padding-block: 10px;
-}
-
-body.flavor-header-minimal .flavor-header {
-	background: transparent;
-	border: 0;
+.flavor-hero__overlay {
 	position: absolute;
-	inset-inline: 0;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(18, 14, 12, 0.65) 0%, rgba(18, 14, 12, 0.88) 100%);
+	z-index: 2;
 }
 
-.flavor-about {
-	padding-block: 24px 40px;
+.flavor-hero__container {
+	position: relative;
+	z-index: 3;
+	display: grid;
+	gap: 40px;
+	align-items: center;
 }
 
-.flavor-about h2,
-.flavor-quotes h2 {
-	margin-top: 0;
+.flavor-hero--split .flavor-hero__container {
+	grid-template-columns: 1fr;
 }
 
-.flavor-gallery__grid,
-.flavor-quotes__grid {
+@media (min-width: 992px) {
+	.flavor-hero--split .flavor-hero__container {
+		grid-template-columns: 1.1fr 0.9fr;
+	}
+}
+
+.flavor-hero__content {
+	max-width: 640px;
+}
+
+.flavor-hero__badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	background: rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(8px);
+	padding: 6px 16px;
+	border-radius: 999px;
+	font-size: 13px;
+	font-weight: 600;
+	margin-bottom: 20px;
+	color: #fff;
+}
+
+.flavor-hero--split .flavor-hero__badge {
+	background: rgba(var(--flavor-primary-rgb), 0.1);
+	color: var(--flavor-primary);
+}
+
+.flavor-hero__badge-dot {
+	width: 8px;
+	height: 8px;
+	background: var(--flavor-accent);
+	border-radius: 50%;
+	animation: flavorPulse 2s infinite;
+}
+
+.flavor-hero__title {
+	font-size: clamp(2rem, 5vw, 3.4rem);
+	font-weight: 900;
+	line-height: 1.25;
+	margin-bottom: 18px;
+	color: inherit;
+}
+
+.flavor-hero__text {
+	font-size: clamp(1rem, 2vw, 1.2rem);
+	opacity: 0.9;
+	margin-bottom: 32px;
+	line-height: 1.8;
+}
+
+.flavor-hero__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin-bottom: 40px;
+}
+
+.flavor-hero__features {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	font-size: 13px;
+	opacity: 0.85;
+	border-top: 1px solid rgba(255, 255, 255, 0.2);
+	padding-top: 24px;
+}
+
+.flavor-hero--split .flavor-hero__features {
+	border-top-color: var(--flavor-line);
+	color: var(--flavor-muted);
+}
+
+.flavor-hero__feat {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.flavor-hero__media {
+	position: relative;
+}
+
+.flavor-hero__img-frame {
+	border-radius: var(--flavor-radius);
+	overflow: hidden;
+	box-shadow: var(--flavor-shadow-xl);
+	aspect-ratio: 4 / 3;
+}
+
+.flavor-hero__img-frame img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* -------------------------------------------------------------
+ * 3. Intro Highlights Grid
+ * ------------------------------------------------------------- */
+.flavor-intro__grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-	gap: 16px;
+	gap: 24px;
 }
 
-.flavor-quotes blockquote {
-	margin: 0;
+.flavor-intro__card {
 	background: var(--flavor-surface);
 	border: 1px solid var(--flavor-line);
 	border-radius: var(--flavor-radius);
-	padding: 16px 18px;
+	padding: 32px 24px;
+	text-align: center;
+	box-shadow: var(--flavor-card-shadow);
+	transition: transform var(--flavor-transition-normal);
 }
 
-.flavor-quotes footer {
+.flavor-intro__card:hover {
+	transform: translateY(-4px);
+}
+
+.flavor-intro__icon {
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+.flavor-intro__card h3 {
+	font-size: 1.2rem;
+	font-weight: 700;
+	margin: 0 0 10px;
+}
+
+.flavor-intro__card p {
+	font-size: 14px;
 	color: var(--flavor-muted);
-	font-size: 0.9rem;
+	margin: 0;
+	line-height: 1.65;
 }
 
-.flavor-gallery img {
+/* -------------------------------------------------------------
+ * 4. Featured Dishes Grid
+ * ------------------------------------------------------------- */
+.flavor-featured__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 24px;
+}
+
+/* -------------------------------------------------------------
+ * 5. Categories Showcase
+ * ------------------------------------------------------------- */
+.flavor-categories__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 20px;
+}
+
+.flavor-cat-card {
+	position: relative;
+	border-radius: var(--flavor-radius);
+	overflow: hidden;
+	aspect-ratio: 1 / 1;
+	display: flex;
+	align-items: flex-end;
+	padding: 20px;
+	color: #fff;
+	text-decoration: none;
+	box-shadow: var(--flavor-card-shadow);
+}
+
+.flavor-cat-card__bg {
+	position: absolute;
+	inset: 0;
+	background-size: cover;
+	background-position: center;
+	transition: transform var(--flavor-transition-slow);
+}
+
+.flavor-cat-card::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%);
+}
+
+.flavor-cat-card:hover .flavor-cat-card__bg {
+	transform: scale(1.08);
+}
+
+.flavor-cat-card__ph {
+	position: absolute;
+	inset: 0;
+	background: var(--flavor-primary);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0.8;
+}
+
+.flavor-cat-card__content {
+	position: relative;
+	z-index: 2;
+}
+
+.flavor-cat-card__title {
+	font-size: 1.25rem;
+	font-weight: 800;
+	color: #ffffff;
+	margin: 0 0 4px;
+}
+
+.flavor-cat-card__count {
+	font-size: 12px;
+	opacity: 0.85;
+}
+
+/* -------------------------------------------------------------
+ * 6. Special Offers & Promo Banner
+ * ------------------------------------------------------------- */
+.flavor-offer-banner {
+	position: relative;
+	background: linear-gradient(135deg, var(--flavor-primary) 0%, var(--flavor-accent) 100%);
+	color: #ffffff;
+	border-radius: calc(var(--flavor-radius) * 1.2);
+	padding: clamp(32px, 6vw, 56px);
+	box-shadow: var(--flavor-shadow-xl);
+	overflow: hidden;
+}
+
+.flavor-offer-banner__badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	background: rgba(255, 255, 255, 0.2);
+	backdrop-filter: blur(8px);
+	padding: 6px 14px;
+	border-radius: 999px;
+	font-size: 13px;
+	font-weight: 700;
+	margin-bottom: 16px;
+}
+
+.flavor-offer-banner__title {
+	font-size: clamp(1.8rem, 4vw, 2.8rem);
+	color: #fff;
+	margin: 0 0 12px;
+	font-weight: 900;
+}
+
+.flavor-offer-banner__desc {
+	font-size: 16px;
+	opacity: 0.92;
+	max-width: 600px;
+	margin-bottom: 32px;
+}
+
+.flavor-offer-banner__actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 20px;
+}
+
+.flavor-offer-coupon {
+	background: #ffffff;
+	color: var(--flavor-ink);
+	padding: 8px 16px;
+	border-radius: var(--flavor-btn-radius);
+	display: inline-flex;
+	align-items: center;
+	gap: 12px;
+	border: 2px dashed rgba(var(--flavor-primary-rgb), 0.3);
+}
+
+.flavor-offer-coupon__code {
+	font-family: monospace;
+	font-size: 18px;
+	font-weight: 800;
+	color: var(--flavor-primary);
+	letter-spacing: 1px;
+}
+
+.flavor-offer-coupon__btn {
+	background: var(--flavor-surface-alt);
+	border: 0;
+	padding: 6px 14px;
+	border-radius: 6px;
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+/* -------------------------------------------------------------
+ * 7. Reservation CTA Banner
+ * ------------------------------------------------------------- */
+.flavor-res-banner {
+	background: var(--flavor-surface);
+	border: 1px solid var(--flavor-line);
+	border-radius: var(--flavor-radius);
+	padding: 40px;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 40px;
+	align-items: center;
+	box-shadow: var(--flavor-shadow-lg);
+}
+
+@media (min-width: 992px) {
+	.flavor-res-banner {
+		grid-template-columns: 1.2fr 0.8fr;
+		padding: 56px;
+	}
+}
+
+.flavor-res-banner__tag {
+	color: var(--flavor-primary);
+	font-size: 13px;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.flavor-res-banner__title {
+	font-size: clamp(1.6rem, 3vw, 2.3rem);
+	margin: 8px 0 16px;
+}
+
+.flavor-res-banner__desc {
+	font-size: 15px;
+	color: var(--flavor-muted);
+	margin-bottom: 24px;
+}
+
+.flavor-res-banner__perks {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin-bottom: 32px;
+}
+
+.flavor-res-banner__perk {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--flavor-ink);
+}
+
+.flavor-res-banner__perk svg {
+	color: var(--flavor-success);
+}
+
+.flavor-res-banner__media img {
+	border-radius: var(--flavor-radius);
 	width: 100%;
 	aspect-ratio: 4 / 3;
 	object-fit: cover;
+	box-shadow: var(--flavor-shadow-md);
+}
+
+/* -------------------------------------------------------------
+ * 8. About & Story Section
+ * ------------------------------------------------------------- */
+.flavor-about__inner {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 48px;
+	align-items: center;
+}
+
+@media (min-width: 992px) {
+	.flavor-about__inner {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.flavor-about__img-wrapper {
+	position: relative;
+}
+
+.flavor-about__img-wrapper img {
 	border-radius: var(--flavor-radius);
+	box-shadow: var(--flavor-shadow-lg);
+	width: 100%;
+}
+
+.flavor-about__exp-badge {
+	position: absolute;
+	bottom: -20px;
+	left: 20px;
+	background: var(--flavor-primary);
+	color: #fff;
+	padding: 16px 24px;
+	border-radius: var(--flavor-radius);
+	box-shadow: var(--flavor-shadow-xl);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+.flavor-about__exp-badge strong {
+	font-size: 28px;
+	line-height: 1;
+}
+
+.flavor-about__exp-badge span {
+	font-size: 12px;
+	margin-top: 4px;
+}
+
+.flavor-about__title {
+	font-size: clamp(1.8rem, 3vw, 2.5rem);
+	margin: 8px 0 20px;
+}
+
+.flavor-about__text {
+	color: var(--flavor-muted);
+	font-size: 15px;
+	line-height: 1.8;
+	margin-bottom: 32px;
+}
+
+.flavor-about__stats {
+	display: flex;
+	gap: 32px;
+	border-top: 1px solid var(--flavor-line);
+	padding-top: 24px;
+}
+
+.flavor-about__stat {
+	display: flex;
+	flex-direction: column;
+}
+
+.flavor-about__stat-num {
+	font-family: var(--flavor-font-heading);
+	font-size: 24px;
+	font-weight: 800;
+	color: var(--flavor-primary);
+}
+
+.flavor-about__stat-lbl {
+	font-size: 12px;
+	color: var(--flavor-muted);
+}
+
+/* -------------------------------------------------------------
+ * 9. Gallery & Atmosphere Grid
+ * ------------------------------------------------------------- */
+.flavor-gallery__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 16px;
+}
+
+.flavor-gallery__item {
+	margin: 0;
+	border-radius: var(--flavor-radius);
+	overflow: hidden;
+	aspect-ratio: 4 / 3;
+	box-shadow: var(--flavor-shadow-sm);
+}
+
+.flavor-gallery__item img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform var(--flavor-transition-slow);
+}
+
+.flavor-gallery__item:hover img {
+	transform: scale(1.06);
+}
+
+/* -------------------------------------------------------------
+ * 10. Testimonials & Guest Reviews
+ * ------------------------------------------------------------- */
+.flavor-testimonials__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 24px;
+}
+
+.flavor-review-card {
+	background: var(--flavor-surface);
+	border: 1px solid var(--flavor-line);
+	border-radius: var(--flavor-radius);
+	padding: 28px;
+	margin: 0;
+	box-shadow: var(--flavor-card-shadow);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.flavor-review-card__stars {
+	display: flex;
+	gap: 4px;
+	margin-bottom: 16px;
+}
+
+.flavor-review-card__text {
+	font-size: 14px;
+	color: var(--flavor-ink);
+	line-height: 1.7;
+	margin-bottom: 24px;
+	font-style: normal;
+}
+
+.flavor-review-card__author {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.flavor-review-card__avatar {
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	background: rgba(var(--flavor-primary-rgb), 0.15);
+	color: var(--flavor-primary);
+	font-weight: 800;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+}
+
+.flavor-review-card__name {
+	display: block;
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--flavor-ink);
+}
+
+.flavor-review-card__role {
+	font-size: 12px;
+	color: var(--flavor-muted);
+}
+
+/* -------------------------------------------------------------
+ * 11. Working Hours & Location Card
+ * ------------------------------------------------------------- */
+.flavor-hours-card {
+	background: var(--flavor-surface);
+	border: 1px solid var(--flavor-line);
+	border-radius: var(--flavor-radius);
+	padding: 40px;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 40px;
+	box-shadow: var(--flavor-shadow-lg);
+}
+
+@media (min-width: 860px) {
+	.flavor-hours-card {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.flavor-live-status {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 14px;
+	border-radius: 999px;
+	font-size: 13px;
+	margin-bottom: 20px;
+}
+
+.flavor-live-status--open {
+	background: var(--flavor-success-bg);
+	color: var(--flavor-success);
+}
+
+.flavor-live-status__dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: currentColor;
+	animation: flavorPulse 2s infinite;
+}
+
+.flavor-hours-card__title {
+	font-size: 1.3rem;
+	margin-bottom: 20px;
+}
+
+.flavor-schedule-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.flavor-schedule-list li {
+	display: flex;
+	justify-content: space-between;
+	padding: 12px 0;
+	border-bottom: 1px dashed var(--flavor-line);
+	font-size: 14px;
+}
+
+.flavor-contact-row {
+	display: flex;
+	gap: 14px;
+	margin-bottom: 18px;
+}
+
+.flavor-contact-row__icon {
+	color: var(--flavor-primary);
+	margin-top: 2px;
+}
+
+.flavor-contact-row__label {
+	display: block;
+	font-size: 12px;
+	color: var(--flavor-muted);
+	margin-bottom: 2px;
+}
+
+.flavor-contact-row__value,
+.flavor-contact-row__link {
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--flavor-ink);
+	margin: 0;
+}
+
+.flavor-hours-card__actions {
+	display: flex;
+	gap: 12px;
+	margin-top: 24px;
+}
+
+/* -------------------------------------------------------------
+ * 12. Footer Styling
+ * ------------------------------------------------------------- */
+.flavor-footer {
+	background: var(--flavor-surface);
+	border-top: 1px solid var(--flavor-line);
+	padding-top: 64px;
+	padding-bottom: 32px;
+}
+
+.flavor-footer__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 40px;
+	margin-bottom: 48px;
+}
+
+.flavor-footer__col--brand {
+	grid-column: span 1;
+}
+
+@media (min-width: 992px) {
+	.flavor-footer__col--brand {
+		grid-column: span 1.2;
+	}
+}
+
+.flavor-footer__brand-name {
+	font-size: 1.4rem;
+	font-weight: 800;
+	margin: 0 0 12px;
+}
+
+.flavor-footer__bio {
+	font-size: 14px;
+	color: var(--flavor-muted);
+	line-height: 1.7;
+	margin-bottom: 20px;
+}
+
+.flavor-social-links {
+	display: flex;
+	gap: 12px;
+}
+
+.flavor-social-links a {
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	background: var(--flavor-surface-alt);
+	color: var(--flavor-ink);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all var(--flavor-transition-fast);
+}
+
+.flavor-social-links a:hover {
+	background: var(--flavor-primary);
+	color: #ffffff;
+}
+
+.flavor-footer__heading {
+	font-size: 16px;
+	font-weight: 800;
+	margin: 0 0 20px;
+	color: var(--flavor-ink);
+}
+
+.flavor-footer__links,
+.flavor-footer__schedule {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.flavor-footer__links li {
+	margin-bottom: 10px;
+}
+
+.flavor-footer__links a {
+	color: var(--flavor-muted);
+	font-size: 14px;
+	transition: color 0.2s;
+}
+
+.flavor-footer__links a:hover {
+	color: var(--flavor-primary);
+}
+
+.flavor-footer__schedule li {
+	font-size: 13px;
+	margin-bottom: 10px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.flavor-footer__contact-item {
+	display: flex;
+	gap: 10px;
+	font-size: 13px;
+	color: var(--flavor-muted);
+	margin-bottom: 12px;
+}
+
+.flavor-footer__bottom {
+	border-top: 1px solid var(--flavor-line);
+	padding-top: 24px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+	font-size: 13px;
+	color: var(--flavor-muted);
 }

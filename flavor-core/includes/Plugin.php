@@ -7,6 +7,7 @@
 
 namespace FlavorCore;
 
+use FlavorCore\Admin\MobileAppAdmin;
 use FlavorCore\API\RestController;
 use FlavorCore\API\RestSearch;
 use FlavorCore\Branch\BranchSeeder;
@@ -28,6 +29,7 @@ use FlavorCore\Reservation\ReservationAdmin;
 use FlavorCore\SMS\SmsManager;
 use FlavorCore\Support\Settings;
 use FlavorCore\Table\TableAdmin;
+use FlavorCore\Webhooks\WebhookManager;
 use FlavorCore\WooCommerce\Currency;
 use FlavorCore\WooCommerce\GatewayRegistrar;
 use FlavorCore\WooCommerce\ProductModifiers;
@@ -109,10 +111,12 @@ final class Plugin {
 		( new KitchenTicketSync() )->hooks();
 		( new SmsManager() )->hooks();
 		( new AvailabilityManager() )->hooks();
+		( new WebhookManager() )->hooks();
 		( new RestController() )->hooks();
 		( new RestSearch() )->hooks();
 		( new SearchIndex() )->hooks();
 		( new Admin\AdminMenus() )->hooks();
+		( new MobileAppAdmin() )->hooks();
 		( new Support\Rewrites() )->hooks();
 		( new Support\Privacy() )->hooks();
 		( new Support\CacheHints() )->hooks();

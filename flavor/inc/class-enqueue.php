@@ -1,6 +1,6 @@
 <?php
 /**
- * Front-end assets. Conditional, no Google Fonts, no CDN libraries.
+ * Front-end assets enqueueing.
  *
  * @package Flavor
  */
@@ -50,20 +50,30 @@ class Enqueue {
 			FLAVOR_VERSION
 		);
 
-		$needs_marketing = is_front_page() || is_home() || is_page_template( 'page-templates/template-branches.php' );
-		if ( $needs_marketing ) {
+		wp_enqueue_style(
+			'flavor-marketing',
+			FLAVOR_URI . '/assets/css/marketing.css',
+			array( 'flavor-main' ),
+			FLAVOR_VERSION
+		);
+
+		if ( is_rtl() ) {
 			wp_enqueue_style(
-				'flavor-marketing',
-				FLAVOR_URI . '/assets/css/marketing.css',
+				'flavor-rtl',
+				FLAVOR_URI . '/assets/css/rtl.css',
 				array( 'flavor-main' ),
 				FLAVOR_VERSION
 			);
 		}
 
+		$menu_page = get_page_by_path( 'menu' );
+		$menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
+
 		$rest    = rest_url( 'flavor/v1/' );
 		$payload = array(
 			'rest'    => esc_url_raw( $rest ),
 			'nonce'   => wp_create_nonce( 'wp_rest' ),
+			'menuUrl' => esc_url_raw( $menu_url ),
 			'hasCore' => Theme_Setup::has_core(),
 			'i18n'    => array(
 				'add'     => __( 'افزودن', 'flavor' ),
@@ -76,19 +86,31 @@ class Enqueue {
 		$payload['ajax']     = esc_url_raw( admin_url( 'admin-ajax.php' ) );
 		$payload['branchId'] = self::current_branch_id();
 
+		// Enqueue global theme script
+		wp_enqueue_script(
+			'flavor-main-js',
+			FLAVOR_URI . '/assets/js/main.js',
+			array(),
+			FLAVOR_VERSION,
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
+		);
+		wp_localize_script( 'flavor-main-js', 'flavorData', $payload );
+
 		$is_menu = is_page_template( 'page-templates/template-menu.php' );
 		if ( $is_menu ) {
 			wp_enqueue_script(
 				'flavor-menu',
 				FLAVOR_URI . '/assets/js/menu.js',
-				array(),
+				array( 'flavor-main-js' ),
 				FLAVOR_VERSION,
 				array(
 					'in_footer' => true,
 					'strategy'  => 'defer',
 				)
 			);
-			wp_localize_script( 'flavor-menu', 'flavorData', $payload );
 
 			wp_enqueue_style(
 				'flavor-search',
@@ -100,7 +122,7 @@ class Enqueue {
 			wp_enqueue_script(
 				'flavor-search',
 				FLAVOR_URI . '/assets/js/search.js',
-				array(),
+				array( 'flavor-main-js' ),
 				FLAVOR_VERSION,
 				array(
 					'in_footer' => true,
@@ -108,8 +130,8 @@ class Enqueue {
 				)
 			);
 
-			$search_payload          = $payload;
-			$search_payload['i18n']  = array_merge(
+			$search_payload         = $payload;
+			$search_payload['i18n'] = array_merge(
 				$payload['i18n'],
 				array(
 					'recent'       => __( 'جست‌وجوهای اخیر', 'flavor' ),
@@ -131,14 +153,13 @@ class Enqueue {
 			wp_enqueue_script(
 				'flavor-reservation',
 				FLAVOR_URI . '/assets/js/reservation.js',
-				array(),
+				array( 'flavor-main-js' ),
 				FLAVOR_VERSION,
 				array(
 					'in_footer' => true,
 					'strategy'  => 'defer',
 				)
 			);
-			wp_localize_script( 'flavor-reservation', 'flavorData', $payload );
 		}
 	}
 

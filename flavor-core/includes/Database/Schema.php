@@ -1,6 +1,6 @@
 <?php
 /**
- * Custom table definitions and migrations.
+ * Custom table definitions and migrations for Flavor Core.
  *
  * @package FlavorCore
  */
@@ -18,6 +18,11 @@ class Schema {
 	 * Option that stores the installed schema version.
 	 */
 	public const VERSION_OPTION = 'flavor_core_db_version';
+
+	/**
+	 * Current database schema version.
+	 */
+	public const DB_VERSION = '1.3.0';
 
 	/**
 	 * Table short names without the $wpdb prefix.
@@ -40,6 +45,13 @@ class Schema {
 			'flavor_menu_schedules',
 			'flavor_branch_hours',
 			'flavor_branch_closures',
+			'flavor_auth_tokens',
+			'flavor_device_tokens',
+			'flavor_reviews',
+			'flavor_mobile_builds',
+			'flavor_webhooks',
+			'flavor_webhook_deliveries',
+			'flavor_system_logs',
 		);
 	}
 
@@ -65,7 +77,7 @@ class Schema {
 			dbDelta( $sql );
 		}
 
-		update_option( self::VERSION_OPTION, FLAVOR_CORE_DB_VERSION );
+		update_option( self::VERSION_OPTION, self::DB_VERSION );
 	}
 
 	/**
@@ -73,7 +85,7 @@ class Schema {
 	 */
 	public static function maybe_upgrade(): void {
 		$installed = (string) get_option( self::VERSION_OPTION, '' );
-		if ( $installed !== FLAVOR_CORE_DB_VERSION ) {
+		if ( $installed !== self::DB_VERSION ) {
 			self::install();
 		}
 	}
@@ -122,6 +134,13 @@ class Schema {
 		$schedules    = self::table( 'flavor_menu_schedules' );
 		$hours        = self::table( 'flavor_branch_hours' );
 		$closures     = self::table( 'flavor_branch_closures' );
+		$tokens       = self::table( 'flavor_auth_tokens' );
+		$devices      = self::table( 'flavor_device_tokens' );
+		$reviews      = self::table( 'flavor_reviews' );
+		$builds       = self::table( 'flavor_mobile_builds' );
+		$webhooks     = self::table( 'flavor_webhooks' );
+		$deliveries   = self::table( 'flavor_webhook_deliveries' );
+		$logs         = self::table( 'flavor_system_logs' );
 
 		return array(
 			"CREATE TABLE {$tickets} (
@@ -363,6 +382,134 @@ class Schema {
 				reason VARCHAR(190) NULL,
 				PRIMARY KEY  (id),
 				UNIQUE KEY uk_branch_date (branch_id, closure_date)
+			) {$charset};",
+
+			"CREATE TABLE {$tokens} (
+				id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+				user_id BIGINT UNSIGNED NOT NULL,
+				token_hash CHAR(64) NOT NULL,
+				refresh_token_hash CHAR(64) NULL,
+				device_id VARCHAR(100) NULL,
+				device_name VARCHAR(190) NULL,
+				ip VARCHAR(45) NULL,
+				user_agent VARCHAR(255) NULL,
+				expires_at DATETIME NOT NULL,
+				revoked_at DATETIME NULL,
+				created_at DATETIME NOT NULL,
+				updated_at DATETIME NOT NULL,
+				PRIMARY KEY  (id),
+				KEY idx_token_hash (token_hash),
+				KEY idx_user_exp (user_id, expires_at),
+				KEY idx_refresh_hash (refresh_token_hash)
+			) {$charset};",
+
+			"CREATE TABLE {$devices} (
+				id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+				user_id BIGINT UNSIGNED NULL,
+				device_token VARCHAR(255) NOT NULL,
+				platform VARCHAR(20) NOT NULL DEFAULT 'android',
+				branch_id BIGINT UNSIGNED NULL,
+				is_active TINYINT(1) NOT NULL DEFAULT 1,
+				last_seen_at DATETIME NOT NULL,
+				created_at DATETIME NOT NULL,
+				PRIMARY KEY  (id),
+				UNIQUE KEY uk_device_platform (device_token, platform),
+				KEY idx_user_active (user_id, is_active)
+			) {$charset};",
+
+			"CREATE TABLE {$reviews} (
+				id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+				product_id BIGINT UNSIGNED NOT NULL,
+				user_id BIGINT UNSIGNED NULL,
+				author_name VARCHAR(190) NOT NULL,
+				rating TINYINT UNSIGNED NOT NULL DEFAULT 5,
+				comment TEXT NOT NULL,
+				is_verified TINYINT(1) NOT NULL DEFAULT 0,
+				is_approved TINYINT(1) NOT NULL DEFAULT 1,
+				created_at DATETIME NOT NULL,
+				PRIMARY KEY  (id),
+				KEY idx_product_approved (product_id, is_approved),
+				KEY idx_user (user_id)
+			) {$charset};",
+
+			"CREATE TABLE {$builds} (
+				id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+				build_uuid CHAR(36) NOT NULL,
+				platform VARCHAR(20) NOT NULL DEFAULT 'all',
+				environment VARCHAR(20) NOT NULL DEFAULT 'prod',
+				version_name VARCHAR(32) NOT NULL DEFAULT '1.1.0',
+				version_code INT UNSIGNED NOT NULL DEFAULT 101,
+				status VARCHAR(20) NOT NULL DEFAULT 'queued',
+				triggered_by BIGINT UNSIGNED NULL,
+				commit_sha VARCHAR(40) NULL,
+				ci_provider VARCHAR(40) NOT NULL DEFAULT 'github_actions',
+				ci_build_id VARCHAR(100) NULL,
+				ci_build_url TEXT NULL,
+				artifact_apk_url TEXT NULL,
+				artifact_aab_url TEXT NULL,
+				artifact_ipa_url TEXT NULL,
+				artifact_size_bytes BIGINT UNSIGNED NULL,
+				artifact_checksum_sha256 CHAR(64) NULL,
+				build_log LONGTEXT NULL,
+				error_message TEXT NULL,
+				duration_seconds INT UNSIGNED NULL,
+				started_at DATETIME NULL,
+				completed_at DATETIME NULL,
+				created_at DATETIME NOT NULL,
+				updated_at DATETIME NOT NULL,
+				PRIMARY KEY  (id),
+				UNIQUE KEY uk_build_uuid (build_uuid),
+				KEY idx_status (status),
+				KEY idx_created (created_at)
+			) {$charset};",
+
+			"CREATE TABLE {$webhooks} (
+				id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+				name VARCHAR(190) NOT NULL,
+				target_url TEXT NOT NULL,
+				secret VARCHAR(100) NOT NULL,
+				events_json TEXT NOT NULL,
+				is_active TINYINT(1) NOT NULL DEFAULT 1,
+				failure_count INT UNSIGNED NOT NULL DEFAULT 0,
+				last_triggered_at DATETIME NULL,
+				created_at DATETIME NOT NULL,
+				updated_at DATETIME NOT NULL,
+				PRIMARY KEY  (id),
+				KEY idx_active (is_active)
+			) {$charset};",
+
+			"CREATE TABLE {$deliveries} (
+				id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+				webhook_id BIGINT UNSIGNED NOT NULL,
+				event VARCHAR(64) NOT NULL,
+				payload_json LONGTEXT NOT NULL,
+				response_code SMALLINT UNSIGNED NULL,
+				response_body TEXT NULL,
+				duration_ms INT UNSIGNED NULL,
+				attempt_count TINYINT UNSIGNED NOT NULL DEFAULT 1,
+				status VARCHAR(20) NOT NULL DEFAULT 'pending',
+				error_message TEXT NULL,
+				created_at DATETIME NOT NULL,
+				PRIMARY KEY  (id),
+				KEY idx_webhook_status (webhook_id, status),
+				KEY idx_created (created_at)
+			) {$charset};",
+
+			"CREATE TABLE {$logs} (
+				id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+				level VARCHAR(20) NOT NULL DEFAULT 'info',
+				channel VARCHAR(40) NOT NULL DEFAULT 'system',
+				message TEXT NOT NULL,
+				context_json LONGTEXT NULL,
+				user_id BIGINT UNSIGNED NULL,
+				ip VARCHAR(45) NULL,
+				request_uri TEXT NULL,
+				duration_ms INT UNSIGNED NULL,
+				created_at DATETIME NOT NULL,
+				PRIMARY KEY  (id),
+				KEY idx_level_channel (level, channel),
+				KEY idx_created (created_at),
+				KEY idx_user (user_id)
 			) {$charset};",
 		);
 	}

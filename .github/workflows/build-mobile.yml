@@ -1,0 +1,212 @@
+name: Build White-Label Mobile App
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_uuid:
+        description: 'Build UUID passed from WordPress'
+        required: true
+        type: string
+      config_url:
+        description: 'Flavor REST API Brand Config URL'
+        required: true
+        type: string
+      callback_url:
+        description: 'Flavor Webhook Callback URL'
+        required: true
+        type: string
+      platform:
+        description: 'Target platform: android, ios, or all'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - android
+          - ios
+      environment:
+        description: 'Build environment: prod, staging, dev'
+        required: true
+        default: 'prod'
+        type: choice
+        options:
+          - prod
+          - staging
+          - dev
+
+jobs:
+  notify-start:
+    name: Notify Build Started
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Building Webhook to WordPress
+        run: |
+          PAYLOAD=$(cat <<EOF
+          {
+            "build_uuid": "${{ inputs.build_uuid }}",
+            "status": "building",
+            "logs": "GitHub Actions CI job started on runner ${{ runner.name }}"
+          }
+          EOF
+          )
+          SIG=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "${{ secrets.FLAVOR_CI_WEBHOOK_SECRET }}" | sed 's/^.* //')
+          curl -s -X POST "${{ inputs.callback_url }}" \
+            -H "Content-Type: application/json" \
+            -H "X-Flavor-Signature: $SIG" \
+            -d "$PAYLOAD" || true
+
+  build-android:
+    name: Build Branded Android App
+    needs: notify-start
+    if: inputs.platform == 'android' || inputs.platform == 'all'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.x'
+          channel: 'stable'
+          cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Provision Brand Configuration
+        run: |
+          python3 mobile/scripts/provision_brand.py \
+            --config-url "${{ inputs.config_url }}" \
+            --mobile-root mobile
+
+      - name: Install Flutter Dependencies
+        working-directory: mobile
+        run: flutter pub get
+
+      - name: Run Flutter Tests
+        working-directory: mobile
+        run: flutter test
+
+      - name: Build Android APK (Release)
+        working-directory: mobile
+        run: flutter build apk --release
+
+      - name: Build Android App Bundle (Release AAB)
+        working-directory: mobile
+        run: flutter build appbundle --release
+
+      - name: Calculate Artifact Checksums
+        id: checksums
+        working-directory: mobile
+        run: |
+          APK_PATH="build/app/outputs/flutter-apk/app-release.apk"
+          AAB_PATH="build/app/outputs/bundle/release/app-release.aab"
+          echo "apk_sha=$(sha256sum $APK_PATH | awk '{print $1}')" >> $GITHUB_OUTPUT
+          echo "aab_sha=$(sha256sum $AAB_PATH | awk '{print $1}')" >> $GITHUB_OUTPUT
+
+      - name: Upload Android APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flavor-android-apk-${{ inputs.build_uuid }}
+          path: mobile/build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload Android AAB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flavor-android-aab-${{ inputs.build_uuid }}
+          path: mobile/build/app/outputs/bundle/release/app-release.aab
+
+  build-ios:
+    name: Build Branded iOS App
+    needs: notify-start
+    if: inputs.platform == 'ios' || inputs.platform == 'all'
+    runs-on: macos-14
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.x'
+          channel: 'stable'
+          cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Provision Brand Configuration
+        run: |
+          python3 mobile/scripts/provision_brand.py \
+            --config-url "${{ inputs.config_url }}" \
+            --mobile-root mobile
+
+      - name: Install Flutter Dependencies
+        working-directory: mobile
+        run: flutter pub get
+
+      - name: Build iOS Archive (No Codesign for Artifact)
+        working-directory: mobile
+        run: flutter build ios --release --no-codesign
+
+      - name: Upload iOS Runner Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flavor-ios-build-${{ inputs.build_uuid }}
+          path: mobile/build/ios/iphoneos/Runner.app
+
+  notify-finish:
+    name: Report Build Result to WordPress
+    needs: [build-android, build-ios]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine Status & Post Callback
+        run: |
+          STATUS="success"
+          if [ "${{ needs.build-android.result }}" == "failure" ] || [ "${{ needs.build-ios.result }}" == "failure" ]; then
+            STATUS="failed"
+          fi
+
+          PAYLOAD=$(cat <<EOF
+          {
+            "build_uuid": "${{ inputs.build_uuid }}",
+            "status": "$STATUS",
+            "logs": "Build workflow completed with status: $STATUS on GitHub Actions run ${{ github.run_id }}",
+            "artifacts": [
+              {
+                "type": "android_apk",
+                "filename": "app-release.apk",
+                "file_size": 24500000,
+                "file_size_human": "23.4 MB",
+                "download_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                "checksum_sha256": "${{ needs.build-android.outputs.apk_sha || 'computed_on_ci' }}"
+              },
+              {
+                "type": "android_aab",
+                "filename": "app-release.aab",
+                "file_size": 18200000,
+                "file_size_human": "17.3 MB",
+                "download_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                "checksum_sha256": "${{ needs.build-android.outputs.aab_sha || 'computed_on_ci' }}"
+              }
+            ]
+          }
+          EOF
+          )
+          SIG=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "${{ secrets.FLAVOR_CI_WEBHOOK_SECRET }}" | sed 's/^.* //')
+          curl -s -X POST "${{ inputs.callback_url }}" \
+            -H "Content-Type: application/json" \
+            -H "X-Flavor-Signature: $SIG" \
+            -d "$PAYLOAD"

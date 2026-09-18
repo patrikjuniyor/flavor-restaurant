@@ -19,6 +19,7 @@
 	var sheetBody = document.getElementById('flavor-sheet-body');
 	var sheetAdd = document.getElementById('flavor-sheet-add');
 	var cartCount = document.getElementById('flavor-cart-count');
+	var mobileCartCount = document.getElementById('flavor-mobile-cart-count');
 	var cartLines = document.getElementById('flavor-cart-lines');
 	var cartTotal = document.getElementById('flavor-cart-total');
 	var cartPanel = document.getElementById('flavor-cart-panel');
@@ -56,37 +57,44 @@
 	function card(item) {
 		var disabled = item.available === false;
 		var img = item.image
-			? '<img src="' + esc(item.image) + '" alt="" loading="lazy" width="600" height="400" />'
+			? '<img src="' + esc(item.image) + '" alt="' + esc(item.name) + '" loading="lazy" width="600" height="400" />'
 			: '<div class="flavor-card__ph"></div>';
+
+		var catName = (item.categories && item.categories[0] && item.categories[0].name) || '';
+
 		return (
-			'<article class="flavor-card' +
+			'<article class="flavor-card flavor-food-card' +
 			(disabled ? ' is-unavailable' : '') +
 			'" data-id="' +
 			esc(item.id) +
 			'" data-cats="' +
 			esc((item.categories || []).map(function (c) { return c.id; }).join(',')) +
-			'">' +
+			'"><div class="flavor-food-card__media">' +
 			img +
-			'<div class="flavor-card__body">' +
-			'<h2 class="flavor-card__name">' +
+			(catName ? '<span class="flavor-food-card__cat-badge">' + esc(catName) + '</span>' : '') +
+			'</div><div class="flavor-food-card__body">' +
+			'<h2 class="flavor-food-card__title">' +
 			esc(item.name) +
 			(disabled ? ' <span class="flavor-badge">ناموجود</span>' : '') +
 			'</h2>' +
-			'<p class="flavor-card__meta">' +
+			'<p class="flavor-food-card__desc">' +
 			esc(item.short || '') +
-			(item.prep_time ? ' · ' + item.prep_time + ' دقیقه' : '') +
-			(item.available_at && item.in_schedule === false ? ' · ' + esc(item.available_at) : '') +
 			'</p>' +
-			'<strong>' +
-			esc(item.price_html || '') +
+			'<div class="flavor-food-card__meta">' +
+			(item.prep_time ? '<span class="flavor-food-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' + item.prep_time + ' دقیقه</span>' : '') +
+			(item.calories ? '<span class="flavor-food-card__meta-item">' + item.calories + ' کالری</span>' : '') +
+			(item.available_at && item.in_schedule === false ? '<span class="flavor-food-card__meta-item">سرو از ' + esc(item.available_at) + '</span>' : '') +
+			'</div>' +
+			'<div class="flavor-food-card__footer"><strong class="flavor-food-card__price">' +
+			(item.price_html || '') +
 			'</strong>' +
-			'<button type="button" class="flavor-btn flavor-btn--primary" data-add="' +
+			'<button type="button" class="flavor-btn flavor-btn--primary flavor-btn--sm" data-add="' +
 			esc(item.id) +
 			'" ' +
 			(disabled ? 'disabled' : '') +
-			'>' +
+			'><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> ' +
 			esc((cfg.i18n && cfg.i18n.add) || 'افزودن') +
-			'</button></div></article>'
+			'</button></div></div></article>'
 		);
 	}
 
@@ -132,12 +140,7 @@
 	function paintSheetPrice() {
 		if (!sheetAdd || !current) return;
 		var n = livePrice();
-		sheetAdd.textContent = 'افزودن — ' + (current.price_html || '').replace(/[0-9۰-۹٬,]+/, function () {
-			return String(n);
-		});
-		if (n && current.price_html) {
-			sheetAdd.textContent = 'افزودن به سبد · ' + n.toLocaleString('fa-IR');
-		}
+		sheetAdd.textContent = 'افزودن به سبد · ' + n.toLocaleString('fa-IR') + ' تومان';
 	}
 
 	function openSheet(item) {
@@ -152,10 +155,10 @@
 		var html = '';
 		function radios(list, name, label) {
 			if (!list.length) return;
-			html += '<fieldset><legend>' + esc(label) + '</legend>';
+			html += '<fieldset><legend style="font-weight:700; margin-bottom:8px;">' + esc(label) + '</legend>';
 			list.forEach(function (m, i) {
 				html +=
-					'<label><input type="radio" name="' +
+					'<label style="display:flex; align-items:center; gap:8px; margin-bottom:6px;"><input type="radio" name="' +
 					name +
 					'" value="' +
 					esc(m.id) +
@@ -165,41 +168,43 @@
 					(m.is_default || i === 0 ? 'checked' : '') +
 					'/> ' +
 					esc(m.name) +
-					(m.price ? ' (+' + m.price + ')' : '') +
+					(m.price ? ' (+' + m.price.toLocaleString('fa-IR') + ' تومان)' : '') +
 					'</label>';
 			});
 			html += '</fieldset>';
 		}
 		function checks(list, label) {
 			if (!list.length) return;
-			html += '<fieldset><legend>' + esc(label) + '</legend>';
+			html += '<fieldset><legend style="font-weight:700; margin-bottom:8px;">' + esc(label) + '</legend>';
 			list.forEach(function (m) {
 				html +=
-					'<label><input type="checkbox" value="' +
+					'<label style="display:flex; align-items:center; gap:8px; margin-bottom:6px;"><input type="checkbox" value="' +
 					esc(m.id) +
 					'" data-price="' +
 					esc(m.price) +
 					'"/> ' +
 					esc(m.name) +
-					(m.price ? ' (+' + m.price + ')' : '') +
+					(m.price ? ' (+' + m.price.toLocaleString('fa-IR') + ' تومان)' : '') +
 					'</label>';
 			});
 			html += '</fieldset>';
 		}
-		radios(g.size, 'size', 'اندازه');
-		checks(g.topping, 'تاپینگ');
+		radios(g.size, 'size', 'اندازه و پرس');
+		checks(g.topping, 'افزودنی‌ها و تاپینگ');
 		radios(g.cook, 'cook', 'درجه پخت');
-		checks(g.removal, 'حذف ماده');
+		checks(g.removal, 'حذف مخلفات');
 		html +=
-			'<label>توضیحات <input type="text" id="flavor-instr" maxlength="200" /></label>' +
-			'<div class="flavor-qty"><button type="button" data-q="-1">−</button><span id="flavor-qty">1</span><button type="button" data-q="1">+</button></div>';
+			'<label style="display:block; margin-top:14px; font-weight:700;">یادداشت سرآشپز: <input type="text" id="flavor-instr" maxlength="200" style="width:100%; padding:10px; border:1px solid var(--flavor-line); border-radius:8px; margin-top:4px;" placeholder="مثال: کم‌نمک، سس جداگانه" /></label>' +
+			'<div class="flavor-qty" style="display:flex; align-items:center; gap:16px; margin:16px 0;"><button type="button" class="flavor-btn flavor-btn--outline flavor-btn--sm" data-q="-1">−</button><span id="flavor-qty" style="font-weight:800; font-size:18px;">1</span><button type="button" class="flavor-btn flavor-btn--outline flavor-btn--sm" data-q="1">+</button></div>';
 		sheetBody.innerHTML = html;
 		sheet.hidden = false;
+		document.body.style.overflow = 'hidden';
 		paintSheetPrice();
 	}
 
 	function closeSheet() {
 		if (sheet) sheet.hidden = true;
+		document.body.style.overflow = '';
 		current = null;
 	}
 
@@ -222,12 +227,20 @@
 				modifier_ids: ids || [],
 				instructions: instr || '',
 			}),
-		}).then(drawCart);
+		}).then(function (cart) {
+			drawCart(cart);
+			if (window.flavorToast) {
+				window.flavorToast('«' + item.name + '» به سبد خرید اضافه شد.', 'success');
+			}
+			return cart;
+		});
 	}
 
 	function drawCart(cart) {
 		if (!cart) return;
-		if (cartCount) cartCount.textContent = cart.count || 0;
+		var countStr = String(cart.count || 0);
+		if (cartCount) cartCount.textContent = countStr;
+		if (mobileCartCount) mobileCartCount.textContent = countStr;
 		if (cartLines) {
 			cartLines.innerHTML = (cart.items || [])
 				.map(function (it) {
@@ -242,7 +255,7 @@
 						(mods ? '<div class="flavor-card__meta">' + esc(mods) + '</div>' : '') +
 						'</div><div>' +
 						(it.line_html || '') +
-						' <button type="button" data-rm="' +
+						' <button type="button" class="flavor-btn flavor-btn--sm" style="padding:2px 8px; margin-right:6px;" data-rm="' +
 						esc(it.key) +
 						'">×</button></div></div>'
 					);
@@ -274,10 +287,10 @@
 		api('checkout/options?mode=' + encodeURIComponent(mode)).then(function (d) {
 			var box = document.getElementById('flavor-pay-box');
 			if (!box) return;
-			var html = '<legend>پرداخت</legend>';
+			var html = '<legend style="font-weight:700; margin-bottom:8px;">روش پرداخت</legend>';
 			(d.methods || []).forEach(function (m, i) {
 				html +=
-					'<label><input type="radio" name="pay" value="' +
+					'<label style="display:block; margin-bottom:6px;"><input type="radio" name="pay" value="' +
 					esc(m.id) +
 					'" ' +
 					(i === 0 ? 'checked' : '') +
@@ -404,9 +417,11 @@
 						otpCode.hidden = false;
 						otpCode.focus();
 					}
+					if (window.flavorToast) window.flavorToast('کد تایید پیامک شد.', 'info');
 				})
 				.catch(function (err) {
-					alert(err.message);
+					if (window.flavorToast) window.flavorToast(err.message, 'error');
+					else alert(err.message);
 				});
 		});
 	}
@@ -421,9 +436,14 @@
 					code: otpCode.value,
 					name: (document.getElementById('flavor-name') || {}).value || '',
 				}),
-			}).catch(function (err) {
-				alert(err.message);
-			});
+			})
+				.then(function () {
+					if (window.flavorToast) window.flavorToast('ورود با موفقیت انجام شد.', 'success');
+				})
+				.catch(function (err) {
+					if (window.flavorToast) window.flavorToast(err.message, 'error');
+					else alert(err.message);
+				});
 		});
 	}
 
@@ -459,9 +479,13 @@
 				headers: headers(true),
 				body: JSON.stringify({ code: code }),
 			})
-				.then(drawCart)
+				.then(function (c) {
+					drawCart(c);
+					if (window.flavorToast) window.flavorToast('کد تخفیف اعمال گردید.', 'success');
+				})
 				.catch(function (err) {
-					alert(err.message);
+					if (window.flavorToast) window.flavorToast(err.message, 'error');
+					else alert(err.message);
 				});
 		});
 	}
@@ -501,7 +525,8 @@
 						window.location.href = res.redirect;
 						return;
 					}
-					alert('سفارش #' + (res.order_number || res.order_id) + ' ثبت شد');
+					if (window.flavorToast) window.flavorToast('سفارش #' + (res.order_number || res.order_id) + ' ثبت شد', 'success');
+					else alert('سفارش #' + (res.order_number || res.order_id) + ' ثبت شد');
 					drawCart({ items: [], count: 0, total_html: '' });
 				})
 				.catch(function (ex) {
@@ -509,6 +534,7 @@
 						err.hidden = false;
 						err.textContent = ex.message;
 					}
+					if (window.flavorToast) window.flavorToast(ex.message, 'error');
 				});
 		});
 	}

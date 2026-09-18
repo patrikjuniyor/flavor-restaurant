@@ -50,11 +50,20 @@ class AdminMenus {
 
 		add_submenu_page(
 			'flavor-core',
-			__( 'پیشخوان', 'flavor-core' ),
-			__( 'پیشخوان', 'flavor-core' ),
+			__( 'پیشخوان عملیات و آمار', 'flavor-core' ),
+			__( 'پیشخوان عملیات و آمار', 'flavor-core' ),
 			'flavor_manage_branch',
 			'flavor-core',
 			array( $this, 'render_dashboard' )
+		);
+
+		add_submenu_page(
+			'flavor-core',
+			__( 'گزارشات و تحلیل (KPIs)', 'flavor-core' ),
+			__( 'گزارشات و تحلیل (KPIs)', 'flavor-core' ),
+			'flavor_view_reports',
+			'flavor-analytics',
+			array( $this, 'render_analytics' )
 		);
 
 		add_submenu_page(
@@ -218,19 +227,20 @@ class AdminMenus {
 	 * Home dashboard.
 	 */
 	public function render_dashboard(): void {
-		$sample = Currency::format( 2500000 );
-		?>
-		<div class="wrap flavor-admin">
-			<h1><?php esc_html_e( 'رستوران مستقیم', 'flavor-core' ); ?></h1>
-			<p><?php esc_html_e( 'فاز ۳ — رزرو شمسی، زمان‌بندی منو، تخفیف، سفارش تلفنی و باشگاه مشتریان.', 'flavor-core' ); ?></p>
-			<ul class="flavor-admin__checklist">
-				<li><?php esc_html_e( 'صفحه با قالب «رزرو میز» بسازید.', 'flavor-core' ); ?></li>
-				<li><?php esc_html_e( 'از منوی رزرو، ورود حضوری را تست کنید.', 'flavor-core' ); ?></li>
-				<li><?php esc_html_e( 'کد تخفیف ووکامرس بسازید و انقضای شمسی را پر کنید.', 'flavor-core' ); ?></li>
-				<li><?php echo esc_html( sprintf( /* translators: formatted money */ __( 'نمونه نمایش ارز: %s', 'flavor-core' ), $sample ) ); ?></li>
-			</ul>
-		</div>
-		<?php
+		$view = FLAVOR_CORE_PATH . 'admin/views/executive-dashboard.php';
+		if ( is_readable( $view ) ) {
+			include $view;
+		}
+	}
+
+	/**
+	 * Analytics view.
+	 */
+	public function render_analytics(): void {
+		$view = FLAVOR_CORE_PATH . 'admin/views/executive-dashboard.php';
+		if ( is_readable( $view ) ) {
+			include $view;
+		}
 	}
 
 	/**

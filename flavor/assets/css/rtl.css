@@ -1,4 +1,40 @@
-/*
- * Flavor is RTL-first. This file exists so WordPress's locale switcher
- * has a hook; do not invert the main stylesheet here.
+/**
+ * Strict RTL typography and layout enhancements for Persian/Arabic scripts.
  */
+
+body.flavor-theme {
+	direction: rtl;
+	text-align: right;
+	font-feature-settings: "ss01" on, "ss02" on;
+}
+
+/* RTL Drawer Transition */
+.flavor-drawer {
+	right: 0;
+	left: auto;
+	transform: translateX(100%);
+}
+
+.flavor-drawer.is-active {
+	transform: translateX(0);
+}
+
+/* RTL Icon alignments */
+.flavor-btn svg,
+.flavor-food-card__meta-item svg,
+.flavor-res-banner__perk svg {
+	margin-inline-end: 4px;
+	margin-inline-start: 0;
+}
+
+/* RTL Form labels and validation */
+.flavor-checkout label,
+.flavor-form-row label {
+	text-align: right;
+}
+
+/* Breadcrumb separator flip */
+.flavor-breadcrumbs span::after {
+	content: "←";
+	margin: 0 8px;
+}

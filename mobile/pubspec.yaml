@@ -1,0 +1,58 @@
+name: flavor_mobile
+description: "Flavor Restaurant Mobile Application — Production Flutter Client for iOS & Android"
+publish_to: 'none'
+version: 1.2.0+12
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Networking & Serialization
+  http: ^1.2.0
+  intl: ^0.19.0
+
+  # State Management
+  provider: ^6.1.2
+
+  # Secure Storage & Cache
+  flutter_secure_storage: ^9.0.0
+  shared_preferences: ^2.2.2
+
+  # UI Components & Icons
+  cached_network_image: ^3.3.1
+  flutter_svg: ^2.0.10+1
+  shimmer: ^3.0.0
+  url_launcher: ^6.2.5
+
+  # Push Notifications & FCM
+  firebase_core: ^2.27.0
+  firebase_messaging: ^14.7.19
+  flutter_local_notifications: ^17.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
+  fonts:
+    - family: Vazirmatn
+      fonts:
+        - asset: assets/fonts/vazirmatn/Vazirmatn-Regular.woff2
+          weight: 400
+        - asset: assets/fonts/vazirmatn/Vazirmatn-Medium.woff2
+          weight: 500
+        - asset: assets/fonts/vazirmatn/Vazirmatn-Bold.woff2
+          weight: 700

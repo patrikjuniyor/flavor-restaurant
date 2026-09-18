@@ -1,22 +1,58 @@
+/**
+ * Flavor Core Design System — Base, Tokens, Components & Utilities.
+ * RTL-first, mobile-first, zero-dependency.
+ */
+
 :root {
-	--flavor-bg: #f6f1ea;
-	--flavor-surface: #fffdf8;
-	--flavor-ink: #2b2118;
-	--flavor-muted: #6b5b4f;
-	--flavor-accent: #8a5a2b;
-	--flavor-olive: #5c6b3a;
-	--flavor-line: #e6d8c8;
+	--flavor-primary: #8a5a2b;
+	--flavor-primary-rgb: 138, 90, 43;
+	--flavor-secondary: #5c6b3a;
+	--flavor-secondary-rgb: 92, 107, 58;
+	--flavor-accent: #c47d39;
+	--flavor-accent-rgb: 196, 125, 57;
+	--flavor-bg: #f8f4ee;
+	--flavor-surface: #ffffff;
+	--flavor-surface-rgb: 255, 255, 255;
+	--flavor-surface-alt: #f1ebe1;
+	--flavor-ink: #241b14;
+	--flavor-ink-rgb: 36, 27, 20;
+	--flavor-muted: #6e5f53;
+	--flavor-line: #e5dcce;
+	--flavor-card-shadow: 0 8px 24px rgba(43, 33, 24, 0.06);
 	--flavor-radius: 16px;
-	--flavor-font: "Vazirmatn", Tahoma, sans-serif;
+	--flavor-btn-radius: 12px;
+	--flavor-container-max: 1240px;
+	--flavor-font-heading: "Vazirmatn", Tahoma, -apple-system, sans-serif;
+	--flavor-font-body: "Vazirmatn", Tahoma, -apple-system, sans-serif;
+
+	--flavor-success: #16a34a;
+	--flavor-success-bg: #dcfce7;
+	--flavor-warning: #d97706;
+	--flavor-warning-bg: #fef3c7;
+	--flavor-danger: #dc2626;
+	--flavor-danger-bg: #fee2e2;
+
+	--flavor-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+	--flavor-shadow-md: 0 8px 20px rgba(0, 0, 0, 0.06);
+	--flavor-shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.09);
+	--flavor-shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.14);
+
+	--flavor-ease: cubic-bezier(0.16, 1, 0.3, 1);
+	--flavor-transition-fast: 150ms var(--flavor-ease);
+	--flavor-transition-normal: 250ms var(--flavor-ease);
+	--flavor-transition-slow: 400ms var(--flavor-ease);
 }
 
+/* -------------------------------------------------------------
+ * 1. Base & Reset
+ * ------------------------------------------------------------- */
 html {
 	box-sizing: border-box;
+	scroll-behavior: smooth;
+	-webkit-text-size-adjust: 100%;
 }
 
-*,
-*::before,
-*::after {
+*, *::before, *::after {
 	box-sizing: inherit;
 }
 
@@ -24,33 +60,106 @@ body.flavor-theme {
 	margin: 0;
 	background: var(--flavor-bg);
 	color: var(--flavor-ink);
-	font-family: var(--flavor-font);
-	line-height: 1.7;
+	font-family: var(--flavor-font-body);
+	font-size: 15px;
+	line-height: 1.75;
 	direction: rtl;
 	text-align: right;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--flavor-font-heading);
+	color: var(--flavor-ink);
+	line-height: 1.35;
+	margin-top: 0;
+	font-weight: 700;
+}
+
+p {
+	margin-top: 0;
+	margin-bottom: 1rem;
 }
 
 img {
 	max-width: 100%;
 	height: auto;
+	display: block;
 }
 
 a {
-	color: var(--flavor-accent);
+	color: var(--flavor-primary);
 	text-decoration: none;
+	transition: color var(--flavor-transition-fast);
 }
 
+a:hover {
+	color: var(--flavor-accent);
+}
+
+/* -------------------------------------------------------------
+ * 2. Accessibility & Skip Link
+ * ------------------------------------------------------------- */
 .flavor-skip {
 	position: absolute;
-	inset-inline-start: -999px;
+	top: -9999px;
+	right: 16px;
+	background: var(--flavor-primary);
+	color: #fff;
+	padding: 10px 18px;
+	border-radius: var(--flavor-btn-radius);
+	z-index: 9999;
+	font-weight: 600;
+	transition: top var(--flavor-transition-fast);
 }
 
 .flavor-skip:focus {
-	inset-inline-start: 8px;
-	top: 8px;
-	background: #fff;
-	padding: 8px;
-	z-index: 100;
+	top: 16px;
+	outline: 3px solid var(--flavor-accent);
+}
+
+:focus-visible {
+	outline: 2px solid var(--flavor-primary);
+	outline-offset: 3px;
+}
+
+/* -------------------------------------------------------------
+ * 3. Containers & Layout
+ * ------------------------------------------------------------- */
+.flavor-container {
+	width: min(var(--flavor-container-max), calc(100% - 32px));
+	margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+	.flavor-container {
+		width: min(var(--flavor-container-max), calc(100% - 48px));
+	}
+}
+
+.flavor-main {
+	min-height: 65vh;
+}
+
+/* -------------------------------------------------------------
+ * 4. Header, Topbar & Navigation
+ * ------------------------------------------------------------- */
+.flavor-topbar {
+	background: var(--flavor-primary);
+	color: #fff;
+	padding: 8px 0;
+	font-size: 13px;
+	font-weight: 500;
+	text-align: center;
+}
+
+.flavor-topbar__inner {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
 }
 
 .flavor-header {
@@ -58,346 +167,502 @@ a {
 	border-bottom: 1px solid var(--flavor-line);
 	position: sticky;
 	top: 0;
-	z-index: 20;
-}
-
-.flavor-header__inner,
-.flavor-footer__inner,
-.flavor-container {
-	width: min(1100px, calc(100% - 32px));
-	margin-inline: auto;
+	z-index: 100;
+	transition: all var(--flavor-transition-normal);
 }
 
 .flavor-header__inner {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	min-height: 64px;
-	gap: 16px;
+	min-height: 72px;
+	gap: 20px;
+}
+
+.flavor-brand {
+	display: flex;
+	align-items: center;
 }
 
 .flavor-brand__name {
-	font-weight: 700;
-	font-size: 1.25rem;
+	font-size: 1.4rem;
+	font-weight: 800;
 	color: var(--flavor-ink);
+	letter-spacing: -0.5px;
+}
+
+.flavor-header__nav {
+	display: none;
+}
+
+@media (min-width: 992px) {
+	.flavor-header__nav {
+		display: flex;
+		align-items: center;
+	}
 }
 
 .flavor-nav {
 	display: flex;
-	gap: 16px;
+	align-items: center;
+	gap: 28px;
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
-.flavor-main {
-	min-height: 60vh;
-	padding-block: 24px;
+.flavor-nav a {
+	color: var(--flavor-ink);
+	font-weight: 600;
+	font-size: 15px;
+	position: relative;
+	padding: 6px 0;
 }
 
-.flavor-article__title {
-	font-size: clamp(1.6rem, 3vw, 2.2rem);
-	margin-top: 0;
+.flavor-nav a::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 0;
+	height: 2px;
+	background: var(--flavor-primary);
+	transition: width var(--flavor-transition-normal);
 }
 
-.flavor-footer {
-	border-top: 1px solid var(--flavor-line);
-	padding: 24px 0 32px;
-	color: var(--flavor-muted);
-	font-size: 0.9rem;
+.flavor-nav a:hover::after,
+.flavor-nav .current-menu-item > a::after {
+	width: 100%;
 }
 
-.flavor-cats {
-	position: sticky;
-	top: 64px;
-	background: var(--flavor-bg);
-	z-index: 15;
-	border-bottom: 1px solid var(--flavor-line);
-}
-
-.flavor-cats__scroller {
+.flavor-header__actions {
 	display: flex;
-	gap: 8px;
-	overflow-x: auto;
-	padding: 10px 16px;
-	scrollbar-width: none;
+	align-items: center;
+	gap: 14px;
 }
 
-.flavor-cats__scroller::-webkit-scrollbar {
+.flavor-header__phone {
+	display: none;
+	align-items: center;
+	gap: 8px;
+	color: var(--flavor-ink);
+	font-weight: 700;
+	font-size: 14px;
+	padding: 8px 14px;
+	border-radius: var(--flavor-btn-radius);
+	background: var(--flavor-surface-alt);
+}
+
+@media (min-width: 1200px) {
+	.flavor-header__phone {
+		display: inline-flex;
+	}
+}
+
+.flavor-header__order-btn {
 	display: none;
 }
 
-.flavor-cats button {
+@media (min-width: 640px) {
+	.flavor-header__order-btn {
+		display: inline-flex;
+	}
+}
+
+/* Hamburger button */
+.flavor-hamburger {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 5px;
+	width: 42px;
+	height: 42px;
+	background: var(--flavor-surface-alt);
 	border: 1px solid var(--flavor-line);
-	background: var(--flavor-surface);
-	border-radius: 999px;
-	padding: 6px 14px;
-	white-space: nowrap;
-	font: inherit;
+	border-radius: 10px;
+	padding: 10px;
 	cursor: pointer;
 }
 
-.flavor-cats button.is-active {
-	background: var(--flavor-olive);
-	color: #fff;
-	border-color: var(--flavor-olive);
+@media (min-width: 992px) {
+	.flavor-hamburger {
+		display: none;
+	}
 }
 
-.flavor-menu__grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+.flavor-hamburger span {
+	display: block;
+	height: 2px;
+	width: 100%;
+	background: var(--flavor-ink);
+	border-radius: 2px;
+	transition: all 0.2s;
+}
+
+/* -------------------------------------------------------------
+ * 5. Mobile Off-Canvas Drawer
+ * ------------------------------------------------------------- */
+.flavor-drawer-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(4px);
+	z-index: 998;
+	opacity: 0;
+	visibility: hidden;
+	transition: all var(--flavor-transition-normal);
+}
+
+.flavor-drawer-overlay.is-active {
+	opacity: 1;
+	visibility: visible;
+}
+
+.flavor-drawer {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	width: min(340px, 85vw);
+	background: var(--flavor-surface);
+	z-index: 999;
+	transform: translateX(100%);
+	transition: transform var(--flavor-transition-normal);
+	display: flex;
+	flex-direction: column;
+	box-shadow: var(--flavor-shadow-xl);
+}
+
+.flavor-drawer.is-active {
+	transform: translateX(0);
+}
+
+.flavor-drawer__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px;
+	border-bottom: 1px solid var(--flavor-line);
+}
+
+.flavor-drawer__title {
+	font-weight: 800;
+	font-size: 17px;
+	color: var(--flavor-ink);
+}
+
+.flavor-drawer__close {
+	background: var(--flavor-surface-alt);
+	border: 0;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+	cursor: pointer;
+	color: var(--flavor-ink);
+}
+
+.flavor-drawer__body {
+	padding: 20px;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	flex: 1;
+}
+
+.flavor-drawer__nav .flavor-nav {
+	flex-direction: column;
+	align-items: flex-start;
 	gap: 16px;
-	padding: 16px;
 }
 
-.flavor-card {
+.flavor-drawer__nav a {
+	font-size: 16px;
+}
+
+/* -------------------------------------------------------------
+ * 6. Buttons System
+ * ------------------------------------------------------------- */
+.flavor-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	border: 0;
+	border-radius: var(--flavor-btn-radius);
+	padding: 12px 22px;
+	font-family: var(--flavor-font-heading);
+	font-size: 15px;
+	font-weight: 700;
+	cursor: pointer;
+	text-decoration: none;
+	transition: all var(--flavor-transition-fast);
+	white-space: nowrap;
+	line-height: 1.2;
+}
+
+.flavor-btn:hover {
+	transform: translateY(-1px);
+	box-shadow: var(--flavor-shadow-md);
+}
+
+.flavor-btn:active {
+	transform: translateY(1px);
+}
+
+.flavor-btn--primary {
+	background: var(--flavor-primary);
+	color: #ffffff;
+}
+
+.flavor-btn--primary:hover {
+	background: var(--flavor-accent);
+	color: #ffffff;
+}
+
+.flavor-btn--secondary {
+	background: var(--flavor-secondary);
+	color: #ffffff;
+}
+
+.flavor-btn--outline {
+	background: transparent;
+	border: 2px solid var(--flavor-primary);
+	color: var(--flavor-primary);
+}
+
+.flavor-btn--outline:hover {
+	background: var(--flavor-primary);
+	color: #ffffff;
+}
+
+.flavor-btn--outline-light {
+	background: rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.4);
+	color: #ffffff;
+	backdrop-filter: blur(4px);
+}
+
+.flavor-btn--outline-light:hover {
+	background: #ffffff;
+	color: var(--flavor-ink);
+}
+
+.flavor-btn--sm {
+	padding: 8px 16px;
+	font-size: 13px;
+}
+
+.flavor-btn--lg {
+	padding: 16px 32px;
+	font-size: 16px;
+}
+
+.flavor-btn--full {
+	width: 100%;
+}
+
+/* -------------------------------------------------------------
+ * 7. Food Card Component
+ * ------------------------------------------------------------- */
+.flavor-food-card {
 	background: var(--flavor-surface);
 	border: 1px solid var(--flavor-line);
 	border-radius: var(--flavor-radius);
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+	transition: all var(--flavor-transition-normal);
+	box-shadow: var(--flavor-card-shadow);
 }
 
-.flavor-card img {
+.flavor-food-card:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--flavor-shadow-lg);
+}
+
+.flavor-food-card__media {
+	position: relative;
 	aspect-ratio: 3 / 2;
-	object-fit: cover;
-	width: 100%;
+	overflow: hidden;
 	background: #eee;
 }
 
-.flavor-card__body {
-	padding: 12px 14px 16px;
+.flavor-food-card__media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform var(--flavor-transition-slow);
+}
+
+.flavor-food-card:hover .flavor-food-card__media img {
+	transform: scale(1.05);
+}
+
+.flavor-food-card__cat-badge {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	background: rgba(0, 0, 0, 0.7);
+	backdrop-filter: blur(6px);
+	color: #fff;
+	font-size: 11px;
+	font-weight: 600;
+	padding: 3px 10px;
+	border-radius: 999px;
+}
+
+.flavor-food-card__body {
+	padding: 18px 20px 20px;
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
 	flex: 1;
 }
 
-.flavor-card__name {
-	margin: 0;
-	font-size: 1.05rem;
+.flavor-food-card__title {
+	font-size: 1.15rem;
+	font-weight: 700;
+	margin: 0 0 6px;
 }
 
-.flavor-card__meta {
+.flavor-food-card__title a {
+	color: var(--flavor-ink);
+}
+
+.flavor-food-card__desc {
+	font-size: 13px;
 	color: var(--flavor-muted);
-	font-size: 0.85rem;
+	line-height: 1.6;
+	margin: 0 0 14px;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	flex: 1;
 }
 
-.flavor-btn {
-	border: 0;
-	border-radius: 999px;
-	padding: 10px 16px;
-	font: inherit;
-	cursor: pointer;
-}
-
-.flavor-btn--primary {
-	background: var(--flavor-accent);
-	color: #fff;
-}
-
-.flavor-sheet[hidden],
-.flavor-cart[hidden] {
-	display: none;
-}
-
-.flavor-sheet {
-	position: fixed;
-	inset: 0;
-	z-index: 40;
-}
-
-.flavor-sheet__backdrop {
-	position: absolute;
-	inset: 0;
-	background: rgba(20, 14, 10, 0.45);
-}
-
-.flavor-sheet__panel {
-	position: absolute;
-	inset-inline: 0;
-	bottom: 0;
-	background: var(--flavor-surface);
-	border-radius: 20px 20px 0 0;
-	padding: 16px 16px 24px;
-	max-height: 85vh;
-	overflow: auto;
-}
-
-.flavor-cart {
-	position: sticky;
-	bottom: 0;
-	z-index: 25;
-}
-
-.flavor-cart__handle {
-	width: 100%;
-	border: 0;
-	background: var(--flavor-ink);
-	color: #fff;
-	padding: 14px;
-	font: inherit;
+.flavor-food-card__meta {
 	display: flex;
-	justify-content: space-between;
+	align-items: center;
+	gap: 14px;
+	font-size: 12px;
+	color: var(--flavor-muted);
+	margin-bottom: 16px;
+	padding-bottom: 14px;
+	border-bottom: 1px dashed var(--flavor-line);
 }
 
-.flavor-cart__panel {
+.flavor-food-card__meta-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.flavor-food-card__footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.flavor-food-card__price {
+	font-family: var(--flavor-font-heading);
+	font-size: 1.15rem;
+	font-weight: 800;
+	color: var(--flavor-primary);
+}
+
+/* -------------------------------------------------------------
+ * 8. Mobile Bottom Sticky Navigation Bar
+ * ------------------------------------------------------------- */
+.flavor-mobile-bar {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	background: var(--flavor-surface);
 	border-top: 1px solid var(--flavor-line);
-	padding: 12px 16px 20px;
-}
-
-.flavor-menu__status {
-	padding: 0 16px;
-}
-
-.flavor-branch-list {
-	list-style: none;
-	padding: 0;
-}
-
-.flavor-branch-list li {
 	display: flex;
-	justify-content: space-between;
-	padding: 12px 0;
-	border-bottom: 1px solid var(--flavor-line);
-}
-
-.flavor-card.is-unavailable {
-	opacity: 0.55;
-}
-
-.flavor-badge {
-	display: inline-block;
-	background: #888;
-	color: #fff;
-	font-size: 0.7rem;
-	padding: 1px 6px;
-	border-radius: 999px;
-	vertical-align: middle;
-}
-
-.flavor-modes {
-	display: flex;
-	gap: 6px;
-	margin-bottom: 10px;
-}
-
-.flavor-modes button {
-	flex: 1;
-	border: 1px solid var(--flavor-line);
-	background: var(--flavor-surface);
-	border-radius: 999px;
-	padding: 8px;
-	font: inherit;
-	cursor: pointer;
-}
-
-.flavor-modes button.is-active {
-	background: var(--flavor-olive);
-	color: #fff;
-	border-color: var(--flavor-olive);
-}
-
-.flavor-checkout label,
-.flavor-sheet__panel fieldset {
-	display: block;
-	margin: 8px 0;
-}
-
-.flavor-checkout input[type="text"],
-.flavor-checkout input[type="tel"],
-.flavor-checkout select {
-	width: 100%;
-	padding: 8px;
-	border: 1px solid var(--flavor-line);
-	border-radius: 8px;
-	font: inherit;
-}
-
-.flavor-qty {
-	display: flex;
+	justify-content: space-around;
 	align-items: center;
-	gap: 12px;
-	margin: 12px 0;
+	padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+	z-index: 90;
+	box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.flavor-line {
+@media (min-width: 992px) {
+	.flavor-mobile-bar {
+		display: none;
+	}
+}
+
+.flavor-mobile-bar__item {
 	display: flex;
-	justify-content: space-between;
-	gap: 8px;
-	padding: 8px 0;
-	border-bottom: 1px solid var(--flavor-line);
-}
-
-.flavor-checkout__err {
-	color: #a00;
-}
-
-.flavor-sheet__panel fieldset label {
-	display: block;
-	font-weight: 400;
-}
-
-.flavor-cal__nav {
-	display: flex;
+	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
-	margin: 12px 0;
-}
-
-.flavor-cal__week,
-.flavor-cal__grid {
-	display: grid;
-	grid-template-columns: repeat(7, 1fr);
-	gap: 4px;
-	text-align: center;
-}
-
-.flavor-cal__week {
-	font-size: 0.8rem;
+	gap: 3px;
 	color: var(--flavor-muted);
-}
-
-.flavor-cal__day,
-.flavor-slot {
-	border: 1px solid var(--flavor-line);
-	background: var(--flavor-surface);
-	border-radius: 8px;
-	padding: 8px 4px;
-	font: inherit;
+	font-size: 11px;
+	font-weight: 600;
+	background: transparent;
+	border: 0;
 	cursor: pointer;
+	padding: 4px 10px;
 }
 
-.flavor-cal__day.is-past,
-.flavor-slot.is-off {
-	opacity: 0.35;
-	cursor: not-allowed;
+.flavor-mobile-bar__item.is-active,
+.flavor-mobile-bar__item:hover {
+	color: var(--flavor-primary);
 }
 
-.flavor-cal__day.is-active,
-.flavor-slot.is-active {
-	background: var(--flavor-olive);
+.flavor-mobile-bar__cart-icon {
+	position: relative;
+}
+
+.flavor-cart-badge {
+	position: absolute;
+	top: -4px;
+	right: -8px;
+	background: var(--flavor-accent);
 	color: #fff;
-	border-color: var(--flavor-olive);
-}
-
-.flavor-slots {
+	font-size: 10px;
+	font-weight: 800;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
 	display: flex;
-	flex-wrap: wrap;
-	gap: 6px;
-	margin: 12px 0;
+	align-items: center;
+	justify-content: center;
 }
 
-@media (min-width: 900px) {
-	.flavor-sheet__panel {
-		inset-inline: auto;
-		inset-block: 0;
-		right: 0;
-		left: auto;
-		width: 420px;
-		border-radius: 20px 0 0 20px;
-		max-height: none;
+/* -------------------------------------------------------------
+ * 9. Micro-Animations & Keyframes
+ * ------------------------------------------------------------- */
+@keyframes flavorFadeIn {
+	from { opacity: 0; transform: translateY(10px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes flavorBounce {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(1.15); }
+}
+
+@keyframes flavorPulse {
+	0% { box-shadow: 0 0 0 0 rgba(var(--flavor-primary-rgb), 0.5); }
+	70% { box-shadow: 0 0 0 10px rgba(var(--flavor-primary-rgb), 0); }
+	100% { box-shadow: 0 0 0 0 rgba(var(--flavor-primary-rgb), 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
 	}
 }
