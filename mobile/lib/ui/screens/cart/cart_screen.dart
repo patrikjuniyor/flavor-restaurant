@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../../../config/routes.dart';
 import '../../../core/utils/currency_formatter.dart';
 import '../../../core/utils/persian_number.dart';
-import '../../../state/auth_state.dart';
 import '../../../state/cart_state.dart';
 import '../../common/empty_state.dart';
 import '../../common/flavor_button.dart';
