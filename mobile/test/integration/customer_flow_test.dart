@@ -46,7 +46,7 @@ void main() {
           );
         }
 
-        if (path.contains('/menu/categories')) {
+        if (path.contains('categories')) {
           return http.Response(
             jsonEncode({
               'success': true,
