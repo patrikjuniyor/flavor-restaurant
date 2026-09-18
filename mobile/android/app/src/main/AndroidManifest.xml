@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
-        android:label="چلوکبابی نایب زعفرانیه"
+        android:label="Flavor Restaurant"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true">

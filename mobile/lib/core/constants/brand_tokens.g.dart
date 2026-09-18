@@ -4,17 +4,17 @@
 import 'package:flutter/material.dart';
 
 abstract class BrandTokens {
-  static const String appName = 'چلوکبابی نایب زعفرانیه';
-  static const String tenantId = 'nayeb_zaferanieh';
-  static const String apiBaseUrl = 'https://nayeb.restaurant.ir/wp-json/flavor/v2';
-  static const int defaultBranchId = 11;
+  static const String appName = 'Flavor Restaurant';
+  static const String tenantId = 'default_tenant';
+  static const String apiBaseUrl = 'https://restaurant.example.com/wp-json/flavor/v2';
+  static const int defaultBranchId = 0;
 
-  static const Color primaryColor = Color(0xFF1B5E20);
-  static const Color secondaryColor = Color(0xFFB71C1C);
+  static const Color primaryColor = Color(0xFFC62828);
+  static const Color secondaryColor = Color(0xFF2E7D32);
   static const Color accentColor = Color(0xFFFFA000);
 
-  static const String supportPhone = '021-22000001';
-  static const String supportEmail = 'info@nayeb.restaurant.ir';
+  static const String supportPhone = '021-88888888';
+  static const String supportEmail = 'support@flavor.restaurant';
   static const String privacyPolicyUrl = '';
   static const String termsUrl = '';
 }

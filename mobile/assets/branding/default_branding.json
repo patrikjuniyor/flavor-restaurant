@@ -1,0 +1,16 @@
+{
+  "app_name": "Flavor Restaurant",
+  "package_name": "com.flavor.restaurant",
+  "version_name": "1.0.0",
+  "version_code": 1,
+  "tenant_id": "default_tenant",
+  "api_base_url": "https://restaurant.example.com/wp-json/flavor/v2",
+  "default_branch_id": 0,
+  "primary_color": "#C62828",
+  "secondary_color": "#2E7D32",
+  "accent_color": "#FFA000",
+  "support_phone": "021-88888888",
+  "support_email": "support@flavor.restaurant",
+  "privacy_policy_url": "",
+  "terms_url": ""
+}
