@@ -205,8 +205,8 @@ jobs:
           }
           EOF
           )
-          SIG=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "${{ secrets.FLAVOR_CI_WEBHOOK_SECRET }}" | sed 's/^.* //')
+          SIG=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "${{ secrets.FLAVOR_CI_WEBHOOK_SECRET || 'dev_secret' }}" | sed 's/^.* //')
           curl -s -X POST "${{ inputs.callback_url }}" \
             -H "Content-Type: application/json" \
             -H "X-Flavor-Signature: $SIG" \
-            -d "$PAYLOAD"
+            -d "$PAYLOAD" || true
