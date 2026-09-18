@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../core/navigation/deep_link_service.dart';
 import '../ui/screens/splash_screen.dart';
 import '../ui/screens/auth/otp_request_screen.dart';
 import '../ui/screens/auth/otp_verify_screen.dart';
@@ -19,7 +20,7 @@ import '../ui/screens/profile/favorites_screen.dart';
 import '../ui/screens/restaurant/restaurant_info_screen.dart';
 import '../ui/screens/notifications/notifications_screen.dart';
 
-/// App Route names and Deep Link resolver.
+/// App Route names, Route Generator, and Deep Link Parser.
 class AppRoutes {
   static const String splash = '/';
   static const String home = '/home';
@@ -41,94 +42,100 @@ class AppRoutes {
   static const String restaurantInfo = '/restaurant-info';
   static const String notifications = '/notifications';
 
+  /// Generates typed MaterialPageRoute for all application views.
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    final uri = Uri.parse(settings.name ?? '/');
+    final rawName = settings.name ?? '/';
+    final destination = DeepLinkService.instance.parseUri(rawName);
 
-    // Handle deep links like /product/123 or /order/123
-    if (uri.pathSegments.isNotEmpty) {
-      if (uri.pathSegments.first == 'product' || uri.pathSegments.first == 'dish') {
-        final dishId = int.tryParse(uri.pathSegments.length > 1 ? uri.pathSegments[1] : '') ?? 0;
-        return MaterialPageRoute(
-          builder: (_) => DishDetailScreen(dishId: dishId),
-          settings: settings,
-        );
-      }
-      if (uri.pathSegments.first == 'order') {
-        final orderId = int.tryParse(uri.pathSegments.length > 1 ? uri.pathSegments[1] : '') ?? 0;
-        return MaterialPageRoute(
-          builder: (_) => OrderTrackingScreen(orderId: orderId),
-          settings: settings,
-        );
-      }
-    }
+    final routeName = destination?.route ?? rawName;
+    final routeArgs = destination?.args ?? settings.arguments;
 
-    switch (settings.name) {
+    switch (routeName) {
       case splash:
-        return MaterialPageRoute(builder: (_) => const SplashScreen());
+        return MaterialPageRoute(builder: (_) => const SplashScreen(), settings: settings);
+
       case home:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        return MaterialPageRoute(builder: (_) => const HomeScreen(), settings: settings);
+
       case login:
-        return MaterialPageRoute(builder: (_) => const OtpRequestScreen());
+        return MaterialPageRoute(builder: (_) => const OtpRequestScreen(), settings: settings);
+
       case otpVerify:
-        final mobile = settings.arguments as String? ?? '';
-        return MaterialPageRoute(builder: (_) => OtpVerifyScreen(mobile: mobile));
+        final mobile = routeArgs as String? ?? '';
+        return MaterialPageRoute(builder: (_) => OtpVerifyScreen(mobile: mobile), settings: settings);
+
       case menu:
-        final catId = settings.arguments as int? ?? 0;
-        return MaterialPageRoute(builder: (_) => MenuScreen(initialCategoryId: catId));
+        int catId = 0;
+        if (routeArgs is int) {
+          catId = routeArgs;
+        } else if (routeArgs is Map && routeArgs['category_id'] != null) {
+          catId = int.tryParse(routeArgs['category_id'].toString()) ?? 0;
+        }
+        return MaterialPageRoute(builder: (_) => MenuScreen(initialCategoryId: catId), settings: settings);
+
       case dishDetail:
-        final dishId = settings.arguments as int? ?? 0;
-        return MaterialPageRoute(builder: (_) => DishDetailScreen(dishId: dishId));
+        final dishId = (routeArgs is int) ? routeArgs : (int.tryParse(routeArgs?.toString() ?? '') ?? 0);
+        return MaterialPageRoute(builder: (_) => DishDetailScreen(dishId: dishId), settings: settings);
+
       case search:
-        return MaterialPageRoute(builder: (_) => const SearchScreen());
+        return MaterialPageRoute(builder: (_) => const SearchScreen(), settings: settings);
+
       case cart:
-        return MaterialPageRoute(builder: (_) => const CartScreen());
+        return MaterialPageRoute(builder: (_) => const CartScreen(), settings: settings);
+
       case checkout:
-        return MaterialPageRoute(builder: (_) => const CheckoutScreen());
+        return MaterialPageRoute(builder: (_) => const CheckoutScreen(), settings: settings);
+
       case orders:
-        return MaterialPageRoute(builder: (_) => const OrdersScreen());
+        return MaterialPageRoute(builder: (_) => const OrdersScreen(), settings: settings);
+
       case orderTracking:
-        final orderId = settings.arguments as int? ?? 0;
-        return MaterialPageRoute(builder: (_) => OrderTrackingScreen(orderId: orderId));
+        int orderId = 0;
+        String? guestToken;
+        if (routeArgs is int) {
+          orderId = routeArgs;
+        } else if (routeArgs is Map) {
+          orderId = int.tryParse(routeArgs['order_id']?.toString() ?? '') ?? 0;
+          guestToken = routeArgs['guest_token']?.toString();
+        }
+        return MaterialPageRoute(
+          builder: (_) => OrderTrackingScreen(orderId: orderId, guestToken: guestToken),
+          settings: settings,
+        );
+
       case reservation:
-        return MaterialPageRoute(builder: (_) => const ReservationScreen());
+        return MaterialPageRoute(builder: (_) => const ReservationScreen(), settings: settings);
+
       case reservationHistory:
-        return MaterialPageRoute(builder: (_) => const ReservationHistoryScreen());
+        return MaterialPageRoute(builder: (_) => const ReservationHistoryScreen(), settings: settings);
+
       case profile:
-        return MaterialPageRoute(builder: (_) => const ProfileScreen());
+        return MaterialPageRoute(builder: (_) => const ProfileScreen(), settings: settings);
+
       case editProfile:
-        return MaterialPageRoute(builder: (_) => const EditProfileScreen());
+        return MaterialPageRoute(builder: (_) => const EditProfileScreen(), settings: settings);
+
       case addresses:
-        return MaterialPageRoute(builder: (_) => const AddressesScreen());
+        return MaterialPageRoute(builder: (_) => const AddressesScreen(), settings: settings);
+
       case favorites:
-        return MaterialPageRoute(builder: (_) => const FavoritesScreen());
+        return MaterialPageRoute(builder: (_) => const FavoritesScreen(), settings: settings);
+
       case restaurantInfo:
-        return MaterialPageRoute(builder: (_) => const RestaurantInfoScreen());
+        return MaterialPageRoute(builder: (_) => const RestaurantInfoScreen(), settings: settings);
+
       case notifications:
-        return MaterialPageRoute(builder: (_) => const NotificationsScreen());
+        return MaterialPageRoute(builder: (_) => const NotificationsScreen(), settings: settings);
+
       default:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        return MaterialPageRoute(builder: (_) => const HomeScreen(), settings: settings);
     }
   }
 
-  /// Parses external deep link into route name and arguments.
+  /// Parses deep link (backward compatible helper).
   static Map<String, dynamic>? parseDeepLink(String url) {
-    try {
-      final uri = Uri.parse(url);
-      if (uri.path.contains('/menu')) {
-        return {'route': menu, 'args': null};
-      }
-      if (uri.path.contains('/product/') || uri.path.contains('/dish/')) {
-        final id = int.tryParse(uri.pathSegments.last) ?? 0;
-        return {'route': dishDetail, 'args': id};
-      }
-      if (uri.path.contains('/order/')) {
-        final id = int.tryParse(uri.pathSegments.last) ?? 0;
-        return {'route': orderTracking, 'args': id};
-      }
-      if (uri.path.contains('/reservation')) {
-        return {'route': reservation, 'args': null};
-      }
-    } catch (_) {}
-    return null;
+    final dest = DeepLinkService.instance.parseUri(url);
+    if (dest == null) return null;
+    return {'route': dest.route, 'args': dest.args, 'requiresAuth': dest.requiresAuth};
   }
 }

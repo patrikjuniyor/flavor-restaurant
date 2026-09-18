@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../core/navigation/deep_link_service.dart';
 import '../models/user_model.dart';
 import '../repositories/auth_repository.dart';
 
@@ -68,6 +69,10 @@ class AuthProvider extends ChangeNotifier {
       _user = await _authRepo.verifyOtp(mobile, code, name: name);
       _timer?.cancel();
       _countdown = 0;
+
+      // Resume pending deep link destination if unauthenticated redirection occurred
+      DeepLinkService.instance.resumePendingDestination();
+
       return true;
     } catch (e) {
       _errorMessage = e.toString();

@@ -1,6 +1,7 @@
 <?php
 /**
  * Book / confirm reservations and fire SMS.
+ * Secures guest reservations with cryptographic ownership tokens.
  *
  * @package FlavorCore
  */
@@ -9,6 +10,7 @@ namespace FlavorCore\Reservation;
 
 use FlavorCore\Customer\OtpAuth;
 use FlavorCore\SMS\SmsManager;
+use FlavorCore\Support\GuestToken;
 use FlavorCore\Support\Iran;
 use FlavorCore\Support\Jalali;
 
@@ -66,8 +68,10 @@ class ReservationService {
 			}
 		}
 
-		$status = in_array( $source, array( 'walk_in', 'phone' ), true ) ? 'confirmed' : 'pending';
-		$id     = ReservationRepository::create(
+		$guest_token = GuestToken::generate();
+		$status      = in_array( $source, array( 'walk_in', 'phone' ), true ) ? 'confirmed' : 'pending';
+
+		$id = ReservationRepository::create(
 			array(
 				'branch_id'        => $branch_id,
 				'section'          => $section,
@@ -77,6 +81,7 @@ class ReservationService {
 				'customer_id'      => $user_id ?: null,
 				'customer_name'    => $name,
 				'customer_mobile'  => $mobile,
+				'guest_token'      => $guest_token,
 				'status'           => $status,
 				'special_requests' => (string) ( $payload['requests'] ?? '' ),
 				'source'           => $source ?: 'online',
@@ -95,6 +100,7 @@ class ReservationService {
 			'ok'           => true,
 			'id'           => $id,
 			'status'       => $status,
+			'guest_token'  => $guest_token,
 			'date'         => $date,
 			'jalali'       => $row['jalali'] ?? Jalali::parse_gregorian( $date ),
 			'jalali_label' => $row['jalali_label'] ?? Jalali::format( $date, true ),

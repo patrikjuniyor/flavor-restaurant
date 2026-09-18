@@ -23,7 +23,7 @@ class PersianText {
 	 *
 	 * @var array<string, string>
 	 */
-	private const FOLD = array(
+	public const FOLD = array(
 		// Arabic yeh/kaf → Persian.
 		'ي' => 'ی',
 		'ى' => 'ی',
@@ -66,7 +66,7 @@ class PersianText {
 	 *
 	 * @var array<string, string>
 	 */
-	private const DIGITS = array(
+	public const DIGITS = array(
 		'۰' => '0',
 		'۱' => '1',
 		'۲' => '2',
@@ -94,7 +94,7 @@ class PersianText {
 	 *
 	 * @var string[]
 	 */
-	private const STOP_WORDS = array(
+	public const STOP_WORDS = array(
 		'و', 'با', 'بی', 'در', 'از', 'به', 'یک', 'the', 'a', 'of',
 		'می', 'خواهم', 'میخوام', 'میخواهم', 'برای', 'را', 'رو', 'هم',
 	);

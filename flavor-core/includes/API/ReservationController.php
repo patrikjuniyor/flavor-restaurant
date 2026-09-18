@@ -2,20 +2,24 @@
 /**
  * REST API: Reservations controller for Mobile & Web clients.
  * Handles table reservation slots calculation, Jalali calendar grids,
- * customer booking submissions, and reservation cancellation.
+ * customer booking submissions, details retrieval, and reservation cancellation.
+ * Fully secured against IDOR with Cryptographic Guest Tokens and Branch Staff Isolation.
  *
  * @package FlavorCore
  */
 
 namespace FlavorCore\API;
 
+use FlavorCore\Customer\OtpAuth;
 use FlavorCore\PostTypes\BranchPostType;
 use FlavorCore\Reservation\ReservationRepository;
 use FlavorCore\Reservation\ReservationService;
 use FlavorCore\Reservation\SlotCalculator;
+use FlavorCore\Support\GuestToken;
 use FlavorCore\Support\Iran;
 use FlavorCore\Support\Jalali;
 use FlavorCore\Support\RateLimit;
+use FlavorCore\Support\Roles;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -25,10 +29,12 @@ defined( 'ABSPATH' ) || exit;
 class ReservationController extends BaseApiController {
 
 	/**
-	 * Register reservation routes.
+	 * Register reservation routes for a namespace.
+	 *
+	 * @param string|null $namespace Namespace override (defaults to V1).
 	 */
-	public function register(): void {
-		$ns = FLAVOR_CORE_REST_NAMESPACE;
+	public function register( ?string $namespace = null ): void {
+		$ns = $namespace ?: FLAVOR_CORE_REST_NAMESPACE;
 
 		register_rest_route(
 			$ns,
@@ -107,6 +113,16 @@ class ReservationController extends BaseApiController {
 
 		register_rest_route(
 			$ns,
+			'/reservations/(?P<id>\d+)',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_reservation' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+
+		register_rest_route(
+			$ns,
 			'/reservations/(?P<id>\d+)/cancel',
 			array(
 				'methods'             => 'POST',
@@ -143,12 +159,12 @@ class ReservationController extends BaseApiController {
 
 		return $this->respond_success(
 			array(
-				'year'     => $jy,
-				'month'    => $jm,
+				'year'       => $jy,
+				'month'      => $jm,
 				'month_name' => Jalali::MONTHS[ $jm ] ?? '',
-				'today'    => $today,
-				'days'     => $days,
-				'weekdays' => array_values( Jalali::WEEKDAYS ),
+				'today'      => $today,
+				'days'       => $days,
+				'weekdays'   => array_values( Jalali::WEEKDAYS ),
 			),
 			array(),
 			200,
@@ -212,12 +228,39 @@ class ReservationController extends BaseApiController {
 			return $this->respond_error( $res->get_error_code(), $res->get_error_message(), (int) ( $res->get_error_data()['status'] ?? 400 ) );
 		}
 
+		$headers = array( 'Cache-Control' => 'no-store' );
+		if ( ! empty( $res['guest_token'] ) ) {
+			$headers['X-Guest-Token'] = (string) $res['guest_token'];
+		}
+
 		return $this->respond_success(
 			$res,
 			array( 'message' => __( 'درخواست رزرو میز شما با موفقیت ثبت شد.', 'flavor-core' ) ),
 			201,
-			array( 'Cache-Control' => 'no-store' )
+			$headers
 		);
+	}
+
+	/**
+	 * GET /reservations/{id} (Single reservation lookup)
+	 *
+	 * @param \WP_REST_Request $request Request.
+	 * @return \WP_REST_Response
+	 */
+	public function get_reservation( \WP_REST_Request $request ): \WP_REST_Response {
+		$id  = (int) $request->get_param( 'id' );
+		$row = ReservationRepository::find( $id );
+
+		if ( ! $row ) {
+			return $this->respond_error( 'reservation_not_found', __( 'رزرو مورد نظر پیدا نشد.', 'flavor-core' ), 404 );
+		}
+
+		$auth_error = $this->guard_reservation_access( $row, $request );
+		if ( is_wp_error( $auth_error ) ) {
+			return $this->respond_error( $auth_error->get_error_code(), $auth_error->get_error_message(), (int) ( $auth_error->get_error_data()['status'] ?? 403 ) );
+		}
+
+		return $this->respond_success( $row );
 	}
 
 	/**
@@ -271,11 +314,13 @@ class ReservationController extends BaseApiController {
 			return $this->respond_error( 'reservation_not_found', __( 'رزرو مورد نظر پیدا نشد.', 'flavor-core' ), 404 );
 		}
 
-		$user = $this->resolve_user( $request );
-		if ( ! current_user_can( 'manage_options' ) ) {
-			if ( $user && ! empty( $row['customer_id'] ) && (int) $user->ID !== (int) $row['customer_id'] ) {
-				return $this->respond_error( 'forbidden', __( 'دسترسی به این رزرو مجاز نیست.', 'flavor-core' ), 403 );
-			}
+		if ( 'cancelled' === $row['status'] ) {
+			return $this->respond_success( array( 'cancelled' => true, 'message' => __( 'رزرو قبلاً لغو شده است.', 'flavor-core' ) ) );
+		}
+
+		$auth_error = $this->guard_reservation_access( $row, $request );
+		if ( is_wp_error( $auth_error ) ) {
+			return $this->respond_error( $auth_error->get_error_code(), $auth_error->get_error_message(), (int) ( $auth_error->get_error_data()['status'] ?? 403 ) );
 		}
 
 		ReservationRepository::set_status( $id, 'cancelled' );
@@ -296,9 +341,74 @@ class ReservationController extends BaseApiController {
 		}
 
 		$branch = (int) $request->get_param( 'branch_id' );
-		$date   = sanitize_text_field( (string) $request->get_param( 'date' ) ) ?: current_time( 'Y-m-d' );
+		if ( $branch > 0 ) {
+			$branch_perm = $this->require_branch_access( $request, $branch );
+			if ( is_wp_error( $branch_perm ) ) {
+				return $this->respond_error( $branch_perm->get_error_code(), $branch_perm->get_error_message(), 403 );
+			}
+		}
 
+		$date = sanitize_text_field( (string) $request->get_param( 'date' ) ) ?: current_time( 'Y-m-d' );
 		$rows = ReservationRepository::for_date( $branch, $date, false );
+
 		return $this->respond_success( $rows );
+	}
+
+	/**
+	 * Guard reservation access against IDOR vulnerability.
+	 *
+	 * @param array<string, mixed> $row     Reservation row.
+	 * @param \WP_REST_Request     $request REST Request.
+	 * @return true|\WP_Error
+	 */
+	public function guard_reservation_access( array $row, \WP_REST_Request $request ) {
+		// 1. Admin or Staff with reservation management
+		if ( current_user_can( 'manage_options' ) ) {
+			return true;
+		}
+
+		$user      = $this->resolve_user( $request );
+		$branch_id = (int) ( $row['branch_id'] ?? 0 );
+
+		if ( $user && user_can( $user, 'flavor_manage_reservations' ) ) {
+			if ( Roles::can_access_branch( $user->ID, $branch_id ) ) {
+				return true;
+			}
+		}
+
+		// 2. Authenticated customer ownership (User ID or phone)
+		if ( $user && ! empty( $row['customer_id'] ) && (int) $user->ID === (int) $row['customer_id'] ) {
+			return true;
+		}
+		if ( $user && ! empty( $row['customer_mobile'] ) ) {
+			$user_mobile = (string) get_user_meta( $user->ID, OtpAuth::META_MOBILE, true );
+			if ( ! empty( $user_mobile ) && Iran::normalize_mobile( $user_mobile ) === Iran::normalize_mobile( (string) $row['customer_mobile'] ) ) {
+				return true;
+			}
+		}
+
+		// 3. Guest Ownership Token
+		$stored_guest_token = (string) ( $row['guest_token'] ?? '' );
+		$req_guest_token    = GuestToken::extract_from_request( $request );
+
+		if ( ! empty( $stored_guest_token ) && ! empty( $req_guest_token ) ) {
+			if ( GuestToken::verify( $stored_guest_token, $req_guest_token ) ) {
+				return true;
+			}
+		}
+
+		if ( ! $user && empty( $req_guest_token ) ) {
+			return new \WP_Error(
+				'unauthorized',
+				__( 'برای مشاهده یا مدیریت این رزرو باید وارد شوید یا توکن مهمان ارسال کنید.', 'flavor-core' ),
+				array( 'status' => 401 )
+			);
+		}
+
+		return new \WP_Error(
+			'forbidden',
+			__( 'دسترسی به این رزرو برای شما مجاز نیست.', 'flavor-core' ),
+			array( 'status' => 403 )
+		);
 	}
 }

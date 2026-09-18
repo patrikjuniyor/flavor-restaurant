@@ -40,6 +40,17 @@ class AppConfig {
     bool enableLogging = false,
     Duration apiTimeout = const Duration(seconds: 25),
   }) {
+    // Fail-safe security check: Production builds MUST use secure HTTPS and cannot point to localhost
+    if (environment == FlavorEnvironment.prod) {
+      final uri = Uri.tryParse(apiBaseUrl);
+      if (uri == null || uri.scheme != 'https' || uri.host == 'localhost' || uri.host == '127.0.0.1') {
+        throw StateError(
+          'Security Violation: Production environment requires a valid HTTPS API Base URL. '
+          'Received: "$apiBaseUrl". Cleartext HTTP and localhost are prohibited in release/prod.',
+        );
+      }
+    }
+
     _instance = AppConfig._(
       environment: environment,
       appName: appName,

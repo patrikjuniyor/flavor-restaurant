@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/core/api/api_client.dart';
-import '../../lib/core/storage/secure_storage_service.dart';
-import '../../lib/models/dish_model.dart';
-import '../../lib/repositories/auth_repository.dart';
-import '../../lib/repositories/cart_repository.dart';
-import '../../lib/repositories/menu_repository.dart';
-import '../../lib/repositories/order_repository.dart';
+import 'package:flavor_mobile/core/api/api_client.dart';
+import 'package:flavor_mobile/core/storage/secure_storage_service.dart';
+import 'package:flavor_mobile/models/dish_model.dart';
+import 'package:flavor_mobile/repositories/auth_repository.dart';
+import 'package:flavor_mobile/repositories/cart_repository.dart';
+import 'package:flavor_mobile/repositories/menu_repository.dart';
+import 'package:flavor_mobile/repositories/order_repository.dart';
 
 void main() {
   group('Full Customer Journey Integration Test Flow', () {

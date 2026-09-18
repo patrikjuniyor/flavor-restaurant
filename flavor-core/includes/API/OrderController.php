@@ -2,6 +2,7 @@
 /**
  * REST API: Orders controller for Mobile & Web clients.
  * Supports order placement, order history, live tracking, reordering, and cancellations.
+ * Fully secured against IDOR with Cryptographic Guest Tokens and Phone Verification.
  *
  * @package FlavorCore
  */
@@ -10,9 +11,12 @@ namespace FlavorCore\API;
 
 use FlavorCore\Customer\OtpAuth;
 use FlavorCore\Order\KitchenTicketRepository;
+use FlavorCore\Support\GuestToken;
 use FlavorCore\Support\Iran;
 use FlavorCore\Support\Jalali;
+use FlavorCore\Support\Roles;
 use FlavorCore\WooCommerce\CartSession;
+use FlavorCore\WooCommerce\CartTokenService;
 use FlavorCore\WooCommerce\CheckoutService;
 use FlavorCore\WooCommerce\Currency;
 
@@ -24,10 +28,12 @@ defined( 'ABSPATH' ) || exit;
 class OrderController extends BaseApiController {
 
 	/**
-	 * Register order routes.
+	 * Register order routes for a namespace.
+	 *
+	 * @param string|null $namespace Namespace override (defaults to V1).
 	 */
-	public function register(): void {
-		$ns = FLAVOR_CORE_REST_NAMESPACE;
+	public function register( ?string $namespace = null ): void {
+		$ns = $namespace ?: FLAVOR_CORE_REST_NAMESPACE;
 
 		register_rest_route(
 			$ns,
@@ -107,6 +113,12 @@ class OrderController extends BaseApiController {
 		$user = $this->resolve_user( $request );
 		$body = $request->get_json_params() ?: array();
 
+		// Attach Cart Token if provided
+		$cart_token = CartTokenService::extract_token( $request );
+		if ( ! empty( $cart_token ) && empty( $body['cart_token'] ) ) {
+			$body['cart_token'] = $cart_token;
+		}
+
 		if ( $user && empty( $body['mobile'] ) ) {
 			$body['mobile'] = (string) get_user_meta( $user->ID, OtpAuth::META_MOBILE, true );
 		}
@@ -119,11 +131,16 @@ class OrderController extends BaseApiController {
 			return $this->respond_error( $out->get_error_code(), $out->get_error_message(), (int) ( $out->get_error_data()['status'] ?? 400 ) );
 		}
 
+		$headers = array( 'Cache-Control' => 'no-store' );
+		if ( ! empty( $out['guest_token'] ) ) {
+			$headers['X-Guest-Token'] = (string) $out['guest_token'];
+		}
+
 		return $this->respond_success(
 			$out,
 			array( 'message' => __( 'سفارش با موفقیت ثبت شد.', 'flavor-core' ) ),
 			201,
-			array( 'Cache-Control' => 'no-store' )
+			$headers
 		);
 	}
 
@@ -181,15 +198,9 @@ class OrderController extends BaseApiController {
 			return $this->respond_error( 'order_not_found', __( 'سفارش مورد نظر یافت نشد.', 'flavor-core' ), 404 );
 		}
 
-		$user = $this->resolve_user( $request );
-		$order_user_id = $order->get_customer_id();
-		$order_mobile  = (string) $order->get_meta( '_flavor_mobile' );
-
-		// Permission check: owner or admin or matching phone
-		if ( ! current_user_can( 'manage_options' ) ) {
-			if ( $user && $order_user_id && (int) $user->ID !== (int) $order_user_id ) {
-				return $this->respond_error( 'forbidden', __( 'دسترسی به این سفارش مجاز نیست.', 'flavor-core' ), 403 );
-			}
+		$auth_error = $this->guard_order_access( $order, $request );
+		if ( is_wp_error( $auth_error ) ) {
+			return $this->respond_error( $auth_error->get_error_code(), $auth_error->get_error_message(), (int) ( $auth_error->get_error_data()['status'] ?? 403 ) );
 		}
 
 		$detail = $this->format_order_detail( $order );
@@ -208,6 +219,11 @@ class OrderController extends BaseApiController {
 
 		if ( ! $order ) {
 			return $this->respond_error( 'order_not_found', __( 'سفارش مورد نظر یافت نشد.', 'flavor-core' ), 404 );
+		}
+
+		$auth_error = $this->guard_order_access( $order, $request );
+		if ( is_wp_error( $auth_error ) ) {
+			return $this->respond_error( $auth_error->get_error_code(), $auth_error->get_error_message(), (int) ( $auth_error->get_error_data()['status'] ?? 403 ) );
 		}
 
 		$ticket = KitchenTicketRepository::find_by_order( $id );
@@ -273,6 +289,11 @@ class OrderController extends BaseApiController {
 			return $this->respond_error( 'order_not_found', __( 'سفارش مورد نظر یافت نشد.', 'flavor-core' ), 404 );
 		}
 
+		$auth_error = $this->guard_order_access( $order, $request );
+		if ( is_wp_error( $auth_error ) ) {
+			return $this->respond_error( $auth_error->get_error_code(), $auth_error->get_error_message(), (int) ( $auth_error->get_error_data()['status'] ?? 403 ) );
+		}
+
 		$ticket = KitchenTicketRepository::find_by_order( $id );
 		if ( $ticket && in_array( $ticket['kitchen_status'], array( 'preparing', 'ready', 'completed' ), true ) ) {
 			return $this->respond_error( 'cannot_cancel', __( 'سفارش در حال آماده‌سازی یا تحویل است و امکان لغو آن وجود ندارد.', 'flavor-core' ), 400 );
@@ -298,6 +319,11 @@ class OrderController extends BaseApiController {
 
 		if ( ! $order ) {
 			return $this->respond_error( 'order_not_found', __( 'سفارش مورد نظر یافت نشد.', 'flavor-core' ), 404 );
+		}
+
+		$auth_error = $this->guard_order_access( $order, $request );
+		if ( is_wp_error( $auth_error ) ) {
+			return $this->respond_error( $auth_error->get_error_code(), $auth_error->get_error_message(), (int) ( $auth_error->get_error_data()['status'] ?? 403 ) );
 		}
 
 		$this->resolve_user( $request );
@@ -328,6 +354,11 @@ class OrderController extends BaseApiController {
 			}
 		}
 
+		$cart_token = CartTokenService::extract_token( $request );
+		if ( ! empty( $cart_token ) ) {
+			CartTokenService::sync_session_to_database( $cart_token, (int) $order->get_meta( '_flavor_branch_id' ) );
+		}
+
 		return $this->respond_success(
 			array(
 				'added_items' => $added_count,
@@ -338,14 +369,77 @@ class OrderController extends BaseApiController {
 	}
 
 	/**
+	 * Guard order access against IDOR vulnerability.
+	 *
+	 * @param \WC_Order        $order   WooCommerce Order.
+	 * @param \WP_REST_Request $request Request.
+	 * @return true|\WP_Error
+	 */
+	public function guard_order_access( \WC_Order $order, \WP_REST_Request $request ) {
+		// 1. Administrators and Store Managers have full access
+		if ( current_user_can( 'manage_options' ) ) {
+			return true;
+		}
+
+		$user          = $this->resolve_user( $request );
+		$order_user_id = (int) $order->get_customer_id();
+		$order_branch  = (int) $order->get_meta( '_flavor_branch_id' );
+		$order_mobile  = (string) $order->get_meta( '_flavor_mobile' );
+
+		// 2. Staff roles with branch isolation
+		if ( $user && ( user_can( $user, 'flavor_manage_kitchen' ) || user_can( $user, 'flavor_manage_branch' ) ) ) {
+			if ( Roles::can_access_branch( $user->ID, $order_branch ) ) {
+				return true;
+			}
+		}
+
+		// 3. Authenticated customer ownership (User ID or Verified Phone)
+		if ( $user && $order_user_id > 0 && (int) $user->ID === $order_user_id ) {
+			return true;
+		}
+		if ( $user && ! empty( $order_mobile ) ) {
+			$user_mobile = (string) get_user_meta( $user->ID, OtpAuth::META_MOBILE, true );
+			if ( ! empty( $user_mobile ) && Iran::normalize_mobile( $user_mobile ) === Iran::normalize_mobile( $order_mobile ) ) {
+				return true;
+			}
+		}
+
+		// 4. Guest Token Validation
+		$stored_guest_token = (string) $order->get_meta( GuestToken::META_GUEST_TOKEN );
+		$req_guest_token    = GuestToken::extract_from_request( $request );
+
+		if ( ! empty( $stored_guest_token ) && ! empty( $req_guest_token ) ) {
+			if ( GuestToken::verify( $stored_guest_token, $req_guest_token ) ) {
+				return true;
+			}
+		}
+
+		// If user is guest and no token provided -> 401 Unauthorized
+		if ( ! $user && empty( $req_guest_token ) ) {
+			return new \WP_Error(
+				'unauthorized',
+				__( 'برای مشاهده یا پیگیری این سفارش باید وارد شوید یا توکن مهمان ارسال کنید.', 'flavor-core' ),
+				array( 'status' => 401 )
+			);
+		}
+
+		// Otherwise -> 403 Forbidden
+		return new \WP_Error(
+			'forbidden',
+			__( 'دسترسی به این سفارش برای شما مجاز نیست.', 'flavor-core' ),
+			array( 'status' => 403 )
+		);
+	}
+
+	/**
 	 * Format order summary card.
 	 *
 	 * @param \WC_Order $order WC Order.
 	 * @return array<string, mixed>
 	 */
-	private function format_order_summary( \WC_Order $order ): array {
+	public function format_order_summary( \WC_Order $order ): array {
 		$date_created = $order->get_date_created();
-		$g_date       = $date_created ? $date_created->date( 'Y-m-d H:i' ) : '';
+		$g_date       = $date_created ? $date_created->date( 'Y-m-d H:i:s' ) : '';
 		$jalali_date  = $g_date ? Jalali::format_datetime( $g_date ) : '';
 
 		$total = (int) round( (float) $order->get_total() );
@@ -380,7 +474,7 @@ class OrderController extends BaseApiController {
 	 * @param \WC_Order $order WC Order.
 	 * @return array<string, mixed>
 	 */
-	private function format_order_detail( \WC_Order $order ): array {
+	public function format_order_detail( \WC_Order $order ): array {
 		$summary = $this->format_order_summary( $order );
 
 		$items = array();

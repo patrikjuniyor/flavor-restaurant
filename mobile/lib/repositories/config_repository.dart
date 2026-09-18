@@ -1,7 +1,7 @@
-import '../../config/constants.dart';
-import '../../core/api/api_client.dart';
-import '../../core/storage/secure_storage_service.dart';
-import '../../models/app_bootstrap_model.dart';
+import '../config/constants.dart';
+import '../core/api/api_client.dart';
+import '../core/storage/secure_storage_service.dart';
+import '../models/app_bootstrap_model.dart';
 
 /// Repository for Restaurant White-label Configuration and Branding tokens.
 class ConfigRepository {

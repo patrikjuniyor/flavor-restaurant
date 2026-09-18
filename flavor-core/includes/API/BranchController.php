@@ -23,9 +23,11 @@ class BranchController extends BaseApiController {
 
 	/**
 	 * Register branch routes.
+	 *
+	 * @param string|null $namespace Namespace override (defaults to V1).
 	 */
-	public function register(): void {
-		$ns = FLAVOR_CORE_REST_NAMESPACE;
+	public function register( ?string $namespace = null ): void {
+		$ns = $namespace ?: FLAVOR_CORE_REST_NAMESPACE;
 
 		register_rest_route(
 			$ns,
@@ -272,8 +274,8 @@ class BranchController extends BaseApiController {
 		return array_merge(
 			(array) $card,
 			array(
-				'description'  => apply_filters( 'the_content', $post->post_content ),
-				'zones_count'  => count( $zones ),
+				'description'   => apply_filters( 'the_content', $post->post_content ),
+				'zones_count'   => count( $zones ),
 				'opening_hours' => array(
 					'regular' => '11:30 - 23:30',
 					'weekend' => '12:00 - 00:00',

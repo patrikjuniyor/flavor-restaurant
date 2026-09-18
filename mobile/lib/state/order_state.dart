@@ -76,12 +76,12 @@ class OrderProvider extends ChangeNotifier {
   }
 
   /// Starts live tracking with auto-polling every 12 seconds.
-  void startTracking(int orderId) {
+  void startTracking(int orderId, {String? guestToken}) {
     _stopPolling();
-    _fetchTracking(orderId);
+    _fetchTracking(orderId, guestToken: guestToken);
 
     _pollingTimer = Timer.periodic(const Duration(seconds: 12), (_) {
-      _fetchTracking(orderId);
+      _fetchTracking(orderId, guestToken: guestToken);
     });
   }
 
@@ -92,9 +92,9 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _fetchTracking(int orderId) async {
+  Future<void> _fetchTracking(int orderId, {String? guestToken}) async {
     try {
-      final order = await _orderRepo.trackOrder(orderId);
+      final order = await _orderRepo.trackOrder(orderId, guestToken: guestToken);
       _trackedOrder = order;
       notifyListeners();
 
@@ -110,12 +110,12 @@ class OrderProvider extends ChangeNotifier {
   }
 
   /// Cancels an active order.
-  Future<bool> cancelOrder(int orderId) async {
+  Future<bool> cancelOrder(int orderId, {String? guestToken}) async {
     try {
-      await _orderRepo.cancelOrder(orderId);
+      await _orderRepo.cancelOrder(orderId, guestToken: guestToken);
       await loadOrders();
       if (_trackedOrder?.id == orderId) {
-        await _fetchTracking(orderId);
+        await _fetchTracking(orderId, guestToken: guestToken);
       }
       return true;
     } catch (e) {
@@ -126,11 +126,11 @@ class OrderProvider extends ChangeNotifier {
   }
 
   /// Reorders previous items.
-  Future<bool> reorder(int orderId) async {
+  Future<bool> reorder(int orderId, {String? guestToken}) async {
     _isLoading = true;
     notifyListeners();
     try {
-      await _orderRepo.reorder(orderId);
+      await _orderRepo.reorder(orderId, guestToken: guestToken);
       return true;
     } catch (e) {
       _errorMessage = e.toString();

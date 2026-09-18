@@ -20,9 +20,11 @@ class MobileProvisionController extends BaseApiController {
 
 	/**
 	 * Register routes.
+	 *
+	 * @param string|null $namespace Namespace override (defaults to V1).
 	 */
-	public function register(): void {
-		$ns = FLAVOR_CORE_REST_NAMESPACE;
+	public function register( ?string $namespace = null ): void {
+		$ns = $namespace ?: FLAVOR_CORE_REST_NAMESPACE;
 
 		register_rest_route(
 			$ns,

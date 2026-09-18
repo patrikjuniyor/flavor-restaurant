@@ -8,6 +8,7 @@
 namespace FlavorCore\Order;
 
 use FlavorCore\PostTypes\BranchPostType;
+use FlavorCore\Support\GuestToken;
 use FlavorCore\WooCommerce\Currency;
 
 defined( 'ABSPATH' ) || exit;
@@ -127,6 +128,8 @@ class KitchenTicketSync {
 			return Currency::convert( (int) round( (float) $amount ), $from_unit, $storage_unit );
 		};
 
+		$guest_token = (string) $order->get_meta( GuestToken::META_GUEST_TOKEN );
+
 		if ( ! $existing ) {
 			$ticket_id = KitchenTicketRepository::create_idempotent(
 				array(
@@ -141,6 +144,7 @@ class KitchenTicketSync {
 					'customer_id'      => $order->get_customer_id() ?: null,
 					'customer_name'    => $order->get_formatted_billing_full_name() ?: $order->get_billing_first_name(),
 					'customer_mobile'  => $order->get_billing_phone() ?: (string) $order->get_meta( '_flavor_mobile' ),
+					'guest_token'      => $guest_token ?: null,
 					'delivery_address' => $order->get_formatted_billing_address(),
 					'delivery_zone_id' => (int) $order->get_meta( '_flavor_zone_id' ) ?: null,
 					'delivery_fee'     => $to_storage( $order->get_shipping_total() ),

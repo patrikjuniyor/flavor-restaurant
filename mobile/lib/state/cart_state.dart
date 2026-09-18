@@ -18,6 +18,7 @@ class CartProvider extends ChangeNotifier {
   int get total => _cart.total;
   int get subtotal => _cart.subtotal;
   bool get isEmpty => _cart.isEmpty;
+  bool get isNotEmpty => _cart.isNotEmpty;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 

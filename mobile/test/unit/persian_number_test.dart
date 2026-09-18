@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/core/utils/persian_number.dart';
+import 'package:flavor_mobile/core/utils/persian_number.dart';
 
 void main() {
   group('PersianNumber Utility Tests', () {

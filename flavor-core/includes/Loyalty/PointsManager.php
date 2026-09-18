@@ -101,6 +101,19 @@ class PointsManager {
 	}
 
 	/**
+	 * Estimate points to earn for an order total in storage units.
+	 *
+	 * @param int $amount Amount in storage currency.
+	 * @return int
+	 */
+	public static function estimate_points( int $amount ): int {
+		$rate  = max( 0, (int) Settings::get( 'loyalty_points_per_unit', 1 ) );
+		$unit  = max( 1, (int) Settings::get( 'loyalty_unit_toman', 10000 ) );
+		$toman = Currency::from_storage( $amount, Currency::TOMAN );
+		return $rate > 0 ? (int) floor( $toman / $unit ) * $rate : 0;
+	}
+
+	/**
 	 * Current point balance.
 	 */
 	public static function balance( int $customer_id ): int {

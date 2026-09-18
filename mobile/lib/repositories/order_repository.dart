@@ -1,8 +1,9 @@
-import '../../config/constants.dart';
-import '../../core/api/api_client.dart';
-import '../../models/order_model.dart';
+import '../config/constants.dart';
+import '../core/api/api_client.dart';
+import '../models/order_model.dart';
 
 /// Repository for Checkout, Order History, Live Tracking, and Reorders.
+/// Supports guest token verification for secure guest order tracking.
 class OrderRepository {
   final ApiClient _apiClient;
 
@@ -47,26 +48,42 @@ class OrderRepository {
     return list.map((e) => OrderModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
-  /// Gets single order details.
-  Future<OrderModel> getOrder(int id) async {
-    final res = await _apiClient.get('${AppConstants.epOrders}/$id');
+  /// Gets single order details with optional guest token.
+  Future<OrderModel> getOrder(int id, {String? guestToken}) async {
+    final params = <String, dynamic>{};
+    if (guestToken != null && guestToken.isNotEmpty) {
+      params['guest_token'] = guestToken;
+    }
+    final res = await _apiClient.get('${AppConstants.epOrders}/$id', queryParameters: params);
     return OrderModel.fromJson(res['data'] as Map<String, dynamic>);
   }
 
-  /// Live tracking endpoint with real-time step status.
-  Future<OrderModel> trackOrder(int id) async {
-    final res = await _apiClient.get('${AppConstants.epOrders}/$id/track');
+  /// Live tracking endpoint with real-time step status and optional guest token.
+  Future<OrderModel> trackOrder(int id, {String? guestToken}) async {
+    final params = <String, dynamic>{};
+    if (guestToken != null && guestToken.isNotEmpty) {
+      params['guest_token'] = guestToken;
+    }
+    final res = await _apiClient.get('${AppConstants.epOrders}/$id/track', queryParameters: params);
     return OrderModel.fromJson(res['data'] as Map<String, dynamic>);
   }
 
   /// Cancels an order.
-  Future<void> cancelOrder(int id) async {
-    await _apiClient.post('${AppConstants.epOrders}/$id/cancel');
+  Future<void> cancelOrder(int id, {String? guestToken}) async {
+    final params = <String, dynamic>{};
+    if (guestToken != null && guestToken.isNotEmpty) {
+      params['guest_token'] = guestToken;
+    }
+    await _apiClient.post('${AppConstants.epOrders}/$id/cancel', queryParameters: params);
   }
 
   /// Adds all items from previous order back into active cart.
-  Future<Map<String, dynamic>> reorder(int id) async {
-    final res = await _apiClient.post('${AppConstants.epOrders}/$id/reorder');
+  Future<Map<String, dynamic>> reorder(int id, {String? guestToken}) async {
+    final params = <String, dynamic>{};
+    if (guestToken != null && guestToken.isNotEmpty) {
+      params['guest_token'] = guestToken;
+    }
+    final res = await _apiClient.post('${AppConstants.epOrders}/$id/reorder', queryParameters: params);
     return res['data'] as Map<String, dynamic>;
   }
 }

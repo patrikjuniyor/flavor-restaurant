@@ -103,6 +103,7 @@ class KitchenTicketRepository {
 			'customer_id'       => isset( $data['customer_id'] ) ? (int) $data['customer_id'] : null,
 			'customer_name'     => isset( $data['customer_name'] ) ? sanitize_text_field( (string) $data['customer_name'] ) : null,
 			'customer_mobile'   => isset( $data['customer_mobile'] ) ? sanitize_text_field( (string) $data['customer_mobile'] ) : null,
+			'guest_token'       => isset( $data['guest_token'] ) ? sanitize_text_field( (string) $data['guest_token'] ) : null,
 			'delivery_address'  => isset( $data['delivery_address'] ) ? sanitize_textarea_field( (string) $data['delivery_address'] ) : null,
 			'delivery_zone_id'  => isset( $data['delivery_zone_id'] ) ? (int) $data['delivery_zone_id'] : null,
 			'delivery_fee'      => (int) ( $data['delivery_fee'] ?? 0 ),

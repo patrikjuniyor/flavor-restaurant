@@ -19,9 +19,11 @@ class AnalyticsController extends BaseApiController {
 
 	/**
 	 * Register routes.
+	 *
+	 * @param string|null $namespace Namespace override (defaults to V1).
 	 */
-	public function register(): void {
-		$ns = FLAVOR_CORE_REST_NAMESPACE;
+	public function register( ?string $namespace = null ): void {
+		$ns = $namespace ?: FLAVOR_CORE_REST_NAMESPACE;
 
 		register_rest_route(
 			$ns,
@@ -74,7 +76,11 @@ class AnalyticsController extends BaseApiController {
 		if ( current_user_can( 'flavor_view_analytics' ) || current_user_can( 'flavor_view_reports' ) || current_user_can( 'manage_options' ) ) {
 			return true;
 		}
-		return $this->error_unauthorized( __( 'شما اجازه مشاهده گزارشات تحلیلی رستوران را ندارید.', 'flavor-core' ) );
+		return new \WP_Error(
+			'flavor_forbidden',
+			__( 'شما اجازه مشاهده گزارشات تحلیلی رستوران را ندارید.', 'flavor-core' ),
+			array( 'status' => 403 )
+		);
 	}
 
 	/**

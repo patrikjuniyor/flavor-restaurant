@@ -22,7 +22,7 @@ class Schema {
 	/**
 	 * Current database schema version.
 	 */
-	public const DB_VERSION = '1.3.0';
+	public const DB_VERSION = '1.4.0';
 
 	/**
 	 * Table short names without the $wpdb prefix.
@@ -52,6 +52,7 @@ class Schema {
 			'flavor_webhooks',
 			'flavor_webhook_deliveries',
 			'flavor_system_logs',
+			'flavor_guest_carts',
 		);
 	}
 
@@ -141,6 +142,7 @@ class Schema {
 		$webhooks     = self::table( 'flavor_webhooks' );
 		$deliveries   = self::table( 'flavor_webhook_deliveries' );
 		$logs         = self::table( 'flavor_system_logs' );
+		$guest_carts  = self::table( 'flavor_guest_carts' );
 
 		return array(
 			"CREATE TABLE {$tickets} (
@@ -157,6 +159,7 @@ class Schema {
 				customer_id BIGINT UNSIGNED NULL,
 				customer_name VARCHAR(190) NULL,
 				customer_mobile VARCHAR(20) NULL,
+				guest_token CHAR(64) NULL,
 				delivery_address TEXT NULL,
 				delivery_zone_id BIGINT UNSIGNED NULL,
 				delivery_fee BIGINT UNSIGNED NOT NULL DEFAULT 0,
@@ -176,6 +179,7 @@ class Schema {
 				KEY idx_branch_status_placed (branch_id, kitchen_status, placed_at),
 				KEY idx_table_status (table_id, kitchen_status),
 				KEY idx_mobile (customer_mobile),
+				KEY idx_guest_token (guest_token),
 				KEY idx_placed (placed_at)
 			) {$charset};",
 
@@ -227,6 +231,7 @@ class Schema {
 				customer_id BIGINT UNSIGNED NULL,
 				customer_name VARCHAR(190) NOT NULL,
 				customer_mobile VARCHAR(20) NOT NULL,
+				guest_token CHAR(64) NULL,
 				status VARCHAR(20) NOT NULL DEFAULT 'pending',
 				special_requests TEXT NULL,
 				source VARCHAR(20) NOT NULL DEFAULT 'online',
@@ -236,6 +241,7 @@ class Schema {
 				PRIMARY KEY  (id),
 				KEY idx_branch_date_status (branch_id, reservation_date, status),
 				KEY idx_mobile (customer_mobile),
+				KEY idx_guest_token (guest_token),
 				KEY idx_date_time (reservation_date, reservation_time)
 			) {$charset};",
 
@@ -510,6 +516,19 @@ class Schema {
 				KEY idx_level_channel (level, channel),
 				KEY idx_created (created_at),
 				KEY idx_user (user_id)
+			) {$charset};",
+
+			"CREATE TABLE {$guest_carts} (
+				id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+				cart_token_hash CHAR(64) NOT NULL,
+				cart_data LONGTEXT NOT NULL,
+				branch_id BIGINT UNSIGNED NOT NULL DEFAULT 0,
+				expires_at DATETIME NOT NULL,
+				created_at DATETIME NOT NULL,
+				updated_at DATETIME NOT NULL,
+				PRIMARY KEY  (id),
+				UNIQUE KEY uk_cart_token (cart_token_hash),
+				KEY idx_exp (expires_at)
 			) {$charset};",
 		);
 	}

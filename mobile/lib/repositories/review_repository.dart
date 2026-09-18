@@ -1,6 +1,6 @@
-import '../../config/constants.dart';
-import '../../core/api/api_client.dart';
-import '../../models/review_model.dart';
+import '../config/constants.dart';
+import '../core/api/api_client.dart';
+import '../models/review_model.dart';
 
 /// Repository for Customer Reviews and Testimonials.
 class ReviewRepository {

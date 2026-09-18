@@ -4,17 +4,17 @@
 import 'package:flutter/material.dart';
 
 abstract class BrandTokens {
-  static const String appName = 'رستوران شاندیز';
-  static const String tenantId = 'test_shandiz';
-  static const String apiBaseUrl = 'https://demo.flavor.restaurant/wp-json/flavor/v1';
-  static const int defaultBranchId = 1;
+  static const String appName = 'چلوکبابی نایب زعفرانیه';
+  static const String tenantId = 'nayeb_zaferanieh';
+  static const String apiBaseUrl = 'https://nayeb.restaurant.ir/wp-json/flavor/v2';
+  static const int defaultBranchId = 11;
 
-  static const Color primaryColor = Color(0xFFD32F2F);
-  static const Color secondaryColor = Color(0xFF388E3C);
-  static const Color accentColor = Color(0xFFFBC02D);
+  static const Color primaryColor = Color(0xFF1B5E20);
+  static const Color secondaryColor = Color(0xFFB71C1C);
+  static const Color accentColor = Color(0xFFFFA000);
 
-  static const String supportPhone = '021-99999999';
-  static const String supportEmail = 'info@shandiz.com';
-  static const String privacyPolicyUrl = 'https://shandiz.com/privacy';
-  static const String termsUrl = 'https://shandiz.com/terms';
+  static const String supportPhone = '021-22000001';
+  static const String supportEmail = 'info@nayeb.restaurant.ir';
+  static const String privacyPolicyUrl = '';
+  static const String termsUrl = '';
 }

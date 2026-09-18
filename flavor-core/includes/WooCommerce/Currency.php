@@ -107,6 +107,17 @@ class Currency {
 	}
 
 	/**
+	 * Convert a stored amount into a specific target unit.
+	 *
+	 * @param int    $stored  Amount in storage units.
+	 * @param string $to_unit Target unit (irr|irt).
+	 * @return int
+	 */
+	public static function from_storage( int $stored, string $to_unit ): int {
+		return self::convert( $stored, self::storage_unit(), $to_unit );
+	}
+
+	/**
 	 * Convert a stored amount into display units.
 	 */
 	public static function to_display( int $stored ): int {

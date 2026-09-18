@@ -1,6 +1,6 @@
-import '../../config/constants.dart';
-import '../../core/api/api_client.dart';
-import '../../models/cart_model.dart';
+import '../config/constants.dart';
+import '../core/api/api_client.dart';
+import '../models/cart_model.dart';
 
 /// Repository for Shopping Cart operations, Coupons, and Loyalty point redemptions.
 class CartRepository {

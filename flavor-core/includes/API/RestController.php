@@ -1,7 +1,7 @@
 <?php
 /**
- * REST API: Master Controller for flavor/v1.
- * Bootstraps all modular REST API controllers powering Web, Android, and iOS clients.
+ * REST API: Master Controller for flavor/v1 and flavor/v2 namespaces.
+ * Bootstraps modular REST API controllers powering Web, Android, iOS, and POS clients.
  *
  * @package FlavorCore
  */
@@ -25,6 +25,18 @@ defined( 'ABSPATH' ) || exit;
 class RestController extends BaseApiController {
 
 	/**
+	 * Supported REST namespaces.
+	 *
+	 * @return string[]
+	 */
+	public static function namespaces(): array {
+		return array(
+			FLAVOR_CORE_REST_NAMESPACE,
+			FLAVOR_CORE_REST_V2_NAMESPACE,
+		);
+	}
+
+	/**
 	 * Hooks.
 	 */
 	public function hooks(): void {
@@ -32,64 +44,78 @@ class RestController extends BaseApiController {
 	}
 
 	/**
-	 * Register all modular API routes and legacy compat routes.
+	 * Register all modular API routes across V1 and V2 namespaces.
 	 */
 	public function register(): void {
-		$ns = FLAVOR_CORE_REST_NAMESPACE;
+		$auth_ctrl      = new AuthController();
+		$branch_ctrl    = new BranchController();
+		$menu_ctrl      = new MenuController();
+		$cart_ctrl      = new CartController();
+		$order_ctrl     = new OrderController();
+		$res_ctrl       = new ReservationController();
+		$review_ctrl    = new ReviewController();
+		$settings_ctrl  = new SettingsController();
+		$mobile_ctrl    = new MobileProvisionController();
+		$analytics_ctrl = new AnalyticsController();
+		$webhook_ctrl   = new WebhookController();
+		$obs_ctrl       = new ObservabilityController();
 
-		// Modular modern REST controllers
-		( new AuthController() )->register();
-		( new BranchController() )->register();
-		( new MenuController() )->register();
-		( new CartController() )->register();
-		( new OrderController() )->register();
-		( new ReservationController() )->register();
-		( new ReviewController() )->register();
-		( new SettingsController() )->register();
-		( new MobileProvisionController() )->register();
-		( new AnalyticsController() )->register();
-		( new WebhookController() )->register();
-		( new ObservabilityController() )->register();
+		foreach ( self::namespaces() as $ns ) {
+			// Register modular controllers for namespace
+			$auth_ctrl->register( $ns );
+			$branch_ctrl->register( $ns );
+			$menu_ctrl->register( $ns );
+			$cart_ctrl->register( $ns );
+			$order_ctrl->register( $ns );
+			$res_ctrl->register( $ns );
+			$review_ctrl->register( $ns );
+			$settings_ctrl->register( $ns );
+			$mobile_ctrl->register( $ns );
+			$analytics_ctrl->register( $ns );
+			$webhook_ctrl->register( $ns );
+			$obs_ctrl->register( $ns );
 
-		// Kitchen & Context management endpoints
-		register_rest_route(
-			$ns,
-			'/context',
-			array(
+			// Context management
+			register_rest_route(
+				$ns,
+				'/context',
+				array(
+					array(
+						'methods'             => 'GET',
+						'callback'            => array( $this, 'get_context' ),
+						'permission_callback' => '__return_true',
+					),
+					array(
+						'methods'             => 'POST',
+						'callback'            => array( $this, 'set_context' ),
+						'permission_callback' => array( $this, 'require_store_nonce' ),
+					),
+				)
+			);
+
+			// Kitchen Display System endpoints
+			register_rest_route(
+				$ns,
+				'/kitchen/tickets',
 				array(
 					'methods'             => 'GET',
-					'callback'            => array( $this, 'get_context' ),
-					'permission_callback' => '__return_true',
-				),
+					'callback'            => array( $this, 'kitchen_list' ),
+					'permission_callback' => array( $this, 'require_kitchen' ),
+				)
+			);
+
+			register_rest_route(
+				$ns,
+				'/kitchen/tickets/(?P<id>\d+)/status',
 				array(
 					'methods'             => 'POST',
-					'callback'            => array( $this, 'set_context' ),
-					'permission_callback' => array( $this, 'require_store_nonce' ),
-				),
-			)
-		);
+					'callback'            => array( $this, 'kitchen_status' ),
+					'permission_callback' => array( $this, 'require_kitchen' ),
+				)
+			);
+		}
 
-		register_rest_route(
-			$ns,
-			'/kitchen/tickets',
-			array(
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'kitchen_list' ),
-				'permission_callback' => array( $this, 'require_kitchen' ),
-			)
-		);
-
-		register_rest_route(
-			$ns,
-			'/kitchen/tickets/(?P<id>\d+)/status',
-			array(
-				'methods'             => 'POST',
-				'callback'            => array( $this, 'kitchen_status' ),
-				'permission_callback' => array( $this, 'require_kitchen' ),
-			)
-		);
-
-		// Backward-compatible sub-routers
+		// Backward-compatible V1 sub-routers
 		( new RestStore() )->register();
 		( new RestExperience() )->register();
 	}

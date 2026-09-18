@@ -1,0 +1,88 @@
+name: Flavor Platform CI Pipeline
+
+on:
+  push:
+    branches: [ main, master, 'release/**' ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  php-backend-tests:
+    name: Backend Unit & Integration Tests (PHP 8.1 / 8.2 / 8.3 / 8.4)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.1', '8.2', '8.3', '8.4']
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP Environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, sqlite3, pdo_sqlite, curl, json, openssl
+          coverage: none
+
+      - name: PHP Syntax Check (Lint)
+        run: |
+          find flavor-core/ -name "*.php" -exec php -l {} \;
+
+      - name: Run Phase 1 & Phase 2 Integration Tests
+        run: |
+          php flavor-core/tests/run-e2e-integration.php
+
+  flutter-mobile-ci:
+    name: Mobile Quality & Flutter Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.x'
+          channel: 'stable'
+          cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Test White-Label Provisioning Script
+        run: |
+          python3 mobile/scripts/provision_brand.py --mobile-root mobile
+
+      - name: Install Dependencies
+        working-directory: mobile
+        run: flutter pub get
+
+      - name: Flutter Static Analysis
+        working-directory: mobile
+        run: flutter analyze
+
+      - name: Run Flutter Unit & Widget Tests
+        working-directory: mobile
+        run: flutter test --coverage
+
+  security-scan:
+    name: Security & IDOR Regression Guard
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP Environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, sqlite3, pdo_sqlite, curl, json
+
+      - name: Run Security IDOR Isolation Tests
+        run: |
+          php flavor-core/tests/run-e2e-integration.php

@@ -25,9 +25,11 @@ class MenuController extends BaseApiController {
 
 	/**
 	 * Register menu routes.
+	 *
+	 * @param string|null $namespace Namespace override (defaults to V1).
 	 */
-	public function register(): void {
-		$ns = FLAVOR_CORE_REST_NAMESPACE;
+	public function register( ?string $namespace = null ): void {
+		$ns = $namespace ?: FLAVOR_CORE_REST_NAMESPACE;
 
 		register_rest_route(
 			$ns,
@@ -236,7 +238,7 @@ class MenuController extends BaseApiController {
 				}
 			}
 
-			$dish = $this->serialize_dish( $prod, $branch_id, $state );
+			$dish    = $this->serialize_dish( $prod, $branch_id, $state );
 			$items[] = $dish;
 		}
 
@@ -460,11 +462,11 @@ class MenuController extends BaseApiController {
 		return array_merge(
 			$card,
 			array(
-				'description'      => apply_filters( 'the_content', $product->get_description() ),
-				'gallery'          => $gallery,
-				'modifier_groups'  => array_values( $groups ),
-				'schedules'        => (array) ( get_post_meta( $id, ProductModifiers::META_SCHEDULE, true ) ?: array() ),
-				'sku'              => $product->get_sku(),
+				'description'     => apply_filters( 'the_content', $product->get_description() ),
+				'gallery'         => $gallery,
+				'modifier_groups' => array_values( $groups ),
+				'schedules'       => (array) ( get_post_meta( $id, ProductModifiers::META_SCHEDULE, true ) ?: array() ),
+				'sku'             => $product->get_sku(),
 			)
 		);
 	}

@@ -141,7 +141,7 @@ class RestaurantInfoScreen extends StatelessWidget {
                 child: ListTile(
                   leading: const Icon(Icons.camera_alt_outlined, color: Colors.purple),
                   title: const Text('اینستاگرام رستوران'),
-                  subtitle: Text('@${brand.instagram}', dir: TextDirection.ltr),
+                  subtitle: Text('@${brand.instagram}', textDirection: TextDirection.ltr),
                   trailing: const Icon(Icons.open_in_new, size: 18),
                   onTap: () => _openInstagram(brand.instagram),
                 ),

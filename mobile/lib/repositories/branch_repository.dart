@@ -1,7 +1,7 @@
-import '../../config/constants.dart';
-import '../../core/api/api_client.dart';
-import '../../core/storage/secure_storage_service.dart';
-import '../../models/branch_model.dart';
+import '../config/constants.dart';
+import '../core/api/api_client.dart';
+import '../core/storage/secure_storage_service.dart';
+import '../models/branch_model.dart';
 
 /// Repository for Branches, Dining Tables, and Delivery Zones.
 class BranchRepository {

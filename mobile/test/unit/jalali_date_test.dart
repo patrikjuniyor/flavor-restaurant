@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/core/utils/jalali_date.dart';
+import 'package:flavor_mobile/core/utils/jalali_date.dart';
 
 void main() {
   group('JalaliDate Engine Tests', () {

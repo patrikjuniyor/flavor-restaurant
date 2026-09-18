@@ -40,6 +40,22 @@ wp-config.php
 # Composer lock is kept for the plugin dev tooling
 # /flavor-core/composer.lock is committed when present
 
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+mobile/.dart_tool/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
+mobile/android/local.properties
+mobile/ios/Flutter/Generated.xcconfig
+mobile/ios/Flutter/app.framework
+mobile/ios/Flutter/Flutter.framework
+mobile/ios/Flutter/Flutter.podspec
+mobile/ios/Runner/GeneratedPluginRegistrant.*
+
 # Generated language binaries can be rebuilt
 # Keep .pot and .po; ignore machine-specific .mo if needed
 # *.mo

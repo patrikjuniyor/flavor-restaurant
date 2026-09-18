@@ -7,10 +7,16 @@ import '../../common/flavor_button.dart';
 import '../../common/flavor_card.dart';
 
 /// Real-time Order Tracking Screen with Animated Step Progress Bar.
+/// Supports guest token verification for unauthenticated guest orders.
 class OrderTrackingScreen extends StatefulWidget {
   final int orderId;
+  final String? guestToken;
 
-  const OrderTrackingScreen({super.key, required this.orderId});
+  const OrderTrackingScreen({
+    super.key,
+    required this.orderId,
+    this.guestToken,
+  });
 
   @override
   State<OrderTrackingScreen> createState() => _OrderTrackingScreenState();
@@ -21,7 +27,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<OrderProvider>().startTracking(widget.orderId);
+      context.read<OrderProvider>().startTracking(widget.orderId, guestToken: widget.guestToken);
     });
   }
 
@@ -192,7 +198,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                   );
 
                   if (confirm == true) {
-                    await orderProvider.cancelOrder(order.id);
+                    await orderProvider.cancelOrder(order.id, guestToken: widget.guestToken);
                   }
                 },
               ),

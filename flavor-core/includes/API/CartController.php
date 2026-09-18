@@ -1,8 +1,8 @@
 <?php
 /**
  * REST API: Cart controller for Mobile & Web clients.
- * Supports Bearer auth and guest sessions, item modifications, coupon codes,
- * and loyalty point redemptions.
+ * Supports Bearer auth and guest cart sessions with token-based persistence via X-Cart-Token,
+ * item modifications, coupon codes, and loyalty point redemptions.
  *
  * @package FlavorCore
  */
@@ -12,6 +12,7 @@ namespace FlavorCore\API;
 use FlavorCore\Loyalty\DiscountManager;
 use FlavorCore\Loyalty\PointsManager;
 use FlavorCore\WooCommerce\CartSession;
+use FlavorCore\WooCommerce\CartTokenService;
 use FlavorCore\WooCommerce\Currency;
 
 defined( 'ABSPATH' ) || exit;
@@ -22,10 +23,12 @@ defined( 'ABSPATH' ) || exit;
 class CartController extends BaseApiController {
 
 	/**
-	 * Register cart routes.
+	 * Register cart routes for a namespace.
+	 *
+	 * @param string|null $namespace Namespace override (defaults to V1).
 	 */
-	public function register(): void {
-		$ns = FLAVOR_CORE_REST_NAMESPACE;
+	public function register( ?string $namespace = null ): void {
+		$ns = $namespace ?: FLAVOR_CORE_REST_NAMESPACE;
 
 		register_rest_route(
 			$ns,
@@ -138,17 +141,68 @@ class CartController extends BaseApiController {
 	}
 
 	/**
+	 * Prepare cart session and handle token bridging.
+	 *
+	 * @param \WP_REST_Request $request Request.
+	 * @return string Active cart token.
+	 */
+	private function bootstrap_cart( \WP_REST_Request $request ): string {
+		$user       = $this->resolve_user( $request );
+		$cart_token = CartTokenService::extract_token( $request );
+
+		CartSession::ensure();
+
+		if ( ! $user ) {
+			if ( ! empty( $cart_token ) ) {
+				if ( ! WC()->cart || WC()->cart->is_empty() ) {
+					CartTokenService::restore_into_session( $cart_token );
+				}
+			} else {
+				$cart_token = CartTokenService::generate_token();
+			}
+		}
+
+		return $cart_token;
+	}
+
+	/**
+	 * Sync state and format response envelope with cart headers.
+	 *
+	 * @param string               $cart_token Active cart token.
+	 * @param array<string, mixed> $extra_data Extra payload items.
+	 * @param array<string, mixed> $meta       Meta items.
+	 * @param int                  $status     HTTP status.
+	 * @return \WP_REST_Response
+	 */
+	private function respond_cart( string $cart_token, array $extra_data = array(), array $meta = array(), int $status = 200 ): \WP_REST_Response {
+		if ( ! empty( $cart_token ) ) {
+			CartTokenService::sync_session_to_database( $cart_token );
+		}
+
+		$payload = array_merge( $this->build_cart_payload(), $extra_data );
+		if ( ! empty( $cart_token ) ) {
+			$payload['cart_token'] = $cart_token;
+		}
+
+		$headers = array(
+			'Cache-Control' => 'private, no-cache',
+		);
+		if ( ! empty( $cart_token ) ) {
+			$headers['X-Cart-Token'] = $cart_token;
+		}
+
+		return $this->respond_success( $payload, $meta, $status, $headers );
+	}
+
+	/**
 	 * GET /cart
 	 *
 	 * @param \WP_REST_Request $request Request.
 	 * @return \WP_REST_Response
 	 */
 	public function get_cart( \WP_REST_Request $request ): \WP_REST_Response {
-		$this->resolve_user( $request );
-		CartSession::ensure();
-
-		$payload = $this->build_cart_payload();
-		return $this->respond_success( $payload, array(), 200, array( 'Cache-Control' => 'private, no-cache' ) );
+		$cart_token = $this->bootstrap_cart( $request );
+		return $this->respond_cart( $cart_token );
 	}
 
 	/**
@@ -158,8 +212,7 @@ class CartController extends BaseApiController {
 	 * @return \WP_REST_Response
 	 */
 	public function add_item( \WP_REST_Request $request ): \WP_REST_Response {
-		$this->resolve_user( $request );
-		CartSession::ensure();
+		$cart_token = $this->bootstrap_cart( $request );
 
 		$product_id = (int) $request->get_param( 'product_id' );
 		$qty        = max( 1, min( 20, (int) $request->get_param( 'quantity' ) ) );
@@ -179,10 +232,11 @@ class CartController extends BaseApiController {
 			return $this->respond_error( $key->get_error_code(), $key->get_error_message(), 400 );
 		}
 
-		$payload             = $this->build_cart_payload();
-		$payload['last_key'] = $key;
-
-		return $this->respond_success( $payload, array( 'message' => __( 'آیتم به سبد اضافه شد.', 'flavor-core' ) ) );
+		return $this->respond_cart(
+			$cart_token,
+			array( 'last_key' => $key ),
+			array( 'message' => __( 'آیتم به سبد اضافه شد.', 'flavor-core' ) )
+		);
 	}
 
 	/**
@@ -192,8 +246,7 @@ class CartController extends BaseApiController {
 	 * @return \WP_REST_Response
 	 */
 	public function update_item( \WP_REST_Request $request ): \WP_REST_Response {
-		$this->resolve_user( $request );
-		CartSession::ensure();
+		$cart_token = $this->bootstrap_cart( $request );
 
 		$key = sanitize_text_field( (string) $request->get_param( 'key' ) );
 		$qty = (int) $request->get_param( 'quantity' );
@@ -208,7 +261,7 @@ class CartController extends BaseApiController {
 			WC()->cart->set_quantity( $key, min( 20, $qty ) );
 		}
 
-		return $this->respond_success( $this->build_cart_payload() );
+		return $this->respond_cart( $cart_token );
 	}
 
 	/**
@@ -218,8 +271,7 @@ class CartController extends BaseApiController {
 	 * @return \WP_REST_Response
 	 */
 	public function remove_item( \WP_REST_Request $request ): \WP_REST_Response {
-		$this->resolve_user( $request );
-		CartSession::ensure();
+		$cart_token = $this->bootstrap_cart( $request );
 
 		$key = sanitize_text_field( (string) $request->get_param( 'key' ) );
 		if ( ! $key || ! WC()->cart || ! WC()->cart->get_cart_item( $key ) ) {
@@ -227,7 +279,7 @@ class CartController extends BaseApiController {
 		}
 
 		WC()->cart->remove_cart_item( $key );
-		return $this->respond_success( $this->build_cart_payload(), array( 'message' => __( 'آیتم از سبد حذف شد.', 'flavor-core' ) ) );
+		return $this->respond_cart( $cart_token, array(), array( 'message' => __( 'آیتم از سبد حذف شد.', 'flavor-core' ) ) );
 	}
 
 	/**
@@ -237,14 +289,17 @@ class CartController extends BaseApiController {
 	 * @return \WP_REST_Response
 	 */
 	public function clear_cart( \WP_REST_Request $request ): \WP_REST_Response {
-		$this->resolve_user( $request );
-		CartSession::ensure();
+		$cart_token = $this->bootstrap_cart( $request );
 
 		if ( WC()->cart ) {
 			WC()->cart->empty_cart();
 		}
 
-		return $this->respond_success( $this->build_cart_payload(), array( 'message' => __( 'سبد خرید خالی شد.', 'flavor-core' ) ) );
+		if ( ! empty( $cart_token ) ) {
+			CartTokenService::delete_cart( $cart_token );
+		}
+
+		return $this->respond_cart( $cart_token, array(), array( 'message' => __( 'سبد خرید خالی شد.', 'flavor-core' ) ) );
 	}
 
 	/**
@@ -254,8 +309,7 @@ class CartController extends BaseApiController {
 	 * @return \WP_REST_Response
 	 */
 	public function apply_coupon( \WP_REST_Request $request ): \WP_REST_Response {
-		$this->resolve_user( $request );
-		CartSession::ensure();
+		$cart_token = $this->bootstrap_cart( $request );
 
 		$code = sanitize_text_field( (string) $request->get_param( 'code' ) );
 		$res  = DiscountManager::apply( $code );
@@ -264,8 +318,9 @@ class CartController extends BaseApiController {
 			return $this->respond_error( $res->get_error_code(), $res->get_error_message(), 400 );
 		}
 
-		return $this->respond_success(
-			array_merge( $this->build_cart_payload(), array( 'applied_coupon' => $code ) ),
+		return $this->respond_cart(
+			$cart_token,
+			array( 'applied_coupon' => $code ),
 			array( 'message' => __( 'کد تخفیف با موفقیت اعمال شد.', 'flavor-core' ) )
 		);
 	}
@@ -277,8 +332,7 @@ class CartController extends BaseApiController {
 	 * @return \WP_REST_Response
 	 */
 	public function remove_coupon( \WP_REST_Request $request ): \WP_REST_Response {
-		$this->resolve_user( $request );
-		CartSession::ensure();
+		$cart_token = $this->bootstrap_cart( $request );
 
 		if ( WC()->cart ) {
 			$applied = WC()->cart->get_applied_coupons();
@@ -288,7 +342,7 @@ class CartController extends BaseApiController {
 			WC()->cart->calculate_totals();
 		}
 
-		return $this->respond_success( $this->build_cart_payload(), array( 'message' => __( 'کد تخفیف حذف شد.', 'flavor-core' ) ) );
+		return $this->respond_cart( $cart_token, array(), array( 'message' => __( 'کد تخفیف حذف شد.', 'flavor-core' ) ) );
 	}
 
 	/**
@@ -303,15 +357,17 @@ class CartController extends BaseApiController {
 			return $this->respond_error( 'unauthorized', __( 'وارد حساب شوید.', 'flavor-core' ), 401 );
 		}
 
-		$points = absint( $request->get_param( 'points' ) );
-		$summary = PointsManager::summary( $user->ID );
+		$cart_token = $this->bootstrap_cart( $request );
+		$points     = absint( $request->get_param( 'points' ) );
+		$summary    = PointsManager::summary( $user->ID );
 
 		if ( $points > (int) $summary['balance'] ) {
 			return $this->respond_error( 'insufficient_points', __( 'موجودی امتیاز شما کافی نیست.', 'flavor-core' ), 400 );
 		}
 
-		return $this->respond_success(
-			$this->build_cart_payload(),
+		return $this->respond_cart(
+			$cart_token,
+			array(),
 			array( 'message' => __( 'امتیاز باشگاه مشتریان محاسبه شد.', 'flavor-core' ) )
 		);
 	}
@@ -321,7 +377,7 @@ class CartController extends BaseApiController {
 	 *
 	 * @return array<string, mixed>
 	 */
-	private function build_cart_payload(): array {
+	public function build_cart_payload(): array {
 		$raw = CartSession::payload();
 		$wc_code   = function_exists( 'get_woocommerce_currency' ) ? strtoupper( (string) get_woocommerce_currency() ) : 'IRT';
 		$from_unit = 'IRR' === $wc_code ? Currency::RIAL : Currency::TOMAN;

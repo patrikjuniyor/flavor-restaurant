@@ -1,8 +1,8 @@
-import '../../config/constants.dart';
-import '../../core/api/api_client.dart';
-import '../../core/storage/secure_storage_service.dart';
-import '../../models/category_model.dart';
-import '../../models/dish_model.dart';
+import '../config/constants.dart';
+import '../core/api/api_client.dart';
+import '../core/storage/secure_storage_service.dart';
+import '../models/category_model.dart';
+import '../models/dish_model.dart';
 
 /// Repository for Food Categories, Menu Catalog, Dish Customization, and Search.
 class MenuRepository {

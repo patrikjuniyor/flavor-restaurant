@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/core/api/api_client.dart';
-import '../../lib/core/utils/jalali_date.dart';
-import '../../lib/repositories/reservation_repository.dart';
+import 'package:flavor_mobile/core/api/api_client.dart';
+import 'package:flavor_mobile/core/utils/jalali_date.dart';
+import 'package:flavor_mobile/repositories/reservation_repository.dart';
 
 void main() {
   group('Table Reservation Integration Test Flow', () {

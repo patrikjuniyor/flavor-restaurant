@@ -21,9 +21,11 @@ class ReviewController extends BaseApiController {
 
 	/**
 	 * Register review routes.
+	 *
+	 * @param string|null $namespace Namespace override (defaults to V1).
 	 */
-	public function register(): void {
-		$ns = FLAVOR_CORE_REST_NAMESPACE;
+	public function register( ?string $namespace = null ): void {
+		$ns = $namespace ?: FLAVOR_CORE_REST_NAMESPACE;
 
 		register_rest_route(
 			$ns,
@@ -197,7 +199,7 @@ class ReviewController extends BaseApiController {
 				'id'          => (int) $wpdb->insert_id,
 				'is_verified' => $is_verified,
 			),
-			array( 'message' => __( 'دیدگاه شما با موفقیت ثبت شد.', 'flavor-core' ) ),
+			array( 'message' => __( 'دیدگاه شما با موفقیت ثبت شد.', 'flavor-core' ), 'status' => 201 ),
 			201
 		);
 	}

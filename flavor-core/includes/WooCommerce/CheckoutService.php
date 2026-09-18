@@ -2,7 +2,8 @@
 /**
  * Place an order through official WooCommerce checkout + gateway APIs.
  *
- * The UI is custom (cart drawer). The money path is not.
+ * The UI is custom (cart drawer / mobile app). The money path is standard WooCommerce.
+ * Secures guest orders with cryptographic guest tokens to prevent IDOR.
  *
  * @package FlavorCore
  */
@@ -12,6 +13,7 @@ namespace FlavorCore\WooCommerce;
 use FlavorCore\Delivery\ZoneChecker;
 use FlavorCore\Order\OrderModes;
 use FlavorCore\PostTypes\BranchPostType;
+use FlavorCore\Support\GuestToken;
 use FlavorCore\Support\Iran;
 use FlavorCore\Support\Settings;
 use FlavorCore\Table\TableRepository;
@@ -62,6 +64,12 @@ class CheckoutService {
 	 * @return array<string, mixed>|\WP_Error
 	 */
 	public static function place( array $payload ) {
+		// Restore guest cart if cart token provided and session empty
+		$cart_token = sanitize_text_field( (string) ( $payload['cart_token'] ?? '' ) );
+		if ( ! empty( $cart_token ) && ( ! WC()->cart || WC()->cart->is_empty() ) ) {
+			CartTokenService::restore_into_session( $cart_token );
+		}
+
 		CartSession::ensure();
 		$cart = WC()->cart;
 		if ( ! $cart || $cart->is_empty() ) {
@@ -124,7 +132,7 @@ class CheckoutService {
 		$ctx['order_mode']   = $mode;
 		OrderModes::set( $ctx );
 
-		$method = sanitize_key( (string) ( $payload['payment_method'] ?? 'flavor_pay_at_counter' ) );
+		$method  = sanitize_key( (string) ( $payload['payment_method'] ?? 'flavor_pay_at_counter' ) );
 		$allowed = wp_list_pluck( self::methods_for_mode( $mode ), 'id' );
 		if ( ! in_array( $method, $allowed, true ) ) {
 			return new \WP_Error( 'flavor_pay', __( 'روش پرداخت برای این حالت سفارش مجاز نیست.', 'flavor-core' ), array( 'status' => 400 ) );
@@ -164,6 +172,13 @@ class CheckoutService {
 			return new \WP_Error( 'flavor_order', __( 'ساخت سفارش ووکامرس ناموفق بود.', 'flavor-core' ), array( 'status' => 500 ) );
 		}
 
+		// Generate Guest Token if order placed by unauthenticated guest
+		$guest_token = '';
+		if ( ! $order->get_customer_id() || 0 === (int) $order->get_customer_id() ) {
+			$guest_token = GuestToken::generate();
+			$order->update_meta_data( GuestToken::META_GUEST_TOKEN, $guest_token );
+		}
+
 		$order->set_payment_method( $method );
 		$order->update_meta_data( '_flavor_branch_id', $branch_id );
 		$order->update_meta_data( '_flavor_table_id', $table_id );
@@ -184,6 +199,11 @@ class CheckoutService {
 		}
 		$order->save();
 
+		// Cleanup guest cart if token was used
+		if ( ! empty( $cart_token ) ) {
+			CartTokenService::delete_cart( $cart_token );
+		}
+
 		$gateways = WC()->payment_gateways()->get_available_payment_gateways();
 		if ( empty( $gateways[ $method ] ) ) {
 			return new \WP_Error( 'flavor_gateway', __( 'درگاه پرداخت پیدا نشد.', 'flavor-core' ), array( 'status' => 400 ) );
@@ -195,7 +215,7 @@ class CheckoutService {
 			return new \WP_Error( 'flavor_pay_failed', $message, array( 'status' => 400 ) );
 		}
 
-		return array(
+		$out = array(
 			'ok'           => true,
 			'order_id'     => (int) $order_id,
 			'order_number' => $order->get_order_number(),
@@ -203,6 +223,12 @@ class CheckoutService {
 			'payment'      => $method,
 			'mode'         => $mode,
 		);
+
+		if ( ! empty( $guest_token ) ) {
+			$out['guest_token'] = $guest_token;
+		}
+
+		return $out;
 	}
 
 	/**

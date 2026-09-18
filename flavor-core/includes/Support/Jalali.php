@@ -213,6 +213,26 @@ class Jalali {
 	}
 
 	/**
+	 * Format Gregorian date & time (e.g. 2026-09-18 20:30:00) to Jalali string.
+	 *
+	 * @param string $gregorian_datetime Gregorian datetime.
+	 * @return string
+	 */
+	public static function format_datetime( string $gregorian_datetime ): string {
+		$parts = explode( ' ', $gregorian_datetime );
+		$ymd   = $parts[0] ?? '';
+		$time  = substr( $parts[1] ?? '', 0, 5 );
+		$date_formatted = self::format( $ymd );
+		if ( ! empty( $time ) ) {
+			if ( 'persian' === Settings::get( 'digits', 'persian' ) ) {
+				$time = \FlavorCore\WooCommerce\Currency::to_persian_digits( $time );
+			}
+			return $date_formatted . ' - ' . $time;
+		}
+		return $date_formatted;
+	}
+
+	/**
 	 * Integer division toward zero.
 	 */
 	private static function div( int $a, int $b ): int {

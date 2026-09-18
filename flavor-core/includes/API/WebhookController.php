@@ -19,9 +19,11 @@ class WebhookController extends BaseApiController {
 
 	/**
 	 * Register routes.
+	 *
+	 * @param string|null $namespace Namespace override (defaults to V1).
 	 */
-	public function register(): void {
-		$ns = FLAVOR_CORE_REST_NAMESPACE;
+	public function register( ?string $namespace = null ): void {
+		$ns = $namespace ?: FLAVOR_CORE_REST_NAMESPACE;
 
 		register_rest_route(
 			$ns,
@@ -87,7 +89,11 @@ class WebhookController extends BaseApiController {
 		if ( current_user_can( 'flavor_manage_webhooks' ) || current_user_can( 'manage_options' ) ) {
 			return true;
 		}
-		return $this->error_unauthorized( __( 'دسترسی به مدیریت وب‌هوک‌ها محدود است.', 'flavor-core' ) );
+		return new \WP_Error(
+			'flavor_forbidden',
+			__( 'دسترسی به مدیریت وب‌هوک‌ها محدود است.', 'flavor-core' ),
+			array( 'status' => 403 )
+		);
 	}
 
 	public function get_webhooks(): \WP_REST_Response {

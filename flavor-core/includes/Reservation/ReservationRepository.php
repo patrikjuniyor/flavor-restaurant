@@ -43,6 +43,23 @@ class ReservationRepository {
 	}
 
 	/**
+	 * Find by guest ownership token.
+	 *
+	 * @param string $guest_token Guest token.
+	 * @return array<string, mixed>|null
+	 */
+	public static function find_by_token( string $guest_token ): ?array {
+		global $wpdb;
+		$table = self::table();
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$row = $wpdb->get_row(
+			$wpdb->prepare( "SELECT * FROM {$table} WHERE guest_token = %s", $guest_token ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			ARRAY_A
+		);
+		return $row ? self::hydrate( $row ) : null;
+	}
+
+	/**
 	 * Reservations for a branch on a Gregorian date.
 	 *
 	 * @return array<int, array<string, mixed>>
@@ -102,6 +119,7 @@ class ReservationRepository {
 			'customer_id'       => ! empty( $data['customer_id'] ) ? (int) $data['customer_id'] : null,
 			'customer_name'     => sanitize_text_field( (string) $data['customer_name'] ),
 			'customer_mobile'   => sanitize_text_field( (string) $data['customer_mobile'] ),
+			'guest_token'       => isset( $data['guest_token'] ) ? sanitize_text_field( (string) $data['guest_token'] ) : null,
 			'status'            => in_array( $data['status'] ?? 'pending', self::STATUSES, true ) ? $data['status'] : 'pending',
 			'special_requests'  => isset( $data['special_requests'] ) ? sanitize_textarea_field( (string) $data['special_requests'] ) : null,
 			'source'            => sanitize_key( (string) ( $data['source'] ?? 'online' ) ),
@@ -166,8 +184,6 @@ class ReservationRepository {
 	public static function due_reminders(): array {
 		global $wpdb;
 		$table = self::table();
-		$from  = gmdate( 'Y-m-d H:i:s', time() + HOUR_IN_SECONDS );
-		$to    = gmdate( 'Y-m-d H:i:s', time() + ( 3 * HOUR_IN_SECONDS ) );
 		// Compare local date+time as datetime. Site timezone via current_time offset is approximate; we filter in PHP too.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$rows = $wpdb->get_results(
@@ -186,7 +202,6 @@ class ReservationRepository {
 				$out[] = self::hydrate( $row );
 			}
 		}
-		unset( $from, $to );
 		return $out;
 	}
 

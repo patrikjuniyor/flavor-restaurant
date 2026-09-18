@@ -1,7 +1,7 @@
-import '../../config/constants.dart';
-import '../../core/api/api_client.dart';
-import '../../core/utils/persian_number.dart';
-import '../../models/reservation_model.dart';
+import '../config/constants.dart';
+import '../core/api/api_client.dart';
+import '../core/utils/persian_number.dart';
+import '../models/reservation_model.dart';
 
 /// Repository for Table Reservations and Jalali Calendar Slot calculations.
 class ReservationRepository {

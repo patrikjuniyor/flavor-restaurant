@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'config/app_config.dart';
 import 'config/routes.dart';
 import 'config/theme.dart';
+import 'core/constants/brand_tokens.g.dart';
+import 'core/navigation/deep_link_service.dart';
 import 'state/auth_state.dart';
 import 'state/cart_state.dart';
 import 'state/config_state.dart';
@@ -16,18 +18,20 @@ import 'state/reservation_state.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Default App Configuration
+  // Initialize App Configuration from provisioned Brand Tokens
   AppConfig.initialize(
     environment: FlavorEnvironment.prod,
-    appName: 'Flavor Restaurant',
-    apiBaseUrl: 'https://restaurant.example.com/wp-json/flavor/v1',
+    appName: BrandTokens.appName,
+    apiBaseUrl: BrandTokens.apiBaseUrl,
+    tenantId: BrandTokens.tenantId,
+    defaultBranchId: BrandTokens.defaultBranchId,
     enableLogging: false,
   );
 
   runApp(const FlavorMobileApp());
 }
 
-/// Root Application Widget with RTL Persian Localization and Dynamic Server Theme tokens.
+/// Root Application Widget with RTL Persian Localization, Dynamic Server Theme, and Deep Link Navigation.
 class FlavorMobileApp extends StatelessWidget {
   const FlavorMobileApp({super.key});
 
@@ -64,6 +68,7 @@ class FlavorMobileApp extends StatelessWidget {
           );
 
           return MaterialApp(
+            navigatorKey: DeepLinkService.instance.navigatorKey,
             title: config.brand.name,
             debugShowCheckedModeBanner: false,
             theme: lightTheme,

@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.flavor.restaurant">
+    <!-- Cleartext HTTP traffic is strictly limited to local debug/development builds -->
+    <application
+        android:usesCleartextTraffic="true" />
+</manifest>

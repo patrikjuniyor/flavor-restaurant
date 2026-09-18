@@ -3,7 +3,7 @@
  * Plugin Name:       Flavor Core
  * Plugin URI:        https://github.com/flavor-restaurant/flavor-restaurant
  * Description:       منطق کسب‌وکار رستوران مستقیم: شعبه، میز و QR، سفارش سالن/بیرون‌بر/ارسال، داشبورد آشپزخانه، رزرو شمسی، OTP و تومان.
- * Version:           1.1.0
+ * Version:           1.4.0
  * Requires at least: 6.4
  * Requires PHP:      8.0
  * Requires Plugins:  woocommerce
@@ -21,13 +21,14 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'FLAVOR_CORE_VERSION', '1.1.0' );
-define( 'FLAVOR_CORE_DB_VERSION', '1.0.0' );
+define( 'FLAVOR_CORE_VERSION', '1.4.0' );
+define( 'FLAVOR_CORE_DB_VERSION', '1.4.0' );
 define( 'FLAVOR_CORE_FILE', __FILE__ );
 define( 'FLAVOR_CORE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FLAVOR_CORE_URL', plugin_dir_url( __FILE__ ) );
 define( 'FLAVOR_CORE_BASENAME', plugin_basename( __FILE__ ) );
 define( 'FLAVOR_CORE_REST_NAMESPACE', 'flavor/v1' );
+define( 'FLAVOR_CORE_REST_V2_NAMESPACE', 'flavor/v2' );
 
 require_once FLAVOR_CORE_PATH . 'includes/Autoloader.php';
 

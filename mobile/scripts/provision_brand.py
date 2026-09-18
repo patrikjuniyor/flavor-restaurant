@@ -135,8 +135,8 @@ def generate_branding_dart_constants(mobile_dir: str, config: dict):
     os.makedirs(os.path.dirname(target_path), exist_ok=True)
 
     app_name = config.get("app_name", "Flavor Restaurant")
-    tenant_id = config.get("restaurant_id", "default_store")
-    api_base_url = config.get("api_base_url", "https://demo.flavor.restaurant/wp-json/flavor/v1")
+    tenant_id = config.get("tenant_id") or config.get("restaurant_id", "default_store")
+    api_base_url = config.get("api_base_url", "https://demo.flavor.restaurant/wp-json/flavor/v2")
     primary_color = config.get("primary_color", "#C62828").replace("#", "0xFF")
     secondary_color = config.get("secondary_color", "#2E7D32").replace("#", "0xFF")
     accent_color = config.get("accent_color", "#FFA000").replace("#", "0xFF")

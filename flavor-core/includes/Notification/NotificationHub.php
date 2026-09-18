@@ -39,14 +39,19 @@ class NotificationHub {
 
 		// 1. SMS Channel
 		if ( in_array( 'sms', $channels, true ) && ! empty( $params['recipient_mobile'] ) ) {
+			$related = array();
+			if ( ! empty( $params['related_type'] ) ) {
+				$related['related_type'] = (string) $params['related_type'];
+			}
+			if ( ! empty( $params['related_id'] ) ) {
+				$related['related_id'] = (int) $params['related_id'];
+			}
+
 			$sms_res = SmsManager::send(
 				(string) $params['recipient_mobile'],
 				(string) $params['body'],
 				$params['event'] ?? 'general_notice',
-				$params['sms_template'] ?? null,
-				$params['sms_template_params'] ?? array(),
-				$params['related_type'] ?? null,
-				$params['related_id'] ?? null
+				$related
 			);
 			$results['sms'] = ! is_wp_error( $sms_res );
 		}

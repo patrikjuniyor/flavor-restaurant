@@ -39,8 +39,13 @@ class Iran {
 
 	/**
 	 * Normalize an Iranian mobile number to 09xxxxxxxxx or empty string.
+	 * Converts Persian/Arabic digits, strips non-digits, and handles +98/0098 prefixes.
+	 *
+	 * @param string $raw Raw input.
+	 * @return string Normalized 11-digit mobile or empty.
 	 */
 	public static function normalize_mobile( string $raw ): string {
+		$raw    = strtr( $raw, PersianText::DIGITS );
 		$digits = preg_replace( '/\D+/', '', $raw );
 		if ( ! is_string( $digits ) ) {
 			return '';

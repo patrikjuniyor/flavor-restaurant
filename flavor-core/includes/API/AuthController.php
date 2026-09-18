@@ -2,7 +2,7 @@
 /**
  * REST API: Auth controller for Mobile & Web clients.
  * Handles OTP login/registration, Bearer/Refresh token issuance & rotation,
- * user profile management, and push notification device registration.
+ * user profile management, device registration, and guest cart migration on login.
  *
  * @package FlavorCore
  */
@@ -15,6 +15,7 @@ use FlavorCore\Database\Schema;
 use FlavorCore\Loyalty\PointsManager;
 use FlavorCore\Support\Iran;
 use FlavorCore\Support\RateLimit;
+use FlavorCore\WooCommerce\CartTokenService;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -25,9 +26,11 @@ class AuthController extends BaseApiController {
 
 	/**
 	 * Register auth routes.
+	 *
+	 * @param string|null $namespace Namespace override (defaults to V1).
 	 */
-	public function register(): void {
-		$ns = FLAVOR_CORE_REST_NAMESPACE;
+	public function register( ?string $namespace = null ): void {
+		$ns = $namespace ?: FLAVOR_CORE_REST_NAMESPACE;
 
 		register_rest_route(
 			$ns,
@@ -161,7 +164,7 @@ class AuthController extends BaseApiController {
 		$mobile = sanitize_text_field( (string) $request->get_param( 'mobile' ) );
 		$out    = OtpAuth::request( $mobile );
 		if ( is_wp_error( $out ) ) {
-			return $this->respond_error( $out->get_error_code(), $out->get_error_message(), (int) $out->get_error_data()['status'] ?? 400 );
+			return $this->respond_error( $out->get_error_code(), $out->get_error_message(), (int) ( $out->get_error_data()['status'] ?? 400 ) );
 		}
 
 		return $this->respond_success( $out, array(), 200, array( 'Cache-Control' => 'no-store' ) );
@@ -192,6 +195,12 @@ class AuthController extends BaseApiController {
 		$user_id = (int) $auth['user_id'];
 		$user    = get_userdata( $user_id );
 		$tokens  = TokenService::issue( $user_id, $device_name );
+
+		// Migrate guest cart if X-Cart-Token provided
+		$cart_token = CartTokenService::extract_token( $request );
+		if ( ! empty( $cart_token ) ) {
+			CartTokenService::migrate_to_user( $cart_token, $user_id );
+		}
 
 		$profile = $this->format_user_profile( $user );
 
