@@ -75,7 +75,7 @@ void main() {
       );
       expect(slots, isA<List>());
       expect(slots.length, 3);
-      expect(slots[0]['time'], '19:30');
+      expect(slots[0].time, '19:30');
 
       // 2. Book Table
       final booking = await resRepo.bookTable(
