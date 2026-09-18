@@ -1,12 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flavor_mobile/models/app_bootstrap_model.dart';
-import 'package:flavor_mobile/models/branch_model.dart';
 import 'package:flavor_mobile/models/cart_model.dart';
 import 'package:flavor_mobile/models/dish_model.dart';
 import 'package:flavor_mobile/models/order_model.dart';
-import 'package:flavor_mobile/models/reservation_model.dart';
 import 'package:flavor_mobile/models/token_model.dart';
-import 'package:flavor_mobile/models/user_model.dart';
 
 void main() {
   group('Domain Models Serialization Tests', () {

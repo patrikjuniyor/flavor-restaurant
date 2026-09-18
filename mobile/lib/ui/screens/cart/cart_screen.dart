@@ -53,7 +53,6 @@ class _CartScreenState extends State<CartScreen> {
     final theme = Theme.of(context);
     final primary = theme.primaryColor;
     final cart = context.watch<CartProvider>();
-    final auth = context.watch<AuthProvider>();
 
     if (cart.isEmpty && !cart.isLoading) {
       return Scaffold(

@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../config/routes.dart';
 import '../../../core/utils/currency_formatter.dart';
-import '../../../models/order_model.dart';
 import '../../../state/auth_state.dart';
 import '../../../state/order_state.dart';
 import '../../common/empty_state.dart';
-import '../../common/flavor_button.dart';
 import '../../common/flavor_card.dart';
 
 /// Customer Order History Screen.

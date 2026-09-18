@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/utils/persian_number.dart';
-import '../../../models/reservation_model.dart';
-import '../../../state/auth_state.dart';
 import '../../../state/reservation_state.dart';
 import '../../common/empty_state.dart';
 import '../../common/flavor_card.dart';
@@ -60,7 +58,6 @@ class _ReservationHistoryScreenState extends State<ReservationHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final auth = context.watch<AuthProvider>();
     final res = context.watch<ReservationProvider>();
 
     return Scaffold(

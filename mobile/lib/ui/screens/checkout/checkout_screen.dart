@@ -65,7 +65,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Future<void> _handleSubmitOrder() async {
-    final auth = context.read<AuthProvider>();
     final config = context.read<ConfigProvider>();
     final cart = context.read<CartProvider>();
     final orderProvider = context.read<OrderProvider>();

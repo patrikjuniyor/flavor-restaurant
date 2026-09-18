@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../config/routes.dart';
-import '../../../core/utils/jalali_date.dart';
 import '../../../core/utils/persian_number.dart';
 import '../../../models/branch_model.dart';
-import '../../../models/reservation_model.dart';
 import '../../../state/auth_state.dart';
 import '../../../state/config_state.dart';
 import '../../../state/reservation_state.dart';

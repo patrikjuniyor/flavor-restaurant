@@ -24,7 +24,6 @@ class AppTheme {
       brightness: brightness,
       primary: primaryColor,
       secondary: accentColor,
-      background: bg,
       surface: surface,
     );
 

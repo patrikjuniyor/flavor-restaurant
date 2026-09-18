@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../../../models/user_model.dart';
 import '../../../state/auth_state.dart';
 import '../../common/empty_state.dart';
-import '../../common/flavor_button.dart';
 import '../../common/flavor_card.dart';
 import '../../common/flavor_text_field.dart';
 

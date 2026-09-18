@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../config/routes.dart';
-import '../../../core/utils/currency_formatter.dart';
 import '../../../core/utils/persian_number.dart';
-import '../../../models/branch_model.dart';
-import '../../../state/auth_state.dart';
 import '../../../state/cart_state.dart';
 import '../../../state/config_state.dart';
 import '../../../state/favorites_state.dart';
@@ -39,9 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final cart = context.watch<CartProvider>();
-
     return Scaffold(
       body: IndexedStack(
         index: _currentTab,

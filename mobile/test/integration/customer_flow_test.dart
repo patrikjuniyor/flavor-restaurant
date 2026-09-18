@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flavor_mobile/core/api/api_client.dart';
 import 'package:flavor_mobile/core/storage/secure_storage_service.dart';
 import 'package:flavor_mobile/models/dish_model.dart';
@@ -8,6 +10,10 @@ import 'package:flavor_mobile/repositories/menu_repository.dart';
 import 'package:flavor_mobile/repositories/order_repository.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.setMockInitialValues({});
+  FlutterSecureStorage.setMockInitialValues({});
+
   group('Full Customer Journey Integration Test Flow', () {
     test('Login -> Browse Menu -> Add to Cart -> Checkout -> Track Order', () async {
       final storage = StorageService();
@@ -68,3 +74,4 @@ void main() {
     });
   });
 }
+

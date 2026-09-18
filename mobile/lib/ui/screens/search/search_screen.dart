@@ -77,7 +77,6 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final primary = theme.primaryColor;
     final favs = context.watch<FavoritesProvider>();
     final cart = context.watch<CartProvider>();
 

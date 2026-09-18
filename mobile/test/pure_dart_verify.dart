@@ -1,7 +1,5 @@
 // Pure Dart verification runner without external flutter_test dependency.
 
-import 'dart:convert';
-
 class DeepLinkDestination {
   final String route;
   final dynamic args;

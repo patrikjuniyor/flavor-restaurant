@@ -1,9 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flavor_mobile/core/api/api_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flavor_mobile/core/utils/jalali_date.dart';
 import 'package:flavor_mobile/repositories/reservation_repository.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.setMockInitialValues({});
+  FlutterSecureStorage.setMockInitialValues({});
+
   group('Table Reservation Integration Test Flow', () {
     test('Select Date -> Query Slots -> Book Table -> Confirm', () async {
       final resRepo = ReservationRepository();
