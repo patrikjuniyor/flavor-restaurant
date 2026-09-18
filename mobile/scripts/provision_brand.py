@@ -18,19 +18,27 @@ import urllib.request
 import hashlib
 
 
-def fetch_config_from_url(url: str) -> dict:
+def fetch_config_from_url(url: str, mobile_dir: str = ".") -> dict:
     print(f"[*] Fetching brand config from API: {url}")
-    req = urllib.request.Request(
-        url,
-        headers={"User-Agent": "Flavor-CI-Provisioner/1.0", "Accept": "application/json"}
-    )
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        if resp.status != 200:
-            raise RuntimeError(f"Failed to fetch config, HTTP status: {resp.status}")
-        data = json.loads(resp.read().decode("utf-8"))
-        if "data" in data:
-            return data["data"]
-        return data
+    try:
+        req = urllib.request.Request(
+            url,
+            headers={"User-Agent": "Flavor-CI-Provisioner/1.0", "Accept": "application/json"}
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            if resp.status != 200:
+                raise RuntimeError(f"Failed to fetch config, HTTP status: {resp.status}")
+            data = json.loads(resp.read().decode("utf-8"))
+            if "data" in data:
+                return data["data"]
+            return data
+    except Exception as e:
+        print(f"[!] Warning: Could not fetch config from URL ({e}). Checking local fallback.")
+        default_file = os.path.join(mobile_dir, "assets", "branding", "default_branding.json")
+        if os.path.exists(default_file):
+            print(f"[*] Falling back to local template: {default_file}")
+            return load_config_from_file(default_file)
+        raise
 
 
 def load_config_from_file(path: str) -> dict:
@@ -181,7 +189,7 @@ def main():
     args = parser.parse_args()
 
     if args.config_url:
-        config = fetch_config_from_url(args.config_url)
+        config = fetch_config_from_url(args.config_url, mobile_dir=args.mobile_root)
     elif args.config_file:
         config = load_config_from_file(args.config_file)
     else:
