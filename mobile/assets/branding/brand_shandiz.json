@@ -1,0 +1,17 @@
+{
+  "app_name": "رستوران پدیده شاندیز",
+  "package_name": "com.flavor.shandiz",
+  "version_name": "2.4.0",
+  "version_code": 240,
+  "tenant_id": "shandiz_group",
+  "restaurant_id": "shandiz_group",
+  "api_base_url": "https://shandiz.flavor.restaurant/wp-json/flavor/v2",
+  "primary_color": "#B71C1C",
+  "secondary_color": "#D32F2F",
+  "accent_color": "#FFA000",
+  "support_phone": "021-22000001",
+  "support_email": "support@shandiz.flavor.restaurant",
+  "privacy_policy_url": "https://shandiz.flavor.restaurant/privacy",
+  "terms_url": "https://shandiz.flavor.restaurant/terms",
+  "default_branch_id": 1
+}

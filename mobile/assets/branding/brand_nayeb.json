@@ -1,0 +1,17 @@
+{
+  "app_name": "رستوران نائب ساعی",
+  "package_name": "com.flavor.nayeb",
+  "version_name": "3.1.0",
+  "version_code": 310,
+  "tenant_id": "nayeb_grand",
+  "restaurant_id": "nayeb_grand",
+  "api_base_url": "https://nayeb.flavor.restaurant/wp-json/flavor/v2",
+  "primary_color": "#1B5E20",
+  "secondary_color": "#388E3C",
+  "accent_color": "#FFC107",
+  "support_phone": "021-88888888",
+  "support_email": "support@nayeb.flavor.restaurant",
+  "privacy_policy_url": "https://nayeb.flavor.restaurant/privacy",
+  "terms_url": "https://nayeb.flavor.restaurant/terms",
+  "default_branch_id": 2
+}
