@@ -294,6 +294,7 @@ class MockWPDB {
 				ip TEXT NULL,
 				user_agent TEXT NULL,
 				expires_at DATETIME NOT NULL,
+				refresh_expires_at DATETIME NULL,
 				revoked_at DATETIME NULL,
 				created_at DATETIME NOT NULL,
 				updated_at DATETIME NOT NULL
@@ -393,14 +394,15 @@ class MockWPDB {
 			CREATE TABLE wp_flavor_device_tokens (
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				user_id INTEGER NULL,
-				device_token TEXT NOT NULL UNIQUE,
+				device_token TEXT NOT NULL,
 				platform TEXT NOT NULL DEFAULT 'android',
 				app_version TEXT NOT NULL DEFAULT '1.0.0',
 				branch_id INTEGER NULL,
 				is_active INTEGER NOT NULL DEFAULT 1,
 				last_seen_at DATETIME NOT NULL,
 				created_at DATETIME NOT NULL,
-				updated_at DATETIME NULL
+				updated_at DATETIME NULL,
+				UNIQUE (device_token, platform)
 			);
 
 			CREATE TABLE wp_flavor_system_logs (
@@ -553,8 +555,13 @@ class MockWPDB {
 		}
 		$where_clauses = array();
 		foreach ( $where as $k => $v ) {
-			$where_clauses[] = "{$k} = ?";
-			$vals[] = $v;
+			// Match real wpdb semantics: a NULL where-value becomes "IS NULL".
+			if ( null === $v ) {
+				$where_clauses[] = "{$k} IS NULL";
+			} else {
+				$where_clauses[] = "{$k} = ?";
+				$vals[] = $v;
+			}
 		}
 		$sql = "UPDATE {$table} SET " . implode( ',', $sets ) . " WHERE " . implode( ' AND ', $where_clauses );
 		try {
@@ -569,8 +576,13 @@ class MockWPDB {
 		$where_clauses = array();
 		$vals = array();
 		foreach ( $where as $k => $v ) {
-			$where_clauses[] = "{$k} = ?";
-			$vals[] = $v;
+			// Match real wpdb semantics: a NULL where-value becomes "IS NULL".
+			if ( null === $v ) {
+				$where_clauses[] = "{$k} IS NULL";
+			} else {
+				$where_clauses[] = "{$k} = ?";
+				$vals[] = $v;
+			}
 		}
 		$sql = "DELETE FROM {$table} WHERE " . implode( ' AND ', $where_clauses );
 		try {

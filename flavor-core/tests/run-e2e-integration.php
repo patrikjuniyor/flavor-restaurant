@@ -171,6 +171,65 @@ run_test( 'Revoke session token and verify invalidated token cannot authenticate
 	return $res->get_status() === 200 && null === $revoked_valid;
 } );
 
+run_test( 'Logout-all-devices revokes every active token pair for the user', function () use ( $auth_ctrl ) {
+	$user_id = 202;
+	$t1      = TokenService::issue( $user_id, 'dev-uuid-a', 'Phone A' );
+	$t2      = TokenService::issue( $user_id, 'dev-uuid-b', 'Tablet B' );
+
+	$req = new \WP_REST_Request( 'POST', '/flavor/v2/auth/token/revoke' );
+	$req->set_header( 'Authorization', 'Bearer ' . $t1['access_token'] );
+	$req->set_param( 'all_devices', true );
+	$res = $auth_ctrl->token_revoke( $req );
+
+	return $res->get_status() === 200 &&
+		null === TokenService::validate( $t1['access_token'] ) &&
+		null === TokenService::validate( $t2['access_token'] );
+} );
+
+run_test( 'Expired refresh token can never rotate (TTL enforced, incl. legacy rows)', function () {
+	global $wpdb;
+	$user_id = 202;
+	$table   = TokenService::table();
+
+	// 1. Explicitly force-expired refresh_expires_at.
+	$tokens = TokenService::issue( $user_id, '', 'Force Expired' );
+	$wpdb->update( $table, array( 'refresh_expires_at' => '2000-01-01 00:00:00' ), array( 'refresh_token_hash' => hash( 'sha256', $tokens['refresh_token'] ) ) );
+	$expired_out = TokenService::refresh( $tokens['refresh_token'] );
+
+	// 2. Legacy row without the column (schema < 1.5.0): created_at older than REFRESH_TTL.
+	$legacy = TokenService::issue( $user_id, '', 'Legacy Row' );
+	$wpdb->update( $table, array( 'refresh_expires_at' => null, 'created_at' => '2000-01-01 00:00:00' ), array( 'refresh_token_hash' => hash( 'sha256', $legacy['refresh_token'] ) ) );
+	$legacy_out = TokenService::refresh( $legacy['refresh_token'] );
+
+	// 3. Sanity: a fresh, in-TTL refresh token still rotates.
+	$fresh     = TokenService::issue( $user_id, '', 'Fresh' );
+	$fresh_out = TokenService::refresh( $fresh['refresh_token'] );
+
+	return is_wp_error( $expired_out ) && is_wp_error( $legacy_out ) && ! is_wp_error( $fresh_out );
+} );
+
+run_test( 'Device registration persists app_version & last_seen_at and re-registration upserts one row', function () use ( $auth_ctrl ) {
+	global $wpdb;
+	$table = \FlavorCore\Database\Schema::table( 'flavor_device_tokens' );
+
+	$req = new \WP_REST_Request( 'POST', '/flavor/v2/auth/device' );
+	$req->set_json_params( array( 'device_token' => 'fcm_regression_token', 'platform' => 'android', 'app_version' => '2.4.0' ) );
+	$res = $auth_ctrl->register_device( $req );
+
+	$row      = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE device_token = %s AND platform = %s", 'fcm_regression_token', 'android' ), ARRAY_A );
+	$first_ok = $row && '2.4.0' === $row['app_version'] && ! empty( $row['last_seen_at'] ) && ! empty( $row['updated_at'] );
+
+	// Re-registering the same device token with a newer app version must upsert.
+	$req2 = new \WP_REST_Request( 'POST', '/flavor/v2/auth/device' );
+	$req2->set_json_params( array( 'device_token' => 'fcm_regression_token', 'platform' => 'android', 'app_version' => '2.5.1' ) );
+	$res2 = $auth_ctrl->register_device( $req2 );
+
+	$count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table} WHERE device_token = %s AND platform = %s", 'fcm_regression_token', 'android' ) );
+	$row2  = $wpdb->get_row( $wpdb->prepare( "SELECT app_version FROM {$table} WHERE device_token = %s AND platform = %s", 'fcm_regression_token', 'android' ), ARRAY_A );
+
+	return $res->get_status() === 200 && $first_ok && $res2->get_status() === 200 && 1 === $count && $row2 && '2.5.1' === $row2['app_version'];
+} );
+
 // ===========================================================================
 // TEST SUITE 2: REST API V2 RESTAURANT CONFIGURATION & MENU
 // ===========================================================================
