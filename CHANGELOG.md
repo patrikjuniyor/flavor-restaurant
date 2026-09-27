@@ -7,6 +7,16 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **Auth: fatal error on logout-all-devices** — `AuthController::token_revoke()` called the non-existent `TokenService::revoke_all_for_user()`; it now calls the actual `TokenService::revoke_all_user_tokens()`
+- **Auth: OTP login wrote device name into the device_id column** — `TokenService::issue( $user_id, '', $device_name )` argument order corrected in `otp_verify()`
+- **Auth: refresh tokens never expired** — the refresh flow only checked `revoked_at`; refresh TTL is now enforced via a new `refresh_expires_at` column (schema 1.5.0), with a `created_at + REFRESH_TTL` fallback for legacy rows and a best-effort revoke of dead rows
+- **DB: `flavor_device_tokens` production schema missing `app_version` and `updated_at`** while registration wrote them (and skipped the NOT NULL `last_seen_at`) — columns added via dbDelta migration (DB version 1.4.0 → 1.5.0)
+- **DB: token purge could delete rows whose refresh token was still valid** — purge is now refresh-aware and only removes revoked rows older than 30 days or rows whose refresh credential is definitively expired
+- **Observability: silent database-write failures** — `issue()`, `refresh()`, `revoke()`, `revoke_all_user_tokens()` and `purge_expired()` now check write results, log via `StructuredLogger` (channel `auth`) and surface `WP_Error` (500) instead of pretending success; `POST /auth/device` and `DELETE /auth/device` return 500 on write failure while keeping their success payloads unchanged
+- **Tests: mock wpdb divergence from real wpdb** — mock `update()`/`delete()` now translate NULL where-values to `IS NULL` (real wpdb semantics) and the mock `flavor_device_tokens` table uses the production composite `UNIQUE (device_token, platform)`
+
 ### Added
 
 - Flavor Builder («فلیور ساز») — the theme's built-in drag-and-drop page builder, ported from Rasta Commerce "Rasta Builder" (`inc/builder.php`)

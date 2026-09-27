@@ -11,8 +11,8 @@ namespace FlavorCore\API;
 
 use FlavorCore\Customer\OtpAuth;
 use FlavorCore\Customer\TokenService;
-use FlavorCore\Database\Schema;
 use FlavorCore\Loyalty\PointsManager;
+use FlavorCore\Notification\PushNotificationService;
 use FlavorCore\Support\Iran;
 use FlavorCore\Support\RateLimit;
 use FlavorCore\WooCommerce\CartTokenService;
@@ -194,7 +194,13 @@ class AuthController extends BaseApiController {
 
 		$user_id = (int) $auth['user_id'];
 		$user    = get_userdata( $user_id );
-		$tokens  = TokenService::issue( $user_id, $device_name );
+		// issue( user_id, device_id, device_name ) — the OTP flow knows the device
+		// label only, so the label must go to the third parameter.
+		$tokens  = TokenService::issue( $user_id, '', $device_name );
+
+		if ( is_wp_error( $tokens ) ) {
+			return $this->respond_error( $tokens->get_error_code(), $tokens->get_error_message(), (int) ( $tokens->get_error_data()['status'] ?? 500 ) );
+		}
 
 		// Migrate guest cart if X-Cart-Token provided
 		$cart_token = CartTokenService::extract_token( $request );
@@ -244,7 +250,7 @@ class AuthController extends BaseApiController {
 
 		$all = (bool) $request->get_param( 'all_devices' );
 		if ( $all ) {
-			TokenService::revoke_all_for_user( $user->ID );
+			TokenService::revoke_all_user_tokens( $user->ID );
 		} else {
 			$auth_header = $request->get_header( 'Authorization' );
 			if ( $auth_header && preg_match( '/^Bearer\s+(.+)$/i', $auth_header, $matches ) ) {
@@ -371,22 +377,13 @@ class AuthController extends BaseApiController {
 		$user    = $this->resolve_user( $request );
 		$user_id = $user ? $user->ID : null;
 
-		global $wpdb;
-		$table = Schema::table( 'flavor_device_tokens' );
-		$now   = current_time( 'mysql' );
+		// Delegate to the canonical writer: it uses the schema-aligned column set
+		// (app_version / last_seen_at / is_active) and reports write failures.
+		$registered = PushNotificationService::register_device( $user_id, $device_token, $platform, $app_version );
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		$wpdb->replace(
-			$table,
-			array(
-				'user_id'      => $user_id,
-				'device_token' => $device_token,
-				'platform'     => in_array( $platform, array( 'ios', 'android', 'web' ), true ) ? $platform : 'android',
-				'app_version'  => $app_version,
-				'updated_at'   => $now,
-				'created_at'   => $now,
-			)
-		);
+		if ( ! $registered ) {
+			return $this->respond_error( 'device_registration_failed', __( 'ثبت دستگاه با خطا مواجه شد. لطفاً دوباره تلاش کنید.', 'flavor-core' ), 500 );
+		}
 
 		return $this->respond_success( array( 'registered' => true ) );
 	}
@@ -402,10 +399,10 @@ class AuthController extends BaseApiController {
 		$device_token = sanitize_text_field( (string) ( $body['device_token'] ?? '' ) );
 
 		if ( ! empty( $device_token ) ) {
-			global $wpdb;
-			$table = Schema::table( 'flavor_device_tokens' );
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-			$wpdb->delete( $table, array( 'device_token' => $device_token ) );
+			$deleted = PushNotificationService::unregister_device( $device_token );
+			if ( ! $deleted ) {
+				return $this->respond_error( 'device_unregistration_failed', __( 'حذف دستگاه با خطا مواجه شد.', 'flavor-core' ), 500 );
+			}
 		}
 
 		return $this->respond_success( array( 'unregistered' => true ) );

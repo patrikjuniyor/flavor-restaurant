@@ -21,8 +21,12 @@ class Schema {
 
 	/**
 	 * Current database schema version.
+	 *
+	 * 1.5.0 — adds refresh_expires_at to flavor_auth_tokens (enforceable refresh
+	 * TTL) and app_version / updated_at to flavor_device_tokens (fixing the
+	 * column mismatch with device registration writes).
 	 */
-	public const DB_VERSION = '1.4.0';
+	public const DB_VERSION = '1.5.0';
 
 	/**
 	 * Table short names without the $wpdb prefix.
@@ -400,13 +404,15 @@ class Schema {
 				ip VARCHAR(45) NULL,
 				user_agent VARCHAR(255) NULL,
 				expires_at DATETIME NOT NULL,
+				refresh_expires_at DATETIME NULL,
 				revoked_at DATETIME NULL,
 				created_at DATETIME NOT NULL,
 				updated_at DATETIME NOT NULL,
 				PRIMARY KEY  (id),
 				KEY idx_token_hash (token_hash),
 				KEY idx_user_exp (user_id, expires_at),
-				KEY idx_refresh_hash (refresh_token_hash)
+				KEY idx_refresh_hash (refresh_token_hash),
+				KEY idx_refresh_exp (refresh_expires_at)
 			) {$charset};",
 
 			"CREATE TABLE {$devices} (
@@ -414,10 +420,12 @@ class Schema {
 				user_id BIGINT UNSIGNED NULL,
 				device_token VARCHAR(255) NOT NULL,
 				platform VARCHAR(20) NOT NULL DEFAULT 'android',
+				app_version VARCHAR(32) NOT NULL DEFAULT '1.0.0',
 				branch_id BIGINT UNSIGNED NULL,
 				is_active TINYINT(1) NOT NULL DEFAULT 1,
 				last_seen_at DATETIME NOT NULL,
 				created_at DATETIME NOT NULL,
+				updated_at DATETIME NULL,
 				PRIMARY KEY  (id),
 				UNIQUE KEY uk_device_platform (device_token, platform),
 				KEY idx_user_active (user_id, is_active)

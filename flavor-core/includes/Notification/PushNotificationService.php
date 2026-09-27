@@ -66,6 +66,7 @@ class PushNotificationService {
 				'is_active'    => 1,
 				'last_seen_at' => $now,
 				'created_at'   => $now,
+				'updated_at'   => $now,
 			)
 		);
 
