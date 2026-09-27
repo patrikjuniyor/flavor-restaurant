@@ -20,6 +20,7 @@ require_once FLAVOR_DIR . '/inc/class-schema-output.php';
 require_once FLAVOR_DIR . '/inc/class-demo-importer.php';
 require_once FLAVOR_DIR . '/inc/class-gutenberg.php';
 require_once FLAVOR_DIR . '/inc/class-elementor.php';
+require_once FLAVOR_DIR . '/inc/class-builder.php';
 require_once FLAVOR_DIR . '/inc/template-tags.php';
 
 Flavor\Theme_Setup::init();
@@ -30,3 +31,4 @@ Flavor\Schema_Output::init();
 Flavor\Demo_Importer::init();
 Flavor\Gutenberg::init();
 Flavor\Elementor::init();
+Flavor\Builder::init();

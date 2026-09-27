@@ -5,6 +5,20 @@ All notable changes to **رستوران مستقیم** (Flavor theme + Flavor Co
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Flavor Builder («فلیور ساز») — the theme's built-in drag-and-drop page builder, ported from Rasta Commerce "Rasta Builder" (`inc/builder.php`)
+  - Meta box on pages, posts and `flavor_branch` with palette → canvas drag-and-drop, block reorder, inline field editing and enable toggle
+  - Layout stored in `_flavor_builder_data` post meta and rendered server-side (no JS required for visitors)
+  - Content elements: heading, text, button, image · Layout: divider, spacer · Sections: CTA, features list, testimonials
+  - Restaurant elements replacing the shop ones: menu grid (WooCommerce food items), menu categories (`product_cat`), table reservation CTA (auto-resolves the `reservation` page)
+  - `[flavor_builder id="123"]` shortcode to embed a saved layout anywhere
+  - Frontend styles load only on pages using the builder (`flavor_builder_enqueue_styles` filter to override)
+  - Extensibility filters: `flavor_builder_elements`, `flavor_builder_post_types`, `flavor_builder_reservation_url`
+  - Assets: `assets/css/builder.css`, `assets/css/builder-admin.css`, `assets/js/builder-admin.js`
+
 ## [1.1.0] - 2026-08-30
 
 ### Added
