@@ -29,6 +29,27 @@ class KitchenTicketSync {
 	);
 
 	/**
+	 * While suspended, on_order_processed() does nothing. Programmatic checkout
+	 * flows (CheckoutService) persist `_flavor_*` metadata only AFTER
+	 * WC_Checkout::create_order() returns, but that method fires
+	 * woocommerce_checkout_order_processed internally — handling it eagerly
+	 * would snapshot a kitchen ticket with empty branch/table/mode metadata.
+	 *
+	 * @var bool
+	 */
+	private static bool $suspended = false;
+
+	/**
+	 * Suspend/restore the legacy checkout hook listener while a programmatic
+	 * order is being created and enriched with flavor metadata.
+	 *
+	 * @param bool $on Suspended or not.
+	 */
+	public static function suspend( bool $on ): void {
+		self::$suspended = $on;
+	}
+
+	/**
 	 * Hooks.
 	 */
 	public function hooks(): void {
@@ -46,6 +67,9 @@ class KitchenTicketSync {
 	 */
 	public function on_order_processed( int $order_id, $posted, $order = null ): void {
 		unset( $posted );
+		if ( self::$suspended ) {
+			return;
+		}
 		$order = $order instanceof \WC_Order ? $order : wc_get_order( $order_id );
 		if ( ! $order ) {
 			return;

@@ -128,7 +128,10 @@ class OrderController extends BaseApiController {
 
 		$out = CheckoutService::place( $body );
 		if ( is_wp_error( $out ) ) {
-			return $this->respond_error( $out->get_error_code(), $out->get_error_message(), (int) ( $out->get_error_data()['status'] ?? 400 ) );
+			$data   = is_array( $out->get_error_data() ) ? $out->get_error_data() : array();
+			$status = (int) ( $data['status'] ?? 400 );
+			unset( $data['status'] );
+			return $this->respond_error( $out->get_error_code(), $out->get_error_message(), $status, $data );
 		}
 
 		$headers = array( 'Cache-Control' => 'no-store' );

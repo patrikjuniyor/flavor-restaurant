@@ -89,7 +89,7 @@ class Settings {
 		$current = (int) get_option( $key, 1 );
 		$next    = $current + 1;
 		update_option( $key, $next, false );
-		clean_option_cache( $key );
+		wp_cache_delete( $key, 'options' );
 		return $next;
 	}
 }
