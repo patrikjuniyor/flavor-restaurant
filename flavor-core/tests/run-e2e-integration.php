@@ -34,8 +34,11 @@ use FlavorCore\API\ReservationController;
 use FlavorCore\API\SettingsController;
 use FlavorCore\Customer\OtpAuth;
 use FlavorCore\Customer\TokenService;
+use FlavorCore\Menu\AvailabilityManager;
 use FlavorCore\Notification\PushNotificationService;
 use FlavorCore\Order\KitchenTicketRepository;
+use FlavorCore\Order\KitchenTicketSync;
+use FlavorCore\Order\OrderModes;
 use FlavorCore\Reservation\ReservationRepository;
 use FlavorCore\Reservation\ReservationService;
 use FlavorCore\Support\GuestToken;
@@ -862,6 +865,499 @@ run_test( 'API config response redacts secrets (no github_token / ci_webhook_sec
 	// Restore only the webhook fixture secret for subsequent suites.
 	update_option( \FlavorCore\Mobile\MobileConfigManager::OPTION_NAME, array( 'ci_webhook_secret' => $test_secret ) );
 	return $no_plain_secrets && $has_metadata;
+} );
+
+// ===========================================================================
+// TEST SUITE 11: CHECKOUT RELIABILITY, IDEMPOTENCY & KITCHEN-TICKET LIFECYCLE
+// ===========================================================================
+echo "\n--- 11. CHECKOUT RELIABILITY & KITCHEN TICKET LIFECYCLE ---\n";
+
+// Extra table fixtures for strict dine-in validation.
+$wpdb->insert(
+	'wp_flavor_tables',
+	array(
+		'branch_id'    => 2,
+		'table_number' => 'T-21',
+		'label'        => 'میز شعبه ۲',
+		'capacity'     => 2,
+		'section'      => 'indoor',
+		'qr_token'     => 'qr_token_21',
+		'is_active'    => 1,
+		'sort_order'   => 21,
+		'created_at'   => '2026-01-01 00:00:00',
+		'updated_at'   => '2026-01-01 00:00:00',
+	)
+);
+$wpdb->insert(
+	'wp_flavor_tables',
+	array(
+		'branch_id'    => 1,
+		'table_number' => 'T-99',
+		'label'        => 'میز غیرفعال',
+		'capacity'     => 2,
+		'section'      => 'indoor',
+		'qr_token'     => 'qr_token_99',
+		'is_active'    => 0,
+		'sort_order'   => 99,
+		'created_at'   => '2026-01-01 00:00:00',
+		'updated_at'   => '2026-01-01 00:00:00',
+	)
+);
+$branch2_table_id = (int) $wpdb->get_var( "SELECT id FROM wp_flavor_tables WHERE branch_id = 2 AND table_number = 'T-21'" );
+
+run_test( 'Idempotency: duplicate explicit idempotency_key never creates a second order', function () use ( $order_ctrl ) {
+	wp_set_current_user( 0 );
+	WC()->cart->empty_cart();
+	WC()->cart->add_to_cart( 1, 1 );
+	OrderModes::set( array() );
+
+	$payload = array(
+		'order_mode'      => 'dine_in',
+		'branch_id'       => 1,
+		'table_number'    => 'T-01',
+		'mobile'          => '09351112233',
+		'payment_method'  => 'flavor_pay_at_counter',
+		'idempotency_key' => 'e2e-idem-0001',
+	);
+
+	$before    = count( $GLOBALS['_mock_wc_orders'] );
+	$req       = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+	$req->set_json_params( $payload );
+	$res_first  = $order_ctrl->create_order( $req );
+	$first_data = $res_first->get_data();
+	$first_id   = (int) ( $first_data['data']['order_id'] ?? 0 );
+
+	$req2       = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+	$req2->set_json_params( $payload );
+	$res_second  = $order_ctrl->create_order( $req2 );
+	$second_data = $res_second->get_data();
+
+	$delta = count( $GLOBALS['_mock_wc_orders'] ) - $before;
+
+	return 201 === $res_first->get_status()
+		&& $first_id > 0
+		&& 201 === $res_second->get_status()
+		&& true === ( $second_data['data']['replay'] ?? false )
+		&& $first_id === (int) ( $second_data['data']['order_id'] ?? 0 )
+		&& ! empty( $second_data['data']['guest_token'] )
+		&& 1 === $delta;
+} );
+
+run_test( 'Idempotency: rapid double-submit without key is auto-deduplicated', function () use ( $order_ctrl ) {
+	wp_set_current_user( 0 );
+	WC()->cart->empty_cart();
+	WC()->cart->add_to_cart( 2, 2 );
+	OrderModes::set( array() );
+
+	$payload = array(
+		'order_mode'     => 'dine_in',
+		'branch_id'      => 1,
+		'table_number'   => 'T-02',
+		'mobile'         => '09351112233',
+		'payment_method' => 'flavor_pay_at_counter',
+	);
+
+	$before    = count( $GLOBALS['_mock_wc_orders'] );
+	$req       = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+	$req->set_json_params( $payload );
+	$res_first  = $order_ctrl->create_order( $req );
+	$first_id   = (int) ( $res_first->get_data()['data']['order_id'] ?? 0 );
+
+	$req2       = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+	$req2->set_json_params( $payload );
+	$res_second = $order_ctrl->create_order( $req2 );
+	$data2      = $res_second->get_data();
+
+	$delta = count( $GLOBALS['_mock_wc_orders'] ) - $before;
+
+	return 201 === $res_first->get_status()
+		&& 201 === $res_second->get_status()
+		&& true === ( $data2['data']['replay'] ?? false )
+		&& $first_id === (int) ( $data2['data']['order_id'] ?? 0 )
+		&& 1 === $delta;
+} );
+
+run_test( 'Failed gateway payment: cart token preserved, recoverable error, retry does not duplicate order', function () use ( $order_ctrl ) {
+	$catalog                             = ( new \MockWCPaymentGateways() )->get_available_payment_gateways();
+	$catalog['flavor_zarinpal_fail']     = new \MockWCFailingGateway( 'flavor_zarinpal_fail', 'زرین‌پال (خراب)' );
+	\MockWCPaymentGateways::$catalog_override = $catalog;
+
+	$cart_token = CartTokenService::generate_token();
+	CartTokenService::save_cart(
+		$cart_token,
+		array(
+			'items' => array(
+				array(
+					'product_id'   => 1,
+					'quantity'     => 1,
+					'modifiers'    => array(),
+					'instructions' => '',
+				),
+			),
+		),
+		1
+	);
+
+	wp_set_current_user( 0 );
+	WC()->cart->empty_cart();
+	OrderModes::set( array() );
+
+	$before = count( $GLOBALS['_mock_wc_orders'] );
+	$req    = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+	$req->set_header( 'X-Cart-Token', $cart_token );
+	$req->set_json_params(
+		array(
+			'order_mode'      => 'dine_in',
+			'branch_id'       => 1,
+			'table_number'    => 'T-03',
+			'mobile'          => '09351112233',
+			'payment_method'  => 'flavor_zarinpal_fail',
+			'idempotency_key' => 'e2e-fail-0001',
+		)
+	);
+	$res  = $order_ctrl->create_order( $req );
+	$data = $res->get_data();
+
+	$failed_order_id = (int) ( $data['errors'][0]['details']['order_id'] ?? 0 );
+
+	// Cart token row and order must survive the failed payment.
+	$cart_alive  = null !== CartTokenService::get_cart( $cart_token );
+	$order       = $failed_order_id ? wc_get_order( $failed_order_id ) : null;
+	$flagged_no  = $order && 'no' === (string) $order->get_meta( '_flavor_payment_ok' );
+	$no_ticket   = $failed_order_id ? ( null === KitchenTicketRepository::find_by_order( $failed_order_id ) ) : false;
+
+	// Retry with the same key: must replay the failed order, never duplicate it.
+	$sb_before = count( $GLOBALS['_mock_wc_orders'] );
+	$req2      = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+	$req2->set_header( 'X-Cart-Token', $cart_token );
+	$req2->set_json_params(
+		array(
+			'order_mode'      => 'dine_in',
+			'branch_id'       => 1,
+			'table_number'    => 'T-03',
+			'mobile'          => '09351112233',
+			'payment_method'  => 'flavor_zarinpal_fail',
+			'idempotency_key' => 'e2e-fail-0001',
+		)
+	);
+	$res2      = $order_ctrl->create_order( $req2 );
+	$data2     = $res2->get_data();
+	$delta     = count( $GLOBALS['_mock_wc_orders'] ) - $sb_before;
+	// Exactly one order was created across both attempts.
+	$total_new = count( $GLOBALS['_mock_wc_orders'] ) - $before;
+
+	\MockWCPaymentGateways::$catalog_override = null;
+
+	return 400 === $res->get_status()
+		&& 'flavor_pay_failed' === (string) ( $data['errors'][0]['code'] ?? '' )
+		&& true === (bool) ( $data['errors'][0]['details']['recoverable'] ?? false )
+		&& $failed_order_id > 0
+		&& $cart_alive
+		&& $flagged_no
+		&& $no_ticket
+		&& $res2->get_status() >= 200
+		&& $res2->get_status() < 300
+		&& true === ( $data2['data']['replay'] ?? false )
+		&& false === (bool) ( $data2['data']['ok'] ?? true )
+		&& $failed_order_id === (int) ( $data2['data']['order_id'] ?? 0 )
+		&& 0 === $delta
+		&& 1 === $total_new;
+} );
+
+run_test( 'Missing gateway is rejected before any order row is created', function () use ( $order_ctrl ) {
+	wp_set_current_user( 0 );
+	WC()->cart->empty_cart();
+	WC()->cart->add_to_cart( 1, 1 );
+	OrderModes::set( array() );
+
+	$before = count( $GLOBALS['_mock_wc_orders'] );
+	$req    = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+	$req->set_json_params(
+		array(
+			'order_mode'     => 'dine_in',
+			'branch_id'      => 1,
+			'table_number'   => 'T-01',
+			'mobile'         => '09351112233',
+			'payment_method' => 'ghost_gateway_404',
+		)
+	);
+	$res = $order_ctrl->create_order( $req );
+	$data = $res->get_data();
+
+	return 400 === $res->get_status()
+		&& 'flavor_gateway' === (string) ( $data['errors'][0]['code'] ?? '' )
+		&& count( $GLOBALS['_mock_wc_orders'] ) === $before
+		&& ! WC()->cart->is_empty();
+} );
+
+run_test( 'Invalid branch: nonexistent or unpublished branch is rejected with no side effects', function () use ( $order_ctrl ) {
+	$GLOBALS['_mock_missing_posts'][999] = true;
+	$GLOBALS['_mock_post_status'][50]    = 'draft';
+
+	$results = array();
+	foreach ( array( 999, 50 ) as $bad_branch ) {
+		wp_set_current_user( 0 );
+		WC()->cart->empty_cart();
+		WC()->cart->add_to_cart( 1, 1 );
+		OrderModes::set( array() );
+		$before = count( $GLOBALS['_mock_wc_orders'] );
+		$req    = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+		$req->set_json_params(
+			array(
+				'order_mode'     => 'takeaway',
+				'branch_id'      => $bad_branch,
+				'mobile'         => '09351112233',
+				'payment_method' => 'flavor_pay_at_counter',
+			)
+		);
+		$res       = $order_ctrl->create_order( $req );
+		$results[] = 400 === $res->get_status()
+			&& 'flavor_branch' === (string) ( $res->get_data()['errors'][0]['code'] ?? '' )
+			&& count( $GLOBALS['_mock_wc_orders'] ) === $before;
+	}
+
+	unset( $GLOBALS['_mock_missing_posts'][999], $GLOBALS['_mock_post_status'][50] );
+
+	return ! in_array( false, $results, true );
+} );
+
+run_test( 'Invalid table: arbitrary number, other-branch table, inactive table and missing table are all rejected', function () use ( $order_ctrl, $branch2_table_id ) {
+	wp_set_current_user( 0 );
+
+	$cases = array(
+		array( 'table_number' => 'XX-99' ),                // Arbitrary / not in repository.
+		array( 'table_number' => 'T-99' ),                 // Inactive table.
+		array( 'table_id'     => $branch2_table_id ),      // Belongs to branch 2.
+		array(),                                            // No table at all.
+	);
+
+	$results = array();
+	foreach ( $cases as $extra ) {
+		WC()->cart->empty_cart();
+		WC()->cart->add_to_cart( 1, 1 );
+		OrderModes::set( array() ); // No leaked QR/table context.
+		$before  = count( $GLOBALS['_mock_wc_orders'] );
+		$payload = array_merge(
+			array(
+				'order_mode'     => 'dine_in',
+				'branch_id'      => 1,
+				'mobile'         => '09351112233',
+				'payment_method' => 'flavor_pay_at_counter',
+			),
+			$extra
+		);
+		$req = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+		$req->set_json_params( $payload );
+		$res       = $order_ctrl->create_order( $req );
+		$results[] = 400 === $res->get_status()
+			&& 'flavor_table' === (string) ( $res->get_data()['errors'][0]['code'] ?? '' )
+			&& count( $GLOBALS['_mock_wc_orders'] ) === $before;
+	}
+
+	return $branch2_table_id > 0 && ! in_array( false, $results, true );
+} );
+
+run_test( 'Unavailable product is revalidated at checkout; cart stays intact and order succeeds after restock', function () use ( $order_ctrl ) {
+	wp_set_current_user( 0 );
+	AvailabilityManager::set( 1, 1, false, null, 0, 'fixture-unavailable' );
+
+	WC()->cart->empty_cart();
+	WC()->cart->add_to_cart( 1, 2 );
+	OrderModes::set( array() );
+
+	$before = count( $GLOBALS['_mock_wc_orders'] );
+	$req    = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+	$req->set_json_params(
+		array(
+			'order_mode'     => 'takeaway',
+			'branch_id'      => 1,
+			'mobile'         => '09351112233',
+			'payment_method' => 'flavor_pay_at_counter',
+		)
+	);
+	$res        = $order_ctrl->create_order( $req );
+	$cart_items = WC()->cart->get_cart_contents_count();
+
+	AvailabilityManager::set( 1, 1, true, null, 0, 'fixture-restock' );
+
+	$req2 = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+	$req2->set_json_params(
+		array(
+			'order_mode'     => 'takeaway',
+			'branch_id'      => 1,
+			'mobile'         => '09351112233',
+			'payment_method' => 'flavor_pay_at_counter',
+		)
+	);
+	$res2 = $order_ctrl->create_order( $req2 );
+
+	return 400 === $res->get_status()
+		&& 'flavor_unavailable' === (string) ( $res->get_data()['errors'][0]['code'] ?? '' )
+		&& count( $GLOBALS['_mock_wc_orders'] ) === $before + 1 // only the restocked retry created one.
+		&& 2 === $cart_items
+		&& 201 === $res2->get_status();
+} );
+
+run_test( 'Offline payment creates the kitchen ticket with full flavor metadata', function () use ( $order_ctrl ) {
+	wp_set_current_user( 0 );
+	WC()->cart->empty_cart();
+	WC()->cart->add_to_cart( 1, 2 );
+	WC()->cart->add_to_cart( 3, 1 );
+	OrderModes::set( array() );
+
+	$req = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+	$req->set_json_params(
+		array(
+			'order_mode'     => 'dine_in',
+			'branch_id'      => 1,
+			'table_number'   => 'T-04',
+			'mobile'         => '09351112233',
+			'payment_method' => 'flavor_pay_at_counter',
+			'source'         => 'phone',
+			'notes'          => 'بدون پیاز',
+		)
+	);
+	$res      = $order_ctrl->create_order( $req );
+	$order_id = (int) ( $res->get_data()['data']['order_id'] ?? 0 );
+	$order    = $order_id ? wc_get_order( $order_id ) : null;
+	$ticket   = $order_id ? KitchenTicketRepository::find_by_order( $order_id ) : null;
+	$items    = $ticket ? KitchenTicketRepository::items( (int) $ticket['id'] ) : array();
+
+	return 201 === $res->get_status()
+		&& $order_id > 0
+		&& null !== $ticket
+		&& 1 === (int) $ticket['branch_id']
+		&& 'dine_in' === (string) $ticket['order_mode']
+		&& 'T-04' === (string) $ticket['table_number']
+		&& 'flavor_pay_at_counter' === (string) $ticket['payment_method']
+		&& 'phone' === (string) $ticket['source']
+		&& '09351112233' === (string) $ticket['customer_mobile']
+		&& ! empty( $ticket['guest_token'] )
+		&& count( $items ) >= 1
+		&& $order
+		&& 'yes' === (string) $order->get_meta( '_flavor_payment_ok' )
+		&& '1' === (string) $order->get_meta( '_flavor_branch_id' );
+} );
+
+run_test( 'Online payment: redirect returned, ticket deferred until payment_complete callback', function () use ( $order_ctrl ) {
+	$catalog                            = ( new \MockWCPaymentGateways() )->get_available_payment_gateways();
+	$catalog['flavor_zarinpal_mock']    = new \MockWCOnlineGateway( 'flavor_zarinpal_mock', 'زرین‌پال' );
+	\MockWCPaymentGateways::$catalog_override = $catalog;
+
+	wp_set_current_user( 0 );
+	WC()->cart->empty_cart();
+	WC()->cart->add_to_cart( 3, 1 );
+	OrderModes::set( array() );
+
+	$req = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+	$req->set_json_params(
+		array(
+			'order_mode'     => 'takeaway',
+			'branch_id'      => 2,
+			'mobile'         => '09351112233',
+			'payment_method' => 'flavor_zarinpal_mock',
+		)
+	);
+	$res      = $order_ctrl->create_order( $req );
+	$res_data = $res->get_data();
+	$order_id = (int) ( $res_data['data']['order_id'] ?? 0 );
+	$order    = $order_id ? wc_get_order( $order_id ) : null;
+
+	$no_ticket_yet = $order_id ? ( null === KitchenTicketRepository::find_by_order( $order_id ) ) : false;
+
+	// Simulate the gateway payment callback.
+	if ( $order_id ) {
+		( new KitchenTicketSync() )->on_payment_complete( $order_id );
+	}
+	$ticket_now = $order_id ? KitchenTicketRepository::find_by_order( $order_id ) : null;
+
+	\MockWCPaymentGateways::$catalog_override = null;
+
+	return 201 === $res->get_status()
+		&& false !== strpos( (string) ( $res_data['data']['redirect'] ?? '' ), 'bank.example.com' )
+		&& $order
+		&& 'yes' === (string) $order->get_meta( '_flavor_awaiting_online' )
+		&& ! empty( $order->get_meta( '_flavor_payment_redirect' ) )
+		&& $no_ticket_yet
+		&& null !== $ticket_now
+		&& 2 === (int) $ticket_now['branch_id']
+		&& 'takeaway' === (string) $ticket_now['order_mode'];
+} );
+
+run_test( 'Idempotency replay is bound to the original cart token (no cross-cart hijack)', function () use ( $order_ctrl ) {
+	$token_a = CartTokenService::generate_token();
+	CartTokenService::save_cart(
+		$token_a,
+		array(
+			'items' => array(
+				array(
+					'product_id'   => 1,
+					'quantity'     => 1,
+					'modifiers'    => array(),
+					'instructions' => '',
+				),
+			),
+		),
+		1
+	);
+
+	wp_set_current_user( 0 );
+	WC()->cart->empty_cart();
+	OrderModes::set( array() );
+
+	$before = count( $GLOBALS['_mock_wc_orders'] );
+	$req    = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+	$req->set_header( 'X-Cart-Token', $token_a );
+	$req->set_json_params(
+		array(
+			'order_mode'      => 'dine_in',
+			'branch_id'       => 1,
+			'table_number'    => 'T-01',
+			'mobile'          => '09351112233',
+			'payment_method'  => 'flavor_pay_at_counter',
+			'idempotency_key' => 'e2e-bind-0001',
+		)
+	);
+	$res      = $order_ctrl->create_order( $req );
+	$first_id = (int) ( $res->get_data()['data']['order_id'] ?? 0 );
+
+	// After success the token A cart is consumed; attacker retries with token B.
+	$token_b = CartTokenService::generate_token();
+	CartTokenService::save_cart(
+		$token_b,
+		array(
+			'items' => array(
+				array(
+					'product_id'   => 1,
+					'quantity'     => 1,
+					'modifiers'    => array(),
+					'instructions' => '',
+				),
+			),
+		),
+		1
+	);
+	WC()->cart->empty_cart();
+
+	$req2 = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+	$req2->set_header( 'X-Cart-Token', $token_b );
+	$req2->set_json_params(
+		array(
+			'order_mode'      => 'dine_in',
+			'branch_id'       => 1,
+			'table_number'    => 'T-01',
+			'mobile'          => '09351112233',
+			'payment_method'  => 'flavor_pay_at_counter',
+			'idempotency_key' => 'e2e-bind-0001',
+		)
+	);
+	$res2 = $order_ctrl->create_order( $req2 );
+
+	return 201 === $res->get_status()
+		&& $first_id > 0
+		&& 409 === $res2->get_status()
+		&& 'flavor_idempotency_conflict' === (string) ( $res2->get_data()['errors'][0]['code'] ?? '' )
+		&& ( count( $GLOBALS['_mock_wc_orders'] ) - $before ) === 1;
 } );
 
 // ===========================================================================

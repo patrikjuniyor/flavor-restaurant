@@ -490,6 +490,28 @@ class MockWPDB {
 				updated_at DATETIME NOT NULL
 			);
 
+			CREATE TABLE wp_flavor_availability (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				branch_id INTEGER NOT NULL,
+				product_id INTEGER NOT NULL,
+				is_available INTEGER NOT NULL DEFAULT 1,
+				unavailable_until DATETIME NULL,
+				reason TEXT NULL,
+				updated_by INTEGER NULL,
+				updated_at DATETIME NOT NULL
+			);
+
+			CREATE TABLE wp_flavor_availability_log (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				branch_id INTEGER NOT NULL,
+				product_id INTEGER NOT NULL,
+				old_available INTEGER NULL,
+				new_available INTEGER NOT NULL,
+				unavailable_until DATETIME NULL,
+				changed_by INTEGER NULL,
+				changed_at DATETIME NOT NULL
+			);
+
 			CREATE TABLE wp_flavor_loyalty_ledger (
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				customer_id INTEGER NOT NULL,
@@ -1003,8 +1025,30 @@ class MockWCGateway {
 	}
 }
 
+class MockWCFailingGateway extends MockWCGateway {
+	public function process_payment( int $order_id ): array {
+		return array( 'result' => 'failure', 'messages' => 'تراکنش توسط بانک رد شد.' );
+	}
+}
+
+class MockWCOnlineGateway extends MockWCGateway {
+	public function process_payment( int $order_id ): array {
+		return array( 'result' => 'success', 'redirect' => 'https://bank.example.com/pay/' . $order_id );
+	}
+}
+
 class MockWCPaymentGateways {
+	/**
+	 * Test seam: when set, replaces the default gateway catalog.
+	 *
+	 * @var array<string, MockWCGateway>|null
+	 */
+	public static ?array $catalog_override = null;
+
 	public function get_available_payment_gateways(): array {
+		if ( null !== self::$catalog_override ) {
+			return self::$catalog_override;
+		}
 		return array(
 			'flavor_pay_at_counter'     => new MockWCGateway( 'flavor_pay_at_counter', 'پرداخت حضوری' ),
 			'flavor_cod'                => new MockWCGateway( 'flavor_cod', 'پرداخت در محل (نقدی)' ),
@@ -1066,6 +1110,39 @@ function wc_get_products( array $args ): object {
 function wc_get_order( int $id ): ?WC_Order {
 	return $GLOBALS['_mock_wc_orders'][ $id ] ?? null;
 }
+function wc_get_orders( array $args ) {
+	$orders = array_values( $GLOBALS['_mock_wc_orders'] );
+	if ( ! empty( $args['customer_id'] ) ) {
+		$cid    = (int) $args['customer_id'];
+		$orders = array_values( array_filter( $orders, fn( $o ) => (int) $o->get_customer_id() === $cid ) );
+	}
+	if ( ! empty( $args['meta_key'] ) ) {
+		$mk     = (string) $args['meta_key'];
+		$mv     = $args['meta_value'] ?? null;
+		$orders = array_values( array_filter( $orders, function ( $o ) use ( $mk, $mv ) {
+			$val = $o->get_meta( $mk );
+			if ( null === $mv ) {
+				return null !== $val && '' !== $val;
+			}
+			return (string) $val === (string) $mv;
+		} ) );
+	}
+	$dir = 'ASC' === strtoupper( (string) ( $args['order'] ?? 'DESC' ) ) ? 1 : -1;
+	usort( $orders, fn( $a, $b ) => ( $a->get_id() <=> $b->get_id() ) * $dir );
+	$total = count( $orders );
+	if ( ! empty( $args['paginate'] ) ) {
+		$limit = max( 1, (int) ( $args['limit'] ?? 10 ) );
+		$page  = max( 1, (int) ( $args['page'] ?? 1 ) );
+		return (object) array(
+			'orders' => array_slice( $orders, ( $page - 1 ) * $limit, $limit ),
+			'total'  => $total,
+		);
+	}
+	if ( isset( $args['limit'] ) && (int) $args['limit'] > 0 ) {
+		$orders = array_slice( $orders, 0, (int) $args['limit'] );
+	}
+	return $orders;
+}
 function wc_price( $amount ): string {
 	return number_format( (float) $amount ) . ' تومان';
 }
@@ -1101,12 +1178,25 @@ function get_terms( array $args ) {
 }
 function get_term_meta( int $id, string $key, bool $single = false ) { return ''; }
 function get_posts( array $args ) { return array( 1, 2 ); }
+
+// Test seams for branch validation: mark posts as missing or override status.
+$GLOBALS['_mock_missing_posts'] = isset( $GLOBALS['_mock_missing_posts'] ) && is_array( $GLOBALS['_mock_missing_posts'] ) ? $GLOBALS['_mock_missing_posts'] : array();
+$GLOBALS['_mock_post_status']   = isset( $GLOBALS['_mock_post_status'] ) && is_array( $GLOBALS['_mock_post_status'] ) ? $GLOBALS['_mock_post_status'] : array();
+
 function get_post_type( int $id ): string { return 'flavor_branch'; }
+function get_post_status( $id ): string {
+	$id = is_object( $id ) ? (int) ( $id->ID ?? 0 ) : (int) $id;
+	return (string) ( $GLOBALS['_mock_post_status'][ $id ] ?? 'publish' );
+}
 function get_post( int $id ) {
+	if ( ! empty( $GLOBALS['_mock_missing_posts'][ $id ] ) ) {
+		return null;
+	}
 	return (object) array(
 		'ID'           => $id,
 		'post_name'    => 'central-branch',
 		'post_type'    => 'flavor_branch',
+		'post_status'  => get_post_status( $id ),
 		'post_content' => 'شعبه مرکزی شاندیز',
 		'post_title'   => 'شعبه مرکزی',
 	);
