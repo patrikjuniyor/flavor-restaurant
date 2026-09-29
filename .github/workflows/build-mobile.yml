@@ -38,19 +38,28 @@ jobs:
   notify-start:
     name: Notify Build Started
     runs-on: ubuntu-latest
+    env:
+      FLAVOR_WEBHOOK_SECRET: ${{ secrets.FLAVOR_CI_WEBHOOK_SECRET }}
     steps:
+      - name: Verify CI webhook secret is configured
+        run: |
+          if [ -z "$FLAVOR_WEBHOOK_SECRET" ]; then
+            echo "::error::FLAVOR_CI_WEBHOOK_SECRET is not configured. Set this GitHub secret to the ci_webhook_secret value from WordPress (Flavor mobile settings). Builds are blocked until it is configured."
+            exit 1
+          fi
       - name: Send Building Webhook to WordPress
         run: |
           PAYLOAD=$(cat <<EOF
           {
             "build_uuid": "${{ inputs.build_uuid }}",
             "status": "building",
+            "timestamp": $(date +%s),
             "logs": "GitHub Actions CI job started on runner ${{ runner.name }}"
           }
           EOF
           )
-          SIG=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "${{ secrets.FLAVOR_CI_WEBHOOK_SECRET }}" | sed 's/^.* //')
-          curl -s -X POST "${{ inputs.callback_url }}" \
+          SIG=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$FLAVOR_WEBHOOK_SECRET" | sed 's/^.* //')
+          curl -sS -X POST "${{ inputs.callback_url }}" \
             -H "Content-Type: application/json" \
             -H "X-Flavor-Signature: $SIG" \
             -d "$PAYLOAD" || true
@@ -171,7 +180,16 @@ jobs:
     needs: [build-android, build-ios]
     if: always()
     runs-on: ubuntu-latest
+    env:
+      FLAVOR_WEBHOOK_SECRET: ${{ secrets.FLAVOR_CI_WEBHOOK_SECRET }}
     steps:
+      - name: Verify CI webhook secret is configured
+        if: always()
+        run: |
+          if [ -z "$FLAVOR_WEBHOOK_SECRET" ]; then
+            echo "::error::FLAVOR_CI_WEBHOOK_SECRET is not configured. Set this GitHub secret to the ci_webhook_secret value from WordPress (Flavor mobile settings)."
+            exit 1
+          fi
       - name: Determine Status & Post Callback
         run: |
           STATUS="success"
@@ -183,6 +201,7 @@ jobs:
           {
             "build_uuid": "${{ inputs.build_uuid }}",
             "status": "$STATUS",
+            "timestamp": $(date +%s),
             "logs": "Build workflow completed with status: $STATUS on GitHub Actions run ${{ github.run_id }}",
             "artifacts": [
               {
@@ -205,8 +224,9 @@ jobs:
           }
           EOF
           )
-          SIG=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "${{ secrets.FLAVOR_CI_WEBHOOK_SECRET || 'dev_secret' }}" | sed 's/^.* //')
-          curl -s -X POST "${{ inputs.callback_url }}" \
+          SIG=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$FLAVOR_WEBHOOK_SECRET" | sed 's/^.* //')
+          # -fsS: callback delivery failure (e.g. HMAC rejection) fails the workflow visibly.
+          curl -fsS -X POST "${{ inputs.callback_url }}" \
             -H "Content-Type: application/json" \
             -H "X-Flavor-Signature: $SIG" \
-            -d "$PAYLOAD" || true
+            -d "$PAYLOAD"

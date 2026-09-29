@@ -20,6 +20,18 @@ class MobileConfigManager {
 	public const OPTION_NAME = 'flavor_mobile_config';
 
 	/**
+	 * Keys that must never appear in plain form inside API responses.
+	 *
+	 * @var string[]
+	 */
+	private const SECRET_KEYS = array( 'fcm_service_key', 'ci_webhook_secret', 'github_token' );
+
+	/**
+	 * Placeholder rendered instead of a raw secret value.
+	 */
+	public const SECRET_MASK = '••••••••';
+
+	/**
 	 * Default white-label mobile configuration.
 	 *
 	 * @return array<string, mixed>
@@ -47,7 +59,7 @@ class MobileConfigManager {
 			'fcm_project_id'     => '',
 			'fcm_service_key'    => '',
 			'ci_webhook_url'     => '',
-			'ci_webhook_secret'  => wp_generate_password( 32, false ),
+			'ci_webhook_secret'  => '',
 			'github_repo'        => '',
 			'github_token'       => '',
 		);
@@ -64,6 +76,46 @@ class MobileConfigManager {
 			$saved = array();
 		}
 		return wp_parse_args( $saved, self::defaults() );
+	}
+
+	/**
+	 * Get the CI webhook HMAC secret, generating and persisting it on first use.
+	 *
+	 * The secret must be stable across requests: it is generated exactly once and
+	 * stored in the options table. Callers must never fall back to hard-coded
+	 * development secrets — an empty return here is a hard configuration error.
+	 *
+	 * @return string
+	 */
+	public static function get_webhook_secret(): string {
+		$saved = get_option( self::OPTION_NAME, array() );
+		if ( ! is_array( $saved ) ) {
+			$saved = array();
+		}
+
+		if ( empty( $saved['ci_webhook_secret'] ) || ! is_string( $saved['ci_webhook_secret'] ) ) {
+			$saved['ci_webhook_secret'] = wp_generate_password( 48, false, false );
+			update_option( self::OPTION_NAME, $saved );
+		}
+
+		return (string) $saved['ci_webhook_secret'];
+	}
+
+	/**
+	 * Configuration payload safe for API responses: secret values are masked
+	 * and accompanied by `*_configured` metadata flags only.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public static function redacted(): array {
+		$all = self::get_all();
+
+		foreach ( self::SECRET_KEYS as $key ) {
+			$all[ $key . '_configured' ] = ! empty( $all[ $key ] );
+			$all[ $key ]                 = ! empty( $all[ $key ] ) ? self::SECRET_MASK : '';
+		}
+
+		return $all;
 	}
 
 	/**
@@ -133,19 +185,19 @@ class MobileConfigManager {
 		if ( isset( $input['fcm_project_id'] ) ) {
 			$clean['fcm_project_id'] = sanitize_text_field( $input['fcm_project_id'] );
 		}
-		if ( isset( $input['fcm_service_key'] ) ) {
+		if ( isset( $input['fcm_service_key'] ) && self::SECRET_MASK !== $input['fcm_service_key'] ) {
 			$clean['fcm_service_key'] = sanitize_textarea_field( $input['fcm_service_key'] );
 		}
 		if ( isset( $input['ci_webhook_url'] ) ) {
 			$clean['ci_webhook_url'] = esc_url_raw( $input['ci_webhook_url'] );
 		}
-		if ( isset( $input['ci_webhook_secret'] ) && ! empty( $input['ci_webhook_secret'] ) ) {
+		if ( isset( $input['ci_webhook_secret'] ) && ! empty( $input['ci_webhook_secret'] ) && self::SECRET_MASK !== $input['ci_webhook_secret'] ) {
 			$clean['ci_webhook_secret'] = sanitize_text_field( $input['ci_webhook_secret'] );
 		}
 		if ( isset( $input['github_repo'] ) ) {
 			$clean['github_repo'] = sanitize_text_field( $input['github_repo'] );
 		}
-		if ( isset( $input['github_token'] ) && ! empty( $input['github_token'] ) ) {
+		if ( isset( $input['github_token'] ) && ! empty( $input['github_token'] ) && self::SECRET_MASK !== $input['github_token'] ) {
 			$clean['github_token'] = sanitize_text_field( $input['github_token'] );
 		}
 

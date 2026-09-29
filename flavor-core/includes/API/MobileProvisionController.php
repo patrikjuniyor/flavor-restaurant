@@ -130,8 +130,9 @@ class MobileProvisionController extends BaseApiController {
 		$body = $request->get_json_params() ?: array();
 		MobileConfigManager::update( $body );
 
+		// Secrets are never echoed back — respond with redacted metadata only.
 		return $this->respond_success(
-			MobileConfigManager::get_all(),
+			MobileConfigManager::redacted(),
 			array( 'message' => __( 'تنظیمات اپلیکیشن با موفقیت ذخیره شد.', 'flavor-core' ) )
 		);
 	}
@@ -160,21 +161,17 @@ class MobileProvisionController extends BaseApiController {
 
 	/**
 	 * POST /mobile/builds/callback
-	 * Handled by remote CI with HMAC signature verification.
+	 * Handled by remote CI with mandatory HMAC signature verification over the
+	 * exact raw request body (protocol verified in BuildManager).
 	 *
 	 * @param \WP_REST_Request $request Request.
 	 * @return \WP_REST_Response
 	 */
 	public function build_callback( \WP_REST_Request $request ): \WP_REST_Response {
-		$sig  = $request->get_header( 'X-Flavor-Signature' ) ?: '';
-		$body = $request->get_json_params() ?: array();
-		$uuid = sanitize_text_field( (string) ( $body['build_uuid'] ?? '' ) );
+		$sig      = $request->get_header( 'X-Flavor-Signature' ) ?: '';
+		$raw_body = $request->get_body();
 
-		if ( empty( $uuid ) ) {
-			return $this->respond_error( 'missing_uuid', __( 'شناسه بیلد ارسال نشده است.', 'flavor-core' ), 400 );
-		}
-
-		$res = BuildManager::update_build_from_ci( $uuid, $body, $sig );
+		$res = BuildManager::update_build_from_ci( $raw_body, (string) $sig );
 		if ( is_wp_error( $res ) ) {
 			return $this->respond_error( $res->get_error_code(), $res->get_error_message(), (int) ( $res->get_error_data()['status'] ?? 400 ) );
 		}

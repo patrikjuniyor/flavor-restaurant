@@ -7,6 +7,18 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Security
+
+- **CI build callback: HMAC authentication is now mandatory** — missing signature, missing server secret, malformed signature and invalid signature are all rejected with HTTP 403 (previously a callback without any signature was accepted and could rewrite build status, artifact URLs and logs)
+- **Signature verified against the exact raw HTTP body** — the payload is never decoded/re-encoded before HMAC verification, matching the GitHub Actions signing protocol byte-for-byte
+- **Replay protection** — signed payloads must carry a `timestamp` inside a 300-second freshness window, and a strict build state machine (`queued → building → success/failed/cancelled`, terminal states locked) rejects replays and illegal transitions with 409
+- **Artifact URLs / checksums are only writable on a verified `success` transition**
+- **Removed the insecure `dev_secret` fallback from `build-mobile.yml`** — the workflow now fails early and clearly when `FLAVOR_CI_WEBHOOK_SECRET` is not configured
+- **`ci_webhook_secret` is generated once and persisted** (`MobileConfigManager::get_webhook_secret()`) instead of being regenerated on every `get_all()` call — which previously made valid HMACs unverifiable
+- **Secrets never leave the API in plain text** — `github_token`, `ci_webhook_secret` and `fcm_service_key` are masked in config responses with `*_configured` metadata flags, and submitting the mask placeholder can never overwrite a stored secret
+- **Workflow/Server protocol alignment** — the callback now understands the workflow's actual payload contract (`timestamp`, `logs`, structured `artifacts[]` with apk/aab/ipa mapping), and a deterministic test replicates the workflow's byte-exact payload format
+- CI callback security events (bad signatures, replays, illegal transitions, DB failures) are logged via `StructuredLogger` (channel `mobile_build`)
+
 ### Fixed
 
 - **Auth: fatal error on logout-all-devices** — `AuthController::token_revoke()` called the non-existent `TokenService::revoke_all_for_user()`; it now calls the actual `TokenService::revoke_all_user_tokens()`
