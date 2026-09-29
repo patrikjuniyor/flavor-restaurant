@@ -714,6 +714,157 @@ run_test( 'Verify Tenant A and Tenant B configuration separation', function () {
 } );
 
 // ===========================================================================
+// TEST SUITE 10: MOBILE BUILD CALLBACK SECURITY (HMAC / REPLAY / PROTOCOL)
+// ===========================================================================
+echo "\n--- 10. MOBILE BUILD CALLBACK SECURITY (HMAC / REPLAY / STATES) ---\n";
+
+$mobile_ctrl = new \FlavorCore\API\MobileProvisionController();
+
+// Deterministic test fixture secret — NOT a real credential; only used here.
+$test_secret = 'fixture-only-ci-webhook-secret-00000000000000000000';
+update_option( \FlavorCore\Mobile\MobileConfigManager::OPTION_NAME, array( 'ci_webhook_secret' => $test_secret ) );
+
+$seed_build = function ( string $uuid, string $status = 'queued' ): void {
+	global $wpdb;
+	$now = current_time( 'mysql' );
+	$wpdb->insert(
+		\FlavorCore\Mobile\BuildManager::table(),
+		array(
+			'build_uuid'  => $uuid,
+			'platform'    => 'all',
+			'environment' => 'prod',
+			'status'      => $status,
+			'triggered_by' => 1,
+			'ci_provider' => 'github_actions',
+			'build_log'   => '',
+			'created_at'  => $now,
+			'updated_at'  => $now,
+		)
+	);
+};
+
+// Byte-exact replica of the payload heredoc in .github/workflows/build-mobile.yml
+// (notify-start job, after YAML block de-indentation — no trailing newline).
+$workflow_body = fn( string $uuid, string $status, int $ts, string $logs ): string =>
+	"{\n  \"build_uuid\": \"{$uuid}\",\n  \"status\": \"{$status}\",\n  \"timestamp\": {$ts},\n  \"logs\": \"{$logs}\"\n}";
+
+$sign    = fn( string $body ): string => hash_hmac( 'sha256', $body, $test_secret );
+$post_cb = function ( string $body, ?string $sig ) use ( $mobile_ctrl ) {
+	$req = new \WP_REST_Request( 'POST', '/flavor/v1/mobile/builds/callback' );
+	$req->set_body( $body );
+	if ( null !== $sig ) {
+		$req->set_header( 'X-Flavor-Signature', $sig );
+	}
+	return $mobile_ctrl->build_callback( $req );
+};
+
+run_test( 'Callback without X-Flavor-Signature header is rejected with 403', function () use ( $seed_build, $workflow_body, $post_cb ) {
+	$uuid = 'sec-test-missing-sig';
+	$seed_build( $uuid );
+	$res = $post_cb( $workflow_body( $uuid, 'building', time(), 'no signature' ), null );
+	return $res->get_status() === 403;
+} );
+
+run_test( 'Callback with invalid (but well-formed) signature is rejected with 403', function () use ( $seed_build, $workflow_body, $post_cb ) {
+	$uuid = 'sec-test-invalid-sig';
+	$seed_build( $uuid );
+	$body = $workflow_body( $uuid, 'building', time(), 'wrong key attempt' );
+	$sig  = hash_hmac( 'sha256', $body, 'wrong-secret-not-the-real-one' );
+	$res  = $post_cb( $body, $sig );
+	return $res->get_status() === 403;
+} );
+
+run_test( 'Callback with tampered payload after signing is rejected with 403', function () use ( $seed_build, $workflow_body, $post_cb, $sign ) {
+	$uuid   = 'sec-test-tampered';
+	$seed_build( $uuid );
+	$body   = $workflow_body( $uuid, 'building', time(), 'original log line' );
+	$sig    = $sign( $body );
+	// Attacker modifies the body but reuses the original signature.
+	$forged = $workflow_body( $uuid, 'success', time(), 'forged: pretend build succeeded' );
+	$res    = $post_cb( $forged, $sig );
+	return $res->get_status() === 403;
+} );
+
+run_test( 'Valid workflow-format callback is accepted and transitions queued→building', function () use ( $seed_build, $workflow_body, $post_cb, $sign ) {
+	$uuid = 'sec-test-valid';
+	$seed_build( $uuid );
+	$body = $workflow_body( $uuid, 'building', time(), 'GitHub Actions CI job started on runner GitHub Actions 2' );
+	$res  = $post_cb( $body, $sign( $body ) );
+	$build = \FlavorCore\Mobile\BuildManager::get_build_by_uuid( $uuid );
+	return $res->get_status() === 200 &&
+		'building' === ( $build['status'] ?? '' ) &&
+		str_contains( (string) ( $build['build_log'] ?? '' ), 'GitHub Actions CI job started' );
+} );
+
+run_test( 'Replayed valid callback is rejected after terminal state (replay protection)', function () use ( $seed_build, $workflow_body, $post_cb, $sign ) {
+	$uuid = 'sec-test-replay';
+	$seed_build( $uuid, 'building' );
+	$body   = $workflow_body( $uuid, 'success', time(), 'Build workflow completed with status: success' );
+	$sig    = $sign( $body );
+	$first  = $post_cb( $body, $sig );
+	// Attacker (or a retried runner) replays the byte-identical signed request.
+	$second = $post_cb( $body, $sig );
+	return $first->get_status() === 200 && $second->get_status() === 409;
+} );
+
+run_test( 'Callback for unknown build UUID is rejected with 404', function () use ( $workflow_body, $post_cb, $sign ) {
+	$body = $workflow_body( 'uuid-that-does-not-exist', 'building', time(), 'ghost build' );
+	$res  = $post_cb( $body, $sign( $body ) );
+	return $res->get_status() === 404;
+} );
+
+run_test( 'Callback with stale signed timestamp outside freshness window is rejected with 403', function () use ( $seed_build, $workflow_body, $post_cb, $sign ) {
+	$uuid = 'sec-test-stale';
+	$seed_build( $uuid );
+	$body = $workflow_body( $uuid, 'building', time() - 3600, 'one hour old request' );
+	$res  = $post_cb( $body, $sign( $body ) );
+	return $res->get_status() === 403;
+} );
+
+run_test( 'Invalid state transition (queued→success) is rejected with 409', function () use ( $seed_build, $workflow_body, $post_cb, $sign ) {
+	$uuid = 'sec-test-transition';
+	$seed_build( $uuid );
+	$body = $workflow_body( $uuid, 'success', time(), 'skip straight to success' );
+	$res  = $post_cb( $body, $sign( $body ) );
+	return $res->get_status() === 409;
+} );
+
+run_test( 'CI webhook secret is generated once and persisted (stable across calls)', function () {
+	update_option( \FlavorCore\Mobile\MobileConfigManager::OPTION_NAME, array() );
+	$s1 = \FlavorCore\Mobile\MobileConfigManager::get_webhook_secret();
+	$s2 = \FlavorCore\Mobile\MobileConfigManager::get_webhook_secret();
+	$s3 = \FlavorCore\Mobile\MobileConfigManager::get_webhook_secret();
+	// Deterministic secret restored for other tests.
+	update_option( \FlavorCore\Mobile\MobileConfigManager::OPTION_NAME, array( 'ci_webhook_secret' => $GLOBALS['__test_secret_restore'] ?? 'fixture-only-ci-webhook-secret-00000000000000000000' ) );
+	return '' !== $s1 && $s1 === $s2 && $s2 === $s3;
+} );
+
+run_test( 'API config response redacts secrets (no github_token / ci_webhook_secret / fcm_service_key in plain text)', function () use ( $test_secret ) {
+	update_option(
+		\FlavorCore\Mobile\MobileConfigManager::OPTION_NAME,
+		array(
+			'ci_webhook_secret' => $test_secret,
+			'github_token'      => 'fixture-gh-token-123456',
+			'fcm_service_key'   => "fixture-fcm\nkey-body",
+		)
+	);
+	$redacted = \FlavorCore\Mobile\MobileConfigManager::redacted();
+	$json     = wp_json_encode( $redacted );
+
+	$no_plain_secrets = ! str_contains( $json, $test_secret ) &&
+		! str_contains( $json, 'fixture-gh-token-123456' ) &&
+		! str_contains( $json, 'fixture-fcm' );
+
+	$has_metadata = true === ( $redacted['ci_webhook_secret_configured'] ?? false ) &&
+		true === ( $redacted['github_token_configured'] ?? false ) &&
+		\FlavorCore\Mobile\MobileConfigManager::SECRET_MASK === ( $redacted['ci_webhook_secret'] ?? '' );
+
+	// Restore only the webhook fixture secret for subsequent suites.
+	update_option( \FlavorCore\Mobile\MobileConfigManager::OPTION_NAME, array( 'ci_webhook_secret' => $test_secret ) );
+	return $no_plain_secrets && $has_metadata;
+} );
+
+// ===========================================================================
 // SUMMARY & EXIT CODE
 // ===========================================================================
 echo "\n======================================================================\n";

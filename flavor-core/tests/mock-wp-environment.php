@@ -405,6 +405,33 @@ class MockWPDB {
 				UNIQUE (device_token, platform)
 			);
 
+			CREATE TABLE wp_flavor_mobile_builds (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				build_uuid TEXT NOT NULL UNIQUE,
+				platform TEXT NOT NULL DEFAULT 'all',
+				environment TEXT NOT NULL DEFAULT 'prod',
+				version_name TEXT NOT NULL DEFAULT '1.1.0',
+				version_code INTEGER NOT NULL DEFAULT 101,
+				status TEXT NOT NULL DEFAULT 'queued',
+				triggered_by INTEGER NULL,
+				commit_sha TEXT NULL,
+				ci_provider TEXT NOT NULL DEFAULT 'github_actions',
+				ci_build_id TEXT NULL,
+				ci_build_url TEXT NULL,
+				artifact_apk_url TEXT NULL,
+				artifact_aab_url TEXT NULL,
+				artifact_ipa_url TEXT NULL,
+				artifact_size_bytes INTEGER NULL,
+				artifact_checksum_sha256 TEXT NULL,
+				build_log TEXT NULL,
+				error_message TEXT NULL,
+				duration_seconds INTEGER NULL,
+				started_at DATETIME NULL,
+				completed_at DATETIME NULL,
+				created_at DATETIME NOT NULL,
+				updated_at DATETIME NOT NULL
+			);
+
 			CREATE TABLE wp_flavor_system_logs (
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				level TEXT NOT NULL,
@@ -727,7 +754,7 @@ function user_can( $user, string $cap ): bool {
 
 // Mock Options
 $GLOBALS['_mock_options'] = array(
-	'flavor_core_db_version' => '1.4.0',
+	'flavor_core_db_version' => '1.5.0',
 	'blogname'               => 'رستوران سنتی شاندیز',
 	'blogdescription'        => 'لذیذترین غذاهای اصیل ایرانی',
 	'flavor_core_settings'   => array(
@@ -763,6 +790,33 @@ function current_time( string $type ) {
 	}
 	return date( 'Y-m-d H:i:s' );
 }
+
+function size_format( $bytes, int $decimals = 2 ) {
+	$bytes = (float) $bytes;
+	if ( $bytes >= 1048576 ) return number_format_i18n_proxy( $bytes / 1048576, (int) $decimals ) . ' MB';
+	if ( $bytes >= 1024 ) return number_format_i18n_proxy( $bytes / 1024, (int) $decimals ) . ' KB';
+	return (int) $bytes . ' B';
+}
+function number_format_i18n_proxy( float $num, int $decimals ): string { return number_format( $num, $decimals ); }
+
+function rest_url( string $path = '' ): string {
+	return 'https://mock.flavor.local/wp-json/' . ltrim( $path, '/' );
+}
+
+function sanitize_hex_color( $color ) {
+	$color = ltrim( (string) $color, '#' );
+	if ( preg_match( '/^([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/', $color ) ) return '#' . $color;
+	return '';
+}
+
+function sanitize_title( $title ) {
+	$title = strtolower( (string) $title );
+	$title = preg_replace( '/[^a-z0-9\x{0600}-\x{06FF}_\-\s]+/u', '', $title );
+	$title = preg_replace( '/[\s_]+/u', '-', $title );
+	$title = preg_replace( '/-+/', '-', $title );
+	return trim( (string) $title, '-' );
+}
+
 function __( string $text, string $domain = 'default' ): string {
 	return $text;
 }
@@ -841,6 +895,7 @@ class WP_REST_Request {
 	public array $params = array();
 	public array $headers = array();
 	public array $json_params = array();
+	public string $body = '';
 
 	public function __construct( string $method = 'GET', string $route = '' ) {
 		$this->method = $method;
@@ -853,6 +908,12 @@ class WP_REST_Request {
 	public function get_params(): array { return array_merge( $this->params, $this->json_params ); }
 	public function set_json_params( array $params ) { $this->json_params = $params; }
 	public function get_json_params(): array { return $this->json_params; }
+	public function set_body( string $body ) {
+		$this->body        = $body;
+		$decoded           = json_decode( $body, true );
+		$this->json_params = is_array( $decoded ) ? $decoded : array();
+	}
+	public function get_body(): string { return $this->body; }
 	public function offsetGet( $k ) { return $this->get_param( $k ); }
 }
 
