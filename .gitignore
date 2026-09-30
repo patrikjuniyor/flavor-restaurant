@@ -59,3 +59,4 @@ mobile/ios/Runner/GeneratedPluginRegistrant.*
 # Generated language binaries can be rebuilt
 # Keep .pot and .po; ignore machine-specific .mo if needed
 # *.mo
+__pycache__/
