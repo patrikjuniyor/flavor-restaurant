@@ -1,0 +1,620 @@
+/*
+ * Modern Restaurant — editorial hospitality art direction.
+ * Warm minimalism, confident typography and product-first composition.
+ */
+
+body.flavor-skin-modern-restaurant {
+	--modern-forest: #26352b;
+	--modern-forest-soft: #415344;
+	--modern-terracotta: #a74e2c;
+	--modern-saffron: #d6a64f;
+	--modern-cream: #f4efe7;
+	--modern-paper: #fffaf4;
+	--modern-charcoal: #201c19;
+	background: var(--modern-cream);
+}
+
+.flavor-skin-modern-restaurant h1,
+.flavor-skin-modern-restaurant h2,
+.flavor-skin-modern-restaurant h3,
+.flavor-skin-modern-restaurant h4,
+.flavor-skin-modern-restaurant .flavor-brand__name {
+	letter-spacing: -0.05em;
+}
+
+.flavor-skin-modern-restaurant .flavor-main {
+	overflow: hidden;
+}
+
+/* Header */
+.flavor-skin-modern-restaurant .flavor-topbar {
+	background: var(--modern-forest);
+	color: #f5ead5;
+	padding-block: 9px;
+}
+
+.flavor-skin-modern-restaurant .flavor-topbar__inner::before {
+	content: "";
+	width: 28px;
+	height: 1px;
+	background: var(--modern-saffron);
+}
+
+.flavor-skin-modern-restaurant .flavor-header {
+	background: rgba(255, 250, 244, 0.9);
+	border-bottom: 1px solid rgba(32, 28, 25, 0.08);
+	backdrop-filter: blur(18px) saturate(1.15);
+}
+
+.flavor-skin-modern-restaurant .flavor-header__inner {
+	min-height: 82px;
+}
+
+.flavor-skin-modern-restaurant .flavor-brand__name {
+	color: var(--modern-charcoal);
+	font-size: clamp(1.35rem, 2vw, 1.7rem);
+	font-weight: 900;
+}
+
+.flavor-skin-modern-restaurant .flavor-brand__name::after {
+	content: "";
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	margin-inline-start: 8px;
+	border-radius: 50%;
+	background: var(--modern-terracotta);
+}
+
+.flavor-skin-modern-restaurant .flavor-nav a {
+	color: #4d4640;
+	font-size: 14px;
+	font-weight: 650;
+}
+
+.flavor-skin-modern-restaurant .flavor-nav a::after {
+	height: 1px;
+	background: var(--modern-terracotta);
+}
+
+.flavor-skin-modern-restaurant .flavor-header__phone {
+	color: var(--modern-forest);
+}
+
+.flavor-skin-modern-restaurant .flavor-btn {
+	font-weight: 750;
+}
+
+.flavor-skin-modern-restaurant .flavor-btn--primary {
+	background: var(--modern-terracotta);
+	border-color: var(--modern-terracotta);
+	box-shadow: 0 10px 25px rgba(167, 78, 44, 0.19);
+}
+
+.flavor-skin-modern-restaurant .flavor-btn--primary:hover {
+	background: #843b22;
+	border-color: #843b22;
+	transform: translateY(-2px);
+}
+
+/* Hero */
+.flavor-skin-modern-restaurant .flavor-hero {
+	min-height: min(86vh, 830px);
+	padding-block: clamp(100px, 14vw, 165px);
+	border-radius: 0 0 0 clamp(60px, 9vw, 145px);
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__bg {
+	object-position: center;
+	filter: saturate(0.88) contrast(1.03);
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__overlay {
+	background:
+		linear-gradient(90deg, rgba(14, 12, 10, 0.08) 0%, rgba(14, 12, 10, 0.35) 42%, rgba(14, 12, 10, 0.93) 100%),
+		linear-gradient(0deg, rgba(14, 12, 10, 0.46), transparent 65%);
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__container {
+	justify-items: start;
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__content {
+	max-width: 735px;
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__badge {
+	background: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	border-radius: 999px;
+	color: #f7ddad;
+	padding: 8px 17px;
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__badge-dot {
+	background: var(--modern-saffron);
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__title {
+	max-width: 720px;
+	font-size: clamp(2.65rem, 6.3vw, 5.45rem);
+	font-weight: 950;
+	line-height: 1.08;
+	text-wrap: balance;
+	margin-bottom: 24px;
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__text {
+	max-width: 600px;
+	font-size: clamp(1.02rem, 1.7vw, 1.22rem);
+	line-height: 2;
+	color: rgba(255, 255, 255, 0.82);
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__actions {
+	gap: 12px;
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__actions .flavor-btn {
+	min-height: 56px;
+	padding-inline: 27px;
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__actions .flavor-btn--primary {
+	background: var(--modern-terracotta);
+	border-color: var(--modern-terracotta);
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__actions .flavor-btn--outline-light {
+	background: rgba(255, 255, 255, 0.06);
+	backdrop-filter: blur(8px);
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__features {
+	max-width: 680px;
+	border-color: rgba(255, 255, 255, 0.15);
+	color: rgba(255, 255, 255, 0.72);
+}
+
+.flavor-skin-modern-restaurant .flavor-hero__feat svg {
+	color: var(--modern-saffron);
+}
+
+/* Global section system */
+.flavor-skin-modern-restaurant .flavor-section {
+	padding-block: clamp(76px, 9vw, 116px);
+}
+
+.flavor-skin-modern-restaurant .flavor-section:nth-of-type(even) {
+	background: var(--modern-paper);
+}
+
+.flavor-skin-modern-restaurant .flavor-section-header {
+	max-width: 760px;
+	margin-bottom: 54px;
+}
+
+.flavor-skin-modern-restaurant .flavor-section-header__tag {
+	background: transparent;
+	color: var(--modern-terracotta);
+	padding: 0;
+	border-radius: 0;
+	font-size: 12px;
+	letter-spacing: 0.04em;
+}
+
+.flavor-skin-modern-restaurant .flavor-section-header__tag::before {
+	content: "";
+	display: inline-block;
+	width: 24px;
+	height: 2px;
+	margin-inline-end: 9px;
+	vertical-align: middle;
+	background: currentColor;
+}
+
+.flavor-skin-modern-restaurant .flavor-section-header__title,
+.flavor-skin-modern-restaurant .flavor-about__title {
+	font-size: clamp(2rem, 4.1vw, 3.35rem);
+	font-weight: 900;
+	color: var(--modern-charcoal);
+	text-wrap: balance;
+}
+
+.flavor-skin-modern-restaurant .flavor-section-header__desc {
+	font-size: 1rem;
+	line-height: 1.9;
+}
+
+/* Intro: one connected value strip */
+.flavor-skin-modern-restaurant .flavor-intro {
+	padding-block: 0;
+	background: var(--modern-forest) !important;
+}
+
+.flavor-skin-modern-restaurant .flavor-intro__grid {
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0;
+}
+
+.flavor-skin-modern-restaurant .flavor-intro__card {
+	min-height: 260px;
+	background: transparent;
+	border: 0;
+	border-inline-start: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 0;
+	box-shadow: none;
+	color: #fff;
+	padding: 45px clamp(24px, 4vw, 50px);
+	text-align: right;
+}
+
+.flavor-skin-modern-restaurant .flavor-intro__card:last-child {
+	border-inline-start: 0;
+}
+
+.flavor-skin-modern-restaurant .flavor-intro__card:hover {
+	background: rgba(255, 255, 255, 0.035);
+	transform: none;
+}
+
+.flavor-skin-modern-restaurant .flavor-intro__icon {
+	width: 55px;
+	height: 55px;
+	background: rgba(214, 166, 79, 0.12) !important;
+	color: #e0b968 !important;
+	border-radius: 16px;
+}
+
+.flavor-skin-modern-restaurant .flavor-intro__card h3 {
+	color: #fff;
+	font-size: 1.3rem;
+}
+
+.flavor-skin-modern-restaurant .flavor-intro__card p {
+	color: rgba(255, 255, 255, 0.66);
+	line-height: 1.9;
+}
+
+/* Featured dishes */
+.flavor-skin-modern-restaurant .flavor-featured__grid {
+	grid-template-columns: repeat(3, 1fr);
+	gap: 22px;
+}
+
+.flavor-skin-modern-restaurant .flavor-food-card {
+	background: var(--modern-paper);
+	border: 1px solid rgba(32, 28, 25, 0.08);
+	border-radius: 26px;
+	box-shadow: 0 18px 45px rgba(42, 31, 22, 0.07);
+	overflow: hidden;
+	transition: transform 280ms ease, box-shadow 280ms ease;
+}
+
+.flavor-skin-modern-restaurant .flavor-food-card:hover {
+	transform: translateY(-7px);
+	box-shadow: 0 28px 60px rgba(42, 31, 22, 0.12);
+}
+
+.flavor-skin-modern-restaurant .flavor-food-card__media {
+	aspect-ratio: 4 / 3;
+	overflow: hidden;
+}
+
+.flavor-skin-modern-restaurant .flavor-food-card__media img {
+	transition: transform 600ms cubic-bezier(.2,.7,.2,1);
+}
+
+.flavor-skin-modern-restaurant .flavor-food-card:hover .flavor-food-card__media img {
+	transform: scale(1.045);
+}
+
+.flavor-skin-modern-restaurant .flavor-food-card__cat-badge {
+	background: rgba(38, 53, 43, 0.9);
+	border-radius: 999px;
+	backdrop-filter: blur(8px);
+}
+
+.flavor-skin-modern-restaurant .flavor-food-card__body {
+	padding: 26px;
+}
+
+.flavor-skin-modern-restaurant .flavor-food-card__title {
+	font-size: 1.24rem;
+}
+
+.flavor-skin-modern-restaurant .flavor-food-card__desc {
+	line-height: 1.85;
+}
+
+.flavor-skin-modern-restaurant .flavor-food-card__price {
+	color: var(--modern-forest);
+}
+
+/* Categories are wide editorial tiles instead of generic squares. */
+.flavor-skin-modern-restaurant .flavor-categories__grid {
+	grid-template-columns: repeat(12, 1fr);
+	gap: 18px;
+}
+
+.flavor-skin-modern-restaurant .flavor-cat-card {
+	grid-column: span 4;
+	aspect-ratio: 5 / 4;
+	border-radius: 24px;
+	padding: 25px;
+	box-shadow: none;
+}
+
+.flavor-skin-modern-restaurant .flavor-cat-card:first-child,
+.flavor-skin-modern-restaurant .flavor-cat-card:nth-child(5) {
+	grid-column: span 8;
+	aspect-ratio: 2 / 1;
+}
+
+.flavor-skin-modern-restaurant .flavor-cat-card::after {
+	background: linear-gradient(180deg, transparent 25%, rgba(20, 18, 16, 0.88));
+}
+
+.flavor-skin-modern-restaurant .flavor-cat-card__title {
+	font-size: 1.4rem;
+}
+
+/* Offers and reservation */
+.flavor-skin-modern-restaurant .flavor-offer-banner {
+	background: var(--modern-terracotta);
+	border-radius: 34px;
+	box-shadow: 0 28px 65px rgba(167, 78, 44, 0.2);
+}
+
+.flavor-skin-modern-restaurant .flavor-offer-banner::after {
+	content: "";
+	position: absolute;
+	width: 340px;
+	height: 340px;
+	inset-inline-start: -90px;
+	top: -150px;
+	border: 70px solid rgba(255, 255, 255, 0.055);
+	border-radius: 50%;
+	pointer-events: none;
+}
+
+.flavor-skin-modern-restaurant .flavor-offer-banner__badge,
+.flavor-skin-modern-restaurant .flavor-offer-coupon {
+	border-radius: 12px;
+}
+
+.flavor-skin-modern-restaurant .flavor-res-banner {
+	background: var(--modern-charcoal);
+	border-radius: 34px;
+	box-shadow: 0 28px 70px rgba(32, 28, 25, 0.18);
+}
+
+.flavor-skin-modern-restaurant .flavor-res-banner__media::after {
+	background: linear-gradient(90deg, transparent, var(--modern-charcoal));
+}
+
+.flavor-skin-modern-restaurant .flavor-res-banner__tag,
+.flavor-skin-modern-restaurant .flavor-res-banner__perk svg {
+	color: #e3b75f;
+}
+
+/* About/story */
+.flavor-skin-modern-restaurant .flavor-about__inner {
+	gap: clamp(45px, 8vw, 105px);
+}
+
+.flavor-skin-modern-restaurant .flavor-about__media {
+	position: relative;
+}
+
+.flavor-skin-modern-restaurant .flavor-about__media::before {
+	content: "";
+	position: absolute;
+	width: 65%;
+	height: 65%;
+	inset-inline-start: -24px;
+	bottom: -24px;
+	background: var(--modern-forest);
+	border-radius: 30px;
+}
+
+.flavor-skin-modern-restaurant .flavor-about__img-wrapper {
+	border-radius: 30px 30px 90px 30px;
+	box-shadow: 0 30px 65px rgba(32, 28, 25, 0.18);
+}
+
+.flavor-skin-modern-restaurant .flavor-about__img-wrapper img {
+	min-height: 530px;
+	object-fit: cover;
+}
+
+.flavor-skin-modern-restaurant .flavor-about__exp-badge {
+	background: var(--modern-paper);
+	color: var(--modern-charcoal);
+	border-radius: 20px;
+	box-shadow: 0 18px 45px rgba(32, 28, 25, 0.15);
+}
+
+.flavor-skin-modern-restaurant .flavor-about__exp-badge strong {
+	color: var(--modern-terracotta);
+}
+
+.flavor-skin-modern-restaurant .flavor-about__text {
+	line-height: 2.05;
+	font-size: 1.02rem;
+}
+
+.flavor-skin-modern-restaurant .flavor-about__stats {
+	border-color: rgba(32, 28, 25, 0.12);
+}
+
+.flavor-skin-modern-restaurant .flavor-about__stat-num {
+	color: var(--modern-terracotta);
+}
+
+/* Gallery */
+.flavor-skin-modern-restaurant .flavor-gallery__grid {
+	gap: 14px;
+}
+
+.flavor-skin-modern-restaurant .flavor-gallery__item {
+	border-radius: 22px;
+}
+
+.flavor-skin-modern-restaurant .flavor-gallery__item:first-child,
+.flavor-skin-modern-restaurant .flavor-gallery__item:last-child {
+	border-radius: 22px 70px 22px 22px;
+}
+
+/* Social proof */
+.flavor-skin-modern-restaurant .flavor-testimonials {
+	background: var(--modern-forest) !important;
+}
+
+.flavor-skin-modern-restaurant .flavor-testimonials .flavor-section-header__tag {
+	color: #e3b75f;
+}
+
+.flavor-skin-modern-restaurant .flavor-testimonials .flavor-section-header__title,
+.flavor-skin-modern-restaurant .flavor-testimonials .flavor-section-header__desc {
+	color: #fff;
+}
+
+.flavor-skin-modern-restaurant .flavor-review-card {
+	background: rgba(255, 255, 255, 0.055);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 24px;
+	box-shadow: none;
+	color: #fff;
+	padding: 34px;
+}
+
+.flavor-skin-modern-restaurant .flavor-review-card__text,
+.flavor-skin-modern-restaurant .flavor-review-card__name {
+	color: #fff;
+}
+
+.flavor-skin-modern-restaurant .flavor-review-card__role {
+	color: rgba(255, 255, 255, 0.58);
+}
+
+.flavor-skin-modern-restaurant .flavor-review-card__stars {
+	color: #e3b75f;
+}
+
+.flavor-skin-modern-restaurant .flavor-review-card__avatar {
+	background: var(--modern-terracotta);
+}
+
+/* Location */
+.flavor-skin-modern-restaurant .flavor-hours-card {
+	background: var(--modern-paper);
+	border: 1px solid rgba(32, 28, 25, 0.09);
+	border-radius: 32px;
+	box-shadow: 0 24px 60px rgba(42, 31, 22, 0.09);
+}
+
+.flavor-skin-modern-restaurant .flavor-contact-row__icon {
+	background: rgba(167, 78, 44, 0.09);
+	color: var(--modern-terracotta);
+	border-radius: 13px;
+}
+
+.flavor-skin-modern-restaurant .flavor-live-status--open {
+	background: rgba(38, 53, 43, 0.09);
+	color: var(--modern-forest);
+}
+
+.flavor-skin-modern-restaurant .flavor-footer {
+	background: #171b18;
+	border-top: 0;
+}
+
+.flavor-skin-modern-restaurant .flavor-footer__heading {
+	color: #e0b968;
+}
+
+@media (max-width: 991px) {
+	.flavor-skin-modern-restaurant .flavor-featured__grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.flavor-skin-modern-restaurant .flavor-cat-card,
+	.flavor-skin-modern-restaurant .flavor-cat-card:first-child,
+	.flavor-skin-modern-restaurant .flavor-cat-card:nth-child(5) {
+		grid-column: span 6;
+		aspect-ratio: 4 / 3;
+	}
+}
+
+@media (max-width: 767px) {
+	.flavor-skin-modern-restaurant .flavor-header__inner {
+		min-height: 68px;
+	}
+
+	.flavor-skin-modern-restaurant .flavor-hero {
+		min-height: 720px;
+		padding-block: 95px 105px;
+		border-radius: 0 0 0 58px;
+	}
+
+	.flavor-skin-modern-restaurant .flavor-hero__overlay {
+		background: linear-gradient(0deg, rgba(14, 12, 10, 0.96), rgba(14, 12, 10, 0.38) 88%);
+	}
+
+	.flavor-skin-modern-restaurant .flavor-hero__title {
+		font-size: clamp(2.35rem, 11.5vw, 3.45rem);
+	}
+
+	.flavor-skin-modern-restaurant .flavor-hero__features {
+		display: grid;
+		gap: 12px;
+	}
+
+	.flavor-skin-modern-restaurant .flavor-intro__grid,
+	.flavor-skin-modern-restaurant .flavor-featured__grid {
+		grid-template-columns: 1fr;
+	}
+
+	.flavor-skin-modern-restaurant .flavor-intro__card {
+		min-height: auto;
+		border-inline-start: 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		padding-block: 35px;
+	}
+
+	.flavor-skin-modern-restaurant .flavor-cat-card,
+	.flavor-skin-modern-restaurant .flavor-cat-card:first-child,
+	.flavor-skin-modern-restaurant .flavor-cat-card:nth-child(5) {
+		grid-column: span 12;
+		aspect-ratio: 16 / 10;
+	}
+
+	.flavor-skin-modern-restaurant .flavor-section-header--with-action {
+		align-items: flex-start;
+		gap: 18px;
+	}
+
+	.flavor-skin-modern-restaurant .flavor-section-header--with-action .flavor-btn {
+		white-space: nowrap;
+	}
+
+	.flavor-skin-modern-restaurant .flavor-about__img-wrapper img {
+		min-height: 390px;
+	}
+
+	.flavor-skin-modern-restaurant .flavor-about__media::before {
+		inset-inline-start: -12px;
+		bottom: -12px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flavor-skin-modern-restaurant *,
+	.flavor-skin-modern-restaurant *::before,
+	.flavor-skin-modern-restaurant *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

@@ -200,26 +200,65 @@ class Demo_Importer {
 		foreach ( $q->posts as $id ) {
 			wp_delete_post( (int) $id, true );
 		}
+
+		// Attachments use the `inherit` status and are not included by
+		// WP_Query's `any`; remove old bundled demo media explicitly so repeated
+		// one-click imports do not bloat the uploads directory.
+		$attachment_ids = get_posts(
+			array(
+				'post_type'      => 'attachment',
+				'post_status'    => 'inherit',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'meta_key'       => '_flavor_demo',
+			)
+		);
+		foreach ( $attachment_ids as $attachment_id ) {
+			wp_delete_attachment( (int) $attachment_id, true );
+		}
 	}
 
 	/**
 	 * Sideload bundled hero.
 	 */
 	private static function sideload_hero( string $slug ): int {
-		$path = FLAVOR_DIR . '/demos/' . $slug . '/hero.jpg';
+		return self::sideload_demo_asset( $slug, 'hero.jpg' );
+	}
+
+	/**
+	 * Import a bundled image from a demo pack into the media library.
+	 *
+	 * @param string $slug     Demo slug.
+	 * @param string $filename Basename inside the demo directory.
+	 */
+	private static function sideload_demo_asset( string $slug, string $filename ): int {
+		$slug     = sanitize_key( $slug );
+		$filename = sanitize_file_name( basename( $filename ) );
+		if ( ! preg_match( '/\.(?:jpe?g|png|webp)$/i', $filename ) ) {
+			return 0;
+		}
+
+		$path = FLAVOR_DIR . '/demos/' . $slug . '/' . $filename;
 		if ( ! is_readable( $path ) ) {
 			return 0;
 		}
+
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/media.php';
 		require_once ABSPATH . 'wp-admin/includes/image.php';
-		$tmp = wp_tempnam( $slug . '-hero.jpg' );
-		copy( $path, $tmp );
+		$tmp = wp_tempnam( $slug . '-' . $filename );
+		if ( ! $tmp ) {
+			return 0;
+		}
+		if ( ! copy( $path, $tmp ) ) {
+			@unlink( $tmp ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			return 0;
+		}
 		$file = array(
-			'name'     => $slug . '-hero.jpg',
+			'name'     => $slug . '-' . $filename,
 			'tmp_name' => $tmp,
 		);
-		$id   = media_handle_sideload( $file, 0, $slug );
+		$id = media_handle_sideload( $file, 0, $slug );
 		if ( is_wp_error( $id ) ) {
 			@unlink( $tmp ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 			return 0;
@@ -291,14 +330,25 @@ class Demo_Importer {
 	 * @param array<string, mixed> $demo Demo.
 	 */
 	private static function import_commerce( array $demo, int $hero_id ): void {
-		$term_ids = array();
+		$term_ids           = array();
+		$category_image_ids = array();
 		foreach ( $demo['categories'] as $label => $slug ) {
 			$term = term_exists( $slug, 'product_cat' );
 			if ( ! $term ) {
 				$term = wp_insert_term( $label, 'product_cat', array( 'slug' => $slug ) );
 			}
 			if ( ! is_wp_error( $term ) ) {
-				$term_ids[ $slug ] = (int) ( $term['term_id'] ?? $term );
+				$term_id           = (int) ( $term['term_id'] ?? $term );
+				$term_ids[ $slug ] = $term_id;
+
+				$image_file = $demo['category_images'][ $slug ] ?? '';
+				if ( is_string( $image_file ) && '' !== $image_file ) {
+					$image_id = self::sideload_demo_asset( (string) $demo['slug'], $image_file );
+					if ( $image_id ) {
+						$category_image_ids[ $slug ] = $image_id;
+						update_term_meta( $term_id, 'thumbnail_id', $image_id );
+					}
+				}
 			}
 		}
 
@@ -337,8 +387,9 @@ class Demo_Importer {
 				);
 			}
 			update_post_meta( $post_id, '_flavor_modifiers', $mods );
-			if ( $hero_id ) {
-				set_post_thumbnail( $post_id, $hero_id );
+			$product_image_id = $category_image_ids[ $row['category'] ?? '' ] ?? $hero_id;
+			if ( $product_image_id ) {
+				set_post_thumbnail( $post_id, $product_image_id );
 			}
 		}
 
