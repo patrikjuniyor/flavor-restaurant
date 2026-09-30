@@ -1,8 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../core/navigation/deep_link_service.dart';
+import '../core/notifications/notification_service.dart';
 import '../models/user_model.dart';
 import '../repositories/auth_repository.dart';
+
+/// Process-wide auth state bridge used by push-notification deep-link routing
+/// so notification taps can consult the current authentication state without
+/// coupling notification_service.dart to Provider state.
+class AuthBridge {
+  static final ValueNotifier<bool> isAuthenticated = ValueNotifier<bool>(false);
+}
 
 /// State management for Authentication, OTP countdown timers, and User Profile.
 class AuthProvider extends ChangeNotifier {
@@ -31,8 +39,14 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
     try {
       _user = await _authRepo.getProfile();
+      AuthBridge.isAuthenticated.value = _user != null;
+      if (_user != null) {
+        // Re-bind the push token to the freshly authenticated account.
+        unawaited(NotificationService.instance?.syncTokenRegistration() ?? Future.value());
+      }
     } catch (_) {
       _user = null;
+      AuthBridge.isAuthenticated.value = false;
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -69,6 +83,10 @@ class AuthProvider extends ChangeNotifier {
       _user = await _authRepo.verifyOtp(mobile, code, name: name);
       _timer?.cancel();
       _countdown = 0;
+      AuthBridge.isAuthenticated.value = true;
+
+      // Register the real push token of the device against the newly authenticated account.
+      unawaited(NotificationService.instance?.syncTokenRegistration() ?? Future.value());
 
       // Resume pending deep link destination if unauthenticated redirection occurred
       DeepLinkService.instance.resumePendingDestination();
@@ -160,8 +178,13 @@ class AuthProvider extends ChangeNotifier {
 
   /// Logs out user.
   Future<void> logout() async {
+    // Revoke the push token BEFORE the auth token disappears (endpoint is authenticated).
+    try {
+      await NotificationService.instance?.onLogout();
+    } catch (_) {}
     await _authRepo.logout();
     _user = null;
+    AuthBridge.isAuthenticated.value = false;
     _timer?.cancel();
     notifyListeners();
   }

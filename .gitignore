@@ -60,3 +60,9 @@ mobile/ios/Runner/GeneratedPluginRegistrant.*
 # Keep .pot and .po; ignore machine-specific .mo if needed
 # *.mo
 __pycache__/
+
+# Push credentials (per brand, NEVER commit — see docs/PUSH-NOTIFICATIONS.md)
+mobile/android/app/google-services.json
+mobile/ios/Runner/GoogleService-Info.plist
+AuthKey-*.p8
+*service-account*.json
