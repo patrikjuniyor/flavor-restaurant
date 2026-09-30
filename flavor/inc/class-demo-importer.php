@@ -47,7 +47,7 @@ class Demo_Importer {
 		$notice  = isset( $_GET['imported'] ) ? sanitize_key( wp_unslash( $_GET['imported'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'هشت دموی رستوران مستقیم', 'flavor' ); ?></h1>
+			<h1><?php esc_html_e( 'دموهای نصب یک‌کلیکی Flavor', 'flavor' ); ?></h1>
 			<?php if ( $notice && isset( $catalog[ $notice ] ) ) : ?>
 				<div class="notice notice-success"><p>
 					<?php echo esc_html( sprintf( /* translators: demo */ __( 'دمو «%s» درون‌ریزی شد. صفحه نخست را بررسی کنید.', 'flavor' ), $catalog[ $notice ]['title'] ) ); ?>
@@ -56,7 +56,7 @@ class Demo_Importer {
 			<?php if ( ! defined( 'FLAVOR_CORE_VERSION' ) ) : ?>
 				<div class="notice notice-warning"><p><?php esc_html_e( 'Flavor Core فعال نیست؛ صفحات و رنگ‌ها وارد می‌شوند اما محصول و شعبه ساخته نمی‌شود.', 'flavor' ); ?></p></div>
 			<?php endif; ?>
-			<p><?php esc_html_e( 'هر دمو حداقل ۲۰ آیتم منو، شعبه نمونه، میز و صفحات منو/رزرو می‌سازد. دموی قبلی با برچسب همین قالب پاک می‌شود.', 'flavor' ); ?></p>
+			<p><?php esc_html_e( 'هر بسته، محصولات نمونه، تصاویر اختصاصی، شعبه، میز و صفحات منو و رزرو را می‌سازد. محتوای دموی قبلی پیش از نصب بسته جدید پاک می‌شود.', 'flavor' ); ?></p>
 			<div class="flavor-demo-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
 				<?php foreach ( $catalog as $slug => $demo ) : ?>
 					<?php $hero = FLAVOR_URI . '/demos/' . $slug . '/hero.jpg'; ?>
