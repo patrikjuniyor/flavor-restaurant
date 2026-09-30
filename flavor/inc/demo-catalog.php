@@ -121,6 +121,15 @@ function flavor_demo_catalog(): array {
 			'city'         => 'اصفهان',
 			'phone'        => '03132221100',
 			'address'      => 'اصفهان، میدان نقش جهان، خیابان حافظ',
+			'theme_mods'   => array(
+				'flavor_hero_badge'    => 'از دل اصفهان، بر سر سفره شما',
+				'flavor_hero_style'    => 'fullscreen',
+				'flavor_hero_cta2'     => 'رزرو سفره و تخت سنتی',
+				'flavor_header_topbar' => 'هر روز از ساعت ۱۲ تا ۲۳:۳۰ میزبان شما هستیم  •  موسیقی زنده پنج‌شنبه‌ها',
+				'flavor_phone'         => '03132221100',
+				'flavor_address'       => 'اصفهان، میدان نقش جهان، خیابان حافظ',
+				'flavor_featured_title' => 'گزیده سفره نقش جهان',
+			),
 			'categories'   => array( 'کباب‌های ذغالی' => 'kebab', 'چلو خورشت اصیل' => 'stew', 'پیش‌غذا و مخلفات' => 'side', 'نوشیدنی و شربتخانه' => 'drinks' ),
 			'testimonials' => array(
 				array( 'name' => 'حاج مرتضی حسینی', 'text' => 'کباب برگ و شیشلیک بی‌نظیر؛ گوشت کاملاً پنبه و بدون ذره‌ای بو.' ),

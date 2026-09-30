@@ -114,6 +114,13 @@ class Demo_Importer {
 		foreach ( $tokens as $k => $v ) {
 			set_theme_mod( 'flavor_' . $k, $v );
 		}
+		// Demo-specific art direction (copy, header behavior and section labels).
+		// Keeping this data in the catalog makes future bespoke demos additive.
+		foreach ( $demo['theme_mods'] ?? array() as $key => $value ) {
+			if ( 0 === strpos( (string) $key, 'flavor_' ) ) {
+				set_theme_mod( sanitize_key( (string) $key ), $value );
+			}
+		}
 		set_theme_mod( 'flavor_hero_title', $demo['hero_title'] );
 		set_theme_mod( 'flavor_hero_text', $demo['hero_text'] );
 		set_theme_mod( 'flavor_hero_cta', __( 'مشاهده منو', 'flavor' ) );

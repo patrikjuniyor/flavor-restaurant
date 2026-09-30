@@ -1,0 +1,665 @@
+/*
+ * Persian Traditional — bespoke landing-page art direction.
+ * Scoped to the demo skin so other Flavor installations remain untouched.
+ */
+
+@font-face {
+	font-family: "Estedad";
+	src: url("../../fonts/estedad/Estedad-Variable.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+}
+
+body.flavor-skin-persian-traditional {
+	--traditional-wine: #691a2c;
+	--traditional-wine-dark: #3b111c;
+	--traditional-turquoise: #0d5c63;
+	--traditional-turquoise-dark: #073f45;
+	--traditional-brass: #c8963e;
+	--traditional-parchment: #f8f0df;
+	--traditional-cream: #fffaf0;
+	--traditional-ink: #281a16;
+	background-color: var(--traditional-parchment);
+	background-image:
+		radial-gradient(circle at 16% 8%, rgba(200, 150, 62, 0.08), transparent 28rem),
+		radial-gradient(circle at 88% 34%, rgba(13, 92, 99, 0.06), transparent 30rem);
+	font-family: "Vazirmatn", Tahoma, sans-serif;
+}
+
+.flavor-skin-persian-traditional h1,
+.flavor-skin-persian-traditional h2,
+.flavor-skin-persian-traditional h3,
+.flavor-skin-persian-traditional h4,
+.flavor-skin-persian-traditional .flavor-brand__name {
+	font-family: "Estedad", "Vazirmatn", Tahoma, sans-serif;
+	font-variation-settings: "wght" 760;
+	letter-spacing: -0.035em;
+}
+
+/* A quiet eight-point geometry references Iranian tilework without becoming decorative noise. */
+.flavor-skin-persian-traditional .flavor-main {
+	background-image: url("data:image/svg+xml,%3Csvg width='72' height='72' viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%230d5c63' stroke-opacity='.032' stroke-width='1'%3E%3Cpath d='M36 6 45 27 66 36 45 45 36 66 27 45 6 36 27 27Z'/%3E%3Cpath d='m36 18 5 13 13 5-13 5-5 13-5-13-13-5 13-5Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Top bar and navigation */
+.flavor-skin-persian-traditional .flavor-topbar {
+	background: var(--traditional-turquoise-dark);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+	color: #f9e8bd;
+	padding-block: 9px;
+	letter-spacing: 0.01em;
+}
+
+.flavor-skin-persian-traditional .flavor-topbar__inner::before,
+.flavor-skin-persian-traditional .flavor-topbar__inner::after {
+	content: "◆";
+	color: var(--traditional-brass);
+	font-size: 8px;
+}
+
+.flavor-skin-persian-traditional .flavor-header {
+	background: rgba(255, 250, 240, 0.96);
+	border: 0;
+	box-shadow: 0 10px 35px rgba(45, 20, 16, 0.08);
+	backdrop-filter: blur(16px);
+}
+
+.flavor-skin-persian-traditional .flavor-header::after {
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	bottom: -5px;
+	height: 6px;
+	background:
+		linear-gradient(135deg, var(--traditional-turquoise) 25%, transparent 25%) -6px 0/12px 12px,
+		linear-gradient(225deg, var(--traditional-turquoise) 25%, transparent 25%) -6px 0/12px 12px;
+	opacity: 0.7;
+	pointer-events: none;
+}
+
+.flavor-skin-persian-traditional .flavor-header__inner {
+	min-height: 82px;
+}
+
+.flavor-skin-persian-traditional .flavor-brand__name {
+	color: var(--traditional-wine-dark);
+	font-size: clamp(1.35rem, 2vw, 1.72rem);
+	position: relative;
+	padding-inline-start: 18px;
+}
+
+.flavor-skin-persian-traditional .flavor-brand__name::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	top: 50%;
+	width: 7px;
+	height: 22px;
+	border-block: 2px solid var(--traditional-brass);
+	transform: translateY(-50%);
+}
+
+.flavor-skin-persian-traditional .flavor-nav {
+	gap: clamp(18px, 2.2vw, 34px);
+}
+
+.flavor-skin-persian-traditional .flavor-nav a {
+	color: #4b352d;
+	font-weight: 650;
+}
+
+.flavor-skin-persian-traditional .flavor-nav a::after {
+	height: 5px;
+	bottom: -8px;
+	background: var(--traditional-brass);
+	clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+.flavor-skin-persian-traditional .flavor-header__phone {
+	color: var(--traditional-turquoise-dark);
+}
+
+.flavor-skin-persian-traditional .flavor-btn {
+	font-weight: 750;
+	box-shadow: none;
+}
+
+.flavor-skin-persian-traditional .flavor-btn--primary {
+	background: var(--traditional-wine);
+	border-color: var(--traditional-wine);
+	box-shadow: 0 9px 24px rgba(105, 26, 44, 0.2);
+}
+
+.flavor-skin-persian-traditional .flavor-btn--primary:hover {
+	background: var(--traditional-wine-dark);
+	border-color: var(--traditional-wine-dark);
+	transform: translateY(-2px);
+}
+
+/* Cinematic heritage hero */
+.flavor-skin-persian-traditional .flavor-hero {
+	min-height: min(82vh, 790px);
+	padding-block: clamp(88px, 11vw, 145px);
+	isolation: isolate;
+	border-bottom: 8px solid var(--traditional-turquoise-dark);
+}
+
+.flavor-skin-persian-traditional .flavor-hero::before {
+	content: "";
+	position: absolute;
+	z-index: 3;
+	inset: 22px;
+	border: 1px solid rgba(242, 204, 127, 0.42);
+	box-shadow: inset 0 0 0 5px rgba(59, 17, 28, 0.16);
+	pointer-events: none;
+}
+
+.flavor-skin-persian-traditional .flavor-hero::after {
+	content: "نقش جهان • مهمان‌نوازی ایرانی";
+	position: absolute;
+	z-index: 4;
+	inset-inline-end: clamp(30px, 6vw, 88px);
+	bottom: 36px;
+	color: rgba(255, 244, 217, 0.72);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+}
+
+.flavor-skin-persian-traditional .flavor-hero__bg {
+	filter: saturate(0.88) contrast(1.08);
+	transform: scale(1.012);
+}
+
+.flavor-skin-persian-traditional .flavor-hero__overlay {
+	background:
+		linear-gradient(90deg, rgba(21, 10, 8, 0.2), rgba(21, 10, 8, 0.82) 70%, rgba(21, 10, 8, 0.94)),
+		linear-gradient(0deg, rgba(50, 12, 24, 0.45), transparent 52%);
+}
+
+.flavor-skin-persian-traditional .flavor-hero__container {
+	justify-items: start;
+}
+
+.flavor-skin-persian-traditional .flavor-hero__content {
+	max-width: 700px;
+	padding: clamp(28px, 5vw, 56px);
+	background: rgba(31, 13, 12, 0.58);
+	border-inline-start: 3px solid var(--traditional-brass);
+	box-shadow: 0 30px 90px rgba(0, 0, 0, 0.25);
+	backdrop-filter: blur(5px);
+}
+
+.flavor-skin-persian-traditional .flavor-hero__badge {
+	background: transparent;
+	border: 1px solid rgba(241, 204, 129, 0.5);
+	border-radius: 2px;
+	color: #f8d997;
+	padding: 8px 15px;
+}
+
+.flavor-skin-persian-traditional .flavor-hero__badge-dot {
+	background: var(--traditional-brass);
+	box-shadow: 0 0 0 5px rgba(200, 150, 62, 0.15);
+}
+
+.flavor-skin-persian-traditional .flavor-hero__title {
+	max-width: 650px;
+	font-size: clamp(2.35rem, 5.8vw, 4.65rem);
+	font-variation-settings: "wght" 820;
+	line-height: 1.18;
+	text-wrap: balance;
+	text-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+}
+
+.flavor-skin-persian-traditional .flavor-hero__text {
+	max-width: 600px;
+	color: #f6ead4;
+	font-size: clamp(1rem, 1.65vw, 1.18rem);
+	line-height: 2;
+}
+
+.flavor-skin-persian-traditional .flavor-hero__actions .flavor-btn {
+	min-height: 54px;
+	padding-inline: 25px;
+}
+
+.flavor-skin-persian-traditional .flavor-hero__actions .flavor-btn--primary {
+	background: var(--traditional-brass);
+	border-color: var(--traditional-brass);
+	color: #29160f;
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+.flavor-skin-persian-traditional .flavor-hero__actions .flavor-btn--primary:hover {
+	background: #e0b45e;
+	border-color: #e0b45e;
+}
+
+.flavor-skin-persian-traditional .flavor-hero__features {
+	border-color: rgba(247, 218, 158, 0.25);
+	color: #f8e8c7;
+	gap: 25px;
+}
+
+.flavor-skin-persian-traditional .flavor-hero__feat svg {
+	color: var(--traditional-brass);
+}
+
+/* Section rhythm and headings */
+.flavor-skin-persian-traditional .flavor-section {
+	padding-block: clamp(72px, 9vw, 112px);
+}
+
+.flavor-skin-persian-traditional .flavor-section:nth-of-type(even) {
+	background-color: rgba(255, 250, 240, 0.7);
+}
+
+.flavor-skin-persian-traditional .flavor-section-header {
+	margin-bottom: 55px;
+}
+
+.flavor-skin-persian-traditional .flavor-section-header__tag {
+	background: transparent;
+	color: var(--traditional-wine);
+	border: 1px solid rgba(105, 26, 44, 0.22);
+	border-radius: 2px;
+	padding: 6px 16px;
+	font-weight: 750;
+}
+
+.flavor-skin-persian-traditional .flavor-section-header__title,
+.flavor-skin-persian-traditional .flavor-about__title {
+	color: var(--traditional-wine-dark);
+	font-size: clamp(1.9rem, 3.8vw, 3rem);
+	font-variation-settings: "wght" 780;
+}
+
+.flavor-skin-persian-traditional .flavor-section-header:not(.flavor-section-header--with-action)::after {
+	content: "";
+	display: block;
+	width: 88px;
+	height: 9px;
+	margin: 20px auto 0;
+	background:
+		linear-gradient(135deg, transparent 35%, var(--traditional-brass) 36% 64%, transparent 65%) 0 0/18px 9px repeat-x;
+}
+
+/* Hospitality values */
+.flavor-skin-persian-traditional .flavor-intro {
+	background: var(--traditional-turquoise-dark) !important;
+	color: #fff6e5;
+}
+
+.flavor-skin-persian-traditional .flavor-intro__grid {
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1px;
+	background: rgba(255, 255, 255, 0.14);
+	border-block: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.flavor-skin-persian-traditional .flavor-intro__card {
+	background: var(--traditional-turquoise-dark);
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	color: #fff6e5;
+	padding: 43px 30px;
+}
+
+.flavor-skin-persian-traditional .flavor-intro__card:hover {
+	background: #0b4c52;
+	transform: none;
+}
+
+.flavor-skin-persian-traditional .flavor-intro__card h3 {
+	color: #fff6e5;
+	font-size: 1.35rem;
+}
+
+.flavor-skin-persian-traditional .flavor-intro__card p {
+	color: rgba(255, 246, 229, 0.72);
+}
+
+.flavor-skin-persian-traditional .flavor-intro__icon {
+	background: rgba(200, 150, 62, 0.13) !important;
+	color: #efc675 !important;
+	border: 1px solid rgba(239, 198, 117, 0.35);
+}
+
+/* Food cards become editorial menu cards. */
+.flavor-skin-persian-traditional .flavor-featured__grid {
+	grid-template-columns: repeat(3, 1fr);
+	gap: 28px;
+}
+
+.flavor-skin-persian-traditional .flavor-food-card {
+	background: var(--traditional-cream);
+	border: 1px solid #e4d2ad;
+	border-radius: 2px 2px 34px 2px;
+	box-shadow: 0 18px 45px rgba(63, 35, 23, 0.08);
+	overflow: hidden;
+}
+
+.flavor-skin-persian-traditional .flavor-food-card__media {
+	aspect-ratio: 4 / 2.7;
+}
+
+.flavor-skin-persian-traditional .flavor-food-card__media::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	box-shadow: inset 0 -70px 70px -55px rgba(37, 15, 11, 0.8);
+	pointer-events: none;
+}
+
+.flavor-skin-persian-traditional .flavor-food-card__cat-badge {
+	z-index: 2;
+	background: var(--traditional-turquoise-dark);
+	border-radius: 1px;
+	color: #f8e8c7;
+}
+
+.flavor-skin-persian-traditional .flavor-food-card__body {
+	padding: 25px;
+}
+
+.flavor-skin-persian-traditional .flavor-food-card__title {
+	font-size: 1.28rem;
+	color: var(--traditional-wine-dark);
+}
+
+.flavor-skin-persian-traditional .flavor-food-card__desc {
+	line-height: 1.9;
+}
+
+.flavor-skin-persian-traditional .flavor-food-card__footer {
+	border-color: #eadbbf;
+}
+
+.flavor-skin-persian-traditional .flavor-food-card__price {
+	color: var(--traditional-turquoise-dark);
+}
+
+/* Tall arched category portals. */
+.flavor-skin-persian-traditional .flavor-categories__grid {
+	grid-template-columns: repeat(4, 1fr);
+	gap: 18px;
+}
+
+.flavor-skin-persian-traditional .flavor-cat-card {
+	aspect-ratio: 3 / 4;
+	border-radius: 140px 140px 8px 8px;
+	border: 5px solid var(--traditional-cream);
+	outline: 1px solid #dac291;
+	outline-offset: 4px;
+	box-shadow: 0 18px 45px rgba(59, 17, 28, 0.12);
+	padding: 27px 22px;
+}
+
+.flavor-skin-persian-traditional .flavor-cat-card::after {
+	background: linear-gradient(180deg, rgba(31, 10, 13, 0.05), rgba(31, 10, 13, 0.88));
+}
+
+.flavor-skin-persian-traditional .flavor-cat-card__title {
+	font-size: 1.35rem;
+	font-family: "Estedad", "Vazirmatn", sans-serif;
+}
+
+/* Promotions */
+.flavor-skin-persian-traditional .flavor-offer-banner {
+	background:
+		linear-gradient(110deg, rgba(7, 63, 69, 0.96), rgba(13, 92, 99, 0.94)),
+		url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 4 38 22 56 30 38 38 30 56 22 38 4 30 22 22Z' fill='none' stroke='%23dcb35c' stroke-opacity='.18'/%3E%3C/svg%3E");
+	border: 1px solid rgba(224, 180, 94, 0.45);
+	border-radius: 2px 2px 45px 2px;
+	box-shadow: 0 25px 70px rgba(7, 63, 69, 0.2);
+}
+
+.flavor-skin-persian-traditional .flavor-offer-banner::before {
+	content: "";
+	position: absolute;
+	inset: 12px;
+	border: 1px solid rgba(241, 204, 129, 0.22);
+	pointer-events: none;
+}
+
+.flavor-skin-persian-traditional .flavor-offer-banner__badge,
+.flavor-skin-persian-traditional .flavor-offer-coupon {
+	border-radius: 2px;
+}
+
+.flavor-skin-persian-traditional .flavor-res-banner {
+	background: var(--traditional-wine-dark);
+	border-radius: 42px 3px 42px 3px;
+	box-shadow: 0 28px 70px rgba(59, 17, 28, 0.2);
+}
+
+.flavor-skin-persian-traditional .flavor-res-banner__media::after {
+	background: linear-gradient(90deg, transparent 25%, var(--traditional-wine-dark) 100%);
+}
+
+.flavor-skin-persian-traditional .flavor-res-banner__tag,
+.flavor-skin-persian-traditional .flavor-res-banner__perk svg {
+	color: #edc675;
+}
+
+/* Story */
+.flavor-skin-persian-traditional .flavor-about__inner {
+	gap: clamp(45px, 7vw, 90px);
+}
+
+.flavor-skin-persian-traditional .flavor-about__img-wrapper {
+	border-radius: 220px 220px 8px 8px;
+	border: 7px solid var(--traditional-cream);
+	outline: 1px solid #d6bb83;
+	outline-offset: 6px;
+	box-shadow: 0 28px 65px rgba(59, 17, 28, 0.15);
+}
+
+.flavor-skin-persian-traditional .flavor-about__img-wrapper img {
+	min-height: 540px;
+	object-fit: cover;
+}
+
+.flavor-skin-persian-traditional .flavor-about__exp-badge {
+	background: var(--traditional-wine);
+	border: 1px solid rgba(248, 217, 151, 0.55);
+	border-radius: 2px;
+	box-shadow: 0 14px 30px rgba(59, 17, 28, 0.24);
+}
+
+.flavor-skin-persian-traditional .flavor-about__text {
+	font-size: 1.02rem;
+	line-height: 2.1;
+}
+
+.flavor-skin-persian-traditional .flavor-about__stats {
+	border-color: #decba5;
+}
+
+.flavor-skin-persian-traditional .flavor-about__stat-num {
+	color: var(--traditional-turquoise-dark);
+	font-family: "Estedad", "Vazirmatn", sans-serif;
+}
+
+/* Gallery mosaic */
+.flavor-skin-persian-traditional .flavor-gallery__grid {
+	gap: 12px;
+}
+
+.flavor-skin-persian-traditional .flavor-gallery__item {
+	border-radius: 2px;
+	border: 4px solid var(--traditional-cream);
+	outline: 1px solid rgba(200, 150, 62, 0.55);
+	box-shadow: 0 16px 38px rgba(46, 24, 17, 0.1);
+}
+
+.flavor-skin-persian-traditional .flavor-gallery__item:nth-child(2),
+.flavor-skin-persian-traditional .flavor-gallery__item:nth-child(5) {
+	border-radius: 70px 2px 70px 2px;
+}
+
+/* Reviews and location */
+.flavor-skin-persian-traditional .flavor-testimonials {
+	background: var(--traditional-cream) !important;
+}
+
+.flavor-skin-persian-traditional .flavor-review-card {
+	background: transparent;
+	border: 1px solid #dfcda8;
+	border-radius: 3px 3px 32px 3px;
+	box-shadow: none;
+	padding: 36px;
+	position: relative;
+}
+
+.flavor-skin-persian-traditional .flavor-review-card::before {
+	content: "«";
+	position: absolute;
+	inset-inline-end: 25px;
+	top: 8px;
+	font-family: Georgia, serif;
+	font-size: 5rem;
+	line-height: 1;
+	color: rgba(105, 26, 44, 0.09);
+}
+
+.flavor-skin-persian-traditional .flavor-review-card__stars {
+	color: var(--traditional-brass);
+}
+
+.flavor-skin-persian-traditional .flavor-review-card__avatar {
+	background: var(--traditional-turquoise-dark);
+	color: #f7dda6;
+}
+
+.flavor-skin-persian-traditional .flavor-hours-card {
+	background: var(--traditional-turquoise-dark);
+	border: 1px solid rgba(200, 150, 62, 0.45);
+	border-radius: 3px 3px 46px 3px;
+	color: #f9efdc;
+	box-shadow: 0 28px 70px rgba(7, 63, 69, 0.18);
+}
+
+.flavor-skin-persian-traditional .flavor-hours-card h2,
+.flavor-skin-persian-traditional .flavor-hours-card h3,
+.flavor-skin-persian-traditional .flavor-hours-card__title,
+.flavor-skin-persian-traditional .flavor-contact-row__value,
+.flavor-skin-persian-traditional .flavor-contact-row__link {
+	color: #fff7e8;
+}
+
+.flavor-skin-persian-traditional .flavor-contact-row__label,
+.flavor-skin-persian-traditional .flavor-schedule-list,
+.flavor-skin-persian-traditional .flavor-contact-row__icon {
+	color: #e8c77e;
+}
+
+.flavor-skin-persian-traditional .flavor-footer {
+	background: #24120f;
+	border-top: 6px solid var(--traditional-brass);
+}
+
+.flavor-skin-persian-traditional .flavor-footer__heading {
+	color: #e8c77e;
+}
+
+@media (max-width: 991px) {
+	.flavor-skin-persian-traditional .flavor-featured__grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.flavor-skin-persian-traditional .flavor-categories__grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.flavor-skin-persian-traditional .flavor-hero__content {
+		max-width: 620px;
+	}
+}
+
+@media (max-width: 767px) {
+	.flavor-skin-persian-traditional .flavor-header__inner {
+		min-height: 68px;
+	}
+
+	.flavor-skin-persian-traditional .flavor-hero {
+		min-height: 700px;
+		padding-block: 82px 100px;
+	}
+
+	.flavor-skin-persian-traditional .flavor-hero::before {
+		inset: 12px;
+	}
+
+	.flavor-skin-persian-traditional .flavor-hero::after {
+		inset-inline-end: 25px;
+		bottom: 25px;
+	}
+
+	.flavor-skin-persian-traditional .flavor-hero__overlay {
+		background: linear-gradient(0deg, rgba(24, 8, 8, 0.96), rgba(24, 8, 8, 0.48) 85%);
+	}
+
+	.flavor-skin-persian-traditional .flavor-hero__content {
+		padding: 26px 22px;
+		background: rgba(31, 13, 12, 0.68);
+	}
+
+	.flavor-skin-persian-traditional .flavor-hero__title {
+		font-size: clamp(2.15rem, 11vw, 3.25rem);
+	}
+
+	.flavor-skin-persian-traditional .flavor-hero__features {
+		display: grid;
+		gap: 12px;
+	}
+
+	.flavor-skin-persian-traditional .flavor-intro__grid {
+		grid-template-columns: 1fr;
+	}
+
+	.flavor-skin-persian-traditional .flavor-featured__grid {
+		grid-template-columns: 1fr;
+	}
+
+	.flavor-skin-persian-traditional .flavor-categories__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 14px;
+	}
+
+	.flavor-skin-persian-traditional .flavor-cat-card {
+		padding: 18px 13px;
+		border-width: 3px;
+	}
+
+	.flavor-skin-persian-traditional .flavor-cat-card__title {
+		font-size: 1.05rem;
+	}
+
+	.flavor-skin-persian-traditional .flavor-section-header--with-action {
+		align-items: flex-start;
+		gap: 20px;
+	}
+
+	.flavor-skin-persian-traditional .flavor-section-header--with-action .flavor-btn {
+		white-space: nowrap;
+	}
+
+	.flavor-skin-persian-traditional .flavor-about__img-wrapper img {
+		min-height: 390px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flavor-skin-persian-traditional *,
+	.flavor-skin-persian-traditional *::before,
+	.flavor-skin-persian-traditional *::after {
+		scroll-behavior: auto !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

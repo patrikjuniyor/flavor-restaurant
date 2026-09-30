@@ -30,6 +30,11 @@ class Enqueue {
 	public static function preload(): void {
 		$href = FLAVOR_URI . '/assets/fonts/vazirmatn/Vazirmatn-Regular.woff2';
 		echo '<link rel="preload" as="font" type="font/woff2" href="' . esc_url( $href ) . '" crossorigin />' . "\n";
+
+		if ( 'persian-traditional' === Design::current_skin() ) {
+			$display_font = FLAVOR_URI . '/assets/fonts/estedad/Estedad-Variable.woff2';
+			echo '<link rel="preload" as="font" type="font/woff2" href="' . esc_url( $display_font ) . '" crossorigin />' . "\n";
+		}
 	}
 
 	/**
@@ -63,6 +68,21 @@ class Enqueue {
 				FLAVOR_URI . '/assets/css/rtl.css',
 				array( 'flavor-main' ),
 				FLAVOR_VERSION
+			);
+		}
+
+		// Each commercial demo can ship its own art direction without adding
+		// unused CSS to other sites. The filename must match the sanitized skin.
+		$skin       = Design::current_skin();
+		$skin_file  = '/assets/css/skins/' . sanitize_file_name( $skin ) . '.css';
+		$skin_path  = FLAVOR_DIR . $skin_file;
+		$skin_deps  = is_rtl() ? array( 'flavor-marketing', 'flavor-rtl' ) : array( 'flavor-marketing' );
+		if ( is_readable( $skin_path ) ) {
+			wp_enqueue_style(
+				'flavor-skin-' . sanitize_html_class( $skin ),
+				FLAVOR_URI . $skin_file,
+				$skin_deps,
+				(string) filemtime( $skin_path )
 			);
 		}
 
