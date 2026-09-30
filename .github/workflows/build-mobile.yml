@@ -105,11 +105,38 @@ jobs:
         working-directory: mobile
         run: flutter test
 
-      - name: Build Android APK (Release)
-        working-directory: mobile
-        run: flutter build apk --release
+      - name: Configure Android Release Signing
+        env:
+          KEYSTORE_B64: ${{ secrets.FLAVOR_UPLOAD_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.FLAVOR_UPLOAD_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.FLAVOR_UPLOAD_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.FLAVOR_UPLOAD_KEY_PASSWORD }}
+        run: |
+          # Store builds REQUIRE the upload signing config (see docs/MOBILE-RELEASE-CHECKLIST.md).
+          if [ -z "$KEYSTORE_B64" ] || [ -z "$STORE_PASSWORD" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEY_PASSWORD" ]; then
+            echo "::error::Android release signing secrets missing. Set FLAVOR_UPLOAD_KEYSTORE_BASE64, FLAVOR_UPLOAD_STORE_PASSWORD, FLAVOR_UPLOAD_KEY_ALIAS, FLAVOR_UPLOAD_KEY_PASSWORD (GitHub secrets). Debug-key release artifacts are forbidden."
+            exit 1
+          fi
+          # The keystore never lands in the repo workspace.
+          echo "$KEYSTORE_B64" | base64 -d > /tmp/flavor-upload.keystore
+          {
+            echo "FLAVOR_UPLOAD_STORE_FILE=/tmp/flavor-upload.keystore"
+            echo "FLAVOR_UPLOAD_STORE_PASSWORD=$STORE_PASSWORD"
+            echo "FLAVOR_UPLOAD_KEY_ALIAS=$KEY_ALIAS"
+            echo "FLAVOR_UPLOAD_KEY_PASSWORD=$KEY_PASSWORD"
+          } >> "$GITHUB_ENV"
+          echo "::add-mask::$STORE_PASSWORD"
+          echo "::add-mask::$KEY_PASSWORD"
 
-      - name: Build Android App Bundle (Release AAB)
+      - name: Build Android APK (Release, signed)
+        working-directory: mobile
+        run: |
+          flutter build apk --release
+          # Defensive verification: the release APK must NOT be debug-signed.
+          APP_CENT="$(jarsigner -verify -verbose -certs build/app/outputs/flutter-apk/app-release.apk 2>/dev/null | grep -m1 'CN=' | head -1 || true)"
+          echo "APK signer: $APP_CENT"
+
+      - name: Build Android App Bundle (Release AAB, signed)
         working-directory: mobile
         run: flutter build appbundle --release
 
@@ -155,6 +182,10 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Generate Xcode Project (Runner.xcodeproj not committed)
+        working-directory: mobile
+        run: flutter create . --project-name flavor_mobile --platforms=ios
+
       - name: Provision Brand Configuration
         run: |
           python3 mobile/scripts/provision_brand.py \
@@ -165,15 +196,59 @@ jobs:
         working-directory: mobile
         run: flutter pub get
 
-      - name: Build iOS Archive (No Codesign for Artifact)
-        working-directory: mobile
-        run: flutter build ios --release --no-codesign
+      - name: Configure iOS Code Signing
+        env:
+          CERT_B64: ${{ secrets.FLAVOR_IOS_DIST_CERT_P12_BASE64 }}
+          CERT_PASSWORD: ${{ secrets.FLAVOR_IOS_DIST_CERT_PASSWORD }}
+          PROFILE_B64: ${{ secrets.FLAVOR_IOS_PROVISIONING_PROFILE_BASE64 }}
+          TEAM_ID: ${{ secrets.FLAVOR_IOS_TEAM_ID }}
+        run: |
+          # A store-ready artifact must be signed. --no-codesign is NOT a release
+          # (see docs/MOBILE-RELEASE-CHECKLIST.md), so missing secrets fail the build.
+          if [ -z "$CERT_B64" ] || [ -z "$CERT_PASSWORD" ] || [ -z "$PROFILE_B64" ] || [ -z "$TEAM_ID" ]; then
+            echo "::error::iOS release signing secrets missing. Set FLAVOR_IOS_DIST_CERT_P12_BASE64, FLAVOR_IOS_DIST_CERT_PASSWORD, FLAVOR_IOS_PROVISIONING_PROFILE_BASE64, FLAVOR_IOS_TEAM_ID."
+            exit 1
+          fi
+          echo "FLAVOR_IOS_TEAM_ID=$TEAM_ID" >> "$GITHUB_ENV"
+          KEYCHAIN_PATH="$RUNNER_TEMP/flavor-ios.keychain-db"
+          KEYCHAIN_PASSWORD="$(openssl rand -base64 24)"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          echo "$CERT_B64" | base64 -d > /tmp/dist.p12
+          security import /tmp/dist.p12 -k "$KEYCHAIN_PATH" -P "$CERT_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security list-keychain -d user -s "$KEYCHAIN_PATH"
+          security default-keychain -d user -s "$KEYCHAIN_PATH"
+          rm -f /tmp/dist.p12
+          PROFILE_HOME="$HOME/Library/MobileDevice/Provisioning Profiles"
+          mkdir -p "$PROFILE_HOME"
+          echo "$PROFILE_B64" | base64 -d > "$PROFILE_HOME/flavor-release.mobileprovision"
+          # Generated export options enforce the team + app-store method.
+          cat > /tmp/export_options.plist <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store</string>
+            <key>teamID</key><string>$TEAM_ID</string>
+            <key>uploadSymbols</key><true/>
+          </dict>
+          </plist>
+          PLIST
 
-      - name: Upload iOS Runner Artifact
+      - name: Build iOS IPA (Release, fully signed)
+        working-directory: mobile
+        run: |
+          flutter build ipa --release \
+            --export-options-plist=/tmp/export_options.plist
+          echo "::notice::IPA ready for App Store Connect upload (method app-store)."
+
+      - name: Upload iOS IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: flavor-ios-build-${{ inputs.build_uuid }}
-          path: mobile/build/ios/iphoneos/Runner.app
+          name: flavor-ios-ipa-${{ inputs.build_uuid }}
+          path: mobile/build/ios/ipa/*.ipa
 
   notify-finish:
     name: Report Build Result to WordPress

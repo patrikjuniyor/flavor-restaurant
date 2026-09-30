@@ -18,6 +18,31 @@ if (flutterVersionName == null) {
 
 def flutterRoot = localProperties.getProperty('flutter.sdk') ?: System.getenv('FLUTTER_ROOT')
 
+// =========================================================================
+// Release signing — resolved SECURELY, never from committed files:
+//   1) env vars (CI): FLAVOR_UPLOAD_STORE_FILE, FLAVOR_UPLOAD_STORE_PASSWORD,
+//      FLAVOR_UPLOAD_KEY_ALIAS, FLAVOR_UPLOAD_KEY_PASSWORD
+//   2) local file: android/keystore.properties (git-ignored, dev machines only)
+// A release build without credentials FAILS loudly instead of silently
+// falling back to the debug key. See docs/MOBILE-RELEASE-CHECKLIST.md.
+// =========================================================================
+def keystoreProps = new Properties()
+def keystorePropsFile = rootProject.file('keystore.properties')
+if (keystorePropsFile.exists()) {
+    keystorePropsFile.withReader('UTF-8') { reader -> keystoreProps.load(reader) }
+}
+
+def resolveSigningProp = { String key ->
+    def envVal = System.getenv("FLAVOR_UPLOAD_${key}")
+    return envVal ? envVal : keystoreProps.getProperty(key)
+}
+
+def releaseStoreFile     = resolveSigningProp('STORE_FILE')
+def releaseStorePassword = resolveSigningProp('STORE_PASSWORD')
+def releaseKeyAlias      = resolveSigningProp('KEY_ALIAS')
+def releaseKeyPassword   = resolveSigningProp('KEY_PASSWORD')
+def releaseSigningConfigured = releaseStoreFile && releaseStorePassword && releaseKeyAlias && releaseKeyPassword
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -50,11 +75,42 @@ android {
         multiDexEnabled true
     }
 
+    signingConfigs {
+        if (releaseSigningConfigured) {
+            release {
+                storeFile rootProject.file(releaseStoreFile)
+                storePassword releaseStorePassword
+                keyAlias releaseKeyAlias
+                keyPassword releaseKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            // Never debug-sign store artifacts.
+            if (releaseSigningConfigured) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled false
             shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    // Enforcing at execution time (not evaluation time) keeps IDE sync and
+    // `flutter build apk --debug` credential-free while release FAILS LOUDLY.
+    gradle.taskGraph.whenReady { graph ->
+        def wantsRelease = graph.allTasks.any { it.path.startsWith(':app:') && it.path.contains('Release') }
+        if (wantsRelease && !releaseSigningConfigured) {
+            throw new GradleException(
+                "Release builds require signing credentials. Provide FLAVOR_UPLOAD_STORE_FILE / " +
+                "FLAVOR_UPLOAD_STORE_PASSWORD / FLAVOR_UPLOAD_KEY_ALIAS / FLAVOR_UPLOAD_KEY_PASSWORD " +
+                "env vars (CI) or android/keystore.properties (local). Debug-key release artifacts " +
+                "are forbidden. See docs/MOBILE-RELEASE-CHECKLIST.md.")
         }
     }
 }
