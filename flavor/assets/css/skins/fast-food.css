@@ -1,0 +1,661 @@
+/*
+ * Fast Food / Burger Bar — high-energy conversion-first art direction.
+ * Bold type, sticker geometry and product-led imagery without sacrificing RTL usability.
+ */
+
+@font-face {
+	font-family: "Estedad";
+	src: url("../../fonts/estedad/Estedad-Variable.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+}
+
+body.flavor-skin-fast-food {
+	--fast-red: #e2361f;
+	--fast-red-dark: #ad2414;
+	--fast-yellow: #ffc928;
+	--fast-black: #171512;
+	--fast-cream: #fff6dd;
+	--fast-paper: #fffdf7;
+	background: var(--fast-cream);
+	color: var(--fast-black);
+}
+
+.flavor-skin-fast-food h1,
+.flavor-skin-fast-food h2,
+.flavor-skin-fast-food h3,
+.flavor-skin-fast-food h4,
+.flavor-skin-fast-food .flavor-brand__name {
+	font-family: "Estedad", "Vazirmatn", Tahoma, sans-serif;
+	font-variation-settings: "wght" 860;
+	letter-spacing: -0.055em;
+}
+
+.flavor-skin-fast-food .flavor-main {
+	background-image: radial-gradient(rgba(23, 21, 18, 0.06) 1px, transparent 1px);
+	background-size: 18px 18px;
+	overflow: hidden;
+}
+
+/* Header */
+.flavor-skin-fast-food .flavor-topbar {
+	background: var(--fast-yellow);
+	color: var(--fast-black);
+	padding-block: 9px;
+	font-weight: 850;
+}
+
+.flavor-skin-fast-food .flavor-topbar__inner::before,
+.flavor-skin-fast-food .flavor-topbar__inner::after {
+	content: "⚡";
+	font-size: 14px;
+}
+
+.flavor-skin-fast-food .flavor-header {
+	background: rgba(23, 21, 18, 0.96);
+	border: 0;
+	box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+	backdrop-filter: blur(15px);
+}
+
+.flavor-skin-fast-food .flavor-header__inner {
+	min-height: 78px;
+}
+
+.flavor-skin-fast-food .flavor-brand__name {
+	color: #fff;
+	font-size: clamp(1.4rem, 2.1vw, 1.85rem);
+	font-style: italic;
+}
+
+.flavor-skin-fast-food .flavor-brand__name::after {
+	content: "5";
+	display: inline-grid;
+	place-items: center;
+	width: 29px;
+	height: 29px;
+	margin-inline-start: 8px;
+	background: var(--fast-yellow);
+	border: 2px solid #fff;
+	border-radius: 50%;
+	color: var(--fast-black);
+	font-size: 15px;
+	font-style: normal;
+	transform: rotate(-8deg);
+}
+
+.flavor-skin-fast-food .flavor-nav a,
+.flavor-skin-fast-food .flavor-header__phone {
+	color: #f7f1e5;
+}
+
+.flavor-skin-fast-food .flavor-nav a::after {
+	height: 4px;
+	background: var(--fast-yellow);
+	transform: skewX(-22deg);
+}
+
+.flavor-skin-fast-food .flavor-btn {
+	font-family: "Estedad", "Vazirmatn", sans-serif;
+	font-weight: 820;
+}
+
+.flavor-skin-fast-food .flavor-btn--primary {
+	background: var(--fast-red);
+	border-color: var(--fast-red);
+	color: #fff;
+	box-shadow: 0 8px 0 var(--fast-red-dark), 0 14px 28px rgba(226, 54, 31, 0.2);
+}
+
+.flavor-skin-fast-food .flavor-btn--primary:hover {
+	background: #f0442b;
+	border-color: #f0442b;
+	color: #fff;
+	transform: translateY(-2px);
+	box-shadow: 0 10px 0 var(--fast-red-dark), 0 16px 30px rgba(226, 54, 31, 0.24);
+}
+
+/* Hero */
+.flavor-skin-fast-food .flavor-hero {
+	min-height: min(86vh, 820px);
+	padding-block: clamp(100px, 14vw, 165px);
+	border-bottom: 10px solid var(--fast-yellow);
+}
+
+.flavor-skin-fast-food .flavor-hero::before {
+	content: "";
+	position: absolute;
+	z-index: 3;
+	inset-inline-start: -8vw;
+	bottom: -65px;
+	width: 38vw;
+	height: 130px;
+	background: var(--fast-red);
+	transform: rotate(-6deg);
+	pointer-events: none;
+}
+
+.flavor-skin-fast-food .flavor-hero__bg {
+	filter: saturate(1.12) contrast(1.06);
+}
+
+.flavor-skin-fast-food .flavor-hero__overlay {
+	background:
+		linear-gradient(90deg, rgba(10, 9, 8, 0.06), rgba(10, 9, 8, 0.45) 48%, rgba(10, 9, 8, 0.94) 100%),
+		linear-gradient(0deg, rgba(10, 9, 8, 0.54), transparent 62%);
+}
+
+.flavor-skin-fast-food .flavor-hero__container {
+	justify-items: start;
+}
+
+.flavor-skin-fast-food .flavor-hero__content {
+	max-width: 760px;
+}
+
+.flavor-skin-fast-food .flavor-hero__badge {
+	background: var(--fast-yellow);
+	border: 3px solid #fff;
+	border-radius: 999px;
+	color: var(--fast-black);
+	padding: 8px 17px;
+	box-shadow: 4px 4px 0 var(--fast-red);
+	transform: rotate(-2deg);
+}
+
+.flavor-skin-fast-food .flavor-hero__badge-dot {
+	background: var(--fast-red);
+	animation: none;
+}
+
+.flavor-skin-fast-food .flavor-hero__title {
+	max-width: 740px;
+	font-size: clamp(3rem, 7.4vw, 6.4rem);
+	font-variation-settings: "wght" 930;
+	line-height: 1;
+	text-wrap: balance;
+	text-shadow: 5px 6px 0 rgba(0, 0, 0, 0.32);
+	margin-bottom: 26px;
+}
+
+.flavor-skin-fast-food .flavor-hero__text {
+	max-width: 610px;
+	font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+	line-height: 1.9;
+	color: rgba(255, 255, 255, 0.85);
+}
+
+.flavor-skin-fast-food .flavor-hero__actions {
+	gap: 15px;
+}
+
+.flavor-skin-fast-food .flavor-hero__actions .flavor-btn {
+	min-height: 59px;
+	padding-inline: 29px;
+}
+
+.flavor-skin-fast-food .flavor-hero__actions .flavor-btn--primary {
+	background: var(--fast-yellow);
+	border-color: var(--fast-yellow);
+	color: var(--fast-black);
+	box-shadow: 0 8px 0 #c89500;
+}
+
+.flavor-skin-fast-food .flavor-hero__actions .flavor-btn--outline-light {
+	background: rgba(255, 255, 255, 0.07);
+	border-width: 2px;
+	backdrop-filter: blur(7px);
+}
+
+.flavor-skin-fast-food .flavor-hero__features {
+	border-color: rgba(255, 201, 40, 0.35);
+	color: #fff5d6;
+	font-weight: 650;
+}
+
+.flavor-skin-fast-food .flavor-hero__feat svg {
+	color: var(--fast-yellow);
+}
+
+/* Section system */
+.flavor-skin-fast-food .flavor-section {
+	padding-block: clamp(72px, 8.5vw, 108px);
+}
+
+.flavor-skin-fast-food .flavor-section:nth-of-type(even) {
+	background: var(--fast-paper);
+}
+
+.flavor-skin-fast-food .flavor-section-header {
+	max-width: 750px;
+	margin-bottom: 50px;
+}
+
+.flavor-skin-fast-food .flavor-section-header__tag {
+	background: var(--fast-yellow);
+	border: 2px solid var(--fast-black);
+	border-radius: 999px;
+	color: var(--fast-black);
+	padding: 6px 16px;
+	box-shadow: 3px 3px 0 var(--fast-black);
+	transform: rotate(-1deg);
+}
+
+.flavor-skin-fast-food .flavor-section-header__title,
+.flavor-skin-fast-food .flavor-about__title {
+	font-size: clamp(2.2rem, 4.8vw, 4rem);
+	font-variation-settings: "wght" 900;
+	line-height: 1.14;
+	color: var(--fast-black);
+	text-wrap: balance;
+}
+
+.flavor-skin-fast-food .flavor-section-header__desc {
+	color: #675e52;
+	font-size: 1rem;
+	line-height: 1.9;
+}
+
+.flavor-skin-fast-food .flavor-btn--outline {
+	border: 2px solid var(--fast-black);
+	color: var(--fast-black);
+	box-shadow: 4px 4px 0 var(--fast-black);
+}
+
+/* Promise cards */
+.flavor-skin-fast-food .flavor-intro {
+	background: var(--fast-red) !important;
+	padding-block: 0;
+}
+
+.flavor-skin-fast-food .flavor-intro__grid {
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0;
+}
+
+.flavor-skin-fast-food .flavor-intro__card {
+	min-height: 260px;
+	background: transparent;
+	border: 0;
+	border-inline-start: 2px dashed rgba(255, 255, 255, 0.25);
+	border-radius: 0;
+	box-shadow: none;
+	color: #fff;
+	padding: 44px 32px;
+}
+
+.flavor-skin-fast-food .flavor-intro__card:last-child {
+	border-inline-start: 0;
+}
+
+.flavor-skin-fast-food .flavor-intro__card:hover {
+	background: rgba(0, 0, 0, 0.06);
+	transform: none;
+}
+
+.flavor-skin-fast-food .flavor-intro__icon {
+	background: var(--fast-yellow) !important;
+	color: var(--fast-black) !important;
+	border: 3px solid var(--fast-black);
+	border-radius: 18px;
+	box-shadow: 5px 5px 0 var(--fast-black);
+	transform: rotate(-4deg);
+}
+
+.flavor-skin-fast-food .flavor-intro__card h3 {
+	color: #fff;
+	font-size: 1.45rem;
+}
+
+.flavor-skin-fast-food .flavor-intro__card p {
+	color: rgba(255, 255, 255, 0.82);
+	line-height: 1.85;
+}
+
+/* Menu cards */
+.flavor-skin-fast-food .flavor-featured__grid {
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+}
+
+.flavor-skin-fast-food .flavor-food-card {
+	background: #fff;
+	border: 3px solid var(--fast-black);
+	border-radius: 25px;
+	box-shadow: 8px 9px 0 var(--fast-black);
+	overflow: hidden;
+	transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.flavor-skin-fast-food .flavor-food-card:hover {
+	transform: translateY(-7px) rotate(-0.4deg);
+	box-shadow: 11px 14px 0 var(--fast-black);
+}
+
+.flavor-skin-fast-food .flavor-food-card__media {
+	aspect-ratio: 4 / 3;
+	border-bottom: 3px solid var(--fast-black);
+	overflow: hidden;
+}
+
+.flavor-skin-fast-food .flavor-food-card__media img {
+	transition: transform 480ms cubic-bezier(.2,.8,.2,1);
+}
+
+.flavor-skin-fast-food .flavor-food-card:hover .flavor-food-card__media img {
+	transform: scale(1.06);
+}
+
+.flavor-skin-fast-food .flavor-food-card__cat-badge {
+	background: var(--fast-yellow);
+	border: 2px solid var(--fast-black);
+	border-radius: 999px;
+	color: var(--fast-black);
+	font-weight: 850;
+}
+
+.flavor-skin-fast-food .flavor-food-card__body {
+	padding: 24px;
+}
+
+.flavor-skin-fast-food .flavor-food-card__title {
+	font-size: 1.32rem;
+}
+
+.flavor-skin-fast-food .flavor-food-card__desc {
+	line-height: 1.8;
+}
+
+.flavor-skin-fast-food .flavor-food-card__footer {
+	border-color: #ded7ca;
+}
+
+.flavor-skin-fast-food .flavor-food-card__price {
+	color: var(--fast-red-dark);
+	font-weight: 900;
+}
+
+.flavor-skin-fast-food .flavor-food-card .flavor-btn--primary {
+	box-shadow: 0 5px 0 var(--fast-red-dark);
+}
+
+/* Category wall */
+.flavor-skin-fast-food .flavor-categories__grid {
+	grid-template-columns: repeat(6, 1fr);
+	gap: 18px;
+}
+
+.flavor-skin-fast-food .flavor-cat-card {
+	grid-column: span 2;
+	aspect-ratio: 4 / 3;
+	border: 3px solid var(--fast-black);
+	border-radius: 22px;
+	box-shadow: 7px 8px 0 var(--fast-black);
+	padding: 22px;
+}
+
+.flavor-skin-fast-food .flavor-cat-card:first-child,
+.flavor-skin-fast-food .flavor-cat-card:nth-child(2) {
+	grid-column: span 3;
+	aspect-ratio: 16 / 9;
+}
+
+.flavor-skin-fast-food .flavor-cat-card::after {
+	background: linear-gradient(180deg, transparent 22%, rgba(0, 0, 0, 0.9));
+}
+
+.flavor-skin-fast-food .flavor-cat-card__title {
+	font-size: 1.38rem;
+}
+
+.flavor-skin-fast-food .flavor-cat-card__count {
+	color: var(--fast-yellow);
+	font-weight: 800;
+}
+
+/* Promotions */
+.flavor-skin-fast-food .flavor-offer-banner {
+	background: var(--fast-yellow);
+	border: 4px solid var(--fast-black);
+	border-radius: 30px;
+	color: var(--fast-black);
+	box-shadow: 12px 13px 0 var(--fast-black);
+}
+
+.flavor-skin-fast-food .flavor-offer-banner::after {
+	content: "٪";
+	position: absolute;
+	inset-inline-start: clamp(22px, 7vw, 90px);
+	top: 50%;
+	font-family: "Estedad", sans-serif;
+	font-size: clamp(8rem, 19vw, 16rem);
+	font-weight: 950;
+	line-height: 1;
+	color: rgba(226, 54, 31, 0.12);
+	transform: translateY(-50%) rotate(-10deg);
+}
+
+.flavor-skin-fast-food .flavor-offer-banner__badge {
+	background: var(--fast-red);
+	color: #fff;
+	border: 2px solid var(--fast-black);
+}
+
+.flavor-skin-fast-food .flavor-offer-banner__title,
+.flavor-skin-fast-food .flavor-offer-banner__desc {
+	color: var(--fast-black);
+}
+
+.flavor-skin-fast-food .flavor-offer-coupon {
+	background: #fff;
+	border: 2px dashed var(--fast-black);
+	border-radius: 12px;
+	color: var(--fast-black);
+}
+
+.flavor-skin-fast-food .flavor-res-banner {
+	background: var(--fast-black);
+	border: 4px solid var(--fast-black);
+	border-radius: 28px;
+	box-shadow: 12px 13px 0 var(--fast-red);
+}
+
+.flavor-skin-fast-food .flavor-res-banner__media::after {
+	background: linear-gradient(90deg, transparent, var(--fast-black));
+}
+
+.flavor-skin-fast-food .flavor-res-banner__tag,
+.flavor-skin-fast-food .flavor-res-banner__perk svg {
+	color: var(--fast-yellow);
+}
+
+/* Brand story */
+.flavor-skin-fast-food .flavor-about__inner {
+	gap: clamp(45px, 7vw, 92px);
+}
+
+.flavor-skin-fast-food .flavor-about__img-wrapper {
+	border: 4px solid var(--fast-black);
+	border-radius: 30px;
+	box-shadow: 14px 15px 0 var(--fast-yellow);
+	transform: rotate(-1.2deg);
+}
+
+.flavor-skin-fast-food .flavor-about__img-wrapper img {
+	min-height: 520px;
+	object-fit: cover;
+}
+
+.flavor-skin-fast-food .flavor-about__exp-badge {
+	background: var(--fast-red);
+	border: 3px solid var(--fast-black);
+	border-radius: 18px;
+	box-shadow: 6px 7px 0 var(--fast-black);
+}
+
+.flavor-skin-fast-food .flavor-about__text {
+	font-size: 1.03rem;
+	line-height: 2;
+}
+
+.flavor-skin-fast-food .flavor-about__stats {
+	border-color: #d9cdb8;
+}
+
+.flavor-skin-fast-food .flavor-about__stat-num {
+	color: var(--fast-red);
+	font-family: "Estedad", sans-serif;
+	font-weight: 900;
+}
+
+/* Gallery and reviews */
+.flavor-skin-fast-food .flavor-gallery__grid {
+	gap: 14px;
+}
+
+.flavor-skin-fast-food .flavor-gallery__item {
+	border: 3px solid var(--fast-black);
+	border-radius: 20px;
+	box-shadow: 5px 6px 0 var(--fast-black);
+}
+
+.flavor-skin-fast-food .flavor-gallery__item:nth-child(even) {
+	transform: rotate(0.8deg);
+}
+
+.flavor-skin-fast-food .flavor-testimonials {
+	background: var(--fast-black) !important;
+}
+
+.flavor-skin-fast-food .flavor-testimonials .flavor-section-header__tag {
+	background: var(--fast-yellow);
+}
+
+.flavor-skin-fast-food .flavor-testimonials .flavor-section-header__title,
+.flavor-skin-fast-food .flavor-testimonials .flavor-section-header__desc {
+	color: #fff;
+}
+
+.flavor-skin-fast-food .flavor-review-card {
+	background: #fff;
+	border: 3px solid var(--fast-yellow);
+	border-radius: 22px;
+	box-shadow: 8px 9px 0 var(--fast-red);
+	padding: 34px;
+}
+
+.flavor-skin-fast-food .flavor-review-card__stars {
+	color: var(--fast-red);
+}
+
+.flavor-skin-fast-food .flavor-review-card__avatar {
+	background: var(--fast-yellow);
+	border: 2px solid var(--fast-black);
+	color: var(--fast-black);
+}
+
+/* Location */
+.flavor-skin-fast-food .flavor-hours-card {
+	background: #fff;
+	border: 4px solid var(--fast-black);
+	border-radius: 28px;
+	box-shadow: 12px 13px 0 var(--fast-yellow);
+}
+
+.flavor-skin-fast-food .flavor-contact-row__icon {
+	background: var(--fast-yellow);
+	border: 2px solid var(--fast-black);
+	border-radius: 12px;
+	color: var(--fast-black);
+}
+
+.flavor-skin-fast-food .flavor-footer {
+	background: #0e0d0b;
+	border-top: 10px solid var(--fast-red);
+}
+
+.flavor-skin-fast-food .flavor-footer__heading {
+	color: var(--fast-yellow);
+}
+
+@media (max-width: 991px) {
+	.flavor-skin-fast-food .flavor-featured__grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 767px) {
+	.flavor-skin-fast-food .flavor-header__inner {
+		min-height: 66px;
+	}
+
+	.flavor-skin-fast-food .flavor-hero {
+		min-height: 740px;
+		padding-block: 95px 120px;
+	}
+
+	.flavor-skin-fast-food .flavor-hero__overlay {
+		background: linear-gradient(0deg, rgba(10, 9, 8, 0.97), rgba(10, 9, 8, 0.36) 88%);
+	}
+
+	.flavor-skin-fast-food .flavor-hero__title {
+		font-size: clamp(2.8rem, 14vw, 4.2rem);
+	}
+
+	.flavor-skin-fast-food .flavor-hero__features {
+		display: grid;
+		gap: 12px;
+	}
+
+	.flavor-skin-fast-food .flavor-intro__grid,
+	.flavor-skin-fast-food .flavor-featured__grid {
+		grid-template-columns: 1fr;
+	}
+
+	.flavor-skin-fast-food .flavor-intro__card {
+		min-height: auto;
+		border-inline-start: 0;
+		border-bottom: 2px dashed rgba(255, 255, 255, 0.22);
+		padding-block: 36px;
+	}
+
+	.flavor-skin-fast-food .flavor-categories__grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.flavor-skin-fast-food .flavor-cat-card,
+	.flavor-skin-fast-food .flavor-cat-card:first-child,
+	.flavor-skin-fast-food .flavor-cat-card:nth-child(2) {
+		grid-column: span 1;
+		aspect-ratio: 4 / 5;
+	}
+
+	.flavor-skin-fast-food .flavor-cat-card:last-child {
+		grid-column: span 2;
+		aspect-ratio: 16 / 9;
+	}
+
+	.flavor-skin-fast-food .flavor-section-header--with-action {
+		align-items: flex-start;
+		gap: 17px;
+	}
+
+	.flavor-skin-fast-food .flavor-section-header--with-action .flavor-btn {
+		white-space: nowrap;
+	}
+
+	.flavor-skin-fast-food .flavor-about__img-wrapper img {
+		min-height: 390px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flavor-skin-fast-food *,
+	.flavor-skin-fast-food *::before,
+	.flavor-skin-fast-food *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
