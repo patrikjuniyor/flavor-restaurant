@@ -1,0 +1,453 @@
+/*
+ * Bakery & Patisserie — refined Parisian-inspired art direction.
+ * Dusty rose, pistachio and ivory with delicate editorial structure.
+ */
+
+@font-face {
+	font-family: "Estedad";
+	src: url("../../fonts/estedad/Estedad-Variable.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+}
+
+body.flavor-skin-bakery-pastry {
+	--pastry-berry: #a83e5b;
+	--pastry-rose: #d9a8b2;
+	--pastry-pistachio: #718265;
+	--pastry-pistachio-dark: #465442;
+	--pastry-ivory: #fbf5e9;
+	--pastry-paper: #fffdf8;
+	--pastry-ink: #36252a;
+	background: var(--pastry-ivory);
+	color: var(--pastry-ink);
+}
+
+.flavor-skin-bakery-pastry h1,
+.flavor-skin-bakery-pastry h2,
+.flavor-skin-bakery-pastry h3,
+.flavor-skin-bakery-pastry h4,
+.flavor-skin-bakery-pastry .flavor-brand__name {
+	font-family: "Estedad", "Vazirmatn", Tahoma, sans-serif;
+	letter-spacing: -0.04em;
+}
+
+.flavor-skin-bakery-pastry .flavor-main {
+	background-image:
+		radial-gradient(circle at 12% 18%, rgba(217, 168, 178, 0.11), transparent 26rem),
+		radial-gradient(circle at 90% 42%, rgba(113, 130, 101, 0.07), transparent 30rem);
+}
+
+.flavor-skin-bakery-pastry .flavor-topbar {
+	background: var(--pastry-pistachio-dark);
+	color: #fff1e1;
+	padding-block: 9px;
+}
+
+.flavor-skin-bakery-pastry .flavor-topbar__inner::before,
+.flavor-skin-bakery-pastry .flavor-topbar__inner::after {
+	content: "✦";
+	color: #e9c0c8;
+	font-size: 9px;
+}
+
+.flavor-skin-bakery-pastry .flavor-header {
+	background: rgba(255, 253, 248, 0.94);
+	border-bottom: 1px solid rgba(54, 37, 42, 0.09);
+	backdrop-filter: blur(18px);
+}
+
+.flavor-skin-bakery-pastry .flavor-header__inner {
+	min-height: 82px;
+}
+
+.flavor-skin-bakery-pastry .flavor-brand__name {
+	color: var(--pastry-berry);
+	font-size: clamp(1.35rem, 2vw, 1.75rem);
+	font-weight: 760;
+}
+
+.flavor-skin-bakery-pastry .flavor-brand__name::after {
+	content: "PATISSERIE";
+	display: block;
+	font-family: Georgia, serif;
+	font-size: 7px;
+	letter-spacing: 0.38em;
+	text-align: center;
+	color: var(--pastry-pistachio-dark);
+	margin-top: 2px;
+}
+
+.flavor-skin-bakery-pastry .flavor-nav a {
+	color: #5f4d51;
+	font-size: 14px;
+}
+
+.flavor-skin-bakery-pastry .flavor-nav a::after {
+	height: 2px;
+	background: var(--pastry-berry);
+}
+
+.flavor-skin-bakery-pastry .flavor-header__phone {
+	color: var(--pastry-pistachio-dark);
+}
+
+.flavor-skin-bakery-pastry .flavor-btn--primary {
+	background: var(--pastry-berry);
+	border-color: var(--pastry-berry);
+	box-shadow: 0 10px 24px rgba(168, 62, 91, 0.17);
+}
+
+.flavor-skin-bakery-pastry .flavor-btn--primary:hover {
+	background: #843047;
+	border-color: #843047;
+	transform: translateY(-2px);
+}
+
+/* Hero */
+.flavor-skin-bakery-pastry .flavor-hero {
+	min-height: min(84vh, 800px);
+	padding-block: clamp(105px, 14vw, 165px);
+	border-radius: 0 0 clamp(70px, 10vw, 155px) clamp(70px, 10vw, 155px);
+}
+
+.flavor-skin-bakery-pastry .flavor-hero::before {
+	content: "";
+	position: absolute;
+	z-index: 3;
+	inset: 24px;
+	border: 1px solid rgba(255, 242, 223, 0.42);
+	border-radius: inherit;
+	pointer-events: none;
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__bg {
+	filter: saturate(0.88) contrast(1.02);
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__overlay {
+	background:
+		linear-gradient(90deg, rgba(38, 25, 28, 0.08), rgba(38, 25, 28, 0.38) 45%, rgba(38, 25, 28, 0.88) 100%),
+		linear-gradient(0deg, rgba(38, 25, 28, 0.42), transparent 60%);
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__container {
+	justify-items: start;
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__content {
+	max-width: 710px;
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__badge {
+	background: rgba(255, 248, 238, 0.13);
+	border: 1px solid rgba(255, 240, 220, 0.38);
+	border-radius: 999px;
+	color: #ffe8d3;
+	padding: 8px 17px;
+	backdrop-filter: blur(8px);
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__badge-dot {
+	background: #e2a4b1;
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__title {
+	max-width: 700px;
+	font-size: clamp(2.65rem, 6.3vw, 5.35rem);
+	font-weight: 760;
+	line-height: 1.12;
+	text-wrap: balance;
+	margin-bottom: 26px;
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__text {
+	max-width: 600px;
+	font-size: clamp(1.03rem, 1.7vw, 1.2rem);
+	line-height: 2.05;
+	color: rgba(255, 248, 238, 0.84);
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__actions .flavor-btn {
+	min-height: 56px;
+	padding-inline: 27px;
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__actions .flavor-btn--primary {
+	background: #bb5671;
+	border-color: #bb5671;
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__actions .flavor-btn--outline-light {
+	background: rgba(255, 255, 255, 0.05);
+	backdrop-filter: blur(7px);
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__features {
+	border-color: rgba(255, 232, 211, 0.24);
+	color: #fbe9dc;
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__feat svg {
+	color: #e2a4b1;
+}
+
+/* Sections */
+.flavor-skin-bakery-pastry .flavor-section {
+	padding-block: clamp(76px, 9vw, 116px);
+}
+
+.flavor-skin-bakery-pastry .flavor-section:nth-of-type(even) {
+	background: rgba(255, 253, 248, 0.82);
+}
+
+.flavor-skin-bakery-pastry .flavor-section-header {
+	max-width: 750px;
+	margin-bottom: 55px;
+}
+
+.flavor-skin-bakery-pastry .flavor-section-header__tag {
+	background: #ebded1;
+	color: var(--pastry-berry);
+	border-radius: 999px;
+	padding: 6px 16px;
+}
+
+.flavor-skin-bakery-pastry .flavor-section-header__title,
+.flavor-skin-bakery-pastry .flavor-about__title {
+	font-size: clamp(2.05rem, 4.3vw, 3.55rem);
+	font-weight: 760;
+	color: var(--pastry-ink);
+	text-wrap: balance;
+}
+
+.flavor-skin-bakery-pastry .flavor-section-header__desc {
+	color: #7b676d;
+	line-height: 1.95;
+}
+
+/* Craft values */
+.flavor-skin-bakery-pastry .flavor-intro {
+	padding-block: 0;
+	background: var(--pastry-pistachio-dark) !important;
+}
+
+.flavor-skin-bakery-pastry .flavor-intro__grid {
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0;
+}
+
+.flavor-skin-bakery-pastry .flavor-intro__card {
+	min-height: 260px;
+	background: transparent;
+	border: 0;
+	border-inline-start: 1px solid rgba(255, 255, 255, 0.13);
+	border-radius: 0;
+	box-shadow: none;
+	color: #fff8ed;
+	padding: 45px clamp(25px, 4vw, 50px);
+}
+
+.flavor-skin-bakery-pastry .flavor-intro__card:last-child { border-inline-start: 0; }
+.flavor-skin-bakery-pastry .flavor-intro__card:hover { background: rgba(255,255,255,.035); transform: none; }
+
+.flavor-skin-bakery-pastry .flavor-intro__icon {
+	background: rgba(226, 164, 177, 0.13) !important;
+	border: 1px solid rgba(226, 164, 177, 0.4);
+	color: #f1c4cd !important;
+	border-radius: 50%;
+}
+
+.flavor-skin-bakery-pastry .flavor-intro__card h3 { color: #fff8ed; font-size: 1.36rem; }
+.flavor-skin-bakery-pastry .flavor-intro__card p { color: rgba(255,248,237,.68); line-height: 1.9; }
+
+/* Product cards */
+.flavor-skin-bakery-pastry .flavor-featured__grid {
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+}
+
+.flavor-skin-bakery-pastry .flavor-food-card {
+	background: var(--pastry-paper);
+	border: 1px solid rgba(54, 37, 42, 0.09);
+	border-radius: 120px 120px 28px 28px;
+	box-shadow: 0 18px 45px rgba(77, 52, 59, 0.075);
+	overflow: hidden;
+	transition: transform 280ms ease, box-shadow 280ms ease;
+}
+
+.flavor-skin-bakery-pastry .flavor-food-card:hover {
+	transform: translateY(-7px);
+	box-shadow: 0 27px 60px rgba(77, 52, 59, 0.12);
+}
+
+.flavor-skin-bakery-pastry .flavor-food-card__media {
+	aspect-ratio: 4 / 3;
+	overflow: hidden;
+}
+
+.flavor-skin-bakery-pastry .flavor-food-card__media img { transition: transform 650ms cubic-bezier(.2,.7,.2,1); }
+.flavor-skin-bakery-pastry .flavor-food-card:hover .flavor-food-card__media img { transform: scale(1.045); }
+
+.flavor-skin-bakery-pastry .flavor-food-card__cat-badge {
+	background: rgba(70, 84, 66, 0.9);
+	border-radius: 999px;
+	color: #fff5e7;
+}
+
+.flavor-skin-bakery-pastry .flavor-food-card__body { padding: 25px; }
+.flavor-skin-bakery-pastry .flavor-food-card__title { font-size: 1.27rem; }
+.flavor-skin-bakery-pastry .flavor-food-card__desc { line-height: 1.85; }
+.flavor-skin-bakery-pastry .flavor-food-card__price { color: var(--pastry-berry); }
+
+/* Showcase */
+.flavor-skin-bakery-pastry .flavor-categories__grid {
+	grid-template-columns: repeat(10, 1fr);
+	gap: 17px;
+}
+
+.flavor-skin-bakery-pastry .flavor-cat-card {
+	grid-column: span 2;
+	aspect-ratio: 3 / 4;
+	border-radius: 120px 120px 28px 28px;
+	border: 4px solid var(--pastry-paper);
+	outline: 1px solid rgba(168, 62, 91, 0.2);
+	box-shadow: 0 17px 42px rgba(77, 52, 59, 0.1);
+	padding: 24px 18px;
+}
+
+.flavor-skin-bakery-pastry .flavor-cat-card:nth-child(even) { border-radius: 28px 120px 28px 120px; }
+.flavor-skin-bakery-pastry .flavor-cat-card::after { background: linear-gradient(180deg, transparent 22%, rgba(42,26,31,.88)); }
+.flavor-skin-bakery-pastry .flavor-cat-card__title { font-size: 1.2rem; }
+.flavor-skin-bakery-pastry .flavor-cat-card__count { color: #f2d2d8; }
+
+/* Promotions */
+.flavor-skin-bakery-pastry .flavor-offer-banner {
+	background: linear-gradient(125deg, #a83e5b, #c36d82);
+	border-radius: 44px 10px 80px 10px;
+	box-shadow: 0 26px 66px rgba(168, 62, 91, 0.2);
+}
+
+.flavor-skin-bakery-pastry .flavor-offer-banner::after {
+	content: "";
+	position: absolute;
+	inset-inline-start: -75px;
+	top: -90px;
+	width: 270px;
+	height: 270px;
+	border: 50px solid rgba(255,255,255,.055);
+	border-radius: 50%;
+}
+
+.flavor-skin-bakery-pastry .flavor-offer-banner__badge,
+.flavor-skin-bakery-pastry .flavor-offer-coupon { border-radius: 999px; }
+
+.flavor-skin-bakery-pastry .flavor-res-banner {
+	background: var(--pastry-pistachio-dark);
+	border-radius: 10px 80px 10px 44px;
+	box-shadow: 0 28px 70px rgba(70, 84, 66, 0.22);
+}
+
+.flavor-skin-bakery-pastry .flavor-res-banner__media::after { background: linear-gradient(90deg, transparent, var(--pastry-pistachio-dark)); }
+.flavor-skin-bakery-pastry .flavor-res-banner__tag,
+.flavor-skin-bakery-pastry .flavor-res-banner__perk svg { color: #f1c4cd; }
+
+/* Story */
+.flavor-skin-bakery-pastry .flavor-about__inner { gap: clamp(48px, 8vw, 105px); }
+
+.flavor-skin-bakery-pastry .flavor-about__img-wrapper {
+	border-radius: 48% 48% 30px 30px;
+	border: 6px solid var(--pastry-paper);
+	outline: 1px solid rgba(168, 62, 91, 0.22);
+	box-shadow: 0 28px 65px rgba(77, 52, 59, 0.16);
+}
+
+.flavor-skin-bakery-pastry .flavor-about__img-wrapper img { min-height: 570px; object-fit: cover; }
+
+.flavor-skin-bakery-pastry .flavor-about__exp-badge {
+	background: var(--pastry-paper);
+	border: 1px solid rgba(54,37,42,.1);
+	border-radius: 24px;
+	color: var(--pastry-ink);
+	box-shadow: 0 16px 40px rgba(54,37,42,.13);
+}
+
+.flavor-skin-bakery-pastry .flavor-about__exp-badge strong,
+.flavor-skin-bakery-pastry .flavor-about__stat-num { color: var(--pastry-berry); }
+.flavor-skin-bakery-pastry .flavor-about__text { font-size: 1.03rem; line-height: 2.1; }
+.flavor-skin-bakery-pastry .flavor-about__stats { border-color: #e1d2c7; }
+
+/* Gallery and reviews */
+.flavor-skin-bakery-pastry .flavor-gallery__grid { gap: 13px; }
+.flavor-skin-bakery-pastry .flavor-gallery__item { border-radius: 28px; border: 3px solid var(--pastry-paper); }
+.flavor-skin-bakery-pastry .flavor-gallery__item:nth-child(2),
+.flavor-skin-bakery-pastry .flavor-gallery__item:nth-child(5) { border-radius: 85px 28px 85px 28px; }
+
+.flavor-skin-bakery-pastry .flavor-testimonials { background: var(--pastry-pistachio-dark) !important; }
+.flavor-skin-bakery-pastry .flavor-testimonials .flavor-section-header__tag { background: rgba(241,196,205,.13); color: #f1c4cd; }
+.flavor-skin-bakery-pastry .flavor-testimonials .flavor-section-header__title,
+.flavor-skin-bakery-pastry .flavor-testimonials .flavor-section-header__desc { color: #fff8ed; }
+
+.flavor-skin-bakery-pastry .flavor-review-card {
+	background: rgba(255,248,237,.065);
+	border: 1px solid rgba(255,248,237,.14);
+	border-radius: 28px 28px 68px 28px;
+	box-shadow: none;
+	padding: 35px;
+}
+
+.flavor-skin-bakery-pastry .flavor-review-card__text,
+.flavor-skin-bakery-pastry .flavor-review-card__name { color: #fff8ed; }
+.flavor-skin-bakery-pastry .flavor-review-card__role { color: rgba(255,248,237,.58); }
+.flavor-skin-bakery-pastry .flavor-review-card__stars { color: #f1c4cd; }
+.flavor-skin-bakery-pastry .flavor-review-card__avatar { background: var(--pastry-berry); }
+
+.flavor-skin-bakery-pastry .flavor-hours-card {
+	background: var(--pastry-paper);
+	border: 1px solid rgba(54,37,42,.1);
+	border-radius: 35px 35px 90px 35px;
+	box-shadow: 0 25px 65px rgba(77,52,59,.1);
+}
+
+.flavor-skin-bakery-pastry .flavor-contact-row__icon { background: #e4eadc; border-radius: 50%; color: var(--pastry-pistachio-dark); }
+.flavor-skin-bakery-pastry .flavor-footer { background: #31252a; border-top: 0; }
+.flavor-skin-bakery-pastry .flavor-footer__heading { color: #efb8c4; }
+
+@media (max-width: 991px) {
+	.flavor-skin-bakery-pastry .flavor-featured__grid { grid-template-columns: repeat(2,1fr); }
+	.flavor-skin-bakery-pastry .flavor-categories__grid { grid-template-columns: repeat(6,1fr); }
+	.flavor-skin-bakery-pastry .flavor-cat-card { grid-column: span 2; }
+	.flavor-skin-bakery-pastry .flavor-cat-card:nth-child(4),
+	.flavor-skin-bakery-pastry .flavor-cat-card:nth-child(5) { grid-column: span 3; aspect-ratio: 4/3; }
+}
+
+@media (max-width: 767px) {
+	.flavor-skin-bakery-pastry .flavor-header__inner { min-height: 68px; }
+	.flavor-skin-bakery-pastry .flavor-hero { min-height: 730px; padding-block: 100px 110px; border-radius: 0 0 60px 60px; }
+	.flavor-skin-bakery-pastry .flavor-hero::before { inset: 12px; }
+	.flavor-skin-bakery-pastry .flavor-hero__overlay { background: linear-gradient(0deg,rgba(38,25,28,.96),rgba(38,25,28,.32) 88%); }
+	.flavor-skin-bakery-pastry .flavor-hero__title { font-size: clamp(2.45rem,11.5vw,3.55rem); }
+	.flavor-skin-bakery-pastry .flavor-hero__features { display: grid; gap: 12px; }
+	.flavor-skin-bakery-pastry .flavor-intro__grid,
+	.flavor-skin-bakery-pastry .flavor-featured__grid { grid-template-columns: 1fr; }
+	.flavor-skin-bakery-pastry .flavor-intro__card { min-height: auto; border-inline-start: 0; border-bottom: 1px solid rgba(255,255,255,.12); padding-block: 36px; }
+	.flavor-skin-bakery-pastry .flavor-food-card { border-radius: 95px 95px 25px 25px; }
+	.flavor-skin-bakery-pastry .flavor-categories__grid { grid-template-columns: repeat(2,1fr); }
+	.flavor-skin-bakery-pastry .flavor-cat-card,
+	.flavor-skin-bakery-pastry .flavor-cat-card:nth-child(4),
+	.flavor-skin-bakery-pastry .flavor-cat-card:nth-child(5) { grid-column: span 1; aspect-ratio: 3/4; }
+	.flavor-skin-bakery-pastry .flavor-cat-card:last-child { grid-column: span 2; aspect-ratio: 16/10; }
+	.flavor-skin-bakery-pastry .flavor-section-header--with-action { align-items: flex-start; gap: 18px; }
+	.flavor-skin-bakery-pastry .flavor-section-header--with-action .flavor-btn { white-space: nowrap; }
+	.flavor-skin-bakery-pastry .flavor-about__img-wrapper img { min-height: 410px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flavor-skin-bakery-pastry *,
+	.flavor-skin-bakery-pastry *::before,
+	.flavor-skin-bakery-pastry *::after {
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .01ms !important;
+	}
+}

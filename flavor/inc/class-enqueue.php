@@ -32,7 +32,7 @@ class Enqueue {
 		echo '<link rel="preload" as="font" type="font/woff2" href="' . esc_url( $href ) . '" crossorigin />' . "\n";
 
 		$skin = Design::current_skin();
-		if ( in_array( $skin, array( 'persian-traditional', 'luxury-dining', 'fast-food', 'cafe-bistro', 'pizza-italian' ), true ) ) {
+		if ( in_array( $skin, array( 'persian-traditional', 'luxury-dining', 'fast-food', 'cafe-bistro', 'pizza-italian', 'bakery-pastry' ), true ) ) {
 			$display_font = FLAVOR_URI . '/assets/fonts/estedad/Estedad-Variable.woff2';
 			echo '<link rel="preload" as="font" type="font/woff2" href="' . esc_url( $display_font ) . '" crossorigin />' . "\n";
 		}
