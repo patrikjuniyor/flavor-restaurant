@@ -217,7 +217,10 @@ class MobileConfigManager {
 		$icon_url   = $cfg['icon_id'] ? wp_get_attachment_image_url( (int) $cfg['icon_id'], 'full' ) : '';
 		$splash_url = $cfg['splash_id'] ? wp_get_attachment_image_url( (int) $cfg['splash_id'], 'full' ) : '';
 
+		// Canonical white-label contract: flavor-mobile-branding@1
+		// (documented in docs/MOBILE-WHITELABEL-CONTRACT.md).
 		return array(
+			'$schema'            => 'flavor-mobile-branding@1',
 			'app_name'           => $cfg['app_name'],
 			'app_identifier'     => $cfg['app_identifier'],
 			'tenant_id'          => $cfg['tenant_id'],

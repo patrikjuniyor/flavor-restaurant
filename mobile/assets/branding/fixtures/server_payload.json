@@ -1,0 +1,32 @@
+{
+    "$schema": "flavor-mobile-branding@1",
+    "app_name": "رستوران شاندیز",
+    "app_identifier": "com.flavor.restaurant",
+    "tenant_id": "demo_tenant",
+    "version_name": "1.1.0",
+    "version_code": 101,
+    "api_base_url": "https://wp.demos.example/wp-json/flavor/v1",
+    "assets": {
+        "logo_url": "",
+        "icon_url": "",
+        "splash_url": ""
+    },
+    "branding": {
+        "primary_color": "#c8102e",
+        "secondary_color": "#d97706",
+        "font_family": "Vazirmatn",
+        "border_radius": 12
+    },
+    "contact": {
+        "phone": "",
+        "email": "",
+        "website": "https://wp.demos.example"
+    },
+    "legal": {
+        "privacy_policy": "https://wp.demos.example/privacy-policy/",
+        "terms": "https://wp.demos.example/terms/"
+    },
+    "default_branch_id": 1,
+    "has_fcm": false,
+    "server_timestamp": 1735689600
+}
