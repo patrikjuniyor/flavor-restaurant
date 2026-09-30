@@ -187,6 +187,22 @@ class GoodPayloadTests(unittest.TestCase):
         self.assertTrue(url_types, "CFBundleURLTypes missing from Info.plist")
         self.assertEqual(url_types[0]["CFBundleURLName"], app_id)
 
+        # Deep links: tenant host must be provisioned everywhere, no leftovers.
+        expected_host = api_url.split("/")[2]
+        self.assertNotIn("*.restaurant.com", manifest)
+        self.assertIn(f'android:host="{expected_host}"', manifest)
+        ent_path = os.path.join(self.project, "ios", "Runner", "Runner.entitlements")
+        with open(ent_path, "rb") as f:
+            ent = plistlib.load(f)
+        domains = ent.get("com.apple.developer.associated-domains") or []
+        self.assertIn(f"applinks:{expected_host}", domains)
+
+        assetlinks = read(self.project, os.path.join("assets", "deeplinks", "generated", "assetlinks.json"))
+        al = json.loads(assetlinks)
+        self.assertEqual(al[0]["target"]["package_name"], app_id)
+        aasa = read(self.project, os.path.join("assets", "deeplinks", "generated", "apple-app-site-association"))
+        self.assertIn(f'"appID": "000000TEAM.{app_id}"', aasa)
+
         dart = read(self.project, os.path.join("lib", "core", "constants", "brand_tokens.g.dart"))
         assert_dart_sane(self, dart)
         self.assertIn(f"tenantId = '{tenant}'", dart)
@@ -417,6 +433,91 @@ class MaliciousInputTests(unittest.TestCase):
         self.assertEqual(plist["CFBundleDisplayName"], "رستوران طعم 🍽️ — شعبه سعادت‌آباد")
         assert_xml_valid(self, read(self.project, os.path.join("android", "app", "src", "main", "AndroidManifest.xml")), "AndroidManifest.xml")
         assert_dart_sane(self, read(self.project, os.path.join("lib", "core", "constants", "brand_tokens.g.dart")))
+
+
+# ---------------------------------------------------------------------------
+# Contract: release deep-link provisioning (App Links / Universal Links)
+# ---------------------------------------------------------------------------
+
+class DeepLinkProvisioningTests(unittest.TestCase):
+    ENV_KEYS = ("FLAVOR_ANDROID_CERT_FINGERPRINT", "FLAVOR_IOS_TEAM_ID")
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp(prefix="flavor-link-test-")
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+        self.project = os.path.join(self.tmp, "mobile")
+        copy_mobile_project(self.project)
+        # Snapshot env so test mutations never leak between cases.
+        self.env_snapshot = {k: os.environ.get(k) for k in self.ENV_KEYS}
+        self.addCleanup(self._restore_env)
+
+    def _restore_env(self):
+        for k, v in self.env_snapshot.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+
+    def provision(self, cfg: dict) -> tuple:
+        return run_provision(self.project, write_config(self.tmp, cfg))
+
+    def test_explicit_domain_list_overrides_api_host(self):
+        cfg = baseline_config()
+        cfg["deep_links"] = {"domains": ["order.acme.example", "go.acme.example"]}
+        code, out = self.provision(cfg)
+        self.assertEqual(code, 0, out)
+        manifest = read(self.project, os.path.join("android", "app", "src", "main", "AndroidManifest.xml"))
+        self.assertIn('android:host="order.acme.example"', manifest)
+        self.assertIn('android:host="go.acme.example"', manifest)
+        self.assertNotIn("api.acme.example\"", manifest.replace('android:host="api.acme.example"', "api.acme.example\""))
+
+    def test_invalid_explicit_domain_is_rejected(self):
+        for bad in ["*.acme.example", "not a domain", "acme..example", "under_score.example", ""]: 
+            cfg = baseline_config()
+            cfg["deep_links"] = {"domains": [bad]}
+            code, out = self.provision(cfg)
+            self.assertEqual(code, 2, f"expected rejection for {bad!r}, got exit {code}")
+            self.assertIn("Provisioning rejected", out)
+
+    def test_cert_fingerprint_from_env_renders_assetlinks(self):
+        fp = ":".join(["AB"] * 32)
+        os.environ["FLAVOR_ANDROID_CERT_FINGERPRINT"] = fp
+        code, out = self.provision(baseline_config())
+        self.assertEqual(code, 0, out)
+        asset = json.loads(read(self.project, os.path.join("assets", "deeplinks", "generated", "assetlinks.json")))
+        self.assertEqual(asset[0]["target"]["sha256_cert_fingerprints"], [fp])
+
+    def test_invalid_cert_fingerprint_is_rejected(self):
+        os.environ["FLAVOR_ANDROID_CERT_FINGERPRINT"] = "AB:CD:EF"
+        code, out = self.provision(baseline_config())
+        self.assertEqual(code, 2)
+        self.assertIn("FLAVOR_ANDROID_CERT_FINGERPRINT", out)
+
+    def test_team_id_from_env_renders_aasa(self):
+        os.environ["FLAVOR_IOS_TEAM_ID"] = "ABCDEFG123"
+        code, out = self.provision(baseline_config())
+        self.assertEqual(code, 0, out)
+        aasa = read(self.project, os.path.join("assets", "deeplinks", "generated", "apple-app-site-association"))
+        self.assertIn('"appID": "ABCDEFG123.com.acme.test"', aasa)
+
+    def test_invalid_team_id_is_rejected(self):
+        os.environ["FLAVOR_IOS_TEAM_ID"] = "team"
+        code, out = self.provision(baseline_config())
+        self.assertEqual(code, 2)
+        self.assertIn("FLAVOR_IOS_TEAM_ID", out)
+
+    def test_entitlements_are_valid_plist_and_brand_specific(self):
+        cfg = os.path.join(BRANDING_DIR, "brand_shandiz.json")
+        code, out = run_provision(self.project, cfg)
+        self.assertEqual(code, 0, out)
+        with open(os.path.join(self.project, "ios", "Runner", "Runner.entitlements"), "rb") as f:
+            ent = plistlib.load(f)
+        self.assertIn("applinks:shandiz.flavor.restaurant",
+                      ent["com.apple.developer.associated-domains"])
+        manifest = read(self.project, os.path.join("android", "app", "src", "main", "AndroidManifest.xml"))
+        assert_xml_valid(self, manifest, "AndroidManifest.xml")
+        self.assertIn('android:host="shandiz.flavor.restaurant"', manifest)
+        self.assertNotIn("restaurant.com\" android:pathPrefix=\"/\"", manifest.replace("shandiz.", ""))
 
 
 if __name__ == "__main__":

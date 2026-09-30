@@ -44,13 +44,11 @@
 
             <!-- Deep Link: Android App Links (https://*.flavor.restaurant/product/123) -->
             <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https"
-                      android:host="*.restaurant.com"
-                      android:pathPrefix="/" />
-            </intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" android:host="restaurant.example.com" android:pathPrefix="/" />
+        </intent-filter>
         </activity>
 
         <meta-data

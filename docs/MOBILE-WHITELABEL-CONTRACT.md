@@ -53,6 +53,22 @@ provisioning tool (`mobile/scripts/provision_brand.py`). One schema, both sides.
 The server additionally emits `has_fcm` (bool) and `server_timestamp` (unix) —
 informational, ignored by provisioning.
 
+### Deep link configuration (App Links / Universal Links)
+
+Optional canonical key `deep_links.domains` (array of explicit tenant
+hostnames, no wildcards); when omitted, domains are derived from the
+`api_base_url` host. The provisioning tool uses them to (re)write:
+
+| Target | Result |
+|---|---|
+| `AndroidManifest.xml` autoverify intent-filter | `<data android:host="{domain}" .../>` per domain |
+| `ios/Runner/Runner.entitlements` | `applinks:{domain}` Associated Domains |
+| `assets/deeplinks/generated/assetlinks.json` | from `assetlinks.template.json`; SHA-256 cert fingerprint from env `FLAVOR_ANDROID_CERT_FINGERPRINT` (CI secret) |
+| `assets/deeplinks/generated/apple-app-site-association` | from template; team id from env `FLAVOR_IOS_TEAM_ID` |
+
+Release build requirements (signing, store artifacts, artifact gates) are
+specified in `docs/MOBILE-RELEASE-CHECKLIST.md`.
+
 | Field | Type | Required | Validation (tool rejects on violation) |
 |---|---|---|---|
 | `app_name` | string | yes | non-empty, ≤100 chars, no control characters |

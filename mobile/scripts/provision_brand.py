@@ -74,6 +74,9 @@ DEFAULTS = {
         "icon_url": "",
         "splash_url": "",
     },
+    "deep_links": {
+        "domains": [],
+    },
 }
 
 # Android package-name rules: dot-separated segments, each starting with a
@@ -89,6 +92,9 @@ HEX_COLOR_RE = re.compile(r"^#[0-9a-fA-F]{6}$")
 TENANT_ID_RE = re.compile(r"^[a-z0-9][a-z0-9_\-]{0,63}$")
 FONT_FAMILY_RE = re.compile(r"^[\w\- ]{1,64}$")
 URL_RE = re.compile(r"^https?://[^\s\"'<>`\\]+$")
+HOST_RE = re.compile(r"^[a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?)+\.?$")
+CERT_FINGERPRINT_RE = re.compile(r"^([0-9A-Fa-f]{2}:){31}[0-9A-Fa-f]{2}$")
+IOS_TEAM_ID_RE = re.compile(r"^[A-Z0-9]{10}$")
 MAX_TEXT_LEN = 200
 
 
@@ -266,7 +272,30 @@ def validate_config(cfg: dict) -> dict:
     for key in ("logo_url", "icon_url", "splash_url"):
         cfg["assets"][key] = validate_url(cfg["assets"].get(key, ""), f"assets.{key}")
 
+    # Deep link domains: explicit list wins, otherwise derived from api_base_url.
+    if "deep_links" not in cfg or not isinstance(cfg["deep_links"], dict):
+        cfg["deep_links"] = {"domains": []}
+    explicit = cfg["deep_links"].get("domains") or []
+    if not isinstance(explicit, list):
+        raise ProvisioningError("deep_links.domains: must be a list of hostnames")
+    if explicit:
+        domains = [validate_host(d, f"deep_links.domains[{i}]") for i, d in enumerate(explicit)]
+    else:
+        domains = [validate_host(urlparse(cfg["api_base_url"]).netloc, "deep_links.host(derived)")]
+    cfg["deep_links"]["domains"] = sorted(set(domains))
+
     return cfg
+
+
+def validate_host(value: str, field: str) -> str:
+    value = (value or "").strip().lower()
+    _require(bool(value) and bool(HOST_RE.match(value)) and ".." not in value and len(value) <= 253,
+             f"{field}: '{value}' is not a valid hostname for App Links / Universal Links")
+    _require("_" not in value and " " not in value,
+             f"{field}: '{value}' contains characters forbidden in link domains")
+    _require(value.split(".")[0] != "*",
+             f"{field}: wildcard hosts are not allowed here; provision explicit tenant domains")
+    return value
 
 
 # ---------------------------------------------------------------------------
@@ -332,7 +361,7 @@ def normalize_config(raw: dict) -> dict:
         )
 
     # Nested canonical sections override, then legacy flat backfill.
-    for section in ("branding", "contact", "legal", "assets"):
+    for section in ("branding", "contact", "legal", "assets", "deep_links"):
         section_raw = raw.get(section)
         if isinstance(section_raw, dict):
             for key, value in section_raw.items():
@@ -545,6 +574,127 @@ def update_ios_branding(mobile_dir: str, cfg: dict):
         print(f"[+] Updated iOS Info.plist (display name: '{app_name}', URL name: {app_id})")
 
 
+# ---------------------------------------------------------------------------
+# Deep link provisioning (App Links / Universal Links / well-known assets)
+# ---------------------------------------------------------------------------
+
+def update_android_app_links(mobile_dir: str, cfg: dict):
+    """Rewrite the autoverify App Links intent-filter with the tenant domains."""
+    manifest_path = os.path.join(mobile_dir, "android", "app", "src", "main", "AndroidManifest.xml")
+    if not os.path.exists(manifest_path):
+        return
+    with open(manifest_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    data_lines = "\n".join(
+        f'            <data android:scheme="https" android:host="{domain}" android:pathPrefix="/" />'
+        for domain in cfg["deep_links"]["domains"]  # validated hostnames; XML-safe charset
+    )
+    new_block = (
+        '<intent-filter android:autoVerify="true">\n'
+        '            <action android:name="android.intent.action.VIEW" />\n'
+        '            <category android:name="android.intent.category.DEFAULT" />\n'
+        '            <category android:name="android.intent.category.BROWSABLE" />\n'
+        f'{data_lines}\n'
+        '        </intent-filter>'
+    )
+
+    content, n = re.subn(
+        r'<intent-filter\s+android:autoVerify="true">.*?</intent-filter>',
+        lambda m: new_block,
+        content,
+        count=1,
+        flags=re.DOTALL,
+    )
+    _require(n == 1, "AndroidManifest.xml: App Links intent-filter (autoVerify) not found")
+
+    with open(manifest_path, "w", encoding="utf-8") as f:
+        f.write(content)
+    print(f"[+] Provisioned Android App Links: {', '.join(cfg['deep_links']['domains'])}")
+
+
+def update_ios_entitlements(mobile_dir: str, cfg: dict):
+    """Rewrite the Associated Domains entries of Runner.entitlements."""
+    ent_path = os.path.join(mobile_dir, "ios", "Runner", "Runner.entitlements")
+    if not os.path.exists(ent_path):
+        print("[i] ios/Runner/Runner.entitlements not present; skipping Associated Domains.")
+        return
+    with open(ent_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    entries = "\n".join(
+        f'\t\t<string>applinks:{domain}</string>'
+        for domain in cfg["deep_links"]["domains"]
+    )
+    content, n = re.subn(
+        r"(<key>com\.apple\.developer\.associated-domains</key>\s*<array>).*?(</array>)",
+        lambda m: m.group(1) + "\n" + entries + "\n\t" + m.group(2),
+        content,
+        count=1,
+        flags=re.DOTALL,
+    )
+    _require(n == 1, "Runner.entitlements: associated-domains array not found")
+
+    with open(ent_path, "w", encoding="utf-8") as f:
+        f.write(content)
+    print(f"[+] Provisioned iOS Associated Domains: {', '.join(cfg['deep_links']['domains'])}")
+
+
+def generate_wellknown_deeplink_files(mobile_dir: str, cfg: dict):
+    """Render the hosted well-known link files for this brand.
+
+    Asset Links requires the release certificate SHA-256 (env
+    FLAVOR_ANDROID_CERT_FINGERPRINT); Universal Links needs the Apple team id
+    (env FLAVOR_IOS_TEAM_ID). In CI these are provided as secrets; locally the
+    files are rendered with explicit placeholders (never silently valid).
+    """
+    tpl_dir = os.path.join(mobile_dir, "assets", "deeplinks")
+    out_dir = os.path.join(tpl_dir, "generated")
+    os.makedirs(out_dir, exist_ok=True)
+
+    # --- Android assetlinks.json (served at https://<domain>/.well-known/assetlinks.json)
+    fingerprint = os.environ.get("FLAVOR_ANDROID_CERT_FINGERPRINT", "").strip()
+    if fingerprint:
+        _require(bool(CERT_FINGERPRINT_RE.match(fingerprint)),
+                 f"FLAVOR_ANDROID_CERT_FINGERPRINT: '{fingerprint}' is not a SHA-256 "
+                 "certificate fingerprint (32 hex pairs separated by colons)")
+    else:
+        fingerprint = "REPLACE_WITH_RELEASE_SHA256_FINGERPRINT"
+        print("[!] FLAVOR_ANDROID_CERT_FINGERPRINT not set; assetlinks.json carries a placeholder.")
+
+    for tpl_name, out_name in (("assetlinks.template.json", "assetlinks.json"),):
+        tpl_path = os.path.join(tpl_dir, tpl_name)
+        if os.path.exists(tpl_path):
+            with open(tpl_path, encoding="utf-8") as f:
+                rendered = f.read()
+            rendered = (rendered
+                        .replace("{{APPLICATION_ID}}", cfg["app_identifier"])
+                        .replace("{{SHA256_CERT_FINGERPRINT}}", fingerprint))
+            with open(os.path.join(out_dir, out_name), "w", encoding="utf-8") as f:
+                f.write(rendered)
+            print(f"[+] Generated {out_name} for {cfg['app_identifier']}")
+
+    # --- iOS apple-app-site-association (served at https://<domain>/.well-known/apple-app-site-association)
+    team_id = os.environ.get("FLAVOR_IOS_TEAM_ID", "").strip()
+    if team_id:
+        _require(bool(IOS_TEAM_ID_RE.match(team_id)),
+                 f"FLAVOR_IOS_TEAM_ID: '{team_id}' must be a 10-char uppercase Apple team id")
+    else:
+        team_id = "000000TEAM"
+        print("[!] FLAVOR_IOS_TEAM_ID not set; apple-app-site-association carries a placeholder.")
+
+    tpl_path = os.path.join(tpl_dir, "apple-app-site-association.template.json")
+    if os.path.exists(tpl_path):
+        with open(tpl_path, encoding="utf-8") as f:
+            rendered = f.read()
+        rendered = (rendered
+                    .replace("{{TEAM_ID}}", team_id)
+                    .replace("{{BUNDLE_ID}}", cfg["app_identifier"]))
+        with open(os.path.join(out_dir, "apple-app-site-association"), "w", encoding="utf-8") as f:
+            f.write(rendered)
+        print(f"[+] Generated apple-app-site-association for {team_id}.{cfg['app_identifier']}")
+
+
 def generate_branding_dart_constants(mobile_dir: str, cfg: dict):
     target_path = os.path.join(mobile_dir, "lib", "core", "constants", "brand_tokens.g.dart")
     os.makedirs(os.path.dirname(target_path), exist_ok=True)
@@ -625,6 +775,9 @@ def main(argv=None) -> int:
         update_pubspec_yaml(args.mobile_root, cfg)
         update_android_branding(args.mobile_root, cfg)
         update_ios_branding(args.mobile_root, cfg)
+        update_android_app_links(args.mobile_root, cfg)
+        update_ios_entitlements(args.mobile_root, cfg)
+        generate_wellknown_deeplink_files(args.mobile_root, cfg)
         generate_branding_dart_constants(args.mobile_root, cfg)
     except ProvisioningError as e:
         print(f"[✗] Provisioning rejected: {e}")
