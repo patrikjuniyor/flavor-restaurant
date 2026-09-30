@@ -183,6 +183,17 @@ class PointsManager {
 				'created_at'    => current_time( 'mysql' ),
 			)
 		);
+
+		if ( $delta > 0 ) {
+			/**
+			 * Loyalty points were awarded.
+			 *
+			 * @param int    $customer_id  Customer.
+			 * @param int    $points_delta Positive delta.
+			 * @param string $reason       Ledger reason.
+			 */
+			do_action( 'flavor_core_loyalty_points_awarded', $customer_id, $delta, $reason );
+		}
 		return $after;
 	}
 

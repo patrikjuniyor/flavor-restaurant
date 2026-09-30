@@ -123,10 +123,23 @@ class WebhookController extends BaseApiController {
 		$name   = sanitize_text_field( (string) ( $body['name'] ?? '' ) );
 		$url    = esc_url_raw( (string) ( $body['target_url'] ?? '' ) );
 		$secret = sanitize_text_field( (string) ( $body['secret'] ?? wp_generate_password( 24, false ) ) );
-		$events = is_array( $body['events'] ?? null ) ? array_map( 'sanitize_key', $body['events'] ) : array( '*' );
 
 		if ( empty( $name ) || empty( $url ) ) {
 			return $this->respond_error( 'invalid_data', __( 'نام و آدرس وب‌هوک الزامی است.', 'flavor-core' ), 400 );
+		}
+
+		// Events are validated against the explicit allowlist (dotted names must
+		// never pass through sanitize_key, which would corrupt them).
+		$events = WebhookManager::validate_events( is_array( $body['events'] ?? null ) ? $body['events'] : array( '*' ) );
+		if ( is_wp_error( $events ) ) {
+			$data = is_array( $events->get_error_data() ) ? $events->get_error_data() : array();
+			unset( $data['status'] );
+			return $this->respond_error( $events->get_error_code(), $events->get_error_message(), 400, $data );
+		}
+
+		// SSRF guard.
+		if ( ! WebhookManager::is_safe_target_url( $url ) ) {
+			return $this->respond_error( 'flavor_webhook_url', __( 'آدرس مقصد وب‌هوک مجاز نیست؛ فقط http/https عمومی پذیرفته می‌شود.', 'flavor-core' ), 400 );
 		}
 
 		$tbl = Schema::table( 'flavor_webhooks' );
@@ -162,14 +175,23 @@ class WebhookController extends BaseApiController {
 		global $wpdb;
 		$id  = (int) $request->get_param( 'id' );
 		$tbl = Schema::table( 'flavor_webhooks' );
+		// The HMAC secret is write-only: it is returned exactly once (on create)
+		// and never by any GET endpoint.
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$tbl} WHERE id = %d", $id ), ARRAY_A );
+		$row = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT id, name, target_url, events_json, is_active, failure_count, last_triggered_at, created_at, updated_at, (secret <> '') AS secret_configured FROM {$tbl} WHERE id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$id
+			),
+			ARRAY_A
+		);
 
 		if ( ! $row ) {
 			return $this->respond_error( 'not_found', __( 'وب‌هوک یافت نشد.', 'flavor-core' ), 404 );
 		}
 
-		$row['events'] = json_decode( (string) $row['events_json'], true ) ?: array();
+		$row['secret_configured'] = (bool) $row['secret_configured'];
+		$row['events']            = json_decode( (string) $row['events_json'], true ) ?: array();
 		unset( $row['events_json'] );
 
 		return $this->respond_success( $row );
@@ -181,18 +203,33 @@ class WebhookController extends BaseApiController {
 		$body = $request->get_json_params() ?: array();
 		$tbl  = Schema::table( 'flavor_webhooks' );
 
+		$tbl_exists = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$tbl} WHERE id = %d", $id ), ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		if ( ! $tbl_exists ) {
+			return $this->respond_error( 'not_found', __( 'وب‌هوک یافت نشد.', 'flavor-core' ), 404 );
+		}
+
 		$data = array( 'updated_at' => gmdate( 'Y-m-d H:i:s' ) );
 		if ( isset( $body['name'] ) ) {
 			$data['name'] = sanitize_text_field( (string) $body['name'] );
 		}
 		if ( isset( $body['target_url'] ) ) {
-			$data['target_url'] = esc_url_raw( (string) $body['target_url'] );
+			$url = esc_url_raw( (string) $body['target_url'] );
+			if ( ! WebhookManager::is_safe_target_url( $url ) ) {
+				return $this->respond_error( 'flavor_webhook_url', __( 'آدرس مقصد وب‌هوک مجاز نیست؛ فقط http/https عمومی پذیرفته می‌شود.', 'flavor-core' ), 400 );
+			}
+			$data['target_url'] = $url;
 		}
 		if ( isset( $body['is_active'] ) ) {
 			$data['is_active'] = ! empty( $body['is_active'] ) ? 1 : 0;
 		}
 		if ( isset( $body['events'] ) && is_array( $body['events'] ) ) {
-			$data['events_json'] = wp_json_encode( array_map( 'sanitize_key', $body['events'] ) );
+			$events = WebhookManager::validate_events( $body['events'] );
+			if ( is_wp_error( $events ) ) {
+				$edata = is_array( $events->get_error_data() ) ? $events->get_error_data() : array();
+				unset( $edata['status'] );
+				return $this->respond_error( $events->get_error_code(), $events->get_error_message(), 400, $edata );
+			}
+			$data['events_json'] = wp_json_encode( $events );
 		}
 
 		$wpdb->update( $tbl, $data, array( 'id' => $id ) );
@@ -220,7 +257,7 @@ class WebhookController extends BaseApiController {
 		}
 
 		$payload = array(
-			'event'     => 'system.ping',
+			'event'     => WebhookManager::EVENT_SYSTEM_PING,
 			'timestamp' => gmdate( 'c' ),
 			'data'      => array(
 				'message'     => 'Flavor Webhook Ping Test',
@@ -229,7 +266,7 @@ class WebhookController extends BaseApiController {
 			),
 		);
 
-		$result = WebhookManager::send_delivery( $id, $row['target_url'], $row['secret'], 'system.ping', $payload );
+		$result = WebhookManager::send_delivery( $id, $row['target_url'], $row['secret'], WebhookManager::EVENT_SYSTEM_PING, $payload );
 		return $this->respond_success( $result );
 	}
 

@@ -10,18 +10,18 @@ namespace FlavorCore\API;
 use FlavorCore\Customer\OtpAuth;
 use FlavorCore\Loyalty\DiscountManager;
 use FlavorCore\Loyalty\PointsManager;
-use FlavorCore\PostTypes\BranchPostType;
-use FlavorCore\Reservation\ReservationRepository;
-use FlavorCore\Reservation\ReservationService;
-use FlavorCore\Reservation\SlotCalculator;
 use FlavorCore\Support\Jalali;
-use FlavorCore\Support\Roles;
-use FlavorCore\WooCommerce\CartSession;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class RestExperience
+ * Legacy V1-only compatibility endpoints (experience layer).
+ *
+ * @deprecated New clients must use the modular controllers registered by
+ *             RestController for both namespaces. Only routes that never
+ *             existed elsewhere may stay here; registering a route that a
+ *             modular controller already handles is forbidden — route
+ *             uniqueness is enforced by the e2e suite.
  */
 class RestExperience {
 
@@ -38,33 +38,6 @@ class RestExperience {
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'calendar' ),
 				'permission_callback' => '__return_true',
-			)
-		);
-
-		register_rest_route(
-			$ns,
-			'/reservations/slots',
-			array(
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'slots' ),
-				'permission_callback' => '__return_true',
-			)
-		);
-
-		register_rest_route(
-			$ns,
-			'/reservations',
-			array(
-				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'book' ),
-					'permission_callback' => array( $this, 'nonce' ),
-				),
-				array(
-					'methods'             => 'GET',
-					'callback'            => array( $this, 'list_admin' ),
-					'permission_callback' => array( $this, 'staff' ),
-				),
 			)
 		);
 
@@ -143,66 +116,6 @@ class RestExperience {
 				'weekdays' => array_values( Jalali::WEEKDAYS ),
 			)
 		);
-	}
-
-	/**
-	 * GET slots.
-	 *
-	 * @param \WP_REST_Request $request Request.
-	 */
-	public function slots( \WP_REST_Request $request ) {
-		$branch = (int) $request->get_param( 'branch_id' );
-		if ( $branch <= 0 ) {
-			$branch = BranchPostType::default_id();
-		}
-		$date = sanitize_text_field( (string) $request->get_param( 'date' ) );
-		if ( preg_match( '/^14\d{2}/', $date ) ) {
-			$date = Jalali::jalali_iso_to_gregorian( $date );
-		}
-		$party   = max( 1, (int) $request->get_param( 'party' ) );
-		$section = sanitize_key( (string) $request->get_param( 'section' ) );
-		return rest_ensure_response(
-			array(
-				'branch_id' => $branch,
-				'date'      => $date,
-				'jalali'    => Jalali::parse_gregorian( $date ),
-				'slots'     => SlotCalculator::slots( $branch, $date, $party, $section ),
-			)
-		);
-	}
-
-	/**
-	 * POST book.
-	 *
-	 * @param \WP_REST_Request $request Request.
-	 */
-	public function book( \WP_REST_Request $request ) {
-		$limited = \FlavorCore\Support\RateLimit::guard( 'reservation', 10, 10 * MINUTE_IN_SECONDS );
-		if ( is_wp_error( $limited ) ) {
-			return $limited;
-		}
-		$body = $request->get_json_params();
-		$out  = ReservationService::book( is_array( $body ) ? $body : array() );
-		if ( is_wp_error( $out ) ) {
-			return $out;
-		}
-		$response = rest_ensure_response( $out );
-		$response->header( 'Cache-Control', 'private, no-store' );
-		return $response;
-	}
-
-	/**
-	 * GET admin list.
-	 *
-	 * @param \WP_REST_Request $request Request.
-	 */
-	public function list_admin( \WP_REST_Request $request ) {
-		$branch = (int) $request->get_param( 'branch_id' );
-		$date   = sanitize_text_field( (string) $request->get_param( 'date' ) ) ?: current_time( 'Y-m-d' );
-		if ( $branch && ! current_user_can( 'manage_options' ) && ! Roles::can_access_branch( get_current_user_id(), $branch ) ) {
-			return new \WP_Error( 'flavor_forbidden', __( 'دسترسی ندارید.', 'flavor-core' ), array( 'status' => 403 ) );
-		}
-		return rest_ensure_response( ReservationRepository::for_date( $branch, $date, false ) );
 	}
 
 	/**

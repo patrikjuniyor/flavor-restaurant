@@ -22,7 +22,13 @@ use FlavorCore\WooCommerce\Currency;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class RestStore
+ * Legacy V1-only compatibility endpoints (store layer).
+ *
+ * @deprecated New clients must use the modular controllers registered by
+ *             RestController for both namespaces. Only routes that never
+ *             existed elsewhere may stay here; registering a route that a
+ *             modular controller already handles is forbidden — route
+ *             uniqueness is enforced by the e2e suite.
  */
 class RestStore {
 
@@ -31,18 +37,6 @@ class RestStore {
 	 */
 	public function register(): void {
 		$ns = FLAVOR_CORE_REST_NAMESPACE;
-
-		register_rest_route(
-			$ns,
-			'/cart',
-			array(
-				array(
-					'methods'             => 'GET',
-					'callback'            => array( $this, 'get_cart' ),
-					'permission_callback' => '__return_true',
-				),
-			)
-		);
 
 		register_rest_route(
 			$ns,
@@ -80,26 +74,6 @@ class RestStore {
 			array(
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'checkout_options' ),
-				'permission_callback' => '__return_true',
-			)
-		);
-
-		register_rest_route(
-			$ns,
-			'/auth/otp/request',
-			array(
-				'methods'             => 'POST',
-				'callback'            => array( $this, 'otp_request' ),
-				'permission_callback' => '__return_true',
-			)
-		);
-
-		register_rest_route(
-			$ns,
-			'/auth/otp/verify',
-			array(
-				'methods'             => 'POST',
-				'callback'            => array( $this, 'otp_verify' ),
 				'permission_callback' => '__return_true',
 			)
 		);
@@ -169,15 +143,6 @@ class RestStore {
 	 */
 	public function kitchen(): bool {
 		return current_user_can( 'flavor_manage_kitchen' );
-	}
-
-	/**
-	 * GET /cart
-	 */
-	public function get_cart() {
-		$response = rest_ensure_response( CartSession::payload() );
-		$response->header( 'Cache-Control', 'private, no-store' );
-		return $response;
 	}
 
 	/**
@@ -264,48 +229,6 @@ class RestStore {
 		$body = $request->get_json_params();
 		$body = is_array( $body ) ? $body : array();
 		$out  = CheckoutService::place( $body );
-		if ( is_wp_error( $out ) ) {
-			return $out;
-		}
-		$response = rest_ensure_response( $out );
-		$response->header( 'Cache-Control', 'private, no-store' );
-		return $response;
-	}
-
-	/**
-	 * POST /auth/otp/request
-	 *
-	 * @param \WP_REST_Request $request Request.
-	 */
-	public function otp_request( \WP_REST_Request $request ) {
-		$limited = \FlavorCore\Support\RateLimit::guard( 'otp', 8, 10 * MINUTE_IN_SECONDS );
-		if ( is_wp_error( $limited ) ) {
-			return $limited;
-		}
-		$body = $request->get_json_params();
-		$body = is_array( $body ) ? $body : array();
-		$out  = OtpAuth::request( (string) ( $body['mobile'] ?? '' ) );
-		if ( is_wp_error( $out ) ) {
-			return $out;
-		}
-		$response = rest_ensure_response( $out );
-		$response->header( 'Cache-Control', 'private, no-store' );
-		return $response;
-	}
-
-	/**
-	 * POST /auth/otp/verify
-	 *
-	 * @param \WP_REST_Request $request Request.
-	 */
-	public function otp_verify( \WP_REST_Request $request ) {
-		$body = $request->get_json_params();
-		$body = is_array( $body ) ? $body : array();
-		$out  = OtpAuth::verify(
-			(string) ( $body['mobile'] ?? '' ),
-			(string) ( $body['code'] ?? '' ),
-			(string) ( $body['name'] ?? '' )
-		);
 		if ( is_wp_error( $out ) ) {
 			return $out;
 		}
