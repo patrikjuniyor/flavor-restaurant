@@ -1,0 +1,717 @@
+/*
+ * Luxury Dining — restrained fine-dining art direction.
+ * Deep charcoal, champagne metal and editorial spacing; never ornamental excess.
+ */
+
+@font-face {
+	font-family: "Estedad";
+	src: url("../../fonts/estedad/Estedad-Variable.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+}
+
+body.flavor-skin-luxury-dining {
+	--luxe-black: #090909;
+	--luxe-charcoal: #121212;
+	--luxe-panel: #191816;
+	--luxe-champagne: #cbb186;
+	--luxe-champagne-light: #ead8b8;
+	--luxe-ivory: #f4efe6;
+	--luxe-muted: #aaa092;
+	background: var(--luxe-black);
+	color: var(--luxe-ivory);
+}
+
+.flavor-skin-luxury-dining h1,
+.flavor-skin-luxury-dining h2,
+.flavor-skin-luxury-dining h3,
+.flavor-skin-luxury-dining h4,
+.flavor-skin-luxury-dining .flavor-brand__name {
+	font-family: "Estedad", "Vazirmatn", Tahoma, sans-serif;
+	letter-spacing: -0.035em;
+}
+
+.flavor-skin-luxury-dining .flavor-main {
+	background:
+		radial-gradient(circle at 82% 16%, rgba(203, 177, 134, 0.035), transparent 34rem),
+		var(--luxe-black);
+}
+
+/* Header */
+.flavor-skin-luxury-dining .flavor-topbar {
+	background: #050505;
+	border-bottom: 1px solid rgba(203, 177, 134, 0.18);
+	color: var(--luxe-champagne-light);
+	padding-block: 10px;
+	font-size: 12px;
+	letter-spacing: 0.04em;
+}
+
+.flavor-skin-luxury-dining .flavor-topbar__inner::before,
+.flavor-skin-luxury-dining .flavor-topbar__inner::after {
+	content: "";
+	width: 38px;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, var(--luxe-champagne), transparent);
+}
+
+.flavor-skin-luxury-dining .flavor-header {
+	background: rgba(9, 9, 9, 0.92);
+	border-bottom: 1px solid rgba(203, 177, 134, 0.16);
+	backdrop-filter: blur(20px);
+}
+
+.flavor-skin-luxury-dining .flavor-header__inner {
+	min-height: 88px;
+}
+
+.flavor-skin-luxury-dining .flavor-brand__name {
+	color: var(--luxe-ivory);
+	font-size: clamp(1.3rem, 2vw, 1.65rem);
+	font-weight: 520;
+	letter-spacing: 0;
+}
+
+.flavor-skin-luxury-dining .flavor-brand__name::after {
+	content: "ROYAL";
+	display: block;
+	color: var(--luxe-champagne);
+	font-family: Georgia, serif;
+	font-size: 8px;
+	letter-spacing: 0.42em;
+	text-align: center;
+	margin-top: 3px;
+}
+
+.flavor-skin-luxury-dining .flavor-nav {
+	gap: clamp(20px, 2.6vw, 39px);
+}
+
+.flavor-skin-luxury-dining .flavor-nav a {
+	color: #d9d2c7;
+	font-size: 13px;
+	font-weight: 520;
+}
+
+.flavor-skin-luxury-dining .flavor-nav a::after {
+	height: 1px;
+	background: var(--luxe-champagne);
+}
+
+.flavor-skin-luxury-dining .flavor-header__phone {
+	color: var(--luxe-champagne-light);
+}
+
+.flavor-skin-luxury-dining .flavor-btn {
+	font-weight: 600;
+	letter-spacing: 0.01em;
+}
+
+.flavor-skin-luxury-dining .flavor-btn--primary {
+	background: var(--luxe-champagne);
+	border-color: var(--luxe-champagne);
+	color: #12100d;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+}
+
+.flavor-skin-luxury-dining .flavor-btn--primary:hover {
+	background: #e2c99e;
+	border-color: #e2c99e;
+	color: #090909;
+	transform: translateY(-2px);
+}
+
+/* Hero */
+.flavor-skin-luxury-dining .flavor-hero {
+	min-height: min(90vh, 900px);
+	padding-block: clamp(120px, 16vw, 195px);
+	border-bottom: 1px solid rgba(203, 177, 134, 0.24);
+}
+
+.flavor-skin-luxury-dining .flavor-hero::before {
+	content: "";
+	position: absolute;
+	z-index: 3;
+	inset: 28px;
+	border: 1px solid rgba(203, 177, 134, 0.2);
+	pointer-events: none;
+}
+
+.flavor-skin-luxury-dining .flavor-hero__bg {
+	filter: saturate(0.76) contrast(1.08);
+}
+
+.flavor-skin-luxury-dining .flavor-hero__overlay {
+	background:
+		linear-gradient(90deg, rgba(2, 2, 2, 0.03), rgba(2, 2, 2, 0.47) 48%, rgba(2, 2, 2, 0.96) 100%),
+		linear-gradient(0deg, rgba(2, 2, 2, 0.6), transparent 55%);
+}
+
+.flavor-skin-luxury-dining .flavor-hero__container {
+	justify-items: start;
+}
+
+.flavor-skin-luxury-dining .flavor-hero__content {
+	max-width: 720px;
+	padding-inline-start: clamp(24px, 4vw, 48px);
+	border-inline-start: 1px solid rgba(203, 177, 134, 0.5);
+}
+
+.flavor-skin-luxury-dining .flavor-hero__badge {
+	background: transparent;
+	color: var(--luxe-champagne-light);
+	padding: 0;
+	border-radius: 0;
+	font-size: 11px;
+	letter-spacing: 0.08em;
+}
+
+.flavor-skin-luxury-dining .flavor-hero__badge-dot {
+	width: 5px;
+	height: 5px;
+	background: var(--luxe-champagne);
+	animation: none;
+}
+
+.flavor-skin-luxury-dining .flavor-hero__title {
+	max-width: 700px;
+	font-size: clamp(2.8rem, 6.7vw, 5.85rem);
+	font-weight: 590;
+	line-height: 1.12;
+	text-wrap: balance;
+	margin-bottom: 27px;
+	color: var(--luxe-ivory);
+}
+
+.flavor-skin-luxury-dining .flavor-hero__text {
+	max-width: 570px;
+	font-size: clamp(1rem, 1.55vw, 1.16rem);
+	line-height: 2.15;
+	color: rgba(244, 239, 230, 0.74);
+}
+
+.flavor-skin-luxury-dining .flavor-hero__actions {
+	gap: 12px;
+}
+
+.flavor-skin-luxury-dining .flavor-hero__actions .flavor-btn {
+	min-height: 57px;
+	padding-inline: 29px;
+	border-radius: 2px;
+}
+
+.flavor-skin-luxury-dining .flavor-hero__actions .flavor-btn--outline-light {
+	background: rgba(255, 255, 255, 0.025);
+	border-color: rgba(234, 216, 184, 0.45);
+	backdrop-filter: blur(8px);
+}
+
+.flavor-skin-luxury-dining .flavor-hero__features {
+	border-color: rgba(203, 177, 134, 0.22);
+	color: rgba(244, 239, 230, 0.62);
+	font-size: 12px;
+}
+
+.flavor-skin-luxury-dining .flavor-hero__feat svg {
+	color: var(--luxe-champagne);
+}
+
+/* Section typography */
+.flavor-skin-luxury-dining .flavor-section {
+	padding-block: clamp(86px, 10vw, 132px);
+	background: var(--luxe-black);
+}
+
+.flavor-skin-luxury-dining .flavor-section:nth-of-type(even) {
+	background: var(--luxe-charcoal);
+}
+
+.flavor-skin-luxury-dining .flavor-section-header {
+	max-width: 760px;
+	margin-bottom: 62px;
+}
+
+.flavor-skin-luxury-dining .flavor-section-header__tag {
+	background: transparent;
+	color: var(--luxe-champagne);
+	padding: 0;
+	border-radius: 0;
+	font-size: 11px;
+	letter-spacing: 0.08em;
+}
+
+.flavor-skin-luxury-dining .flavor-section-header__tag::before,
+.flavor-skin-luxury-dining .flavor-section-header__tag::after {
+	content: "";
+	display: inline-block;
+	width: 24px;
+	height: 1px;
+	margin-inline: 10px;
+	vertical-align: middle;
+	background: rgba(203, 177, 134, 0.72);
+}
+
+.flavor-skin-luxury-dining .flavor-section-header__title,
+.flavor-skin-luxury-dining .flavor-about__title {
+	font-size: clamp(2.15rem, 4.4vw, 3.65rem);
+	font-weight: 520;
+	color: var(--luxe-ivory);
+	text-wrap: balance;
+}
+
+.flavor-skin-luxury-dining .flavor-section-header__desc {
+	color: var(--luxe-muted);
+	line-height: 2;
+}
+
+.flavor-skin-luxury-dining .flavor-btn--outline {
+	border-color: rgba(203, 177, 134, 0.48);
+	color: var(--luxe-champagne-light);
+	border-radius: 2px;
+}
+
+/* Service pillars */
+.flavor-skin-luxury-dining .flavor-intro {
+	padding-block: 0;
+	background: #070707 !important;
+}
+
+.flavor-skin-luxury-dining .flavor-intro__grid {
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0;
+}
+
+.flavor-skin-luxury-dining .flavor-intro__card {
+	min-height: 285px;
+	background: transparent;
+	border: 0;
+	border-inline-start: 1px solid rgba(203, 177, 134, 0.14);
+	border-radius: 0;
+	box-shadow: none;
+	padding: 54px clamp(25px, 4vw, 55px);
+	color: var(--luxe-ivory);
+}
+
+.flavor-skin-luxury-dining .flavor-intro__card:last-child {
+	border-inline-start: 0;
+}
+
+.flavor-skin-luxury-dining .flavor-intro__card:hover {
+	background: rgba(203, 177, 134, 0.025);
+	transform: none;
+}
+
+.flavor-skin-luxury-dining .flavor-intro__icon {
+	width: 52px;
+	height: 52px;
+	background: transparent !important;
+	border: 1px solid rgba(203, 177, 134, 0.45);
+	border-radius: 50%;
+	color: var(--luxe-champagne) !important;
+}
+
+.flavor-skin-luxury-dining .flavor-intro__card h3 {
+	color: var(--luxe-ivory);
+	font-size: 1.35rem;
+	font-weight: 520;
+}
+
+.flavor-skin-luxury-dining .flavor-intro__card p {
+	color: var(--luxe-muted);
+	line-height: 1.95;
+}
+
+/* Editorial horizontal tasting cards */
+.flavor-skin-luxury-dining .flavor-featured__grid {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 22px;
+}
+
+.flavor-skin-luxury-dining .flavor-food-card {
+	display: grid;
+	grid-template-columns: 1.03fr 0.97fr;
+	min-height: 285px;
+	background: var(--luxe-panel);
+	border: 1px solid rgba(203, 177, 134, 0.15);
+	border-radius: 2px;
+	box-shadow: 0 22px 55px rgba(0, 0, 0, 0.28);
+	overflow: hidden;
+	transition: border-color 280ms ease, transform 280ms ease;
+}
+
+.flavor-skin-luxury-dining .flavor-food-card:hover {
+	border-color: rgba(203, 177, 134, 0.48);
+	transform: translateY(-3px);
+}
+
+.flavor-skin-luxury-dining .flavor-food-card__media {
+	height: 100%;
+	min-height: 285px;
+}
+
+.flavor-skin-luxury-dining .flavor-food-card__media img {
+	height: 100%;
+	filter: saturate(0.83);
+	transition: transform 700ms cubic-bezier(.2,.7,.2,1), filter 300ms ease;
+}
+
+.flavor-skin-luxury-dining .flavor-food-card:hover .flavor-food-card__media img {
+	transform: scale(1.045);
+	filter: saturate(1);
+}
+
+.flavor-skin-luxury-dining .flavor-food-card__cat-badge {
+	background: rgba(9, 9, 9, 0.82);
+	border: 1px solid rgba(203, 177, 134, 0.25);
+	border-radius: 2px;
+	color: var(--luxe-champagne-light);
+	backdrop-filter: blur(7px);
+}
+
+.flavor-skin-luxury-dining .flavor-food-card__body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 26px;
+}
+
+.flavor-skin-luxury-dining .flavor-food-card__title,
+.flavor-skin-luxury-dining .flavor-food-card__title a {
+	color: var(--luxe-ivory);
+	font-size: 1.18rem;
+	font-weight: 540;
+}
+
+.flavor-skin-luxury-dining .flavor-food-card__desc,
+.flavor-skin-luxury-dining .flavor-food-card__meta {
+	color: var(--luxe-muted);
+	line-height: 1.85;
+}
+
+.flavor-skin-luxury-dining .flavor-food-card__footer {
+	border-color: rgba(203, 177, 134, 0.14);
+}
+
+.flavor-skin-luxury-dining .flavor-food-card__price {
+	color: var(--luxe-champagne-light);
+}
+
+.flavor-skin-luxury-dining .flavor-food-card .flavor-btn--primary {
+	min-width: 42px;
+	padding-inline: 12px;
+	border-radius: 2px;
+}
+
+/* Category gallery */
+.flavor-skin-luxury-dining .flavor-categories__grid {
+	grid-template-columns: repeat(10, 1fr);
+	gap: 14px;
+}
+
+.flavor-skin-luxury-dining .flavor-cat-card {
+	grid-column: span 2;
+	aspect-ratio: 3 / 5;
+	border-radius: 1px;
+	padding: 22px 17px;
+	border: 1px solid rgba(203, 177, 134, 0.18);
+	box-shadow: none;
+}
+
+.flavor-skin-luxury-dining .flavor-cat-card::after {
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.92));
+}
+
+.flavor-skin-luxury-dining .flavor-cat-card__bg {
+	filter: saturate(0.72);
+}
+
+.flavor-skin-luxury-dining .flavor-cat-card:hover .flavor-cat-card__bg {
+	filter: saturate(1);
+}
+
+.flavor-skin-luxury-dining .flavor-cat-card__title {
+	font-size: 1.15rem;
+	font-weight: 520;
+}
+
+.flavor-skin-luxury-dining .flavor-cat-card__count {
+	color: var(--luxe-champagne-light);
+}
+
+/* Private offer and reservation */
+.flavor-skin-luxury-dining .flavor-offer-banner {
+	background: linear-gradient(120deg, #1b1814, #0f0e0c);
+	border: 1px solid rgba(203, 177, 134, 0.34);
+	border-radius: 2px;
+	box-shadow: 0 28px 75px rgba(0, 0, 0, 0.38);
+}
+
+.flavor-skin-luxury-dining .flavor-offer-banner::before {
+	content: "";
+	position: absolute;
+	inset: 11px;
+	border: 1px solid rgba(203, 177, 134, 0.1);
+	pointer-events: none;
+}
+
+.flavor-skin-luxury-dining .flavor-offer-banner__badge,
+.flavor-skin-luxury-dining .flavor-offer-coupon {
+	border-radius: 2px;
+}
+
+.flavor-skin-luxury-dining .flavor-res-banner {
+	background: #0b0b0b;
+	border: 1px solid rgba(203, 177, 134, 0.28);
+	border-radius: 2px;
+	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.42);
+}
+
+.flavor-skin-luxury-dining .flavor-res-banner__media::after {
+	background: linear-gradient(90deg, transparent, #0b0b0b);
+}
+
+.flavor-skin-luxury-dining .flavor-res-banner__tag,
+.flavor-skin-luxury-dining .flavor-res-banner__perk svg {
+	color: var(--luxe-champagne);
+}
+
+/* Story */
+.flavor-skin-luxury-dining .flavor-about__inner {
+	gap: clamp(55px, 9vw, 120px);
+}
+
+.flavor-skin-luxury-dining .flavor-about__img-wrapper {
+	border-radius: 1px;
+	border: 1px solid rgba(203, 177, 134, 0.28);
+	box-shadow: 28px 28px 0 #1c1915, 0 35px 75px rgba(0, 0, 0, 0.36);
+}
+
+.flavor-skin-luxury-dining .flavor-about__img-wrapper img {
+	min-height: 600px;
+	object-fit: cover;
+	filter: saturate(0.65) contrast(1.05);
+}
+
+.flavor-skin-luxury-dining .flavor-about__exp-badge {
+	background: var(--luxe-champagne);
+	color: #11100e;
+	border-radius: 1px;
+	box-shadow: 0 18px 45px rgba(0, 0, 0, 0.32);
+}
+
+.flavor-skin-luxury-dining .flavor-about__text {
+	color: var(--luxe-muted);
+	font-size: 1.03rem;
+	line-height: 2.2;
+}
+
+.flavor-skin-luxury-dining .flavor-about__stats {
+	border-color: rgba(203, 177, 134, 0.18);
+}
+
+.flavor-skin-luxury-dining .flavor-about__stat-num {
+	color: var(--luxe-champagne-light);
+}
+
+.flavor-skin-luxury-dining .flavor-about__stat-lbl {
+	color: var(--luxe-muted);
+}
+
+/* Gallery */
+.flavor-skin-luxury-dining .flavor-gallery__grid {
+	gap: 8px;
+}
+
+.flavor-skin-luxury-dining .flavor-gallery__item {
+	border-radius: 1px;
+	border: 1px solid rgba(203, 177, 134, 0.16);
+}
+
+.flavor-skin-luxury-dining .flavor-gallery__item img {
+	filter: saturate(0.65);
+}
+
+.flavor-skin-luxury-dining .flavor-gallery__item:hover img {
+	filter: saturate(1);
+}
+
+/* Reviews */
+.flavor-skin-luxury-dining .flavor-review-card {
+	background: transparent;
+	border: 1px solid rgba(203, 177, 134, 0.2);
+	border-radius: 1px;
+	box-shadow: none;
+	color: var(--luxe-ivory);
+	padding: 40px;
+}
+
+.flavor-skin-luxury-dining .flavor-review-card__stars {
+	color: var(--luxe-champagne);
+	letter-spacing: 0.16em;
+}
+
+.flavor-skin-luxury-dining .flavor-review-card__text,
+.flavor-skin-luxury-dining .flavor-review-card__name {
+	color: var(--luxe-ivory);
+}
+
+.flavor-skin-luxury-dining .flavor-review-card__role {
+	color: var(--luxe-muted);
+}
+
+.flavor-skin-luxury-dining .flavor-review-card__avatar {
+	background: var(--luxe-champagne);
+	color: #11100e;
+}
+
+/* Hours */
+.flavor-skin-luxury-dining .flavor-hours-card {
+	background: #10100f;
+	border: 1px solid rgba(203, 177, 134, 0.28);
+	border-radius: 1px;
+	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.36);
+	color: var(--luxe-ivory);
+}
+
+.flavor-skin-luxury-dining .flavor-hours-card h2,
+.flavor-skin-luxury-dining .flavor-hours-card h3,
+.flavor-skin-luxury-dining .flavor-hours-card__title,
+.flavor-skin-luxury-dining .flavor-contact-row__value,
+.flavor-skin-luxury-dining .flavor-contact-row__link {
+	color: var(--luxe-ivory);
+}
+
+.flavor-skin-luxury-dining .flavor-contact-row__label,
+.flavor-skin-luxury-dining .flavor-schedule-list,
+.flavor-skin-luxury-dining .flavor-contact-row__icon {
+	color: var(--luxe-champagne);
+}
+
+.flavor-skin-luxury-dining .flavor-footer {
+	background: #040404;
+	border-top: 1px solid rgba(203, 177, 134, 0.22);
+}
+
+.flavor-skin-luxury-dining .flavor-footer__heading {
+	color: var(--luxe-champagne);
+	font-weight: 520;
+}
+
+@media (max-width: 1100px) {
+	.flavor-skin-luxury-dining .flavor-food-card {
+		grid-template-columns: 1fr;
+	}
+
+	.flavor-skin-luxury-dining .flavor-food-card__media {
+		min-height: 230px;
+	}
+}
+
+@media (max-width: 991px) {
+	.flavor-skin-luxury-dining .flavor-categories__grid {
+		grid-template-columns: repeat(6, 1fr);
+	}
+
+	.flavor-skin-luxury-dining .flavor-cat-card {
+		grid-column: span 2;
+		aspect-ratio: 3 / 4;
+	}
+
+	.flavor-skin-luxury-dining .flavor-cat-card:nth-child(4),
+	.flavor-skin-luxury-dining .flavor-cat-card:nth-child(5) {
+		grid-column: span 3;
+		aspect-ratio: 4 / 3;
+	}
+}
+
+@media (max-width: 767px) {
+	.flavor-skin-luxury-dining .flavor-header__inner {
+		min-height: 70px;
+	}
+
+	.flavor-skin-luxury-dining .flavor-hero {
+		min-height: 760px;
+		padding-block: 110px 120px;
+	}
+
+	.flavor-skin-luxury-dining .flavor-hero::before {
+		inset: 12px;
+	}
+
+	.flavor-skin-luxury-dining .flavor-hero__overlay {
+		background: linear-gradient(0deg, rgba(2, 2, 2, 0.97), rgba(2, 2, 2, 0.42) 88%);
+	}
+
+	.flavor-skin-luxury-dining .flavor-hero__content {
+		padding-inline-start: 20px;
+	}
+
+	.flavor-skin-luxury-dining .flavor-hero__title {
+		font-size: clamp(2.5rem, 12vw, 3.65rem);
+	}
+
+	.flavor-skin-luxury-dining .flavor-hero__features {
+		display: grid;
+		gap: 12px;
+	}
+
+	.flavor-skin-luxury-dining .flavor-intro__grid,
+	.flavor-skin-luxury-dining .flavor-featured__grid {
+		grid-template-columns: 1fr;
+	}
+
+	.flavor-skin-luxury-dining .flavor-intro__card {
+		min-height: auto;
+		border-inline-start: 0;
+		border-bottom: 1px solid rgba(203, 177, 134, 0.14);
+		padding-block: 40px;
+	}
+
+	.flavor-skin-luxury-dining .flavor-food-card {
+		grid-template-columns: 1fr;
+	}
+
+	.flavor-skin-luxury-dining .flavor-categories__grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.flavor-skin-luxury-dining .flavor-cat-card,
+	.flavor-skin-luxury-dining .flavor-cat-card:nth-child(4),
+	.flavor-skin-luxury-dining .flavor-cat-card:nth-child(5) {
+		grid-column: span 1;
+		aspect-ratio: 3 / 4;
+	}
+
+	.flavor-skin-luxury-dining .flavor-cat-card:last-child {
+		grid-column: span 2;
+		aspect-ratio: 16 / 9;
+	}
+
+	.flavor-skin-luxury-dining .flavor-section-header--with-action {
+		align-items: flex-start;
+		gap: 18px;
+	}
+
+	.flavor-skin-luxury-dining .flavor-section-header--with-action .flavor-btn {
+		white-space: nowrap;
+	}
+
+	.flavor-skin-luxury-dining .flavor-about__img-wrapper {
+		box-shadow: 14px 14px 0 #1c1915, 0 25px 55px rgba(0, 0, 0, 0.36);
+	}
+
+	.flavor-skin-luxury-dining .flavor-about__img-wrapper img {
+		min-height: 430px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flavor-skin-luxury-dining *,
+	.flavor-skin-luxury-dining *::before,
+	.flavor-skin-luxury-dining *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
