@@ -1,0 +1,541 @@
+/*
+ * Pizza & Italian — contemporary trattoria art direction.
+ * Tomato, basil and warm plaster with the rhythm of a neighborhood dining room.
+ */
+
+@font-face {
+	font-family: "Estedad";
+	src: url("../../fonts/estedad/Estedad-Variable.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+}
+
+body.flavor-skin-pizza-italian {
+	--italy-red: #b83b2e;
+	--italy-red-dark: #86291f;
+	--italy-green: #24523c;
+	--italy-green-dark: #17382a;
+	--italy-cream: #f7efdf;
+	--italy-paper: #fffaf1;
+	--italy-ink: #292019;
+	background: var(--italy-cream);
+	color: var(--italy-ink);
+}
+
+.flavor-skin-pizza-italian h1,
+.flavor-skin-pizza-italian h2,
+.flavor-skin-pizza-italian h3,
+.flavor-skin-pizza-italian h4,
+.flavor-skin-pizza-italian .flavor-brand__name {
+	font-family: "Estedad", "Vazirmatn", Tahoma, sans-serif;
+	letter-spacing: -0.05em;
+}
+
+.flavor-skin-pizza-italian .flavor-main {
+	background-image:
+		repeating-linear-gradient(0deg, transparent 0 47px, rgba(36, 82, 60, 0.025) 48px),
+		repeating-linear-gradient(90deg, transparent 0 47px, rgba(36, 82, 60, 0.025) 48px);
+}
+
+.flavor-skin-pizza-italian .flavor-topbar {
+	background: var(--italy-green-dark);
+	color: #f8e8c8;
+	padding-block: 9px;
+}
+
+.flavor-skin-pizza-italian .flavor-topbar__inner::before,
+.flavor-skin-pizza-italian .flavor-topbar__inner::after {
+	content: "✦";
+	color: #d9af6c;
+	font-size: 10px;
+}
+
+.flavor-skin-pizza-italian .flavor-header {
+	background: rgba(255, 250, 241, 0.94);
+	border-bottom: 1px solid rgba(41, 32, 25, 0.1);
+	backdrop-filter: blur(18px);
+}
+
+.flavor-skin-pizza-italian .flavor-header__inner {
+	min-height: 82px;
+}
+
+.flavor-skin-pizza-italian .flavor-brand__name {
+	color: var(--italy-green-dark);
+	font-size: clamp(1.35rem, 2vw, 1.75rem);
+	font-weight: 850;
+}
+
+.flavor-skin-pizza-italian .flavor-brand__name::after {
+	content: "TRATTORIA";
+	display: block;
+	font-family: Georgia, serif;
+	font-size: 7px;
+	letter-spacing: 0.34em;
+	text-align: center;
+	color: var(--italy-red);
+	margin-top: 2px;
+}
+
+.flavor-skin-pizza-italian .flavor-nav a {
+	color: #50443a;
+	font-size: 14px;
+}
+
+.flavor-skin-pizza-italian .flavor-nav a::after {
+	height: 2px;
+	background: var(--italy-red);
+}
+
+.flavor-skin-pizza-italian .flavor-header__phone {
+	color: var(--italy-green);
+}
+
+.flavor-skin-pizza-italian .flavor-btn--primary {
+	background: var(--italy-red);
+	border-color: var(--italy-red);
+	box-shadow: 0 10px 25px rgba(184, 59, 46, 0.18);
+}
+
+.flavor-skin-pizza-italian .flavor-btn--primary:hover {
+	background: var(--italy-red-dark);
+	border-color: var(--italy-red-dark);
+	transform: translateY(-2px);
+}
+
+/* Wood-fired hero */
+.flavor-skin-pizza-italian .flavor-hero {
+	min-height: min(86vh, 830px);
+	padding-block: clamp(105px, 15vw, 175px);
+	border-bottom: 7px solid var(--italy-red);
+}
+
+.flavor-skin-pizza-italian .flavor-hero::before {
+	content: "";
+	position: absolute;
+	z-index: 3;
+	inset: 24px;
+	border: 1px solid rgba(245, 220, 177, 0.34);
+	border-radius: 110px 8px 110px 8px;
+	pointer-events: none;
+}
+
+.flavor-skin-pizza-italian .flavor-hero__bg {
+	filter: saturate(0.94) contrast(1.04);
+}
+
+.flavor-skin-pizza-italian .flavor-hero__overlay {
+	background:
+		linear-gradient(90deg, rgba(19, 13, 9, 0.06), rgba(19, 13, 9, 0.4) 46%, rgba(19, 13, 9, 0.93) 100%),
+		linear-gradient(0deg, rgba(19, 13, 9, 0.5), transparent 60%);
+}
+
+.flavor-skin-pizza-italian .flavor-hero__container {
+	justify-items: start;
+}
+
+.flavor-skin-pizza-italian .flavor-hero__content {
+	max-width: 720px;
+}
+
+.flavor-skin-pizza-italian .flavor-hero__badge {
+	background: var(--italy-green);
+	border: 1px solid rgba(255, 255, 255, 0.22);
+	border-radius: 999px;
+	color: #fff4df;
+	padding: 8px 17px;
+}
+
+.flavor-skin-pizza-italian .flavor-hero__badge-dot {
+	background: #f1bf73;
+}
+
+.flavor-skin-pizza-italian .flavor-hero__title {
+	max-width: 700px;
+	font-size: clamp(2.75rem, 6.7vw, 5.65rem);
+	font-weight: 870;
+	line-height: 1.08;
+	text-wrap: balance;
+	margin-bottom: 26px;
+}
+
+.flavor-skin-pizza-italian .flavor-hero__text {
+	max-width: 590px;
+	font-size: clamp(1.03rem, 1.7vw, 1.22rem);
+	line-height: 2;
+	color: rgba(255, 250, 241, 0.84);
+}
+
+.flavor-skin-pizza-italian .flavor-hero__actions .flavor-btn {
+	min-height: 56px;
+	padding-inline: 27px;
+}
+
+.flavor-skin-pizza-italian .flavor-hero__actions .flavor-btn--primary {
+	background: var(--italy-red);
+	border-color: var(--italy-red);
+}
+
+.flavor-skin-pizza-italian .flavor-hero__actions .flavor-btn--outline-light {
+	background: rgba(255, 255, 255, 0.055);
+	backdrop-filter: blur(7px);
+}
+
+.flavor-skin-pizza-italian .flavor-hero__features {
+	border-color: rgba(245, 220, 177, 0.26);
+	color: #f6e9d4;
+}
+
+.flavor-skin-pizza-italian .flavor-hero__feat svg {
+	color: #f1bf73;
+}
+
+/* Sections */
+.flavor-skin-pizza-italian .flavor-section {
+	padding-block: clamp(76px, 9vw, 116px);
+}
+
+.flavor-skin-pizza-italian .flavor-section:nth-of-type(even) {
+	background: rgba(255, 250, 241, 0.82);
+}
+
+.flavor-skin-pizza-italian .flavor-section-header {
+	max-width: 750px;
+	margin-bottom: 55px;
+}
+
+.flavor-skin-pizza-italian .flavor-section-header__tag {
+	background: transparent;
+	border: 1px solid rgba(184, 59, 46, 0.28);
+	border-radius: 999px;
+	color: var(--italy-red);
+	padding: 6px 16px;
+}
+
+.flavor-skin-pizza-italian .flavor-section-header__title,
+.flavor-skin-pizza-italian .flavor-about__title {
+	font-size: clamp(2.05rem, 4.4vw, 3.65rem);
+	font-weight: 840;
+	color: var(--italy-ink);
+	text-wrap: balance;
+}
+
+.flavor-skin-pizza-italian .flavor-section-header__desc {
+	color: #76675b;
+	line-height: 1.95;
+}
+
+/* Values */
+.flavor-skin-pizza-italian .flavor-intro {
+	padding-block: 0;
+	background: var(--italy-green-dark) !important;
+}
+
+.flavor-skin-pizza-italian .flavor-intro__grid {
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0;
+}
+
+.flavor-skin-pizza-italian .flavor-intro__card {
+	min-height: 260px;
+	background: transparent;
+	border: 0;
+	border-inline-start: 1px solid rgba(255, 255, 255, 0.13);
+	border-radius: 0;
+	box-shadow: none;
+	color: #fff9ee;
+	padding: 45px clamp(25px, 4vw, 50px);
+}
+
+.flavor-skin-pizza-italian .flavor-intro__card:last-child {
+	border-inline-start: 0;
+}
+
+.flavor-skin-pizza-italian .flavor-intro__card:hover {
+	background: rgba(255, 255, 255, 0.035);
+	transform: none;
+}
+
+.flavor-skin-pizza-italian .flavor-intro__icon {
+	background: rgba(241, 191, 115, 0.1) !important;
+	border: 1px solid rgba(241, 191, 115, 0.36);
+	color: #f1bf73 !important;
+}
+
+.flavor-skin-pizza-italian .flavor-intro__card h3 {
+	color: #fff9ee;
+	font-size: 1.38rem;
+}
+
+.flavor-skin-pizza-italian .flavor-intro__card p {
+	color: rgba(255, 249, 238, 0.68);
+	line-height: 1.9;
+}
+
+/* Dishes */
+.flavor-skin-pizza-italian .flavor-featured__grid {
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+}
+
+.flavor-skin-pizza-italian .flavor-food-card {
+	background: var(--italy-paper);
+	border: 1px solid rgba(41, 32, 25, 0.1);
+	border-radius: 25px;
+	box-shadow: 0 18px 45px rgba(61, 40, 26, 0.08);
+	overflow: hidden;
+	transition: transform 280ms ease, box-shadow 280ms ease;
+}
+
+.flavor-skin-pizza-italian .flavor-food-card:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 27px 60px rgba(61, 40, 26, 0.13);
+}
+
+.flavor-skin-pizza-italian .flavor-food-card__media {
+	aspect-ratio: 4 / 3;
+	overflow: hidden;
+}
+
+.flavor-skin-pizza-italian .flavor-food-card__media img {
+	transition: transform 650ms cubic-bezier(.2,.7,.2,1);
+}
+
+.flavor-skin-pizza-italian .flavor-food-card:hover .flavor-food-card__media img {
+	transform: scale(1.05);
+}
+
+.flavor-skin-pizza-italian .flavor-food-card__cat-badge {
+	background: rgba(36, 82, 60, 0.92);
+	border-radius: 999px;
+	color: #fff4de;
+}
+
+.flavor-skin-pizza-italian .flavor-food-card__body {
+	padding: 25px;
+}
+
+.flavor-skin-pizza-italian .flavor-food-card__title {
+	font-size: 1.28rem;
+}
+
+.flavor-skin-pizza-italian .flavor-food-card__desc {
+	line-height: 1.85;
+}
+
+.flavor-skin-pizza-italian .flavor-food-card__price {
+	color: var(--italy-red-dark);
+}
+
+/* Menu category arches */
+.flavor-skin-pizza-italian .flavor-categories__grid {
+	grid-template-columns: repeat(10, 1fr);
+	gap: 16px;
+}
+
+.flavor-skin-pizza-italian .flavor-cat-card {
+	grid-column: span 2;
+	aspect-ratio: 3 / 4;
+	border-radius: 120px 120px 18px 18px;
+	border: 4px solid var(--italy-paper);
+	outline: 1px solid rgba(36, 82, 60, 0.28);
+	box-shadow: 0 17px 42px rgba(61, 40, 26, 0.1);
+	padding: 24px 19px;
+}
+
+.flavor-skin-pizza-italian .flavor-cat-card::after {
+	background: linear-gradient(180deg, transparent 22%, rgba(26, 18, 13, 0.9));
+}
+
+.flavor-skin-pizza-italian .flavor-cat-card__title {
+	font-size: 1.23rem;
+}
+
+.flavor-skin-pizza-italian .flavor-cat-card__count {
+	color: #f4cf92;
+}
+
+/* Offers and reservation */
+.flavor-skin-pizza-italian .flavor-offer-banner {
+	background: var(--italy-red);
+	border-radius: 38px 8px 38px 8px;
+	box-shadow: 0 26px 66px rgba(184, 59, 46, 0.2);
+}
+
+.flavor-skin-pizza-italian .flavor-offer-banner::after {
+	content: "";
+	position: absolute;
+	inset-inline-start: -80px;
+	top: -85px;
+	width: 260px;
+	height: 260px;
+	border: 48px solid rgba(255, 255, 255, 0.055);
+	border-radius: 50%;
+}
+
+.flavor-skin-pizza-italian .flavor-offer-banner__badge,
+.flavor-skin-pizza-italian .flavor-offer-coupon {
+	border-radius: 999px;
+}
+
+.flavor-skin-pizza-italian .flavor-res-banner {
+	background: var(--italy-green-dark);
+	border-radius: 8px 38px 8px 38px;
+	box-shadow: 0 28px 70px rgba(23, 56, 42, 0.22);
+}
+
+.flavor-skin-pizza-italian .flavor-res-banner__media::after {
+	background: linear-gradient(90deg, transparent, var(--italy-green-dark));
+}
+
+.flavor-skin-pizza-italian .flavor-res-banner__tag,
+.flavor-skin-pizza-italian .flavor-res-banner__perk svg {
+	color: #f1bf73;
+}
+
+/* Story */
+.flavor-skin-pizza-italian .flavor-about__inner {
+	gap: clamp(48px, 8vw, 105px);
+}
+
+.flavor-skin-pizza-italian .flavor-about__img-wrapper {
+	border-radius: 160px 160px 16px 16px;
+	border: 6px solid var(--italy-paper);
+	outline: 1px solid rgba(184, 59, 46, 0.32);
+	box-shadow: 0 28px 65px rgba(61, 40, 26, 0.17);
+}
+
+.flavor-skin-pizza-italian .flavor-about__img-wrapper img {
+	min-height: 560px;
+	object-fit: cover;
+}
+
+.flavor-skin-pizza-italian .flavor-about__exp-badge {
+	background: var(--italy-red);
+	border-radius: 18px;
+	box-shadow: 0 16px 38px rgba(134, 41, 31, 0.22);
+}
+
+.flavor-skin-pizza-italian .flavor-about__text {
+	font-size: 1.03rem;
+	line-height: 2.1;
+}
+
+.flavor-skin-pizza-italian .flavor-about__stats {
+	border-color: #dfd0b8;
+}
+
+.flavor-skin-pizza-italian .flavor-about__stat-num {
+	color: var(--italy-green);
+}
+
+/* Gallery and social proof */
+.flavor-skin-pizza-italian .flavor-gallery__grid {
+	gap: 12px;
+}
+
+.flavor-skin-pizza-italian .flavor-gallery__item {
+	border-radius: 20px;
+	border: 3px solid var(--italy-paper);
+	box-shadow: 0 14px 35px rgba(61, 40, 26, 0.1);
+}
+
+.flavor-skin-pizza-italian .flavor-testimonials {
+	background: var(--italy-green-dark) !important;
+}
+
+.flavor-skin-pizza-italian .flavor-testimonials .flavor-section-header__tag {
+	border-color: rgba(241, 191, 115, 0.35);
+	color: #f1bf73;
+}
+
+.flavor-skin-pizza-italian .flavor-testimonials .flavor-section-header__title,
+.flavor-skin-pizza-italian .flavor-testimonials .flavor-section-header__desc {
+	color: #fff9ee;
+}
+
+.flavor-skin-pizza-italian .flavor-review-card {
+	background: rgba(255, 249, 238, 0.06);
+	border: 1px solid rgba(255, 249, 238, 0.14);
+	border-radius: 25px;
+	box-shadow: none;
+	padding: 35px;
+}
+
+.flavor-skin-pizza-italian .flavor-review-card__text,
+.flavor-skin-pizza-italian .flavor-review-card__name {
+	color: #fff9ee;
+}
+
+.flavor-skin-pizza-italian .flavor-review-card__role {
+	color: rgba(255, 249, 238, 0.58);
+}
+
+.flavor-skin-pizza-italian .flavor-review-card__stars {
+	color: #f1bf73;
+}
+
+.flavor-skin-pizza-italian .flavor-review-card__avatar {
+	background: var(--italy-red);
+}
+
+.flavor-skin-pizza-italian .flavor-hours-card {
+	background: var(--italy-paper);
+	border: 1px solid rgba(41, 32, 25, 0.1);
+	border-radius: 30px;
+	box-shadow: 0 25px 65px rgba(61, 40, 26, 0.1);
+}
+
+.flavor-skin-pizza-italian .flavor-contact-row__icon {
+	background: rgba(36, 82, 60, 0.1);
+	border-radius: 50%;
+	color: var(--italy-green);
+}
+
+.flavor-skin-pizza-italian .flavor-footer {
+	background: #1b241d;
+	border-top: 6px solid var(--italy-red);
+}
+
+.flavor-skin-pizza-italian .flavor-footer__heading {
+	color: #f1bf73;
+}
+
+@media (max-width: 991px) {
+	.flavor-skin-pizza-italian .flavor-featured__grid { grid-template-columns: repeat(2, 1fr); }
+	.flavor-skin-pizza-italian .flavor-categories__grid { grid-template-columns: repeat(6, 1fr); }
+	.flavor-skin-pizza-italian .flavor-cat-card { grid-column: span 2; }
+	.flavor-skin-pizza-italian .flavor-cat-card:nth-child(4),
+	.flavor-skin-pizza-italian .flavor-cat-card:nth-child(5) { grid-column: span 3; aspect-ratio: 4 / 3; }
+}
+
+@media (max-width: 767px) {
+	.flavor-skin-pizza-italian .flavor-header__inner { min-height: 68px; }
+	.flavor-skin-pizza-italian .flavor-hero { min-height: 730px; padding-block: 100px 110px; }
+	.flavor-skin-pizza-italian .flavor-hero::before { inset: 12px; border-radius: 55px 5px 55px 5px; }
+	.flavor-skin-pizza-italian .flavor-hero__overlay { background: linear-gradient(0deg, rgba(19,13,9,.97), rgba(19,13,9,.34) 88%); }
+	.flavor-skin-pizza-italian .flavor-hero__title { font-size: clamp(2.55rem, 12vw, 3.7rem); }
+	.flavor-skin-pizza-italian .flavor-hero__features { display: grid; gap: 12px; }
+	.flavor-skin-pizza-italian .flavor-intro__grid,
+	.flavor-skin-pizza-italian .flavor-featured__grid { grid-template-columns: 1fr; }
+	.flavor-skin-pizza-italian .flavor-intro__card { min-height: auto; border-inline-start: 0; border-bottom: 1px solid rgba(255,255,255,.12); padding-block: 36px; }
+	.flavor-skin-pizza-italian .flavor-categories__grid { grid-template-columns: repeat(2, 1fr); }
+	.flavor-skin-pizza-italian .flavor-cat-card,
+	.flavor-skin-pizza-italian .flavor-cat-card:nth-child(4),
+	.flavor-skin-pizza-italian .flavor-cat-card:nth-child(5) { grid-column: span 1; aspect-ratio: 3 / 4; }
+	.flavor-skin-pizza-italian .flavor-cat-card:last-child { grid-column: span 2; aspect-ratio: 16 / 10; }
+	.flavor-skin-pizza-italian .flavor-section-header--with-action { align-items: flex-start; gap: 18px; }
+	.flavor-skin-pizza-italian .flavor-section-header--with-action .flavor-btn { white-space: nowrap; }
+	.flavor-skin-pizza-italian .flavor-about__img-wrapper img { min-height: 410px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flavor-skin-pizza-italian *,
+	.flavor-skin-pizza-italian *::before,
+	.flavor-skin-pizza-italian *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
