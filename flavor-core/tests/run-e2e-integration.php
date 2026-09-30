@@ -34,8 +34,9 @@ use FlavorCore\API\ReservationController;
 use FlavorCore\API\SettingsController;
 use FlavorCore\Customer\OtpAuth;
 use FlavorCore\Customer\TokenService;
-use FlavorCore\Menu\AvailabilityManager;
+use FlavorCore\Notification\NotificationHub;
 use FlavorCore\Notification\PushNotificationService;
+use FlavorCore\Menu\AvailabilityManager;
 use FlavorCore\Order\KitchenTicketRepository;
 use FlavorCore\Order\KitchenTicketSync;
 use FlavorCore\Order\OrderModes;
@@ -218,15 +219,22 @@ run_test( 'Device registration persists app_version & last_seen_at and re-regist
 	global $wpdb;
 	$table = \FlavorCore\Database\Schema::table( 'flavor_device_tokens' );
 
+	// Endpoints are authenticated: issue a session for the owner user.
+	$user_id = 205;
+	$GLOBALS['_mock_users'][ $user_id ] = new \WP_User( $user_id );
+	$tokens  = TokenService::issue( $user_id, 'Pixel 8 Pro' );
+
 	$req = new \WP_REST_Request( 'POST', '/flavor/v2/auth/device' );
+	$req->set_header( 'Authorization', 'Bearer ' . $tokens['access_token'] );
 	$req->set_json_params( array( 'device_token' => 'fcm_regression_token', 'platform' => 'android', 'app_version' => '2.4.0' ) );
 	$res = $auth_ctrl->register_device( $req );
 
 	$row      = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE device_token = %s AND platform = %s", 'fcm_regression_token', 'android' ), ARRAY_A );
-	$first_ok = $row && '2.4.0' === $row['app_version'] && ! empty( $row['last_seen_at'] ) && ! empty( $row['updated_at'] );
+	$first_ok = $row && '2.4.0' === $row['app_version'] && ! empty( $row['last_seen_at'] ) && ! empty( $row['updated_at'] ) && $user_id === (int) $row['user_id'];
 
 	// Re-registering the same device token with a newer app version must upsert.
 	$req2 = new \WP_REST_Request( 'POST', '/flavor/v2/auth/device' );
+	$req2->set_header( 'Authorization', 'Bearer ' . $tokens['access_token'] );
 	$req2->set_json_params( array( 'device_token' => 'fcm_regression_token', 'platform' => 'android', 'app_version' => '2.5.1' ) );
 	$res2 = $auth_ctrl->register_device( $req2 );
 
@@ -680,9 +688,37 @@ run_test( 'User Notification Preferences update and query', function () {
 	return $updated && $prefs['order_status'] === true && $prefs['promotions'] === false;
 } );
 
-run_test( 'Order Status Push & Multi-Channel Dispatch', function () {
+run_test( 'Order Status Push & Multi-Channel Dispatch delivers through FCM when configured', function () {
+	global $_mock_http_requests, $_mock_http_responder;
+
+	// Fake, test-generated credentials (never real secrets).
+	PushNotificationService::register_device( 101, 'fcm_multichannel_device_token', 'android', '1.0.0' );
+	$key = openssl_pkey_new( array( 'private_key_type' => OPENSSL_KEYTYPE_RSA, 'private_key_bits' => 2048 ) );
+	openssl_pkey_export( $key, $pem );
+	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON=' . wp_json_encode( array(
+		'project_id'   => 'flavor-ci-test',
+		'client_email' => 'flavor-push@flavor-ci-test.iam.gserviceaccount.com',
+		'private_key'  => $pem,
+		'token_uri'    => 'https://oauth2.googleapis.com/token',
+	) ) );
+	$_mock_http_responder = function ( string $url ) {
+		if ( strpos( $url, 'oauth2.googleapis.com/token' ) !== false ) {
+			return array( 'code' => 200, 'body' => wp_json_encode( array( 'access_token' => 'test-fake-oauth-token', 'expires_in' => 3600 ) ) );
+		}
+		return array( 'code' => 200, 'body' => wp_json_encode( array( 'name' => 'projects/flavor-ci-test/messages/3' ) ) );
+	};
+	delete_transient( 'flavor_fcm_oauth_' . md5( 'flavor-push@flavor-ci-test.iam.gserviceaccount.com' ) );
+	$_mock_http_requests = array();
+
 	$dispatched = PushNotificationService::dispatch_order_status( 1001, 'preparing', 101, '09121234567' );
-	return is_array( $dispatched ) && isset( $dispatched['push'] ) && $dispatched['push'] === true;
+
+	$delivered = false !== strpos( implode( ' ', array_column( $_mock_http_requests, 'url' ) ), 'messages:send' );
+
+	$_mock_http_responder = null;
+	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON' );
+	PushNotificationService::unregister_device( 'fcm_multichannel_device_token' );
+
+	return is_array( $dispatched ) && isset( $dispatched['push'] ) && $dispatched['push'] === true && $delivered;
 } );
 
 run_test( 'Deactivate / Revoke devices on customer logout', function () {
@@ -1791,6 +1827,286 @@ run_test( 'Admin test endpoint still delivers synchronously with an audit row', 
 		&& $audit
 		&& 'delivered' === (string) $audit['status']
 		&& 1 === (int) $audit['attempt_count'];
+} );
+
+// ===========================================================================
+// TEST SUITE 13: PUSH NOTIFICATIONS (tokens, rotation, delivery, cleanup)
+// ===========================================================================
+echo "\n--- 13. PUSH NOTIFICATIONS (tokens, rotation, delivery, cleanup) ---\n";
+
+
+run_test( 'Device endpoints reject unauthenticated callers with 401', function () use ( $auth_ctrl ) {
+	$reg = new \WP_REST_Request( 'POST', '/flavor/v2/auth/device' );
+	$reg->set_json_params( array( 'device_token' => 'anon_token_will_fail', 'platform' => 'android' ) );
+	$reg_res = $auth_ctrl->register_device( $reg );
+
+	$del = new \WP_REST_Request( 'DELETE', '/flavor/v2/auth/device' );
+	$del->set_json_params( array( 'device_token' => 'anon_token_will_fail' ) );
+	$del_res = $auth_ctrl->unregister_device( $del );
+
+	return 401 === $reg_res->get_status() && 401 === $del_res->get_status();
+} );
+
+run_test( 'Registration rebinding: token taken over by a new owner moves rows', function () {
+	global $wpdb;
+	$table = \FlavorCore\Database\Schema::table( 'flavor_device_tokens' );
+
+	PushNotificationService::register_device( 301, 'apk_takeover_token', 'android', '1.0.0' );
+	// New owner registers the same physical token — binding must move.
+	$ok = PushNotificationService::register_device( 302, 'apk_takeover_token', 'android', '1.0.1' );
+	$row = $wpdb->get_row( $wpdb->prepare( "SELECT user_id, is_active FROM {$table} WHERE device_token = %s", 'apk_takeover_token' ), ARRAY_A );
+
+	return $ok && $row && 302 === (int) $row['user_id'] && 1 === (int) $row['is_active'];
+} );
+
+run_test( 'Device unregister is ownership-bound (IDOR protection)', function () use ( $auth_ctrl ) {
+	$owner   = 311;
+	$other   = 312;
+	$GLOBALS['_mock_users'][ $owner ] = new \WP_User( $owner );
+	$GLOBALS['_mock_users'][ $other ] = new \WP_User( $other );
+	$tok     = TokenService::issue( $owner, 'Owner Phone' );
+	$tok_oth = TokenService::issue( $other, 'Other Phone' );
+
+	PushNotificationService::register_device( $owner, 'idor_owner_token', 'android', '1.0.0' );
+
+	// Another user trying to unregister it must get 404 without deleting anything.
+	$evil = new \WP_REST_Request( 'DELETE', '/flavor/v2/auth/device' );
+	$evil->set_header( 'Authorization', 'Bearer ' . $tok_oth['access_token'] );
+	$evil->set_json_params( array( 'device_token' => 'idor_owner_token' ) );
+	$evil_res = $auth_ctrl->unregister_device( $evil );
+
+	global $wpdb;
+	$table = \FlavorCore\Database\Schema::table( 'flavor_device_tokens' );
+	$still_there = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table} WHERE device_token = %s", 'idor_owner_token' ) );
+
+	// The owner can remove their own token.
+	$own = new \WP_REST_Request( 'DELETE', '/flavor/v2/auth/device' );
+	$own->set_header( 'Authorization', 'Bearer ' . $tok['access_token'] );
+	$own->set_json_params( array( 'device_token' => 'idor_owner_token' ) );
+	$own_res = $auth_ctrl->unregister_device( $own );
+
+	$gone = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table} WHERE device_token = %s", 'idor_owner_token' ) );
+
+	return 404 === $evil_res->get_status() && 1 === (int) $still_there && 200 === $own_res->get_status() && 0 === (int) $gone;
+} );
+
+run_test( 'FCM delivery executed end-to-end (HTTP v1 OAuth + messages:send)', function () {
+	global $_mock_http_requests, $_mock_http_responder;
+
+	// Ephemeral, test-generated RSA key — obviously fake credentials, never a real secret.
+	$key = openssl_pkey_new( array( 'private_key_type' => OPENSSL_KEYTYPE_RSA, 'private_key_bits' => 2048 ) );
+	openssl_pkey_export( $key, $pem );
+	$sa = wp_json_encode( array(
+		'type'         => 'service_account',
+		'project_id'   => 'flavor-ci-test',
+		'client_email' => 'flavor-push@flavor-ci-test.iam.gserviceaccount.com',
+		'private_key'  => $pem,
+		'token_uri'    => 'https://oauth2.googleapis.com/token',
+	) );
+	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON=' . $sa );
+
+	$_mock_http_responder = function ( string $url, array $args ) {
+		if ( strpos( $url, 'oauth2.googleapis.com/token' ) !== false ) {
+			return array( 'code' => 200, 'body' => wp_json_encode( array( 'access_token' => 'test-fake-oauth-token', 'expires_in' => 3600 ) ) );
+		}
+		if ( strpos( $url, 'fcm.googleapis.com/v1/projects/' ) !== false ) {
+			return array( 'code' => 200, 'body' => wp_json_encode( array( 'name' => 'projects/flavor-ci-test/messages/1' ) ) );
+		}
+		return null;
+	};
+	$_mock_http_requests = array();
+	delete_transient( 'flavor_fcm_oauth_' . md5( 'flavor-push@flavor-ci-test.iam.gserviceaccount.com' ) );
+
+	$result = PushNotificationService::send_fcm( array( 'fcm_delivery_token_a' ), 'عنوان تست', 'متن تست', array( 'type' => 'order_status', 'order_id' => '77' ) );
+
+	$urls = array_column( $_mock_http_requests, 'url' );
+	$saw_oauth = in_array( 'https://oauth2.googleapis.com/token', $urls, true );
+	$saw_fcm   = false !== strpos( implode( ' ', $urls ), 'fcm.googleapis.com/v1/projects/flavor-ci-test/messages:send' );
+
+	// Authorization header MUST carry the bearer token, never the service account key material.
+	$authed = false;
+	foreach ( $_mock_http_requests as $req ) {
+		if ( strpos( $req['url'], 'messages:send' ) !== false && 'Bearer test-fake-oauth-token' === ( $req['args']['headers']['Authorization'] ?? '' ) ) {
+			$authed = true;
+		}
+	}
+
+	$_mock_http_responder = null;
+	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON' );
+	delete_transient( 'flavor_fcm_oauth_' . md5( 'flavor-push@flavor-ci-test.iam.gserviceaccount.com' ) );
+
+	return ! empty( $result['success'] ) && 1 === (int) $result['sent'] && $saw_oauth && $saw_fcm && $authed;
+} );
+
+run_test( 'APNs delivery executed end-to-end (ES256 token + per-device POST)', function () {
+	global $_mock_http_requests, $_mock_http_responder;
+
+	// Ephemeral, test-generated EC key written to a temp .p8 — never a real secret.
+	$key = openssl_pkey_new( array( 'private_key_type' => OPENSSL_KEYTYPE_EC, 'curve_name' => 'prime256v1' ) );
+	openssl_pkey_export( $key, $pem );
+	$p8_path = tempnam( sys_get_temp_dir(), 'fake_p8_' ) . '.p8';
+	file_put_contents( $p8_path, $pem );
+
+	putenv( 'FLAVOR_APNS_AUTH_KEY_PATH=' . $p8_path );
+	putenv( 'FLAVOR_APNS_KEY_ID=TESTKEY123' );
+	putenv( 'FLAVOR_APNS_TEAM_ID=TEAMTEST456' );
+	putenv( 'FLAVOR_APNS_BUNDLE_ID=com.flavor.restaurant' );
+	putenv( 'FLAVOR_APNS_ENV=sandbox' );
+
+	$_mock_http_responder = function ( string $url, array $args ) {
+		if ( strpos( $url, 'api.sandbox.push.apple.com/3/device/' ) !== false ) {
+			return array( 'code' => 200, 'body' => '' );
+		}
+		return null;
+	};
+	$_mock_http_requests = array();
+
+	$result = PushNotificationService::send_apns( array( 'apns_test_device_token_x' ), 'توکن تست', 'بدنه تست', array( 'type' => 'reservation_status' ) );
+
+	$saw_device_url = false;
+	$saw_headers = false;
+	foreach ( $_mock_http_requests as $req ) {
+		if ( false !== strpos( $req['url'], 'api.sandbox.push.apple.com/3/device/apns_test_device_token_x' ) ) {
+			$saw_device_url = true;
+			$h = $req['args']['headers'];
+			$saw_headers = ! empty( $h['authorization'] ) && 0 === strpos( $h['authorization'], 'bearer ' )
+				&& 'com.flavor.restaurant' === ( $h['apns-topic'] ?? '' )
+				&& 'alert' === ( $h['apns-push-type'] ?? '' );
+		}
+	}
+
+	$_mock_http_responder = null;
+	putenv( 'FLAVOR_APNS_AUTH_KEY_PATH' );
+	putenv( 'FLAVOR_APNS_KEY_ID' );
+	putenv( 'FLAVOR_APNS_TEAM_ID' );
+	putenv( 'FLAVOR_APNS_BUNDLE_ID' );
+	putenv( 'FLAVOR_APNS_ENV' );
+	@unlink( $p8_path );
+
+	return ! empty( $result['success'] ) && 1 === (int) $result['sent'] && $saw_device_url && $saw_headers;
+} );
+
+run_test( 'Stale FCM tokens (UNREGISTERED) are deactivated as rotation cleanup', function () {
+	global $_mock_http_requests, $_mock_http_responder, $wpdb;
+
+	$key = openssl_pkey_new( array( 'private_key_type' => OPENSSL_KEYTYPE_RSA, 'private_key_bits' => 2048 ) );
+	openssl_pkey_export( $key, $pem );
+	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON=' . wp_json_encode( array(
+		'project_id'   => 'flavor-ci-test',
+		'client_email' => 'flavor-push@flavor-ci-test.iam.gserviceaccount.com',
+		'private_key'  => $pem,
+		'token_uri'    => 'https://oauth2.googleapis.com/token',
+	) ) );
+
+	$_mock_http_responder = function ( string $url, array $args ) {
+		if ( strpos( $url, 'oauth2.googleapis.com/token' ) !== false ) {
+			return array( 'code' => 200, 'body' => wp_json_encode( array( 'access_token' => 'test-fake-oauth-token', 'expires_in' => 3600 ) ) );
+		}
+		return array( 'code' => 404, 'body' => wp_json_encode( array( 'error' => array( 'code' => 404, 'status' => 'UNREGISTERED' ) ) ) );
+	};
+
+	PushNotificationService::register_device( 321, 'fcm_stale_rotation_token', 'android', '1.0.0' );
+	delete_transient( 'flavor_fcm_oauth_' . md5( 'flavor-push@flavor-ci-test.iam.gserviceaccount.com' ) );
+
+	$user_id   = 321;
+	$ref       = new \ReflectionClass( NotificationHub::class );
+	$method    = $ref->getMethod( 'dispatch_push' );
+	$method->setAccessible( true );
+	$delivered = $method->invoke( null, $user_id, 'تست', 'متن', array( 'type' => 'promo' ) );
+
+	$table = \FlavorCore\Database\Schema::table( 'flavor_device_tokens' );
+	$row   = $wpdb->get_row( $wpdb->prepare( "SELECT is_active FROM {$table} WHERE device_token = %s", 'fcm_stale_rotation_token' ), ARRAY_A );
+
+	$_mock_http_responder = null;
+	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON' );
+
+	// Delivery fails (provider says unregistered) AND the stale row is deactivated.
+	return false === $delivered && $row && 0 === (int) $row['is_active'];
+} );
+
+run_test( 'Missing provider credentials degrade gracefully without delivery attempts', function () use ( $auth_ctrl ) {
+	global $_mock_http_requests;
+	$_mock_http_requests = array();
+
+	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON' );
+	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_PATH' );
+	$fcm = PushNotificationService::send_fcm( array( 'any_token' ), 't', 'b' );
+
+	putenv( 'FLAVOR_APNS_KEY_ID' );
+	putenv( 'FLAVOR_APNS_TEAM_ID' );
+	putenv( 'FLAVOR_APNS_BUNDLE_ID' );
+	putenv( 'FLAVOR_APNS_AUTH_KEY_PATH' );
+	$apns = PushNotificationService::send_apns( array( 'any_token' ), 't', 'b' );
+
+	// No HTTP call may be issued when credentials are absent.
+	return ! empty( $fcm['error'] ) && ! empty( $apns['error'] )
+		&& 0 === count( $_mock_http_requests )
+		&& false === $fcm['success'] && false === $apns['success'];
+} );
+
+run_test( 'Logout-all revokes auth tokens AND deactivates push devices', function () use ( $auth_ctrl ) {
+	global $wpdb;
+	$user_id = 331;
+	$GLOBALS['_mock_users'][ $user_id ] = new \WP_User( $user_id );
+	$t1      = TokenService::issue( $user_id, 'dev-uuid-phone', 'Phone' );
+	$t2      = TokenService::issue( $user_id, 'dev-uuid-tablet', 'Tablet' );
+	PushNotificationService::register_device( $user_id, 'logout_cleanup_token_1', 'android', '1.0.0' );
+	PushNotificationService::register_device( $user_id, 'logout_cleanup_token_2', 'ios', '1.0.0' );
+
+	$req = new \WP_REST_Request( 'POST', '/flavor/v2/auth/token/revoke' );
+	$req->set_header( 'Authorization', 'Bearer ' . $t1['access_token'] );
+	$req->set_param( 'all_devices', true );
+	$res = $auth_ctrl->token_revoke( $req );
+
+	$table   = \FlavorCore\Database\Schema::table( 'flavor_device_tokens' );
+	$active  = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table} WHERE user_id = %d AND is_active = 1", $user_id ) );
+
+	return 200 === $res->get_status() && 0 === $active && ! empty( $t2 );
+} );
+
+run_test( 'Push observability hook fires WITH delivery results (not as the delivery mechanism)', function () {
+	global $_mock_http_requests, $_mock_http_responder;
+
+	$hook_payloads = array();
+	add_action( 'flavor_dispatch_push_tokens', function ( $tokens, $title, $body, $data, $results = array() ) use ( &$hook_payloads ) {
+		$hook_payloads[] = array( 'tokens' => $tokens, 'results' => $results );
+	}, 10, 5 );
+
+	PushNotificationService::register_device( 341, 'observability_hook_token', 'android', '1.0.0' );
+
+	$key = openssl_pkey_new( array( 'private_key_type' => OPENSSL_KEYTYPE_RSA, 'private_key_bits' => 2048 ) );
+	openssl_pkey_export( $key, $pem );
+	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON=' . wp_json_encode( array(
+		'project_id'   => 'flavor-ci-test',
+		'client_email' => 'flavor-push@flavor-ci-test.iam.gserviceaccount.com',
+		'private_key'  => $pem,
+		'token_uri'    => 'https://oauth2.googleapis.com/token',
+	) ) );
+	$_mock_http_responder = function ( string $url ) {
+		if ( strpos( $url, 'oauth2.googleapis.com/token' ) !== false ) {
+			return array( 'code' => 200, 'body' => wp_json_encode( array( 'access_token' => 'test-fake-oauth-token', 'expires_in' => 3600 ) ) );
+		}
+		return array( 'code' => 200, 'body' => wp_json_encode( array( 'name' => 'projects/flavor-ci-test/messages/2' ) ) );
+	};
+	delete_transient( 'flavor_fcm_oauth_' . md5( 'flavor-push@flavor-ci-test.iam.gserviceaccount.com' ) );
+	$_mock_http_requests = array();
+
+	$ref    = new \ReflectionClass( NotificationHub::class );
+	$method = $ref->getMethod( 'dispatch_push' );
+	$method->setAccessible( true );
+	$delivered = $method->invoke( null, 341, 'تست هوک', 'بدنه', array( 'type' => 'order_status' ) );
+
+	// Real delivery happened AND the hook received delivery results.
+	$fcm_saw = false !== strpos( implode( ' ', array_column( $_mock_http_requests, 'url' ) ), 'messages:send' );
+	$hook_ok = 1 === count( $hook_payloads )
+		&& in_array( 'observability_hook_token', (array) $hook_payloads[0]['tokens'], true )
+		&& ! empty( $hook_payloads[0]['results']['fcm']['success'] );
+
+	$_mock_http_responder = null;
+	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON' );
+	$GLOBALS['_mock_actions']['flavor_dispatch_push_tokens'] = array();
+
+	return true === $delivered && $fcm_saw && $hook_ok;
 } );
 
 // ===========================================================================

@@ -77,28 +77,67 @@ class NotificationHub {
 	}
 
 	/**
-	 * Dispatch push notification to active device tokens of user.
+	 * Deliver push notification to the active device tokens of a user.
+	 *
+	 * Real delivery — not a hook: tokens are partitioned by platform and sent
+	 * through {@see PushNotificationService::send_fcm()} /
+	 * {@see PushNotificationService::send_apns()} with the provider-reported
+	 * stale tokens deactivated as a token-rotation cleanup. The
+	 * `flavor_dispatch_push_tokens` action fires afterwards, for observability
+	 * only, and carries the delivery results.
 	 *
 	 * @param int                  $user_id Customer or staff ID.
 	 * @param string               $title Title.
 	 * @param string               $body Body.
 	 * @param array<string, mixed> $data Custom data payload.
-	 * @return bool
+	 * @return bool True when at least one provider accepted a message.
 	 */
 	private static function dispatch_push( int $user_id, string $title, string $body, array $data = array() ): bool {
-		global $wpdb;
+		$devices = PushNotificationService::get_user_devices( $user_id );
 
-		$tbl = Schema::table( 'flavor_device_tokens' );
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$tokens = $wpdb->get_col( $wpdb->prepare( "SELECT device_token FROM {$tbl} WHERE user_id = %d AND is_active = 1", $user_id ) );
+		$android_tokens = $devices['android'] ?? array();
+		$ios_tokens     = $devices['ios'] ?? array();
 
-		if ( empty( $tokens ) ) {
+		if ( empty( $android_tokens ) && empty( $ios_tokens ) ) {
 			return false;
 		}
 
-		// Push delivery logic hook
-		do_action( 'flavor_dispatch_push_tokens', $tokens, $title, $body, $data );
-		return true;
+		$results = array( 'fcm' => array(), 'apns' => array() );
+		$stale   = array();
+
+		if ( ! empty( $android_tokens ) ) {
+			$fcm = PushNotificationService::send_fcm( $android_tokens, $title, $body, $data );
+			$results['fcm'] = $fcm;
+			$stale = array_merge( $stale, (array) ( $fcm['stale_tokens'] ?? array() ) );
+		}
+
+		if ( ! empty( $ios_tokens ) ) {
+			$apns = PushNotificationService::send_apns( $ios_tokens, $title, $body, $data );
+			$results['apns'] = $apns;
+			$stale = array_merge( $stale, (array) ( $apns['stale_tokens'] ?? array() ) );
+		}
+
+		if ( ! empty( $stale ) ) {
+			PushNotificationService::deactivate_tokens( $stale );
+		}
+
+		// Observability extension point — delivery itself must NOT depend on any listener.
+		do_action( 'flavor_dispatch_push_tokens', array_merge( $android_tokens, $ios_tokens ), $title, $body, $data, $results );
+
+		StructuredLogger::info(
+			'push_notifications',
+			'Push delivery completed',
+			array(
+				'user_id'   => $user_id,
+				'android'   => count( $android_tokens ),
+				'ios'       => count( $ios_tokens ),
+				'stale'     => count( $stale ),
+				'fcm_ok'    => ! empty( $results['fcm']['success'] ),
+				'apns_ok'   => ! empty( $results['apns']['success'] ),
+			)
+		);
+
+		return ! empty( $results['fcm']['success'] ) || ! empty( $results['apns']['success'] );
 	}
 
 	/**

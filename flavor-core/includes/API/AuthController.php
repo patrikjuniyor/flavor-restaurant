@@ -138,12 +138,12 @@ class AuthController extends BaseApiController {
 				array(
 					'methods'             => 'POST',
 					'callback'            => array( $this, 'register_device' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'require_authenticated' ),
 				),
 				array(
 					'methods'             => 'DELETE',
 					'callback'            => array( $this, 'unregister_device' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'require_authenticated' ),
 				),
 			)
 		);
@@ -251,6 +251,8 @@ class AuthController extends BaseApiController {
 		$all = (bool) $request->get_param( 'all_devices' );
 		if ( $all ) {
 			TokenService::revoke_all_user_tokens( $user->ID );
+			// Logout cleanup: stop user-targeted push delivery on every device.
+			PushNotificationService::revoke_user_devices( $user->ID );
 		} else {
 			$auth_header = $request->get_header( 'Authorization' );
 			if ( $auth_header && preg_match( '/^Bearer\s+(.+)$/i', $auth_header, $matches ) ) {
@@ -374,11 +376,17 @@ class AuthController extends BaseApiController {
 			return $this->respond_error( 'missing_device_token', __( 'توکن دستگاه الزامی است.', 'flavor-core' ), 400 );
 		}
 
-		$user    = $this->resolve_user( $request );
-		$user_id = $user ? $user->ID : null;
+		$user = $this->resolve_user( $request );
+		if ( ! $user || ! $user->exists() ) {
+			// require_authenticated normally guards this; defense-in-depth.
+			return $this->respond_error( 'unauthorized', __( 'کاربر احراز هویت نشده است.', 'flavor-core' ), 401 );
+		}
+		$user_id = (int) $user->ID;
 
 		// Delegate to the canonical writer: it uses the schema-aligned column set
 		// (app_version / last_seen_at / is_active) and reports write failures.
+		// The token is always bound to the authenticated user (never anonymous):
+		// a token previously owned by another account is re-bound on re-register.
 		$registered = PushNotificationService::register_device( $user_id, $device_token, $platform, $app_version );
 
 		if ( ! $registered ) {
@@ -398,7 +406,22 @@ class AuthController extends BaseApiController {
 		$body         = $request->get_json_params() ?: array();
 		$device_token = sanitize_text_field( (string) ( $body['device_token'] ?? '' ) );
 
+		$user = $this->resolve_user( $request );
+		if ( ! $user || ! $user->exists() ) {
+			return $this->respond_error( 'unauthorized', __( 'کاربر احراز هویت نشده است.', 'flavor-core' ), 401 );
+		}
+
 		if ( ! empty( $device_token ) ) {
+			// Ownership check: a user can only unregister tokens bound to their account (IDOR protection).
+			global $wpdb;
+			$table = \FlavorCore\Database\Schema::table( 'flavor_device_tokens' );
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$owner = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM {$table} WHERE device_token = %s LIMIT 1", $device_token ) );
+
+			if ( null === $owner || (int) $owner !== (int) $user->ID ) {
+				return $this->respond_error( 'device_not_found', __( 'دستگاه مورد نظر یافت نشد.', 'flavor-core' ), 404 );
+			}
+
 			$deleted = PushNotificationService::unregister_device( $device_token );
 			if ( ! $deleted ) {
 				return $this->respond_error( 'device_unregistration_failed', __( 'حذف دستگاه با خطا مواجه شد.', 'flavor-core' ), 500 );

@@ -317,92 +317,456 @@ class PushNotificationService {
 	}
 
 	/**
-	 * Send Firebase Cloud Messaging (FCM) push payload.
-	 * Uses environment variables FLAVOR_FCM_SERVER_KEY / FLAVOR_FCM_PROJECT_ID.
+	 * Send Firebase Cloud Messaging via the current HTTP v1 API.
+	 *
+	 * Credentials (service account) are resolved SECURELY, in order:
+	 *  1. FLAVOR_FCM_SERVICE_ACCOUNT_JSON  — raw JSON (deployment secret managers).
+	 *  2. FLAVOR_FCM_SERVICE_ACCOUNT_PATH  — absolute path to the JSON file OUTSIDE the web root.
+	 *  3. Option 'flavor_fcm_service_account_path' — path only, never the JSON itself.
+	 *
+	 * The legacy FLAVOR_FCM_SERVER_KEY API was decommissioned by Google and is
+	 * no longer supported. Docs: docs/PUSH-NOTIFICATIONS.md.
 	 *
 	 * @param string[]             $tokens Device FCM tokens.
 	 * @param string               $title  Notification title.
 	 * @param string               $body   Notification body.
-	 * @param array<string, mixed> $data   Data dictionary.
-	 * @return array<string, mixed>
+	 * @param array<string, mixed> $data   Data dictionary (values coerced to string).
+	 * @return array<string, mixed> success|error + sent + stale_tokens (unregistered devices).
 	 */
 	public static function send_fcm( array $tokens, string $title, string $body, array $data = array() ): array {
-		$server_key = (string) ( getenv( 'FLAVOR_FCM_SERVER_KEY' ) ?: get_option( 'flavor_fcm_server_key', '' ) );
-		if ( empty( $server_key ) ) {
-			StructuredLogger::warning( 'push_notifications', 'FCM credentials missing in environment' );
+		$service_account = self::resolve_fcm_service_account();
+		if ( is_wp_error( $service_account ) ) {
 			return array(
 				'success' => false,
-				'error'   => 'missing_credentials',
-				'message' => 'FLAVOR_FCM_SERVER_KEY environment variable is not configured.',
+				'error'   => $service_account->get_error_code(),
+				'message' => $service_account->get_error_message(),
 			);
 		}
 
-		$payload = array(
-			'registration_ids' => array_values( array_unique( $tokens ) ),
-			'notification'     => array(
-				'title' => $title,
-				'body'  => $body,
-				'sound' => 'default',
-			),
-			'data'             => $data,
-			'priority'         => 'high',
+		$access_token = self::fcm_access_token( $service_account );
+		if ( is_wp_error( $access_token ) ) {
+			return array(
+				'success' => false,
+				'error'   => $access_token->get_error_code(),
+				'message' => $access_token->get_error_message(),
+			);
+		}
+
+		$project_id = $service_account['project_id'];
+		$endpoint   = sprintf( 'https://fcm.googleapis.com/v1/projects/%s/messages:send', rawurlencode( $project_id ) );
+
+		$string_data = array();
+		foreach ( $data as $key => $value ) {
+			$string_data[ (string) $key ] = is_scalar( $value ) ? (string) $value : wp_json_encode( $value );
+		}
+
+		$sent  = 0;
+		$stale = array();
+		$errors = array();
+
+		foreach ( array_values( array_unique( $tokens ) ) as $token ) {
+			$message  = array(
+				'message' => array(
+					'token'        => $token,
+					'notification' => array(
+						'title' => $title,
+						'body'  => $body,
+					),
+					'data'         => $string_data,
+					'android'      => array(
+						'priority'     => 'HIGH',
+						'notification' => array( 'sound' => 'default' ),
+					),
+					'apns'         => array(
+						'headers' => array( 'apns-priority' => '10' ),
+						'payload' => array( 'aps' => array( 'sound' => 'default' ) ),
+					),
+				),
+			);
+			$response = wp_remote_post(
+				$endpoint,
+				array(
+					'headers' => array(
+						'Authorization' => 'Bearer ' . $access_token,
+						'Content-Type'  => 'application/json; charset=UTF-8',
+					),
+					'body'    => wp_json_encode( $message ),
+					'timeout' => 15,
+				)
+			);
+
+			if ( is_wp_error( $response ) ) {
+				$errors[] = $response->get_error_message();
+				continue;
+			}
+
+			$code    = wp_remote_retrieve_response_code( $response );
+			$json    = json_decode( (string) wp_remote_retrieve_body( $response ), true );
+			$status  = is_array( $json ) ? (string) ( $json['error']['status'] ?? '' ) : '';
+
+			if ( 200 === $code ) {
+				$sent++;
+			} elseif ( 404 === $code || 'UNREGISTERED' === $status ) {
+				$stale[] = $token;
+			} else {
+				$errors[] = is_array( $json ) ? (string) ( $json['error']['message'] ?? "HTTP {$code}" ) : "HTTP {$code}";
+			}
+		}
+
+		return array(
+			'success'      => $sent > 0,
+			'sent'         => $sent,
+			'stale_tokens' => $stale,
+			'errors'       => $errors,
+			'provider'     => 'fcm',
 		);
+	}
+
+	/**
+	 * Resolve the FCM service-account definition without ever persisting it.
+	 *
+	 * @return array{client_email: string, private_key: string, project_id: string, token_uri: string}|\WP_Error
+	 */
+	private static function resolve_fcm_service_account() {
+		$raw_json = (string) getenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON' );
+
+		if ( '' === $raw_json ) {
+			$path = (string) ( getenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_PATH' ) ?: get_option( 'flavor_fcm_service_account_path', '' ) );
+			if ( '' !== $path && is_readable( $path ) ) {
+				$raw_json = (string) file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+			}
+		}
+
+		if ( '' === $raw_json ) {
+			StructuredLogger::warning( 'push_notifications', 'FCM service account is not configured' );
+			return new \WP_Error(
+				'missing_credentials',
+				__( 'FCM service account is not configured (FLAVOR_FCM_SERVICE_ACCOUNT_JSON / FLAVOR_FCM_SERVICE_ACCOUNT_PATH).', 'flavor-core' )
+			);
+		}
+
+		$sa = json_decode( $raw_json, true );
+		$required = array( 'client_email', 'private_key', 'project_id', 'token_uri' );
+		foreach ( $required as $field ) {
+			if ( empty( $sa[ $field ] ) || ! is_string( $sa[ $field ] ) ) {
+				return new \WP_Error( 'invalid_credentials', sprintf( 'FCM service account JSON missing field: %s', $field ) );
+			}
+		}
+
+		return array(
+			'client_email' => $sa['client_email'],
+			'private_key'  => $sa['private_key'],
+			'project_id'   => $sa['project_id'],
+			'token_uri'    => $sa['token_uri'] ?: 'https://oauth2.googleapis.com/token',
+		);
+	}
+
+	/**
+	 * Exchange the service-account JWT (RS256) for an OAuth2 access token.
+	 * Cached in a transient for (expires_in - 120s) as recommended by Google.
+	 *
+	 * @param array{client_email: string, private_key: string, token_uri: string} $service_account Service account.
+	 * @return string|\WP_Error
+	 */
+	private static function fcm_access_token( array $service_account ) {
+		$cache_key = 'flavor_fcm_oauth_' . md5( $service_account['client_email'] );
+		$cached    = get_transient( $cache_key );
+		if ( is_string( $cached ) && '' !== $cached ) {
+			return $cached;
+		}
+
+		$jwt = self::build_jwt(
+			array( 'alg' => 'RS256', 'typ' => 'JWT' ),
+			array(
+				'iss'   => $service_account['client_email'],
+				'scope' => 'https://www.googleapis.com/auth/firebase.messaging',
+				'aud'   => $service_account['token_uri'],
+				'iat'   => time(),
+				'exp'   => time() + 3600,
+			),
+			$service_account['private_key'],
+			OPENSSL_ALGO_SHA256
+		);
+		if ( is_wp_error( $jwt ) ) {
+			return $jwt;
+		}
 
 		$response = wp_remote_post(
-			'https://fcm.googleapis.com/fcm/send',
+			$service_account['token_uri'],
 			array(
-				'headers' => array(
-					'Authorization' => 'key=' . $server_key,
-					'Content-Type'  => 'application/json; charset=UTF-8',
+				'headers' => array( 'Content-Type' => 'application/x-www-form-urlencoded' ),
+				'body'    => http_build_query(
+					array(
+						'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+						'assertion'  => $jwt,
+					),
+					'',
+					'&'
 				),
-				'body'    => wp_json_encode( $payload ),
 				'timeout' => 15,
 			)
 		);
 
 		if ( is_wp_error( $response ) ) {
-			return array( 'success' => false, 'error' => $response->get_error_message() );
+			return new \WP_Error( 'oauth_error', $response->get_error_message() );
+		}
+		$code = wp_remote_retrieve_response_code( $response );
+		$json = json_decode( (string) wp_remote_retrieve_body( $response ), true );
+		$token = is_array( $json ) ? (string) ( $json['access_token'] ?? '' ) : '';
+
+		if ( 200 !== $code || '' === $token ) {
+			return new \WP_Error( 'oauth_error', sprintf( 'FCM OAuth token exchange failed (HTTP %s).', $code ) );
 		}
 
-		$code = wp_remote_retrieve_response_code( $response );
-		$body_raw = wp_remote_retrieve_body( $response );
-		$json = json_decode( $body_raw, true );
-
-		return array(
-			'success'     => 200 === $code,
-			'status_code' => $code,
-			'response'    => $json,
-		);
+		$ttl = max( 60, (int) ( $json['expires_in'] ?? 3600 ) - 120 );
+		set_transient( $cache_key, $token, $ttl );
+		return $token;
 	}
 
 	/**
-	 * Send Apple Push Notification service (APNs) payload.
-	 * Uses environment variables FLAVOR_APNS_KEY_ID / FLAVOR_APNS_TEAM_ID / FLAVOR_APNS_BUNDLE_ID.
+	 * Send Apple Push Notifications via APNs provider API (token authentication).
+	 *
+	 * Configuration is separated from FCM and resolved SECURELY:
+	 *  - FLAVOR_APNS_AUTH_KEY_PATH — absolute path to the AuthKey_<KEY_ID>.p8 file OUTSIDE the web root
+	 *    (or option 'flavor_apns_auth_key_path' — path only, never the key content).
+	 *  - FLAVOR_APNS_KEY_ID, FLAVOR_APNS_TEAM_ID, FLAVOR_APNS_BUNDLE_ID — env or options.
+	 *  - FLAVOR_APNS_ENV — 'production' (default) or 'sandbox'.
 	 *
 	 * @param string[]             $tokens Device APNs tokens.
 	 * @param string               $title  Notification title.
 	 * @param string               $body   Notification body.
-	 * @param array<string, mixed> $data   Data dictionary.
-	 * @return array<string, mixed>
+	 * @param array<string, mixed> $data   Custom data dictionary.
+	 * @return array<string, mixed> success|error + sent + stale_tokens (410/invalid device tokens).
 	 */
 	public static function send_apns( array $tokens, string $title, string $body, array $data = array() ): array {
-		$team_id   = (string) ( getenv( 'FLAVOR_APNS_TEAM_ID' ) ?: get_option( 'flavor_apns_team_id', '' ) );
-		$key_id    = (string) ( getenv( 'FLAVOR_APNS_KEY_ID' ) ?: get_option( 'flavor_apns_key_id', '' ) );
-		$bundle_id = (string) ( getenv( 'FLAVOR_APNS_BUNDLE_ID' ) ?: get_option( 'flavor_apns_bundle_id', '' ) );
-
-		if ( empty( $team_id ) || empty( $key_id ) || empty( $bundle_id ) ) {
-			StructuredLogger::warning( 'push_notifications', 'APNs credentials missing in environment' );
+		$config = self::resolve_apns_config();
+		if ( is_wp_error( $config ) ) {
 			return array(
 				'success' => false,
-				'error'   => 'missing_credentials',
-				'message' => 'FLAVOR_APNS_* environment variables are not configured.',
+				'error'   => $config->get_error_code(),
+				'message' => $config->get_error_message(),
 			);
 		}
 
-		// Non-blocking APNs dispatcher implementation
-		return array(
-			'success' => true,
-			'queued'  => count( $tokens ),
+		$jwt = self::build_jwt(
+			array( 'alg' => 'ES256', 'kid' => $config['key_id'], 'typ' => 'JWT' ),
+			array( 'iss' => $config['team_id'], 'iat' => time() ),
+			$config['auth_key'],
+			OPENSSL_ALGO_SHA256
 		);
+		if ( is_wp_error( $jwt ) ) {
+			return array( 'success' => false, 'error' => $jwt->get_error_code(), 'message' => $jwt->get_error_message() );
+		}
+
+		$host = ( 'sandbox' === $config['env'] )
+			? 'https://api.sandbox.push.apple.com'
+			: 'https://api.push.apple.com';
+
+		$aps = array(
+			'aps' => array(
+				'alert' => array(
+					'title' => $title,
+					'body'  => $body,
+				),
+				'sound' => 'default',
+			),
+		);
+		$payload = array_merge( $aps, $data );
+
+		$sent   = 0;
+		$stale  = array();
+		$errors = array();
+
+		foreach ( array_values( array_unique( $tokens ) ) as $token ) {
+			$response = wp_remote_post(
+				$host . '/3/device/' . rawurlencode( $token ),
+				array(
+					'httpversion' => '2.0',
+					'headers'     => array(
+						'authorization'  => 'bearer ' . $jwt,
+						'apns-topic'     => $config['bundle_id'],
+						'apns-push-type' => 'alert',
+						'apns-priority'  => '10',
+						'content-type'   => 'application/json',
+					),
+					'body'        => wp_json_encode( $payload ),
+					'timeout'     => 15,
+				)
+			);
+
+			if ( is_wp_error( $response ) ) {
+				$errors[] = $response->get_error_message();
+				continue;
+			}
+
+			$code   = wp_remote_retrieve_response_code( $response );
+			$json   = json_decode( (string) wp_remote_retrieve_body( $response ), true );
+			$reason = is_array( $json ) ? (string) ( $json['reason'] ?? '' ) : '';
+
+			if ( 200 === $code ) {
+				$sent++;
+			} elseif ( 410 === $code || in_array( $reason, array( 'BadDeviceToken', 'Unregistered' ), true ) ) {
+				$stale[] = $token;
+			} else {
+				$errors[] = '' !== $reason ? $reason : "HTTP {$code}";
+			}
+		}
+
+		return array(
+			'success'      => $sent > 0,
+			'sent'         => $sent,
+			'stale_tokens' => $stale,
+			'errors'       => $errors,
+			'provider'     => 'apns',
+		);
+	}
+
+	/**
+	 * Resolve APNs configuration from env/options without persisting the key.
+	 *
+	 * @return array{key_id: string, team_id: string, bundle_id: string, auth_key: string, env: string}|\WP_Error
+	 */
+	private static function resolve_apns_config() {
+		$key_id    = (string) ( getenv( 'FLAVOR_APNS_KEY_ID' ) ?: get_option( 'flavor_apns_key_id', '' ) );
+		$team_id   = (string) ( getenv( 'FLAVOR_APNS_TEAM_ID' ) ?: get_option( 'flavor_apns_team_id', '' ) );
+		$bundle_id = (string) ( getenv( 'FLAVOR_APNS_BUNDLE_ID' ) ?: get_option( 'flavor_apns_bundle_id', '' ) );
+		$key_path  = (string) ( getenv( 'FLAVOR_APNS_AUTH_KEY_PATH' ) ?: get_option( 'flavor_apns_auth_key_path', '' ) );
+		$env       = 'sandbox' === (string) getenv( 'FLAVOR_APNS_ENV' ) ? 'sandbox' : 'production';
+
+		if ( '' === $key_id || '' === $team_id || '' === $bundle_id || '' === $key_path ) {
+			StructuredLogger::warning( 'push_notifications', 'APNs credentials missing in environment' );
+			return new \WP_Error(
+				'missing_credentials',
+				__( 'APNs configuration missing: FLAVOR_APNS_KEY_ID / FLAVOR_APNS_TEAM_ID / FLAVOR_APNS_BUNDLE_ID / FLAVOR_APNS_AUTH_KEY_PATH.', 'flavor-core' )
+			);
+		}
+
+		if ( ! is_readable( $key_path ) ) {
+			return new \WP_Error( 'missing_credentials', sprintf( 'APNs auth key file is not readable: %s', basename( $key_path ) ) );
+		}
+
+		$auth_key = (string) file_get_contents( $key_path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		if ( false === strpos( $auth_key, 'BEGIN PRIVATE KEY' ) ) {
+			return new \WP_Error( 'invalid_credentials', 'APNs auth key file is not a valid PEM private key.' );
+		}
+
+		return array(
+			'key_id'    => $key_id,
+			'team_id'   => $team_id,
+			'bundle_id' => $bundle_id,
+			'auth_key'  => $auth_key,
+			'env'       => $env,
+		);
+	}
+
+	/**
+	 * Build a signed JWT (RS256/ES256) with an OpenSSL key. No secrets are logged,
+	 * passed through the database, or returned to callers of public APIs.
+	 *
+	 * @param array<string, mixed>   $header JWT header claims.
+	 * @param array<string, mixed>   $claims JWT payload claims.
+	 * @param string                 $pem    PEM-encoded private key.
+	 * @param int                    $algo   Typical OPENSSL_ALGO_SHA256.
+	 * @return string|\WP_Error
+	 */
+	private static function build_jwt( array $header, array $claims, string $pem, int $algo ) {
+		if ( ! function_exists( 'openssl_sign' ) ) {
+			return new \WP_Error( 'openssl_missing', 'The OpenSSL PHP extension is required for push delivery.' );
+		}
+
+		$key = openssl_pkey_get_private( $pem );
+		if ( false === $key ) {
+			return new \WP_Error( 'invalid_credentials', 'Push signing key could not be parsed (invalid PEM).' );
+		}
+
+		$segments = array(
+			rtrim( strtr( base64_encode( wp_json_encode( $header ) ), '+/', '-_' ), '=' ),
+			rtrim( strtr( base64_encode( wp_json_encode( $claims ) ), '+/', '-_' ), '=' ),
+		);
+		$signing_input = implode( '.', $segments );
+
+		$signature = '';
+		$ok        = openssl_sign( $signing_input, $signature, $key, $algo );
+
+		$details = openssl_pkey_get_details( $key );
+		if ( function_exists( 'openssl_free_key' ) ) {
+			openssl_free_key( $key );
+		}
+		if ( ! $ok ) {
+			return new \WP_Error( 'signing_failed', 'Push credential provisioning failed: could not sign JWT.' );
+		}
+
+		// JWS ES256 requires a raw 64-byte R||S signature; OpenSSL emits ASN.1 DER for EC keys.
+		if ( is_array( $details ) && OPENSSL_KEYTYPE_EC === ( $details['type'] ?? -1 ) ) {
+			$signature = self::der_to_raw_signature( $signature );
+			if ( '' === $signature ) {
+				return new \WP_Error( 'signing_failed', 'Could not normalize EC signature to JWS format.' );
+			}
+		}
+
+		$segments[] = rtrim( strtr( base64_encode( $signature ), '+/', '-_' ), '=' );
+		return implode( '.', $segments );
+	}
+
+	/**
+	 * Convert an ASN.1 DER ECDSA signature (as produced by OpenSSL) to the raw
+	 * 64-byte R||S form required by the JWS ES256 specification.
+	 *
+	 * @param string $der ASN.1 DER-encoded signature.
+	 * @return string Raw signature, or empty string on malformed input.
+	 */
+	private static function der_to_raw_signature( string $der ): string {
+		// Expected DER layout: 30 <len> 02 <lenR> <R> 02 <lenS> <S>, fixed 32-byte limbs.
+		if ( strlen( $der ) < 70 || "\x30" !== $der[0] ) {
+			return '';
+		}
+		$r_len = ord( $der[3] );
+		$r     = substr( $der, 4, $r_len );
+		$s_pos = 4 + $r_len;
+		if ( strlen( $der ) < $s_pos + 2 || "\x02" !== $der[ $s_pos ] ) {
+			return '';
+		}
+		$s_len = ord( $der[ $s_pos + 1 ] );
+		$s     = substr( $der, $s_pos + 2, $s_len );
+
+		// Strip DER sign-padding zeroes, then left-pad to the 32-byte limb size.
+		foreach ( array( &$r, &$s ) as &$limb ) {
+			$limb = str_pad( ltrim( $limb, "\x00" ), 32, "\x00", STR_PAD_LEFT );
+		}
+
+		return $r . $s;
+	}
+
+	/**
+	 * Deactivate stale device tokens that push providers reported as unregistered.
+	 *
+	 * @param string[] $tokens Tokens to deactivate.
+	 * @return int Number of rows updated.
+	 */
+	public static function deactivate_tokens( array $tokens ): int {
+		global $wpdb;
+		$table   = Schema::table( 'flavor_device_tokens' );
+		$updated = 0;
+		foreach ( array_values( array_unique( $tokens ) ) as $token ) {
+			$token = trim( (string) $token );
+			if ( '' === $token ) {
+				continue;
+			}
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$res = $wpdb->update(
+				$table,
+				array( 'is_active' => 0 ),
+				array( 'device_token' => $token ),
+				array( '%d' ),
+				array( '%s' )
+			);
+			if ( false !== $res ) {
+				$updated += (int) $res;
+			}
+		}
+		if ( $updated > 0 ) {
+			StructuredLogger::info( 'push_notifications', 'Stale device tokens deactivated by provider callback', array( 'count' => $updated ) );
+		}
+		return $updated;
 	}
 }

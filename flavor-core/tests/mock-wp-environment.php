@@ -1295,9 +1295,39 @@ function get_post( int $id ) {
 }
 function get_the_title( int $id ): string { return 'شعبه مرکزی شاندیز'; }
 function get_avatar_url( int $id, array $args = array() ): string { return 'https://secure.gravatar.com/avatar/sample'; }
+/**
+ * Recorded outbound HTTP calls: array of {url, args}.
+ * Tests inspect this to verify real delivery attempts were made.
+ *
+ * @var array<int, array{url: string, args: array}>
+ */
+$_mock_http_requests = array();
+
+/**
+ * Optional test-controlled responder: callable(string $url, array $args): array{code: int, body: string}
+ * Return null to fall back to the generic success response.
+ *
+ * @var callable|null
+ */
+$_mock_http_responder = null;
+
 function wp_remote_post( string $url, array $args ) {
+	global $_mock_http_requests, $_mock_http_responder;
+	$_mock_http_requests[] = array(
+		'url'  => $url,
+		'args' => $args,
+	);
+	if ( is_callable( $_mock_http_responder ) ) {
+		$res = call_user_func( $_mock_http_responder, $url, $args );
+		if ( null !== $res ) {
+			return array(
+				'response' => array( 'code' => (int) ( $res['code'] ?? 200 ) ),
+				'body'     => (string) ( $res['body'] ?? '' ),
+			);
+		}
+	}
 	return array( 'response' => array( 'code' => 200 ), 'body' => '{"success":true}' );
 }
-function wp_remote_retrieve_response_code( $resp ): int { return 200; }
-function wp_remote_retrieve_body( $resp ): string { return '{"success":true}'; }
+function wp_remote_retrieve_response_code( $resp ): int { return (int) ( $resp['response']['code'] ?? 200 ); }
+function wp_remote_retrieve_body( $resp ): string { return (string) ( $resp['body'] ?? '' ); }
 function wp_mail( string $to, string $subj, string $body, array $headers = array() ): bool { return true; }
