@@ -459,6 +459,33 @@ class MockWPDB {
 				created_at DATETIME NOT NULL
 			);
 
+			CREATE TABLE wp_flavor_webhooks (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				name TEXT NOT NULL,
+				target_url TEXT NOT NULL,
+				secret TEXT NOT NULL,
+				events_json TEXT NOT NULL,
+				is_active INTEGER NOT NULL DEFAULT 1,
+				failure_count INTEGER NOT NULL DEFAULT 0,
+				last_triggered_at DATETIME NULL,
+				created_at DATETIME NOT NULL,
+				updated_at DATETIME NOT NULL
+			);
+
+			CREATE TABLE wp_flavor_webhook_deliveries (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				webhook_id INTEGER NOT NULL,
+				event TEXT NOT NULL,
+				payload_json TEXT NOT NULL,
+				response_code INTEGER NULL,
+				response_body TEXT NULL,
+				duration_ms INTEGER NULL,
+				attempt_count INTEGER NOT NULL DEFAULT 1,
+				status TEXT NOT NULL DEFAULT 'pending',
+				error_message TEXT NULL,
+				created_at DATETIME NOT NULL
+			);
+
 			CREATE TABLE wp_flavor_menu_schedules (
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				branch_id INTEGER NOT NULL DEFAULT 0,
@@ -876,8 +903,15 @@ function wp_logout() {
 	wp_set_current_user( 0 );
 }
 
-// Mock Hooks
-function do_action( string $tag, ...$args ) {}
+// Mock Hooks — minimal but functional WP action/filter registry, so suites
+// can wire listeners (e.g. WebhookManager::hooks()) and fire real do_action()s.
+$GLOBALS['_mock_actions'] = isset( $GLOBALS['_mock_actions'] ) && is_array( $GLOBALS['_mock_actions'] ) ? $GLOBALS['_mock_actions'] : array();
+
+function do_action( string $tag, ...$args ) {
+	foreach ( $GLOBALS['_mock_actions'][ $tag ] ?? array() as $hook ) {
+		call_user_func_array( $hook['callback'], array_slice( $args, 0, $hook['accepted_args'] ) );
+	}
+}
 function apply_filters( string $tag, $value, ...$args ) {
 	if ( $tag === 'flavor_core_sms_sent' ) {
 		// In SmsManager: apply_filters( 'flavor_core_sms_sent', $result, $mobile, $message, $event )
@@ -888,9 +922,67 @@ function apply_filters( string $tag, $value, ...$args ) {
 	}
 	return $value;
 }
-function add_action( string $tag, $callback, int $priority = 10, int $accepted_args = 1 ) {}
+function add_action( string $tag, $callback, int $priority = 10, int $accepted_args = 1 ) {
+	$GLOBALS['_mock_actions'][ $tag ][] = array(
+		'callback'      => $callback,
+		'priority'      => $priority,
+		'accepted_args' => max( 1, $accepted_args ),
+	);
+}
 function add_filter( string $tag, $callback, int $priority = 10, int $accepted_args = 1 ) {}
-function register_rest_route( string $ns, string $route, array $args ) {}
+function wp_generate_uuid4(): string {
+	$data    = random_bytes( 16 );
+	$data[6] = chr( ( ord( $data[6] ) & 0x0f ) | 0x40 );
+	$data[8] = chr( ( ord( $data[8] ) & 0x3f ) | 0x80 );
+	return vsprintf( '%s%s-%s-%s-%s-%s%s%s', str_split( bin2hex( $data ), 4 ) );
+}
+
+// Cron scheduling registry — tests assert queued async work.
+$GLOBALS['_mock_cron_events'] = isset( $GLOBALS['_mock_cron_events'] ) && is_array( $GLOBALS['_mock_cron_events'] ) ? $GLOBALS['_mock_cron_events'] : array();
+function wp_schedule_single_event( int $timestamp, string $hook, array $args = array() ): bool {
+	$GLOBALS['_mock_cron_events'][] = array(
+		'timestamp' => $timestamp,
+		'hook'      => $hook,
+		'args'      => $args,
+	);
+	return true;
+}
+function wp_verify_nonce( string $nonce, $action = -1 ): bool {
+	return '' !== $nonce;
+}
+function wp_parse_url( string $url, int $component = -1 ) {
+	return parse_url( $url, $component );
+}
+/**
+ * Record every REST route registration so tests can assert the final route
+ * map (duplicate detection, permission audits).
+ *
+ * Shape per record: array( ns, route, methods(string), perm(string|callback) ).
+ *
+ * @var array<int, array<string, mixed>>
+ */
+$GLOBALS['_mock_rest_routes'] = isset( $GLOBALS['_mock_rest_routes'] ) && is_array( $GLOBALS['_mock_rest_routes'] ) ? $GLOBALS['_mock_rest_routes'] : array();
+
+function register_rest_route( string $ns, string $route, array $args ) {
+	$endpoints = $args;
+	// Single-endpoint shape: array( 'methods' => ..., 'callback' => ... ).
+	if ( isset( $args['methods'] ) ) {
+		$endpoints = array( $args );
+	}
+	foreach ( $endpoints as $ep ) {
+		if ( ! is_array( $ep ) ) {
+			continue;
+		}
+		$m = $ep['methods'] ?? 'GET';
+		$m = is_array( $m ) ? implode( ',', array_map( 'strval', $m ) ) : (string) $m;
+		$GLOBALS['_mock_rest_routes'][] = array(
+			'ns'      => $ns,
+			'route'   => $route,
+			'methods' => $m,
+			'perm'    => $ep['permission_callback'] ?? null,
+		);
+	}
+}
 
 // Mock WP_Error
 class WP_Error {

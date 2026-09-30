@@ -39,6 +39,9 @@ use FlavorCore\Notification\PushNotificationService;
 use FlavorCore\Order\KitchenTicketRepository;
 use FlavorCore\Order\KitchenTicketSync;
 use FlavorCore\Order\OrderModes;
+use FlavorCore\API\RestController;
+use FlavorCore\API\WebhookController;
+use FlavorCore\Webhooks\WebhookManager;
 use FlavorCore\Reservation\ReservationRepository;
 use FlavorCore\Reservation\ReservationService;
 use FlavorCore\Support\GuestToken;
@@ -1358,6 +1361,436 @@ run_test( 'Idempotency replay is bound to the original cart token (no cross-cart
 		&& 409 === $res2->get_status()
 		&& 'flavor_idempotency_conflict' === (string) ( $res2->get_data()['errors'][0]['code'] ?? '' )
 		&& ( count( $GLOBALS['_mock_wc_orders'] ) - $before ) === 1;
+} );
+
+// ===========================================================================
+// TEST SUITE 12: REST ROUTE UNIQUENESS & WEBHOOK LIFECYCLE
+// ===========================================================================
+echo "\n--- 12. REST ROUTE UNIQUENESS & WEBHOOK LIFECYCLE ---\n";
+
+run_test( 'Route registry: full map registers with zero namespace+method+route duplicates', function () {
+	$GLOBALS['_mock_rest_routes'] = array();
+	( new RestController() )->register();
+	$routes = $GLOBALS['_mock_rest_routes'];
+
+	$seen     = array();
+	$dup_keys = array();
+	foreach ( $routes as $r ) {
+		$key = $r['ns'] . '|' . strtoupper( $r['methods'] ) . '|' . $r['route'];
+		if ( isset( $seen[ $key ] ) ) {
+			$dup_keys[] = $key;
+		}
+		$seen[ $key ] = true;
+	}
+
+	// Previously-duplicated routes now exist exactly once per namespace.
+	$singles = array( 'GET|/cart', 'POST|/auth/otp/request', 'POST|/auth/otp/verify', 'GET|/reservations/slots', 'POST|/reservations', 'GET|/reservations' );
+	foreach ( $singles as $single ) {
+		$count = 0;
+		foreach ( $routes as $r ) {
+			if ( strtoupper( $r['methods'] ) . '|' . $r['route'] === $single && 'flavor/v1' === $r['ns'] ) {
+				++$count;
+			}
+		}
+		if ( 1 !== $count ) {
+			$dup_keys[] = 'v1 ' . $single . ' registered ' . $count . ' times';
+		}
+	}
+
+	// Legacy unique routes kept for client compatibility.
+	foreach ( $seen as $key => $_ ) {
+		unset( $_ );
+	}
+	$must_have = array(
+		'flavor/v1|POST|/cart/add',
+		'flavor/v1|POST|/checkout',
+		'flavor/v1|GET|/checkout/options',
+		'flavor/v1|POST|/zones/check',
+		'flavor/v1|GET|/tables',
+		'flavor/v1|GET|/me',
+		'flavor/v1|GET|/calendar',
+		'flavor/v1|POST|/coupon',
+		'flavor/v1|GET|/staff/customer',
+		// Modular surface in BOTH namespaces.
+		'flavor/v1|GET|/cart',
+		'flavor/v2|GET|/cart',
+		'flavor/v1|POST|/orders',
+		'flavor/v2|POST|/orders',
+		'flavor/v1|GET|/webhooks',
+		'flavor/v2|GET|/webhooks',
+	);
+	$missing = array_diff( $must_have, array_keys( $seen ) );
+
+	return count( $GLOBALS['_mock_rest_routes'] ) > 0
+		&& empty( $dup_keys )
+		&& empty( $missing );
+} );
+
+run_test( 'Webhook hooks(): listens exactly on the do_action() names the app really emits', function () {
+	$GLOBALS['_mock_actions'] = array();
+	( new WebhookManager() )->hooks();
+	$registered = array_keys( $GLOBALS['_mock_actions'] );
+
+	$expected = array(
+		'flavor_core_kitchen_ticket_created',     // Emitted by KitchenTicketRepository.
+		'flavor_core_kitchen_status_changed',     // Emitted by KitchenTicketRepository.
+		'flavor_core_reservation_created',        // Emitted by ReservationRepository.
+		'flavor_core_reservation_status_changed', // Emitted by ReservationRepository.
+		'flavor_core_otp_verified',               // Emitted by OtpAuth.
+		'flavor_core_loyalty_points_awarded',     // Emitted by PointsManager.
+		WebhookManager::QUEUE_HOOK,               // Internal queue drain hook.
+	);
+	// Ghost names that previously subscribed to non-existent actions must be gone.
+	$ghosts = array(
+		'flavor_order_placed',
+		'flavor_kitchen_status_transition',
+		'flavor_reservation_created',
+		'flavor_reservation_status_updated',
+		'flavor_customer_registered',
+		'flavor_loyalty_points_added',
+	);
+
+	return empty( array_diff( $expected, $registered ) )
+		&& empty( array_intersect( $ghosts, $registered ) );
+} );
+
+run_test( 'Every supported webhook event is dispatched (queued) from its real application hook', function () use ( $wpdb ) {
+	$wpdb->query( 'DELETE FROM wp_flavor_webhook_deliveries' );
+	$wpdb->query( 'DELETE FROM wp_flavor_webhooks' );
+	$GLOBALS['_mock_cron_events'] = array();
+
+	$wpdb->insert(
+		'wp_flavor_webhooks',
+		array(
+			'name'         => 'catch-all',
+			'target_url'   => 'https://hooks.example.com/callback',
+			'secret'       => 'fixture-webhook-secret-001',
+			'events_json'  => '["*"]',
+			'is_active'    => 1,
+			'failure_count' => 0,
+			'created_at'   => '2026-01-01 00:00:00',
+			'updated_at'   => '2026-01-01 00:00:00',
+		)
+	);
+
+	do_action( 'flavor_core_kitchen_ticket_created', 501, array( 'order_id' => 77, 'order_number' => '77', 'branch_id' => 1, 'order_mode' => 'dine_in', 'total' => 1000, 'source' => 'online' ) );
+	do_action( 'flavor_core_kitchen_status_changed', 501, 'new', 'preparing' );
+	do_action( 'flavor_core_kitchen_status_changed', 501, 'preparing', 'completed' );
+	do_action( 'flavor_core_kitchen_status_changed', 501, 'new', 'cancelled' );
+	do_action( 'flavor_core_reservation_created', 88, array( 'branch_id' => 1, 'table_id' => 2, 'reservation_date' => '2026-10-01', 'reservation_time' => '19:00', 'party_size' => 2, 'status' => 'pending' ) );
+	do_action( 'flavor_core_reservation_status_changed', 88, 'confirmed' );
+
+	// customer.created only for accounts created in this very OTP flow.
+	update_user_meta( 5001, '_flavor_just_created', 1 );
+	do_action( 'flavor_core_otp_verified', (object) array( 'ID' => 5001 ), '09351112233' );
+	do_action( 'flavor_core_otp_verified', (object) array( 'ID' => 5002 ), '09351112234' ); // No just-created meta: ignored.
+
+	do_action( 'flavor_core_loyalty_points_awarded', 5001, 10, 'order' );
+
+	$rows   = $wpdb->get_results( "SELECT event, attempt_count, response_code, status FROM wp_flavor_webhook_deliveries WHERE status = 'queued'", ARRAY_A );
+	$events = array_values( array_unique( array_column( $rows, 'event' ) ) );
+	sort( $events );
+	$expected = WebhookManager::allowed_event_names();
+	sort( $expected );
+
+	$all_queued_fresh = ! empty( $rows );
+	foreach ( $rows as $r ) {
+		$all_queued_fresh = $all_queued_fresh
+			&& 0 === (int) $r['attempt_count']
+			&& null === $r['response_code'];
+	}
+
+	$scheduled = false;
+	foreach ( $GLOBALS['_mock_cron_events'] as $ev ) {
+		if ( WebhookManager::QUEUE_HOOK === $ev['hook'] ) {
+			$scheduled = true;
+			break;
+		}
+	}
+
+	// 8 events queued (one catching OTP ignored), every one a supported event,
+	// nothing delivered synchronously, queue-drain cron scheduled.
+	return 8 === count( $rows )
+		&& $events === $expected
+		&& $all_queued_fresh
+		&& $scheduled;
+} );
+
+run_test( 'Unsupported webhook events are rejected (validation + dispatch + controller)', function () {
+	$bad = WebhookManager::validate_events( array( 'order.hacked' ) );
+	$ok1 = is_wp_error( $bad ) && 'flavor_webhook_events' === $bad->get_error_code();
+
+	$wild = WebhookManager::validate_events( array( 'order.created', '*' ) );
+	$ok2  = array( '*' ) === $wild;
+
+	$empty = WebhookManager::validate_events( array() );
+	$ok3   = is_wp_error( $empty );
+
+	// dispatch() must ignore unknown event names entirely.
+	$before = (int) $GLOBALS['wpdb']->get_var( 'SELECT COUNT(*) FROM wp_flavor_webhook_deliveries' );
+	WebhookManager::dispatch( 'totally.unknown_event', array( 'x' => 1 ) );
+	$ok4 = (int) $GLOBALS['wpdb']->get_var( 'SELECT COUNT(*) FROM wp_flavor_webhook_deliveries' ) === $before;
+
+	// Controller rejects bad event lists with 400.
+	$admin                              = new \WP_User( array( 'ID' => 9101, 'roles' => array( 'administrator' ) ) );
+	$GLOBALS['_mock_users'][9101]       = $admin;
+	wp_set_current_user( 9101 );
+	$ctrl = new WebhookController();
+	$req  = new \WP_REST_Request( 'POST', '/flavor/v2/webhooks' );
+	$req->set_json_params(
+		array(
+			'name'       => 'evil',
+			'target_url' => 'https://hooks.example.com/cb',
+			'events'     => array( 'order.hacked' ),
+		)
+	);
+	$res = $ctrl->create_webhook( $req );
+	$ok5 = 400 === $res->get_status()
+		&& 'flavor_webhook_events' === (string) ( $res->get_data()['errors'][0]['code'] ?? '' );
+	wp_set_current_user( 0 );
+
+	return $ok1 && $ok2 && $ok3 && $ok4 && $ok5;
+} );
+
+run_test( 'Webhook secrets are redacted from every GET endpoint (list + single)', function () use ( $wpdb ) {
+	$admin                        = new \WP_User( array( 'ID' => 9102, 'roles' => array( 'administrator' ) ) );
+	$GLOBALS['_mock_users'][9102] = $admin;
+	wp_set_current_user( 9102 );
+
+	$ctrl       = new WebhookController();
+	$raw_secret = 'fixture-create-secret-777';
+
+	$req = new \WP_REST_Request( 'POST', '/flavor/v2/webhooks' );
+	$req->set_json_params(
+		array(
+			'name'       => 'orders-hook',
+			'target_url' => 'https://hooks.example.com/orders',
+			'secret'     => $raw_secret,
+			'events'     => array( 'order.created', 'order.completed' ),
+		)
+	);
+	$created = $ctrl->create_webhook( $req );
+	$cdata   = $created->get_data();
+	$wh_id   = (int) ( $cdata['data']['id'] ?? 0 );
+
+	// Secret is returned exactly once: on create.
+	$create_has_secret = $raw_secret === (string) ( $cdata['data']['secret'] ?? '' );
+
+	$req_get   = new \WP_REST_Request( 'GET', "/flavor/v2/webhooks/{$wh_id}" );
+	$req_get->set_param( 'id', $wh_id );
+	$single      = $ctrl->get_webhook( $req_get );
+	$single_json = wp_json_encode( $single->get_data() );
+
+	$req_list  = new \WP_REST_Request( 'GET', '/flavor/v2/webhooks' );
+	$list        = $ctrl->get_webhooks();
+	$list_json   = wp_json_encode( $list->get_data() );
+
+	wp_set_current_user( 0 );
+
+	return 201 === $created->get_status()
+		&& $wh_id > 0
+		&& $create_has_secret
+		&& 200 === $single->get_status()
+		&& true === (bool) ( $single->get_data()['data']['secret_configured'] ?? false )
+		&& ! array_key_exists( 'secret', (array) $single->get_data()['data'] )
+		&& ! str_contains( $single_json, $raw_secret )
+		&& ! str_contains( $list_json, $raw_secret )
+		&& ! str_contains( $list_json, '"' . $raw_secret . '"' );
+} );
+
+run_test( 'Unauthorized users cannot manage webhooks (guest + customer get 403)', function () {
+	$ctrl = new WebhookController();
+	$req  = new \WP_REST_Request( 'GET', '/flavor/v2/webhooks' );
+
+	wp_set_current_user( 0 );
+	$guest = $ctrl->require_webhook_admin( $req );
+
+	$customer                        = new \WP_User( array( 'ID' => 9103, 'roles' => array( 'customer' ) ) );
+	$GLOBALS['_mock_users'][9103]    = $customer;
+	wp_set_current_user( 9103 );
+	$cust = $ctrl->require_webhook_admin( $req );
+
+	$admin                        = new \WP_User( array( 'ID' => 9104, 'roles' => array( 'administrator' ) ) );
+	$GLOBALS['_mock_users'][9104] = $admin;
+	wp_set_current_user( 9104 );
+	$adm = $ctrl->require_webhook_admin( $req );
+
+	wp_set_current_user( 0 );
+
+	return is_wp_error( $guest ) && 403 === (int) ( $guest->get_error_data()['status'] ?? 0 )
+		&& is_wp_error( $cust ) && 403 === (int) ( $cust->get_error_data()['status'] ?? 0 )
+		&& true === $adm;
+} );
+
+run_test( 'SSRF protection: localhost/private ranges/bad schemes/credentials rejected at validation and at the API', function () {
+	$reject = array(
+		'http://localhost/hook',
+		'http://127.0.0.1/hook',
+		'https://[::1]/hook',
+		'http://10.0.0.8/hook',
+		'http://172.16.10.4/hook',
+		'http://192.168.1.10/hook',
+		'http://169.254.169.254/latest/meta-data', // Cloud metadata endpoint.
+		'ftp://example.com/file',
+		'gopher://127.0.0.1/x',
+		'http://user:pass@example.com/hook',
+		'http://example.internal/hook',
+		'not-a-url',
+		'',
+	);
+	$ok = true;
+	foreach ( $reject as $url ) {
+		$ok = $ok && ! WebhookManager::is_safe_target_url( $url );
+	}
+	$ok = $ok && WebhookManager::is_safe_target_url( 'https://hooks.example.com/callback' );
+
+	// API-level: create with private URL -> 400; update to private URL -> 400.
+	$admin                        = new \WP_User( array( 'ID' => 9105, 'roles' => array( 'administrator' ) ) );
+	$GLOBALS['_mock_users'][9105] = $admin;
+	wp_set_current_user( 9105 );
+	$ctrl = new WebhookController();
+
+	$req = new \WP_REST_Request( 'POST', '/flavor/v2/webhooks' );
+	$req->set_json_params(
+		array(
+			'name'       => 'ssrf',
+			'target_url' => 'http://192.168.1.10/hook',
+			'events'     => array( '*' ),
+		)
+	);
+	$res_bad = $ctrl->create_webhook( $req );
+
+	$req2 = new \WP_REST_Request( 'POST', '/flavor/v2/webhooks' );
+	$req2->set_json_params(
+		array(
+			'name'       => 'ok-hook',
+			'target_url' => 'https://hooks.example.com/cb2',
+			'events'     => array( 'order.updated' ),
+		)
+	);
+	$res_ok = $ctrl->create_webhook( $req2 );
+	$ok_id  = (int) ( $res_ok->get_data()['data']['id'] ?? 0 );
+
+	$req3 = new \WP_REST_Request( 'PUT', "/flavor/v2/webhooks/{$ok_id}" );
+	$req3->set_param( 'id', $ok_id );
+	$req3->set_json_params( array( 'target_url' => 'http://169.254.169.254/meta' ) );
+	$res_upd = $ctrl->update_webhook( $req3 );
+
+	wp_set_current_user( 0 );
+
+	return $ok
+		&& 400 === $res_bad->get_status()
+		&& 'flavor_webhook_url' === (string) ( $res_bad->get_data()['errors'][0]['code'] ?? '' )
+		&& ( 201 === $res_ok->get_status() || 200 === $res_ok->get_status() )
+		&& $ok_id > 0
+		&& 400 === $res_upd->get_status()
+		&& 'flavor_webhook_url' === (string) ( $res_upd->get_data()['errors'][0]['code'] ?? '' );
+} );
+
+run_test( 'Queue processing delivers asynchronously, records outcomes and skips dead webhooks', function () use ( $wpdb ) {
+	// Drain whatever is queued from previous tests.
+	WebhookManager::process_queue();
+
+	$deliveries_tbl = 'wp_flavor_webhook_deliveries';
+
+	// 1. Happy path: queued events from the catch-all webhook get delivered.
+	$delivered = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$deliveries_tbl} WHERE status = 'delivered' AND response_code = 200 AND attempt_count = 1" );
+	$queued    = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$deliveries_tbl} WHERE status = 'queued'" );
+	$triggered = (int) $wpdb->get_var( "SELECT COUNT(*) FROM wp_flavor_webhooks WHERE name = 'catch-all' AND last_triggered_at IS NOT NULL" );
+
+	// 2. Legacy unsafe target stored in DB (pre-hardening data): delivery fails.
+	$wpdb->insert(
+		'wp_flavor_webhooks',
+		array(
+			'name'         => 'legacy-unsafe',
+			'target_url'   => 'http://127.0.0.1:9000/internal',
+			'secret'       => 'fixture-webhook-secret-002',
+			'events_json'  => '["order.updated"]',
+			'is_active'    => 1,
+			'failure_count' => 0,
+			'created_at'   => '2026-01-01 00:00:00',
+			'updated_at'   => '2026-01-01 00:00:00',
+		)
+	);
+	$unsafe_id = (int) $wpdb->insert_id;
+	WebhookManager::dispatch( 'order.updated', array( 'ticket_id' => 777, 'old_status' => 'new', 'new_status' => 'preparing' ) );
+	WebhookManager::process_queue();
+	$unsafe_row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$deliveries_tbl} WHERE webhook_id = %d ORDER BY id DESC LIMIT 1", $unsafe_id ), ARRAY_A );
+
+	// 3. Webhook deactivated between queueing and processing -> skipped.
+	$wpdb->insert(
+		'wp_flavor_webhooks',
+		array(
+			'name'         => 'soon-inactive',
+			'target_url'   => 'https://hooks.example.com/later',
+			'secret'       => 'fixture-webhook-secret-003',
+			'events_json'  => '["order.cancelled"]',
+			'is_active'    => 1,
+			'failure_count' => 0,
+			'created_at'   => '2026-01-01 00:00:00',
+			'updated_at'   => '2026-01-01 00:00:00',
+		)
+	);
+	$inactive_id = (int) $wpdb->insert_id;
+	WebhookManager::dispatch( 'order.cancelled', array( 'ticket_id' => 778, 'old_status' => 'new', 'new_status' => 'cancelled' ) );
+	$wpdb->update( 'wp_flavor_webhooks', array( 'is_active' => 0 ), array( 'id' => $inactive_id ) );
+	WebhookManager::process_queue();
+	$skipped_row = $wpdb->get_row( $wpdb->prepare( "SELECT status FROM {$deliveries_tbl} WHERE webhook_id = %d ORDER BY id DESC LIMIT 1", $inactive_id ), ARRAY_A );
+
+	// 4. Inactive webhooks never get queued in the first place.
+	$before = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$deliveries_tbl}" );
+	WebhookManager::dispatch( 'order.cancelled', array( 'ticket_id' => 779, 'old_status' => 'new', 'new_status' => 'cancelled' ) );
+	$queued_for_inactive = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$deliveries_tbl} WHERE webhook_id = {$inactive_id}" );
+	unset( $before );
+
+	return $delivered >= 8
+		&& 0 === $queued
+		&& $triggered >= 1
+		&& $unsafe_row
+		&& 'failed' === (string) $unsafe_row['status']
+		&& str_contains( (string) $unsafe_row['error_message'], 'SSRF' )
+		&& (int) $wpdb->get_var( "SELECT failure_count FROM wp_flavor_webhooks WHERE id = {$unsafe_id}" ) >= 1
+		&& $skipped_row
+		&& 'skipped' === (string) $skipped_row['status']
+		&& 1 === $queued_for_inactive;
+} );
+
+run_test( 'Admin test endpoint still delivers synchronously with an audit row', function () use ( $wpdb ) {
+	$admin                        = new \WP_User( array( 'ID' => 9106, 'roles' => array( 'administrator' ) ) );
+	$GLOBALS['_mock_users'][9106] = $admin;
+	wp_set_current_user( 9106 );
+
+	$ctrl = new WebhookController();
+	$req  = new \WP_REST_Request( 'POST', '/flavor/v2/webhooks' );
+	$req->set_json_params(
+		array(
+			'name'       => 'ping-target',
+			'target_url' => 'https://hooks.example.com/ping',
+			'events'     => array( 'order.created' ),
+		)
+	);
+	$created = $ctrl->create_webhook( $req );
+	$wh_id   = (int) ( $created->get_data()['data']['id'] ?? 0 );
+
+	$req_test = new \WP_REST_Request( 'POST', "/flavor/v2/webhooks/{$wh_id}/test" );
+	$req_test->set_param( 'id', $wh_id );
+	$res    = $ctrl->test_webhook( $req_test );
+	$result = (array) ( $res->get_data()['data'] ?? array() );
+
+	$audit = $wpdb->get_row(
+		$wpdb->prepare( "SELECT status, event, attempt_count FROM wp_flavor_webhook_deliveries WHERE webhook_id = %d AND event = %s ORDER BY id DESC LIMIT 1", $wh_id, 'system.ping' ),
+		ARRAY_A
+	);
+
+	wp_set_current_user( 0 );
+
+	return 200 === $res->get_status()
+		&& 'delivered' === (string) ( $result['status'] ?? '' )
+		&& 200 === (int) ( $result['status_code'] ?? 0 )
+		&& ! empty( $result['delivery_id'] )
+		&& $audit
+		&& 'delivered' === (string) $audit['status']
+		&& 1 === (int) $audit['attempt_count'];
 } );
 
 // ===========================================================================
