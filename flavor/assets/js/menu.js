@@ -5,6 +5,7 @@
 	'use strict';
 
 	var cfg = window.flavorData || {};
+	var ui = window.FlavorUI;
 	var grid = document.getElementById('flavor-menu-grid');
 	if (!grid || !cfg.hasCore) {
 		var st = document.getElementById('flavor-menu-status');
@@ -78,8 +79,9 @@
 		var normalized = Object.assign({}, item);
 		normalized.id = Number(item.id);
 		normalized.short = item.short_desc || item.short || '';
-		if (canonical) normalized.price = displayAmount(item.price);
+		if (canonical) { normalized.storagePrice = Number(item.price) || 0; normalized.price = displayAmount(item.price); }
 		if (Array.isArray(item.modifier_groups)) {
+			normalized.groups = item.modifier_groups.map(function (group) { return Object.assign({}, group, { options: (group.options || []).map(function (option) { return Object.assign({}, option, { storagePrice: Number(option.price) || 0, price: displayAmount(option.price) }); }) }); });
 			normalized.modifiers = [];
 			item.modifier_groups.forEach(function (group) {
 				(group.options || []).forEach(function (option) {
@@ -94,68 +96,40 @@
 		if (window.flavorToast) window.flavorToast(error.message, 'error');
 	}
 
+	function fa(value) { return ui ? ui.digits(value) : String(value); }
+	function safeImage(value) { try { var url = new URL(value, document.baseURI); return ['https:', 'http:'].includes(url.protocol) ? url.href : ''; } catch (ignore) { return ''; } }
+	function plain(value) { var el = document.createElement('textarea'); el.innerHTML = String(value || '').replace(/<[^>]*>/g, ''); return el.value; }
+	function smallIcon(name) { var path = name === 'clock' ? '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/>' : '<path d="M12 5v14M5 12h14"/>'; return '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">' + path + '</svg>'; }
+	var dietLabels = { vegetarian: 'گیاهی', vegan: 'وگان', gluten_free: 'بدون گلوتن', spicy: 'تند', dairy_free: 'بدون لبنیات' };
 	function card(item) {
 		var disabled = item.available === false;
-		var img = item.image
-			? '<img src="' + esc(item.image) + '" alt="' + esc(item.name) + '" loading="lazy" width="600" height="400" />'
-			: '<div class="flavor-card__ph"></div>';
-
-		var catName = (item.categories && item.categories[0] && item.categories[0].name) || '';
-
-		return (
-			'<article class="flavor-card flavor-food-card' +
-			(disabled ? ' is-unavailable' : '') +
-			'" id="item-' + esc(item.id) + '" data-id="' +
-			esc(item.id) +
-			'" data-cats="' +
-			esc((item.categories || []).map(function (c) { return c.id; }).join(',')) +
-			'"><div class="flavor-food-card__media">' +
-			img +
-			(catName ? '<span class="flavor-food-card__cat-badge">' + esc(catName) + '</span>' : '') +
-			'</div><div class="flavor-food-card__body">' +
-			'<h2 class="flavor-food-card__title">' +
-			esc(item.name) +
-			(disabled ? ' <span class="flavor-badge">ناموجود</span>' : '') +
-			'</h2>' +
-			'<p class="flavor-food-card__desc">' +
-			esc(item.short || '') +
-			'</p>' +
-			'<div class="flavor-food-card__meta">' +
-			(item.prep_time ? '<span class="flavor-food-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' + item.prep_time + ' دقیقه</span>' : '') +
-			(item.calories ? '<span class="flavor-food-card__meta-item">' + item.calories + ' کالری</span>' : '') +
-			(item.available_at && item.in_schedule === false ? '<span class="flavor-food-card__meta-item">سرو از ' + esc(item.available_at) + '</span>' : '') +
-			'</div>' +
-			'<div class="flavor-food-card__footer"><strong class="flavor-food-card__price">' +
-			(item.price_html || '') +
-			'</strong>' +
-			'<button type="button" class="flavor-btn flavor-btn--primary flavor-btn--sm" data-add="' +
-			esc(item.id) +
-			'" ' +
-			(disabled ? 'disabled' : '') +
-			'><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> ' +
-			esc((cfg.i18n && cfg.i18n.add) || 'افزودن') +
-			'</button></div></div></article>'
-		);
+		var image = safeImage(item.image);
+		var cat = item.categories && item.categories[0];
+		var name = esc(item.name);
+		var media = image ? '<img src="' + esc(image) + '" alt="' + name + '" width="600" height="400" loading="lazy" decoding="async" />' : '<span class="flavor-food-card__placeholder">بدون تصویر</span>';
+		var metadata = (item.prep_time ? '<span class="flavor-food-card__meta-item">' + smallIcon('clock') + fa(item.prep_time) + ' دقیقه آماده‌سازی</span>' : '');
+		(item.dietary || []).slice(0, 1).forEach(function (flag) { if (dietLabels[flag]) metadata += '<span class="flavor-food-card__meta-item">' + esc(dietLabels[flag]) + '</span>'; });
+		return '<article class="flavor-card flavor-food-card' + (disabled ? ' is-unavailable' : '') + '" id="item-' + esc(item.id) + '" data-id="' + esc(item.id) + '" data-cats="' + esc((item.categories || []).map(function (c) { return c.id; }).join(',')) + '">' +
+			'<div class="flavor-food-card__media"><button type="button" data-detail="' + esc(item.id) + '" aria-label="جزئیات ' + name + '">' + media + '</button>' + (cat ? '<span class="flavor-food-card__cat-badge">' + esc(cat.name) + '</span>' : '') + '</div>' +
+			'<div class="flavor-food-card__body"><h2 class="flavor-food-card__title"><button type="button" data-detail="' + esc(item.id) + '">' + name + '</button>' + (disabled ? '<span class="flavor-food-card__unavailable">فعلاً ناموجود</span>' : '') + '</h2><p class="flavor-food-card__desc">' + esc(item.short) + '</p>' +
+			'<div class="flavor-food-card__meta">' + metadata + '</div><div class="flavor-food-card__footer"><strong class="flavor-food-card__price">' + esc(plain(item.price_html)) + '</strong><button type="button" class="flavor-btn flavor-btn--primary flavor-btn--sm" data-add="' + esc(item.id) + '" aria-label="انتخاب ' + name + '"' + (disabled ? ' disabled' : '') + '>' + smallIcon('plus') + 'انتخاب غذا</button></div></div></article>';
 	}
 
 	function renderCats(cats) {
 		if (!catsEl) return;
-		var html = '<button type="button" class="is-active" data-cat="0">همه</button>';
+		var html = '<button type="button" class="is-active" data-cat="0" aria-pressed="true" aria-controls="flavor-menu-grid">همهٔ منو <span class="flavor-cats__count">' + fa(catalog.length) + '</span></button>';
 		(cats || []).forEach(function (c) {
-			html += '<button type="button" data-cat="' + esc(c.id) + '">' + esc(c.name) + '</button>';
+			var count = catalog.filter(function (dish) { return (dish.categories || []).some(function (category) { return Number(category.id) === Number(c.id); }); }).length;
+			if (count) html += '<button type="button" data-cat="' + esc(c.id) + '" aria-pressed="false" aria-controls="flavor-menu-grid">' + esc(c.name) + '<span class="flavor-cats__count">' + fa(count) + '</span></button>';
 		});
 		catsEl.innerHTML = html;
+		var nav = document.getElementById('flavor-cats-nav'); if (nav) nav.hidden = false;
 	}
-
 	function filterCat(id) {
-		grid.querySelectorAll('.flavor-card').forEach(function (el) {
-			if (!id || id === '0') {
-				el.style.display = '';
-				return;
-			}
-			var list = (el.getAttribute('data-cats') || '').split(',');
-			el.style.display = list.indexOf(String(id)) !== -1 ? '' : 'none';
-		});
+		var count = 0;
+		grid.querySelectorAll('.flavor-card').forEach(function (el) { var visible = !id || id === '0' || (el.getAttribute('data-cats') || '').split(',').includes(String(id)); el.hidden = !visible; if (visible && !el.classList.contains('is-search-hidden')) count++; });
+		if (catsEl) catsEl.querySelectorAll('button').forEach(function (button) { var selected = String(button.dataset.cat) === String(id || 0); button.classList.toggle('is-active', selected); button.setAttribute('aria-pressed', String(selected)); });
+		if (statusEl) statusEl.textContent = fa(count) + ' انتخاب نمایش داده می‌شود.';
 	}
 
 	function groupModifiers(mods) {
@@ -168,85 +142,51 @@
 
 	function livePrice() {
 		if (!current) return 0;
+		var canonical = current.storagePrice != null;
 		var extra = 0;
-		if (sheetBody) {
-			sheetBody.querySelectorAll('input:checked').forEach(function (inp) {
-				extra += parseInt(inp.getAttribute('data-price') || '0', 10);
-			});
-		}
-		return (current.price || 0) * qty + extra * qty;
+		if (sheetBody) sheetBody.querySelectorAll('input:checked').forEach(function (input) { extra += Number(input.getAttribute(canonical ? 'data-storage-price' : 'data-price')) || 0; });
+		var amount = ((canonical ? current.storagePrice : current.price) + extra) * qty;
+		return canonical ? displayAmount(amount) : amount;
 	}
-
 	function paintSheetPrice() {
 		if (!sheetAdd || !current) return;
 		var n = livePrice();
-		sheetAdd.textContent = 'افزودن به سبد · ' + n.toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || 'تومان');
+		var label = Number(n).toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || 'تومان');
+		var price = document.getElementById('flavor-sheet-price'); if (price) price.textContent = label;
+		var quantity = document.getElementById('flavor-qty'); if (quantity) quantity.textContent = fa(qty);
+		if (sheet) sheet.querySelectorAll('[data-q]').forEach(function (button) { button.disabled = (button.dataset.q === '-1' && qty <= 1) || (button.dataset.q === '1' && qty >= 20); });
+		sheetAdd.disabled = current.available === false;
+		sheetAdd.textContent = current.available === false ? 'این انتخاب فعلاً ناموجود است' : 'افزودن به سبد · ' + fa(qty) + ' عدد';
 	}
-
-	function openSheet(item) {
-		current = item;
-		qty = 1;
-		if (!sheet || !sheetBody || !sheetTitle) {
-			addItem(item, [], '', 1);
-			return;
-		}
+	function openSheet(item, trigger) {
+		if (!sheet || !sheetBody || !sheetTitle) { showError(new Error('پنل جزئیات در دسترس نیست. صفحه را دوباره باز کنید.')); return; }
+		current = item; qty = 1;
 		sheetTitle.textContent = item.name;
-		var g = groupModifiers(item.modifiers);
-		var html = '';
-		function radios(list, name, label) {
-			if (!list.length) return;
-			html += '<fieldset><legend style="font-weight:700; margin-bottom:8px;">' + esc(label) + '</legend>';
-			list.forEach(function (m, i) {
-				html +=
-					'<label style="display:flex; align-items:center; gap:8px; margin-bottom:6px;"><input type="radio" name="' +
-					name +
-					'" value="' +
-					esc(m.id) +
-					'" data-price="' +
-					esc(m.price) +
-					'" ' +
-					(m.is_default || i === 0 ? 'checked' : '') +
-					'/> ' +
-					esc(m.name) +
-					(m.price ? ' (+' + m.price.toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || 'تومان') + ')' : '') +
-					'</label>';
+		var visual = document.getElementById('flavor-sheet-visual');
+		var image = safeImage(item.image);
+		if (visual) visual.innerHTML = (image ? '<img src="' + esc(image) + '" alt="' + esc(item.name) + '" width="700" height="700" />' : '') + '<p>' + smallIcon('clock') + 'زمان آماده‌سازی برآورد است، نه زمان تضمین‌شدهٔ رسیدن سفارش.</p>';
+		var html = '<p class="flavor-sheet__description">' + esc(plain(item.description || item.short)) + '</p><div class="flavor-sheet__metadata">' + (item.prep_time ? '<span class="flavor-ui-tag">' + smallIcon('clock') + fa(item.prep_time) + ' دقیقه آماده‌سازی</span>' : '') + (item.calories ? '<span class="flavor-ui-tag">' + fa(item.calories) + ' کالری</span>' : '');
+		(item.dietary || []).forEach(function (flag) { if (dietLabels[flag]) html += '<span class="flavor-ui-tag">' + esc(dietLabels[flag]) + '</span>'; });
+		html += '</div>';
+		var labels = { size: 'اندازه و پرس', topping: 'افزودنی‌ها', cook: 'درجهٔ پخت', removal: 'حذف مخلفات' };
+		var groups = item.groups;
+		if (!groups) { var g = groupModifiers(item.modifiers); groups = Object.keys(g).map(function (type) { return { type: type, multi: type === 'topping' || type === 'removal', required: type === 'size', options: g[type] }; }); }
+		groups.forEach(function (group) {
+			var list = group.options || []; if (!list.length) return;
+			var firstDefault = list.findIndex(function (option) { return option.is_default; }); if (firstDefault < 0 && !group.multi) firstDefault = 0;
+			html += '<fieldset class="flavor-sheet__fieldset"><legend>' + esc(group.title || labels[group.type] || 'انتخاب‌ها') + (group.required ? '<span class="flavor-ui-required"> (انتخاب ضروری)</span>' : '') + '</legend><div class="flavor-sheet__options">';
+			list.forEach(function (option, index) {
+				var checked = group.multi ? !!option.is_default : index === firstDefault;
+				html += '<label class="flavor-sheet__option"><input type="' + (group.multi ? 'checkbox' : 'radio') + '" name="mod-' + esc(group.type) + '" value="' + esc(option.id) + '" data-price="' + esc(option.price || 0) + '" data-storage-price="' + esc(option.storagePrice == null ? option.price || 0 : option.storagePrice) + '"' + (checked ? ' checked' : '') + ' /><span>' + esc(option.name) + '</span><span class="flavor-sheet__option-price">' + (option.price ? '+' + Number(option.price).toLocaleString('fa-IR') + ' ' + esc((cfg.currency && cfg.currency.label) || 'تومان') : 'بدون هزینهٔ اضافه') + '</span></label>';
 			});
-			html += '</fieldset>';
-		}
-		function checks(list, label) {
-			if (!list.length) return;
-			html += '<fieldset><legend style="font-weight:700; margin-bottom:8px;">' + esc(label) + '</legend>';
-			list.forEach(function (m) {
-				html +=
-					'<label style="display:flex; align-items:center; gap:8px; margin-bottom:6px;"><input type="checkbox" value="' +
-					esc(m.id) +
-					'" data-price="' +
-					esc(m.price) +
-					'"/> ' +
-					esc(m.name) +
-					(m.price ? ' (+' + m.price.toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || 'تومان') + ')' : '') +
-					'</label>';
-			});
-			html += '</fieldset>';
-		}
-		radios(g.size, 'size', 'اندازه و پرس');
-		checks(g.topping, 'افزودنی‌ها و تاپینگ');
-		radios(g.cook, 'cook', 'درجه پخت');
-		checks(g.removal, 'حذف مخلفات');
-		html +=
-			'<label style="display:block; margin-top:14px; font-weight:700;">یادداشت سرآشپز: <input type="text" id="flavor-instr" maxlength="200" style="width:100%; padding:10px; border:1px solid var(--flavor-line); border-radius:8px; margin-top:4px;" placeholder="مثال: کم‌نمک، سس جداگانه" /></label>' +
-			'<div class="flavor-qty" style="display:flex; align-items:center; gap:16px; margin:16px 0;"><button type="button" class="flavor-btn flavor-btn--outline flavor-btn--sm" data-q="-1">−</button><span id="flavor-qty" style="font-weight:800; font-size:18px;">1</span><button type="button" class="flavor-btn flavor-btn--outline flavor-btn--sm" data-q="1">+</button></div>';
+			html += '</div></fieldset>';
+		});
+		html += '<div class="flavor-ui-field"><label for="flavor-instr">یادداشت برای آشپزخانه <span class="flavor-ui-required">(اختیاری)</span></label><textarea id="flavor-instr" maxlength="200" rows="2" placeholder="مثلاً سس جداگانه یا کم‌نمک" aria-describedby="flavor-instr-help"></textarea><small id="flavor-instr-help">حساسیت غذایی دارید؟ پیش از ثبت سفارش دربارهٔ امکان آماده‌سازی و آلودگی متقاطع هماهنگ کنید.</small></div>';
 		sheetBody.innerHTML = html;
-		sheet.hidden = false;
-		document.body.style.overflow = 'hidden';
 		paintSheetPrice();
+		if (ui) ui.openDialog(sheet, trigger); else { sheet.hidden = false; document.body.style.overflow = 'hidden'; }
 	}
-
-	function closeSheet() {
-		if (sheet) sheet.hidden = true;
-		document.body.style.overflow = '';
-		current = null;
-	}
+	function closeSheet() { if (ui) ui.closeDialog(sheet); else { if (sheet) sheet.hidden = true; document.body.style.overflow = ''; } current = null; }
 
 	function selectedIds() {
 		var ids = [];
@@ -369,14 +309,13 @@
 	}
 
 	function dishDetail(item) {
-		if (!item.has_modifiers || item.modifiers) return Promise.resolve(item);
-		return api('dishes/' + item.id).then(function (detail) { return normalizeDish(detail, true); });
+		if (item.detailLoaded) return Promise.resolve(item);
+		return api('dishes/' + item.id + '?branch_id=' + encodeURIComponent(cfg.branchId || 0)).then(function (detail) { var dish = normalizeDish(detail, true); dish.detailLoaded = true; return dish; });
 	}
 
 	var resolvedFragment = '';
 	function openFragment() {
 		// Opening a homepage product link must not silently add it to the cart.
-		if (!document.body.classList.contains('flavor-bespoke')) return;
 		var match = /^#item-(\d+)$/.exec(window.location.hash);
 		if (!match || resolvedFragment === window.location.hash) return;
 		resolvedFragment = window.location.hash;
@@ -387,52 +326,57 @@
 			if (dish.available === false) throw new Error('این انتخاب در حال حاضر موجود نیست.');
 			var target = document.getElementById('item-' + id);
 			if (target) { target.scrollIntoView({ block: 'center' }); var button = target.querySelector('[data-add]'); if (button) button.focus({ preventScroll: true }); }
-			openSheet(dish);
+			openSheet(dish, target && target.querySelector('[data-add]'));
 		}).catch(showError);
 	}
 	window.addEventListener('hashchange', openFragment);
 
 	function loadMenu() {
 		if (statusEl) statusEl.textContent = (cfg.i18n && cfg.i18n.loading) || '';
+		grid.setAttribute('aria-busy', 'true');
+		var retry = document.getElementById('flavor-menu-retry'); if (retry) retry.hidden = true;
 		api('menu?per_page=100&branch_id=' + encodeURIComponent(cfg.branchId || 0)).then(function (data) {
 			var canonical = Array.isArray(data);
 			catalog = (canonical ? data : data.items || []).map(function (dish) { return normalizeDish(dish, canonical); });
 			if (statusEl) statusEl.textContent = catalog.length ? '' : (cfg.i18n && cfg.i18n.empty) || '';
 			grid.innerHTML = catalog.map(card).join('');
+			grid.removeAttribute('aria-busy');
+			if (statusEl) statusEl.textContent = fa(catalog.length) + ' انتخاب در منو';
+			document.dispatchEvent(new CustomEvent('flavor:menu-ready'));
 			var cats = canonical ? api('categories').then(function (rows) { return rows.filter(function (cat) { return cat.count > 0; }); }) : Promise.resolve(data.categories || []);
 			cats.then(function (rows) {
 				renderCats(rows);
 				var requested = new URL(window.location.href).searchParams.get('cat');
-				if (requested) { filterCat(requested); if (catsEl) catsEl.querySelectorAll('button').forEach(function (button) { button.classList.toggle('is-active', button.dataset.cat === requested); }); }
+				if (requested && Array.from(catsEl.querySelectorAll('button')).some(function (button) { return button.dataset.cat === requested; })) filterCat(requested);
 			}).catch(showError);
 			openFragment();
 		}).catch(function (error) {
-			if (statusEl) statusEl.textContent = 'بارگذاری منو ناموفق بود؛ لطفاً دوباره تلاش کنید.';
+			grid.removeAttribute('aria-busy'); if (retry) retry.hidden = false;
+			if (statusEl) statusEl.textContent = 'بارگذاری موجودی زنده ناموفق بود؛ جزئیات منتشرشده را ببینید یا دوباره تلاش کنید.';
 			showError(error);
 		});
 	}
 
 	grid.addEventListener('click', function (e) {
-		var button = e.target.closest('[data-add]');
+		var button = e.target.closest('[data-add], [data-detail]');
 		if (!button || button.disabled) return;
-		var id = Number(button.getAttribute('data-add'));
+		var id = Number(button.getAttribute('data-add') || button.getAttribute('data-detail'));
 		var item = catalog.find(function (dish) { return dish.id === id; });
 		if (!item) return;
 		button.disabled = true;
 		dishDetail(item).then(function (dish) {
-			if (dish.modifiers && dish.modifiers.length) openSheet(dish);
-			else return addItem(dish, [], '', 1);
+			openSheet(dish, button);
 		}).catch(showError).finally(function () { button.disabled = false; });
 	});
 
 	if (sheet) {
 		sheet.addEventListener('click', function (e) {
-			if (e.target.getAttribute('data-close') === 'sheet') closeSheet();
+			if (e.target.closest('[data-close="sheet"]')) closeSheet();
 			var q = e.target.getAttribute('data-q');
 			if (q) {
 				qty = Math.max(1, Math.min(20, qty + parseInt(q, 10)));
 				var n = document.getElementById('flavor-qty');
-				if (n) n.textContent = String(qty);
+				if (n) n.textContent = fa(qty);
 				paintSheetPrice();
 			}
 		});
@@ -639,5 +583,6 @@
 			setMode(mode);
 		});
 
+	var reload = document.getElementById('flavor-menu-reload'); if (reload) reload.addEventListener('click', loadMenu);
 	loadMenu();
 })();

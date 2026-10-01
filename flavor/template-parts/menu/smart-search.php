@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || exit;
 <section class="flavor-search" id="flavor-search" data-flavor-search>
 	<form class="flavor-search__form" role="search" method="get"
 		action="<?php echo esc_url( home_url( '/' ) ); ?>" autocomplete="off">
+		<input type="hidden" name="post_type" value="product" />
 		<label class="screen-reader-text" for="flavor-search-input">
 			<?php esc_html_e( 'جست‌وجوی هوشمند در منو', 'flavor' ); ?>
 		</label>
@@ -27,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
 				id="flavor-search-input"
 				name="s"
 				class="flavor-search__input"
-				placeholder="<?php esc_attr_e( 'مثلاً: کباب کوبیده، پیتزا بدون پنیر، نوشیدنی سرد…', 'flavor' ); ?>"
+				placeholder="<?php esc_attr_e( 'نام غذا یا ترکیبات موردنظر شما…', 'flavor' ); ?>"
 				role="combobox"
 				aria-expanded="false"
 				aria-autocomplete="list"

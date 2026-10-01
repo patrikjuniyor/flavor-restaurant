@@ -7,6 +7,13 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Shared storefront UI — stage 1 / 2026-10-02
+
+- Skin-inheriting shared UI tokens with readable action/secondary text, consistent controls and inner-page typography; landing compositions remain unchanged.
+- Responsive card/list menu, sticky real category counts, server-rendered no-JS product fallback, image-led dish detail, grouped modifiers, final quantity price, keyboard/inert/focus restoration and explicit add only. Product deep links now work across every skin. Search selection opens dish details instead of unexpectedly leaving the ordering menu.
+- Added real-browser UI tests and standalone 12-skin token/enum tests; see `docs/UI-REDESIGN.md`.
+
+
 ### Catering completion and currency verification — 2026-10-02
 
 - **Catering / Mizan** — completes the twelfth importable pack: bespoke navy/ivory/brass RTL layout, three corporate service paths, 8 real WooCommerce items in 4 categories, 11 optimized local images from four newly generated illustrative photographs, editorial preparation story, collaboration process, native FAQ and contact information. Local Estedad/Vazirmatn are retained; no other demo's CSS or photographs are changed.

@@ -123,10 +123,13 @@ class Enqueue {
 
 		$payload['ajax']     = esc_url_raw( admin_url( 'admin-ajax.php' ) );
 		$payload['branchId'] = self::current_branch_id();
-		if ( Bespoke_Demos::active() && $payload['branchId'] ) {
-			$payload['defaultMode'] = Bespoke_Demos::demo()['landing']['default_mode'] ?? 'takeaway';
-			$modes = get_post_meta( $payload['branchId'], '_flavor_order_modes', true );
-			$payload['orderModes'] = is_array( $modes ) ? array_values( $modes ) : array( 'dine_in', 'takeaway', 'delivery' );
+		$presentation = UI::context();
+		$payload['ui'] = UI::settings();
+		$payload['accountUrl'] = esc_url_raw( UI::url( 'account' ) );
+		if ( $presentation['id'] ) {
+			$payload['orderModes'] = $presentation['modes'];
+			$payload['branchName'] = $presentation['name'];
+			$payload['defaultMode'] = Bespoke_Demos::active() ? ( Bespoke_Demos::demo()['landing']['default_mode'] ?? 'takeaway' ) : 'takeaway';
 		}
 
 		// Enqueue global theme script
@@ -169,7 +172,7 @@ class Enqueue {
 			wp_enqueue_script(
 				'flavor-menu',
 				FLAVOR_URI . '/assets/js/menu.js',
-				array( 'flavor-main-js' ),
+				array( 'flavor-main-js', 'flavor-ui-js' ),
 				(string) filemtime( FLAVOR_DIR . '/assets/js/menu.js' ),
 				array(
 					'in_footer' => true,
@@ -187,8 +190,8 @@ class Enqueue {
 			wp_enqueue_script(
 				'flavor-search',
 				FLAVOR_URI . '/assets/js/search.js',
-				array( 'flavor-main-js' ),
-				FLAVOR_VERSION,
+				array( 'flavor-main-js', 'flavor-ui-js' ),
+				(string) filemtime( FLAVOR_DIR . '/assets/js/search.js' ),
 				array(
 					'in_footer' => true,
 					'strategy'  => 'defer',

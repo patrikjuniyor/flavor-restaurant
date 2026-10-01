@@ -101,7 +101,7 @@
 		}
 
 		return fetch(url, options)
-			.then(function (response) { return response.json(); })
+			.then(function (response) { return response.json().then(function (json) { if (!response.ok || json.success === false) throw new Error('Search request failed'); return json; }); })
 			.then(function (json) {
 				// admin-ajax wraps the payload in {success, data}.
 				return json && json.data && json.success !== undefined ? json.data : json;
@@ -218,6 +218,7 @@
 			}
 
 			list.innerHTML = '';
+			filterGrid([]);
 			status.innerHTML = empty;
 			input.setAttribute('aria-expanded', 'true');
 			panel.hidden = false;
@@ -261,6 +262,7 @@
 	function close() {
 		panel.hidden = true;
 		input.setAttribute('aria-expanded', 'false');
+		input.removeAttribute('aria-activedescendant');
 		active = -1;
 	}
 
@@ -315,6 +317,8 @@
 			close();
 			resetGrid();
 			lastQuery = '';
+			if (controller) controller.abort();
+			busy(false);
 			return;
 		}
 
@@ -342,8 +346,9 @@
 		if (!item) {
 			return;
 		}
-		if (item.permalink) {
-			window.location.href = item.permalink;
+		if (cfg.menuUrl && item.id) {
+			close();
+			window.location.href = cfg.menuUrl + '#item-' + Number(item.id);
 			return;
 		}
 		var card = grid && grid.querySelector('.flavor-card[data-id="' + item.id + '"]');
@@ -368,6 +373,7 @@
 	input.addEventListener('keydown', function (event) {
 		if (event.key === 'Escape') {
 			close();
+			input.removeAttribute('aria-activedescendant');
 			return;
 		}
 		if (panel.hidden || !items.length) {

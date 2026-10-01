@@ -52,32 +52,6 @@
 		});
 	}
 
-	// The product sheet is opened asynchronously by the real menu script.
-	var productSheet = document.getElementById('flavor-sheet');
-	if (productSheet) {
-		var sheetReturnFocus = null;
-		function sheetItems() {
-			return Array.from(productSheet.querySelectorAll('a[href], button:not([disabled]), input:not([disabled])')).filter(function (el) { return el.getClientRects().length; });
-		}
-		new MutationObserver(function () {
-			if (!productSheet.hidden) {
-				sheetReturnFocus = document.activeElement;
-				var first = sheetItems()[0];
-				if (first) first.focus({ preventScroll: true });
-			} else if (sheetReturnFocus) {
-				sheetReturnFocus.focus({ preventScroll: true });
-				sheetReturnFocus = null;
-			}
-		}).observe(productSheet, { attributes: true, attributeFilter: ['hidden'] });
-		document.addEventListener('keydown', function (event) {
-			if (event.key !== 'Tab' || productSheet.hidden) return;
-			var items = sheetItems();
-			if (!items.length) return;
-			if (event.shiftKey && document.activeElement === items[0]) { event.preventDefault(); items[items.length - 1].focus(); }
-			else if (!event.shiftKey && document.activeElement === items[items.length - 1]) { event.preventDefault(); items[0].focus(); }
-		});
-	}
-
 	// The base script owns drawer visibility; this adds focus, inert and trapping.
 	var drawer = document.getElementById('flavor-mobile-drawer');
 	var toggle = document.getElementById('flavor-drawer-toggle');
