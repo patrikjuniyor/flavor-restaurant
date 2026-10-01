@@ -131,6 +131,29 @@ try {
   await page.keyboard.press('Escape');
   report.checks.push('real cart quantity/remove and server line totals','cart and checkout desktop/mobile accessibility','live delivery quote separated from current cart total','intercepted payment error preserves cart/fields and re-enables retry','empty cart and dialog focus/Escape');
  }
+ if(stage>=3){
+  await page.setViewportSize({width:390,height:844});
+  await page.locator('#flavor-drawer-toggle').click();
+  assert.equal(await page.locator('#flavor-mobile-drawer').getAttribute('aria-hidden'),'false');
+  assert.equal(await page.locator('#flavor-drawer-close').evaluate(el=>el===document.activeElement),true);
+  await page.keyboard.press('Shift+Tab');
+  assert.equal(await page.locator('#flavor-mobile-drawer a').last().evaluate(el=>el===document.activeElement),true);
+  await page.keyboard.press('Escape');
+  assert.equal(await page.locator('#flavor-drawer-toggle').evaluate(el=>el===document.activeElement),true);
+  assert.equal(await page.locator('#main').getAttribute('inert'),null);
+  await page.locator('#flavor-mobile-cart-btn').click();
+  assert.equal(await page.locator('#flavor-cart-panel').isVisible(),true);
+  await page.keyboard.press('Escape');
+  assert.equal(await page.locator('#flavor-mobile-cart-btn').evaluate(el=>el===document.activeElement),true);
+  assert.equal(await page.locator('#flavor-cart-toggle').getAttribute('aria-expanded'),'false');
+  await page.goto(new URL('menu/?open_cart=1',base).href,{waitUntil:'networkidle'});
+  assert.equal(await page.locator('#flavor-cart-panel').isVisible(),true);
+  await page.keyboard.press('Escape');
+  await page.evaluate(()=>window.flavorToast('پیام آزمایشی قابل خواندن','success'));
+  await audit('accessible-feedback');
+  await page.locator('.flavor-ui-toast').waitFor({state:'detached'});
+  report.checks.push('shared mobile drawer focus/inert/trap across skins','mobile cart and open-cart links','readable reduced-motion feedback');
+ }
  report.checks.push('responsive menu/grid/list','category filtering and pressed states','real product detail and live quantity price','no implicit cart add','modal Escape/focus/inert restoration','deep link and explicit cart persistence');
  const noJs = await browser.newContext({ javaScriptEnabled:false,viewport:{width:390,height:844} });
  const staticPage=await noJs.newPage();

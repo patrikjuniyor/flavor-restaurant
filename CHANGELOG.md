@@ -7,6 +7,13 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Shared storefront UI — stage 3 / 2026-10-02
+
+- One capability-aware mobile navigation for every skin; genuine cart badges/open-cart links, an intact catering planning action and a no-JS native cart fallback. Dining/reservation links require real active tables, not just a sample restaurant name.
+- Accessible shared mobile drawer with inert background, focus trapping/restoration, Escape/viewport close and readable reduced-motion feedback.
+- Validate published branch and active branch-owned QR table for display/preselection; reject invalid QR, pickup-only table claims and draft branch context. Guarded local context regression added.
+
+
 ### Shared storefront UI — stage 2 / 2026-10-02
 
 - Image-led, accessible two-step cart/checkout drawer; explicit quantity/remove, server subtotal/discount/tax/fees, mode-specific fields and payment options, delivery eligibility and a separately labeled delivery quote. Failed submission preserves the cart and customer fields; double submission is blocked while pending. Native WooCommerce forms inherit the skin without gateway-template replacement.

@@ -52,40 +52,4 @@
 		});
 	}
 
-	// The base script owns drawer visibility; this adds focus, inert and trapping.
-	var drawer = document.getElementById('flavor-mobile-drawer');
-	var toggle = document.getElementById('flavor-drawer-toggle');
-	var close = document.getElementById('flavor-drawer-close');
-	var overlay = document.getElementById('flavor-drawer-overlay');
-	if (drawer && toggle && close) {
-		var restoreFocus = null;
-		function focusable() {
-			return Array.from(drawer.querySelectorAll('a[href], button:not([disabled]), input:not([disabled])')).filter(function (el) { return el.getClientRects().length; });
-		}
-		function onClose() {
-			drawer.setAttribute('inert', '');
-			if (restoreFocus) restoreFocus.focus({ preventScroll: true });
-			restoreFocus = null;
-		}
-		toggle.addEventListener('click', function () {
-			restoreFocus = document.activeElement;
-			drawer.removeAttribute('inert');
-			close.focus({ preventScroll: true });
-		});
-		close.addEventListener('click', onClose);
-		if (overlay) overlay.addEventListener('click', onClose);
-		drawer.querySelectorAll('a').forEach(function (link) { link.addEventListener('click', function () { close.click(); }); });
-		document.addEventListener('keydown', function (event) {
-			if (event.key === 'Escape' && restoreFocus) onClose();
-			if (event.key !== 'Tab' || drawer.getAttribute('aria-hidden') !== 'false') return;
-			var items = focusable();
-			var first = items[0];
-			var last = items[items.length - 1];
-			if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-			else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
-		});
-		window.matchMedia('(min-width: 992px)').addEventListener('change', function (event) {
-			if (event.matches && drawer.getAttribute('aria-hidden') === 'false') close.click();
-		});
-	}
 })();

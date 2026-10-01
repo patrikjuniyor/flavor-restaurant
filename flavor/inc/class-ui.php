@@ -35,6 +35,7 @@ class UI {
 	}
 
 	public static function body_class( array $classes ): array {
+		if ( ! in_array( get_theme_mod( 'flavor_header_sticky', 'yes' ), array( 'yes', '1', 1, true ), true ) ) { $classes[] = 'flavor-header-not-sticky'; }
 		if ( self::inner() ) {
 			$classes[] = 'flavor-ui';
 			foreach ( self::settings() as $key => $value ) {
@@ -49,6 +50,9 @@ class UI {
 	}
 
 	public static function assets(): void {
+		wp_enqueue_style( 'flavor-ui-navigation', FLAVOR_URI . '/assets/css/ui-navigation.css', array( 'flavor-main' ), (string) filemtime( FLAVOR_DIR . '/assets/css/ui-navigation.css' ) );
+		wp_add_inline_style( 'flavor-ui-navigation', self::variables() );
+		wp_enqueue_script( 'flavor-ui-navigation-js', FLAVOR_URI . '/assets/js/navigation.js', array( 'flavor-main-js' ), (string) filemtime( FLAVOR_DIR . '/assets/js/navigation.js' ), array( 'in_footer' => true, 'strategy' => 'defer' ) );
 		if ( ! self::inner() ) { return; }
 		$deps = array( 'flavor-main', 'flavor-marketing' );
 		$skin = 'flavor-skin-' . sanitize_html_class( Design::current_skin() );
@@ -82,7 +86,7 @@ class UI {
 		$t = Design::resolved();
 		$button_ink = self::contrast( $t['primary'], '#ffffff' ) >= self::contrast( $t['primary'], '#000000' ) ? '#ffffff' : '#000000';
 		$muted = self::contrast( $t['muted'], $t['surface'] ) >= 4.5 && self::contrast( $t['muted'], $t['bg'] ) >= 4.5 ? $t['muted'] : $t['ink'];
-		return '.flavor-ui{--ui-action-ink:' . $button_ink . ';--ui-muted:' . $muted . ';}';
+		return 'body.flavor-theme{--ui-action-ink:' . $button_ink . ';--ui-muted:' . $muted . ';}';
 	}
 
 	/** Only published branches and validated active tables can be advertised. */
@@ -90,17 +94,33 @@ class UI {
 		$id = Enqueue::current_branch_id();
 		$branch = $id ? get_post( $id ) : null;
 		if ( ! $branch || 'publish' !== $branch->post_status || 'flavor_branch' !== $branch->post_type ) {
-			return array( 'id' => 0, 'name' => '', 'modes' => array(), 'table' => '' );
+			return array( 'id' => 0, 'name' => '', 'modes' => array(), 'table' => '', 'table_id' => 0 );
 		}
 		$modes = get_post_meta( $id, '_flavor_order_modes', true );
 		$modes = is_array( $modes ) ? array_values( array_intersect( $modes, array( 'dine_in', 'takeaway', 'delivery' ) ) ) : array( 'dine_in', 'takeaway', 'delivery' );
 		$ctx = class_exists( \FlavorCore\Order\OrderModes::class ) ? \FlavorCore\Order\OrderModes::get() : array();
-		$table_label = '';
+		$table_label = ''; $table_id = 0;
 		if ( ! empty( $ctx['table_id'] ) && class_exists( \FlavorCore\Table\TableRepository::class ) ) {
 			$table = \FlavorCore\Table\TableRepository::find( (int) $ctx['table_id'] );
-			if ( $table && ! empty( $table['is_active'] ) && (int) $table['branch_id'] === $id ) { $table_label = (string) $table['table_number']; }
+			if ( $table && ! empty( $table['is_active'] ) && (int) $table['branch_id'] === $id ) { $table_label = (string) $table['table_number']; $table_id = (int) $table['id']; }
 		}
-		return array( 'id' => $id, 'name' => $branch->post_title, 'modes' => $modes, 'table' => $table_label );
+		if ( ! $table_id && ! empty( $ctx['table_token'] ) && is_string( $ctx['table_token'] ) && class_exists( \FlavorCore\Table\TableRepository::class ) ) {
+			$table = \FlavorCore\Table\TableRepository::find_by_token( $ctx['table_token'] );
+			if ( $table && ! empty( $table['is_active'] ) && (int) $table['branch_id'] === $id ) { $table_label = (string) $table['table_number']; $table_id = (int) $table['id']; }
+		}
+		if ( ! in_array( 'dine_in', $modes, true ) ) { $table_label = ''; $table_id = 0; }
+		return array( 'id' => $id, 'name' => $branch->post_title, 'modes' => $modes, 'table' => $table_label, 'table_id' => $table_id );
+	}
+
+	public static function reservation_available( int $branch_id = 0 ): bool {
+		$context = self::context(); $id = $branch_id ?: $context['id'];
+		$modes = $id ? get_post_meta( $id, '_flavor_order_modes', true ) : array();
+		if ( ! $id || ! is_array( $modes ) || ! in_array( 'dine_in', $modes, true ) || ! class_exists( \FlavorCore\Table\TableRepository::class ) ) { return false; }
+		foreach ( \FlavorCore\Table\TableRepository::for_branch( $id ) as $table ) { if ( ! empty( $table['is_active'] ) ) { return true; } }
+		return false;
+	}
+	public static function account_available(): bool {
+		return function_exists( 'wc_get_page_id' ) && wc_get_page_id( 'myaccount' ) > 0 && 'publish' === get_post_status( wc_get_page_id( 'myaccount' ) );
 	}
 
 	public static function mode_labels(): array {
@@ -110,7 +130,8 @@ class UI {
 	public static function url( string $page ): string {
 		if ( 'account' === $page && function_exists( 'wc_get_page_permalink' ) ) {
 			$url = wc_get_page_permalink( 'myaccount' );
-			if ( $url ) { return $url; }
+			if ( self::account_available() && $url ) { return $url; }
+			return Bespoke_Demos::page_url( 'contact' );
 		}
 		return Bespoke_Demos::page_url( $page );
 	}

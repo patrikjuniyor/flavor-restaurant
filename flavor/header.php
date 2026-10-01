@@ -82,7 +82,7 @@ $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 
 <!-- Mobile Navigation Drawer -->
 <div class="flavor-drawer-overlay" id="flavor-drawer-overlay" aria-hidden="true"></div>
-<aside class="flavor-drawer" id="flavor-mobile-drawer" aria-label="<?php esc_attr_e( 'منوی موبایل', 'flavor' ); ?>" aria-hidden="true">
+<aside class="flavor-drawer" id="flavor-mobile-drawer" role="dialog" aria-modal="true" inert aria-label="<?php esc_attr_e( 'منوی موبایل', 'flavor' ); ?>" aria-hidden="true">
 	<div class="flavor-drawer__header">
 		<span class="flavor-drawer__title"><?php flavor_site_name(); ?></span>
 		<button type="button" class="flavor-drawer__close" id="flavor-drawer-close" aria-label="<?php esc_attr_e( 'بستن منو', 'flavor' ); ?>">✕</button>

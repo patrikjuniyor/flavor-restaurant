@@ -537,6 +537,7 @@
 			if (cfg.branchId) ctx.branch_id = Number(cfg.branchId);
 			if (ctx.order_mode) mode = ctx.order_mode;
 			drawCart(pair[1]);
+			if (new URL(location.href).searchParams.get('open_cart') === '1') openCart(document.getElementById('flavor-cart-toggle'));
 			var me = pair[2] || {};
 			if (me.logged_in) {
 				var n = document.getElementById('flavor-name');

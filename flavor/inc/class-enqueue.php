@@ -129,7 +129,10 @@ class Enqueue {
 		if ( $presentation['id'] ) {
 			$payload['orderModes'] = $presentation['modes'];
 			$payload['branchName'] = $presentation['name'];
+			$payload['tableId'] = $presentation['table_id'];
+			$payload['tableLabel'] = $presentation['table'];
 			$payload['defaultMode'] = Bespoke_Demos::active() ? ( Bespoke_Demos::demo()['landing']['default_mode'] ?? 'takeaway' ) : 'takeaway';
+			if ( $presentation['table_id'] ) { $payload['defaultMode'] = 'dine_in'; }
 		}
 
 		// Enqueue global theme script
@@ -137,7 +140,7 @@ class Enqueue {
 			'flavor-main-js',
 			FLAVOR_URI . '/assets/js/main.js',
 			array(),
-			FLAVOR_VERSION,
+			(string) filemtime( FLAVOR_DIR . '/assets/js/main.js' ),
 			array(
 				'in_footer' => true,
 				'strategy'  => 'defer',
@@ -237,7 +240,7 @@ class Enqueue {
 	public static function current_branch_id(): int {
 		if ( class_exists( \FlavorCore\Order\OrderModes::class ) ) {
 			$ctx = \FlavorCore\Order\OrderModes::get();
-			if ( is_array( $ctx ) && ! empty( $ctx['branch_id'] ) && 'flavor_branch' === get_post_type( (int) $ctx['branch_id'] ) ) {
+			if ( is_array( $ctx ) && ! empty( $ctx['branch_id'] ) && 'flavor_branch' === get_post_type( (int) $ctx['branch_id'] ) && 'publish' === get_post_status( (int) $ctx['branch_id'] ) ) {
 				return (int) $ctx['branch_id'];
 			}
 		}
