@@ -135,6 +135,13 @@ class Enqueue {
 			if ( $presentation['table_id'] ) { $payload['defaultMode'] = 'dine_in'; }
 		}
 
+		if ( is_page_template( 'page-templates/template-reservation.php' ) ) {
+			$payload['reservationBranchIds'] = array();
+			foreach ( get_posts( array( 'post_type' => 'flavor_branch', 'post_status' => 'publish', 'posts_per_page' => 50, 'fields' => 'ids' ) ) as $branch_id ) {
+				if ( UI::reservation_available( (int) $branch_id ) ) { $payload['reservationBranchIds'][] = (int) $branch_id; }
+			}
+		}
+
 		// Enqueue global theme script
 		wp_enqueue_script(
 			'flavor-main-js',
@@ -224,7 +231,7 @@ class Enqueue {
 			wp_enqueue_script(
 				'flavor-reservation',
 				FLAVOR_URI . '/assets/js/reservation.js',
-				array( 'flavor-main-js' ),
+				array( 'flavor-main-js', 'flavor-ui-js' ),
 				(string) filemtime( FLAVOR_DIR . '/assets/js/reservation.js' ),
 				array(
 					'in_footer' => true,

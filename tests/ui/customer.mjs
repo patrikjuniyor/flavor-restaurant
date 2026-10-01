@@ -31,6 +31,7 @@ export async function testCustomer(page,context,report,base,output){
  await Promise.all([page.waitForURL('**/my-account/'),page.locator('[data-auth-verify]').click()]);
  await page.waitForSelector('.flavor-account-dashboard',{timeout:20000});
  await page.unroute('**/wp-json/flavor/v1/auth/otp/request');
+ assert.ok((await context.cookies()).some(cookie=>cookie.name.startsWith('wordpress_logged_in')&&cookie.httpOnly),'Expected an HttpOnly WP login cookie.');
  assert.equal(await page.evaluate(()=>Array.from({length:localStorage.length},(_,i)=>localStorage.key(i)).some(key=>/token|auth|password/i.test(key))),false,'Theme persisted login credentials.');
  await page.setViewportSize({width:1440,height:1000});
  await audit('customer-dashboard-desktop');

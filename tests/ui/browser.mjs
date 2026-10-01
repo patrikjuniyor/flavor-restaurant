@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { testCustomer } from './customer.mjs';
+import { testPages } from './pages.mjs';
 const base = process.env.SITE_URL || 'http://localhost:8080/';
 const stage = Number(process.env.UI_STAGE || 1);
 const output = path.resolve(process.env.QA_OUTPUT_DIR || '../../.cache/ui-qa');
@@ -156,6 +157,7 @@ try {
   report.checks.push('shared mobile drawer focus/inert/trap across skins','mobile cart and open-cart links','readable reduced-motion feedback');
  }
  if(stage>=4)await testCustomer(page,context,report,base,output);
+ if(stage>=5)await testPages(page,report,base,output);
  report.checks.push('responsive menu/grid/list','category filtering and pressed states','real product detail and live quantity price','no implicit cart add','modal Escape/focus/inert restoration','deep link and explicit cart persistence');
  const noJs = await browser.newContext({ javaScriptEnabled:false,viewport:{width:390,height:844} });
  const staticPage=await noJs.newPage();

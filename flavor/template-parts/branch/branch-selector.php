@@ -1,34 +1,16 @@
 <?php
-/**
- * Branch list from CPT.
- *
- * @package Flavor
- */
-
+/** Published branch directory. Hours, map and service links are not invented. @package Flavor */
 defined( 'ABSPATH' ) || exit;
-
-$branches = get_posts(
-	array(
-		'post_type'      => 'flavor_branch',
-		'post_status'    => 'publish',
-		'posts_per_page' => 20,
-	)
-);
+$posts = get_posts( array( 'post_type' => 'flavor_branch', 'post_status' => 'publish', 'posts_per_page' => 50, 'orderby' => 'title', 'order' => 'ASC' ) );
+$cities = array(); foreach ( $posts as $branch_post ) { $city = (string) get_post_meta( $branch_post->ID, '_flavor_city', true ); if ( $city ) { $cities[ $city ] = $city; } }
 ?>
-<div class="flavor-container">
-	<h1><?php esc_html_e( 'شعبه‌ها', 'flavor' ); ?></h1>
-	<?php if ( empty( $branches ) ) : ?>
-		<p><?php esc_html_e( 'هنوز شعبه‌ای منتشر نشده است.', 'flavor' ); ?></p>
-	<?php else : ?>
-		<ul class="flavor-branch-list">
-			<?php foreach ( $branches as $branch ) : ?>
-				<li>
-					<a href="<?php echo esc_url( get_permalink( $branch ) ); ?>">
-						<?php echo esc_html( get_the_title( $branch ) ); ?>
-					</a>
-					<span><?php echo esc_html( (string) get_post_meta( $branch->ID, '_flavor_city', true ) ); ?></span>
-				</li>
-			<?php endforeach; ?>
-		</ul>
-	<?php endif; ?>
+<div class="flavor-container flavor-branches-page">
+ <?php \Flavor\UI_Pages::breadcrumb( __( 'شعبه‌ها', 'flavor' ) ); ?>
+ <div class="flavor-ui-page-head"><div><span class="flavor-ui-overline"><?php esc_html_e( 'انتخاب نزدیک‌تر، اطلاعات روشن‌تر', 'flavor' ); ?></span><h1><?php esc_html_e( 'شعبه‌ها و راه‌های دسترسی', 'flavor' ); ?></h1><p><?php esc_html_e( 'روش‌های سفارش، نشانی و اطلاعات تماس هر شعبه را ببینید. پیش از مراجعه، ساعات و شرایط همان روز را هماهنگ کنید.', 'flavor' ); ?></p></div></div>
+ <?php if ( ! $posts ) : ?><div class="flavor-ui-empty"><?php \Flavor\UI::icon( 'pin', 40 ); ?><h2><?php esc_html_e( 'هنوز شعبه‌ای منتشر نشده است.', 'flavor' ); ?></h2><p><?php esc_html_e( 'اطلاعات شعبه پس از انتشار اینجا نمایش داده می‌شود.', 'flavor' ); ?></p><a class="flavor-btn flavor-btn--outline" href="<?php echo esc_url( \Flavor\UI::url( 'contact' ) ); ?>"><?php esc_html_e( 'راه‌های تماس', 'flavor' ); ?></a></div><?php else : ?>
+ <div class="flavor-branch-filters" data-ui-branch-filters hidden><div class="flavor-ui-field"><label class="screen-reader-text" for="flavor-branch-query"><?php esc_html_e( 'جست‌وجوی نام یا شهر شعبه', 'flavor' ); ?></label><input type="search" id="flavor-branch-query" placeholder="<?php esc_attr_e( 'نام شعبه یا شهر…', 'flavor' ); ?>" /></div><div role="group" aria-label="<?php esc_attr_e( 'فیلتر شهر شعبه', 'flavor' ); ?>"><button type="button" class="flavor-ui-tag" data-ui-city="" aria-pressed="true"><?php esc_html_e( 'همهٔ شهرها', 'flavor' ); ?></button><?php foreach ( $cities as $city ) : ?><button type="button" class="flavor-ui-tag" data-ui-city="<?php echo esc_attr( $city ); ?>" aria-pressed="false"><?php echo esc_html( $city ); ?></button><?php endforeach; ?></div></div>
+ <p class="flavor-ui-note" data-ui-branch-status role="status"></p>
+ <div class="flavor-branch-grid"><?php foreach ( $posts as $branch_post ) : $b = \Flavor\UI_Pages::branch( $branch_post->ID ); ?>
+ <article class="flavor-branch-card flavor-ui-panel" data-ui-branch data-city="<?php echo esc_attr( $b['city'] ); ?>" data-name="<?php echo esc_attr( $b['name'] ); ?>"><div class="flavor-branch-card__head"><span class="flavor-branch-card__icon" aria-hidden="true"><?php \Flavor\UI::icon( 'pin', 27 ); ?></span><div><span class="flavor-ui-overline"><?php echo esc_html( $b['city'] ); ?></span><h2><a href="<?php echo esc_url( get_permalink( $branch_post ) ); ?>"><?php echo esc_html( $b['name'] ); ?></a></h2></div></div><div class="flavor-branch-card__modes"><?php foreach ( $b['modes'] as $mode ) : ?><span class="flavor-ui-tag"><?php echo esc_html( \Flavor\UI::mode_labels()[ $mode ] ); ?></span><?php endforeach; ?></div><p class="flavor-branch-card__address"><?php echo esc_html( $b['address'] ?: __( 'نشانی هنوز ثبت نشده است؛ تلفنی هماهنگ کنید.', 'flavor' ) ); ?></p><?php if ( $b['phone'] ) : ?><a class="flavor-branch-card__phone" href="<?php echo esc_url( \Flavor\UI_Pages::tel( $b['phone'] ) ); ?>"><?php \Flavor\UI::icon( 'phone', 17 ); ?><bdi><?php echo esc_html( \Flavor\Bespoke_Demos::digits( $b['phone'] ) ); ?></bdi></a><?php endif; ?><div class="flavor-branch-card__actions"><a class="flavor-btn flavor-btn--primary" href="<?php echo esc_url( add_query_arg( 'flavor_branch', $b['id'], \Flavor\UI::url( 'menu' ) ) ); ?>"><?php esc_html_e( 'منو و انتخاب این شعبه', 'flavor' ); ?></a><?php if ( \Flavor\UI::reservation_available( $b['id'] ) ) : ?><a class="flavor-ui-text-link" href="<?php echo esc_url( add_query_arg( 'flavor_branch', $b['id'], \Flavor\UI::url( 'reservation' ) ) ); ?>"><?php esc_html_e( 'بررسی رزرو میز', 'flavor' ); ?></a><?php endif; ?></div></article>
+ <?php endforeach; ?></div><?php endif; ?>
 </div>

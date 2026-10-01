@@ -1,0 +1,7 @@
+<?php
+/** Useful server-side search fallback, including products without JavaScript. @package Flavor */
+defined( 'ABSPATH' ) || exit;
+get_header();
+?>
+<div class="flavor-container flavor-search-page"><?php \Flavor\UI_Pages::breadcrumb( __( 'جست‌وجو', 'flavor' ) ); ?><div class="flavor-ui-page-head"><div><span class="flavor-ui-overline"><?php esc_html_e( 'یک انتخاب دیگر پیدا کنیم', 'flavor' ); ?></span><h1><?php echo esc_html( sprintf( __( 'نتایج برای «%s»', 'flavor' ), get_search_query() ) ); ?></h1></div></div><?php if ( have_posts() ) : ?><div class="flavor-search-page__results"><?php while ( have_posts() ) : the_post(); ?><article class="flavor-ui-panel"><h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2><p><?php echo esc_html( wp_trim_words( wp_strip_all_tags( get_the_excerpt() ), 32 ) ); ?></p><a class="flavor-ui-text-link" href="<?php the_permalink(); ?>"><?php esc_html_e( 'دیدن جزئیات', 'flavor' ); ?><?php \Flavor\UI::icon( 'arrow', 16 ); ?></a></article><?php endwhile; ?></div><div class="flavor-ui-pagination"><?php the_posts_pagination(); ?></div><?php else : ?><div class="flavor-ui-empty"><?php \Flavor\UI::icon( 'menu', 38 ); ?><h2><?php esc_html_e( 'چیزی با این عبارت پیدا نشد.', 'flavor' ); ?></h2><p><?php esc_html_e( 'عبارت کوتاه‌تر یا نام دیگری امتحان کنید؛ منوی کامل هم در دسترس است.', 'flavor' ); ?></p><a class="flavor-btn flavor-btn--primary" href="<?php echo esc_url( \Flavor\UI::url( 'menu' ) ); ?>"><?php esc_html_e( 'دیدن منوی کامل', 'flavor' ); ?></a></div><?php endif; ?></div>
+<?php get_footer(); ?>

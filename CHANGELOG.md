@@ -7,6 +7,13 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Shared storefront UI — stage 5 / 2026-10-02
+
+- Editorial about/contact pages, published branch directory/detail, real-hours/contact/map links, branch filtering, three-section Jalali reservation form, native no-JS search and useful HTTP-404 state. Custom/builder templates remain respected.
+- Reservation presents only genuinely eligible branches and real table sections; capacity/date/time selection remains server-backed and booking requires explicit submission. No made-up open status or geographic pin.
+- Fixed numeric storefront branch query/CPT query-var collision on page URLs, preserving existing branch-selector and actual branch permalinks. Page/layout/accessibility and real calendar/slot checks added without a booking submission.
+
+
 ### Shared storefront UI — stage 4 / 2026-10-02
 
 - Core-backed phone sign-in with explicit request/verify, feedback, resend cooldown, cookie-session nonce refresh and no persisted Bearer/refresh credentials; native Woo login/account forms remain available.

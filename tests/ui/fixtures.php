@@ -10,6 +10,7 @@ $dir = dirname( __DIR__, 2 ) . '/.cache/ui-qa'; wp_mkdir_p( $dir ); $file = $dir
 if ( file_exists( $file ) ) {
  $old = json_decode( file_get_contents( $file ), true );
  foreach ( $old['orders'] ?? array() as $id ) { $order = wc_get_order( $id ); if ( $order && '1' === $order->get_meta( '_flavor_ui_qa' ) ) { global $wpdb; $wpdb->delete( \FlavorCore\Database\Schema::table( 'flavor_kitchen_tickets' ), array( 'order_id' => $id ) ); $order->delete( true ); } }
+ foreach ( $old['branches'] ?? array() as $id ) { if ( '1' === get_post_meta( $id, '_flavor_ui_qa', true ) ) { foreach ( \FlavorCore\Table\TableRepository::for_branch( $id ) as $table ) { \FlavorCore\Table\TableRepository::delete( $table['id'] ); } global $wpdb; $wpdb->delete( \FlavorCore\Database\Schema::table( 'flavor_branch_hours' ), array( 'branch_id' => $id ) ); wp_delete_post( $id, true ); } }
  require_once ABSPATH . 'wp-admin/includes/user.php';
  foreach ( $old['users'] ?? array() as $id ) { if ( '1' === get_user_meta( $id, '_flavor_ui_qa', true ) ) { global $wpdb; $wpdb->delete( \FlavorCore\Database\Schema::table( 'flavor_loyalty_ledger' ), array( 'customer_id' => $id ) ); wp_delete_user( $id ); } }
  unlink( $file );
@@ -47,7 +48,10 @@ $wpdb->insert( \FlavorCore\Database\Schema::table( 'flavor_otp_codes' ), array( 
 $page = get_page_by_path( 'tracking' );
 if ( ! $page ) { $page_id = wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_name' => 'tracking', 'post_title' => 'پیگیری سفارش', 'meta_input' => array( '_wp_page_template' => 'page-templates/template-order-tracking.php', '_flavor_ui_qa_page' => '1' ) ) ); }
 else { $page_id = $page->ID; }
-$fixture = array( 'users' => $user_ids, 'orders' => $ids, 'username' => get_userdata( $user_ids[0] )->user_login, 'password' => $password, 'mobile' => $mobile, 'code' => $code, 'guest_token' => $guest_token, 'guest_order_key' => $guest_order->get_order_key(), 'tracking_page' => $page_id );
+$qa_branch = wp_insert_post( array( 'post_type' => 'flavor_branch', 'post_status' => 'publish', 'post_title' => 'شعبهٔ آزمایشی رابط — اصفهان', 'meta_input' => array( '_flavor_ui_qa' => '1', '_flavor_city' => 'اصفهان', '_flavor_address' => 'نشانی آزمایشی، نه کسب‌وکار واقعی', '_flavor_phone' => '۰۳۱۳۲۲۲۱۱۰۰', '_flavor_order_modes' => array( 'dine_in', 'takeaway' ) ) ) );
+\FlavorCore\Table\TableRepository::bulk_create( $qa_branch, 1, 4, 4 );
+for ( $day = 0; $day < 7; $day++ ) { $wpdb->insert( \FlavorCore\Database\Schema::table( 'flavor_branch_hours' ), array( 'branch_id' => $qa_branch, 'day_of_week' => $day, 'mode' => 'all', 'open_time' => '10:00:00', 'close_time' => '22:00:00', 'is_closed' => 0 ) ); }
+$fixture = array( 'branches' => array( $qa_branch ), 'users' => $user_ids, 'orders' => $ids, 'username' => get_userdata( $user_ids[0] )->user_login, 'password' => $password, 'mobile' => $mobile, 'code' => $code, 'guest_token' => $guest_token, 'guest_order_key' => $guest_order->get_order_key(), 'tracking_page' => $page_id );
 // Runtime-only test credentials, in a git-ignored/snapshot-excluded directory.
 file_put_contents( $file, wp_json_encode( $fixture, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ) );
 echo 'Disposable UI fixtures ready. No checkout, payment or SMS request performed.' . PHP_EOL;

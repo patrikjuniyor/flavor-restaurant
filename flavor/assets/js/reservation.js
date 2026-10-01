@@ -5,7 +5,10 @@
 	'use strict';
 	var root = document.getElementById('flavor-res');
 	var cfg = window.flavorData || {};
-	if (!root || !cfg.hasCore) return;
+	if (!root || !cfg.hasCore || !document.getElementById('flavor-res-form')) return;
+	var ui = window.FlavorUI;
+	function digits(value) { return ui ? ui.digits(value) : String(value); }
+	var calendarRequest = 0;
 
 	var jy = 0;
 	var jm = 0;
@@ -38,12 +41,14 @@
 
 	var slotsRequest = 0;
 	function loadCal() {
+		var requestId = ++calendarRequest;
 		var q = 'calendar?jy=' + jy + '&jm=' + jm;
 		api(q).then(function (cal) {
+			if (requestId !== calendarRequest) return;
 			jy = cal.jy;
 			jm = cal.jm;
 			var title = document.getElementById('flavor-cal-title');
-			if (title) title.textContent = cal.month + ' ' + cal.jy;
+			if (title) title.textContent = cal.month + ' ' + digits(cal.jy);
 			var week = document.getElementById('flavor-cal-week');
 			if (week) week.innerHTML = (cal.weekdays || []).map(function (w) { return '<span>' + esc(w) + '</span>'; }).join('');
 			var grid = document.getElementById('flavor-cal-grid');
@@ -61,11 +66,11 @@
 					'" ' +
 					(d.past ? 'disabled' : '') +
 					'>' +
-					d.jd +
+					digits(d.jd) +
 					'</button>';
 			});
 			grid.innerHTML = html;
-			grid.querySelectorAll('[data-g]').forEach(function (button) { button.setAttribute('aria-pressed', String(button.dataset.g === selectedDate)); });
+			grid.querySelectorAll('[data-g]').forEach(function (button) { button.setAttribute('aria-pressed', String(button.dataset.g === selectedDate)); button.setAttribute('aria-label', button.textContent + ' ' + cal.month + ' ' + digits(cal.jy)); });
 		}).catch(reportError);
 	}
 
@@ -76,6 +81,7 @@
 		var host = document.getElementById('flavor-res-slots');
 		if (!selectedDate || !host) return;
 		selectedTime = '';
+		var selected = document.getElementById('flavor-res-selection'); if (selected) selected.textContent = 'روز انتخاب شد؛ یک ساعت دارای ظرفیت انتخاب کنید.';
 		var requestId = ++slotsRequest;
 		host.setAttribute('aria-busy', 'true');
 		host.textContent = 'در حال بررسی ظرفیت…';
@@ -115,15 +121,22 @@
 		});
 	}
 
+	function loadSections() {
+		var branch = document.getElementById('flavor-res-branch');
+		return api('branches/' + encodeURIComponent(branch.value) + '/tables').then(function (tables) {
+			var select = document.getElementById('flavor-res-section'); var previous = select.value;
+			var sections = Array.from(new Set((tables || []).map(function (table) { return table.section; }).filter(Boolean)));
+			var labels = { indoor:'سالن', outdoor:'فضای باز', window:'کنار پنجره', bar:'بار' };
+			select.innerHTML = '<option value="">هر بخشِ دارای ظرفیت</option>' + sections.map(function (section) { return '<option value="' + esc(section) + '">' + esc(labels[section] || section) + '</option>'; }).join('');
+			if (sections.includes(previous)) select.value = previous;
+		});
+	}
 	api('branches').then(function (list) {
-		var sel = document.getElementById('flavor-res-branch');
-		if (!sel) return;
-		sel.innerHTML = (list || [])
-			.map(function (b) {
-				return '<option value="' + esc(b.id) + '">' + esc(b.name) + '</option>';
-			})
-			.join('');
-		if (cfg.branchId) sel.value = String(cfg.branchId);
+		var select = document.getElementById('flavor-res-branch'); if (!select) return;
+		var eligible = (list || []).filter(function (branch) { return (cfg.reservationBranchIds || []).includes(Number(branch.id)); });
+		select.innerHTML = eligible.map(function (branch) { return '<option value="' + esc(branch.id) + '">' + esc(branch.name) + '</option>'; }).join('');
+		if (eligible.some(function (branch) { return Number(branch.id) === Number(cfg.branchId); })) select.value = String(cfg.branchId);
+		loadSections().catch(reportError);
 	}).catch(reportError);
 
 	api('calendar').then(function (cal) {
@@ -141,6 +154,7 @@
 				jm = 12;
 				jy -= 1;
 			}
+			selectedDate = ''; selectedTime = ''; document.getElementById('flavor-res-slots').textContent = '';
 			loadCal();
 		});
 	}
@@ -151,6 +165,7 @@
 				jm = 1;
 				jy += 1;
 			}
+			selectedDate = ''; selectedTime = ''; document.getElementById('flavor-res-slots').textContent = '';
 			loadCal();
 		});
 	}
@@ -176,6 +191,7 @@
 			var b = e.target.closest('[data-t]');
 			if (!b || b.disabled) return;
 			selectedTime = b.getAttribute('data-t');
+			var chosen = document.getElementById('flavor-res-selection'); if (chosen) chosen.textContent = 'ساعت انتخاب‌شده: ' + digits(selectedTime) + '؛ هنوز رزروی ارسال نشده است.';
 			slots.querySelectorAll('.flavor-slot').forEach(function (x) {
 				x.classList.toggle('is-active', x === b);
 				x.setAttribute('aria-pressed', String(x === b));
@@ -183,18 +199,21 @@
 		});
 	}
 
-	['flavor-res-party', 'flavor-res-section', 'flavor-res-branch'].forEach(function (id) {
+	['flavor-res-party', 'flavor-res-section'].forEach(function (id) {
 		var el = document.getElementById(id);
 		if (el) el.addEventListener('change', loadSlots);
 	});
 
+	var branchControl = document.getElementById('flavor-res-branch'); if (branchControl) branchControl.addEventListener('change', function () { selectedTime = ''; loadSections().then(loadSlots).catch(reportError); });
+
 	var form = document.getElementById('flavor-res-form');
 	if (form) {
+		form.hidden = false;
 		form.addEventListener('submit', function (e) {
 			e.preventDefault();
 			var err = document.getElementById('flavor-res-err');
 			var ok = document.getElementById('flavor-res-ok');
-			if (err) err.hidden = true;
+			if (err) err.hidden = true; if (ok) ok.hidden = true;
 			if (!selectedDate || !selectedTime) {
 				if (err) {
 					err.hidden = false;
@@ -222,7 +241,9 @@
 				.then(function (res) {
 					if (ok) {
 						ok.hidden = false;
-						ok.textContent = 'رزرو ثبت شد (' + (res.jalali_label || '') + ' ساعت ' + res.time + '). وضعیت: ' + res.status;
+						var statuses = { confirmed:'تأیید شده', pending:'در انتظار تأیید', cancelled:'لغوشده' };
+						ok.textContent = 'درخواست ثبت شد (' + (res.jalali_label || '') + ' ساعت ' + digits(res.time) + '). وضعیت: ' + (statuses[res.status] || res.status);
+						ok.focus({ preventScroll:true });
 					}
 				})
 				.catch(function (ex) {
