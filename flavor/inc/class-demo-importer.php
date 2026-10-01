@@ -109,6 +109,25 @@ class Demo_Importer {
 	public static function import( array $demo ): void {
 		self::cleanup();
 
+		// Reset only demo-owned overrides when selecting a new pack. This code
+		// never runs on a theme update or a normal page request.
+		$previous_keys = (array) get_option( 'flavor_demo_theme_mod_keys', array() );
+		if ( ! $previous_keys && function_exists( 'flavor_demo_catalog' ) ) {
+			$previous = flavor_demo_catalog()[ get_option( 'flavor_active_demo', '' ) ] ?? array();
+			$previous_keys = array_keys( $previous['theme_mods'] ?? array() );
+		}
+		foreach ( $previous_keys as $key ) {
+			if ( 0 === strpos( (string) $key, 'flavor_' ) ) { remove_theme_mod( $key ); }
+		}
+		foreach ( (array) get_theme_mods() as $key => $value ) {
+			if ( 0 === strpos( (string) $key, 'flavor_landing_' ) ) { remove_theme_mod( $key ); }
+		}
+		remove_theme_mod( 'flavor_hero_image' );
+		if ( ! empty( $demo['landing'] ) ) {
+			set_theme_mod( 'flavor_featured_enable', 'yes' );
+			set_theme_mod( 'flavor_hours_enable', 'yes' );
+		}
+
 		$tokens = Design::tokens( $demo['slug'] );
 		set_theme_mod( 'flavor_skin', $demo['slug'] );
 		foreach ( $tokens as $k => $v ) {
@@ -123,12 +142,17 @@ class Demo_Importer {
 		}
 		set_theme_mod( 'flavor_hero_title', $demo['hero_title'] );
 		set_theme_mod( 'flavor_hero_text', $demo['hero_text'] );
-		set_theme_mod( 'flavor_hero_cta', __( 'مشاهده منو', 'flavor' ) );
+		set_theme_mod( 'flavor_hero_cta', $demo['theme_mods']['flavor_hero_cta'] ?? __( 'مشاهده منو', 'flavor' ) );
 		set_theme_mod( 'flavor_about', $demo['about'] );
 		update_option( 'blogname', $demo['site_title'] );
 		update_option( 'blogdescription', $demo['tagline'] );
 
 		$hero_id = self::sideload_hero( $demo['slug'] );
+		if ( $hero_id && ! empty( $demo['landing'] ) ) {
+			// Keep the square art direction: the legacy 16:9 hero size crops it.
+			set_theme_mod( 'flavor_hero_image', wp_get_attachment_image_url( $hero_id, 'full' ) );
+		}
+		update_option( 'flavor_demo_theme_mod_keys', array_keys( $demo['theme_mods'] ?? array() ), false );
 
 		$pages = array(
 			'home'        => array( 'title' => $demo['site_title'], 'template' => '' ),
@@ -175,7 +199,7 @@ class Demo_Importer {
 			update_option( 'page_on_front', $ids['home'] );
 		}
 
-		self::build_menu( $ids );
+		self::build_menu( $ids, $demo['navigation'] ?? array() );
 
 		if ( defined( 'FLAVOR_CORE_VERSION' ) && function_exists( 'wc_get_product' ) ) {
 			self::import_commerce( $demo, $hero_id );
@@ -273,6 +297,9 @@ class Demo_Importer {
 	 * @param array<string, mixed> $demo Demo.
 	 */
 	private static function home_blocks( array $demo, int $hero_id ): string {
+		// These packs are rendered once by front-page.php. Leave the editor
+		// empty so bespoke sections are not followed by a second block hero.
+		if ( ! empty( $demo['landing'] ) ) { return ''; }
 		$url = $hero_id ? wp_get_attachment_image_url( $hero_id, 'flavor-hero' ) : '';
 		$quotes = '';
 		foreach ( $demo['testimonials'] as $t ) {
@@ -288,7 +315,7 @@ class Demo_Importer {
 	 *
 	 * @param array<string, int> $ids Page ids.
 	 */
-	private static function build_menu( array $ids ): void {
+	private static function build_menu( array $ids, array $navigation = array() ): void {
 		$name = 'Flavor Primary';
 		$mid  = wp_create_nav_menu( $name );
 		if ( is_wp_error( $mid ) ) {
@@ -302,7 +329,21 @@ class Demo_Importer {
 		if ( ! $mid || is_wp_error( $mid ) ) {
 			return;
 		}
-		foreach ( array( 'home', 'menu', 'reservation', 'about', 'contact' ) as $key ) {
+		// Custom anchor items do not disappear when old demo pages are deleted.
+		// Rebuild only the importer's own named menu, never the site's other menus.
+		foreach ( wp_get_nav_menu_items( (int) $mid ) ?: array() as $old_item ) {
+			wp_delete_post( (int) $old_item->ID, true );
+		}
+		foreach ( $navigation as $link ) {
+			if ( ! preg_match( '/^#[a-z][a-z0-9-]*$/', $link['anchor'] ?? '' ) ) { continue; }
+			wp_update_nav_menu_item( (int) $mid, 0, array(
+				'menu-item-title' => sanitize_text_field( $link['label'] ),
+				'menu-item-type' => 'custom',
+				'menu-item-url' => home_url( '/' ) . $link['anchor'],
+				'menu-item-status' => 'publish',
+			) );
+		}
+		foreach ( $navigation ? array() : array( 'home', 'menu', 'reservation', 'about', 'contact' ) as $key ) {
 			if ( empty( $ids[ $key ] ) ) {
 				continue;
 			}
@@ -332,6 +373,7 @@ class Demo_Importer {
 	private static function import_commerce( array $demo, int $hero_id ): void {
 		$term_ids           = array();
 		$category_image_ids = array();
+		$asset_image_ids    = array();
 		foreach ( $demo['categories'] as $label => $slug ) {
 			$term = term_exists( $slug, 'product_cat' );
 			if ( ! $term ) {
@@ -346,18 +388,20 @@ class Demo_Importer {
 					$image_id = self::sideload_demo_asset( (string) $demo['slug'], $image_file );
 					if ( $image_id ) {
 						$category_image_ids[ $slug ] = $image_id;
+						$asset_image_ids[ $image_file ] = $image_id;
 						update_term_meta( $term_id, 'thumbnail_id', $image_id );
 					}
 				}
 			}
 		}
 
-		foreach ( $demo['items'] as $row ) {
+		foreach ( $demo['items'] as $index => $row ) {
 			$post_id = wp_insert_post(
 				array(
 					'post_type'    => 'product',
 					'post_status'  => 'publish',
 					'post_title'   => $row['name'],
+					'menu_order'   => (int) $index + 1,
 					'post_excerpt' => $row['description'],
 					'post_content' => $row['description'],
 					'meta_input'   => array( '_flavor_demo' => $demo['slug'] ),
@@ -375,6 +419,8 @@ class Demo_Importer {
 			update_post_meta( $post_id, '_virtual', 'yes' );
 			update_post_meta( $post_id, '_flavor_prep_time', (int) ( $row['prep'] ?? 15 ) );
 			update_post_meta( $post_id, '_flavor_dietary', $row['dietary'] ?? array() );
+			if ( isset( $row['allergens'] ) ) { update_post_meta( $post_id, '_flavor_allergens', array_map( 'sanitize_key', (array) $row['allergens'] ) ); }
+			if ( isset( $row['calories'] ) ) { update_post_meta( $post_id, '_flavor_calories', absint( $row['calories'] ) ); }
 			update_post_meta( $post_id, '_flavor_schedule', $row['schedule'] ?? array() );
 			$mods = array();
 			foreach ( $row['modifiers'] ?? array() as $i => $m ) {
@@ -388,8 +434,23 @@ class Demo_Importer {
 			}
 			update_post_meta( $post_id, '_flavor_modifiers', $mods );
 			$product_image_id = $category_image_ids[ $row['category'] ?? '' ] ?? $hero_id;
+			if ( ! empty( $row['image'] ) && is_string( $row['image'] ) ) {
+				if ( ! isset( $asset_image_ids[ $row['image'] ] ) ) {
+					$asset_image_ids[ $row['image'] ] = self::sideload_demo_asset( (string) $demo['slug'], $row['image'] );
+				}
+				$product_image_id = $asset_image_ids[ $row['image'] ] ?: $product_image_id;
+			}
 			if ( $product_image_id ) {
 				set_post_thumbnail( $post_id, $product_image_id );
+			}
+			// Sync WooCommerce's lookup tables through its CRUD data store.
+			$product = wc_get_product( $post_id );
+			if ( $product ) {
+				$product->set_regular_price( (string) $row['price'] );
+				$product->set_price( (string) $row['price'] );
+				$product->set_stock_status( 'instock' );
+				$product->set_virtual( true );
+				$product->save();
 			}
 		}
 
@@ -408,13 +469,16 @@ class Demo_Importer {
 					'_flavor_address'     => $demo['address'],
 					'_flavor_timezone'    => 'Asia/Tehran',
 					'_flavor_is_default'  => '1',
-					'_flavor_order_modes' => array( 'dine_in', 'takeaway', 'delivery' ),
+					'_flavor_order_modes' => $demo['order_modes'] ?? array( 'dine_in', 'takeaway', 'delivery' ),
 				),
 			)
 		);
 
 		if ( $branch_id && ! is_wp_error( $branch_id ) && class_exists( '\\FlavorCore\\Table\\TableRepository' ) ) {
-			\FlavorCore\Table\TableRepository::bulk_create( (int) $branch_id, 1, 8, 4 );
+			$table_count = max( 0, min( 100, (int) ( $demo['tables'] ?? 8 ) ) );
+			if ( $table_count > 0 ) {
+				\FlavorCore\Table\TableRepository::bulk_create( (int) $branch_id, 1, $table_count, 4 );
+			}
 			if ( class_exists( '\\FlavorCore\\Support\\Settings' ) ) {
 				\FlavorCore\Support\Settings::update( array( 'default_branch_id' => (int) $branch_id ) );
 			}

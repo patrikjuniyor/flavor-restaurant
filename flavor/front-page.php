@@ -9,6 +9,12 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 
+// Opt-in bespoke packs have their own composition; the seven legacy demos
+// continue to use the original modular homepage below.
+if ( \Flavor\Bespoke_Demos::active() ) {
+	get_template_part( 'template-parts/demos/' . \Flavor\Design::current_skin() );
+} else {
+
 // 1. Hero Section
 get_template_part( 'template-parts/marketing/hero' );
 
@@ -38,6 +44,8 @@ get_template_part( 'template-parts/marketing/testimonials' );
 
 // 10. Working Hours & Location Details
 get_template_part( 'template-parts/marketing/hours' );
+
+}
 
 // 11. Page Content (for Elementor / Gutenberg Custom Blocks)
 if ( have_posts() ) {

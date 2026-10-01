@@ -13,6 +13,7 @@ define( 'FLAVOR_URI', get_template_directory_uri() );
 
 require_once FLAVOR_DIR . '/inc/class-theme-setup.php';
 require_once FLAVOR_DIR . '/inc/class-design.php';
+require_once FLAVOR_DIR . '/inc/class-bespoke-demos.php';
 require_once FLAVOR_DIR . '/inc/class-customizer.php';
 require_once FLAVOR_DIR . '/inc/class-onboarding.php';
 require_once FLAVOR_DIR . '/inc/class-enqueue.php';
@@ -24,6 +25,7 @@ require_once FLAVOR_DIR . '/inc/class-builder.php';
 require_once FLAVOR_DIR . '/inc/template-tags.php';
 
 Flavor\Theme_Setup::init();
+Flavor\Bespoke_Demos::init();
 Flavor\Customizer::init();
 Flavor\Onboarding::init();
 Flavor\Enqueue::init();

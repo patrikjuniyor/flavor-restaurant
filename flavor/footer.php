@@ -7,6 +7,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
+if ( \Flavor\Bespoke_Demos::active() ) {
+	get_template_part( 'template-parts/demos/footer' );
+	return;
+}
+
 $about   = get_theme_mod( 'flavor_about', '' );
 $phone   = get_theme_mod( 'flavor_phone', '02188001234' );
 $address = get_theme_mod( 'flavor_address', 'تهران، خیابان ولیعصر، بالاتر از پارک‌وی' );

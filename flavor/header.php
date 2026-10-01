@@ -7,6 +7,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
+if ( \Flavor\Bespoke_Demos::active() ) {
+	get_template_part( 'template-parts/demos/header' );
+	return;
+}
+
 $topbar = get_theme_mod( 'flavor_header_topbar', '' );
 $layout = get_theme_mod( 'flavor_header_layout', 'default' );
 $phone  = get_theme_mod( 'flavor_phone', '02188001234' );

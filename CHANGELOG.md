@@ -7,6 +7,13 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Demo design — 2026-10-01
+
+- **Juice Bar / Limo** — bespoke botanical/citrus RTL landing page, 8 WooCommerce products, 4 illustrated categories, 6 new optimized local images, category filtering, brand story, native FAQ, service-specific contact/footer and accessible mobile navigation. Estedad + Vazirmatn stay local; the seven previously completed demo compositions are preserved.
+- **Demo installation** — additive standalone packs, per-product image imports with asset reuse, WooCommerce CRUD synchronization, service-mode/table configuration, cleanup of stale demo overrides and anchor navigation, and no duplicate block hero on bespoke homepages.
+- **Menu integration fix** — web menu now accepts both the current REST success envelope and legacy raw responses, loads canonical dish/modifier details, converts storage/display currency correctly and resolves bespoke product deep links without silently adding to the cart. API routes are unchanged. Added safe guest-cart token bridging, visible errors and cache-busted menu assets.
+- **Verification** — standalone catalog validation, guarded disposable-WP repeated-import tests and Playwright/axe browser smoke tests; setup and results in `docs/DEMO-REDESIGN.md`.
+
 ### Security
 
 - **Android: release builds could no longer be debug-signed** — `build.gradle` previously attached `signingConfigs.debug` to the release build type, making Play uploads either fail or (worse) ship the shared debug key; release now requires `FLAVOR_UPLOAD_*` environment variables (CI secrets) or a git-ignored `keystore.properties`, enforced at task-graph execution time with a loud `GradleException`, and store credentials (`*.keystore`, `*.jks`, `.p12`, `.mobileprovision`, `keystore.properties`) are banned via `.gitignore`

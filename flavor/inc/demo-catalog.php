@@ -358,5 +358,17 @@ function flavor_demo_catalog(): array {
 				flavor_demo_item( 'لاته گل‌محمدی و هل', 'اسپرسو، شیر مخملی، گلاب و هل سبز', 125000, 'drinks', array( 'prep' => 8 ) ),
 			),
 		),
-	);
+	) + flavor_bespoke_catalog();
+}
+
+/** Additional one-click packs, each kept in a reviewable standalone file. */
+function flavor_bespoke_catalog(): array {
+	$packs = array();
+	foreach ( array( 'juice-bar', 'dark-luxe', 'minimal-clean', 'cloud-kitchen', 'catering' ) as $slug ) {
+		$file = __DIR__ . '/demo-packs/' . $slug . '.php';
+		if ( is_readable( $file ) ) {
+			$packs[ $slug ] = require $file;
+		}
+	}
+	return $packs;
 }

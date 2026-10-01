@@ -39,19 +39,59 @@
 	function headers(json) {
 		var h = { 'X-WP-Nonce': cfg.nonce || '' };
 		if (json) h['Content-Type'] = 'application/json';
+		try {
+			var token = sessionStorage.getItem('flavorCartToken');
+			if (token) h['X-Cart-Token'] = token;
+		} catch (ignore) { /* Cookies still support guests when storage is blocked. */ }
 		return h;
 	}
 
 	function api(path, opt) {
-		return fetch(cfg.rest + path, Object.assign({ credentials: 'same-origin' }, opt || {})).then(function (r) {
+		var options = Object.assign({ credentials: 'same-origin' }, opt || {});
+		options.headers = Object.assign({}, headers(false), options.headers || {});
+		return fetch(cfg.rest + path, options).then(function (r) {
 			return r.json().then(function (j) {
-				if (!r.ok) {
-					var msg = (j && (j.message || (j.data && j.data.message))) || r.statusText;
+				if (!r.ok || (j && j.success === false)) {
+					var error = j && j.errors && j.errors[0];
+					var msg = (error && error.message) || (j && (j.message || (j.data && j.data.message))) || r.statusText;
 					throw new Error(msg);
 				}
-				return j;
+				// Core 1.4 uses an envelope; retained v1 store routes are raw.
+				var data = j && j.success === true ? j.data : j;
+				if (data && data.cart_token) {
+					try { sessionStorage.setItem('flavorCartToken', data.cart_token); } catch (ignore) {}
+				}
+				return data;
 			});
 		});
+	}
+
+	function displayAmount(amount) {
+		var money = cfg.currency || { storage: 'irr', display: 'irt' };
+		var value = Number(amount) || 0;
+		if (money.storage === 'irr' && money.display === 'irt') return Math.floor(value / 10);
+		if (money.storage === 'irt' && money.display === 'irr') return value * 10;
+		return value;
+	}
+
+	function normalizeDish(item, canonical) {
+		var normalized = Object.assign({}, item);
+		normalized.id = Number(item.id);
+		normalized.short = item.short_desc || item.short || '';
+		if (canonical) normalized.price = displayAmount(item.price);
+		if (Array.isArray(item.modifier_groups)) {
+			normalized.modifiers = [];
+			item.modifier_groups.forEach(function (group) {
+				(group.options || []).forEach(function (option) {
+					normalized.modifiers.push(Object.assign({}, option, { type: group.type, price: displayAmount(option.price) }));
+				});
+			});
+		}
+		return normalized;
+	}
+
+	function showError(error) {
+		if (window.flavorToast) window.flavorToast(error.message, 'error');
 	}
 
 	function card(item) {
@@ -65,7 +105,7 @@
 		return (
 			'<article class="flavor-card flavor-food-card' +
 			(disabled ? ' is-unavailable' : '') +
-			'" data-id="' +
+			'" id="item-' + esc(item.id) + '" data-id="' +
 			esc(item.id) +
 			'" data-cats="' +
 			esc((item.categories || []).map(function (c) { return c.id; }).join(',')) +
@@ -140,7 +180,7 @@
 	function paintSheetPrice() {
 		if (!sheetAdd || !current) return;
 		var n = livePrice();
-		sheetAdd.textContent = 'افزودن به سبد · ' + n.toLocaleString('fa-IR') + ' تومان';
+		sheetAdd.textContent = 'افزودن به سبد · ' + n.toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || 'تومان');
 	}
 
 	function openSheet(item) {
@@ -168,7 +208,7 @@
 					(m.is_default || i === 0 ? 'checked' : '') +
 					'/> ' +
 					esc(m.name) +
-					(m.price ? ' (+' + m.price.toLocaleString('fa-IR') + ' تومان)' : '') +
+					(m.price ? ' (+' + m.price.toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || 'تومان') + ')' : '') +
 					'</label>';
 			});
 			html += '</fieldset>';
@@ -184,7 +224,7 @@
 					esc(m.price) +
 					'"/> ' +
 					esc(m.name) +
-					(m.price ? ' (+' + m.price.toLocaleString('fa-IR') + ' تومان)' : '') +
+					(m.price ? ' (+' + m.price.toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || 'تومان') + ')' : '') +
 					'</label>';
 			});
 			html += '</fieldset>';
@@ -325,24 +365,61 @@
 		});
 	}
 
+	function dishDetail(item) {
+		if (!item.has_modifiers || item.modifiers) return Promise.resolve(item);
+		return api('dishes/' + item.id).then(function (detail) { return normalizeDish(detail, true); });
+	}
+
+	var resolvedFragment = '';
+	function openFragment() {
+		// Opening a homepage product link must not silently add it to the cart.
+		if (!document.body.classList.contains('flavor-bespoke')) return;
+		var match = /^#item-(\d+)$/.exec(window.location.hash);
+		if (!match || resolvedFragment === window.location.hash) return;
+		resolvedFragment = window.location.hash;
+		var id = Number(match[1]);
+		var item = catalog.find(function (dish) { return dish.id === id; });
+		var detail = item ? dishDetail(item) : api('dishes/' + id).then(function (dish) { return normalizeDish(dish, true); });
+		detail.then(function (dish) {
+			if (dish.available === false) throw new Error('این انتخاب در حال حاضر موجود نیست.');
+			var target = document.getElementById('item-' + id);
+			if (target) { target.scrollIntoView({ block: 'center' }); var button = target.querySelector('[data-add]'); if (button) button.focus({ preventScroll: true }); }
+			openSheet(dish);
+		}).catch(showError);
+	}
+	window.addEventListener('hashchange', openFragment);
+
 	function loadMenu() {
 		if (statusEl) statusEl.textContent = (cfg.i18n && cfg.i18n.loading) || '';
-		api('menu').then(function (data) {
-			catalog = data.items || [];
+		api('menu?per_page=100&branch_id=' + encodeURIComponent(cfg.branchId || 0)).then(function (data) {
+			var canonical = Array.isArray(data);
+			catalog = (canonical ? data : data.items || []).map(function (dish) { return normalizeDish(dish, canonical); });
 			if (statusEl) statusEl.textContent = catalog.length ? '' : (cfg.i18n && cfg.i18n.empty) || '';
 			grid.innerHTML = catalog.map(card).join('');
-			renderCats(data.categories || []);
+			var cats = canonical ? api('categories').then(function (rows) { return rows.filter(function (cat) { return cat.count > 0; }); }) : Promise.resolve(data.categories || []);
+			cats.then(function (rows) {
+				renderCats(rows);
+				var requested = new URL(window.location.href).searchParams.get('cat');
+				if (requested) { filterCat(requested); if (catsEl) catsEl.querySelectorAll('button').forEach(function (button) { button.classList.toggle('is-active', button.dataset.cat === requested); }); }
+			}).catch(showError);
+			openFragment();
+		}).catch(function (error) {
+			if (statusEl) statusEl.textContent = 'بارگذاری منو ناموفق بود؛ لطفاً دوباره تلاش کنید.';
+			showError(error);
 		});
 	}
 
 	grid.addEventListener('click', function (e) {
-		var b = e.target.closest('[data-add]');
-		if (!b) return;
-		var id = parseInt(b.getAttribute('data-add'), 10);
-		var item = catalog.filter(function (x) { return x.id === id; })[0];
+		var button = e.target.closest('[data-add]');
+		if (!button || button.disabled) return;
+		var id = Number(button.getAttribute('data-add'));
+		var item = catalog.find(function (dish) { return dish.id === id; });
 		if (!item) return;
-		if (item.modifiers && item.modifiers.length) openSheet(item);
-		else addItem(item, [], '', 1);
+		button.disabled = true;
+		dishDetail(item).then(function (dish) {
+			if (dish.modifiers && dish.modifiers.length) openSheet(dish);
+			else return addItem(dish, [], '', 1);
+		}).catch(showError).finally(function () { button.disabled = false; });
 	});
 
 	if (sheet) {
@@ -362,7 +439,8 @@
 		sheetAdd.addEventListener('click', function () {
 			if (!current) return;
 			var instr = document.getElementById('flavor-instr');
-			addItem(current, selectedIds(), instr ? instr.value : '', qty).then(closeSheet);
+			sheetAdd.disabled = true;
+			addItem(current, selectedIds(), instr ? instr.value : '', qty).then(closeSheet).catch(showError).finally(function () { sheetAdd.disabled = false; });
 		});
 	}
 

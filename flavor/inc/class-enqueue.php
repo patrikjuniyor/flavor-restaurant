@@ -32,7 +32,7 @@ class Enqueue {
 		echo '<link rel="preload" as="font" type="font/woff2" href="' . esc_url( $href ) . '" crossorigin />' . "\n";
 
 		$skin = Design::current_skin();
-		if ( in_array( $skin, array( 'persian-traditional', 'luxury-dining', 'fast-food', 'cafe-bistro', 'pizza-italian', 'bakery-pastry' ), true ) ) {
+		if ( Bespoke_Demos::active() || in_array( $skin, array( 'persian-traditional', 'luxury-dining', 'fast-food', 'cafe-bistro', 'pizza-italian', 'bakery-pastry' ), true ) ) {
 			$display_font = FLAVOR_URI . '/assets/fonts/estedad/Estedad-Variable.woff2';
 			echo '<link rel="preload" as="font" type="font/woff2" href="' . esc_url( $display_font ) . '" crossorigin />' . "\n";
 		}
@@ -78,6 +78,15 @@ class Enqueue {
 		$skin_file  = '/assets/css/skins/' . sanitize_file_name( $skin ) . '.css';
 		$skin_path  = FLAVOR_DIR . $skin_file;
 		$skin_deps  = is_rtl() ? array( 'flavor-marketing', 'flavor-rtl' ) : array( 'flavor-marketing' );
+		if ( Bespoke_Demos::active() ) {
+			wp_enqueue_style(
+				'flavor-bespoke',
+				FLAVOR_URI . '/assets/css/bespoke-demos.css',
+				$skin_deps,
+				(string) filemtime( FLAVOR_DIR . '/assets/css/bespoke-demos.css' )
+			);
+			$skin_deps[] = 'flavor-bespoke';
+		}
 		if ( is_readable( $skin_path ) ) {
 			wp_enqueue_style(
 				'flavor-skin-' . sanitize_html_class( $skin ),
@@ -104,6 +113,14 @@ class Enqueue {
 			),
 		);
 
+		if ( class_exists( '\\FlavorCore\\WooCommerce\\Currency' ) ) {
+			$payload['currency'] = array(
+				'storage' => \FlavorCore\WooCommerce\Currency::storage_unit(),
+				'display' => \FlavorCore\WooCommerce\Currency::display_unit(),
+				'label'   => \FlavorCore\WooCommerce\Currency::display_label(),
+			);
+		}
+
 		$payload['ajax']     = esc_url_raw( admin_url( 'admin-ajax.php' ) );
 		$payload['branchId'] = self::current_branch_id();
 
@@ -120,13 +137,23 @@ class Enqueue {
 		);
 		wp_localize_script( 'flavor-main-js', 'flavorData', $payload );
 
+		if ( Bespoke_Demos::active() ) {
+			wp_enqueue_script(
+				'flavor-bespoke-js',
+				FLAVOR_URI . '/assets/js/bespoke-demos.js',
+				array( 'flavor-main-js' ),
+				(string) filemtime( FLAVOR_DIR . '/assets/js/bespoke-demos.js' ),
+				array( 'in_footer' => true, 'strategy' => 'defer' )
+			);
+		}
+
 		$is_menu = is_page_template( 'page-templates/template-menu.php' );
 		if ( $is_menu ) {
 			wp_enqueue_script(
 				'flavor-menu',
 				FLAVOR_URI . '/assets/js/menu.js',
 				array( 'flavor-main-js' ),
-				FLAVOR_VERSION,
+				(string) filemtime( FLAVOR_DIR . '/assets/js/menu.js' ),
 				array(
 					'in_footer' => true,
 					'strategy'  => 'defer',
