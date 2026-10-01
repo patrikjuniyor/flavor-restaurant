@@ -437,51 +437,6 @@
 	});
 	document.querySelectorAll('#flavor-modes [data-mode]').forEach(function (button) { button.addEventListener('click', function () { setMode(button.dataset.mode); }); });
 
-	var otpSend = document.getElementById('flavor-otp-send');
-	var otpCode = document.getElementById('flavor-otp-code');
-	if (otpSend) {
-		otpSend.addEventListener('click', function () {
-			var mobile = (document.getElementById('flavor-mobile') || {}).value || '';
-			api('auth/otp/request', {
-				method: 'POST',
-				headers: headers(true),
-				body: JSON.stringify({ mobile: mobile }),
-			})
-				.then(function () {
-					if (otpCode) {
-						otpCode.hidden = false;
-						otpCode.focus();
-					}
-					if (window.flavorToast) window.flavorToast('کد تایید پیامک شد.', 'info');
-				})
-				.catch(function (err) {
-					if (window.flavorToast) window.flavorToast(err.message, 'error');
-					else alert(err.message);
-				});
-		});
-	}
-	if (otpCode) {
-		otpCode.addEventListener('change', function () {
-			var mobile = (document.getElementById('flavor-mobile') || {}).value || '';
-			api('auth/otp/verify', {
-				method: 'POST',
-				headers: headers(true),
-				body: JSON.stringify({
-					mobile: mobile,
-					code: otpCode.value,
-					name: (document.getElementById('flavor-name') || {}).value || '',
-				}),
-			})
-				.then(function () { return ui ? ui.refreshNonce() : null; }).then(function () {
-					if (window.flavorToast) window.flavorToast('ورود با موفقیت انجام شد.', 'success');
-				})
-				.catch(function (err) {
-					if (window.flavorToast) window.flavorToast(err.message, 'error');
-					else alert(err.message);
-				});
-		});
-	}
-
 	var hood = document.getElementById('flavor-hood');
 	var city = document.getElementById('flavor-city');
 	var zoneTimer;
@@ -512,7 +467,7 @@
 
 	var form = document.getElementById('flavor-checkout');
 	if (form) form.addEventListener('submit', function (event) {
-		event.preventDefault(); if (placing || cartMutating || !cartState || !cartState.count) return;
+		event.preventDefault(); if (!event.submitter || event.submitter.id !== 'flavor-place') { var confirmButton = document.getElementById('flavor-place'); if (confirmButton) confirmButton.focus(); return; } if (placing || cartMutating || !cartState || !cartState.count) return;
 		var err = document.getElementById('flavor-checkout-err');
 		function failure(message) { if (err) { err.hidden = false; err.textContent = message; err.focus({ preventScroll:true }); err.scrollIntoView({ block:'nearest' }); } }
 		if (err) { err.hidden = true; err.textContent = ''; }

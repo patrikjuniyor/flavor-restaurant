@@ -13,7 +13,7 @@ get_header();
 	<?php while ( have_posts() ) : ?>
 		<?php the_post(); ?>
 		<article <?php post_class( 'flavor-article' ); ?>>
-			<h1 class="flavor-article__title"><?php the_title(); ?></h1>
+			<h1 class="flavor-article__title"><?php if ( function_exists( 'is_account_page' ) && is_account_page() ) { echo is_user_logged_in() ? esc_html__( 'حساب من', 'flavor' ) : esc_html__( 'ورود به حساب', 'flavor' ); } else { the_title(); } ?></h1>
 			<div class="flavor-article__content">
 				<?php the_content(); ?>
 			</div>

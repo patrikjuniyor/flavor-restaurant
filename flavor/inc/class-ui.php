@@ -15,6 +15,7 @@ class UI {
 	}
 
 	public static function inner(): bool {
+		if ( function_exists( 'is_account_page' ) && ( is_account_page() || is_checkout() || is_cart() ) ) { return true; }
 		return ! is_front_page() && ! is_home();
 	}
 

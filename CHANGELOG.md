@@ -7,6 +7,13 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Shared storefront UI — stage 4 / 2026-10-02
+
+- Core-backed phone sign-in with explicit request/verify, feedback, resend cooldown, cookie-session nonce refresh and no persisted Bearer/refresh credentials; native Woo login/account forms remain available.
+- Customer dashboard, actual order/loyalty counts, history and guarded receipts; guest receipt codes are masked and explicitly copied, never put into tracking URLs. Read-only tracking clears private results on denial and shows kitchen progress only when a genuine ticket exists, not a hard-coded courier ETA.
+- Additive known-kitchen flag and order-currency-correct display fields; existing endpoints/fields remain. Real seeded-cookie verification, own/foreign/guest access and desktop/mobile accessibility checked using disposable fixtures, with SMS requests intercepted.
+
+
 ### Shared storefront UI — stage 3 / 2026-10-02
 
 - One capability-aware mobile navigation for every skin; genuine cart badges/open-cart links, an intact catering planning action and a no-JS native cart fallback. Dining/reservation links require real active tables, not just a sample restaurant name.

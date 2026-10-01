@@ -446,7 +446,7 @@ class OrderController extends BaseApiController {
 		$jalali_date  = $g_date ? Jalali::format_datetime( $g_date ) : '';
 
 		$total = (int) round( (float) $order->get_total() );
-		$wc_code   = function_exists( 'get_woocommerce_currency' ) ? strtoupper( (string) get_woocommerce_currency() ) : 'IRT';
+		$wc_code = strtoupper( (string) $order->get_currency() );
 		$from_unit = 'IRR' === $wc_code ? Currency::RIAL : Currency::TOMAN;
 		$total_stored = Currency::to_storage( $total, $from_unit );
 
@@ -481,6 +481,7 @@ class OrderController extends BaseApiController {
 		$summary = $this->format_order_summary( $order );
 
 		$items = array();
+		$order_unit = 'IRR' === strtoupper( $order->get_currency() ) ? Currency::RIAL : Currency::TOMAN;
 		foreach ( $order->get_items() as $item ) {
 			if ( ! ( $item instanceof \WC_Order_Item_Product ) ) {
 				continue;
@@ -495,6 +496,7 @@ class OrderController extends BaseApiController {
 				'quantity'     => $item->get_quantity(),
 				'total'        => $line_total,
 				'total_html'   => wc_price( $line_total ),
+				'line_total_display' => Currency::format( Currency::to_storage( $line_total, $order_unit ) ),
 				'modifiers'    => (array) ( $item->get_meta( '_flavor_modifiers' ) ?: array() ),
 				'instructions' => (string) $item->get_meta( '_flavor_instructions' ),
 				'image'        => $prod ? wp_get_attachment_image_url( $prod->get_image_id(), 'thumbnail' ) : '',
@@ -516,6 +518,7 @@ class OrderController extends BaseApiController {
 					'province' => $order->get_billing_state(),
 				),
 				'kitchen_status'   => $ticket ? $ticket['kitchen_status'] : 'new',
+				'kitchen_status_known' => (bool) $ticket,
 				'table_number'     => (string) $order->get_meta( '_flavor_table_number' ),
 				'notes'            => $order->get_customer_note(),
 			)
