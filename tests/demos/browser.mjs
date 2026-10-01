@@ -54,6 +54,17 @@ try {
 	assert.equal(await filter.getAttribute('aria-pressed'), 'true');
 	await page.locator('[data-fd-filter="all"]').click();
 	assert.equal(await page.locator('.fd-product:visible').count(), count);
+	const coverageForm = page.locator('[data-fd-coverage]');
+	if (await coverageForm.count()) {
+		const neighborhood = await page.locator('#fd-coverage-list option').first().getAttribute('value');
+		await page.locator('#fd-coverage-hood').fill(neighborhood);
+		await coverageForm.locator('[type="submit"]').click();
+		await page.waitForSelector('[data-fd-coverage-result][data-available="yes"]');
+		await page.locator('#fd-coverage-hood').fill('Uncovered Neighborhood');
+		await coverageForm.locator('[type="submit"]').click();
+		await page.waitForSelector('[data-fd-coverage-result][data-available="no"]');
+		report.interactions.push('live delivery-zone eligibility accepts configured neighborhood and rejects an uncovered one');
+	}
 	await page.locator('.fd-faq summary').first().click();
 	assert.equal(await page.locator('.fd-faq details').first().getAttribute('open'), '');
 	report.interactions.push('category filter / aria-live / native FAQ');
@@ -83,6 +94,15 @@ try {
 	const allowedModes = await page.evaluate(() => window.flavorData.orderModes || ['dine_in', 'takeaway', 'delivery']);
 	assert.deepEqual(await page.locator('#flavor-modes [data-mode]:visible').evaluateAll(buttons => buttons.map(button => button.dataset.mode)), allowedModes);
 	report.interactions.push('cart service modes match the imported branch');
+	if (slug === 'cloud-kitchen') {
+		await page.locator('#flavor-modes [data-mode="delivery"]').click();
+		await page.locator('#flavor-city').fill('تهران');
+		await page.locator('#flavor-hood').fill('ونک');
+		await page.locator('#flavor-hood').press('Tab');
+		await page.waitForFunction(() => document.getElementById('flavor-zone-msg').textContent.includes('حدود'));
+		report.interactions.push('live checkout zone check (no order/SMS/payment submitted)');
+	}
+
 	await page.goto(base, { waitUntil: 'networkidle' });
 	const reservationHref = await page.locator('.fd-header__cta').getAttribute('href');
 	if (reservationHref.includes('/reservation/')) {

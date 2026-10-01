@@ -1,0 +1,16 @@
+<?php
+/** Pack: digital-first, bold cobalt/lime and an operational delivery check. @package Flavor */
+defined( 'ABSPATH' ) || exit;
+$demo = \Flavor\Bespoke_Demos::demo();
+$image = get_theme_mod( 'flavor_hero_image', '' ) ?: \Flavor\Bespoke_Demos::asset( 'hero.jpg' );
+?>
+<section class="fd-hero fd-pack-hero" aria-labelledby="fd-hero-title"><div class="flavor-container fd-hero__grid"><div class="fd-hero__copy"><span class="fd-eyebrow"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'eyebrow' ) ); ?></span><h1 id="fd-hero-title"><?php echo \Flavor\Bespoke_Demos::hero_title(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></h1><p class="fd-hero__text"><?php echo esc_html( get_theme_mod( 'flavor_hero_text', $demo['hero_text'] ) ); ?></p><div class="fd-hero__actions"><a class="fd-button fd-button--primary" href="<?php echo esc_url( \Flavor\Bespoke_Demos::page_url( 'menu' ) ); ?>"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'primary_label' ) ); ?><?php \Flavor\Bespoke_Demos::icon( 'bag', 20 ); ?></a><a class="fd-text-link" href="#coverage"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'secondary_label' ) ); ?></a></div><ul class="fd-hero__perks"><?php foreach ( $demo['landing']['perks'] as $perk ) : ?><li><?php \Flavor\Bespoke_Demos::icon( 'check', 15 ); ?><?php echo esc_html( $perk ); ?></li><?php endforeach; ?></ul></div><figure class="fd-hero__art fd-pack-art"><span class="fd-pack-art__stamp" lang="en" dir="ltr" aria-hidden="true">GOOD<br />FOOD.<br />ANYWHERE.</span><img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( \Flavor\Bespoke_Demos::value( 'hero_alt' ) ); ?>" width="1100" height="1100" fetchpriority="high" loading="eager" decoding="async" /><figcaption><span class="fd-pack-art__icon"><?php \Flavor\Bespoke_Demos::icon( 'truck', 26 ); ?></span><span><strong><?php esc_html_e( 'پکِ تو، به روش تو', 'flavor' ); ?></strong><small><?php esc_html_e( 'سفارش آنلاین · بیرون‌بر یا ارسال', 'flavor' ); ?></small></span><?php \Flavor\Bespoke_Demos::icon( 'arrow', 22 ); ?></figcaption></figure></div></section>
+<?php get_template_part( 'template-parts/demos/process' ); ?>
+<?php get_template_part( 'template-parts/demos/menu' ); ?>
+<?php get_template_part( 'template-parts/demos/coverage' ); ?>
+<?php get_template_part( 'template-parts/demos/story' ); ?>
+<?php if ( \Flavor\Bespoke_Demos::enabled( 'feature' ) ) : ?>
+<section class="fd-section fd-pack-team" id="team" aria-labelledby="fd-team-title"><div class="flavor-container fd-pack-team__card"><div><span class="fd-eyebrow"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'feature_eyebrow' ) ); ?></span><h2 id="fd-team-title"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'feature_title' ) ); ?></h2><p><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'feature_text' ) ); ?></p></div><a class="fd-button fd-button--primary" href="<?php echo esc_url( \Flavor\Bespoke_Demos::action_url( 'phone' ) ); ?>"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'feature_label' ) ); ?><?php \Flavor\Bespoke_Demos::icon( 'phone', 20 ); ?></a></div></section>
+<?php endif; ?>
+<?php get_template_part( 'template-parts/demos/faq' ); ?>
+<?php get_template_part( 'template-parts/demos/visit' ); ?>

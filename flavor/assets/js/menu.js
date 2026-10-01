@@ -26,7 +26,7 @@
 	var catalog = [];
 	var current = null;
 	var qty = 1;
-	var mode = 'takeaway';
+	var mode = cfg.defaultMode || 'takeaway';
 	var ctx = {};
 
 	function esc(s) {
@@ -307,7 +307,7 @@
 
 	function setMode(next) {
 		var allowed = cfg.orderModes || ['dine_in', 'takeaway', 'delivery'];
-		mode = allowed.includes(next) ? next : (allowed.includes('takeaway') ? 'takeaway' : allowed[0]);
+		mode = allowed.includes(next) ? next : (allowed.includes(cfg.defaultMode) ? cfg.defaultMode : (allowed.includes('takeaway') ? 'takeaway' : allowed[0]));
 		document.querySelectorAll('#flavor-modes [data-mode]').forEach(function (b) {
 			b.hidden = !allowed.includes(b.getAttribute('data-mode'));
 			b.classList.toggle('is-active', b.getAttribute('data-mode') === mode);
@@ -546,7 +546,7 @@
 			msg.textContent = z.ok
 				? z.name + ' · ارسال ' + (z.delivery_fee_html || '') + ' · حدود ' + z.estimated_minutes + ' دقیقه'
 				: z.message || 'خارج از محدوده';
-		});
+		}).catch(showError);
 	}
 	if (hood) hood.addEventListener('change', checkZone);
 	if (city) city.addEventListener('change', checkZone);
@@ -623,7 +623,7 @@
 	Promise.all([api('context'), api('cart'), api('me')])
 		.then(function (pair) {
 			ctx = pair[0] || {};
-			if (!ctx.branch_id) ctx.branch_id = Number(cfg.branchId) || 0;
+			if (cfg.branchId) ctx.branch_id = Number(cfg.branchId);
 			if (ctx.order_mode) mode = ctx.order_mode;
 			drawCart(pair[1]);
 			var me = pair[2] || {};

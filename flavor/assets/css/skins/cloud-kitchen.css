@@ -1,0 +1,86 @@
+/* PACK: cobalt, lime stickers and a digital ordering-first composition. */
+.flavor-skin-cloud-kitchen .fd-topbar { background: #d7f468; color: #243608; }
+.flavor-skin-cloud-kitchen .fd-header { background: #fff; }
+.flavor-skin-cloud-kitchen .fd-brand__mark { border-radius: 14px; background: #2554df; color: #fff; }
+.flavor-skin-cloud-kitchen .fd-brand__name { font-weight: 850; }
+.flavor-skin-cloud-kitchen .fd-header__cta { border-radius: 12px; }
+.flavor-skin-cloud-kitchen .fd-pack-hero { padding-block: 64px 72px; }
+.flavor-skin-cloud-kitchen .fd-hero__grid { gap: 75px; }
+.flavor-skin-cloud-kitchen .fd-hero h1 { font-size: clamp(3rem, 4.8vw, 4.7rem); font-weight: 800; letter-spacing: -.04em; }
+.flavor-skin-cloud-kitchen .fd-hero__perks { gap: 14px; font-size: 11px; }
+.flavor-skin-cloud-kitchen .fd-hero__perks svg { color: #3e631c; }
+.flavor-skin-cloud-kitchen .fd-pack-art { position: relative; padding: 18px; border-radius: 34px; background: #e8edfd; }
+.flavor-skin-cloud-kitchen .fd-pack-art > img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 23px; display: block; }
+.flavor-skin-cloud-kitchen .fd-pack-art__stamp { position: absolute; top: 0; inset-inline-start: 0; z-index: 1; background: #d7f468; color: #1c3108; padding: 20px; border-radius: 24px 0 24px 0; font-size: 15px; font-weight: 850; line-height: 1.2; letter-spacing: -.04em; }
+.flavor-skin-cloud-kitchen .fd-pack-art figcaption { margin-top: 16px; background: #fff; border: 1px solid #d8e0f4; border-radius: 15px; padding: 18px 20px; display: flex; align-items: center; gap: 17px; }
+.flavor-skin-cloud-kitchen .fd-pack-art__icon { width: 48px; height: 48px; border-radius: 12px; background: #eef2fc; color: var(--flavor-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.flavor-skin-cloud-kitchen .fd-pack-art figcaption strong { display: block; font-size: 14px; font-weight: 700; }
+.flavor-skin-cloud-kitchen .fd-pack-art figcaption small { display: block; font-size: 10px; color: var(--flavor-muted); margin-top: 4px; }
+.flavor-skin-cloud-kitchen .fd-pack-art figcaption > svg { margin-inline-start: auto; color: var(--flavor-primary); flex-shrink: 0; }
+.flavor-skin-cloud-kitchen .fd-process { padding-block: 55px 75px; background: #fff; border-block: 1px solid var(--flavor-line); }
+.flavor-skin-cloud-kitchen .fd-process__head { margin-bottom: 30px; }
+.flavor-skin-cloud-kitchen .fd-process__head h2 { font-size: 30px; }
+.flavor-skin-cloud-kitchen .fd-process__steps { gap: 28px; }
+.flavor-skin-cloud-kitchen .fd-process__steps li { border: 1px solid #e0e7f3; border-radius: 20px; background: #f7f9fe; padding: 25px; }
+.flavor-skin-cloud-kitchen .fd-process__number { width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; background: #eaf0ff; border-radius: 12px; font-family: sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 20px; }
+.flavor-skin-cloud-kitchen .fd-menu { background: #f3f6fd; }
+.flavor-skin-cloud-kitchen .fd-product { border-color: #e0e7f3; border-radius: 22px; box-shadow: 0 5px 18px rgba(32,69,140,.04); }
+.flavor-skin-cloud-kitchen .fd-product__media img { aspect-ratio: 1/1; }
+.flavor-skin-cloud-kitchen .fd-product__category { border-radius: 8px; font-size: 10px; background: #fff; color: #203552; }
+.flavor-skin-cloud-kitchen .fd-product__order { background: #2554df; color: #fff; border-radius: 11px; }
+.flavor-skin-cloud-kitchen .fd-product__body h3 { font-size: 17px; }
+.flavor-skin-cloud-kitchen .fd-coverage { background: #fff; }
+.flavor-skin-cloud-kitchen .fd-coverage__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+.flavor-skin-cloud-kitchen .fd-coverage__card { border: 1px solid #d5def4; border-radius: 25px; background: #f8faff; padding: 35px; }
+.flavor-skin-cloud-kitchen .fd-coverage__card h3 { font-size: 19px; margin-bottom: 20px; }
+.flavor-skin-cloud-kitchen .fd-coverage__hoods { list-style: none; padding: 0; margin: 0 0 23px; display: flex; flex-wrap: wrap; gap: 8px; }
+.flavor-skin-cloud-kitchen .fd-coverage__hoods li { padding: 7px 12px; border-radius: 8px; background: #eaf0ff; color: #254694; font-size: 11px; }
+.flavor-skin-cloud-kitchen .fd-coverage dl { margin: 0 0 25px; padding-bottom: 25px; border-bottom: 1px solid #dce5f5; }
+.flavor-skin-cloud-kitchen .fd-coverage dl > div { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 4px; font-size: 12px; }
+.flavor-skin-cloud-kitchen .fd-coverage dt { color: var(--flavor-muted); }
+.flavor-skin-cloud-kitchen .fd-coverage dd { margin: 0; font-weight: 600; }
+.flavor-skin-cloud-kitchen .fd-coverage label { display: block; font-size: 12px; margin-bottom: 12px; }
+.flavor-skin-cloud-kitchen .fd-coverage__form-row { display: flex; gap: 10px; }
+.flavor-skin-cloud-kitchen .fd-coverage input { width: 100%; min-width: 0; min-height: 50px; padding: 12px 15px; border: 1px solid #bccce9; border-radius: 12px; background: #fff; color: var(--flavor-ink); font: inherit; font-size: 13px; }
+.flavor-skin-cloud-kitchen .fd-coverage__form-row button { flex-shrink: 0; min-width: 118px; padding-inline: 17px; font-size: 12px; }
+.flavor-skin-cloud-kitchen .fd-coverage__result { font-size: 12px; line-height: 1.9; color: #294978; margin-block: 16px 0; }
+.flavor-skin-cloud-kitchen .fd-coverage__card > small { display: block; font-size: 10px; line-height: 1.9; color: var(--flavor-muted); margin-top: 19px; }
+.flavor-skin-cloud-kitchen .fd-story { background: #f4f7fc; }
+.flavor-skin-cloud-kitchen .fd-story__grid { gap: 85px; grid-template-columns: .85fr 1fr; }
+.flavor-skin-cloud-kitchen .fd-story__media img { aspect-ratio: 4/5; border-radius: 28px; }
+.flavor-skin-cloud-kitchen .fd-pack-team { padding-block: 75px 0; }
+.flavor-skin-cloud-kitchen .fd-pack-team__card { display: flex; align-items: center; justify-content: space-between; gap: 60px; padding: 45px; border-radius: 26px; background: #d7f468; border: 1px solid #b9d655; }
+.flavor-skin-cloud-kitchen .fd-pack-team h2 { font-size: 31px; color: #20340a; }
+.flavor-skin-cloud-kitchen .fd-pack-team .fd-eyebrow { color: #3c581b; }
+.flavor-skin-cloud-kitchen .fd-pack-team p { max-width: 600px; color: #3b5123; font-size: 13px; line-height: 2; margin: 0; }
+.flavor-skin-cloud-kitchen .fd-pack-team .fd-button { flex-shrink: 0; }
+.flavor-skin-cloud-kitchen .fd-faq { background: var(--flavor-bg); }
+.flavor-skin-cloud-kitchen .fd-visit__card { background: #173154; }
+.flavor-skin-cloud-kitchen .fd-visit__details { color: #e5edfb; }
+.flavor-skin-cloud-kitchen .fd-footer { background: #eef2fa; }
+@media (max-width: 1100px) {
+	.flavor-skin-cloud-kitchen .fd-hero__grid { gap: 40px; }
+	.flavor-skin-cloud-kitchen .fd-coverage__grid { gap: 40px; }
+	.flavor-skin-cloud-kitchen .fd-story__grid { gap: 45px; }
+	.flavor-skin-cloud-kitchen .fd-pack-team__card { gap: 35px; padding: 35px; }
+}
+@media (max-width: 700px) {
+	.flavor-skin-cloud-kitchen .fd-pack-hero { padding-block: 35px 45px; }
+	.flavor-skin-cloud-kitchen .fd-hero h1 { font-size: clamp(2.55rem,8.2vw,3.5rem); }
+	.flavor-skin-cloud-kitchen .fd-pack-art { padding: 12px; border-radius: 25px; }
+	.flavor-skin-cloud-kitchen .fd-pack-art > img { border-radius: 18px; }
+	.flavor-skin-cloud-kitchen .fd-pack-art__stamp { padding: 16px; font-size: 12px; border-radius: 18px 0 18px 0; }
+	.flavor-skin-cloud-kitchen .fd-pack-art figcaption { gap: 12px; padding: 14px; }
+	.flavor-skin-cloud-kitchen .fd-pack-art figcaption strong { font-size: 12px; }
+	.flavor-skin-cloud-kitchen .fd-pack-art figcaption small { font-size: 9px; }
+	.flavor-skin-cloud-kitchen .fd-product { border-radius: 16px; }
+	.flavor-skin-cloud-kitchen .fd-product__body { padding: 17px; }
+	.flavor-skin-cloud-kitchen .fd-product__body h3 { font-size: 15px; }
+	.flavor-skin-cloud-kitchen .fd-coverage__grid, .flavor-skin-cloud-kitchen .fd-story__grid { grid-template-columns: 1fr; gap: 32px; }
+	.flavor-skin-cloud-kitchen .fd-coverage__card { padding: 24px; }
+	.flavor-skin-cloud-kitchen .fd-coverage__form-row { flex-direction: column; }
+	.flavor-skin-cloud-kitchen .fd-coverage__form-row button { width: 100%; }
+	.flavor-skin-cloud-kitchen .fd-story__media img { border-radius: 20px; }
+	.flavor-skin-cloud-kitchen .fd-pack-team__card { flex-direction: column; align-items: start; gap: 25px; padding: 30px 25px; border-radius: 20px; }
+	.flavor-skin-cloud-kitchen .fd-pack-team h2 { font-size: 24px; }
+}

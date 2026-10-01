@@ -26,6 +26,32 @@
 		filters.hidden = false;
 	});
 
+	// Public eligibility only: never creates a cart, order, booking or SMS.
+	var coverage = document.querySelector('[data-fd-coverage]');
+	var cfg = window.flavorData || {};
+	if (coverage && cfg.hasCore) {
+		coverage.hidden = false;
+		coverage.addEventListener('submit', function (event) {
+			event.preventDefault();
+			var button = coverage.querySelector('[type="submit"]');
+			var result = coverage.querySelector('[data-fd-coverage-result]');
+			button.disabled = true; result.textContent = 'در حال بررسی محله…'; result.dataset.available = 'pending';
+			fetch(cfg.rest + 'zones/check', {
+				method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json', 'X-WP-Nonce': cfg.nonce || '' },
+				body: JSON.stringify({ branch_id: Number(cfg.branchId) || 0, neighborhood: coverage.elements.neighborhood.value, city: coverage.elements.city.value })
+			}).then(function (response) {
+				return response.json().then(function (json) {
+					if (!response.ok || json.success === false) throw new Error(json.message || 'بررسی محله ناموفق بود. دوباره تلاش کن یا تماس بگیر.');
+					return json.success === true ? json.data : json;
+				});
+			}).then(function (zone) {
+				result.dataset.available = zone.ok ? 'yes' : 'no';
+				result.textContent = zone.ok ? zone.name + ' · هزینهٔ ارسال: ' + String(zone.delivery_fee_html || '').replace(/<[^>]*>/g, '') + ' · زمان برآوردی منطقه: حدود ' + zone.estimated_minutes + ' دقیقه؛ زمان تضمین‌شده نیست.' : (zone.message || 'خارج از محدودهٔ ارسال؛ دریافت بیرون‌بر را بررسی کن.');
+			}).catch(function (error) { result.dataset.available = 'error'; result.textContent = error.message; })
+			.finally(function () { button.disabled = false; });
+		});
+	}
+
 	// The product sheet is opened asynchronously by the real menu script.
 	var productSheet = document.getElementById('flavor-sheet');
 	if (productSheet) {

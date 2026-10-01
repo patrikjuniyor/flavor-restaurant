@@ -43,6 +43,15 @@ try {
 	$tables = \FlavorCore\Table\TableRepository::for_branch( $branch_id );
 	import_check( count( $tables ) === (int) ( $pack['tables'] ?? 8 ), 'Actual demo table count differs from the pack.' );
 	import_check( ! \FlavorCore\Table\TableRepository::for_branch( $first_branch_id ), 'Repeated import leaked old demo tables.' );
+	$zones = \FlavorCore\Delivery\ZoneRepository::for_branch( $branch_id, true );
+	import_check( count( $zones ) === count( $pack['delivery_zones'] ?? array() ), 'Imported delivery zones do not match the pack.' );
+	import_check( ! \FlavorCore\Delivery\ZoneRepository::for_branch( $first_branch_id ), 'Repeated import leaked old demo zones.' );
+	if ( $zones ) {
+		$zone = $zones[0];
+		$match = \FlavorCore\Delivery\ZoneChecker::match( $branch_id, array( 'city' => $pack['city'], 'neighborhood' => $zone['neighborhoods'][0] ) );
+		import_check( $match && $match['delivery_fee'] === \FlavorCore\WooCommerce\Currency::to_storage( (int) $pack['delivery_zones'][0]['delivery_fee'], 'irt' ), 'Configured zone/fee does not resolve correctly.' );
+		import_check( ! \FlavorCore\Delivery\ZoneChecker::match( $branch_id, array( 'city' => 'Uncovered City', 'neighborhood' => 'Uncovered Neighborhood' ) ), 'Uncovered address was accepted.' );
+	}
 	import_check( \Flavor\Enqueue::current_branch_id() === $branch_id, 'Frontend default branch differs from the imported branch.' );
 	if ( ! empty( $pack['opening_hours'] ) ) {
 		for ( $day = 0; $day < 7; $day++ ) {
@@ -50,7 +59,7 @@ try {
 			import_check( $hours['open_time'] === $pack['opening_hours']['open'] && $hours['close_time'] === $pack['opening_hours']['close'], 'Reservation hours differ from the advertised pack hours.' );
 		}
 	}
-	echo 'PASS ' . $slug . ': repeated imports, product CRUD, images, navigation, empty editor, override reset, real branch/tables/hours and preservation of non-demo content.' . PHP_EOL;
+	echo 'PASS ' . $slug . ': repeated imports, product CRUD, images, navigation, empty editor, override reset, real branch/tables/hours/zones and preservation of non-demo content.' . PHP_EOL;
 } finally {
 	wp_delete_post( (int) $sentinel, true );
 }

@@ -28,7 +28,7 @@ foreach ( $catalog as $slug => $pack ) {
 		demo_check( in_array( $slug, \Flavor\Bespoke_Demos::SLUGS, true ), 'Pack has no bespoke template: ' . $slug );
 		demo_check( is_file( FLAVOR_DIR . '/template-parts/demos/' . $slug . '.php' ), 'Missing landing template: ' . $slug );
 		demo_check( is_file( FLAVOR_DIR . '/assets/css/skins/' . $slug . '.css' ), 'Missing skin stylesheet: ' . $slug );
-		$anchors = array( '#menu', '#story', '#faq', '#visit', '#experience', '#services', '#proposal', '#process' );
+		$anchors = array( '#menu', '#story', '#faq', '#visit', '#experience', '#services', '#proposal', '#process', '#coverage' );
 		foreach ( $pack['navigation'] as $link ) { demo_check( in_array( $link['anchor'], $anchors, true ), 'Invalid section anchor: ' . $link['anchor'] ); }
 		demo_check( count( $pack['landing']['faq'] ) >= 3, 'Missing FAQs: ' . $slug );
 	}

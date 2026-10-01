@@ -225,6 +225,9 @@ class Demo_Importer {
 			if ( 'flavor_branch' === get_post_type( $id ) && class_exists( \FlavorCore\Database\Schema::class ) ) {
 				global $wpdb;
 				$wpdb->delete( \FlavorCore\Database\Schema::table( 'flavor_branch_hours' ), array( 'branch_id' => (int) $id ), array( '%d' ) );
+				if ( class_exists( \FlavorCore\Delivery\ZoneRepository::class ) ) {
+					foreach ( \FlavorCore\Delivery\ZoneRepository::for_branch( (int) $id ) as $zone ) { \FlavorCore\Delivery\ZoneRepository::delete( (int) $zone['id'] ); }
+				}
 				if ( class_exists( \FlavorCore\Table\TableRepository::class ) ) {
 					foreach ( \FlavorCore\Table\TableRepository::for_branch( (int) $id ) as $table ) { \FlavorCore\Table\TableRepository::delete( (int) $table['id'] ); }
 				}
@@ -480,6 +483,15 @@ class Demo_Importer {
 				),
 			)
 		);
+
+		if ( $branch_id && ! is_wp_error( $branch_id ) && ! empty( $demo['delivery_zones'] ) && class_exists( \FlavorCore\Delivery\ZoneRepository::class ) ) {
+			foreach ( $demo['delivery_zones'] as $zone ) {
+				$zone['branch_id'] = (int) $branch_id;
+				$zone['delivery_fee'] = \FlavorCore\WooCommerce\Currency::to_storage( (int) ( $zone['delivery_fee'] ?? 0 ), 'irt' );
+				$zone['min_order'] = \FlavorCore\WooCommerce\Currency::to_storage( (int) ( $zone['min_order'] ?? 0 ), 'irt' );
+				\FlavorCore\Delivery\ZoneRepository::create( $zone );
+			}
+		}
 
 		if ( $branch_id && ! is_wp_error( $branch_id ) && ! empty( $demo['opening_hours'] ) && class_exists( \FlavorCore\Database\Schema::class ) ) {
 			global $wpdb;

@@ -124,6 +124,7 @@ class Enqueue {
 		$payload['ajax']     = esc_url_raw( admin_url( 'admin-ajax.php' ) );
 		$payload['branchId'] = self::current_branch_id();
 		if ( Bespoke_Demos::active() && $payload['branchId'] ) {
+			$payload['defaultMode'] = Bespoke_Demos::demo()['landing']['default_mode'] ?? 'takeaway';
 			$modes = get_post_meta( $payload['branchId'], '_flavor_order_modes', true );
 			$payload['orderModes'] = is_array( $modes ) ? array_values( $modes ) : array( 'dine_in', 'takeaway', 'delivery' );
 		}
