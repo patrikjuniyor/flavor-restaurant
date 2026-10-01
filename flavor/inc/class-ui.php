@@ -54,7 +54,7 @@ class UI {
 		$skin = 'flavor-skin-' . sanitize_html_class( Design::current_skin() );
 		if ( wp_style_is( $skin, 'enqueued' ) ) { $deps[] = $skin; }
 		if ( wp_style_is( 'flavor-search', 'enqueued' ) ) { $deps[] = 'flavor-search'; }
-		foreach ( array( 'ui', 'ui-menu' ) as $file ) {
+		foreach ( array( 'ui', 'ui-menu', 'ui-checkout' ) as $file ) {
 			wp_enqueue_style( 'flavor-' . $file, FLAVOR_URI . '/assets/css/' . $file . '.css', $deps, (string) filemtime( FLAVOR_DIR . '/assets/css/' . $file . '.css' ) );
 			$deps = array( 'flavor-' . $file );
 		}

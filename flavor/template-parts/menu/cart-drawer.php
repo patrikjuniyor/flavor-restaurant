@@ -1,67 +1,38 @@
 <?php
-/**
- * Cart drawer + quick checkout.
- *
- * @package Flavor
- */
-
+/** Explicit cart/checkout drawer. Amounts and service rules come from Core. @package Flavor */
 defined( 'ABSPATH' ) || exit;
 ?>
-<aside class="flavor-cart" id="flavor-cart">
-	<button type="button" class="flavor-cart__handle" id="flavor-cart-toggle">
-		<?php esc_html_e( 'سبد خرید', 'flavor' ); ?>
-		<span id="flavor-cart-count">0</span>
-	</button>
-	<div class="flavor-cart__panel" id="flavor-cart-panel" hidden>
-		<h2><?php esc_html_e( 'سبد شما', 'flavor' ); ?></h2>
-		<div class="flavor-modes" id="flavor-modes">
-			<button type="button" data-mode="dine_in"><?php esc_html_e( 'سالن', 'flavor' ); ?></button>
-			<button type="button" data-mode="takeaway"><?php esc_html_e( 'بیرون‌بر', 'flavor' ); ?></button>
-			<button type="button" data-mode="delivery"><?php esc_html_e( 'ارسال', 'flavor' ); ?></button>
-		</div>
-		<div id="flavor-cart-lines"></div>
-		<p class="flavor-cart__total" id="flavor-cart-total"></p>
-		<form id="flavor-checkout" class="flavor-checkout">
-			<label><?php esc_html_e( 'نام', 'flavor' ); ?>
-				<input type="text" name="name" id="flavor-name" autocomplete="name" />
-			</label>
-			<label><?php esc_html_e( 'موبایل', 'flavor' ); ?>
-				<input type="tel" name="mobile" id="flavor-mobile" dir="ltr" inputmode="tel" placeholder="09xxxxxxxxx" required />
-			</label>
-			<div class="flavor-otp" id="flavor-otp-box">
-				<button type="button" id="flavor-otp-send"><?php esc_html_e( 'ارسال کد ورود', 'flavor' ); ?></button>
-				<input type="text" id="flavor-otp-code" inputmode="numeric" maxlength="6" placeholder="<?php esc_attr_e( 'کد', 'flavor' ); ?>" hidden />
+<aside class="flavor-cart" id="flavor-cart" aria-label="<?php esc_attr_e( 'سبد سفارش', 'flavor' ); ?>">
+	<button type="button" class="flavor-cart__handle" id="flavor-cart-toggle" hidden aria-haspopup="dialog" aria-controls="flavor-cart-panel" aria-expanded="false"><?php \Flavor\UI::icon( 'bag', 22 ); ?><span><?php esc_html_e( 'سبد شما', 'flavor' ); ?><small data-ui-cart-total></small></span><span id="flavor-cart-count" hidden aria-hidden="true">0</span><span class="flavor-cart__count" data-ui-cart-count>۰</span></button>
+	<div class="flavor-cart__layer" id="flavor-cart-panel" hidden>
+		<div class="flavor-cart__backdrop" data-ui-cart-close aria-hidden="true"></div>
+		<section class="flavor-cart__dialog" role="dialog" aria-modal="true" aria-labelledby="flavor-cart-title" tabindex="-1">
+			<header class="flavor-cart__header"><div><span class="flavor-ui-overline"><?php esc_html_e( 'انتخاب‌های شما', 'flavor' ); ?></span><h2 id="flavor-cart-title"><?php esc_html_e( 'یک سفارش خوش‌طعم.', 'flavor' ); ?></h2></div><button type="button" class="flavor-ui-icon-button" id="flavor-cart-close" data-ui-cart-close aria-label="<?php esc_attr_e( 'بستن سبد', 'flavor' ); ?>"><?php \Flavor\UI::icon( 'close' ); ?></button></header>
+			<div class="flavor-cart__body"><p class="flavor-ui-note" id="flavor-cart-loading" role="status">در حال دریافت سبد…</p>
+				<p class="flavor-ui-error" id="flavor-cart-error" role="alert" hidden></p>
+				<div class="flavor-ui-empty flavor-cart__empty" id="flavor-cart-empty" hidden><?php \Flavor\UI::icon( 'bag', 42 ); ?><h3><?php esc_html_e( 'سبدتان هنوز خالی است.', 'flavor' ); ?></h3><p><?php esc_html_e( 'منو را ببینید و انتخاب دلخواهتان را اضافه کنید. هیچ غذایی با بازکردن صفحه به سبد اضافه نمی‌شود.', 'flavor' ); ?></p><button type="button" class="flavor-btn flavor-btn--primary" data-ui-cart-close><?php esc_html_e( 'برگشت به منو', 'flavor' ); ?></button></div>
+				<div id="flavor-cart-filled" hidden>
+					<nav class="flavor-cart__steps" aria-label="<?php esc_attr_e( 'مراحل سفارش', 'flavor' ); ?>"><button type="button" data-ui-cart-step="review" aria-current="step"><span>۱</span><?php esc_html_e( 'سبد و دریافت', 'flavor' ); ?></button><button type="button" data-ui-cart-step="checkout"><span>۲</span><?php esc_html_e( 'اطلاعات و پرداخت', 'flavor' ); ?></button></nav>
+					<div id="flavor-cart-review">
+						<div id="flavor-cart-lines" aria-label="<?php esc_attr_e( 'غذاهای سبد', 'flavor' ); ?>"></div>
+						<fieldset class="flavor-cart__service"><legend><?php esc_html_e( 'چطور دریافت می‌کنید؟', 'flavor' ); ?></legend><div class="flavor-modes" id="flavor-modes"><button type="button" data-mode="dine_in" aria-pressed="false"><?php \Flavor\UI::icon( 'home', 18 ); ?><?php esc_html_e( 'سالن', 'flavor' ); ?></button><button type="button" data-mode="takeaway" aria-pressed="false"><?php \Flavor\UI::icon( 'bag', 18 ); ?><?php esc_html_e( 'بیرون‌بر', 'flavor' ); ?></button><button type="button" data-mode="delivery" aria-pressed="false"><?php \Flavor\UI::icon( 'pin', 18 ); ?><?php esc_html_e( 'ارسال', 'flavor' ); ?></button></div></fieldset>
+						<details class="flavor-cart__coupon"><summary><?php esc_html_e( 'کد تخفیف دارید؟', 'flavor' ); ?></summary><label class="screen-reader-text" for="flavor-coupon"><?php esc_html_e( 'کد تخفیف', 'flavor' ); ?></label><div class="flavor-cart__coupon-row"><input type="text" id="flavor-coupon" maxlength="80" autocomplete="off" placeholder="<?php esc_attr_e( 'کد تخفیف', 'flavor' ); ?>" /><button type="button" class="flavor-btn flavor-btn--outline" id="flavor-coupon-btn"><?php esc_html_e( 'اعمال', 'flavor' ); ?></button></div><p id="flavor-coupon-status" role="status" class="flavor-ui-note"></p><div id="flavor-coupon-applied"></div></details>
+					</div>
+					<form id="flavor-checkout" class="flavor-checkout" hidden>
+						<h3><?php esc_html_e( 'اطلاعات دریافت سفارش', 'flavor' ); ?></h3>
+						<div class="flavor-ui-grid-2"><div class="flavor-ui-field"><label for="flavor-name"><?php esc_html_e( 'نام', 'flavor' ); ?><span class="flavor-ui-required"><?php esc_html_e( ' (اختیاری)', 'flavor' ); ?></span></label><input type="text" name="name" id="flavor-name" autocomplete="name" maxlength="100" /></div><div class="flavor-ui-field"><label for="flavor-mobile"><?php esc_html_e( 'شمارهٔ موبایل', 'flavor' ); ?></label><input type="tel" name="mobile" id="flavor-mobile" dir="ltr" inputmode="tel" autocomplete="tel" placeholder="09xxxxxxxxx" required maxlength="16" /></div></div>
+						<div class="flavor-otp" id="flavor-otp-box"><button type="button" class="flavor-ui-text-link" id="flavor-otp-send"><?php esc_html_e( 'ورود با کد پیامکی', 'flavor' ); ?></button><label class="screen-reader-text" for="flavor-otp-code"><?php esc_html_e( 'کد تأیید پیامکی', 'flavor' ); ?></label><input type="text" id="flavor-otp-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="<?php esc_attr_e( 'کد تأیید', 'flavor' ); ?>" hidden /></div>
+						<div id="flavor-table-box" hidden><div class="flavor-ui-field"><label for="flavor-table"><?php esc_html_e( 'میز شما', 'flavor' ); ?></label><select id="flavor-table"></select></div></div>
+						<div id="flavor-address-box" hidden><div class="flavor-ui-grid-2"><div class="flavor-ui-field"><label for="flavor-city"><?php esc_html_e( 'شهر', 'flavor' ); ?></label><input type="text" id="flavor-city" autocomplete="address-level2" maxlength="100" /></div><div class="flavor-ui-field"><label for="flavor-hood"><?php esc_html_e( 'محله', 'flavor' ); ?></label><input type="text" id="flavor-hood" maxlength="100" /></div></div><div class="flavor-ui-field"><label for="flavor-line"><?php esc_html_e( 'نشانی کامل', 'flavor' ); ?></label><textarea id="flavor-line" rows="2" autocomplete="street-address" maxlength="500"></textarea></div><p class="flavor-zone-msg flavor-ui-note" id="flavor-zone-msg" role="status" aria-live="polite"></p></div>
+						<fieldset id="flavor-pay-box"><legend><?php esc_html_e( 'روش پرداخت', 'flavor' ); ?></legend></fieldset>
+						<p class="flavor-checkout__err" id="flavor-checkout-err" role="alert" tabindex="-1" hidden></p>
+						<p class="flavor-ui-note"><?php \Flavor\UI::icon( 'info', 17 ); ?><span><?php esc_html_e( 'موجودی، هزینهٔ ارسال و مبلغ نهایی هنگام ثبت، در سرور دوباره بررسی می‌شوند. ثبت سفارش فقط با دکمهٔ نهایی انجام می‌شود.', 'flavor' ); ?></span></p>
+					</form>
+					<dl class="flavor-cart__totals"><div><dt><?php esc_html_e( 'جمع غذاها و افزودنی‌ها', 'flavor' ); ?></dt><dd id="flavor-cart-subtotal"></dd></div><div id="flavor-cart-discount-row" hidden><dt><?php esc_html_e( 'تخفیف', 'flavor' ); ?></dt><dd id="flavor-cart-discount"></dd></div><div id="flavor-cart-tax-row" hidden><dt><?php esc_html_e( 'مالیات', 'flavor' ); ?></dt><dd id="flavor-cart-tax"></dd></div><div id="flavor-cart-fees"></div><div id="flavor-cart-zone-row" hidden><dt><?php esc_html_e( 'هزینهٔ ارسال منطقه', 'flavor' ); ?></dt><dd id="flavor-cart-zone"></dd></div><div class="flavor-cart__grand-total"><dt><?php esc_html_e( 'مبلغ فعلی سبد', 'flavor' ); ?></dt><dd id="flavor-cart-total"></dd></div></dl>
+					<p class="flavor-cart__total-note" id="flavor-cart-total-note"><?php esc_html_e( 'مبالغ از سرور خوانده می‌شوند؛ هزینه‌های تأییدنشده به جمع سبد اضافه نمی‌شوند.', 'flavor' ); ?></p>
+				</div>
 			</div>
-			<div id="flavor-table-box" hidden>
-				<label><?php esc_html_e( 'شماره میز', 'flavor' ); ?>
-					<select id="flavor-table"></select>
-				</label>
-			</div>
-			<div id="flavor-address-box" hidden>
-				<label><?php esc_html_e( 'شهر', 'flavor' ); ?>
-					<input type="text" id="flavor-city" />
-				</label>
-				<label><?php esc_html_e( 'محله', 'flavor' ); ?>
-					<input type="text" id="flavor-hood" />
-				</label>
-				<label><?php esc_html_e( 'نشانی', 'flavor' ); ?>
-					<input type="text" id="flavor-line" />
-				</label>
-				<p class="flavor-zone-msg" id="flavor-zone-msg"></p>
-			</div>
-			<p>
-				<label><?php esc_html_e( 'کد تخفیف', 'flavor' ); ?>
-					<input type="text" id="flavor-coupon" />
-				</label>
-				<button type="button" class="flavor-btn" id="flavor-coupon-btn"><?php esc_html_e( 'اعمال', 'flavor' ); ?></button>
-			</p>
-			<fieldset id="flavor-pay-box">
-				<legend><?php esc_html_e( 'پرداخت', 'flavor' ); ?></legend>
-			</fieldset>
-			<p class="flavor-checkout__err" id="flavor-checkout-err" hidden></p>
-			<button type="submit" class="flavor-btn flavor-btn--primary" id="flavor-place">
-				<?php esc_html_e( 'ثبت سفارش', 'flavor' ); ?>
-			</button>
-		</form>
+			<footer class="flavor-cart__footer" id="flavor-cart-actions" hidden><button type="button" class="flavor-btn flavor-btn--primary flavor-btn--full" id="flavor-cart-continue"><?php esc_html_e( 'ادامه؛ اطلاعات و پرداخت', 'flavor' ); ?><?php \Flavor\UI::icon( 'arrow', 18 ); ?></button><button type="submit" form="flavor-checkout" class="flavor-btn flavor-btn--primary flavor-btn--full" id="flavor-place" hidden><?php esc_html_e( 'ثبت سفارش و ادامهٔ پرداخت', 'flavor' ); ?><?php \Flavor\UI::icon( 'arrow', 18 ); ?></button><button type="button" class="flavor-ui-text-link" id="flavor-cart-back" hidden><?php esc_html_e( 'بازگشت به سبد', 'flavor' ); ?></button></footer>
+		</section>
 	</div>
 </aside>

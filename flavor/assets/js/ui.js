@@ -10,6 +10,8 @@
 	function announce(message) {
 		var status = document.getElementById('flavor-ui-announcement');
 		if (!status) { status = document.createElement('p'); status.id = 'flavor-ui-announcement'; status.className = 'screen-reader-text'; status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite'); document.body.appendChild(status); }
+		var root = stack.length ? stack[stack.length - 1].host.querySelector('[role="dialog"]') || stack[stack.length - 1].host : document.body;
+		if (!root.contains(status)) { status.removeAttribute('inert'); root.appendChild(status); }
 		status.textContent = message;
 	}
 	function focusables(root) {
@@ -31,6 +33,7 @@
 		document.body.style.overflow = 'hidden';
 		var first = focusables(host)[0] || host.querySelector('[role="dialog"]');
 		if (first) first.focus({ preventScroll: true });
+		host.dispatchEvent(new CustomEvent('flavor:dialog-opened'));
 	}
 	function closeDialog(host) {
 		var index = stack.findIndex(function (entry) { return entry.host === host; });
@@ -39,6 +42,7 @@
 		record.host.hidden = true;
 		record.inert.forEach(function (element) { element.removeAttribute('inert'); });
 		document.body.style.overflow = stack.length ? 'hidden' : record.overflow;
+		record.host.dispatchEvent(new CustomEvent('flavor:dialog-closed'));
 		if (record.trigger && record.trigger.isConnected && record.trigger.getClientRects().length) record.trigger.focus({ preventScroll: true });
 	}
 	document.addEventListener('keydown', function (event) {

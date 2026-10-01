@@ -75,6 +75,62 @@ try {
  await page.reload({waitUntil:'networkidle'});
  assert.equal(await page.locator('#flavor-cart-count').textContent(),'1');
  await page.locator('.flavor-sheet__close').click();
+ if (stage >= 2) {
+  await page.locator('#flavor-cart-toggle').click();
+  assert.equal(await page.locator('#flavor-cart-toggle').getAttribute('aria-expanded'),'true');
+  assert.equal(await page.locator('#flavor-cart-close').evaluate(el=>el===document.activeElement),true);
+  await audit('cart-review');
+  await page.screenshot({path:path.join(output,'cart-desktop.png')});
+  await page.locator('[data-ui-cart-qty="1"]').first().click();
+  await page.waitForFunction(()=>window.FlavorCartUI.state().count===2 && !document.getElementById('flavor-cart-lines').hasAttribute('aria-busy'));
+  assert.equal(await page.locator('.flavor-cart-line output').first().textContent(),'۲');
+  const lineState=await page.evaluate(()=>window.FlavorCartUI.state().items[0]);
+  assert.equal((await page.locator('.flavor-cart-line__price').first().textContent()).trim(),lineState.line_total_html);
+  assert.equal((await page.locator('#flavor-cart-total').textContent()).trim(),await page.evaluate(()=>window.FlavorCartUI.state().total_html));
+  await page.locator('#flavor-cart-continue').click();
+  await page.waitForSelector('#flavor-checkout:not([hidden])');
+  await page.waitForSelector('#flavor-pay-box input[name="pay"]');
+  await audit('cart-checkout');
+  await page.screenshot({path:path.join(output,'checkout-desktop.png')});
+  await page.setViewportSize({width:390,height:844});
+  await audit('cart-checkout-mobile');
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+  await page.screenshot({path:path.join(output,'checkout-mobile.png')});
+  await page.locator('#flavor-mobile').fill('۰۹۱۲۱۲۳۴۵۶۷');
+  const orderMode=await page.evaluate(()=>document.querySelector('#flavor-modes .is-active').dataset.mode);
+  if(orderMode==='delivery') {
+   await page.locator('#flavor-city').fill('تهران');
+   await page.locator('#flavor-hood').fill('ونک');
+   await page.locator('#flavor-line').fill('نشانی آزمایشی QA، هیچ سفارش واقعی ارسال نشود');
+   await page.locator('#flavor-hood').press('Tab');
+   await page.waitForSelector('#flavor-zone-msg[data-available="yes"]');
+   assert.ok((await page.locator('#flavor-cart-zone').textContent()).includes('تومان'));
+  }
+  let submits=0;
+  await page.route('**/wp-json/flavor/v1/checkout',async route=>{
+   submits++;
+   await new Promise(resolve=>setTimeout(resolve,100));
+   await route.fulfill({status:400,contentType:'application/json',body:JSON.stringify({code:'qa_declined',message:'خطای آزمایشی پرداخت؛ سبد باید باقی بماند.',data:{status:400}})});
+  });
+  await page.locator('#flavor-place').click();
+  await page.waitForSelector('#flavor-checkout-err:not([hidden])');
+  assert.equal(submits,1);
+  assert.equal(await page.locator('#flavor-cart-count').textContent(),'2');
+  assert.ok((await page.locator('#flavor-mobile').inputValue()).includes('۰۹۱۲'));
+  assert.equal(await page.locator('#flavor-place').isEnabled(),true);
+  await page.unroute('**/wp-json/flavor/v1/checkout');
+  await page.keyboard.press('Escape');
+  assert.equal(await page.locator('#flavor-cart-panel').isVisible(),false);
+  await page.locator('#flavor-cart-toggle').click();
+  await page.locator('#flavor-cart-back').click();
+  await page.locator('[data-rm]').first().click();
+  await page.waitForFunction(()=>window.FlavorCartUI.state().count===0);
+  assert.equal(await page.locator('#flavor-cart-empty').isVisible(),true);
+  assert.equal(await page.locator('#flavor-cart-actions').isVisible(),false);
+  await audit('empty-cart');
+  await page.keyboard.press('Escape');
+  report.checks.push('real cart quantity/remove and server line totals','cart and checkout desktop/mobile accessibility','live delivery quote separated from current cart total','intercepted payment error preserves cart/fields and re-enables retry','empty cart and dialog focus/Escape');
+ }
  report.checks.push('responsive menu/grid/list','category filtering and pressed states','real product detail and live quantity price','no implicit cart add','modal Escape/focus/inert restoration','deep link and explicit cart persistence');
  const noJs = await browser.newContext({ javaScriptEnabled:false,viewport:{width:390,height:844} });
  const staticPage=await noJs.newPage();

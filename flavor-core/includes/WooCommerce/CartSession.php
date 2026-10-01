@@ -57,6 +57,9 @@ class CartSession {
 				'product_id'   => (int) $item['product_id'],
 				'name'         => $product ? $product->get_name() : '',
 				'quantity'     => (int) $item['quantity'],
+				// Authoritative numeric amounts, in the WooCommerce catalog unit.
+				'unit_price_raw' => $product ? (float) $product->get_price() : 0,
+				'line_total_raw' => (float) ( $item['line_total'] ?? 0 ),
 				'price_html'   => $product ? wc_price( $product->get_price() ) : '',
 				'line_html'    => isset( $item['line_total'] ) ? wc_price( $item['line_total'] ) : '',
 				'modifiers'    => $item['flavor_modifiers'] ?? array(),
@@ -70,6 +73,9 @@ class CartSession {
 			'count'        => $cart->get_cart_contents_count(),
 			'subtotal'     => (float) $cart->get_subtotal(),
 			'total'        => (float) $cart->get_total( 'edit' ),
+			'discount_total' => method_exists( $cart, 'get_discount_total' ) ? (float) $cart->get_discount_total() : 0,
+			'tax_total' => method_exists( $cart, 'get_total_tax' ) ? (float) $cart->get_total_tax() : 0,
+			'shipping_total' => method_exists( $cart, 'get_shipping_total' ) ? (float) $cart->get_shipping_total() : 0,
 			'subtotal_html'=> wc_price( $cart->get_subtotal() ),
 			'total_html'   => $cart->get_total(),
 			'fees'         => array_values(

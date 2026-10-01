@@ -7,6 +7,13 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Shared storefront UI — stage 2 / 2026-10-02
+
+- Image-led, accessible two-step cart/checkout drawer; explicit quantity/remove, server subtotal/discount/tax/fees, mode-specific fields and payment options, delivery eligibility and a separately labeled delivery quote. Failed submission preserves the cart and customer fields; double submission is blocked while pending. Native WooCommerce forms inherit the skin without gateway-template replacement.
+- Additive cart amount/display fields retain the legacy API keys. Fixed a verified pre-existing modifier-compounding bug by recalculating from a fresh catalog price, with a guarded real-WP repeated-calculation regression. No new price, stock, payment or delivery rules are introduced.
+- Live browser checks cover cart/checkout/mobile/empty states, quantity and authoritative amounts; checkout failure is intercepted in the browser so no real order/payment occurs.
+
+
 ### Shared storefront UI — stage 1 / 2026-10-02
 
 - Skin-inheriting shared UI tokens with readable action/secondary text, consistent controls and inner-page typography; landing compositions remain unchanged.

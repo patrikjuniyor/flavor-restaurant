@@ -107,6 +107,7 @@ try {
 	report.interactions.push('cart service modes match the imported branch');
 	if (slug === 'cloud-kitchen') {
 		await page.locator('#flavor-modes [data-mode="delivery"]').click();
+		await page.locator('#flavor-cart-continue').click();
 		await page.locator('#flavor-city').fill('تهران');
 		await page.locator('#flavor-hood').fill('ونک');
 		await page.locator('#flavor-hood').press('Tab');

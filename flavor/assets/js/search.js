@@ -346,6 +346,7 @@
 		if (!item) {
 			return;
 		}
+		if (window.FlavorMenuUI && item.id) { close(); window.FlavorMenuUI.openProduct(Number(item.id), input); return; }
 		if (cfg.menuUrl && item.id) {
 			close();
 			window.location.href = cfg.menuUrl + '#item-' + Number(item.id);

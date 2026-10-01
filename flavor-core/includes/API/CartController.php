@@ -385,16 +385,38 @@ class CartController extends BaseApiController {
 		$subtotal_stored = Currency::to_storage( (int) round( (float) ( $raw['subtotal'] ?? 0 ) ), $from_unit );
 		$total_stored    = Currency::to_storage( (int) round( (float) ( $raw['total'] ?? 0 ) ), $from_unit );
 
+		// Additive presentation fields; legacy price_html/line_html stay intact.
+		$items = array_map( static function ( $item ) use ( $from_unit ) {
+			$item['unit_price'] = Currency::to_storage( (int) round( (float) ( $item['unit_price_raw'] ?? 0 ) ), $from_unit );
+			$item['line_total'] = Currency::to_storage( (int) round( (float) ( $item['line_total_raw'] ?? 0 ) ), $from_unit );
+			$item['unit_price_html'] = Currency::format( $item['unit_price'] );
+			$item['line_total_html'] = Currency::format( $item['line_total'] );
+			return $item;
+		}, $raw['items'] ?? array() );
+		$discount = Currency::to_storage( (int) round( (float) ( $raw['discount_total'] ?? 0 ) ), $from_unit );
+		$tax = Currency::to_storage( (int) round( (float) ( $raw['tax_total'] ?? 0 ) ), $from_unit );
+		$shipping = Currency::to_storage( (int) round( (float) ( $raw['shipping_total'] ?? 0 ) ), $from_unit );
+		$fees = array_map( static function ( $fee ) use ( $from_unit ) {
+			$fee['amount_stored'] = Currency::to_storage( (int) round( (float) ( $fee['total'] ?? 0 ) ), $from_unit );
+			$fee['amount_html'] = Currency::format( $fee['amount_stored'] );
+			return $fee;
+		}, $raw['fees'] ?? array() );
 		$points_to_earn = PointsManager::estimate_points( $total_stored );
 
 		return array(
-			'items'            => $raw['items'] ?? array(),
+			'items'            => $items,
 			'count'            => (int) ( $raw['count'] ?? 0 ),
 			'subtotal'         => $subtotal_stored,
 			'subtotal_html'    => Currency::format( $subtotal_stored ),
 			'total'            => $total_stored,
 			'total_html'       => Currency::format( $total_stored ),
-			'fees'             => $raw['fees'] ?? array(),
+			'fees'             => $fees,
+			'discount_total' => $discount,
+			'discount_html' => Currency::format( $discount ),
+			'tax_total' => $tax,
+			'tax_html' => Currency::format( $tax ),
+			'shipping_total' => $shipping,
+			'shipping_html' => Currency::format( $shipping ),
 			'coupons'          => function_exists( 'WC' ) && WC()->cart ? WC()->cart->get_applied_coupons() : array(),
 			'points_to_earn'   => $points_to_earn,
 			'needs_payment'    => (bool) ( $raw['needs_payment'] ?? true ),
