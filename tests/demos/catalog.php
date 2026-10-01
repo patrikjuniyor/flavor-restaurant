@@ -25,6 +25,13 @@ foreach ( $catalog as $slug => $pack ) {
 	$files = array_merge( array( 'hero.jpg' ), array_values( $pack['category_images'] ?? array() ), array_column( $pack['items'], 'image' ) );
 	if ( isset( $pack['landing'] ) ) {
 		$files[] = 'story.jpg';
+		$files = array_merge( $files, array_column( $pack['landing']['services'] ?? array(), 'image' ) );
+		if ( 'catering' === $slug ) {
+			demo_check( 0 === $pack['tables'] && array( 'takeaway' ) === $pack['order_modes'], 'Catering must not promise restaurant tables or instant delivery.' );
+			demo_check( '#proposal' === $pack['landing']['primary_action'], 'Catering must lead to event planning, not table reservations.' );
+			demo_check( 3 === count( $pack['landing']['services'] ), 'Catering needs its three independent service paths.' );
+			demo_check( is_file( FLAVOR_DIR . '/assets/js/catering.js' ), 'Missing progressive catering planner.' );
+		}
 		demo_check( in_array( $slug, \Flavor\Bespoke_Demos::SLUGS, true ), 'Pack has no bespoke template: ' . $slug );
 		demo_check( is_file( FLAVOR_DIR . '/template-parts/demos/' . $slug . '.php' ), 'Missing landing template: ' . $slug );
 		demo_check( is_file( FLAVOR_DIR . '/assets/css/skins/' . $slug . '.css' ), 'Missing skin stylesheet: ' . $slug );

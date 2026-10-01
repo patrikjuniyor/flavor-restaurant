@@ -152,6 +152,18 @@ class Enqueue {
 			);
 		}
 
+		// The catering brief stays local to the homepage; no unused planner code
+		// is loaded on other demos or on commerce/reservation pages.
+		if ( 'catering' === $skin && is_front_page() ) {
+			wp_enqueue_script(
+				'flavor-catering-js',
+				FLAVOR_URI . '/assets/js/catering.js',
+				array( 'flavor-bespoke-js' ),
+				(string) filemtime( FLAVOR_DIR . '/assets/js/catering.js' ),
+				array( 'in_footer' => true, 'strategy' => 'defer' )
+			);
+		}
+
 		$is_menu = is_page_template( 'page-templates/template-menu.php' );
 		if ( $is_menu ) {
 			wp_enqueue_script(

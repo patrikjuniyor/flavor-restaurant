@@ -2,7 +2,7 @@
 /**
  * Design tokens and presets for Flavor Theme.
  *
- * Provides a unified design system supporting 11 commercial restaurant presets,
+ * Provides a unified design system supporting 12 commercial restaurant presets,
  * dynamic theme customization, CSS custom properties, and typography scales.
  *
  * @package Flavor
@@ -66,11 +66,11 @@ class Design {
 			),
 			'cloud-kitchen'     => array(
 				'title' => __( 'آشپزخانه ابری و دلیوری', 'flavor' ),
-				'desc'  => __( 'نارنجی سرعتی با تمرکز بالا بر سفارش آنلاین و ارسال', 'flavor' ),
+				'desc'  => __( 'کبالتی و لیمویی با تمرکز بر سفارش آنلاین و بررسی محدودهٔ ارسال', 'flavor' ),
 			),
 			'catering'          => array(
 				'title' => __( 'کترینگ و تشریفات سازمانی', 'flavor' ),
-				'desc'  => __( 'سرمه‌ای رسمی و نقره‌ای برای رویدادها و مجالس', 'flavor' ),
+				'desc'  => __( 'سرمه‌ای، عاجی و برنجی با مسیر اختصاصی برنامه‌ریزی پذیرایی سازمانی', 'flavor' ),
 			),
 		);
 	}
@@ -260,19 +260,19 @@ class Design {
 				'font_body'    => 'Vazirmatn',
 			),
 			'catering'          => array(
-				'primary'      => '#1e3a8a',
-				'secondary'    => '#0284c7',
-				'accent'       => '#3b82f6',
-				'bg'           => '#f8fafc',
-				'surface'      => '#ffffff',
-				'surface_alt'  => '#f1f5f9',
-				'ink'          => '#0f172a',
-				'muted'        => '#475569',
-				'line'         => '#e2e8f0',
-				'card_shadow'  => '0 8px 24px rgba(30,58,138,0.06)',
-				'radius'       => '12px',
-				'btn_radius'   => '8px',
-				'font_heading' => 'Vazirmatn',
+				'primary'      => '#253e55',
+				'secondary'    => '#172c40',
+				'accent'       => '#a67945',
+				'bg'           => '#f9f6f0',
+				'surface'      => '#fffdf8',
+				'surface_alt'  => '#eee9df',
+				'ink'          => '#1b2b39',
+				'muted'        => '#59636b',
+				'line'         => '#dcd7ce',
+				'card_shadow'  => 'none',
+				'radius'       => '2px',
+				'btn_radius'   => '2px',
+				'font_heading' => 'Estedad',
 				'font_body'    => 'Vazirmatn',
 			),
 		);

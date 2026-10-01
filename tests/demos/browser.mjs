@@ -4,6 +4,7 @@ import AxeBuilder from '@axe-core/playwright';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { testCateringPlanner } from './catering.mjs';
 
 const base = process.env.SITE_URL || 'http://localhost:8080/';
 const output = path.resolve(process.env.QA_OUTPUT_DIR || '../../.cache/demo-qa');
@@ -24,6 +25,12 @@ try {
 	assert.equal(await page.locator('html').getAttribute('dir'), 'rtl');
 	const count = await page.locator('.fd-product').count();
 	assert.ok(count >= 8, 'Import the full WooCommerce demo content.');
+	const firstLandingPrice = (await page.locator('.fd-product__price').first().textContent()).trim();
+	const missingAnchors = await page.locator('.fd-header nav a[href]').evaluateAll(links => links.filter(link => {
+		const url = new URL(link.href);
+		return url.hash && !document.getElementById(url.hash.slice(1));
+	}).map(link => link.href));
+	assert.deepEqual(missingAnchors, [], 'Main navigation has missing sections.');
 	await page.evaluate(async () => {
 		await document.fonts.ready;
 		await Promise.all(Array.from(document.images).map(image => { image.loading = 'eager'; return image.decode().catch(() => {}); }));
@@ -54,6 +61,7 @@ try {
 	assert.equal(await filter.getAttribute('aria-pressed'), 'true');
 	await page.locator('[data-fd-filter="all"]').click();
 	assert.equal(await page.locator('.fd-product:visible').count(), count);
+	if (slug === 'catering') await testCateringPlanner(page, context, report, base, output);
 	const coverageForm = page.locator('[data-fd-coverage]');
 	if (await coverageForm.count()) {
 		const neighborhood = await page.locator('#fd-coverage-list option').first().getAttribute('value');
@@ -83,6 +91,9 @@ try {
 	await page.goto(productHref, { waitUntil: 'networkidle' });
 	await page.waitForSelector('#flavor-sheet:not([hidden])', { timeout: 20000 });
 	assert.ok((await page.locator('#flavor-sheet-title').textContent()).trim());
+	const itemId = new URL(productHref).hash.replace('#item-', '');
+	assert.equal((await page.locator('#item-' + itemId + ' .flavor-food-card__price').textContent()).trim(), firstLandingPrice, 'Homepage and live REST menu disagree about the product price/unit.');
+	report.interactions.push('homepage / live menu price and currency consistency');
 	assert.equal(await page.locator('#flavor-cart-count').textContent(), '0', 'A deep link must not add a product automatically.');
 	await page.locator('#flavor-sheet-add').click();
 	await page.waitForFunction(() => Number(document.getElementById('flavor-cart-count').textContent) > 0);
@@ -129,10 +140,16 @@ try {
 	await staticPage.goto(base);
 	assert.equal(await staticPage.locator('.fd-product:visible').count(), count);
 	assert.equal(await staticPage.locator('[data-fd-filters]:visible').count(), 0);
+	if (slug === 'catering') {
+		assert.equal(await staticPage.locator('[data-fd-proposal]:visible').count(), 0);
+		assert.equal(await staticPage.locator('.fd-mizan-planner__fallback:visible').count(), 1);
+		assert.ok((await staticPage.locator('.fd-mizan-planner__fallback a').getAttribute('href')).startsWith('tel:'));
+		report.interactions.push('no-JS catering planning checklist and real phone fallback');
+	}
 	report.interactions.push('no-JS server-rendered products and FAQ');
 	assert.deepEqual(errors, [], 'Browser or HTTP errors.');
 	report.result = 'PASS';
-	console.log('PASS ' + slug + ': 5 widths, axe, real menu/cart/modes, keyboard, no-JS and reservation when enabled.');
+	console.log('PASS ' + slug + ': 5 widths, axe, live menu/cart/prices/modes, keyboard, no-JS, reservation/planner when enabled.');
 } catch (error) {
 	report.result = 'FAIL'; report.error = error.message; throw error;
 } finally {

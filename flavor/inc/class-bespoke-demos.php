@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 
 class Bespoke_Demos {
 	/** Ready packs; legacy homepages remain untouched. */
-	public const SLUGS = array( 'juice-bar', 'dark-luxe', 'minimal-clean', 'cloud-kitchen' );
+	public const SLUGS = array( 'juice-bar', 'dark-luxe', 'minimal-clean', 'cloud-kitchen', 'catering' );
 
 	public static function init(): void {
 		add_filter( 'body_class', array( self::class, 'body_class' ) );
@@ -65,6 +65,10 @@ class Bespoke_Demos {
 			return 'tel:' . preg_replace( '/\D+/', '', (string) get_theme_mod( 'flavor_phone', self::demo()['phone'] ?? '' ) );
 		}
 		if ( 0 === strpos( $action, '#' ) ) {
+			// Hiding the catering planner must not strand its primary CTA.
+			if ( '#proposal' === $action && 'catering' === Design::current_skin() && ! self::enabled( 'feature' ) ) {
+				$action = '#visit';
+			}
 			return home_url( '/' ) . $action;
 		}
 		return self::page_url( in_array( $action, array( 'menu', 'reservation', 'branches', 'contact' ), true ) ? $action : 'menu' );
@@ -72,6 +76,19 @@ class Bespoke_Demos {
 
 	public static function digits( string $value ): string {
 		return strtr( $value, array( '0' => '۰', '1' => '۱', '2' => '۲', '3' => '۳', '4' => '۴', '5' => '۵', '6' => '۶', '7' => '۷', '8' => '۸', '9' => '۹' ) );
+	}
+
+	/**
+	 * Match the live menu/cart display unit, not WooCommerce's unrelated
+	 * default currency (often USD on a fresh development install).
+	 *
+	 * @param int|float|string $stored Product price in Core storage units.
+	 */
+	public static function price( $stored ): string {
+		if ( class_exists( \FlavorCore\WooCommerce\Currency::class ) ) {
+			return esc_html( \FlavorCore\WooCommerce\Currency::format( (int) round( (float) $stored ) ) );
+		}
+		return function_exists( 'wc_price' ) ? wc_price( $stored ) : esc_html( self::digits( (string) $stored ) );
 	}
 
 	/** Safe inline emphasis, not arbitrary markup from settings. */
@@ -101,6 +118,8 @@ class Bespoke_Demos {
 			'spark'   => '<path d="m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z"/>',
 			'truck'   => '<path d="M2 5h12v12H2V5Zm12 4h4l4 5v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>',
 			'calendar'=> '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 2v6m10-6v6M3 11h18"/>',
+			'cloche'  => '<path d="M3 17h18M5 17a7 7 0 0 1 14 0M2 21h20M12 6v3"/><circle cx="12" cy="5" r="1"/>',
+			'copy'    => '<rect x="8" y="8" width="12" height="13" rx="1"/><path d="M16 8V3H4v13h4"/>',
 			'home'    => '<path d="m3 10 9-7 9 7v11h-6v-7H9v7H3V10Z"/>',
 			'menu'    => '<path d="M4 6h16M4 12h16M4 18h16"/>',
 		);
@@ -139,10 +158,16 @@ class Bespoke_Demos {
 			'visit_title'   => __( 'تیتر بخش تماس', 'flavor' ),
 			'brand_caption'=> __( 'زیرعنوان لوگوی متنی', 'flavor' ),
 		);
+		if ( 'catering' === Design::current_skin() ) {
+			$fields['services_title'] = __( 'تیتر خدمات پذیرایی', 'flavor' );
+			$fields['services_text']  = __( 'توضیح خدمات پذیرایی', 'flavor' );
+			$fields['menu_notice']    = __( 'توضیح مقدار و شرایط منوی کترینگ', 'flavor' );
+		}
 		foreach ( $fields as $key => $label ) {
 			$id = 'flavor_landing_' . $key;
-			$wp_customize->add_setting( $id, array( 'default' => self::value( $key ), 'sanitize_callback' => 'sanitize_text_field' ) );
-			$wp_customize->add_control( $id, array( 'label' => $label, 'section' => 'flavor_bespoke', 'type' => 'feature_text' === $key ? 'textarea' : 'text' ) );
+			$textarea = in_array( $key, array( 'feature_text', 'services_text', 'menu_notice' ), true );
+			$wp_customize->add_setting( $id, array( 'default' => self::value( $key ), 'sanitize_callback' => $textarea ? 'sanitize_textarea_field' : 'sanitize_text_field' ) );
+			$wp_customize->add_control( $id, array( 'label' => $label, 'section' => 'flavor_bespoke', 'type' => $textarea ? 'textarea' : 'text' ) );
 		}
 		foreach ( array( 'story' => 'داستان برند', 'process' => 'مراحل و ویژگی‌ها', 'feature' => 'پیشنهاد اختصاصی', 'faq' => 'پرسش‌های متداول' ) as $key => $label ) {
 			$id = 'flavor_landing_' . $key . '_enable';

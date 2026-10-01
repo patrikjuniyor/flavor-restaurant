@@ -1,0 +1,251 @@
+{
+  "recorded_on": "2026-10-02",
+  "baseline_commit": "114859fbeca4dc89fe18b0abaff1523d3d3a8f66",
+  "scope": "Catering completion; shared import/display currency fix; preservation of previous demo compositions.",
+  "environment": {
+    "WordPress": "7.1.2",
+    "WooCommerce": "11.1.2",
+    "PHP": "8.4.26",
+    "SQLite_Integration": "3.0.2",
+    "Playwright": "1.63.0",
+    "axe_core": "4.13.0"
+  },
+  "catalog": {
+    "defined_skins": 12,
+    "importable_packs": 12,
+    "products_per_pack": 8,
+    "result": "PASS"
+  },
+  "repeated_imports": {
+    "tested_packs": [
+      "modern-restaurant",
+      "luxury-dining",
+      "persian-traditional",
+      "fast-food",
+      "cafe-bistro",
+      "pizza-italian",
+      "bakery-pastry",
+      "juice-bar",
+      "dark-luxe",
+      "minimal-clean",
+      "cloud-kitchen",
+      "catering"
+    ],
+    "checks": [
+      "pages/products/media/navigation deduplication",
+      "non-demo page preservation",
+      "product and modifier storage prices",
+      "landing/Core display consistency",
+      "branch tables/hours/zones",
+      "landing override reset"
+    ],
+    "result": "PASS"
+  },
+  "browser": [
+    {
+      "demo": "juice-bar",
+      "result": "PASS",
+      "widths": [
+        320,
+        390,
+        768,
+        1024,
+        1440
+      ],
+      "automated_wcag_violations": 0,
+      "audited_pages": [
+        "home desktop",
+        "home mobile"
+      ],
+      "checks": [
+        "images",
+        "navigation anchors",
+        "category filter",
+        "FAQ",
+        "mobile focus/Escape",
+        "home/live-menu price equality",
+        "explicit cart add/persistence",
+        "branch service modes",
+        "no-JS home"
+      ]
+    },
+    {
+      "demo": "dark-luxe",
+      "result": "PASS",
+      "widths": [
+        320,
+        390,
+        768,
+        1024,
+        1440
+      ],
+      "automated_wcag_violations": 0,
+      "audited_pages": [
+        "home desktop",
+        "home mobile",
+        "reservation"
+      ],
+      "checks": [
+        "images",
+        "navigation anchors",
+        "category filter",
+        "FAQ",
+        "mobile focus/Escape",
+        "home/live-menu price equality",
+        "explicit cart add/persistence",
+        "branch service modes",
+        "no-JS home"
+      ]
+    },
+    {
+      "demo": "minimal-clean",
+      "result": "PASS",
+      "widths": [
+        320,
+        390,
+        768,
+        1024,
+        1440
+      ],
+      "automated_wcag_violations": 0,
+      "audited_pages": [
+        "home desktop",
+        "home mobile",
+        "reservation"
+      ],
+      "checks": [
+        "images",
+        "navigation anchors",
+        "category filter",
+        "FAQ",
+        "mobile focus/Escape",
+        "home/live-menu price equality",
+        "explicit cart add/persistence",
+        "branch service modes",
+        "no-JS home"
+      ]
+    },
+    {
+      "demo": "cloud-kitchen",
+      "result": "PASS",
+      "widths": [
+        320,
+        390,
+        768,
+        1024,
+        1440
+      ],
+      "automated_wcag_violations": 0,
+      "audited_pages": [
+        "home desktop",
+        "home mobile"
+      ],
+      "checks": [
+        "images",
+        "navigation anchors",
+        "category filter",
+        "FAQ",
+        "mobile focus/Escape",
+        "home/live-menu price equality",
+        "explicit cart add/persistence",
+        "branch service modes",
+        "no-JS home"
+      ]
+    },
+    {
+      "demo": "catering",
+      "result": "PASS",
+      "widths": [
+        320,
+        390,
+        768,
+        1024,
+        1440
+      ],
+      "automated_wcag_violations": 0,
+      "audited_pages": [
+        "home desktop",
+        "home mobile",
+        "planner result"
+      ],
+      "checks": [
+        "images",
+        "navigation anchors",
+        "category filter",
+        "FAQ",
+        "mobile focus/Escape",
+        "home/live-menu price equality",
+        "explicit cart add/persistence",
+        "branch service modes",
+        "no-JS home"
+      ]
+    }
+  ],
+  "currency_matrix": {
+    "storage_display_pairs": [
+      [
+        "irr",
+        "irt"
+      ],
+      [
+        "irr",
+        "irr"
+      ],
+      [
+        "irt",
+        "irt"
+      ],
+      [
+        "irt",
+        "irr"
+      ]
+    ],
+    "products_per_pair": 8,
+    "real_rest_details": true,
+    "nonzero_modifier": true,
+    "result": "PASS",
+    "extra_browser_run": {
+      "demo": "catering",
+      "storage": "irt",
+      "display": "irr",
+      "result": "PASS"
+    }
+  },
+  "catering_planner": {
+    "result": "PASS",
+    "checks": [
+      "service preset and focus",
+      "Persian and Arabic digits",
+      "zero/out-of-range/whitespace rejection",
+      "plain-text hostile-input safety",
+      "explicit clipboard copy",
+      "denied-clipboard manual fallback",
+      "stale-summary clearing",
+      "no mutating network request",
+      "no-JS phone/checklist fallback",
+      "disabled planner CTA fallback"
+    ],
+    "creates_order_or_booking": false,
+    "sends_or_stores_inquiry": false
+  },
+  "core_pure_logic": {
+    "passed": 15,
+    "failed": 0
+  },
+  "core_mock_integration": {
+    "passed": 74,
+    "failed": 5,
+    "result": "KNOWN BASELINE FAILURES",
+    "baseline_failures_reproduced": true,
+    "new_failures": 0,
+    "failed_group": "reservation slots/create/read/IDOR/cancel",
+    "core_source_changed": false
+  },
+  "limits": [
+    "Runtime checks used disposable WordPress/SQLite, not production MySQL hosting.",
+    "No payment, SMS, order placement or reservation submission performed by demo browser QA.",
+    "Automated accessibility checks are not a complete manual WCAG audit.",
+    "Sample imagery, prices, recipes, contact information and service details require owner verification."
+  ],
+  "reproduction": "See docs/DEMO-REDESIGN.md and tests/demos/{catalog.php,import.php,currency.php,browser.mjs,catering.mjs}."
+}

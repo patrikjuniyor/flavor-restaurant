@@ -7,6 +7,13 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Catering completion and currency verification — 2026-10-02
+
+- **Catering / Mizan** — completes the twelfth importable pack: bespoke navy/ivory/brass RTL layout, three corporate service paths, 8 real WooCommerce items in 4 categories, 11 optimized local images from four newly generated illustrative photographs, editorial preparation story, collaboration process, native FAQ and contact information. Local Estedad/Vazirmatn are retained; no other demo's CSS or photographs are changed.
+- **Honest catering planner** — service presets, Persian/Arabic guest digits, required-field/range validation, plain-text brief, explicit copy with permission-denied fallback and stale-result reset. It sends/stores no information and does not claim to submit an inquiry, issue a quote, book an event or create an order. No-JS users get a checklist and phone link. The pack creates zero tables; individual checkout is pickup-only, while event capacity/logistics require separate confirmation.
+- **Import/display currency correction** — convert pack-toman product and modifier prices into configured Core storage units, instead of copying product prices verbatim and always multiplying modifier prices by ten. Bespoke homepage prices use Core formatting so their amount/unit match the real menu API. No existing site's prices are silently migrated on theme update; configure WooCommerce storage currency appropriately and audit older data before publication.
+- **Verification** — all 12 packs pass catalog and disposable-WP repeated-import checks; all five bespoke demos pass browser/layout/menu/cart/keyboard/no-JS tests, with zero automated WCAG violations in the audited home/reservation/planner states. Real REST currency checks cover all four IRR/IRT storage/display combinations and a nonzero modifier. Catering also passes a browser run in IRT-storage/IRR-display mode. The old Core mock suite remains 74/79 with the same five reservation failures reproduced from baseline `114859f`; no complete-pass claim is made for that unrelated suite. Details in `docs/DEMO-REDESIGN.md`.
+
 ### Demo design — 2026-10-01
 
 - **Juice Bar / Limo** — bespoke botanical/citrus RTL landing page, 8 WooCommerce products, 4 illustrated categories, 6 new optimized local images, category filtering, brand story, native FAQ, service-specific contact/footer and accessible mobile navigation. Estedad + Vazirmatn stay local; the seven previously completed demo compositions are preserved.

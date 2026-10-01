@@ -35,9 +35,18 @@ try {
 		$nav_id = get_theme_mod( 'nav_menu_locations' )['primary'];
 		import_check( count( $pack['navigation'] ) === count( wp_get_nav_menu_items( $nav_id ) ), 'Duplicate anchor navigation.' );
 	}
+	$rows_by_name = array_column( $pack['items'], null, 'name' );
 	foreach ( $products as $id ) {
 		$product = wc_get_product( $id );
 		import_check( $product && $product->is_purchasable() && $product->get_image_id() > 0, 'Imported product is not purchasable or has no image.' );
+		$row = $rows_by_name[ $product->get_name() ];
+		$stored = \FlavorCore\WooCommerce\Currency::to_storage( (int) $row['price'], 'irt' );
+		import_check( (int) $product->get_price() === $stored, 'Product price was not converted from pack toman to Core storage currency.' );
+		import_check( \Flavor\Bespoke_Demos::price( $stored ) === esc_html( \FlavorCore\WooCommerce\Currency::format( $stored ) ), 'Landing and Core display currency disagree.' );
+		$modifiers = get_post_meta( $id, '_flavor_modifiers', true );
+		foreach ( $row['modifiers'] ?? array() as $index => $modifier ) {
+			import_check( $modifiers[ $index ]['price'] === \FlavorCore\WooCommerce\Currency::to_storage( (int) ( $modifier['price'] ?? 0 ), 'irt' ), 'Modifier price uses a hard-coded rial conversion.' );
+		}
 	}
 	$branch_id = \FlavorCore\PostTypes\BranchPostType::default_id();
 	$tables = \FlavorCore\Table\TableRepository::for_branch( $branch_id );
@@ -59,7 +68,12 @@ try {
 			import_check( $hours['open_time'] === $pack['opening_hours']['open'] && $hours['close_time'] === $pack['opening_hours']['close'], 'Reservation hours differ from the advertised pack hours.' );
 		}
 	}
-	echo 'PASS ' . $slug . ': repeated imports, product CRUD, images, navigation, empty editor, override reset, real branch/tables/hours/zones and preservation of non-demo content.' . PHP_EOL;
+	if ( 'catering' === $slug ) {
+		set_theme_mod( 'flavor_landing_feature_enable', 'no' );
+		import_check( 'visit' === wp_parse_url( \Flavor\Bespoke_Demos::action_url( '#proposal' ), PHP_URL_FRAGMENT ), 'Disabled planner leaves a broken primary CTA.' );
+		remove_theme_mod( 'flavor_landing_feature_enable' );
+	}
+	echo 'PASS ' . $slug . ': repeated imports, product CRUD, prices/modifiers, images, navigation, empty editor, override reset, real branch/tables/hours/zones and preservation of non-demo content.' . PHP_EOL;
 } finally {
 	wp_delete_post( (int) $sentinel, true );
 }

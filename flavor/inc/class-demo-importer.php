@@ -406,6 +406,10 @@ class Demo_Importer {
 		}
 
 		foreach ( $demo['items'] as $index => $row ) {
+			// Pack prices are toman; products and modifiers must use the same
+			// storage unit as the Core menu/cart API. No existing product is
+			// migrated: this applies only during an explicit demo import.
+			$stored_price = \FlavorCore\WooCommerce\Currency::to_storage( (int) $row['price'], 'irt' );
 			$post_id = wp_insert_post(
 				array(
 					'post_type'    => 'product',
@@ -424,8 +428,8 @@ class Demo_Importer {
 			if ( ! empty( $row['category'] ) && ! empty( $term_ids[ $row['category'] ] ) ) {
 				wp_set_object_terms( $post_id, array( $term_ids[ $row['category'] ] ), 'product_cat' );
 			}
-			update_post_meta( $post_id, '_regular_price', (string) $row['price'] );
-			update_post_meta( $post_id, '_price', (string) $row['price'] );
+			update_post_meta( $post_id, '_regular_price', (string) $stored_price );
+			update_post_meta( $post_id, '_price', (string) $stored_price );
 			update_post_meta( $post_id, '_virtual', 'yes' );
 			update_post_meta( $post_id, '_flavor_prep_time', (int) ( $row['prep'] ?? 15 ) );
 			update_post_meta( $post_id, '_flavor_dietary', $row['dietary'] ?? array() );
@@ -438,7 +442,7 @@ class Demo_Importer {
 					'id'         => sanitize_title( ( $m['type'] ?? 'topping' ) . '-' . $m['name'] ),
 					'type'       => $m['type'] ?? 'topping',
 					'name'       => $m['name'],
-					'price'      => isset( $m['price'] ) ? (int) $m['price'] * 10 : 0, // toman → rial storage default.
+					'price'      => \FlavorCore\WooCommerce\Currency::to_storage( (int) ( $m['price'] ?? 0 ), 'irt' ),
 					'is_default' => ! empty( $m['is_default'] ) ? 1 : 0,
 				);
 			}
@@ -456,8 +460,8 @@ class Demo_Importer {
 			// Sync WooCommerce's lookup tables through its CRUD data store.
 			$product = wc_get_product( $post_id );
 			if ( $product ) {
-				$product->set_regular_price( (string) $row['price'] );
-				$product->set_price( (string) $row['price'] );
+				$product->set_regular_price( (string) $stored_price );
+				$product->set_price( (string) $stored_price );
 				$product->set_stock_status( 'instock' );
 				$product->set_virtual( true );
 				$product->save();
