@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 
 class Bespoke_Demos {
 	/** Ready packs; legacy homepages remain untouched. */
-	public const SLUGS = array( 'juice-bar', 'dark-luxe' );
+	public const SLUGS = array( 'juice-bar', 'dark-luxe', 'minimal-clean' );
 
 	public static function init(): void {
 		add_filter( 'body_class', array( self::class, 'body_class' ) );

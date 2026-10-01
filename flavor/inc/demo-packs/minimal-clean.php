@@ -1,0 +1,51 @@
+<?php
+/** Form — a quiet contemporary table, not another color variant. @package Flavor */
+defined( 'ABSPATH' ) || exit;
+return array(
+	'slug' => 'minimal-clean', 'title' => 'رستوران مینیمال معاصر — فرم', 'site_title' => 'فرم',
+	'tagline' => 'مواد خوب. جزئیات کمتر. طعم بیشتر.',
+	'hero_title' => 'ساده. دقیق. به‌یادماندنی.',
+	'hero_text' => 'در فرم، مواد خوب در مرکز توجه‌اند. منویی کوتاه و فصلی، پختی دقیق و فضایی آرام؛ برای ناهارهای بی‌عجله و شام‌های خوش‌صحبت.',
+	'about' => 'فرم با یک سؤال شروع شد: اگر چیزهای اضافی را کنار بگذاریم، چه چیزی می‌ماند؟ برای ما، پاسخ مواد خوب، پخت درست و میزبانی صمیمی است. منو را کوتاه نگه می‌داریم تا به هر بشقاب توجه بیشتری برسد. اینجا سادگی به معنی کم‌گذاشتن نیست؛ انتخاب آگاهانهٔ جزئیات است.',
+	'branch_name' => 'رستوران فرم — ولیعصر', 'city' => 'تهران', 'phone' => '02188961240',
+	'address' => 'تهران، ولیعصر، بالاتر از میدان ونک، کوچهٔ گلستان، پلاک ۱۲',
+	'order_modes' => array( 'dine_in', 'takeaway', 'delivery' ), 'tables' => 6,
+	'opening_hours' => array( 'open' => '12:00:00', 'close' => '23:00:00' ),
+	'theme_mods' => array(
+		'flavor_hero_style' => 'fullscreen', 'flavor_hero_badge' => 'یک میز معاصر', 'flavor_hero_cta' => 'رزرو میز', 'flavor_hero_cta2' => 'دیدن منوی فصل',
+		'flavor_header_topbar' => 'ناهار و شام، همه‌روزه از ۱۲ تا ۲۳', 'flavor_phone' => '02188961240',
+		'flavor_address' => 'تهران، ولیعصر، بالاتر از میدان ونک، کوچهٔ گلستان، پلاک ۱۲', 'flavor_hours' => 'همه‌روزه، ۱۲ تا ۲۳', 'flavor_featured_title' => 'منوی فصل، بی‌حاشیه',
+	),
+	'navigation' => array( array( 'label' => 'منوی فصل', 'anchor' => '#menu' ), array( 'label' => 'دربارهٔ فرم', 'anchor' => '#story' ), array( 'label' => 'یک میز برای تو', 'anchor' => '#experience' ), array( 'label' => 'نشانی و تماس', 'anchor' => '#visit' ) ),
+	'categories' => array( 'بشقاب‌های اصلی' => 'form-main', 'سبز و سبک' => 'form-salad', 'پاستا' => 'form-pasta', 'پایان شیرین' => 'form-dessert' ),
+	'category_images' => array( 'form-main' => 'category-main.jpg', 'form-salad' => 'category-salad.jpg', 'form-pasta' => 'category-pasta.jpg', 'form-dessert' => 'category-dessert.jpg' ),
+	'testimonials' => array(),
+	'items' => array(
+		flavor_demo_item( 'خوراک تنوری و سبزیجات', 'پخت آرام، سیب‌زمینی و سبزیجات فصل', 345000, 'form-main', array( 'prep' => 25 ) ),
+		flavor_demo_item( 'سالاد مرغ و پارمزان', 'کاهو، مرغ گریل، نان برشته و پارمزان', 215000, 'form-salad', array( 'prep' => 12, 'allergens' => array( 'milk', 'gluten' ) ) ),
+		flavor_demo_item( 'پنهٔ مرغ و قارچ', 'پنه، مرغ، قارچ تازه و سس خامه‌ای ملایم', 285000, 'form-pasta', array( 'prep' => 20, 'allergens' => array( 'milk', 'gluten' ) ) ),
+		flavor_demo_item( 'تیرامیسوی کلاسیک', 'ماسکارپونه، قهوه و بیسکویت؛ بدون الکل', 155000, 'form-dessert', array( 'prep' => 6, 'allergens' => array( 'milk', 'gluten', 'eggs' ) ) ),
+		flavor_demo_item( 'خوراک تنوری با عطر سبزی', 'پخت آرام با سبزی معطر، سیب‌زمینی و سس سبک', 355000, 'form-main', array( 'prep' => 25 ) ),
+		flavor_demo_item( 'سالاد مرغ با سس لیمو', 'کاهو، مرغ گریل، پارمزان و سس لیموی تازه', 225000, 'form-salad', array( 'prep' => 12, 'allergens' => array( 'milk', 'gluten' ) ) ),
+		flavor_demo_item( 'پنهٔ مرغ با سس سبک', 'پنه، مرغ و قارچ با سس سبک‌تر و سبزی تازه', 295000, 'form-pasta', array( 'prep' => 20, 'allergens' => array( 'milk', 'gluten' ) ) ),
+		flavor_demo_item( 'تیرامیسوی شکلات', 'ماسکارپونه، قهوه و لایهٔ شکلات تلخ؛ بدون الکل', 165000, 'form-dessert', array( 'prep' => 6, 'allergens' => array( 'milk', 'gluten', 'eggs' ) ) ),
+	),
+	'landing' => array(
+		'wordmark' => 'FORM / A SEASONAL TABLE', 'brand_caption' => 'یک میز معاصر', 'brand_icon' => 'leaf', 'eyebrow' => 'مواد خوب. جزئیات کمتر. طعم بیشتر.', 'hero_accent' => 'به‌یادماندنی.',
+		'hero_alt' => 'چند بشقاب غذا و سبزیجات روی میز روشن', 'primary_action' => 'reservation', 'primary_label' => 'رزرو میز', 'primary_icon' => 'calendar', 'mobile_label' => 'رزرو میز', 'secondary_label' => 'دیدن منوی فصل', 'perks' => array( 'مواد فصل', 'منوی کوتاه', 'میزبانی صمیمی' ),
+		'menu_eyebrow' => '۰۱ / روی میز', 'menu_title' => 'منوی فصل، بی‌حاشیه.', 'menu_text' => 'یک انتخاب کوتاه، برای یک وعدهٔ خوب. ترکیبات و قیمت هر بشقاب روشن است.',
+		'process_eyebrow' => 'چیزهایی که نگه می‌داریم', 'process_title' => 'سادگی، یک انتخاب است.',
+		'steps' => array( array( 'title' => 'مادهٔ اولیه', 'text' => 'انتخاب بر پایهٔ فصل و طعم؛ نه فهرستی طولانی از ترکیبات.' ), array( 'title' => 'پخت دقیق', 'text' => 'هر ماده با روش مناسب خودش؛ برای روشن ماندن طعم‌ها.' ), array( 'title' => 'فضای آرام', 'text' => 'چیدمانی خلوت، سرو بی‌تکلف و زمانی برای گفت‌وگو.' ) ),
+		'story_eyebrow' => '۰۲ / پشت بشقاب', 'story_title' => 'کمتر، اما با توجه بیشتر.', 'story_alt' => 'آشپزی در حال تکمیل جزئیات بشقاب‌ها در آشپزخانه', 'story_caption' => 'تصویر نمونهٔ فرایند آشپزی؛ عکس تیم واقعی فرم نیست.',
+		'story_values' => array( 'منویی کوتاه، متناسب با فصل', 'ترکیبات روشن و امکان گفت‌وگو دربارهٔ نیاز غذایی', 'توجه به ریتم سرو و تجربهٔ دور میز' ), 'story_action' => 'menu', 'story_link' => 'منوی کامل را ببین',
+		'feature_eyebrow' => '۰۳ / یک قرار ساده', 'feature_title' => 'جایی برای یک مکث خوب.', 'feature_text' => 'قرار دونفره، ناهار دوستانه یا شام بعد از یک روز شلوغ. تاریخ و تعداد مهمان‌ها را انتخاب کن؛ ساعت‌های دارای ظرفیت را همان‌جا می‌بینی.', 'feature_label' => 'انتخاب تاریخ و ساعت',
+		'faq_title' => 'پیش از قرارمان', 'faq_text' => 'چند پاسخ کوتاه برای برنامه‌ریزی راحت‌تر.',
+		'faq' => array(
+			array( 'question' => 'منو در طول سال تغییر می‌کند؟', 'answer' => 'منوی فرم برای تغییر با فصل طراحی شده است. آیتم‌ها، ترکیبات و قیمت روز را در منوی کامل بررسی کنید؛ محتوای فعلی سایت نمونهٔ دمو است.' ),
+			array( 'question' => 'بدون رزرو هم می‌توانم بیایم؟', 'answer' => 'پذیرش بدون رزرو به ظرفیت همان روز بستگی دارد. برای برنامه‌ریزی بهتر از صفحهٔ رزرو استفاده کنید یا پیش از مراجعه تماس بگیرید.' ),
+			array( 'question' => 'برای حساسیت غذایی چه کار کنم؟', 'answer' => 'ترکیبات نمونه در منو درج شده‌اند. لطفاً نیاز غذایی و حساسیت خود را پیش از سفارش اعلام کنید. آشپزخانه مشترک است و نبود تماس متقاطع تضمین نمی‌شود.' ),
+			array( 'question' => 'امکان سفارش بیرون‌بر یا ارسال هست؟', 'answer' => 'حالت بیرون‌بر یا ارسال را در منوی کامل انتخاب کنید. موجودی غذا، هزینه و محدودهٔ ارسال هنگام سفارش بررسی می‌شوند.' ),
+		),
+		'visit_eyebrow' => '۰۴ / نشانی ما', 'visit_title' => 'سر میز فرم، منتظرت هستیم.', 'hours' => 'همه‌روزه، ۱۲ تا ۲۳',
+	),
+);
