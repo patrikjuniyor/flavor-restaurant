@@ -306,9 +306,12 @@
 	}
 
 	function setMode(next) {
-		mode = next;
+		var allowed = cfg.orderModes || ['dine_in', 'takeaway', 'delivery'];
+		mode = allowed.includes(next) ? next : (allowed.includes('takeaway') ? 'takeaway' : allowed[0]);
 		document.querySelectorAll('#flavor-modes [data-mode]').forEach(function (b) {
+			b.hidden = !allowed.includes(b.getAttribute('data-mode'));
 			b.classList.toggle('is-active', b.getAttribute('data-mode') === mode);
+			b.setAttribute('aria-pressed', String(b.getAttribute('data-mode') === mode));
 		});
 		var tbox = document.getElementById('flavor-table-box');
 		var abox = document.getElementById('flavor-address-box');
@@ -620,6 +623,7 @@
 	Promise.all([api('context'), api('cart'), api('me')])
 		.then(function (pair) {
 			ctx = pair[0] || {};
+			if (!ctx.branch_id) ctx.branch_id = Number(cfg.branchId) || 0;
 			if (ctx.order_mode) mode = ctx.order_mode;
 			drawCart(pair[1]);
 			var me = pair[2] || {};

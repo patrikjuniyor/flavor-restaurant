@@ -94,7 +94,7 @@ class TableRepository {
 			'table_number' => sanitize_text_field( (string) $data['table_number'] ),
 			'label'        => isset( $data['label'] ) ? sanitize_text_field( (string) $data['label'] ) : null,
 			'capacity'     => isset( $data['capacity'] ) ? max( 1, min( 50, (int) $data['capacity'] ) ) : 4,
-			'section'      => in_array( $data['section'] ?? 'indoor', self::SECTIONS, true ) ? $data['section'] : 'indoor',
+			'section'      => in_array( $data['section'] ?? 'indoor', self::SECTIONS, true ) ? ( $data['section'] ?? 'indoor' ) : 'indoor',
 			'qr_token'     => self::fresh_token(),
 			'is_active'    => isset( $data['is_active'] ) ? (int) (bool) $data['is_active'] : 1,
 			'sort_order'   => (int) ( $data['sort_order'] ?? 0 ),

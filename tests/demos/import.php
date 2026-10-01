@@ -17,6 +17,7 @@ $sentinel = wp_insert_post( array( 'post_type' => 'page', 'post_title' => 'Non-d
 try {
 	\Flavor\Demo_Importer::import( $pack );
 	$first_media = get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'fields' => 'ids', 'posts_per_page' => -1, 'meta_key' => '_flavor_demo' ) );
+	$first_branch_id = \FlavorCore\PostTypes\BranchPostType::default_id();
 	set_theme_mod( 'flavor_landing_story_title', 'Previous-demo override sentinel' );
 	\Flavor\Demo_Importer::import( $pack );
 	$pages = get_posts( array( 'post_type' => 'page', 'post_status' => 'publish', 'fields' => 'ids', 'posts_per_page' => -1, 'meta_key' => '_flavor_demo' ) );
@@ -38,7 +39,18 @@ try {
 		$product = wc_get_product( $id );
 		import_check( $product && $product->is_purchasable() && $product->get_image_id() > 0, 'Imported product is not purchasable or has no image.' );
 	}
-	echo 'PASS ' . $slug . ': repeated imports, product CRUD, images, navigation, empty editor, override reset and preservation of non-demo content.' . PHP_EOL;
+	$branch_id = \FlavorCore\PostTypes\BranchPostType::default_id();
+	$tables = \FlavorCore\Table\TableRepository::for_branch( $branch_id );
+	import_check( count( $tables ) === (int) ( $pack['tables'] ?? 8 ), 'Actual demo table count differs from the pack.' );
+	import_check( ! \FlavorCore\Table\TableRepository::for_branch( $first_branch_id ), 'Repeated import leaked old demo tables.' );
+	import_check( \Flavor\Enqueue::current_branch_id() === $branch_id, 'Frontend default branch differs from the imported branch.' );
+	if ( ! empty( $pack['opening_hours'] ) ) {
+		for ( $day = 0; $day < 7; $day++ ) {
+			$hours = \FlavorCore\Reservation\SlotCalculator::hours_for( $branch_id, $day );
+			import_check( $hours['open_time'] === $pack['opening_hours']['open'] && $hours['close_time'] === $pack['opening_hours']['close'], 'Reservation hours differ from the advertised pack hours.' );
+		}
+	}
+	echo 'PASS ' . $slug . ': repeated imports, product CRUD, images, navigation, empty editor, override reset, real branch/tables/hours and preservation of non-demo content.' . PHP_EOL;
 } finally {
 	wp_delete_post( (int) $sentinel, true );
 }

@@ -22,12 +22,21 @@
 	function api(path, opt) {
 		return fetch(cfg.rest + path, Object.assign({ credentials: 'same-origin' }, opt || {})).then(function (r) {
 			return r.json().then(function (j) {
-				if (!r.ok) throw new Error(j.message || r.statusText);
-				return j;
+				if (!r.ok || (j && j.success === false)) {
+					var error = j && j.errors && j.errors[0];
+					throw new Error((error && error.message) || j.message || r.statusText);
+				}
+				return j && j.success === true ? j.data : j;
 			});
 		});
 	}
 
+	function reportError(error) {
+		var host = document.getElementById('flavor-res-err');
+		if (host) { host.hidden = false; host.textContent = error.message; }
+	}
+
+	var slotsRequest = 0;
 	function loadCal() {
 		var q = 'calendar?jy=' + jy + '&jm=' + jm;
 		api(q).then(function (cal) {
@@ -56,7 +65,8 @@
 					'</button>';
 			});
 			grid.innerHTML = html;
-		});
+			grid.querySelectorAll('[data-g]').forEach(function (button) { button.setAttribute('aria-pressed', String(button.dataset.g === selectedDate)); });
+		}).catch(reportError);
 	}
 
 	function loadSlots() {
@@ -65,6 +75,10 @@
 		var section = document.getElementById('flavor-res-section');
 		var host = document.getElementById('flavor-res-slots');
 		if (!selectedDate || !host) return;
+		selectedTime = '';
+		var requestId = ++slotsRequest;
+		host.setAttribute('aria-busy', 'true');
+		host.textContent = 'در حال بررسی ظرفیت…';
 		var q =
 			'reservations/slots?branch_id=' +
 			encodeURIComponent(branch ? branch.value : 0) +
@@ -75,6 +89,8 @@
 			'&section=' +
 			encodeURIComponent(section ? section.value : '');
 		api(q).then(function (d) {
+			if (requestId !== slotsRequest) return;
+			host.removeAttribute('aria-busy');
 			host.innerHTML = (d.slots || [])
 				.map(function (s) {
 					return (
@@ -91,6 +107,11 @@
 					);
 				})
 				.join('');
+			host.querySelectorAll('[data-t]').forEach(function (button) { button.setAttribute('aria-pressed', 'false'); });
+			if (!d.slots || !d.slots.length) host.textContent = 'برای این تاریخ و انتخاب، ظرفیت قابل رزرو وجود ندارد. تاریخ یا بخش دیگری را بررسی کنید.';
+		}).catch(function (error) {
+			if (requestId !== slotsRequest) return;
+			host.removeAttribute('aria-busy'); host.textContent = 'بررسی ظرفیت ناموفق بود.'; reportError(error);
 		});
 	}
 
@@ -102,13 +123,14 @@
 				return '<option value="' + esc(b.id) + '">' + esc(b.name) + '</option>';
 			})
 			.join('');
-	});
+		if (cfg.branchId) sel.value = String(cfg.branchId);
+	}).catch(reportError);
 
 	api('calendar').then(function (cal) {
 		jy = cal.jy;
 		jm = cal.jm;
 		loadCal();
-	});
+	}).catch(reportError);
 
 	var prev = document.getElementById('flavor-cal-prev');
 	var next = document.getElementById('flavor-cal-next');
@@ -142,6 +164,7 @@
 			selectedTime = '';
 			grid.querySelectorAll('.flavor-cal__day').forEach(function (x) {
 				x.classList.toggle('is-active', x === b);
+				x.setAttribute('aria-pressed', String(x === b));
 			});
 			loadSlots();
 		});
@@ -155,6 +178,7 @@
 			selectedTime = b.getAttribute('data-t');
 			slots.querySelectorAll('.flavor-slot').forEach(function (x) {
 				x.classList.toggle('is-active', x === b);
+				x.setAttribute('aria-pressed', String(x === b));
 			});
 		});
 	}
@@ -179,6 +203,8 @@
 				return;
 			}
 			var branch = document.getElementById('flavor-res-branch');
+			var submit = form.querySelector('[type="submit"]');
+			if (submit) submit.disabled = true;
 			api('reservations', {
 				method: 'POST',
 				headers: { 'X-WP-Nonce': cfg.nonce || '', 'Content-Type': 'application/json' },
@@ -204,7 +230,7 @@
 						err.hidden = false;
 						err.textContent = ex.message;
 					}
-				});
+				}).finally(function () { if (submit) submit.disabled = false; });
 		});
 	}
 })();

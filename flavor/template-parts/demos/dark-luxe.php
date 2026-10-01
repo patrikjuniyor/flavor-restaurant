@@ -1,0 +1,19 @@
+<?php
+/** Noir: cinematic plate, restrained typography and real reservation CTA. @package Flavor */
+defined( 'ABSPATH' ) || exit;
+$demo = \Flavor\Bespoke_Demos::demo();
+$image = get_theme_mod( 'flavor_hero_image', '' ) ?: \Flavor\Bespoke_Demos::asset( 'hero.jpg' );
+?>
+<section class="fd-hero fd-hero--noir" aria-labelledby="fd-hero-title"><div class="flavor-container">
+	<div class="fd-hero__grid"><div class="fd-hero__copy"><span class="fd-eyebrow"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'eyebrow' ) ); ?></span><h1 id="fd-hero-title"><?php echo \Flavor\Bespoke_Demos::hero_title(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></h1><p class="fd-hero__text"><?php echo esc_html( get_theme_mod( 'flavor_hero_text', $demo['hero_text'] ) ); ?></p><div class="fd-hero__actions"><a class="fd-button fd-button--primary" href="<?php echo esc_url( \Flavor\Bespoke_Demos::page_url( 'reservation' ) ); ?>"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'primary_label' ) ); ?><?php \Flavor\Bespoke_Demos::icon( 'arrow', 20 ); ?></a><a class="fd-text-link" href="#menu"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'secondary_label' ) ); ?></a></div><ul class="fd-hero__perks"><?php foreach ( $demo['landing']['perks'] as $perk ) : ?><li><?php \Flavor\Bespoke_Demos::icon( 'spark', 12 ); ?><?php echo esc_html( $perk ); ?></li><?php endforeach; ?></ul></div>
+		<figure class="fd-hero__art fd-noir-art"><div class="fd-noir-art__frame"><img class="fd-hero__image" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( \Flavor\Bespoke_Demos::value( 'hero_alt' ) ); ?>" width="1200" height="1200" fetchpriority="high" loading="eager" decoding="async" /></div><figcaption><span lang="en" dir="ltr">01 / THE SIGNATURE</span><span><?php esc_html_e( 'فیلهٔ گریل، به سبک نوار', 'flavor' ); ?></span></figcaption></figure>
+	</div><div class="fd-noir-meta"><span lang="en" dir="ltr">SEASONAL INGREDIENTS. PRECISE FIRE.</span><a href="#story"><?php esc_html_e( 'دربارهٔ فلسفهٔ ما', 'flavor' ); ?><?php \Flavor\Bespoke_Demos::icon( 'arrow', 17 ); ?></a></div>
+</div></section>
+<?php get_template_part( 'template-parts/demos/process' ); ?>
+<?php get_template_part( 'template-parts/demos/menu' ); ?>
+<?php get_template_part( 'template-parts/demos/story' ); ?>
+<?php if ( \Flavor\Bespoke_Demos::enabled( 'feature' ) ) : ?>
+<section class="fd-section fd-noir-experience" id="experience" aria-labelledby="fd-experience-title"><div class="flavor-container fd-noir-experience__grid"><div><span class="fd-eyebrow"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'feature_eyebrow' ) ); ?></span><h2 id="fd-experience-title"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'feature_title' ) ); ?></h2><p class="fd-prose"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'feature_text' ) ); ?></p><a class="fd-text-link" href="<?php echo esc_url( \Flavor\Bespoke_Demos::action_url( 'phone' ) ); ?>"><?php esc_html_e( 'هماهنگی یک مناسبت خاص', 'flavor' ); ?><?php \Flavor\Bespoke_Demos::icon( 'phone', 18 ); ?></a></div><div class="fd-noir-booking"><span class="fd-noir-booking__icon"><?php \Flavor\Bespoke_Demos::icon( 'calendar', 30 ); ?></span><h3><?php esc_html_e( 'برای یک شب خوب، جا نگه دار.', 'flavor' ); ?></h3><p><?php echo esc_html( get_theme_mod( 'flavor_hours', $demo['landing']['hours'] ) ); ?></p><a class="fd-button fd-button--primary" href="<?php echo esc_url( \Flavor\Bespoke_Demos::page_url( 'reservation' ) ); ?>"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'feature_label' ) ); ?><?php \Flavor\Bespoke_Demos::icon( 'arrow', 20 ); ?></a><small><?php esc_html_e( 'ظرفیت و ساعت‌های رزرو در صفحهٔ بعد نمایش داده می‌شوند.', 'flavor' ); ?></small></div></div></section>
+<?php endif; ?>
+<?php get_template_part( 'template-parts/demos/faq' ); ?>
+<?php get_template_part( 'template-parts/demos/visit' ); ?>

@@ -1,0 +1,49 @@
+{
+  "site": "http://localhost:8080/",
+  "widths": [
+    {
+      "viewport": 320,
+      "scroll": 320,
+      "overflow": []
+    },
+    {
+      "viewport": 390,
+      "scroll": 390,
+      "overflow": []
+    },
+    {
+      "viewport": 768,
+      "scroll": 768,
+      "overflow": []
+    },
+    {
+      "viewport": 1024,
+      "scroll": 1024,
+      "overflow": []
+    },
+    {
+      "viewport": 1440,
+      "scroll": 1440,
+      "overflow": []
+    }
+  ],
+  "accessibility": [
+    {
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "violations": []
+    }
+  ],
+  "interactions": [
+    "category filter / aria-live / native FAQ",
+    "mobile drawer / focus trap / Escape / focus restoration",
+    "live REST menu / product fragment / explicit cart add / cart persistence",
+    "cart service modes match the imported branch",
+    "no-JS server-rendered products and FAQ"
+  ],
+  "demo": "juice-bar",
+  "result": "PASS"
+}

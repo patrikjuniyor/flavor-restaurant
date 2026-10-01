@@ -78,6 +78,32 @@ try {
 	await page.reload({ waitUntil: 'networkidle' });
 	assert.equal(await page.locator('#flavor-cart-count').textContent(), '1', 'Cart did not survive GET envelope/reload.');
 	report.interactions.push('live REST menu / product fragment / explicit cart add / cart persistence');
+	await page.locator('.flavor-sheet__close').click();
+	await page.locator('#flavor-cart-toggle').click();
+	const allowedModes = await page.evaluate(() => window.flavorData.orderModes || ['dine_in', 'takeaway', 'delivery']);
+	assert.deepEqual(await page.locator('#flavor-modes [data-mode]:visible').evaluateAll(buttons => buttons.map(button => button.dataset.mode)), allowedModes);
+	report.interactions.push('cart service modes match the imported branch');
+	await page.goto(base, { waitUntil: 'networkidle' });
+	const reservationHref = await page.locator('.fd-header__cta').getAttribute('href');
+	if (reservationHref.includes('/reservation/')) {
+		await page.goto(reservationHref, { waitUntil: 'networkidle' });
+		await page.waitForSelector('#flavor-res-branch option', { state: 'attached' });
+		assert.equal(await page.locator('#flavor-res-branch').inputValue(), String(await page.evaluate(() => window.flavorData.branchId)));
+		await page.locator('.flavor-cal__day:not([disabled])').nth(1).click();
+		await page.waitForSelector('.flavor-slot:not([disabled])');
+		await page.locator('.flavor-slot:not([disabled])').first().click();
+		assert.equal(await page.locator('.flavor-slot.is-active').getAttribute('aria-pressed'), 'true');
+		await page.locator('#flavor-res-party').fill('3');
+		await page.locator('#flavor-res-party').press('Tab');
+		await page.waitForFunction(() => !document.getElementById('flavor-res-slots').hasAttribute('aria-busy'));
+		assert.equal(await page.locator('.flavor-slot.is-active').count(), 0, 'Changing capacity filters must clear the old time.');
+		await page.locator('.flavor-slot:not([disabled])').first().click();
+		const reservationAudit = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+		report.accessibility.push({ page: 'reservation', violations: reservationAudit.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => n.target) })) });
+		assert.equal(reservationAudit.violations.length, 0, 'Reservation accessibility violations.');
+		report.interactions.push('live reservation branch / Jalali day / real slots / pressed state / filter reset (no booking submitted)');
+	}
+
 	const noJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
 	const staticPage = await noJs.newPage();
 	await staticPage.goto(base);
@@ -86,7 +112,7 @@ try {
 	report.interactions.push('no-JS server-rendered products and FAQ');
 	assert.deepEqual(errors, [], 'Browser or HTTP errors.');
 	report.result = 'PASS';
-	console.log('PASS ' + slug + ': 5 widths, desktop/mobile axe, real menu/cart, keyboard and no-JS.');
+	console.log('PASS ' + slug + ': 5 widths, axe, real menu/cart/modes, keyboard, no-JS and reservation when enabled.');
 } catch (error) {
 	report.result = 'FAIL'; report.error = error.message; throw error;
 } finally {

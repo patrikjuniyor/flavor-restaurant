@@ -222,6 +222,13 @@ class Demo_Importer {
 			)
 		);
 		foreach ( $q->posts as $id ) {
+			if ( 'flavor_branch' === get_post_type( $id ) && class_exists( \FlavorCore\Database\Schema::class ) ) {
+				global $wpdb;
+				$wpdb->delete( \FlavorCore\Database\Schema::table( 'flavor_branch_hours' ), array( 'branch_id' => (int) $id ), array( '%d' ) );
+				if ( class_exists( \FlavorCore\Table\TableRepository::class ) ) {
+					foreach ( \FlavorCore\Table\TableRepository::for_branch( (int) $id ) as $table ) { \FlavorCore\Table\TableRepository::delete( (int) $table['id'] ); }
+				}
+			}
 			wp_delete_post( (int) $id, true );
 		}
 
@@ -473,6 +480,16 @@ class Demo_Importer {
 				),
 			)
 		);
+
+		if ( $branch_id && ! is_wp_error( $branch_id ) && ! empty( $demo['opening_hours'] ) && class_exists( \FlavorCore\Database\Schema::class ) ) {
+			global $wpdb;
+			for ( $day = 0; $day < 7; $day++ ) {
+				$wpdb->insert( \FlavorCore\Database\Schema::table( 'flavor_branch_hours' ), array(
+					'branch_id' => (int) $branch_id, 'day_of_week' => $day, 'mode' => 'all',
+					'open_time' => $demo['opening_hours']['open'], 'close_time' => $demo['opening_hours']['close'], 'is_closed' => 0,
+				), array( '%d', '%d', '%s', '%s', '%s', '%d' ) );
+			}
+		}
 
 		if ( $branch_id && ! is_wp_error( $branch_id ) && class_exists( '\\FlavorCore\\Table\\TableRepository' ) ) {
 			$table_count = max( 0, min( 100, (int) ( $demo['tables'] ?? 8 ) ) );

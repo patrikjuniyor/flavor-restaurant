@@ -32,14 +32,14 @@ $has_core = defined( 'FLAVOR_CORE_VERSION' );
 			</label>
 			<div class="flavor-cal" id="flavor-cal">
 				<div class="flavor-cal__nav">
-					<button type="button" id="flavor-cal-prev">‹</button>
+					<button type="button" id="flavor-cal-prev" aria-label="<?php esc_attr_e( 'ماه قبل', 'flavor' ); ?>">‹</button>
 					<strong id="flavor-cal-title"></strong>
-					<button type="button" id="flavor-cal-next">›</button>
+					<button type="button" id="flavor-cal-next" aria-label="<?php esc_attr_e( 'ماه بعد', 'flavor' ); ?>">›</button>
 				</div>
 				<div class="flavor-cal__week" id="flavor-cal-week"></div>
 				<div class="flavor-cal__grid" id="flavor-cal-grid"></div>
 			</div>
-			<div id="flavor-res-slots" class="flavor-slots"></div>
+			<div id="flavor-res-slots" class="flavor-slots" role="group" aria-label="<?php esc_attr_e( 'ساعت‌های قابل رزرو', 'flavor' ); ?>" aria-live="polite"></div>
 			<label><?php esc_html_e( 'نام', 'flavor' ); ?>
 				<input type="text" id="flavor-res-name" required />
 			</label>
@@ -49,8 +49,8 @@ $has_core = defined( 'FLAVOR_CORE_VERSION' );
 			<label><?php esc_html_e( 'توضیحات', 'flavor' ); ?>
 				<input type="text" id="flavor-res-note" maxlength="200" />
 			</label>
-			<p class="flavor-checkout__err" id="flavor-res-err" hidden></p>
-			<p id="flavor-res-ok" hidden></p>
+			<p class="flavor-checkout__err" id="flavor-res-err" role="alert" hidden></p>
+			<p id="flavor-res-ok" role="status" hidden></p>
 			<button type="submit" class="flavor-btn flavor-btn--primary"><?php esc_html_e( 'ثبت درخواست رزرو', 'flavor' ); ?></button>
 		</form>
 	<?php endif; ?>

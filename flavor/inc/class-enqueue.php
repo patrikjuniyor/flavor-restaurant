@@ -123,6 +123,10 @@ class Enqueue {
 
 		$payload['ajax']     = esc_url_raw( admin_url( 'admin-ajax.php' ) );
 		$payload['branchId'] = self::current_branch_id();
+		if ( Bespoke_Demos::active() && $payload['branchId'] ) {
+			$modes = get_post_meta( $payload['branchId'], '_flavor_order_modes', true );
+			$payload['orderModes'] = is_array( $modes ) ? array_values( $modes ) : array( 'dine_in', 'takeaway', 'delivery' );
+		}
 
 		// Enqueue global theme script
 		wp_enqueue_script(
@@ -202,7 +206,7 @@ class Enqueue {
 				'flavor-reservation',
 				FLAVOR_URI . '/assets/js/reservation.js',
 				array( 'flavor-main-js' ),
-				FLAVOR_VERSION,
+				(string) filemtime( FLAVOR_DIR . '/assets/js/reservation.js' ),
 				array(
 					'in_footer' => true,
 					'strategy'  => 'defer',
@@ -215,13 +219,13 @@ class Enqueue {
 	 * Branch id from the Flavor Core order context, when available.
 	 */
 	public static function current_branch_id(): int {
-		if ( class_exists( '\\FlavorCore\\Order\\OrderModes' ) ) {
+		if ( class_exists( \FlavorCore\Order\OrderModes::class ) ) {
 			$ctx = \FlavorCore\Order\OrderModes::get();
-			if ( is_array( $ctx ) && ! empty( $ctx['branch_id'] ) ) {
+			if ( is_array( $ctx ) && ! empty( $ctx['branch_id'] ) && 'flavor_branch' === get_post_type( (int) $ctx['branch_id'] ) ) {
 				return (int) $ctx['branch_id'];
 			}
 		}
-		return 0;
+		return class_exists( \FlavorCore\PostTypes\BranchPostType::class ) ? \FlavorCore\PostTypes\BranchPostType::default_id() : 0;
 	}
 
 	/**
