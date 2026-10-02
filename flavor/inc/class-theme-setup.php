@@ -23,6 +23,7 @@ class Theme_Setup {
 		add_action( 'widgets_init', array( self::class, 'sidebars' ) );
 		add_action( 'admin_notices', array( self::class, 'plugin_notice' ) );
 		add_filter( 'body_class', array( self::class, 'body_class' ) );
+		add_filter( 'get_custom_logo_image_attributes', array( self::class, 'logo_image_attributes' ) );
 	}
 
 	/**
@@ -37,13 +38,18 @@ class Theme_Setup {
 			'html5',
 			array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' )
 		);
+		// flex-* stays on so any logo shape is accepted, but that also means
+		// WordPress prints the file untouched — the display box is capped in
+		// CSS (--flavor-logo-height) and the srcset candidate is picked by the
+		// `sizes` hint added in self::logo_image_attributes().
 		add_theme_support(
 			'custom-logo',
 			array(
-				'height'      => 80,
-				'width'       => 240,
-				'flex-height' => true,
-				'flex-width'  => true,
+				'height'               => 56,
+				'width'                => 200,
+				'flex-height'          => true,
+				'flex-width'           => true,
+				'unlink-homepage-logo' => false,
 			)
 		);
 		add_theme_support( 'customize-selective-refresh-widgets' );
@@ -57,8 +63,46 @@ class Theme_Setup {
 
 		add_image_size( 'flavor-card', 600, 400, true );
 		add_image_size( 'flavor-hero', 1600, 900, true );
+		// Uncropped, so it keeps the logo ratio and stays in the srcset.
+		add_image_size( 'flavor-logo', 480, 200, false );
 
 		add_editor_style( 'assets/css/main.css' );
+	}
+
+	/**
+	 * Keep the custom logo light on phones.
+	 *
+	 * Core prints the logo at the `full` size with a generic
+	 * `sizes="(max-width: 1024px) 100vw, 1024px"` hint, which makes the
+	 * browser download the largest srcset candidate for a box that is never
+	 * wider than ~200 CSS pixels. Advertising the real box lets it pick the
+	 * `flavor-logo` candidate instead.
+	 *
+	 * @param array<string, string> $attr Image attributes.
+	 * @return array<string, string>
+	 */
+	public static function logo_image_attributes( $attr ): array {
+		$attr = is_array( $attr ) ? $attr : array();
+
+		$desktop = self::logo_height() * 4;
+		$mobile  = 150;
+
+		$attr['sizes'] = sprintf( '(max-width: 600px) %dpx, %dpx', $mobile, min( 420, max( 120, $desktop ) ) );
+
+		return $attr;
+	}
+
+	/**
+	 * Logo box height in pixels, clamped to a sane range.
+	 */
+	public static function logo_height(): int {
+		$height = absint( get_theme_mod( 'flavor_logo_height', 52 ) );
+
+		if ( $height < 24 || $height > 160 ) {
+			$height = 52;
+		}
+
+		return $height;
 	}
 
 	/**

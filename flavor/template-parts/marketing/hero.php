@@ -36,7 +36,23 @@ if ( ! $image ) {
 ?>
 <section class="flavor-hero flavor-hero--<?php echo esc_attr( $style ); ?>" aria-label="<?php esc_attr_e( 'بخش اصلی', 'flavor' ); ?>">
 	<?php if ( 'split' !== $style && $image ) : ?>
-		<img class="flavor-hero__bg" src="<?php echo esc_url( $image ); ?>" alt="" fetchpriority="high" decoding="async" />
+		<?php
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in flavor_responsive_image().
+		echo flavor_responsive_image(
+			$image,
+			'flavor-hero',
+			array(
+				'class'         => 'flavor-hero__bg',
+				'alt'           => '',
+				'sizes'         => '100vw',
+				'width'         => 1600,
+				'height'        => 900,
+				'fetchpriority' => 'high',
+				'decoding'      => 'async',
+				'loading'       => 'eager',
+			)
+		);
+		?>
 		<div class="flavor-hero__overlay"></div>
 	<?php endif; ?>
 
@@ -87,7 +103,22 @@ if ( ! $image ) {
 		<?php if ( 'split' === $style && $image ) : ?>
 			<div class="flavor-hero__media">
 				<div class="flavor-hero__img-frame">
-					<img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $title ); ?>" fetchpriority="high" />
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in flavor_responsive_image().
+					echo flavor_responsive_image(
+						$image,
+						'flavor-hero',
+						array(
+							'alt'           => $title,
+							'sizes'         => '(min-width: 992px) 45vw, 100vw',
+							'width'         => 1600,
+							'height'        => 900,
+							'fetchpriority' => 'high',
+							'decoding'      => 'async',
+							'loading'       => 'eager',
+						)
+					);
+					?>
 				</div>
 			</div>
 		<?php endif; ?>

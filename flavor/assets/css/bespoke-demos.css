@@ -31,7 +31,9 @@ body.flavor-bespoke { line-height: 1.85; }
 .flavor-bespoke .fd-brand__mark { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; color: var(--flavor-bg); background: var(--flavor-primary); }
 .flavor-bespoke .fd-brand__name { font-family: var(--flavor-font-heading); display: block; font-size: 26px; font-weight: 790; line-height: 1.3; }
 .flavor-bespoke .fd-brand__caption { display: block; color: var(--flavor-muted); font-size: 10px; letter-spacing: .01em; margin-top: 4px; }
-.flavor-bespoke .fd-brand .custom-logo { max-height: 60px; width: auto; }
+.flavor-bespoke .fd-brand .custom-logo-link { display: inline-flex; align-items: center; max-width: 100%; line-height: 0; }
+/* A height cap alone still lets an ultra-wide logo push the nav off the row. */
+.flavor-bespoke .fd-brand .custom-logo { width: auto; height: auto; max-width: min(var(--flavor-logo-max-width, 200px), 45vw); max-height: var(--flavor-logo-height, 60px); object-fit: contain; }
 .flavor-bespoke .fd-header .flavor-nav { gap: 26px; }
 .flavor-bespoke .fd-header .flavor-nav a { font-size: 13px; font-weight: 500; }
 .flavor-bespoke .fd-header__phone { display: none; align-items: center; gap: 7px; font-size: 12px; color: var(--flavor-ink); white-space: nowrap; }
@@ -178,6 +180,7 @@ body.flavor-bespoke { line-height: 1.85; }
 	.flavor-bespoke .fd-section { padding-block: 58px; scroll-margin-top: 86px; }
 	.flavor-bespoke .fd-topbar { font-size: 10px; padding-block: 8px; }
 	.flavor-bespoke .fd-header .flavor-header__inner { min-height: 72px; gap: 12px; }
+	.flavor-bespoke .fd-brand .custom-logo { max-width: min(150px, 40vw); max-height: var(--flavor-logo-height-mobile, 42px); }
 	.flavor-bespoke .fd-header__cta { display: none; }
 	.flavor-bespoke .fd-brand__mark { width: 40px; height: 40px; }
 	.flavor-bespoke .fd-brand__name { font-size: 22px; }

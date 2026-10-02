@@ -2,7 +2,7 @@
   "name": "flavor-demo-qa",
   "private": true,
   "type": "module",
-  "scripts": { "test": "node browser.mjs" },
+  "scripts": { "test": "node browser.mjs", "test:logo-box": "node logo-box.mjs" },
   "devDependencies": { "@axe-core/playwright": "4.13.0", "playwright": "1.63.0" },
   "engines": { "node": ">=20" }
 }

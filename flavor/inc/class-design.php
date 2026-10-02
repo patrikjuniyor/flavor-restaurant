@@ -377,6 +377,12 @@ class Design {
 			$container_width = '1240px';
 		}
 
+		// The logo is printed at its intrinsic size by core, so these tokens
+		// are the only thing keeping a large upload inside the header row.
+		$logo_height        = Theme_Setup::logo_height();
+		$logo_height_mobile = max( 24, (int) round( $logo_height * 0.72 ) );
+		$logo_max_width     = min( 420, max( 120, $logo_height * 4 ) );
+
 		$primary_rgb   = self::hex2rgb( $t['primary'] );
 		$secondary_rgb = self::hex2rgb( $t['secondary'] );
 		$accent_rgb    = self::hex2rgb( $t['accent'] );
@@ -404,6 +410,11 @@ class Design {
 			--flavor-container-max: {$container_width};
 			--flavor-font-heading: '{$t['font_heading']}', 'Vazirmatn', Tahoma, sans-serif;
 			--flavor-font-body: '{$t['font_body']}', 'Vazirmatn', Tahoma, sans-serif;
+
+			/* Site logo box */
+			--flavor-logo-height: {$logo_height}px;
+			--flavor-logo-height-mobile: {$logo_height_mobile}px;
+			--flavor-logo-max-width: {$logo_max_width}px;
 
 			/* System feedback tokens */
 			--flavor-success: #16a34a;

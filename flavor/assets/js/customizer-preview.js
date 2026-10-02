@@ -46,4 +46,16 @@
    document.dispatchEvent(new CustomEvent('flavor:ui-header-changed'));
   });
  });
+ /* The logo box is pure CSS tokens, so live preview is a variable write. */
+ wp.customize('flavor_logo_height', function (setting) {
+  setting.bind(function (value) {
+   var height = parseInt(value, 10);
+   if (!height || height < 24 || height > 160) height = 52;
+   var root = document.documentElement.style;
+   root.setProperty('--flavor-logo-height', height + 'px');
+   root.setProperty('--flavor-logo-height-mobile', Math.max(24, Math.round(height * 0.72)) + 'px');
+   root.setProperty('--flavor-logo-max-width', Math.min(420, Math.max(120, height * 4)) + 'px');
+   document.dispatchEvent(new CustomEvent('flavor:ui-header-changed'));
+  });
+ });
 })();

@@ -22,6 +22,11 @@
 	--flavor-radius: 16px;
 	--flavor-btn-radius: 12px;
 	--flavor-container-max: 1240px;
+
+	/* Site logo box. Overridden per site from the Customizer tokens. */
+	--flavor-logo-height: 52px;
+	--flavor-logo-height-mobile: 38px;
+	--flavor-logo-max-width: 200px;
 	--flavor-font-heading: "Vazirmatn", Tahoma, -apple-system, sans-serif;
 	--flavor-font-body: "Vazirmatn", Tahoma, -apple-system, sans-serif;
 
@@ -182,6 +187,7 @@ a:hover {
 .flavor-brand {
 	display: flex;
 	align-items: center;
+	min-width: 0;
 }
 
 .flavor-brand__name {
@@ -189,6 +195,68 @@ a:hover {
 	font-weight: 800;
 	color: var(--flavor-ink);
 	letter-spacing: -0.5px;
+}
+
+/* -------------------------------------------------------------
+ * 4.1 Site logo
+ *
+ * `custom-logo` is registered with flex-width/flex-height, so WordPress
+ * prints the uploaded file at its intrinsic size — a 1024x1024 upload
+ * renders 1024px tall and swallows the sticky header. The global
+ * `img { max-width: 100% }` reset cannot catch it because the brand cell
+ * is a shrink-to-fit flex item, so the cap has to live here.
+ *
+ * width/height:auto plus the max-width/max-height pair lets the browser
+ * scale the bitmap down inside that box while keeping its own aspect
+ * ratio, whatever shape the uploaded logo is (square, wide or tall).
+ * ------------------------------------------------------------- */
+.flavor-brand .custom-logo-link,
+.flavor-footer__brand .custom-logo-link {
+	display: inline-flex;
+	align-items: center;
+	max-width: 100%;
+	line-height: 0;
+}
+
+.flavor-brand img,
+.flavor-brand .custom-logo {
+	width: auto;
+	height: auto;
+	max-width: min(var(--flavor-logo-max-width, 200px), 45vw);
+	max-height: var(--flavor-logo-height, 52px);
+	object-fit: contain;
+}
+
+.flavor-footer__brand img,
+.flavor-footer__brand .custom-logo {
+	width: auto;
+	height: auto;
+	max-width: min(220px, 60vw);
+	max-height: calc(var(--flavor-logo-height, 52px) + 12px);
+	margin-bottom: 12px;
+	object-fit: contain;
+}
+
+/* Narrow phones share the row with the order button and the hamburger. */
+@media (max-width: 600px) {
+	.flavor-brand img,
+	.flavor-brand .custom-logo {
+		max-width: min(150px, 40vw);
+		max-height: var(--flavor-logo-height-mobile, 38px);
+	}
+}
+
+/* The slim header variant keeps its 64px row even with a tall logo. */
+body.flavor-header-minimal .flavor-brand img,
+body.flavor-header-minimal .flavor-brand .custom-logo {
+	max-height: min(var(--flavor-logo-height, 52px), 44px);
+}
+
+/* Shrink the logo with the bar once the sticky header starts scrolling. */
+.flavor-header.is-scrolled .flavor-brand img,
+.flavor-header.is-scrolled .flavor-brand .custom-logo {
+	max-height: min(var(--flavor-logo-height, 52px), 44px);
+	transition: max-height var(--flavor-transition-normal);
 }
 
 .flavor-header__nav {

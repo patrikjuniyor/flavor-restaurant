@@ -186,6 +186,29 @@ class Customizer {
 			)
 		);
 
+		$wp_customize->add_setting(
+			'flavor_logo_height',
+			array(
+				'default'           => 52,
+				'sanitize_callback' => array( self::class, 'sanitize_logo_height' ),
+				'transport'         => 'postMessage',
+			)
+		);
+		$wp_customize->add_control(
+			'flavor_logo_height',
+			array(
+				'label'       => __( 'ارتفاع لوگو در هدر (پیکسل)', 'flavor' ),
+				'description' => __( 'لوگو با حفظ نسبت ابعاد تا این ارتفاع کوچک می‌شود و در موبایل خودکار کوچک‌تر می‌شود. فایل لوگو با هر ابعادی آپلود شود، هدر به هم نمی‌ریزد.', 'flavor' ),
+				'section'     => 'flavor_section_header',
+				'type'        => 'number',
+				'input_attrs' => array(
+					'min'  => 24,
+					'max'  => 160,
+					'step' => 2,
+				),
+			)
+		);
+
 		$wp_customize->add_setting( 'flavor_header_sticky', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key' ) );
 		$wp_customize->add_control(
 			'flavor_header_sticky',
@@ -230,6 +253,21 @@ class Customizer {
 					'split'      => __( 'دوطرفه (متن در راست / تصویر شاخص در چپ)', 'flavor' ),
 					'minimal'    => __( 'مینیمال وسط‌چین بدون شلوغی', 'flavor' ),
 				),
+			)
+		);
+
+		// The templates have always read this theme mod, but only the demo
+		// importer could write it — there was no way to upload a hero by hand.
+		$wp_customize->add_setting( 'flavor_hero_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+		$wp_customize->add_control(
+			new \WP_Customize_Image_Control(
+				$wp_customize,
+				'flavor_hero_image',
+				array(
+					'label'       => __( 'تصویر بخش هیرو', 'flavor' ),
+					'description' => __( 'پیشنهاد: دست‌کم ۱۶۰۰×۹۰۰ پیکسل و افقی. تصویر با نسبت ثابت و ریسپانسیو برش داده می‌شود و نسخهٔ سبک‌تر آن برای موبایل فرستاده می‌شود.', 'flavor' ),
+					'section'     => 'flavor_section_hero',
+				)
 			)
 		);
 
@@ -406,5 +444,21 @@ class Customizer {
 	 */
 	public static function head_css(): void {
 		echo '<style id="flavor-tokens">' . Design::css_variables() . '</style>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+
+	/**
+	 * Clamp the logo height so a stray value cannot break the header again.
+	 *
+	 * @param mixed $value Raw setting value.
+	 * @return int
+	 */
+	public static function sanitize_logo_height( $value ): int {
+		$value = absint( $value );
+
+		if ( $value < 24 || $value > 160 ) {
+			return 52;
+		}
+
+		return $value;
 	}
 }

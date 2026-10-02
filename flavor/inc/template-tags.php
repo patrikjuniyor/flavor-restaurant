@@ -15,6 +15,96 @@ function flavor_site_name(): void {
 }
 
 /**
+ * Resolve a media-library attachment ID from a stored image URL.
+ *
+ * Theme mods such as `flavor_hero_image` store a plain URL, which means the
+ * markup loses srcset/width/height and every phone downloads the full-size
+ * original. Looking the attachment back up restores responsive delivery.
+ * The lookup hits the DB, so the result is cached per URL.
+ *
+ * @param string $url Image URL.
+ * @return int Attachment ID, or 0 when the URL is not in the media library.
+ */
+function flavor_attachment_id_from_url( string $url ): int {
+	$url = trim( $url );
+
+	if ( '' === $url ) {
+		return 0;
+	}
+
+	$key    = 'flavor_img_id_' . md5( $url );
+	$cached = get_transient( $key );
+
+	if ( false !== $cached ) {
+		return (int) $cached;
+	}
+
+	$id = attachment_url_to_postid( $url );
+
+	if ( ! $id ) {
+		// A resized URL (…-1600x900.jpg) never matches; try the original.
+		$original = preg_replace( '/-\d+x\d+(\.[a-zA-Z0-9]+)$/', '$1', $url );
+		if ( $original && $original !== $url ) {
+			$id = attachment_url_to_postid( $original );
+		}
+	}
+
+	set_transient( $key, (int) $id, DAY_IN_SECONDS );
+
+	return (int) $id;
+}
+
+/**
+ * Render an image that stays responsive whatever the source is.
+ *
+ * Falls back to a plain tag for files shipped with the theme (demo art),
+ * which are not attachments and therefore have no srcset.
+ *
+ * @param string               $url  Image URL.
+ * @param string               $size Registered image size for attachments.
+ * @param array<string, mixed> $attr Tag attributes. `width`/`height` are used
+ *                                   by the fallback to reserve layout space.
+ * @return string Escaped <img> markup, or an empty string.
+ */
+function flavor_responsive_image( string $url, string $size = 'full', array $attr = array() ): string {
+	if ( '' === trim( $url ) ) {
+		return '';
+	}
+
+	$id = flavor_attachment_id_from_url( $url );
+
+	if ( $id ) {
+		// Core derives the real intrinsic width/height from the attachment,
+		// so the placeholder pair must not be passed through as well.
+		$attachment_attr = $attr;
+		unset( $attachment_attr['width'], $attachment_attr['height'] );
+
+		$image = wp_get_attachment_image( $id, $size, false, $attachment_attr );
+		if ( $image ) {
+			return $image;
+		}
+	}
+
+	$attr['src'] = $url;
+	unset( $attr['sizes'] );
+
+	if ( ! isset( $attr['alt'] ) ) {
+		$attr['alt'] = '';
+	}
+
+	$html = '<img';
+	foreach ( $attr as $name => $value ) {
+		if ( false === $value || null === $value ) {
+			continue;
+		}
+		$value = 'src' === $name ? esc_url( (string) $value ) : esc_attr( (string) $value );
+		$html .= ' ' . esc_attr( $name ) . '="' . $value . '"';
+	}
+
+	return $html . ' />';
+}
+
+/**
  * Primary navigation menu.
  */
 function flavor_primary_nav(): void {

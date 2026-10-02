@@ -7,6 +7,16 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed — uploaded logo and hero images were rendered at their intrinsic size / 2026-10-02
+
+- **Site logo had no display box.** `custom-logo` is registered with `flex-width`/`flex-height`, so WordPress prints the uploaded file untouched, and the brand cell is a shrink-to-fit flex item that the global `img { max-width: 100% }` reset never constrains. A 1024×1024 logo therefore rendered 1024px tall; measured on the classic header the bar grew to 173px at 390px wide, 535px at 768px and 816px at 1440px, and because the header is sticky it covered the viewport on every scroll. The footer logo printed at a full 1024×1024. `assets/css/main.css` now gives the header, footer, minimal-layout and scrolled-header logo a real `max-width`/`max-height` box driven by the `--flavor-logo-height`, `--flavor-logo-height-mobile` and `--flavor-logo-max-width` tokens, so any square, wide or tall upload scales down on its own aspect ratio instead of resizing the header.
+- **The landing family had a height cap but no width cap.** `.flavor-bespoke .fd-brand .custom-logo` limited height only, so a wide signboard lockup still pushed the navigation off the row; it now shares the same token box and shrinks on phones.
+- **Logo weight.** Core advertises `sizes="(max-width: 1024px) 100vw, 1024px"` for a box that is never wider than ~200 CSS pixels, so browsers fetched the largest candidate. A `get_custom_logo_image_attributes` filter now advertises the real box, and an uncropped `flavor-logo` (480×200) image size gives the srcset a small candidate to pick.
+- **Hero images were not responsive.** `template-parts/marketing/hero.php` emitted a bare `<img src>` with no `srcset`, no `sizes` and no intrinsic dimensions, so phones downloaded the full-size original and the section shifted while it decoded. A new `flavor_responsive_image()` template tag resolves the stored URL back to its attachment (cached per URL) and renders a proper responsive tag, falling back to a plain tag for theme-bundled demo art.
+- **The hero image could not be set by hand.** Six templates read the `flavor_hero_image` theme mod but only the demo importer could ever write it; the Customizer now exposes a real image control for it.
+- **New control.** «ارتفاع لوگو در هدر» under هدر و ناوبری سایت, clamped to 24–160px on both save and render, with live postMessage preview.
+- **Regression guard.** `tests/ui/logo-box.mjs` renders the real stylesheets against the exact markup `the_custom_logo()` emits for square, wide and tall uploads across 320/390/768/1024/1440px in both the classic and landing header families, and fails if a logo leaves its box, the header leaves its budget or the page overflows horizontally. It needs no WordPress install. 30/30 pass after the fix; the same suite reports 15/30 against the previous stylesheets.
+
 ### Shared storefront UI — acceptance completion and 12-skin regression / 2026-10-02
 
 - Explicit in-cart size/add-on/quantity/note editing reuses the accessible product sheet, with nested inert/focus restoration, preserved local fields on error and a real optional “no change” choice rather than implicit ingredient removal.
