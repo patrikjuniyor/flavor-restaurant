@@ -49,7 +49,9 @@ $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 			<?php foreach ( $products as $product ) : ?>
 				<?php
 				$pid       = $product->get_id();
-				$image     = wp_get_attachment_image_url( $product->get_image_id(), 'flavor-card' ) ?: ( FLAVOR_URI . '/screenshot.png' );
+				// Falling back to screenshot.png put a 1.9 MB picture of the website
+				// itself inside a food card; an inline placeholder costs nothing.
+				$image     = wp_get_attachment_image_url( $product->get_image_id(), 'flavor-card' );
 				$price     = (float) $product->get_price();
 				$terms     = get_the_terms( $pid, 'product_cat' );
 				$cat_name  = ( ! empty( $terms ) && ! is_wp_error( $terms ) ) ? $terms[0]->name : '';
@@ -58,7 +60,13 @@ $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 				?>
 				<article class="flavor-food-card">
 					<div class="flavor-food-card__media">
-						<img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $product->get_name() ); ?>" loading="lazy" width="600" height="400" />
+						<?php if ( $image ) : ?>
+							<img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $product->get_name() ); ?>" loading="lazy" width="600" height="400" />
+						<?php else : ?>
+							<div class="flavor-food-card__ph" aria-hidden="true">
+								<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11h18"/><path d="M5 11a7 7 0 0 1 14 0"/><path d="M4 15h16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M12 4V2"/></svg>
+							</div>
+						<?php endif; ?>
 						<?php if ( $cat_name ) : ?>
 							<span class="flavor-food-card__cat-badge"><?php echo esc_html( $cat_name ); ?></span>
 						<?php endif; ?>

@@ -497,7 +497,12 @@
 .flavor-about__img-wrapper img {
 	border-radius: var(--flavor-radius);
 	box-shadow: var(--flavor-shadow-lg);
+	display: block;
 	width: 100%;
+	/* Without a ratio box a portrait upload grew to ~2160px tall and pushed
+	   the whole section off-screen. Matches .flavor-res-banner__media img. */
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
 }
 
 .flavor-about__exp-badge {

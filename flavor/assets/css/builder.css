@@ -56,8 +56,15 @@
 
 /* image */
 .fb-image img {
+  display: block;
   max-width: 100%;
+  /* A tall upload used to render at its full intrinsic height (2700px in
+     testing). max-height keeps the block inside one screen; width:auto plus
+     the two maxima scale any shape down with its ratio intact. */
+  width: auto;
   height: auto;
+  max-height: 80vh;
+  margin-inline: auto;
   border-radius: var(--flavor-btn-radius, 12px);
 }
 

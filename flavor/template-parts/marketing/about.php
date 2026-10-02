@@ -21,14 +21,31 @@ if ( ! $text ) {
 }
 
 $skin     = \Flavor\Design::current_skin();
-$hero_img = FLAVOR_URI . '/demos/' . $skin . '/hero.jpg';
+$hero_img = $args['image'] ?? get_theme_mod( 'flavor_about_image', '' );
+if ( ! $hero_img ) {
+	$hero_img = FLAVOR_URI . '/demos/' . $skin . '/hero.jpg';
+}
 ?>
 <section class="flavor-section flavor-about" aria-label="<?php echo esc_attr( $title ); ?>">
 	<div class="flavor-container">
 		<div class="flavor-about__inner">
 			<div class="flavor-about__media">
 				<div class="flavor-about__img-wrapper">
-					<img src="<?php echo esc_url( $hero_img ); ?>" alt="<?php echo esc_attr( $title ); ?>" loading="lazy" width="600" height="450" />
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in flavor_responsive_image().
+					echo flavor_responsive_image(
+						$hero_img,
+						'large',
+						array(
+							'alt'      => $title,
+							'sizes'    => '(min-width: 992px) 45vw, 92vw',
+							'width'    => 800,
+							'height'   => 600,
+							'loading'  => 'lazy',
+							'decoding' => 'async',
+						)
+					);
+					?>
 					<div class="flavor-about__exp-badge">
 						<strong>۱۰+</strong>
 						<span><?php esc_html_e( 'سال تجربه و افتخار میزبانی', 'flavor' ); ?></span>

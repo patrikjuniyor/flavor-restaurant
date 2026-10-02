@@ -174,7 +174,9 @@ class Bespoke_Demos {
 			$wp_customize->add_setting( $id, array( 'default' => 'yes', 'sanitize_callback' => static function ( $v ) { return 'no' === $v ? 'no' : 'yes'; } ) );
 			$wp_customize->add_control( $id, array( 'label' => $label, 'section' => 'flavor_bespoke', 'type' => 'radio', 'choices' => array( 'yes' => __( 'نمایش', 'flavor' ), 'no' => __( 'پنهان', 'flavor' ) ) ) );
 		}
-		$wp_customize->add_setting( 'flavor_landing_story_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
-		$wp_customize->add_control( new \WP_Customize_Image_Control( $wp_customize, 'flavor_landing_story_image', array( 'label' => __( 'تصویر داستان برند', 'flavor' ), 'section' => 'flavor_bespoke' ) ) );
+		// `flavor_landing_story_image` is registered in Customizer::register()
+		// instead. It also feeds the «دربارهٔ مجموعه» page template, which every
+		// skin uses, so a demo-only control left the seven legacy skins with no
+		// way to set that photo.
 	}
 }

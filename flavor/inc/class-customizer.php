@@ -15,6 +15,39 @@ defined( 'ABSPATH' ) || exit;
 class Customizer {
 
 	/**
+	 * How many images the homepage gallery grid lays out.
+	 */
+	public const GALLERY_SLOTS = 6;
+
+	/**
+	 * Register an image-upload setting plus its control in one step.
+	 *
+	 * Every section image used to be hard-coded to the active skin's demo
+	 * art, so a restaurant could never show its own photos. These settings
+	 * store a URL, matching what the demo importer already writes.
+	 *
+	 * @param \WP_Customize_Manager $wp_customize Customizer manager.
+	 * @param string                $id           Setting id.
+	 * @param string                $section      Section id.
+	 * @param string                $label        Control label.
+	 * @param string                $description  Optional help text.
+	 */
+	private static function image_control( $wp_customize, string $id, string $section, string $label, string $description = '' ): void {
+		$wp_customize->add_setting( $id, array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+		$wp_customize->add_control(
+			new \WP_Customize_Image_Control(
+				$wp_customize,
+				$id,
+				array(
+					'label'       => $label,
+					'description' => $description,
+					'section'     => $section,
+				)
+			)
+		);
+	}
+
+	/**
 	 * Hooks.
 	 */
 	public static function init(): void {
@@ -258,17 +291,12 @@ class Customizer {
 
 		// The templates have always read this theme mod, but only the demo
 		// importer could write it — there was no way to upload a hero by hand.
-		$wp_customize->add_setting( 'flavor_hero_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
-		$wp_customize->add_control(
-			new \WP_Customize_Image_Control(
-				$wp_customize,
-				'flavor_hero_image',
-				array(
-					'label'       => __( 'تصویر بخش هیرو', 'flavor' ),
-					'description' => __( 'پیشنهاد: دست‌کم ۱۶۰۰×۹۰۰ پیکسل و افقی. تصویر با نسبت ثابت و ریسپانسیو برش داده می‌شود و نسخهٔ سبک‌تر آن برای موبایل فرستاده می‌شود.', 'flavor' ),
-					'section'     => 'flavor_section_hero',
-				)
-			)
+		self::image_control(
+			$wp_customize,
+			'flavor_hero_image',
+			'flavor_section_hero',
+			__( 'تصویر بخش هیرو', 'flavor' ),
+			__( 'پیشنهاد: دست‌کم ۱۶۰۰×۹۰۰ پیکسل و افقی. تصویر با نسبت ثابت و ریسپانسیو برش داده می‌شود و نسخهٔ سبک‌تر آن برای موبایل فرستاده می‌شود.', 'flavor' )
 		);
 
 		$wp_customize->add_setting( 'flavor_hero_badge', array( 'default' => __( 'طعم اصیل و ماندگار', 'flavor' ), 'sanitize_callback' => 'sanitize_text_field' ) );
@@ -364,6 +392,13 @@ class Customizer {
 		$wp_customize->add_control( 'flavor_res_enable', array( 'label' => __( 'نمایش بنر رزرو میز', 'flavor' ), 'section' => 'flavor_section_reservation', 'type' => 'checkbox' ) );
 		$wp_customize->add_setting( 'flavor_res_title', array( 'default' => __( 'لحظات ماندگار خود را پیشاپیش رزرو کنید', 'flavor' ), 'sanitize_callback' => 'sanitize_text_field' ) );
 		$wp_customize->add_control( 'flavor_res_title', array( 'label' => __( 'عنوان بنر رزرو', 'flavor' ), 'section' => 'flavor_section_reservation', 'type' => 'text' ) );
+		self::image_control(
+			$wp_customize,
+			'flavor_res_image',
+			'flavor_section_reservation',
+			__( 'تصویر بنر رزرو', 'flavor' ),
+			__( 'نسبت ۴:۳، دست‌کم ۸۰۰×۶۰۰ پیکسل. اگر خالی بماند تصویر دموی پوستهٔ فعال نمایش داده می‌شود.', 'flavor' )
+		);
 
 		// Section: About & Story
 		$wp_customize->add_section(
@@ -377,6 +412,23 @@ class Customizer {
 		$wp_customize->add_control( 'flavor_about_enable', array( 'label' => __( 'نمایش بخش درباره ما', 'flavor' ), 'section' => 'flavor_section_about', 'type' => 'checkbox' ) );
 		$wp_customize->add_setting( 'flavor_about', array( 'default' => '', 'sanitize_callback' => 'wp_kses_post' ) );
 		$wp_customize->add_control( 'flavor_about', array( 'label' => __( 'متن داستان رستوران', 'flavor' ), 'section' => 'flavor_section_about', 'type' => 'textarea' ) );
+		self::image_control(
+			$wp_customize,
+			'flavor_about_image',
+			'flavor_section_about',
+			__( 'تصویر بخش درباره ما', 'flavor' ),
+			__( 'نسبت ۴:۳، دست‌کم ۸۰۰×۶۰۰ پیکسل. اگر خالی بماند تصویر دموی پوستهٔ فعال نمایش داده می‌شود.', 'flavor' )
+		);
+		// Read by the «دربارهٔ مجموعه» page template and by the bespoke story
+		// section. It used to live in the demo-only panel, so the seven legacy
+		// skins had no way to set the photo on their About page at all.
+		self::image_control(
+			$wp_customize,
+			'flavor_landing_story_image',
+			'flavor_section_about',
+			__( 'تصویر صفحهٔ «دربارهٔ مجموعه»', 'flavor' ),
+			__( 'تصویر عمودی (نسبت ۴:۵) مناسب‌تر است. در دموهای اختصاصی برای بخش داستان برند هم استفاده می‌شود.', 'flavor' )
+		);
 
 		// Section: Gallery
 		$wp_customize->add_section(
@@ -388,6 +440,18 @@ class Customizer {
 		);
 		$wp_customize->add_setting( 'flavor_gallery_enable', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key' ) );
 		$wp_customize->add_control( 'flavor_gallery_enable', array( 'label' => __( 'نمایش گالری تصاویر', 'flavor' ), 'section' => 'flavor_section_gallery', 'type' => 'checkbox' ) );
+		// Six discrete slots rather than a repeater: the Customizer has no
+		// native repeating control, and six is what the grid lays out.
+		for ( $slot = 1; $slot <= self::GALLERY_SLOTS; $slot++ ) {
+			self::image_control(
+				$wp_customize,
+				'flavor_gallery_image_' . $slot,
+				'flavor_section_gallery',
+				/* translators: %d: gallery slot number. */
+				sprintf( __( 'تصویر گالری %d', 'flavor' ), $slot ),
+				1 === $slot ? __( 'نسبت ۴:۳. هر جای خالی با تصویر دموی قالب پر می‌شود.', 'flavor' ) : ''
+			);
+		}
 
 		// Section: Testimonials
 		$wp_customize->add_section(
