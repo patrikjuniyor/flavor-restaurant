@@ -13,7 +13,7 @@
 .flavor-ui .flavor-contact-social{margin-top:12px}
 .flavor-ui .flavor-contact-hours{background:var(--flavor-surface-alt)}
 .flavor-ui .flavor-contact-hours>p{font-size:13px;line-height:2}
-.flavor-ui .flavor-contact-hours .flavor-ui-note{font-size:11px;margin-block:23px}
+.flavor-ui .flavor-contact-hours .flavor-ui-note{font-size:12px;margin-block:23px}
 .flavor-ui .flavor-branch-hours{margin:0 0 24px;font-size:12px}
 .flavor-ui .flavor-branch-hours>div{display:flex;justify-content:space-between;gap:24px;padding-block:9px;border-bottom:1px solid var(--flavor-line)}
 .flavor-ui .flavor-branch-hours dt{color:var(--ui-muted)}
@@ -24,7 +24,7 @@
 .flavor-ui .flavor-about-layout .flavor-ui-editor-content{font-size:14px;line-height:2.2}
 .flavor-ui .flavor-about-photo{margin:0}
 .flavor-ui .flavor-about-photo img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--flavor-radius)}
-.flavor-ui .flavor-about-photo figcaption{font-size:10px;line-height:1.9;color:var(--ui-muted);margin-top:14px}
+.flavor-ui .flavor-about-photo figcaption{font-size:12px;line-height:1.9;color:var(--ui-muted);margin-top:14px}
 .flavor-ui .flavor-about-wordmark{min-height:440px;border:1px solid var(--flavor-line);border-radius:var(--flavor-radius);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;background:var(--flavor-surface-alt);color:var(--flavor-ink)}
 .flavor-ui .flavor-about-wordmark>span{font-size:48px;font-weight:750;font-family:var(--flavor-font-heading)}
 .flavor-ui .flavor-about-choices{padding-top:62px;margin-top:55px;border-top:1px solid var(--flavor-line)}
@@ -37,14 +37,14 @@
 .flavor-ui .flavor-branch-filters{display:flex;gap:24px;justify-content:space-between;align-items:center;margin-block:32px 24px}
 .flavor-ui .flavor-branch-filters>.flavor-ui-field{width:min(380px,100%)}
 .flavor-ui .flavor-branch-filters>[role=group]{display:flex;gap:8px;flex-wrap:wrap}
-.flavor-ui .flavor-branch-filters button{min-height:44px;padding-inline:15px;cursor:pointer;font:inherit;font-size:11px}
+.flavor-ui .flavor-branch-filters button{min-height:44px;padding-inline:15px;cursor:pointer;font:inherit;font-size:12px}
 .flavor-ui .flavor-branch-filters button[aria-pressed=true]{background:var(--flavor-primary);border-color:var(--flavor-primary);color:var(--ui-action-ink)}
 .flavor-ui .flavor-branch-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
 .flavor-ui .flavor-branch-card__head{display:flex;gap:15px;align-items:center;margin-bottom:20px}
 .flavor-ui .flavor-branch-card__icon{display:grid;place-items:center;width:53px;height:53px;background:var(--flavor-surface-alt);border-radius:13px;flex-shrink:0}
 .flavor-ui .flavor-branch-card__head h2{font-size:20px;font-weight:730;line-height:1.65;margin:0}
-.flavor-ui .flavor-branch-card__head h2 a{color:var(--flavor-ink)}
-.flavor-ui .flavor-branch-card__head .flavor-ui-overline{font-size:10px;margin-bottom:7px}
+.flavor-ui .flavor-branch-card__head h2 a{color:var(--flavor-ink);display:inline-block;min-height:24px}
+.flavor-ui .flavor-branch-card__head .flavor-ui-overline{font-size:12px;margin-bottom:7px}
 .flavor-ui .flavor-branch-card__modes{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:22px}
 .flavor-ui .flavor-branch-card__address{font-size:13px;line-height:2;color:var(--ui-muted);margin:0 0 17px}
 .flavor-ui .flavor-branch-card__phone{display:inline-flex;align-items:center;gap:10px;font-size:15px;color:var(--flavor-ink);min-height:44px;margin-bottom:17px}
@@ -66,7 +66,7 @@
 .flavor-ui .flavor-cal__nav strong{font-family:var(--flavor-font-heading);font-size:17px;font-weight:650}
 .flavor-ui .flavor-cal__nav button{background:var(--flavor-surface);font-size:24px}
 .flavor-ui .flavor-cal__week,.flavor-ui .flavor-cal__grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;text-align:center}
-.flavor-ui .flavor-cal__week{font-size:10px;color:var(--ui-muted);margin-bottom:10px}
+.flavor-ui .flavor-cal__week{font-size:12px;color:var(--ui-muted);margin-bottom:10px}
 .flavor-ui .flavor-cal__week>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .flavor-ui .flavor-cal__day{border:1px solid transparent;background:transparent;border-radius:var(--flavor-btn-radius);min-height:44px;color:var(--flavor-ink);font:inherit;font-size:13px;padding:7px;cursor:pointer}
 .flavor-ui .flavor-cal__day:hover:not(:disabled){border-color:var(--flavor-primary);background:var(--flavor-surface)}
@@ -104,13 +104,13 @@
  .flavor-ui .flavor-branch-filters>.flavor-ui-field{width:100%}
  .flavor-ui .flavor-branch-grid,.flavor-ui .flavor-search-page__results{grid-template-columns:1fr;gap:20px}
  .flavor-ui .flavor-branch-card__head h2{font-size:19px}
- .flavor-ui .flavor-branch-card__actions .flavor-btn{font-size:11px;padding-inline:16px}
+ .flavor-ui .flavor-branch-card__actions .flavor-btn{font-size:12px;padding-inline:16px}
  .flavor-ui .flavor-res-card{padding:24px 18px}
  .flavor-ui .flavor-res-guide{position:static}
  .flavor-ui .flavor-res-card h2{font-size:18px}
  .flavor-ui .flavor-cal{padding:17px 10px}
  .flavor-ui .flavor-cal__week,.flavor-ui .flavor-cal__grid{gap:4px}
- .flavor-ui .flavor-cal__week{font-size:9px}
+ .flavor-ui .flavor-cal__week{font-size:12px}
  .flavor-ui .flavor-cal__day{padding:5px;font-size:12px}
  .flavor-ui .flavor-cal__nav strong{font-size:16px}
  .flavor-ui .flavor-slot{font-size:12px;padding-inline:14px}

@@ -48,7 +48,7 @@ body.flavor-skin-pizza-italian {
 .flavor-skin-pizza-italian .flavor-topbar__inner::after {
 	content: "✦";
 	color: #d9af6c;
-	font-size: 10px;
+	font-size: 12px;
 }
 
 .flavor-skin-pizza-italian .flavor-header {
@@ -71,7 +71,8 @@ body.flavor-skin-pizza-italian {
 	content: "TRATTORIA";
 	display: block;
 	font-family: Georgia, serif;
-	font-size: 7px;
+	/* 12px floor: the wordmark kicker is real brand text, not ornament. */
+	font-size: 12px;
 	letter-spacing: 0.34em;
 	text-align: center;
 	color: var(--italy-red);

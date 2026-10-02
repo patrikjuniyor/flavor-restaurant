@@ -78,7 +78,7 @@ body.flavor-skin-luxury-dining {
 	display: block;
 	color: var(--luxe-champagne);
 	font-family: Georgia, serif;
-	font-size: 8px;
+	font-size: 12px;
 	letter-spacing: 0.42em;
 	text-align: center;
 	margin-top: 3px;
@@ -163,7 +163,7 @@ body.flavor-skin-luxury-dining {
 	color: var(--luxe-champagne-light);
 	padding: 0;
 	border-radius: 0;
-	font-size: 11px;
+	font-size: 12px;
 	letter-spacing: 0.08em;
 }
 
@@ -237,7 +237,7 @@ body.flavor-skin-luxury-dining {
 	color: var(--luxe-champagne);
 	padding: 0;
 	border-radius: 0;
-	font-size: 11px;
+	font-size: 12px;
 	letter-spacing: 0.08em;
 }
 

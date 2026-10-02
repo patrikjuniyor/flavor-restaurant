@@ -31,6 +31,10 @@
 	display: flex;
 	align-items: flex-end;
 	justify-content: space-between;
+	/* The action is a nowrap button; without wrapping it and the heading
+	   fight over a 288px phone column and the button leaves the screen. */
+	flex-wrap: wrap;
+	gap: 16px;
 	max-width: 100%;
 	text-align: right;
 	margin-bottom: 36px;
@@ -667,11 +671,19 @@
 	background: var(--flavor-surface);
 	border: 1px solid var(--flavor-line);
 	border-radius: var(--flavor-radius);
-	padding: 40px;
+	/* A flat 40px ate a quarter of a 320px screen and pushed the schedule
+	   off the viewport, where body{overflow-x:hidden} silently clipped it. */
+	padding: clamp(20px, 5vw, 40px);
 	display: grid;
 	grid-template-columns: 1fr;
-	gap: 40px;
+	gap: clamp(24px, 5vw, 40px);
 	box-shadow: var(--flavor-shadow-lg);
+}
+
+/* Grid items default to min-width:auto and refuse to shrink below their
+   min-content width; without this the column stays 314px wide at any size. */
+.flavor-hours-card__col {
+	min-width: 0;
 }
 
 @media (min-width: 860px) {
@@ -717,6 +729,10 @@
 .flavor-schedule-list li {
 	display: flex;
 	justify-content: space-between;
+	/* Label and time are two flex items that cannot shrink below their own
+	   min-content; on a narrow phone they have to be allowed to stack. */
+	flex-wrap: wrap;
+	gap: 2px 16px;
 	padding: 12px 0;
 	border-bottom: 1px dashed var(--flavor-line);
 	font-size: 14px;
@@ -748,8 +764,15 @@
 	margin: 0;
 }
 
+a.flavor-contact-row__link {
+	display: inline-flex;
+	align-items: center;
+	min-height: 24px;
+}
+
 .flavor-hours-card__actions {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 12px;
 	margin-top: 24px;
 }

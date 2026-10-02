@@ -15,13 +15,13 @@ body.flavor-header-not-sticky .flavor-header{position:relative;top:auto}
  .flavor-mobile-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;position:fixed;inset-inline:0;bottom:0;z-index:102;background:var(--flavor-surface);border-top:1px solid var(--flavor-line);box-shadow:0 -4px 20px rgba(0,0,0,.04);padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px))}
  .flavor-mobile-nav--minimal{grid-template-columns:repeat(3,minmax(0,1fr))}
  .flavor-mobile-nav--minimal [data-ui-nav-home]{display:none}
- .flavor-mobile-nav>a,.flavor-mobile-nav>button,.flavor-mobile-nav>noscript>a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:52px;min-width:0;border:0;background:none;color:var(--ui-muted,var(--flavor-ink));font:inherit;font-size:10px;line-height:1.6;border-radius:var(--flavor-btn-radius);cursor:pointer;text-align:center;padding:5px}
+ .flavor-mobile-nav>a,.flavor-mobile-nav>button,.flavor-mobile-nav>noscript>a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:52px;min-width:0;border:0;background:none;color:var(--ui-muted,var(--flavor-ink));font:inherit;font-size:12px;line-height:1.6;border-radius:var(--flavor-btn-radius);cursor:pointer;text-align:center;padding:5px}
  .flavor-mobile-nav>a:focus-visible,.flavor-mobile-nav>button:focus-visible{outline:3px solid var(--flavor-primary);outline-offset:2px}
  .flavor-mobile-nav [aria-current=page]{background:var(--flavor-surface-alt);color:var(--flavor-ink);font-weight:700}
  .flavor-mobile-nav .flavor-mobile-nav__primary{background:var(--flavor-primary);color:var(--ui-action-ink,#fff)}
  .flavor-mobile-nav>noscript{display:contents}
  .flavor-mobile-nav [hidden]{display:none!important}
- .flavor-mobile-nav b{font-weight:600;border:1px solid currentColor;border-radius:4px;padding:0 4px;margin-inline-start:2px;font-size:9px}
+ .flavor-mobile-nav b{font-weight:600;border:1px solid currentColor;border-radius:4px;padding:0 4px;margin-inline-start:2px;font-size:12px}
  .flavor-mobile-nav svg{flex-shrink:0}
  #flavor-toast-container{bottom:calc(var(--ui-mobile-nav-height,76px) + 60px + env(safe-area-inset-bottom,0px))}
  .flavor-ui-menu .flavor-main{padding-bottom:90px}
@@ -43,7 +43,7 @@ body.flavor-header-minimal .flavor-header .flavor-header__inner{min-height:64px;
  .flavor-header-centered .flavor-nav{justify-content:center;flex-wrap:wrap}
 }
 
-.flavor-mobile-nav .flavor-mobile-nav__amount{display:block;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:9px;line-height:1.5;font-weight:500}
+.flavor-mobile-nav .flavor-mobile-nav__amount{display:block;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;line-height:1.5;font-weight:500}
 /* Long real restaurant names must still leave a 44px menu control at 320px.
    The contextual bottom action is the mobile ordering entry, not a duplicate CTA. */
 @media(max-width:420px){body.flavor-ui .flavor-header .flavor-header__actions>.flavor-btn{display:none}body.flavor-ui .flavor-header .flavor-header__inner{gap:14px}}

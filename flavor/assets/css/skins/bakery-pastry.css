@@ -48,7 +48,7 @@ body.flavor-skin-bakery-pastry {
 .flavor-skin-bakery-pastry .flavor-topbar__inner::after {
 	content: "✦";
 	color: #e9c0c8;
-	font-size: 9px;
+	font-size: 12px;
 }
 
 .flavor-skin-bakery-pastry .flavor-header {
@@ -71,7 +71,8 @@ body.flavor-skin-bakery-pastry {
 	content: "PATISSERIE";
 	display: block;
 	font-family: Georgia, serif;
-	font-size: 7px;
+	/* 12px floor: the wordmark kicker is real brand text, not ornament. */
+	font-size: 12px;
 	letter-spacing: 0.38em;
 	text-align: center;
 	color: var(--pastry-pistachio-dark);

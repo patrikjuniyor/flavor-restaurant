@@ -590,7 +590,7 @@ body.flavor-header-minimal .flavor-brand .custom-logo {
 	background: rgba(0, 0, 0, 0.7);
 	backdrop-filter: blur(6px);
 	color: #fff;
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: 600;
 	padding: 3px 10px;
 	border-radius: 999px;
@@ -611,6 +611,10 @@ body.flavor-header-minimal .flavor-brand .custom-logo {
 
 .flavor-food-card__title a {
 	color: var(--flavor-ink);
+	/* inline-block makes the hit area the full line box rather than the
+	   bare glyph box, clearing the 24x24 minimum. */
+	display: inline-block;
+	min-height: 24px;
 }
 
 .flavor-food-card__desc {
@@ -686,7 +690,7 @@ body.flavor-header-minimal .flavor-brand .custom-logo {
 	align-items: center;
 	gap: 3px;
 	color: var(--flavor-muted);
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: 600;
 	background: transparent;
 	border: 0;
@@ -709,7 +713,7 @@ body.flavor-header-minimal .flavor-brand .custom-logo {
 	right: -8px;
 	background: var(--flavor-accent);
 	color: #fff;
-	font-size: 10px;
+	font-size: 12px;
 	font-weight: 800;
 	width: 18px;
 	height: 18px;

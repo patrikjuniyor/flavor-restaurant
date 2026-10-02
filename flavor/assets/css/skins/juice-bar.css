@@ -6,7 +6,7 @@ body.flavor-skin-juice-bar { --fd-button-ink: #fff; }
 .flavor-skin-juice-bar .fd-hero__image { border-radius: 180px 180px 36px 36px; background: #f4d78b; }
 .flavor-skin-juice-bar .fd-hero__art::before { content: ""; position: absolute; inset: -12px 14px 12px -12px; border: 1px solid #d5dec7; border-radius: 185px 185px 36px 36px; z-index: 0; pointer-events: none; }
 .flavor-skin-juice-bar .fd-hero__image { position: relative; }
-.flavor-skin-juice-bar .fd-fresh-seal { position: absolute; top: 20px; inset-inline-end: 4px; width: 93px; height: 93px; background: #eef0bf; color: #245337; border: 1px dashed #245337; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; transform: rotate(-13deg); box-shadow: 0 0 0 6px #eef0bf; font-size: 9px; font-weight: 700; letter-spacing: .18em; }
+.flavor-skin-juice-bar .fd-fresh-seal { position: absolute; top: 20px; inset-inline-end: 4px; width: 93px; height: 93px; background: #eef0bf; color: #245337; border: 1px dashed #245337; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; transform: rotate(-13deg); box-shadow: 0 0 0 6px #eef0bf; font-size: 12px; font-weight: 700; letter-spacing: .18em; }
 .flavor-skin-juice-bar .fd-hero__caption { border: 1px solid #e6e8da; }
 .flavor-skin-juice-bar .fd-freshness { background: var(--flavor-secondary); color: #fff; padding-block: 34px; }
 .flavor-skin-juice-bar .fd-freshness__grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 35px; }
@@ -14,11 +14,11 @@ body.flavor-skin-juice-bar { --fd-button-ink: #fff; }
 .flavor-skin-juice-bar .fd-freshness__item + .fd-freshness__item { border-inline-start: 1px solid rgba(255,255,255,.2); padding-inline-start: 34px; }
 .flavor-skin-juice-bar .fd-freshness__icon { color: #dce99c; flex-shrink: 0; }
 .flavor-skin-juice-bar .fd-freshness h2 { color: #fff; font-size: 15px; margin: 0 0 7px; font-weight: 650; }
-.flavor-skin-juice-bar .fd-freshness p { color: #e0ebdf; font-size: 11px; margin: 0; }
+.flavor-skin-juice-bar .fd-freshness p { color: #e0ebdf; font-size: 12px; margin: 0; }
 .flavor-skin-juice-bar .fd-menu { background: var(--flavor-bg); }
 .flavor-skin-juice-bar .fd-product { border-radius: 26px; box-shadow: 0 5px 18px rgba(38,69,42,.025); }
 .flavor-skin-juice-bar .fd-product__media { margin: 8px 8px 0; border-radius: 20px; }
-.flavor-skin-juice-bar .fd-product__category { font-size: 10px; background: #fffcf5; }
+.flavor-skin-juice-bar .fd-product__category { font-size: 12px; background: #fffcf5; }
 .flavor-skin-juice-bar .fd-story { background: #edf1e4; }
 .flavor-skin-juice-bar .fd-story__media img { border-radius: 140px 140px 26px 26px; aspect-ratio: 1/1; }
 .flavor-skin-juice-bar .fd-story__copy h2 { max-width: 450px; }
@@ -40,6 +40,8 @@ body.flavor-skin-juice-bar { --fd-button-ink: #fff; }
 }
 @media (max-width: 700px) {
 	.flavor-skin-juice-bar .fd-hero__image { border-radius: 150px 150px 28px 28px; }
+	/* Exempt from the 12px type floor: the seal is aria-hidden ornament inside a
+	   fixed-diameter badge -- larger text crosses the dashed ring. See tests/ui/responsive.mjs. */
 	.flavor-skin-juice-bar .fd-fresh-seal { width: 78px; height: 78px; top: 20px; font-size: 7px; }
 	.flavor-skin-juice-bar .fd-freshness { padding-block: 30px; }
 	.flavor-skin-juice-bar .fd-freshness__grid { grid-template-columns: 1fr; gap: 22px; }

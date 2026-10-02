@@ -12,10 +12,10 @@
 .flavor-ui .flavor-account-login__panel h3{font-size:19px;line-height:1.7;margin-bottom:24px;font-weight:700}
 .flavor-ui .flavor-account-login .flavor-ui-field{margin-bottom:20px}
 .flavor-ui .flavor-auth-code{margin-top:20px}
-.flavor-ui .flavor-auth-status{font-size:11px;line-height:2;color:var(--ui-muted);margin:17px 0 0}
+.flavor-ui .flavor-auth-status{font-size:12px;line-height:2;color:var(--ui-muted);margin:17px 0 0}
 .flavor-ui .flavor-auth-status:empty{display:none}
 .flavor-ui .flavor-auth-status[data-error=yes]{padding:12px 14px;background:#fff2ee;border:1px solid #e7b8af;border-radius:8px;color:#852f24}
-.flavor-ui .flavor-account-login__help{font-size:10px;line-height:1.9;color:var(--ui-muted);margin:18px 0 0}
+.flavor-ui .flavor-account-login__help{font-size:12px;line-height:1.9;color:var(--ui-muted);margin:18px 0 0}
 .flavor-ui #flavor-otp-box .flavor-auth-code{width:100%;margin-top:0}
 .flavor-ui #flavor-otp-box .flavor-auth-code .flavor-ui-field{margin-bottom:10px}
 .flavor-ui #flavor-otp-box .flavor-auth-code input{width:100%;max-width:none!important}
@@ -42,14 +42,14 @@
 .flavor-ui .flavor-account-dashboard__head p{font-size:12px;line-height:1.9;color:var(--ui-muted);margin:0}
 .flavor-ui .flavor-account-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:30px}
 .flavor-ui .flavor-account-stats>div{padding:22px;background:var(--flavor-surface);border:1px solid var(--flavor-line);border-radius:var(--flavor-radius)}
-.flavor-ui .flavor-account-stats span{display:block;font-size:11px;color:var(--ui-muted);margin-bottom:14px}
+.flavor-ui .flavor-account-stats span{display:block;font-size:12px;color:var(--ui-muted);margin-bottom:14px}
 .flavor-ui .flavor-account-stats strong{display:block;font-size:30px;font-family:var(--flavor-font-heading);font-weight:700;line-height:1.4}
 .flavor-ui .flavor-account-recent{padding:28px;border:1px solid var(--flavor-line);border-radius:var(--flavor-radius);background:var(--flavor-surface)}
 .flavor-ui .flavor-account-section-head{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:16px}
 .flavor-ui .flavor-account-section-head h3{font-size:17px;font-weight:700;margin:0}
 .flavor-ui .flavor-account-order{display:flex;align-items:center;gap:20px;color:var(--flavor-ink);padding-block:17px;border-top:1px solid var(--flavor-line)}
 .flavor-ui .flavor-account-order strong{display:block;font-size:13px;line-height:1.8}
-.flavor-ui .flavor-account-order small{display:block;font-size:11px;color:var(--ui-muted);margin-top:4px}
+.flavor-ui .flavor-account-order small{display:block;font-size:12px;color:var(--ui-muted);margin-top:4px}
 .flavor-ui .flavor-account-order>span{margin-inline-start:auto;font-size:13px;font-weight:650}
 .flavor-ui .flavor-account-order>svg{flex-shrink:0}
 .flavor-ui .flavor-order-receipt,.flavor-ui .flavor-tracking-result{padding:30px;background:var(--flavor-surface);border:1px solid var(--flavor-line);border-radius:var(--flavor-radius);margin-bottom:30px}
@@ -60,11 +60,11 @@
 .flavor-ui .flavor-order-receipt__head>.flavor-ui-tag{margin-inline-start:auto}
 .flavor-ui .flavor-order-receipt>p{font-size:12px;line-height:2;color:var(--ui-muted)}
 .flavor-ui .flavor-order-receipt__meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;padding:23px 0;border-block:1px solid var(--flavor-line);margin-bottom:24px}
-.flavor-ui .flavor-order-receipt__meta span{display:block;font-size:11px;color:var(--ui-muted);margin-bottom:8px}
+.flavor-ui .flavor-order-receipt__meta span{display:block;font-size:12px;color:var(--ui-muted);margin-bottom:8px}
 .flavor-ui .flavor-order-receipt__meta strong{font-size:15px;font-weight:650;line-height:1.8}
 .flavor-ui .flavor-order-timeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:0;margin:30px 0 22px;list-style:none;gap:18px}
 .flavor-ui .flavor-order-timeline li{border-top:2px solid var(--flavor-line);padding-top:19px;color:var(--ui-muted);min-width:0}
-.flavor-ui .flavor-order-timeline li>span{display:grid;place-items:center;width:32px;height:32px;border:1px solid var(--flavor-line);border-radius:50%;font-size:11px;margin-bottom:13px}
+.flavor-ui .flavor-order-timeline li>span{display:grid;place-items:center;width:32px;height:32px;border:1px solid var(--flavor-line);border-radius:50%;font-size:12px;margin-bottom:13px}
 .flavor-ui .flavor-order-timeline strong{display:block;font-size:12px;font-weight:500;line-height:1.9}
 .flavor-ui .flavor-order-timeline .is-reached{border-color:var(--flavor-primary);color:var(--flavor-ink)}
 .flavor-ui .flavor-order-timeline .is-reached>span{background:var(--flavor-primary);border-color:var(--flavor-primary);color:var(--ui-action-ink)}
@@ -97,18 +97,18 @@
  .flavor-ui-account .woocommerce-MyAccount-navigation{position:static;padding:8px;border-radius:12px}
  .flavor-ui-account .woocommerce-MyAccount-navigation ul{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;padding:4px}
  .flavor-ui-account .woocommerce-MyAccount-navigation li{flex-shrink:0}
- .flavor-ui-account .woocommerce-MyAccount-navigation a{font-size:11px;padding:10px 13px;min-height:44px}
+ .flavor-ui-account .woocommerce-MyAccount-navigation a{font-size:12px;padding:10px 13px;min-height:44px}
  .flavor-ui .flavor-account-dashboard{margin-top:14px}
  .flavor-ui .flavor-account-dashboard__head{gap:14px}
  .flavor-ui .flavor-account-avatar{width:54px;height:54px;font-size:26px;border-radius:14px}
  .flavor-ui .flavor-account-dashboard__head h2{font-size:22px}
- .flavor-ui .flavor-account-dashboard__head p{font-size:11px}
+ .flavor-ui .flavor-account-dashboard__head p{font-size:12px}
  .flavor-ui .flavor-account-stats>div{padding:16px 12px;border-radius:12px}
- .flavor-ui .flavor-account-stats span{font-size:10px;line-height:1.8}
+ .flavor-ui .flavor-account-stats span{font-size:12px;line-height:1.8}
  .flavor-ui .flavor-account-stats strong{font-size:25px}
  .flavor-ui .flavor-account-recent{padding:23px 19px}
  .flavor-ui .flavor-account-section-head h3{font-size:16px}
- .flavor-ui .flavor-account-section-head .flavor-ui-text-link{font-size:10px}
+ .flavor-ui .flavor-account-section-head .flavor-ui-text-link{font-size:12px}
  .flavor-ui .flavor-account-order{gap:10px;flex-wrap:wrap}
  .flavor-ui .flavor-account-order>span{font-size:12px}
  .flavor-ui .flavor-order-receipt,.flavor-ui .flavor-tracking-result{padding:25px 21px}

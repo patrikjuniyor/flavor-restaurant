@@ -8,7 +8,7 @@
 .flavor-skin-catering .fd-topbar {
 	background: var(--flavor-secondary);
 	color: var(--fd-mizan-light);
-	font-size: 11px;
+	font-size: 12px;
 	letter-spacing: .015em;
 }
 .flavor-skin-catering .fd-header { background: var(--flavor-bg); }
@@ -22,11 +22,11 @@
 	height: 52px;
 }
 .flavor-skin-catering .fd-brand__name { font-size: 28px; font-weight: 760; }
-.flavor-skin-catering .fd-brand__caption { font-size: 9px; }
+.flavor-skin-catering .fd-brand__caption { font-size: 12px; }
 .flavor-skin-catering .fd-header__cta { border-radius: 2px; }
 /* WordPress marks every homepage hash as current; avoid five false highlights. */
 .flavor-skin-catering .fd-header .flavor-nav .current-menu-item > a:not(:hover)::after { width: 0; }
-.flavor-skin-catering .fd-eyebrow { color: #81582b; font-size: 11px; font-weight: 500; }
+.flavor-skin-catering .fd-eyebrow { color: #81582b; font-size: 12px; font-weight: 500; }
 .flavor-skin-catering .fd-section h2 { font-weight: 650; font-size: clamp(1.9rem, 3vw, 2.7rem); }
 .flavor-skin-catering .fd-section { padding-block: 86px; }
 
@@ -127,7 +127,7 @@
 .flavor-skin-catering .fd-mizan-service__title > span { font: 24px Georgia, serif; color: #8c704d; }
 .flavor-skin-catering .fd-mizan-service p { font-size: 12px; color: var(--flavor-muted); line-height: 2; margin-block: 17px 20px; }
 .flavor-skin-catering .fd-mizan-service ul { margin: 0 0 20px; padding: 20px 0; list-style: none; border-block: 1px solid var(--flavor-line); display: grid; gap: 8px; }
-.flavor-skin-catering .fd-mizan-service li { display: flex; align-items: center; gap: 8px; font-size: 11px; }
+.flavor-skin-catering .fd-mizan-service li { display: flex; align-items: center; gap: 8px; font-size: 12px; }
 .flavor-skin-catering .fd-mizan-service li svg { color: #81582b; flex-shrink: 0; }
 .flavor-skin-catering .fd-mizan-service .fd-text-link { font-size: 12px; width: 100%; justify-content: space-between; }
 
@@ -135,13 +135,13 @@
 .flavor-skin-catering .fd-menu { background: var(--flavor-surface-alt); border-block: 1px solid var(--flavor-line); }
 .flavor-skin-catering .fd-menu__notice { color: var(--flavor-muted); border-inline-start: 2px solid #a57c43; padding-inline-start: 16px; max-width: 960px; font-size: 12px; line-height: 2; margin-bottom: 28px; }
 .flavor-skin-catering .fd-menu__filters { gap: 8px; margin-bottom: 28px; }
-.flavor-skin-catering .fd-menu__filters button { border-radius: 2px; padding-inline: 18px; font-size: 11px; }
+.flavor-skin-catering .fd-menu__filters button { border-radius: 2px; padding-inline: 18px; font-size: 12px; }
 .flavor-skin-catering .fd-products { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 .flavor-skin-catering .fd-product { display: grid; grid-template-columns: 160px minmax(0, 1fr); border-radius: 2px; box-shadow: none; }
 .flavor-skin-catering .fd-product:hover { transform: none; }
 .flavor-skin-catering .fd-product__media { height: 100%; }
 .flavor-skin-catering .fd-product__media img { height: 100%; min-height: 205px; aspect-ratio: auto; object-fit: cover; }
-.flavor-skin-catering .fd-product__category { inset-inline-start: 10px; top: 10px; padding: 4px 8px; font-size: 9px; border-radius: 1px; background: #fffdf8; color: #1b2b39; }
+.flavor-skin-catering .fd-product__category { inset-inline-start: 10px; top: 10px; padding: 4px 8px; font-size: 12px; border-radius: 1px; background: #fffdf8; color: #1b2b39; }
 .flavor-skin-catering .fd-product__body { padding: 20px 22px; }
 .flavor-skin-catering .fd-product__body h3 { min-height: 0; font-size: 17px; line-height: 1.65; margin-bottom: 8px; }
 .flavor-skin-catering .fd-product__body p { min-height: 3.7em; margin-bottom: 6px; font-size: 12px; }
@@ -153,7 +153,7 @@
 .flavor-skin-catering .fd-story { background: var(--flavor-bg); }
 .flavor-skin-catering .fd-story__grid { grid-template-columns: 1fr .95fr; gap: 70px; }
 .flavor-skin-catering .fd-story__media img { border-radius: 2px; aspect-ratio: 4/3; }
-.flavor-skin-catering .fd-story__media figcaption { font-size: 10px; }
+.flavor-skin-catering .fd-story__media figcaption { font-size: 12px; }
 .flavor-skin-catering .fd-prose { font-size: 13px; }
 .flavor-skin-catering .fd-story__values { margin-block: 22px 12px; }
 .flavor-skin-catering .fd-story__values li { font-size: 12px; }
@@ -177,19 +177,19 @@
 .flavor-skin-catering .fd-mizan-proposal__copy li svg { flex-shrink: 0; color: var(--fd-mizan-gold); }
 .flavor-skin-catering .fd-mizan-proposal__phone { display: flex; align-items: center; gap: 16px; color: var(--fd-mizan-light); margin-top: 35px; padding-block: 10px; }
 .flavor-skin-catering .fd-mizan-proposal__phone:hover { color: var(--fd-mizan-gold); }
-.flavor-skin-catering .fd-mizan-proposal__phone small { display: block; color: #d6dee4; font-size: 11px; margin-bottom: 5px; }
+.flavor-skin-catering .fd-mizan-proposal__phone small { display: block; color: #d6dee4; font-size: 12px; margin-bottom: 5px; }
 .flavor-skin-catering .fd-mizan-proposal__phone bdi { font-size: 24px; letter-spacing: .015em; }
 .flavor-skin-catering .fd-mizan-proposal__phone > svg:last-child { margin-inline-start: auto; }
 .flavor-skin-catering .fd-mizan-proposal__panel { min-width: 0; padding: 36px; background: var(--flavor-surface); color: var(--flavor-ink); border-top: 3px solid #ba9663; }
 .flavor-skin-catering .fd-mizan-proposal__panel-head { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 13px; }
 .flavor-skin-catering .fd-mizan-proposal__panel-head h3 { font-size: 22px; font-weight: 650; margin: 0; }
 .flavor-skin-catering .fd-mizan-proposal__panel-head svg { color: #81582b; flex-shrink: 0; }
-.flavor-skin-catering .fd-mizan-proposal__privacy { font-size: 11px; line-height: 1.95; color: var(--flavor-muted); margin-bottom: 23px; }
+.flavor-skin-catering .fd-mizan-proposal__privacy { font-size: 12px; line-height: 1.95; color: var(--flavor-muted); margin-bottom: 23px; }
 .flavor-skin-catering .fd-mizan-planner__fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 19px 16px; }
 .flavor-skin-catering .fd-mizan-planner__field { min-width: 0; }
 .flavor-skin-catering .fd-mizan-planner__field--wide { grid-column: 1/-1; }
 .flavor-skin-catering .fd-mizan-planner label { display: block; font-size: 12px; margin-bottom: 8px; font-weight: 500; }
-.flavor-skin-catering .fd-mizan-planner__required { font-size: 9px; font-weight: 400; color: var(--flavor-muted); }
+.flavor-skin-catering .fd-mizan-planner__required { font-size: 12px; font-weight: 400; color: var(--flavor-muted); }
 .flavor-skin-catering .fd-mizan-planner input,
 .flavor-skin-catering .fd-mizan-planner select,
 .flavor-skin-catering .fd-mizan-planner textarea,
@@ -209,18 +209,18 @@
 	text-align: right;
 }
 .flavor-skin-catering .fd-mizan-planner input::placeholder,
-.flavor-skin-catering .fd-mizan-planner textarea::placeholder { color: #69717a; opacity: 1; font-size: 11px; }
+.flavor-skin-catering .fd-mizan-planner textarea::placeholder { color: #69717a; opacity: 1; font-size: 12px; }
 .flavor-skin-catering .fd-mizan-planner textarea,
 .flavor-skin-catering .fd-mizan-summary textarea { resize: vertical; }
-.flavor-skin-catering .fd-mizan-planner__field small { display: block; margin-top: 7px; font-size: 9px; line-height: 1.9; color: var(--flavor-muted); }
+.flavor-skin-catering .fd-mizan-planner__field small { display: block; margin-top: 7px; font-size: 12px; line-height: 1.9; color: var(--flavor-muted); }
 .flavor-skin-catering .fd-mizan-planner > button { width: 100%; margin-top: 23px; border-radius: 2px; }
 .flavor-skin-catering .fd-mizan-summary { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--flavor-line); }
 .flavor-skin-catering .fd-mizan-summary h3 { font-size: 15px; line-height: 1.8; margin-bottom: 15px; }
 .flavor-skin-catering .fd-mizan-summary textarea { background: #f8f6f0; font-size: 12px; }
 .flavor-skin-catering .fd-mizan-summary__actions { display: flex; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 15px; }
 .flavor-skin-catering .fd-mizan-summary__actions .fd-button,
-.flavor-skin-catering .fd-mizan-summary__actions .fd-text-link { font-size: 11px; }
-.flavor-skin-catering .fd-mizan-summary__status { margin: 13px 0 0; font-size: 11px; line-height: 1.9; color: #314c36; }
+.flavor-skin-catering .fd-mizan-summary__actions .fd-text-link { font-size: 12px; }
+.flavor-skin-catering .fd-mizan-summary__status { margin: 13px 0 0; font-size: 12px; line-height: 1.9; color: #314c36; }
 .flavor-skin-catering .fd-mizan-planner__fallback p { color: var(--flavor-muted); font-size: 13px; }
 .flavor-skin-catering .fd-mizan-planner input:focus-visible,
 .flavor-skin-catering .fd-mizan-planner select:focus-visible,
@@ -270,11 +270,11 @@
 @media (max-width: 900px) {
 	.flavor-skin-catering .fd-mizan-services__grid { gap: 16px; }
 	.flavor-skin-catering .fd-mizan-service__body { padding: 20px 16px; }
-	.flavor-skin-catering .fd-mizan-service__overline { font-size: 8px; }
+	.flavor-skin-catering .fd-mizan-service__overline { font-size: 12px; }
 	.flavor-skin-catering .fd-mizan-service__title { align-items: start; }
 	.flavor-skin-catering .fd-mizan-service__title h3 { font-size: 17px; }
 	.flavor-skin-catering .fd-mizan-service__title > span { font-size: 21px; }
-	.flavor-skin-catering .fd-mizan-service .fd-text-link { font-size: 10px; }
+	.flavor-skin-catering .fd-mizan-service .fd-text-link { font-size: 12px; }
 	.flavor-skin-catering .fd-product { grid-template-columns: 110px minmax(0, 1fr); }
 	.flavor-skin-catering .fd-product__body { padding: 16px; }
 	.flavor-skin-catering .fd-mizan-proposal__grid { grid-template-columns: 1fr; }
@@ -294,21 +294,21 @@
 	.flavor-skin-catering .fd-mizan-hero .fd-eyebrow { margin-bottom: 19px; }
 	.flavor-skin-catering .fd-mizan-hero .fd-hero__text { font-size: 13px; }
 	.flavor-skin-catering .fd-mizan-hero .fd-button--primary { font-size: 12px; padding-inline: 19px; }
-	.flavor-skin-catering .fd-mizan-hero .fd-text-link { font-size: 11px; }
+	.flavor-skin-catering .fd-mizan-hero .fd-text-link { font-size: 12px; }
 	.flavor-skin-catering .fd-mizan-hero__signature { display: none; }
 	.flavor-skin-catering .fd-mizan-hero__art > img { height: auto; min-height: 0; aspect-ratio: 1.1; object-position: center; }
-	.flavor-skin-catering .fd-mizan-hero__seal { top: 17px; inset-inline-end: 17px; padding: 12px 14px; font-size: 10px; }
+	.flavor-skin-catering .fd-mizan-hero__seal { top: 17px; inset-inline-end: 17px; padding: 12px 14px; font-size: 12px; }
 	.flavor-skin-catering .fd-mizan-hero__seal > svg { width: 25px; height: 25px; }
-	.flavor-skin-catering .fd-mizan-hero__art figcaption { inset-inline: 16px; bottom: 16px; padding: 15px; gap: 12px; font-size: 10px; }
+	.flavor-skin-catering .fd-mizan-hero__art figcaption { inset-inline: 16px; bottom: 16px; padding: 15px; gap: 12px; font-size: 12px; }
 	.flavor-skin-catering .fd-mizan-hero__caption-line { width: 24px; }
-	.flavor-skin-catering .fd-mizan-promises { grid-template-columns: 1fr; padding: 25px 12px; gap: 13px; font-size: 11px; }
+	.flavor-skin-catering .fd-mizan-promises { grid-template-columns: 1fr; padding: 25px 12px; gap: 13px; font-size: 12px; }
 	.flavor-skin-catering .fd-mizan-promises li { justify-content: start; }
 	.flavor-skin-catering .fd-mizan-promises li + li { border: 0; }
 	.flavor-skin-catering .fd-mizan-services .fd-section-head { gap: 2px; }
 	.flavor-skin-catering .fd-mizan-services__grid { grid-template-columns: 1fr; gap: 22px; }
 	.flavor-skin-catering .fd-mizan-service__media img { aspect-ratio: 1.55; }
 	.flavor-skin-catering .fd-mizan-service__body { padding: 27px; }
-	.flavor-skin-catering .fd-mizan-service__overline { font-size: 9px; }
+	.flavor-skin-catering .fd-mizan-service__overline { font-size: 12px; }
 	.flavor-skin-catering .fd-mizan-service__title h3 { font-size: 22px; }
 	.flavor-skin-catering .fd-mizan-service .fd-text-link { font-size: 12px; }
 	.flavor-skin-catering .fd-products { grid-template-columns: 1fr; gap: 16px; }
@@ -316,9 +316,9 @@
 	.flavor-skin-catering .fd-product__media img { min-height: 195px; }
 	.flavor-skin-catering .fd-product__body { padding: 17px; }
 	.flavor-skin-catering .fd-product__body h3 { font-size: 15px; }
-	.flavor-skin-catering .fd-product__body p { font-size: 11px; }
+	.flavor-skin-catering .fd-product__body p { font-size: 12px; }
 	.flavor-skin-catering .fd-product__price { font-size: 12px; }
-	.flavor-skin-catering .fd-menu__notice { font-size: 11px; padding-inline-start: 12px; }
+	.flavor-skin-catering .fd-menu__notice { font-size: 12px; padding-inline-start: 12px; }
 	.flavor-skin-catering .fd-story__grid,
 	.flavor-skin-catering .fd-faq__grid { grid-template-columns: 1fr; gap: 30px; }
 	.flavor-skin-catering .fd-process__head { margin-bottom: 30px; }
@@ -330,20 +330,20 @@
 	.flavor-skin-catering .fd-mizan-proposal__panel { padding: 27px 23px; }
 	.flavor-skin-catering .fd-mizan-proposal__panel-head h3 { font-size: 20px; }
 	.flavor-skin-catering .fd-mizan-planner__fields { grid-template-columns: 1fr; gap: 17px; }
-	.flavor-skin-catering .fd-mizan-planner label { font-size: 11px; }
+	.flavor-skin-catering .fd-mizan-planner label { font-size: 12px; }
 	.flavor-skin-catering .fd-mizan-planner > button { font-size: 12px; padding-inline: 14px; }
 	.flavor-skin-catering .fd-mizan-planner input,
 	.flavor-skin-catering .fd-mizan-planner select,
 	.flavor-skin-catering .fd-mizan-planner textarea { font-size: 16px; } /* Avoid iOS input zoom. */
 	.flavor-skin-catering .fd-visit { padding-top: 0; }
-	.flavor-skin-catering .fd-footer__bottom { font-size: 9px; }
+	.flavor-skin-catering .fd-footer__bottom { font-size: 12px; }
 }
 @media (max-width: 360px) {
 	.flavor-skin-catering .fd-mizan-hero .fd-hero__copy { padding-inline: 23px; }
 	.flavor-skin-catering .fd-product { grid-template-columns: 95px minmax(0, 1fr); }
 	.flavor-skin-catering .fd-product__body { padding: 14px; }
 	.flavor-skin-catering .fd-product__bottom { gap: 7px; }
-	.flavor-skin-catering .fd-product__price { font-size: 11px; }
+	.flavor-skin-catering .fd-product__price { font-size: 12px; }
 	.flavor-skin-catering .fd-product__order { width: 40px; height: 44px; }
 	.flavor-skin-catering .fd-mizan-proposal__panel { padding-inline: 20px; }
 }
