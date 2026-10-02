@@ -11,7 +11,7 @@ $planning = 'catering' === \Flavor\Design::current_skin() && ! $is_menu;
 $cart_url = add_query_arg( 'open_cart', '1', \Flavor\UI::url( 'menu' ) );
 ?>
 <nav class="flavor-mobile-nav <?php echo 'minimal' === $settings['mobile_nav'] ? 'flavor-mobile-nav--minimal' : ''; ?>" aria-label="<?php esc_attr_e( 'دسترسی سریع موبایل', 'flavor' ); ?>">
-	<?php if ( 'minimal' !== $settings['mobile_nav'] ) : ?><a href="<?php echo esc_url( home_url( '/' ) ); ?>" <?php if ( is_front_page() ) : ?>aria-current="page"<?php endif; ?>><?php \Flavor\UI::icon( 'home', 21 ); ?><span><?php esc_html_e( 'خانه', 'flavor' ); ?></span></a><?php endif; ?>
+	<a data-ui-nav-home href="<?php echo esc_url( home_url( '/' ) ); ?>" <?php if ( is_front_page() ) : ?>aria-current="page"<?php endif; ?>><?php \Flavor\UI::icon( 'home', 21 ); ?><span><?php esc_html_e( 'خانه', 'flavor' ); ?></span></a>
 	<a href="<?php echo esc_url( \Flavor\UI::url( 'menu' ) ); ?>" <?php if ( $is_menu ) : ?>aria-current="page"<?php endif; ?>><?php \Flavor\UI::icon( 'menu', 21 ); ?><span><?php esc_html_e( 'منو', 'flavor' ); ?></span></a>
 	<a href="<?php echo esc_url( \Flavor\UI::url( $middle ) ); ?>" <?php if ( is_page( $middle ) || ( 'account' === $middle && function_exists( 'is_account_page' ) && is_account_page() ) ) : ?>aria-current="page"<?php endif; ?>><?php \Flavor\UI::icon( $icons[ $middle ], 21 ); ?><span><?php echo esc_html( $labels[ $middle ] ); ?></span></a>
 	<?php if ( $planning ) : ?>

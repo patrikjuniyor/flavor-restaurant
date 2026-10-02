@@ -342,14 +342,22 @@ class Design {
 
 		foreach ( $keys as $key ) {
 			$mod = get_theme_mod( 'flavor_' . $key, '' );
-			if ( is_string( $mod ) && '' !== trim( $mod ) ) {
-				$base[ $key ] = trim( $mod );
+			if ( ! is_string( $mod ) || '' === trim( $mod ) ) { continue; }
+			$mod = trim( $mod );
+			// Defense in depth for direct theme-mod writes and legacy imports too.
+			if ( in_array( $key, array( 'radius', 'btn_radius' ), true ) ) {
+				$valid = (bool) preg_match( '/^\d{1,4}(?:\.\d{1,2})?(?:px|rem)$/D', $mod );
+			} elseif ( in_array( $key, array( 'font_heading', 'font_body' ), true ) ) {
+				$valid = (bool) preg_match( '/^[\p{L}\p{N} _-]{1,64}$/uD', $mod );
+			} else {
+				$valid = (bool) preg_match( '/^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/iD', $mod );
 			}
+			if ( $valid ) { $base[ $key ] = $mod; }
 		}
 
 		// Backward compatibility for legacy customizer keys.
 		$legacy_accent = get_theme_mod( 'flavor_accent', '' );
-		if ( $legacy_accent && ! get_theme_mod( 'flavor_primary', '' ) ) {
+		if ( is_string( $legacy_accent ) && preg_match( '/^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/iD', $legacy_accent ) && ! get_theme_mod( 'flavor_primary', '' ) ) {
 			$base['primary'] = $legacy_accent;
 		}
 

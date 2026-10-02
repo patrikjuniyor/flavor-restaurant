@@ -6,8 +6,10 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { testCustomer } from './customer.mjs';
 import { testPages } from './pages.mjs';
+import { testCustomizer } from './customizer.mjs';
 const base = process.env.SITE_URL || 'http://localhost:8080/';
 const stage = Number(process.env.UI_STAGE || 1);
+if (stage >= 6 && process.env.FLAVOR_DEMO_QA !== '1') throw new Error('Customizer writes require an opted-in disposable site: FLAVOR_DEMO_QA=1.');
 const output = path.resolve(process.env.QA_OUTPUT_DIR || '../../.cache/ui-qa');
 await fs.mkdir(output, { recursive: true });
 const browser = await chromium.launch({ args: ['--no-sandbox'] });
@@ -158,6 +160,7 @@ try {
  }
  if(stage>=4)await testCustomer(page,context,report,base,output);
  if(stage>=5)await testPages(page,report,base,output);
+ if(stage>=6)await testCustomizer(browser,report,base,output);
  report.checks.push('responsive menu/grid/list','category filtering and pressed states','real product detail and live quantity price','no implicit cart add','modal Escape/focus/inert restoration','deep link and explicit cart persistence');
  const noJs = await browser.newContext({ javaScriptEnabled:false,viewport:{width:390,height:844} });
  const staticPage=await noJs.newPage();

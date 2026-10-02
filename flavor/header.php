@@ -14,6 +14,7 @@ if ( \Flavor\Bespoke_Demos::active() ) {
 
 $topbar = get_theme_mod( 'flavor_header_topbar', '' );
 $layout = get_theme_mod( 'flavor_header_layout', 'default' );
+$layout = in_array( $layout, array( 'default', 'centered', 'minimal', 'transparent' ), true ) ? $layout : 'default';
 $phone  = get_theme_mod( 'flavor_phone', '02188001234' );
 
 $menu_page = get_page_by_path( 'menu' );

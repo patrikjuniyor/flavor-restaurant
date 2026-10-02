@@ -90,14 +90,16 @@
 	}
 
 	var header = document.getElementById('flavor-site-header');
-	function headerOffset() { if (header) document.body.style.setProperty('--ui-header-offset', (header.offsetHeight + (document.getElementById('wpadminbar') ? document.getElementById('wpadminbar').offsetHeight : 0) + 8) + 'px'); }
+	function headerOffset() { if (header) document.body.style.setProperty('--ui-header-offset', ((document.body.classList.contains('flavor-header-not-sticky') ? 0 : header.offsetHeight) + (document.getElementById('wpadminbar') ? document.getElementById('wpadminbar').offsetHeight : 0) + 8) + 'px'); }
 	headerOffset();
+	document.addEventListener('flavor:ui-header-changed', headerOffset);
 	if (header && typeof ResizeObserver !== 'undefined') new ResizeObserver(headerOffset).observe(header);
 	var views = document.querySelector('[data-ui-menu-view]');
 	if (views) {
 		function paintView(mode) { document.body.classList.toggle('flavor-ui-menu-layout-list', mode === 'list'); document.body.classList.toggle('flavor-ui-menu-layout-grid', mode === 'grid'); views.querySelectorAll('button').forEach(function (button) { button.setAttribute('aria-pressed', String(button.dataset.uiView === mode)); }); }
 		paintView((cfg.ui && cfg.ui.menu_layout) || 'grid');
 		views.addEventListener('click', function (event) { var button = event.target.closest('[data-ui-view]'); if (button) { paintView(button.dataset.uiView); announce(button.dataset.uiView === 'list' ? 'منو به صورت فهرستی نمایش داده می‌شود.' : 'منو به صورت کارتی نمایش داده می‌شود.'); } });
+		document.addEventListener('flavor:ui-settings-changed', function (event) { if (event.detail.menu_layout) paintView(event.detail.menu_layout); });
 		views.hidden = false;
 	}
 

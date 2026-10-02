@@ -19,24 +19,28 @@ class UI {
 		return ! is_front_page() && ! is_home();
 	}
 
-	public static function settings(): array {
-		$choices = array(
-			'menu_layout' => array( 'grid', 'list' ),
-			'density'     => array( 'comfortable', 'compact' ),
-			'image_ratio'=> array( 'landscape', 'square' ),
-			'card_style' => array( 'skin', 'soft', 'sharp' ),
-			'mobile_nav' => array( 'contextual', 'minimal' ),
+	/** One allowlist supplies front-end defaults, controls, validation and previews. */
+	public static function schema(): array {
+		return array(
+			'menu_layout' => array( 'default' => 'grid', 'label' => __( 'نمای پیش‌فرض منو', 'flavor' ), 'description' => __( 'کارتی یا فهرستی؛ مشتری همچنان می‌تواند نمای همین صفحه را عوض کند.', 'flavor' ), 'choices' => array( 'grid' => __( 'کارتی', 'flavor' ), 'list' => __( 'فهرستی', 'flavor' ) ) ),
+			'density' => array( 'default' => 'comfortable', 'label' => __( 'فاصله‌گذاری کارت غذا', 'flavor' ), 'description' => __( 'فاصلهٔ محتوا در هر دو نمای منو؛ اندازهٔ دکمه‌ها و اهداف لمس کوچک نمی‌شود.', 'flavor' ), 'choices' => array( 'comfortable' => __( 'راحت و باز', 'flavor' ), 'compact' => __( 'جمع‌وجور', 'flavor' ) ) ),
+			'image_ratio' => array( 'default' => 'landscape', 'label' => __( 'قاب عکس در منوی کارتی', 'flavor' ), 'description' => __( 'افقی ۳ به ۲ یا مربع؛ تصویر اصلی و فایل‌های دمو تغییر نمی‌کنند. در فهرست، عکس با ارتفاع ردیف هماهنگ است.', 'flavor' ), 'choices' => array( 'landscape' => __( 'افقی — ۳ به ۲', 'flavor' ), 'square' => __( 'مربع — ۱ به ۱', 'flavor' ) ) ),
+			'card_style' => array( 'default' => 'skin', 'label' => __( 'گوشهٔ کارت و پنل غذا', 'flavor' ), 'description' => __( 'پیش‌فرض از پوسته می‌آید؛ این گزینه چیدمان مستقل صفحهٔ اصلی دمو را عوض نمی‌کند.', 'flavor' ), 'choices' => array( 'skin' => __( 'پیش‌فرض پوسته', 'flavor' ), 'soft' => __( 'نرم و گرد', 'flavor' ), 'sharp' => __( 'زاویه‌دار', 'flavor' ) ) ),
+			'mobile_nav' => array( 'default' => 'contextual', 'label' => __( 'نوار دسترسی موبایل', 'flavor' ), 'description' => __( 'کامل با خانه، یا کوتاه بدون خانه؛ حساب/تماس/رزرو همچنان از امکانات واقعی صفحه انتخاب می‌شوند.', 'flavor' ), 'choices' => array( 'contextual' => __( 'کامل و متناسب با صفحه', 'flavor' ), 'minimal' => __( 'کوتاه و سه‌گزینه‌ای', 'flavor' ) ) ),
 		);
+	}
+
+	public static function settings(): array {
 		$result = array();
-		foreach ( $choices as $key => $allowed ) {
-			$value = get_theme_mod( 'flavor_ui_' . $key, $allowed[0] );
-			$result[ $key ] = in_array( $value, $allowed, true ) ? $value : $allowed[0];
+		foreach ( self::schema() as $key => $definition ) {
+			$value = get_theme_mod( 'flavor_ui_' . $key, $definition['default'] );
+			$result[ $key ] = is_string( $value ) && array_key_exists( $value, $definition['choices'] ) ? $value : $definition['default'];
 		}
 		return $result;
 	}
 
 	public static function body_class( array $classes ): array {
-		if ( ! in_array( get_theme_mod( 'flavor_header_sticky', 'yes' ), array( 'yes', '1', 1, true ), true ) ) { $classes[] = 'flavor-header-not-sticky'; }
+		if ( ! in_array( get_theme_mod( 'flavor_header_sticky', 'yes' ), array( 'yes', 'on', '1', 1, true ), true ) ) { $classes[] = 'flavor-header-not-sticky'; }
 		if ( self::inner() ) {
 			$classes[] = 'flavor-ui';
 			foreach ( self::settings() as $key => $value ) {

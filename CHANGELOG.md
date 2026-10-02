@@ -7,6 +7,12 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Shared storefront UI — stage 6 / 2026-10-02
+
+- Validated native Customizer controls for card/list defaults, density, image ratio, card geometry and capability-aware mobile navigation; local Persian body/heading font selection and real centered/minimal/glass header styles. Default demo compositions remain unchanged.
+- State-preserving postMessage preview with menu/home shortcuts, genuine unpublished/published separation, legacy-compatible sticky checkbox and correct category offset when the header is not sticky. Original cart/product choices are not mutated by presentation settings.
+- One enum schema drives frontend, control choices and validation; existing preset geometry remains selectable and unsafe direct color/font/length overrides cannot enter CSS. Guarded real-WP saving and browser preview/publish/restore tests added; the integrated six-stage browser suite passed on disposable WordPress.
+
 ### Shared storefront UI — stage 5 / 2026-10-02
 
 - Editorial about/contact pages, published branch directory/detail, real-hours/contact/map links, branch filtering, three-section Jalali reservation form, native no-JS search and useful HTTP-404 state. Custom/builder templates remain respected.

@@ -114,7 +114,8 @@ class Theme_Setup {
 		$classes[] = 'flavor-theme';
 		$classes[] = defined( 'FLAVOR_CORE_VERSION' ) ? 'flavor-has-core' : 'flavor-no-core';
 		$classes[] = 'flavor-skin-' . Design::current_skin();
-		$classes[] = 'flavor-header-' . sanitize_html_class( (string) get_theme_mod( 'flavor_header_layout', 'default' ) );
+		$layout = get_theme_mod( 'flavor_header_layout', 'default' );
+		$classes[] = 'flavor-header-' . ( in_array( $layout, array( 'default', 'centered', 'minimal', 'transparent' ), true ) ? $layout : 'default' );
 		return $classes;
 	}
 
