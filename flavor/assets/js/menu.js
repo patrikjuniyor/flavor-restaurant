@@ -27,6 +27,8 @@
 	var catalog = [];
 	var current = null;
 	var qty = 1;
+	var editing = null;
+	var sheetMutating = false;
 	var mode = cfg.defaultMode || 'takeaway';
 	var ctx = {};
 	var cartState = null;
@@ -157,24 +159,36 @@
 		var amount = ((canonical ? current.storagePrice : current.price) + extra) * qty;
 		return canonical ? displayAmount(amount) : amount;
 	}
+	function setSheetError(message) {
+		var error = document.getElementById('flavor-sheet-error');
+		if (error) { error.hidden = !message; error.textContent = message || ''; }
+	}
+	function sheetSelectionValid() {
+		return qty <= 20 && Array.from(sheetBody.querySelectorAll('[data-required="true"]')).every(function (group) { return !!group.querySelector('input:checked:not([value=""])'); });
+	}
 	function paintSheetPrice() {
 		if (!sheetAdd || !current) return;
 		var n = livePrice();
 		var label = Number(n).toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || 'تومان');
 		var price = document.getElementById('flavor-sheet-price'); if (price) price.textContent = label;
 		var quantity = document.getElementById('flavor-qty'); if (quantity) quantity.textContent = fa(qty);
-		if (sheet) sheet.querySelectorAll('[data-q]').forEach(function (button) { button.disabled = (button.dataset.q === '-1' && qty <= 1) || (button.dataset.q === '1' && qty >= 20); });
-		sheetAdd.disabled = current.available === false;
-		sheetAdd.textContent = current.available === false ? 'این انتخاب فعلاً ناموجود است' : 'افزودن به سبد · ' + fa(qty) + ' عدد';
+		var busy = sheetMutating || cartMutating;
+		if (sheet) sheet.querySelectorAll('[data-q]').forEach(function (button) { button.disabled = busy || (button.dataset.q === '-1' && qty <= 1) || (button.dataset.q === '1' && qty >= 20); });
+		sheetBody.querySelectorAll('input,textarea').forEach(function (field) { field.disabled = busy; });
+		sheetAdd.disabled = busy || current.available === false || !sheetSelectionValid();
+		sheetAdd.textContent = busy ? 'در حال ذخیرهٔ انتخاب‌ها…' : current.available === false ? 'این انتخاب فعلاً ناموجود است' : (editing ? 'ذخیرهٔ تغییرات' : 'افزودن به سبد') + ' · ' + fa(qty) + ' عدد';
+		if (!sheetSelectionValid()) setSheetError(qty > 20 ? 'حداکثر ۲۰ واحد از یک انتخاب؛ تعداد را کم کنید.' : 'برای ادامه، انتخاب‌های ضروری این غذا را مشخص کنید.');
 	}
-	function openSheet(item, trigger) {
+	function openSheet(item, trigger, line) {
 		if (!sheet || !sheetBody || !sheetTitle) { showError(new Error('پنل جزئیات در دسترس نیست. صفحه را دوباره باز کنید.')); return; }
-		current = item; qty = 1;
+		sheet.classList.toggle('flavor-sheet--cart-edit', !!line);
+		current = item; editing = line || null; qty = line ? Math.max(1, Number(line.quantity) || 1) : 1;
+		var existingIds = line ? (line.modifiers || []).map(function (option) { return String(option.id); }) : [];
 		sheetTitle.textContent = item.name;
 		var visual = document.getElementById('flavor-sheet-visual');
 		var image = safeImage(item.image);
 		if (visual) visual.innerHTML = (image ? '<img src="' + esc(image) + '" alt="' + esc(item.name) + '" width="700" height="700" />' : '') + '<p>' + smallIcon('clock') + 'زمان آماده‌سازی برآورد است، نه زمان تضمین‌شدهٔ رسیدن سفارش.</p>';
-		var html = '<p class="flavor-sheet__description">' + esc(plain(item.description || item.short)) + '</p><div class="flavor-sheet__metadata">' + (item.prep_time ? '<span class="flavor-ui-tag">' + smallIcon('clock') + fa(item.prep_time) + ' دقیقه آماده‌سازی</span>' : '') + (item.calories ? '<span class="flavor-ui-tag">' + fa(item.calories) + ' کالری</span>' : '');
+		var html = (editing ? '<p class="flavor-ui-note">انتخاب فعلی این ردیف را ویرایش می‌کنید؛ تا زدن «ذخیرهٔ تغییرات» چیزی در سبد عوض نمی‌شود.</p>' : '') + '<p class="flavor-sheet__description">' + esc(plain(item.description || item.short)) + '</p><div class="flavor-sheet__metadata">' + (item.prep_time ? '<span class="flavor-ui-tag">' + smallIcon('clock') + fa(item.prep_time) + ' دقیقه آماده‌سازی</span>' : '') + (item.calories ? '<span class="flavor-ui-tag">' + fa(item.calories) + ' کالری</span>' : '');
 		(item.dietary || []).forEach(function (flag) { if (dietLabels[flag]) html += '<span class="flavor-ui-tag">' + esc(dietLabels[flag]) + '</span>'; });
 		html += '</div>';
 		var labels = { size: 'اندازه و پرس', topping: 'افزودنی‌ها', cook: 'درجهٔ پخت', removal: 'حذف مخلفات' };
@@ -182,26 +196,31 @@
 		if (!groups) { var g = groupModifiers(item.modifiers); groups = Object.keys(g).map(function (type) { return { type: type, multi: type === 'topping' || type === 'removal', required: type === 'size', options: g[type] }; }); }
 		groups.forEach(function (group) {
 			var list = group.options || []; if (!list.length) return;
-			var firstDefault = list.findIndex(function (option) { return option.is_default; }); if (firstDefault < 0 && !group.multi) firstDefault = 0;
-			html += '<fieldset class="flavor-sheet__fieldset"><legend>' + esc(group.title || labels[group.type] || 'انتخاب‌ها') + (group.required ? '<span class="flavor-ui-required"> (انتخاب ضروری)</span>' : '') + '</legend><div class="flavor-sheet__options">';
+			var firstDefault = list.findIndex(function (option) { return option.is_default; }); if (firstDefault < 0 && !group.multi && group.required) firstDefault = 0;
+			html += '<fieldset class="flavor-sheet__fieldset" data-required="' + (!!group.required) + '"><legend>' + esc(labels[group.type] || group.title || 'انتخاب‌ها') + (group.required ? '<span class="flavor-ui-required"> (انتخاب ضروری)</span>' : '') + '</legend><div class="flavor-sheet__options">';
+			if (!group.required && !group.multi) {
+				var unchanged = line ? !list.some(function (option) { return existingIds.includes(String(option.id)); }) : firstDefault < 0;
+				html += '<label class="flavor-sheet__option"><input type="radio" name="mod-' + esc(group.type) + '" value="" data-price="0" data-storage-price="0"' + (unchanged ? ' checked' : '') + ' /><span>بدون تغییر در این گروه</span><span class="flavor-sheet__option-price">بدون هزینهٔ اضافه</span></label>';
+			}
 			list.forEach(function (option, index) {
-				var checked = group.multi ? !!option.is_default : index === firstDefault;
+				var checked = line ? existingIds.includes(String(option.id)) : group.multi ? !!option.is_default : index === firstDefault;
 				html += '<label class="flavor-sheet__option"><input type="' + (group.multi ? 'checkbox' : 'radio') + '" name="mod-' + esc(group.type) + '" value="' + esc(option.id) + '" data-price="' + esc(option.price || 0) + '" data-storage-price="' + esc(option.storagePrice == null ? option.price || 0 : option.storagePrice) + '"' + (checked ? ' checked' : '') + ' /><span>' + esc(option.name) + '</span><span class="flavor-sheet__option-price">' + (option.price ? '+' + Number(option.price).toLocaleString('fa-IR') + ' ' + esc((cfg.currency && cfg.currency.label) || 'تومان') : 'بدون هزینهٔ اضافه') + '</span></label>';
 			});
 			html += '</div></fieldset>';
 		});
-		html += '<div class="flavor-ui-field"><label for="flavor-instr">یادداشت برای آشپزخانه <span class="flavor-ui-required">(اختیاری)</span></label><textarea id="flavor-instr" maxlength="200" rows="2" placeholder="مثلاً سس جداگانه یا کم‌نمک" aria-describedby="flavor-instr-help"></textarea><small id="flavor-instr-help">حساسیت غذایی دارید؟ پیش از ثبت سفارش دربارهٔ امکان آماده‌سازی و آلودگی متقاطع هماهنگ کنید.</small></div>';
+		html += '<div class="flavor-ui-field"><label for="flavor-instr">یادداشت برای آشپزخانه <span class="flavor-ui-required">(اختیاری)</span></label><textarea id="flavor-instr" maxlength="200" rows="2" placeholder="مثلاً سس جداگانه یا کم‌نمک" aria-describedby="flavor-instr-help"></textarea><small id="flavor-instr-help">حساسیت غذایی دارید؟ پیش از ثبت سفارش دربارهٔ امکان آماده‌سازی و آلودگی متقاطع هماهنگ کنید.</small></div><p id="flavor-sheet-error" class="flavor-ui-error" role="alert" tabindex="-1" hidden></p>';
 		sheetBody.innerHTML = html;
+		if (line) document.getElementById('flavor-instr').value = line.instructions || '';
 		paintSheetPrice();
 		if (ui) ui.openDialog(sheet, trigger); else { sheet.hidden = false; document.body.style.overflow = 'hidden'; }
 	}
-	function closeSheet() { if (ui) ui.closeDialog(sheet); else { if (sheet) sheet.hidden = true; document.body.style.overflow = ''; } current = null; resolvedFragment = ''; }
+	function closeSheet() { if (ui) ui.closeDialog(sheet); else { if (sheet) sheet.hidden = true; document.body.style.overflow = ''; } current = null; editing = null; resolvedFragment = ''; }
 
 	function selectedIds() {
 		var ids = [];
 		if (!sheetBody) return ids;
 		sheetBody.querySelectorAll('input:checked').forEach(function (inp) {
-			ids.push(inp.value);
+			if (inp.value) ids.push(inp.value);
 		});
 		return ids;
 	}
@@ -257,9 +276,10 @@
 		var actions = document.getElementById('flavor-cart-actions'); if (actions) actions.hidden = !cart.count;
 		if (cartLines) {
 			cartLines.innerHTML = (cart.items || []).map(function (item) {
-				var mods = (Array.isArray(item.modifiers) ? item.modifiers : []).map(function (m) { return m.name; }).join('، ');
+				var mods = (Array.isArray(item.modifiers) ? item.modifiers : []).map(function (m) { return m.name + (Number(m.price) ? ' (+' + displayAmount(m.price).toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || 'تومان') + ' برای هر واحد)' : ' (بدون هزینهٔ اضافه)'); }).join('، ');
 				var image = safeImage(item.image);
-				return '<article class="flavor-cart-line" data-key="' + esc(item.key) + '">' + (image ? '<img class="flavor-cart-line__image" src="' + esc(image) + '" alt="" width="68" height="76" />' : '<span class="flavor-cart-line__image" aria-hidden="true"></span>') + '<div><h3>' + esc(item.name) + '</h3>' + (mods ? '<p>' + esc(mods) + '</p>' : '') + (item.instructions ? '<p>یادداشت: ' + esc(item.instructions) + '</p>' : '') + '<div class="flavor-cart-line__bottom"><div class="flavor-qty" role="group" aria-label="تعداد ' + esc(item.name) + '"><button type="button" data-ui-cart-qty="-1" aria-label="کاهش تعداد ' + esc(item.name) + '"' + (item.quantity <= 1 ? ' disabled' : '') + '>−</button><output>' + fa(item.quantity) + '</output><button type="button" data-ui-cart-qty="1" aria-label="افزایش تعداد ' + esc(item.name) + '"' + (item.quantity >= 20 ? ' disabled' : '') + '>+</button></div><button type="button" class="flavor-cart-line__remove" data-rm="' + esc(item.key) + '" aria-label="حذف ' + esc(item.name) + '">حذف</button><strong class="flavor-cart-line__price">' + esc(plain(item.line_total_html || item.line_html)) + '</strong></div></div></article>';
+				var edit = cart.supports_item_edit ? '<button type="button" class="flavor-cart-line__edit" data-ui-cart-edit aria-haspopup="dialog" aria-controls="flavor-sheet" aria-label="ویرایش انتخاب‌ها و یادداشت ' + esc(item.name) + '">ویرایش انتخاب‌ها</button>' : '';
+				return '<article class="flavor-cart-line" data-key="' + esc(item.key) + '">' + (image ? '<img class="flavor-cart-line__image" src="' + esc(image) + '" alt="" width="68" height="76" />' : '<span class="flavor-cart-line__image" aria-hidden="true"></span>') + '<div><h3>' + esc(item.name) + '</h3>' + (mods ? '<p>' + esc(mods) + '</p>' : '') + (item.instructions ? '<p>یادداشت: ' + esc(item.instructions) + '</p>' : '') + edit + '<div class="flavor-cart-line__bottom"><div class="flavor-qty" role="group" aria-label="تعداد ' + esc(item.name) + '"><button type="button" data-ui-cart-qty="-1" aria-label="کاهش تعداد ' + esc(item.name) + '"' + (item.quantity <= 1 ? ' disabled' : '') + '>−</button><output>' + fa(item.quantity) + '</output><button type="button" data-ui-cart-qty="1" aria-label="افزایش تعداد ' + esc(item.name) + '"' + (item.quantity >= 20 ? ' disabled' : '') + '>+</button></div><button type="button" class="flavor-cart-line__remove" data-rm="' + esc(item.key) + '" aria-label="حذف ' + esc(item.name) + '">حذف</button><strong class="flavor-cart-line__price">' + esc(plain(item.line_total_html || item.line_html)) + '</strong></div></div></article>';
 			}).join('');
 		}
 		var sub = document.getElementById('flavor-cart-subtotal'); if (sub) sub.textContent = plain(cart.subtotal_html);
@@ -388,24 +408,40 @@
 	});
 
 	if (sheet) {
+		sheet.addEventListener('flavor:dialog-closed', function () { current = null; editing = null; resolvedFragment = ''; });
 		sheet.addEventListener('click', function (e) {
 			if (e.target.closest('[data-close="sheet"]')) closeSheet();
 			var q = e.target.getAttribute('data-q');
 			if (q) {
-				qty = Math.max(1, Math.min(20, qty + parseInt(q, 10)));
+				if (sheetMutating || cartMutating) return;
+				qty = Math.max(1, qty + parseInt(q, 10));
 				var n = document.getElementById('flavor-qty');
 				if (n) n.textContent = fa(qty);
 				paintSheetPrice();
 			}
 		});
-		sheet.addEventListener('change', paintSheetPrice);
+		sheet.addEventListener('change', function () { setSheetError(''); paintSheetPrice(); });
 	}
 	if (sheetAdd) {
 		sheetAdd.addEventListener('click', function () {
-			if (!current) return;
+			if (!current || sheetMutating || cartMutating || !sheetSelectionValid()) return;
+			var target = current, line = editing;
 			var instr = document.getElementById('flavor-instr');
-			sheetAdd.disabled = true;
-			addItem(current, selectedIds(), instr ? instr.value : '', qty).then(closeSheet).catch(showError).finally(function () { sheetAdd.disabled = false; });
+			var body = { quantity: qty, modifier_ids: selectedIds(), instructions: instr ? instr.value : '' };
+			sheetMutating = true; cartMutating = true; setSheetError(''); readyCheckout(); paintSheetPrice();
+			var request = line ? api('cart/items/' + encodeURIComponent(line.key), { method:'PUT', headers:headers(true), body:JSON.stringify(body) }) : addItem(target, body.modifier_ids, body.instructions, body.quantity);
+			request.then(function (cart) {
+				if (line) drawCart(cart);
+				if (current === target && editing === line) closeSheet();
+				if (line && cartPanel && !cartPanel.hidden && sheet.hidden) {
+					var row = Array.from(cartLines.querySelectorAll('[data-key]')).find(function (entry) { return entry.dataset.key === (cart.last_key || line.key); });
+					var focus = row && row.querySelector('[data-ui-cart-edit]'); if (focus) focus.focus({ preventScroll:true });
+				}
+				if (ui) ui.announce(line ? 'انتخاب‌های این غذا در سبد ذخیره شد.' : 'غذا به سبد اضافه شد.');
+			}).catch(function (error) {
+				if (current === target && editing === line) { setSheetError(error.message); var feedback = document.getElementById('flavor-sheet-error'); if (feedback) feedback.focus({ preventScroll:true }); }
+				else showError(error);
+			}).finally(function () { sheetMutating = false; cartMutating = false; readyCheckout(); paintSheetPrice(); });
 		});
 	}
 
@@ -430,6 +466,12 @@
 	if (cartLines) cartLines.addEventListener('click', function (event) {
 		var row = event.target.closest('[data-key]'); if (!row || cartMutating || !cartState) return;
 		var item = (cartState.items || []).find(function (line) { return line.key === row.dataset.key; }); if (!item) return;
+		var edit = event.target.closest('[data-ui-cart-edit]');
+		if (edit) {
+			edit.disabled = true;
+			dishDetail(catalog.find(function (dish) { return dish.id === Number(item.product_id); }) || { id: Number(item.product_id) }).then(function (dish) { openSheet(dish, edit, item); }).catch(function (error) { setCartError(error.message); }).finally(function () { edit.disabled = false; });
+			return;
+		}
 		var remove = event.target.closest('[data-rm]'); var quantity = event.target.closest('[data-ui-cart-qty]');
 		if (!remove && !quantity) return;
 		var q = remove ? 0 : Math.max(1, Math.min(20, Number(item.quantity) + Number(quantity.dataset.uiCartQty)));

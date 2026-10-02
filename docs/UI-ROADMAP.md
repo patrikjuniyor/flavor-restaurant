@@ -1,5 +1,8 @@
 # Flavor UI/UX Roadmap — Design System & Component Specifications
 
+> **Implementation status — 2026-10-02:** this document contains historical product/mobile-app specifications, not a test report. The WordPress theme now has **12 actual skins**, whose canonical values live in `flavor/inc/class-design.php`; the old eight-skin names below are not the current registry. The six delivered shared storefront UI stages, native settings and deployment instructions are documented in [UI-REDESIGN.md](UI-REDESIGN.md). Reproducible results and explicit Core test limitations are in [QA-UI-2026-10-02.md](QA-UI-2026-10-02.md). No Flutter/app, live courier, gateway or SMS-provider completion should be inferred from this storefront work.
+
+
 ## 1. Design System Overview ("Flavor Direct UI")
 
 Flavor Direct UI is an **RTL-native, mobile-first design system** tailored specifically for the Iranian and MENA restaurant market. It bridges the aesthetic requirements of 8 distinct culinary atmospheres with high conversion rates, accessibility, and sub-second interaction feedback.

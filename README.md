@@ -32,6 +32,7 @@
 - [جست‌وجوگر هوشمند منو](docs/fa/06-jostojoo-hooshmand.md)
 - [بازطراحی تخصصی دموها و نتایج آزمون](docs/DEMO-REDESIGN.md)
 - [رابط مشترک، تنظیمات ظاهری و آزمون شش مرحله](docs/UI-REDESIGN.md)
+- [گزارش QA نهایی رابط مشترک و محدودیت‌های آزمون](docs/QA-UI-2026-10-02.md)
 - [لیستینگ راست‌چین](docs/raastichin/listing.md)
 
 معماری و اسکیما: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/DATABASE.md`](docs/DATABASE.md) · [`docs/HOOKS.md`](docs/HOOKS.md)

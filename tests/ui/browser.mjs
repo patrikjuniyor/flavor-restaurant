@@ -7,6 +7,7 @@ import path from 'node:path';
 import { testCustomer } from './customer.mjs';
 import { testPages } from './pages.mjs';
 import { testCustomizer } from './customizer.mjs';
+import { testCartEditing } from './editor.mjs';
 const base = process.env.SITE_URL || 'http://localhost:8080/';
 const stage = Number(process.env.UI_STAGE || 1);
 if (stage >= 6 && process.env.FLAVOR_DEMO_QA !== '1') throw new Error('Customizer writes require an opted-in disposable site: FLAVOR_DEMO_QA=1.');
@@ -158,6 +159,7 @@ try {
   await page.locator('.flavor-ui-toast').waitFor({state:'detached'});
   report.checks.push('shared mobile drawer focus/inert/trap across skins','mobile cart and open-cart links','readable reduced-motion feedback');
  }
+ if(stage>=6)await testCartEditing(page,report,base,output);
  if(stage>=4)await testCustomer(page,context,report,base,output);
  if(stage>=5)await testPages(page,report,base,output);
  if(stage>=6)await testCustomizer(browser,report,base,output);

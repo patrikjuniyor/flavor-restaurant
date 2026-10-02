@@ -63,3 +63,11 @@
  .flavor-ui .flavor-ui-field :where(input,select,textarea),.flavor-ui .flavor-checkout :where(input:not([type=radio]):not([type=checkbox]),select,textarea){font-size:16px}
 }
 @media(prefers-reduced-motion:reduce){.flavor-ui *, .flavor-ui *::before,.flavor-ui *::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* Seven legacy skins keep their dark footer art direction on shared pages,
+   but use light local foreground tokens instead of the page's dark ink. */
+body.flavor-ui:not(.flavor-bespoke) .flavor-footer{--flavor-ink:#f1f4ee;--flavor-muted:#c5c7c0;--ui-muted:#c5c7c0}
+body.flavor-ui:not(.flavor-bespoke) .flavor-footer .flavor-social-links a{min-width:44px;min-height:44px;background:rgba(255,255,255,.1);color:#f1f4ee}
+body.flavor-ui:not(.flavor-bespoke) .flavor-footer .flavor-social-links a:hover{background:var(--flavor-primary);color:var(--ui-action-ink)}
+body.flavor-ui:not(.flavor-bespoke) .flavor-footer__links a:hover{color:#f1f4ee;text-decoration:underline}
+body.flavor-ui:not(.flavor-bespoke) .flavor-footer__contact-item a{color:var(--flavor-muted)}

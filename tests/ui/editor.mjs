@@ -1,0 +1,107 @@
+/* Actual owned cart editing/amounts; request error intercepted, no checkout performed. */
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import AxeBuilder from '@axe-core/playwright';
+
+export async function testCartEditing(page, report, base, output) {
+ const fixture = JSON.parse(await fs.readFile(process.env.QA_EDITOR_FILE || path.resolve('../../.cache/ui-qa/editor.json'), 'utf8'));
+ async function audit(label) {
+  const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+  report.accessibility.push({ label, violations: result.violations });
+  assert.equal(result.violations.length, 0, label + ': ' + result.violations.map(v => v.id).join(', '));
+ }
+ await page.goto(new URL('menu/', base).href, { waitUntil: 'networkidle' });
+ await page.waitForFunction(() => window.FlavorCartUI?.state());
+ assert.equal(await page.evaluate(() => FlavorCartUI.state().count), 0, 'Editor suite needs an empty disposable session.');
+ await page.setViewportSize({ width: 390, height: 844 });
+ await page.locator('[data-add="' + fixture.product_id + '"]').click();
+ await page.waitForSelector('#flavor-sheet:not([hidden])');
+ assert.equal(await page.locator('#flavor-sheet-body input[value="' + fixture.removal + '"]').isChecked(), false, 'An optional ingredient removal was preselected without a default.');
+ assert.equal(await page.locator('#flavor-sheet-body input[name="mod-removal"][value=""]').isChecked(), true);
+ await page.locator('#flavor-instr').fill('قبل از ویرایش آزمایشی');
+ await page.locator('#flavor-sheet-add').click();
+ await page.waitForFunction(() => FlavorCartUI.state().count === 1);
+ const before = await page.evaluate(() => ({ total: FlavorCartUI.state().total_html, item: FlavorCartUI.state().items[0] }));
+ await page.waitForSelector('[data-ui-nav-total]:not([hidden])');
+ assert.equal(await page.locator('[data-ui-nav-total]').textContent(), before.total);
+ assert.equal(await page.locator('[data-ui-nav-count]').textContent(), '۱');
+ await page.locator('#flavor-mobile-cart-btn').click();
+ await page.locator('[data-ui-cart-edit]').first().click();
+ await page.waitForSelector('#flavor-sheet.flavor-sheet--cart-edit:not([hidden])');
+ assert.equal(await page.locator('.flavor-sheet__close').evaluate(el => el === document.activeElement), true);
+ assert.equal(await page.locator('#flavor-sheet').getAttribute('inert'), null);
+ assert.equal(await page.locator('#flavor-instr').inputValue(), before.item.instructions);
+ await page.keyboard.press('Shift+Tab');
+ assert.equal(await page.locator('#flavor-sheet-add').evaluate(el => el === document.activeElement), true);
+ await audit('cart-edit-product-mobile');
+ await page.screenshot({ path: path.join(output, 'cart-edit-mobile.png') });
+ await page.keyboard.press('Escape');
+ assert.equal(await page.locator('#flavor-cart-panel').isVisible(), true);
+ assert.equal(await page.locator('[data-ui-cart-edit]').first().evaluate(el => el === document.activeElement), true);
+ assert.equal(await page.locator('#flavor-cart').getAttribute('inert'), null);
+ assert.equal(await page.evaluate(() => FlavorCartUI.state().items[0].instructions), before.item.instructions);
+ await page.locator('[data-ui-cart-edit]').first().click();
+ await page.waitForSelector('#flavor-sheet:not([hidden])');
+ await page.locator('#flavor-sheet-body input[name="mod-size"]:checked').evaluate(el => { el.checked = false; el.dispatchEvent(new Event('change', { bubbles: true })); });
+ assert.equal(await page.locator('#flavor-sheet-add').isEnabled(), false, 'A required selection could be omitted.');
+ await page.locator('#flavor-sheet-body input[value="' + fixture.standard + '"]').check();
+ await page.locator('#flavor-sheet-body input[value="' + fixture.extra + '"]').check();
+ await page.locator('[data-q="1"]').click();
+ await page.locator('#flavor-instr').fill('پس از ویرایش آزمایشی');
+ await page.locator('#flavor-sheet-add').click();
+ await page.waitForFunction(() => FlavorCartUI.state().count === 2 && FlavorCartUI.state().items[0].instructions === 'پس از ویرایش آزمایشی');
+ await page.waitForSelector('#flavor-sheet', { state: 'hidden' });
+ const edited = await page.evaluate(() => ({ total: FlavorCartUI.state().total_html, item: FlavorCartUI.state().items[0], length: FlavorCartUI.state().items.length }));
+ assert.equal(edited.length, 1); assert.equal(edited.item.quantity, 2);
+ assert.ok(edited.item.modifiers.some(option => option.id === fixture.extra));
+ assert.notEqual(edited.total, before.total);
+ assert.equal(await page.locator('[data-ui-cart-edit]').first().evaluate(el => el === document.activeElement), true);
+ assert.equal(await page.locator('[data-ui-nav-total]').textContent(), edited.total);
+ assert.equal(await page.locator('[data-ui-nav-count]').textContent(), '۲');
+ assert.ok((await page.locator('.flavor-cart-line').first().textContent()).includes('برای هر واحد'));
+ await audit('updated-cart-mobile');
+ await page.setViewportSize({ width: 1440, height: 1000 });
+ await page.locator('[data-ui-cart-edit]').first().click();
+ await page.waitForSelector('#flavor-sheet:not([hidden])');
+ assert.equal(await page.locator('#flavor-sheet-body input[value="' + fixture.extra + '"]').isChecked(), true);
+ await page.locator('#flavor-instr').fill('یادداشت محلی در خطای آزمایشی');
+ let requests = 0;
+ await page.route('**/wp-json/flavor/v1/cart/items/*', async route => {
+  if (route.request().method() !== 'PUT') return route.continue();
+  requests++;
+  await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ success: false, data: null, errors: [{ code: 'qa_edit_error', message: 'ذخیرهٔ آزمایشی رد شد؛ دوباره تلاش کنید.' }] }) });
+ });
+ await page.locator('#flavor-sheet-add').click();
+ await page.waitForSelector('#flavor-sheet-error:not([hidden])');
+ assert.equal(requests, 1); assert.equal(await page.locator('#flavor-sheet-add').isEnabled(), true);
+ assert.equal(await page.locator('#flavor-instr').inputValue(), 'یادداشت محلی در خطای آزمایشی');
+ assert.equal(await page.evaluate(() => FlavorCartUI.state().items[0].instructions), edited.item.instructions);
+ assert.equal(await page.evaluate(() => FlavorCartUI.state().total_html), edited.total);
+ await audit('cart-edit-error-desktop');
+ await page.unroute('**/wp-json/flavor/v1/cart/items/*');
+ await page.locator('#flavor-sheet-body input[value="' + fixture.extra + '"]').uncheck();
+ await page.locator('#flavor-instr').fill('');
+ await page.locator('#flavor-sheet-add').click();
+ await page.waitForFunction(() => FlavorCartUI.state().items[0].instructions === '' && FlavorCartUI.state().items[0].modifiers.length === 1);
+ await page.waitForSelector('#flavor-sheet', { state: 'hidden' });
+ const final = await page.evaluate(() => ({ total: FlavorCartUI.state().total_html, item: FlavorCartUI.state().items[0] }));
+ assert.equal(final.item.unit_price, before.item.unit_price, 'Removing a paid addon did not restore base price.');
+ await page.keyboard.press('Escape');
+ await page.setViewportSize({ width: 390, height: 844 });
+ await page.goto(new URL('contact/', base).href, { waitUntil: 'networkidle' });
+ await page.waitForSelector('[data-ui-nav-total]:not([hidden])');
+ assert.equal(await page.locator('[data-ui-nav-total]').textContent(), final.total, 'Cross-page mobile amount not read from the real cart.');
+ for (const width of [320, 390, 768]) {
+  await page.setViewportSize({ width, height: 844 });
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Mobile amount overflow at ' + width);
+  assert.ok(await page.evaluate(() => parseFloat(getComputedStyle(document.body).paddingBottom) >= document.querySelector('.flavor-mobile-nav').getBoundingClientRect().height - 1), 'Mobile nav covers the page footer.');
+ }
+ await audit('cross-page-cart-amount-mobile');
+ await page.goto(new URL('menu/?open_cart=1', base).href, { waitUntil: 'networkidle' });
+ await page.waitForSelector('[data-rm]'); await page.locator('[data-rm]').first().click();
+ await page.waitForFunction(() => FlavorCartUI.state().count === 0);
+ assert.equal(await page.locator('[data-ui-nav-total]').isVisible(), false);
+ await page.keyboard.press('Escape');
+ report.checks.push('nested cart/product editing: focus trap, Escape/cancel, no mutation before save', 'required option guard and optional no-change choice; no implicit ingredient removal', 'real edit of quantity/modifier/note without duplicate line; server amounts and restored focus', 'intercepted edit error preserves old cart and local fields; successful retry/removal resets price', 'real mobile count/amount across pages, empty hiding, measured footer clearance and three widths');
+}

@@ -34,14 +34,14 @@
 .flavor-ui .flavor-menu__status:empty{display:none}
 .flavor-ui .flavor-menu__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
 .flavor-ui .flavor-menu__grid[aria-busy=true]{opacity:.65}
-.flavor-ui .flavor-food-card{border-radius:var(--ui-card-radius,var(--flavor-radius));box-shadow:none;min-width:0;transition:border-color .2s,box-shadow .2s}
+.flavor-ui .flavor-food-card{display:flex;flex-direction:column;grid-template-columns:none;min-height:0;border-radius:var(--ui-card-radius,var(--flavor-radius));box-shadow:none;min-width:0;transition:border-color .2s,box-shadow .2s}
 .flavor-ui .flavor-food-card:hover{transform:none;box-shadow:0 8px 26px rgba(var(--flavor-ink-rgb),.06);border-color:var(--flavor-primary)}
-.flavor-ui .flavor-food-card__media{aspect-ratio:3/2;background:var(--flavor-surface-alt)}
-.flavor-ui .flavor-food-card__media img{object-fit:cover;transition:transform .3s}
-.flavor-ui .flavor-food-card__media>button{border:0;padding:0;background:transparent;display:block;width:100%;height:100%;cursor:pointer}
+.flavor-ui .flavor-food-card__media{position:relative;width:100%;height:auto;min-height:0;flex:0 0 auto;aspect-ratio:3/2;background:var(--flavor-surface-alt)}
+.flavor-ui .flavor-food-card__media img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.flavor-ui .flavor-food-card__media>button{position:absolute;inset:0;border:0;padding:0;background:transparent;display:block;width:100%;height:100%;cursor:pointer}
 .flavor-ui .flavor-food-card__media>button:focus-visible{outline-offset:-6px}
 .flavor-ui .flavor-food-card__cat-badge{background:var(--flavor-surface);color:var(--flavor-ink);border:1px solid var(--flavor-line);border-radius:8px;backdrop-filter:none;top:14px;inset-inline-start:14px;inset-inline-end:auto;padding:5px 10px;font-size:10px;pointer-events:none}
-.flavor-ui .flavor-food-card__body{padding:var(--ui-card-space,24px);gap:0}
+.flavor-ui .flavor-food-card__body{position:relative;min-width:0;justify-content:flex-start;padding:var(--ui-card-space,24px);gap:0}
 .flavor-ui .flavor-food-card__title{font-size:18px;font-weight:730;line-height:1.65;margin-bottom:9px}
 .flavor-ui .flavor-food-card__title>button{border:0;background:none;padding:0;font:inherit;color:inherit;text-align:start;cursor:pointer;line-height:inherit}
 .flavor-ui .flavor-food-card__desc{font-size:12px;line-height:1.95;color:var(--ui-muted);margin-bottom:18px;min-height:3.9em}
@@ -89,7 +89,7 @@
 .flavor-ui .flavor-sheet__footer-label{font-size:10px;color:var(--ui-muted);display:block}
 .flavor-ui .flavor-sheet__price{font-size:17px;font-weight:700}
 .flavor-ui .flavor-sheet__footer-price{margin-inline:6px}
-@media(max-width:1100px){.flavor-ui .flavor-menu__grid{gap:18px}.flavor-ui .flavor-food-card__body{padding:20px}.flavor-ui .flavor-food-card__price{font-size:14px}.flavor-ui .flavor-food-card__title{font-size:17px}.flavor-ui-menu-layout-list .flavor-food-card{grid-template-columns:125px minmax(0,1fr)}}
+@media(max-width:1100px){.flavor-ui .flavor-menu__grid{gap:18px}.flavor-ui .flavor-food-card__body{position:relative;min-width:0;justify-content:flex-start;padding:20px}.flavor-ui .flavor-food-card__price{font-size:14px}.flavor-ui .flavor-food-card__title{font-size:17px}.flavor-ui-menu-layout-list .flavor-food-card{grid-template-columns:125px minmax(0,1fr)}}
 @media(max-width:900px){.flavor-ui .flavor-menu__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.flavor-ui-menu-layout-list .flavor-menu__grid{grid-template-columns:1fr}.flavor-ui .flavor-menu-masthead{align-items:start}.flavor-ui .flavor-menu-context{min-width:200px;max-width:290px}.flavor-ui .flavor-sheet__content{grid-template-columns:.7fr 1fr}.flavor-ui .flavor-sheet__visual{padding:20px}.flavor-ui .flavor-sheet__copy{padding-inline:24px}.flavor-ui .flavor-sheet__footer .flavor-btn{min-width:200px;font-size:12px}}
 @media(max-width:700px){
  .flavor-ui .flavor-menu-masthead{flex-direction:column;align-items:stretch;gap:23px;margin-bottom:25px}
@@ -108,7 +108,7 @@
  .flavor-ui .flavor-cats{margin-bottom:20px;padding-block:10px}
  .flavor-ui .flavor-cats button{font-size:11px;padding-inline:15px}
  .flavor-ui .flavor-menu__grid{grid-template-columns:1fr;gap:20px}
- .flavor-ui .flavor-food-card__body{padding:22px}
+ .flavor-ui .flavor-food-card__body{position:relative;min-width:0;justify-content:flex-start;padding:22px}
  .flavor-ui .flavor-food-card__title{font-size:19px}
  .flavor-ui .flavor-food-card__price{font-size:16px}
  .flavor-ui-menu-layout-list .flavor-food-card{grid-template-columns:110px minmax(0,1fr)}

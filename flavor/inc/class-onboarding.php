@@ -456,7 +456,7 @@ class Onboarding {
 	}
 
 	/**
-	 * Create core pages (Home, Menu, Reservation, Branches) if not existing.
+	 * Create missing shared pages without overwriting existing content or builders.
 	 */
 	public static function ensure_pages(): void {
 		$pages = array(
@@ -480,6 +480,9 @@ class Onboarding {
 				'slug'     => 'branches',
 				'template' => 'page-templates/template-branches.php',
 			),
+			'about' => array( 'title' => __( 'درباره ما', 'flavor' ), 'slug' => 'about', 'template' => 'page-templates/template-about.php' ),
+			'contact' => array( 'title' => __( 'تماس', 'flavor' ), 'slug' => 'contact', 'template' => 'page-templates/template-contact.php' ),
+			'tracking' => array( 'title' => __( 'پیگیری سفارش', 'flavor' ), 'slug' => 'tracking', 'template' => 'page-templates/template-order-tracking.php' ),
 		);
 
 		foreach ( $pages as $p ) {

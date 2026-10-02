@@ -19,7 +19,13 @@
 	}
 	function openDialog(host, trigger) {
 		if (!host || stack.some(function (entry) { return entry.host === host; })) return;
-		var record = { host: host, trigger: trigger || document.activeElement, inert: [], overflow: document.body.style.overflow };
+		var record = { host: host, trigger: trigger || document.activeElement, inert: [], revealed: [], overflow: document.body.style.overflow };
+		// A nested sibling sheet may have been inerted by its parent dialog.
+		var ancestor = host;
+		while (ancestor && ancestor !== document.body) {
+			if (ancestor.hasAttribute('inert')) { ancestor.removeAttribute('inert'); record.revealed.push(ancestor); }
+			ancestor = ancestor.parentElement;
+		}
 		host.hidden = false;
 		// Inert siblings along the ancestry path, not the ancestor of the dialog.
 		var node = host;
@@ -38,9 +44,12 @@
 	function closeDialog(host) {
 		var index = stack.findIndex(function (entry) { return entry.host === host; });
 		if (index < 0) { if (host) host.hidden = true; return; }
+		// Close descendants first if a caller closes an underlying dialog.
+		stack.slice(index + 1).reverse().forEach(function (child) { closeDialog(child.host); });
 		var record = stack.splice(index, 1)[0];
 		record.host.hidden = true;
 		record.inert.forEach(function (element) { element.removeAttribute('inert'); });
+		record.revealed.forEach(function (element) { if (element.isConnected) element.setAttribute('inert', ''); });
 		document.body.style.overflow = stack.length ? 'hidden' : record.overflow;
 		record.host.dispatchEvent(new CustomEvent('flavor:dialog-closed'));
 		if (record.trigger && record.trigger.isConnected && record.trigger.getClientRects().length) record.trigger.focus({ preventScroll: true });

@@ -99,3 +99,7 @@
  .flavor-ui .woocommerce :where(.woocommerce-checkout-review-order,.woocommerce-checkout-payment){padding:20px}
  .flavor-ui .wc-block-components-sidebar-layout{display:block}
 }
+
+/* Explicit in-cart edits reuse the product sheet above the underlying cart. */
+.flavor-ui .flavor-sheet.flavor-sheet--cart-edit{z-index:340}
+.flavor-ui .flavor-cart-line__edit{min-height:44px;padding:9px 12px;margin-block:2px 10px;border:1px solid var(--flavor-line);border-radius:var(--flavor-btn-radius);background:var(--flavor-surface-alt);color:var(--flavor-ink);font:inherit;font-size:11px;line-height:1.7;cursor:pointer}

@@ -50,7 +50,9 @@ $b_url     = $b_page ? get_permalink( $b_page ) : home_url( '/branches/' );
 				<ul class="flavor-footer__links">
 					<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'صفحه اصلی', 'flavor' ); ?></a></li>
 					<li><a href="<?php echo esc_url( $menu_url ); ?>"><?php esc_html_e( 'منوی سفارش آنلاین', 'flavor' ); ?></a></li>
+					<?php if ( ! \Flavor\UI::inner() || \Flavor\UI::reservation_available() ) : ?>
 					<li><a href="<?php echo esc_url( $res_url ); ?>"><?php esc_html_e( 'رزرو اینترنتی میز', 'flavor' ); ?></a></li>
+					<?php endif; ?>
 					<li><a href="<?php echo esc_url( $b_url ); ?>"><?php esc_html_e( 'شعبه‌ها و ساعات کاری', 'flavor' ); ?></a></li>
 				</ul>
 			</div>
@@ -58,6 +60,9 @@ $b_url     = $b_page ? get_permalink( $b_page ) : home_url( '/branches/' );
 			<!-- Col 3: Working Hours -->
 			<div class="flavor-footer__col">
 				<h4 class="flavor-footer__heading"><?php esc_html_e( 'ساعات پذیرایی و ارسال', 'flavor' ); ?></h4>
+				<?php if ( \Flavor\UI::inner() ) : ?>
+					<?php \Flavor\UI_Pages::render_hours( \Flavor\Enqueue::current_branch_id() ); ?>
+				<?php else : ?>
 				<ul class="flavor-footer__schedule">
 					<li>
 						<span><?php esc_html_e( 'شنبه تا چهارشنبه:', 'flavor' ); ?></span>
@@ -72,6 +77,7 @@ $b_url     = $b_page ? get_permalink( $b_page ) : home_url( '/branches/' );
 						<strong><?php esc_html_e( 'پذیرش پیوسته', 'flavor' ); ?></strong>
 					</li>
 				</ul>
+				<?php endif; ?>
 			</div>
 
 			<!-- Col 4: Contact & Hotline -->

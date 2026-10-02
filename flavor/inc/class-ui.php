@@ -90,7 +90,7 @@ class UI {
 	public static function variables(): string {
 		$t = Design::resolved();
 		$button_ink = self::contrast( $t['primary'], '#ffffff' ) >= self::contrast( $t['primary'], '#000000' ) ? '#ffffff' : '#000000';
-		$muted = self::contrast( $t['muted'], $t['surface'] ) >= 4.5 && self::contrast( $t['muted'], $t['bg'] ) >= 4.5 ? $t['muted'] : $t['ink'];
+		$muted = self::contrast( $t['muted'], $t['surface'] ) >= 4.5 && self::contrast( $t['muted'], $t['bg'] ) >= 4.5 && self::contrast( $t['muted'], $t['surface_alt'] ) >= 4.5 ? $t['muted'] : $t['ink'];
 		return 'body.flavor-theme{--ui-action-ink:' . $button_ink . ';--ui-muted:' . $muted . ';}';
 	}
 

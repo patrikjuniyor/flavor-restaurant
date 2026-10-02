@@ -17,8 +17,8 @@ $cart_url = add_query_arg( 'open_cart', '1', \Flavor\UI::url( 'menu' ) );
 	<?php if ( $planning ) : ?>
 		<a class="flavor-mobile-nav__primary" href="<?php echo esc_url( \Flavor\Bespoke_Demos::action_url( '#proposal' ) ); ?>"><?php \Flavor\UI::icon( 'calendar', 21 ); ?><span><?php esc_html_e( 'هماهنگی', 'flavor' ); ?></span></a>
 	<?php elseif ( $has_core && $is_menu ) : ?>
-		<a class="flavor-mobile-nav__primary" id="flavor-mobile-cart-btn" data-ui-nav-cart aria-haspopup="dialog" aria-controls="flavor-cart-panel" href="<?php echo esc_url( function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : \Flavor\UI::url( 'menu' ) ); ?>"><?php \Flavor\UI::icon( 'bag', 21 ); ?><span><?php esc_html_e( 'سبد', 'flavor' ); ?> <b data-ui-nav-count hidden></b></span></a>
+		<a class="flavor-mobile-nav__primary" id="flavor-mobile-cart-btn" data-ui-nav-cart aria-haspopup="dialog" aria-controls="flavor-cart-panel" href="<?php echo esc_url( function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : \Flavor\UI::url( 'menu' ) ); ?>"><?php \Flavor\UI::icon( 'bag', 21 ); ?><span><?php esc_html_e( 'سبد', 'flavor' ); ?> <b data-ui-nav-count hidden></b></span><small class="flavor-mobile-nav__amount" data-ui-nav-total hidden></small></a>
 	<?php else : ?>
-		<a class="flavor-mobile-nav__primary" href="<?php echo esc_url( $has_core ? $cart_url : \Flavor\UI::url( 'menu' ) ); ?>"><?php \Flavor\UI::icon( 'bag', 21 ); ?><span><?php echo $has_core ? esc_html__( 'سبد', 'flavor' ) : esc_html__( 'مشاهدهٔ منو', 'flavor' ); ?> <b data-ui-nav-count hidden></b></span></a>
+		<a class="flavor-mobile-nav__primary" href="<?php echo esc_url( $has_core ? $cart_url : \Flavor\UI::url( 'menu' ) ); ?>"><?php \Flavor\UI::icon( 'bag', 21 ); ?><span><?php echo $has_core ? esc_html__( 'سبد', 'flavor' ) : esc_html__( 'مشاهدهٔ منو', 'flavor' ); ?> <b data-ui-nav-count hidden></b></span><small class="flavor-mobile-nav__amount" data-ui-nav-total hidden></small></a>
 	<?php endif; ?>
 </nav>

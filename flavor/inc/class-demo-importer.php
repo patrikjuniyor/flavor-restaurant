@@ -205,6 +205,8 @@ class Demo_Importer {
 			self::import_commerce( $demo, $hero_id );
 		}
 
+		// Shared tracking page survives demo swaps; never overwrite existing pages/builders.
+		Onboarding::ensure_pages();
 		update_option( 'flavor_active_demo', $demo['slug'], false );
 	}
 

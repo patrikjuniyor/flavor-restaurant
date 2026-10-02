@@ -11,8 +11,8 @@ foreach ( \Flavor\Design::skins() as $slug => $skin ) {
  $t = \Flavor\Design::tokens( $slug );
  $ink = \Flavor\UI::contrast( $t['primary'], '#ffffff' ) >= \Flavor\UI::contrast( $t['primary'], '#000000' ) ? '#ffffff' : '#000000';
  ui_check( \Flavor\UI::contrast( $t['primary'], $ink ) >= 4.5, 'Button contrast: ' . $slug );
- $muted = \Flavor\UI::contrast( $t['muted'], $t['surface'] ) >= 4.5 && \Flavor\UI::contrast( $t['muted'], $t['bg'] ) >= 4.5 ? $t['muted'] : $t['ink'];
- ui_check( \Flavor\UI::contrast( $muted, $t['surface'] ) >= 4.5 && \Flavor\UI::contrast( $muted, $t['bg'] ) >= 4.5, 'Secondary-text contrast: ' . $slug );
+ $muted = \Flavor\UI::contrast( $t['muted'], $t['surface'] ) >= 4.5 && \Flavor\UI::contrast( $t['muted'], $t['bg'] ) >= 4.5 && \Flavor\UI::contrast( $t['muted'], $t['surface_alt'] ) >= 4.5 ? $t['muted'] : $t['ink'];
+ ui_check( \Flavor\UI::contrast( $muted, $t['surface'] ) >= 4.5 && \Flavor\UI::contrast( $muted, $t['bg'] ) >= 4.5 && \Flavor\UI::contrast( $muted, $t['surface_alt'] ) >= 4.5, 'Secondary-text contrast: ' . $slug );
  echo 'PASS UI tokens ' . $slug . PHP_EOL;
 }
 ui_check( \Flavor\UI::luminance( '#fff' ) === \Flavor\UI::luminance( '#ffffff' ), 'Short hex normalization.' );

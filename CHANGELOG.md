@@ -7,6 +7,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Shared storefront UI — acceptance completion and 12-skin regression / 2026-10-02
+
+- Explicit in-cart size/add-on/quantity/note editing reuses the accessible product sheet, with nested inert/focus restoration, preserved local fields on error and a real optional “no change” choice rather than implicit ingredient removal.
+- Additive PUT selection fields and an advertised edit capability preserve the quantity-only contract and older-client responses. Catalog-only amounts, native stock/update validation, regenerated Woo keys, safe merge limits and guarded snapshot rollback keep edits from deleting the original line on validation failure. Removing the last paid extra restores base price; Persian notes are UTF-8/200-character-safe and retain literal backslashes.
+- Server-backed mobile cart amount/count across pages with measured footer clearance; catering planning and no-JS fallback retained. Twelve-skin browser regression fixed legacy card geometry covering actions, a 320px long-brand header overflow, dark-footer foreground collisions and secondary-text contrast on alternate surfaces. These structural/color fixes are scoped to shared inner pages.
+- Only configured branch hours are shown in shared legacy footers, with genuine reservation eligibility. Setup/import provisions missing shared pages including order tracking, without overwriting existing builder/content/templates or duplicating demo pages.
+- Actual 12-skin grid/list regression passed 120 width checks and 72 axe states; all five bespoke landing browsers and the final integrated six-stage UI suite passed. Four currency pairs and atomic editing/rollback/restore checked in real WordPress. Core pure passed 15/15; the historical reservation mock group remains 74/79 and is explicitly documented in `docs/QA-UI-2026-10-02.md`. No live payment, SMS or reservation submission was performed.
+
 ### Shared storefront UI — stage 6 / 2026-10-02
 
 - Validated native Customizer controls for card/list defaults, density, image ratio, card geometry and capability-aware mobile navigation; local Persian body/heading font selection and real centered/minimal/glass header styles. Default demo compositions remain unchanged.

@@ -264,9 +264,7 @@ class ProductModifiers {
 		}
 
 		$instructions = isset( $_REQUEST['flavor_instructions'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['flavor_instructions'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( strlen( $instructions ) > 200 ) {
-			$instructions = substr( $instructions, 0, 200 );
-		}
+		$instructions = self::clean_instructions( $instructions );
 
 		$selected = self::sanitize_selection( $product_id, $posted );
 		$extra    = self::selection_extra( $selected );
@@ -277,6 +275,12 @@ class ProductModifiers {
 		$cart_item_data['unique_key']          = md5( wp_json_encode( array( $product_id, $selected, $instructions ) ) );
 
 		return $cart_item_data;
+	}
+
+	/** Limit kitchen notes in characters, without cutting a Persian UTF-8 codepoint. */
+	public static function clean_instructions( string $instructions ): string {
+		$clean = sanitize_text_field( $instructions );
+		return function_exists( 'mb_substr' ) ? mb_substr( $clean, 0, 200, 'UTF-8' ) : wp_check_invalid_utf8( substr( $clean, 0, 200 ), true );
 	}
 
 	/**
