@@ -88,13 +88,16 @@ class Customizer {
 		}
 
 		$wp_customize->add_setting( 'flavor_skin', array( 'default' => 'modern-restaurant', 'sanitize_callback' => 'sanitize_key' ) );
+		// Radio (not select) so the preset list renders inside the customizer
+		// pane where it can be styled; a native <select> opens a browser
+		// overlay that CSS cannot reach.
 		$wp_customize->add_control(
 			'flavor_skin',
 			array(
 				'label'       => __( 'انتخاب پوسته رستوران', 'flavor' ),
 				'description' => __( 'با تغییر پوسته، رنگ‌بندی، فونت و استایل کلی رستوران هماهنگ می‌شود.', 'flavor' ),
 				'section'     => 'flavor_section_preset',
-				'type'        => 'select',
+				'type'        => 'radio',
 				'choices'     => $preset_choices,
 			)
 		);

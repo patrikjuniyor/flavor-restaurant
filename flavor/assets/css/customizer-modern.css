@@ -57,12 +57,14 @@
 	--fv-ink: #2b2118;
 	--fv-text: #4a423b;
 	--fv-muted: #6f675e;
-	--fv-line: #e8e0d5;
-	--fv-line-soft: #f0eae1;
-	--fv-surface: #ffffff;
-	--fv-sidebar: #f6f1ea;
-	--fv-header-1: #fffefb;
-	--fv-header-2: #faf4ec;
+	--fv-line: #e6dccc;
+	--fv-line-soft: #efe7da;
+	--fv-surface: #fffdf9;   /* سفید گرم برای کارت‌ها و دکمه‌ها */
+	--fv-cream: #f7f1e8;     /* پس‌زمینهٔ پنل اسلایدی (هماهنگ با سایدبار) */
+	--fv-cream-deep: #f0e8da;
+	--fv-sidebar: #f4ede2;   /* پس‌زمینهٔ سایدبار */
+	--fv-header-1: #fbf6ee;
+	--fv-header-2: #f3ecdf;
 
 	/* گوشه‌ها، فونت و انیمیشن‌ها */
 	--fv-radius: 14px;
@@ -107,7 +109,7 @@ html[dir="rtl"] {
 	background: transparent;
 	border: 0;
 	border-top: 4px solid transparent; /* حفظ هندسهٔ ۴۵ پیکسلی هسته */
-	color: var(--fv-text);
+	color: #5a5148;
 	border-radius: 999px;
 	transition: background-color 0.18s var(--fv-ease), color 0.18s var(--fv-ease);
 }
@@ -119,11 +121,13 @@ html[dir="rtl"] {
 }
 
 /* دکمهٔ «پیش‌نمایش/سفارشی‌سازی»: تبدیل تب‌های تخت به قرص (pill) مدرن
-   (inset-inline-start باعث می‌شود در RTL هم خودکار آینه شود) */
+   (inset-inline-start باعث می‌شود در RTL هم خودکار آینه شود و
+   top: 50% + translateY آن را در ارتفاع‌های مختلف هدر موبایل/دسکتاپ وسط‌چین نگه می‌دارد) */
 #customize-controls .customize-controls-preview-toggle {
 	inset-inline-start: 48px;
-	top: 9px;
-	height: 28px;
+	top: 50%;
+	transform: translateY(-50%);
+	height: 30px;
 	line-height: 1.5;
 	margin: 0;
 	padding: 0 14px;
@@ -183,6 +187,16 @@ html[dir="rtl"] {
 
 #customize-save-button-wrapper .save:active {
 	transform: translateY(0);
+}
+
+/* حالت «منتشرشده» (بدون تغییرات): دکمهٔ غیرفعال با خاکستریِ گرم،
+   تا با پالت کرم پنل هماهنگ باشد به‌جای خاکستری سرد پیش‌فرض */
+#customize-save-button-wrapper .save:disabled,
+#customize-save-button-wrapper .save.disabled {
+	background: #ece3d3;
+	border-color: #e2d7c3;
+	color: #8d8172;
+	box-shadow: none;
 }
 
 /* دکمهٔ چرخ‌دندهٔ «تنظیمات انتشار» */
@@ -247,8 +261,9 @@ html[dir="rtl"] {
 /* ----------------------------------------------------------------------------
    ۶. پنل بالایی «شما در حال سفارشی‌سازی … هستید»
    ---------------------------------------------------------------------------- */
+/* بافت نرم کرم (نه سفید خالص) + گوشهٔ گرد و کادر ظریف */
 #customize-controls .customize-info {
-	background: var(--fv-surface);
+	background: linear-gradient(180deg, #fdfaf4 0%, var(--fv-surface) 100%);
 	border: 1px solid var(--fv-line);
 	border-bottom: 1px solid var(--fv-line);
 	border-radius: var(--fv-radius);
@@ -466,9 +481,11 @@ html[dir="rtl"] {
    ۱۰. داخل پنل باز: سربرگ چسبان (sticky) + دکمهٔ «بازگشت»
    ---------------------------------------------------------------------------- */
 
-/* پس‌زمینهٔ سفیدِ کامل برای محتوای بخش (به‌جای شفاف هسته) */
-#customize-theme-controls .accordion-section-content {
-	background: var(--fv-surface);
+/* پس‌زمینهٔ پنل اسلایدی: کرمِ هماهنگ با سایدبار
+   (سفیدِ خالص، مرز بین «محتوا» و «سایدبار» را برجسته می‌کرد) */
+#customize-theme-controls .accordion-section-content,
+#customize-theme-controls .accordion-sub-container {
+	background: var(--fv-cream);
 }
 
 #customize-theme-controls .customize-pane-child.accordion-section-content,
@@ -476,11 +493,15 @@ html[dir="rtl"] {
 	padding: 14px;
 }
 
-/* سربرگ چسبان بالای پنل باز */
+/* سربرگ چسبان بالای پنل باز («در حال سفارشی‌سازی ...»): کارت نرم با
+   کادر ظریف و گوشهٔ گرد — در حالت اسکرول هم به‌صورت کارت شناور می‌ماند */
 #customize-controls .customize-section-title {
-	margin: -14px -14px 0;
-	border-bottom: 1px solid var(--fv-line);
-	background: linear-gradient(180deg, var(--fv-header-1) 0%, var(--fv-surface) 100%);
+	margin: 0 0 14px;
+	border: 1px solid var(--fv-line);
+	border-radius: 12px;
+	overflow: hidden;
+	background: linear-gradient(180deg, #fdfaf4 0%, #f9f2e8 100%);
+	box-shadow: 0 1px 2px rgba(43, 33, 24, 0.04);
 }
 
 #customize-controls .customize-pane-child .customize-section-title h3,
@@ -506,11 +527,14 @@ html[dir="rtl"] {
 	white-space: normal;
 }
 
-/* دکمهٔ بازگشت: هاور نرم و رنگی */
+/* دکمهٔ بازگشت: هاور نرم و رنگی + ادغام با کارت سربرگ
+   (فاصلهٔ ۴ پیکسلی سفیدِ بیرونیِ هسته شفاف می‌شود تا کادر کارت دیده شود) */
 #customize-controls .customize-panel-back,
 #customize-controls .customize-section-back {
 	background: transparent;
 	color: var(--fv-muted);
+	border-inline-end: 1px solid var(--fv-line);
+	border-inline-start: 4px solid transparent;
 	transition: background-color 0.18s var(--fv-ease), color 0.18s var(--fv-ease);
 }
 
@@ -606,7 +630,77 @@ html[dir="rtl"] {
 }
 
 /* ----------------------------------------------------------------------------
-   ۱۲. دکمه‌های داخل کنترل‌ها («تغییر»، «پیش‌نمایش منو» و مشابه)
+   ۱۲. لیست پوسته‌های آماده (کنترل radio — جایگزین <select>ِ بومی مرورگر)
+   ----------------------------------------------------------------------------
+   هر گزینه یک ردیف کارت‌مانند با رادیو؛ هاور نرم و وضعیت انتخاب‌شده
+   با رنگ برند (که با پوستهٔ فعال تغییر می‌کند) مشخص می‌شود.
+   ---------------------------------------------------------------------------- */
+#customize-theme-controls .customize-control-radio {
+	padding: 4px 0 8px;
+	margin-bottom: 22px;
+}
+
+#customize-theme-controls .customize-control-radio .customize-inside-control-row {
+	display: block;
+	margin-inline-start: 0;
+	padding: 0;
+}
+
+/* ردیف هر پوسته */
+#customize-theme-controls .customize-control-radio .customize-inside-control-row label {
+	position: relative;
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	padding: 12px 14px;
+	margin-bottom: 10px;
+	background: var(--fv-surface);
+	border: 1px solid var(--fv-line);
+	border-radius: 12px;
+	font-family: var(--fv-font);
+	font-size: 12.5px;
+	font-weight: 400;
+	line-height: 1.9;
+	color: var(--fv-text);
+	cursor: pointer;
+	transition: border-color 0.18s var(--fv-ease), background-color 0.18s var(--fv-ease),
+		box-shadow 0.18s var(--fv-ease), transform 0.18s var(--fv-ease);
+}
+
+#customize-theme-controls .customize-control-radio .customize-inside-control-row label:last-child {
+	margin-bottom: 0;
+}
+
+/* هاور: کادر برند + سایهٔ نرم + برآمدگی یک‌پیکسلی */
+#customize-theme-controls .customize-control-radio .customize-inside-control-row label:hover {
+	border-color: var(--fv-accent-line);
+	box-shadow: 0 4px 14px -8px color-mix(in srgb, var(--fv-accent) 30%, transparent);
+	transform: translateY(-1px);
+}
+
+/* خودِ رادیو: رنگ برند + اندازهٔ مناسب برای لمس */
+#customize-theme-controls .customize-control-radio .customize-inside-control-row input[type="radio"] {
+	flex: none;
+	width: 16px;
+	height: 16px;
+	margin: 4px 0 0;
+	accent-color: var(--fv-accent);
+	cursor: pointer;
+}
+
+/* ردیف انتخاب‌شده: پس‌زمینهٔ نرم برند + کادر برند */
+#customize-theme-controls .customize-control-radio .customize-inside-control-row label:has(input[type="radio"]:checked) {
+	background: var(--fv-accent-soft);
+	border-color: var(--fv-accent-line);
+}
+
+/* حلقهٔ فوکوس کیبورد روی ردیف */
+#customize-theme-controls .customize-control-radio .customize-inside-control-row label:has(input[type="radio"]:focus-visible) {
+	box-shadow: 0 0 0 3px var(--fv-accent-soft);
+}
+
+/* ----------------------------------------------------------------------------
+   ۱۳. دکمه‌های داخل کنترل‌ها («تغییر»، «پیش‌نمایش منو» و مشابه)
    ---------------------------------------------------------------------------- */
 #customize-theme-controls .customize-control .button,
 #customize-theme-controls .customize-control button.button,
@@ -663,9 +757,13 @@ html[dir="rtl"] {
 	color: var(--fv-accent);
 	font-family: var(--fv-font);
 	font-weight: 600;
-	font-size: 12px;
+	font-size: 12.5px;
+	line-height: 2;
+	padding: 4px 16px;
+	box-shadow: 0 1px 2px rgba(43, 33, 24, 0.05);
 	transition: background-color 0.18s var(--fv-ease), color 0.18s var(--fv-ease),
-		border-color 0.18s var(--fv-ease), box-shadow 0.18s var(--fv-ease);
+		border-color 0.18s var(--fv-ease), box-shadow 0.18s var(--fv-ease),
+		transform 0.18s var(--fv-ease);
 }
 
 #customize-theme-controls .control-panel-themes .accordion-section-title .change-theme:hover,
@@ -690,7 +788,7 @@ html[dir="rtl"] {
 }
 
 /* ----------------------------------------------------------------------------
-   ۱۳. بخش‌های داخل پنل باز (ردیف‌های لیستی داخل صفحهٔ پنل)
+   ۱۴. بخش‌های داخل پنل باز (ردیف‌های لیستی داخل صفحهٔ پنل)
    ---------------------------------------------------------------------------- */
 /* (قانون nth-child برای از‌بین‌بردن خط‌دوگانه‌ای که هسته برای ردیف دوم می‌گذارد) */
 #customize-theme-controls .control-panel-content .control-section,
@@ -712,7 +810,7 @@ html[dir="rtl"] {
 }
 
 /* ----------------------------------------------------------------------------
-   ۱۴. نوار اسکرول سایدبار (دکوراسیون ظریف)
+   ۱۵. نوار اسکرول سایدبار (دکوراسیون ظریف)
    ---------------------------------------------------------------------------- */
 .wp-full-overlay-sidebar-content {
 	scrollbar-width: thin;
