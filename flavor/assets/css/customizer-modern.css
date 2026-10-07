@@ -1,0 +1,742 @@
+/* ============================================================================
+   Flavor — پوستهٔ مدرن و حرفه‌ای برای پنل سفارشی‌ساز (WP Customizer)
+   ----------------------------------------------------------------------------
+   - هدف: تبدیل پنل پیش‌فرض و تخت وردپرس به پنلی مدرن به سبک تم‌های پریمیوم
+     (شبیه Astra Pro / Elementor) با حفظ کامل چیدمان راست‌به‌چپ (RTL).
+   - سازگار با: WordPress 6.4 به بالا (رابط اسلایدی جدید سفارشی‌ساز).
+   - همهٔ تغییرات فقط ظاهری است؛ منطق جاوااسکریپت هسته دست‌نخورده می‌ماند.
+   - رنگ اصلی (accent) با رنگ پوستهٔ فعال سایت هماهنگ می‌شود؛
+     (از طریق وریبل --fv-skin-accent که قالب با wp_add_inline_style تزریق می‌کند).
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   ۱. بارگذاری فونت وزیرمتن (همان فونت‌های همراه قالب؛ بدون CDN خارجی)
+   اگر این فایل را در «CSS تکمیلی» می‌چسبانید، مسیر ../fonts/... را با
+   آدرس کامل فونت‌ها روی سایت خود جایگزین کنید:
+   https://نام-سایت.com/wp-content/themes/flavor/assets/fonts/vazirmatn/...
+   ---------------------------------------------------------------------------- */
+@font-face {
+	font-family: "Vazirmatn";
+	src: url("../fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Vazirmatn";
+	src: url("../fonts/vazirmatn/Vazirmatn-Medium.woff2") format("woff2");
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Vazirmatn";
+	src: url("../fonts/vazirmatn/Vazirmatn-Bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* ----------------------------------------------------------------------------
+   ۲. توکن‌های طراحی (CSS Variables)
+   - رنگ‌ها گرم و هماهنگ با هویت قالب Flavor هستند.
+   - وریبل‌های chevron برای LTR و RTL جداگانه تنظیم شده‌اند تا
+     جهت چرخش فلش همیشه درست باشد.
+   ---------------------------------------------------------------------------- */
+:root {
+	/* رنگ اصلی از پوستهٔ فعال سایت (توسط قالب تزریق می‌شود)؛ پیش‌فرض: ترراکوتای تم */
+	--fv-accent: var(--fv-skin-accent, #a74e2c);
+	--fv-accent-strong: color-mix(in srgb, var(--fv-accent) 78%, #1a120c);
+	--fv-accent-soft: color-mix(in srgb, var(--fv-accent) 7%, transparent);
+	--fv-accent-softer: color-mix(in srgb, var(--fv-accent) 13%, transparent);
+	--fv-accent-line: color-mix(in srgb, var(--fv-accent) 38%, transparent);
+
+	/* رنگ‌های متنی و خط‌ها (گرم) */
+	--fv-ink: #2b2118;
+	--fv-text: #4a423b;
+	--fv-muted: #6f675e;
+	--fv-line: #e8e0d5;
+	--fv-line-soft: #f0eae1;
+	--fv-surface: #ffffff;
+	--fv-sidebar: #f6f1ea;
+	--fv-header-1: #fffefb;
+	--fv-header-2: #faf4ec;
+
+	/* گوشه‌ها، فونت و انیمیشن‌ها */
+	--fv-radius: 14px;
+	--fv-radius-sm: 10px;
+	--fv-font: "Vazirmatn", "IRANSans", system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+	--fv-ease: cubic-bezier(0.4, 0, 0.2, 1);
+	--fv-ease-slide: cubic-bezier(0.22, 0.61, 0.36, 1);
+	--fv-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+	--fv-dur-slide: 0.34s;
+
+	/* رفتار فلش (chevron): در LTR فلش راست‌نماست و در RTL چپ‌نما */
+	--fv-chevron-hover: translateX(2.5px) scale(1.12);
+	--fv-chevron-open: rotate(90deg);
+}
+
+/* در چیدمان راست‌به‌چپ، جهت جابه‌جایی و چرخش فلش معکوس می‌شود */
+html[dir="rtl"] {
+	--fv-chevron-hover: translateX(-2.5px) scale(1.12);
+	--fv-chevron-open: rotate(-90deg);
+}
+
+/* ----------------------------------------------------------------------------
+   ۳. پایهٔ تایپوگرافی کل پنل
+   ---------------------------------------------------------------------------- */
+#customize-controls {
+	font-family: var(--fv-font);
+}
+
+/* ----------------------------------------------------------------------------
+   ۴. نوار بالایی: دکمه‌های «پیش‌نمایش»، «بستن» و «انتشار»
+   ---------------------------------------------------------------------------- */
+
+/* پس‌زمینهٔ گرم و ظریف برای کل نوار بالا */
+#customize-header-actions {
+	background: linear-gradient(180deg, var(--fv-header-1) 0%, var(--fv-header-2) 100%);
+	border-bottom: 1px solid var(--fv-line);
+	box-shadow: 0 6px 18px -14px rgba(43, 33, 24, 0.45);
+}
+
+/* دکمهٔ «بستن» (آیکون ضربدر): بی‌حاشیه + هاور دایره‌ای نرم */
+#customize-controls .customize-controls-close {
+	background: transparent;
+	border: 0;
+	border-top: 4px solid transparent; /* حفظ هندسهٔ ۴۵ پیکسلی هسته */
+	color: var(--fv-text);
+	border-radius: 999px;
+	transition: background-color 0.18s var(--fv-ease), color 0.18s var(--fv-ease);
+}
+
+#customize-controls .customize-controls-close:hover,
+#customize-controls .customize-controls-close:focus {
+	background: var(--fv-accent-soft);
+	color: var(--fv-accent);
+}
+
+/* دکمهٔ «پیش‌نمایش/سفارشی‌سازی»: تبدیل تب‌های تخت به قرص (pill) مدرن
+   (inset-inline-start باعث می‌شود در RTL هم خودکار آینه شود) */
+#customize-controls .customize-controls-preview-toggle {
+	inset-inline-start: 48px;
+	top: 9px;
+	height: 28px;
+	line-height: 1.5;
+	margin: 0;
+	padding: 0 14px;
+	background: var(--fv-surface);
+	border: 1px solid var(--fv-line);
+	border-radius: 999px;
+	box-shadow: 0 1px 2px rgba(43, 33, 24, 0.06);
+	font-family: var(--fv-font);
+	font-size: 12.5px;
+	font-weight: 600;
+	color: var(--fv-ink);
+	transition: background-color 0.18s var(--fv-ease), color 0.18s var(--fv-ease),
+		border-color 0.18s var(--fv-ease), box-shadow 0.18s var(--fv-ease);
+}
+
+#customize-controls .customize-controls-preview-toggle:hover,
+#customize-controls .customize-controls-preview-toggle:focus {
+	background: var(--fv-surface);
+	border-color: var(--fv-accent-line);
+	color: var(--fv-accent);
+	box-shadow: 0 3px 10px -4px color-mix(in srgb, var(--fv-accent) 35%, transparent);
+}
+
+/* آیکون داخل دکمهٔ پیش‌نمایش */
+#customize-controls .customize-controls-preview-toggle .preview::before,
+#customize-controls .customize-controls-preview-toggle .controls::before {
+	top: 2px;
+}
+
+/* دکمهٔ «انتشار» (Publish): قرص رنگی با گرادیان ملایم
+   (حالت has-next-sibling هم در نظر گرفته شده چون هسته شعاع گوشهٔ آن را جدا می‌زند) */
+#customize-save-button-wrapper .save,
+#customize-save-button-wrapper .save.has-next-sibling {
+	border-radius: 999px;
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--fv-accent) 86%, #ffffff) 0%,
+		var(--fv-accent) 100%
+	);
+	border-color: var(--fv-accent-strong);
+	color: #fff;
+	font-family: var(--fv-font);
+	font-weight: 600;
+	box-shadow: 0 2px 6px -2px color-mix(in srgb, var(--fv-accent) 55%, transparent);
+	transition: background 0.18s var(--fv-ease), border-color 0.18s var(--fv-ease),
+		box-shadow 0.18s var(--fv-ease), transform 0.18s var(--fv-ease);
+}
+
+#customize-save-button-wrapper .save:hover,
+#customize-save-button-wrapper .save:focus {
+	background: var(--fv-accent-strong);
+	border-color: var(--fv-accent-strong);
+	color: #fff;
+	box-shadow: 0 4px 12px -3px color-mix(in srgb, var(--fv-accent) 65%, transparent);
+	transform: translateY(-1px);
+}
+
+#customize-save-button-wrapper .save:active {
+	transform: translateY(0);
+}
+
+/* دکمهٔ چرخ‌دندهٔ «تنظیمات انتشار» */
+#publish-settings {
+	border-radius: 999px;
+	background: var(--fv-surface);
+	border: 1px solid var(--fv-line);
+	border-color: var(--fv-line);
+	margin-inline-start: 8px;
+	transition: border-color 0.18s var(--fv-ease), color 0.18s var(--fv-ease);
+}
+
+#publish-settings:hover,
+#publish-settings:focus {
+	border-color: var(--fv-accent-line);
+	color: var(--fv-accent);
+}
+
+/* ----------------------------------------------------------------------------
+   ۵. سایدبار و کارت‌های بخش‌ها (لیست منوی سفارشی‌ساز)
+   ---------------------------------------------------------------------------- */
+
+/* پس‌زمینهٔ گرم سایدبار */
+.wp-full-overlay-sidebar {
+	background: var(--fv-sidebar);
+	border-right-color: var(--fv-line);
+	border-left-color: var(--fv-line);
+}
+
+#customize-theme-controls {
+	padding: 12px 12px 30px;
+}
+
+/* هر بخش/پنل به‌صورت کارت مجزا با سایهٔ نرم و فاصلهٔ تن‌فشار */
+#customize-theme-controls > li.control-section,
+#customize-theme-controls > li.control-panel {
+	background: var(--fv-surface);
+	border: 1px solid var(--fv-line);
+	border-radius: var(--fv-radius);
+	box-shadow: 0 1px 2px rgba(43, 33, 24, 0.04), 0 4px 14px -8px rgba(43, 33, 24, 0.08);
+	margin: 0 0 12px;
+	overflow: hidden; /* فقط گوشهٔ عنوان را برمی‌گرداند؛ پنل اسلایدی بیرون از جعبهٔ کارت است */
+	transition: border-color 0.22s var(--fv-ease), box-shadow 0.22s var(--fv-ease),
+		transform 0.22s var(--fv-ease);
+}
+
+/* هاور: برآمدگی ظریف + کادر رنگی ملایم + سایهٔ عمیق‌تر */
+#customize-theme-controls > li.control-section:hover,
+#customize-theme-controls > li.control-panel:hover {
+	border-color: var(--fv-accent-line);
+	box-shadow: 0 2px 4px rgba(43, 33, 24, 0.05),
+		0 12px 28px -10px color-mix(in srgb, var(--fv-accent) 22%, transparent);
+	transform: translateY(-1px);
+}
+
+/* بخش باز: کادر رنگی ماندگار */
+#customize-theme-controls > li.control-section.open,
+#customize-theme-controls > li.control-panel.current-panel {
+	border-color: var(--fv-accent-line);
+}
+
+/* ----------------------------------------------------------------------------
+   ۶. پنل بالایی «شما در حال سفارشی‌سازی … هستید»
+   ---------------------------------------------------------------------------- */
+#customize-controls .customize-info {
+	background: var(--fv-surface);
+	border: 1px solid var(--fv-line);
+	border-bottom: 1px solid var(--fv-line);
+	border-radius: var(--fv-radius);
+	margin: 0 12px 12px;
+	overflow: hidden;
+	box-shadow: 0 1px 2px rgba(43, 33, 24, 0.04);
+}
+
+/* متن راهنما: ریز، کم‌رنگ و خوانا */
+#customize-controls .customize-info .preview-notice {
+	font-family: var(--fv-font);
+	font-size: 12px;
+	line-height: 1.9;
+	font-weight: 400;
+	color: var(--fv-muted);
+}
+
+/* نام سایت: بولد و با کنتراست بالا (به‌جای فونت ۲۰ پیکسلی سبک هسته) */
+#customize-controls .customize-info .preview-notice .panel-title {
+	font-size: 13.5px;
+	font-weight: 700;
+	color: var(--fv-ink);
+	overflow: visible;
+	white-space: normal;
+}
+
+/* دکمهٔ کمک (؟) */
+#customize-controls .customize-info .customize-help-toggle {
+	border-radius: 999px;
+	transition: background-color 0.18s var(--fv-ease), color 0.18s var(--fv-ease);
+}
+
+#customize-controls .customize-info .customize-help-toggle:hover,
+#customize-controls .customize-info .customize-help-toggle:focus {
+	background: var(--fv-accent-soft);
+	color: var(--fv-accent);
+}
+
+/* ----------------------------------------------------------------------------
+   ۷. عنوان بخش‌ها (ردیف‌های منو) و حالت فعال/انتخابی
+   ---------------------------------------------------------------------------- */
+
+/* حذف کادرهای تخت هسته؛ پس‌زمینهٔ عنوان شفاف تا هاور/فعال روی کل ردیف اعمال شود */
+#customize-theme-controls .accordion-section-title {
+	border: none;
+	background: transparent;
+	color: var(--fv-text);
+	transition: background-color 0.2s var(--fv-ease), color 0.2s var(--fv-ease);
+}
+
+/* نوار عمودی رنگی (accent bar) در ابتدای ردیف — در RTL خودکار سمت راست می‌ایستد
+   (شعاع گوشه‌ها logical است تا در هر دو جهت درست بریزد) */
+#customize-theme-controls .accordion-section-title::before {
+	content: "";
+	position: absolute;
+	inset-block: 6px;
+	inset-inline-start: 0;
+	width: 3px;
+	border-radius: 0;
+	border-start-end-radius: 3px;
+	border-end-end-radius: 3px;
+	background: transparent;
+	transition: background-color 0.22s var(--fv-ease);
+}
+
+/* هاور: گرادیان بسیار ملایم عمودی + روشن‌شدن نوار رنگی */
+#customize-theme-controls li.control-section:hover > h3.accordion-section-title,
+#customize-theme-controls li.control-panel:hover > h3.accordion-section-title,
+#customize-theme-controls li.control-section > h3.accordion-section-title:hover,
+#customize-theme-controls li.control-panel > h3.accordion-section-title:hover {
+	background: linear-gradient(180deg, var(--fv-accent-soft) 0%, transparent 85%);
+	color: var(--fv-ink);
+}
+
+#customize-theme-controls li.control-section:hover > h3.accordion-section-title::before,
+#customize-theme-controls li.control-panel:hover > h3.accordion-section-title::before {
+	background: var(--fv-accent-line);
+}
+
+/* حالت باز/انتخابی: پس‌زمینهٔ رنگی نرم + نوار رنگی کامل */
+#customize-theme-controls li.control-section.open > h3.accordion-section-title,
+#customize-theme-controls li.control-panel.current-panel > h3.accordion-section-title {
+	background: var(--fv-accent-soft);
+	color: var(--fv-ink);
+}
+
+#customize-theme-controls li.control-section.open > h3.accordion-section-title::before,
+#customize-theme-controls li.control-panel.current-panel > h3.accordion-section-title::before {
+	background: var(--fv-accent);
+}
+
+/* دکمهٔ کلیک‌پذیر عنوان: فونت وزیرمتن، وزن نیمه‌بازده و فاصلهٔ تن‌فشار بیشتر */
+#customize-theme-controls .accordion-section-title button.accordion-trigger {
+	padding: 13px 16px 14px;
+	padding-inline-end: 40px; /* جای خالی برای فلش */
+	font-family: var(--fv-font);
+	font-size: 13.5px;
+	font-weight: 600;
+	line-height: 1.55;
+	color: var(--fv-text);
+	text-align: start;
+	cursor: pointer;
+	transition: color 0.2s var(--fv-ease);
+}
+
+#customize-theme-controls .accordion-section-title button.accordion-trigger:hover {
+	color: var(--fv-ink);
+}
+
+/* حلقهٔ فوکوس کیبورد با رنگ برند */
+#customize-theme-controls .accordion-section-title button.accordion-trigger:focus,
+#customize-theme-controls .accordion-section-title button.accordion-trigger:focus-visible {
+	box-shadow: inset 0 0 0 2px var(--fv-accent-line);
+	outline: 2px solid transparent;
+}
+
+/* عنوان پنل‌ها (مثل «طراحی و استایل رستوران») کمی سنگین‌تر */
+#customize-theme-controls li.control-panel > h3.accordion-section-title button.accordion-trigger {
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--fv-ink);
+}
+
+/* عنوان پنل «پوسته‌ها» (Themes): هسته پس‌زمینهٔ سفید و کادر می‌دهد؛
+   برای هماهنگی با کارت‌ها شفاف می‌شود (پدینگِ سمت دکمهٔ «تغییر پوسته» حفظ می‌ماند) */
+#customize-theme-controls .control-panel-themes > .accordion-section-title,
+#customize-theme-controls .control-panel-themes > .accordion-section-title:hover {
+	background: transparent;
+	border: none;
+	margin: 0;
+	padding: 12px 15px 15px;
+	padding-inline-end: 100px;
+}
+
+/* حذف پدینگ اضافی هسته برای عنوان بخش‌های داخل پنل باز (پدینگ را دکمهٔ عنوان مدیریت می‌کند) */
+#customize-controls .current-panel .control-section > h3.accordion-section-title {
+	padding: 0;
+}
+
+/* ----------------------------------------------------------------------------
+   ۸. فلش (chevron) — انیمیشن جابه‌جایی در هاور و چرخش در حالت باز
+   (فلش توسط ::after روی عنوان رندر می‌شود؛ موقعیتش را هسته تنظیم کرده)
+   ---------------------------------------------------------------------------- */
+#customize-theme-controls .accordion-section-title::after {
+	color: #b6ab9e;
+	transition: transform 0.32s var(--fv-ease-spring), color 0.2s var(--fv-ease);
+}
+
+/* هاور: یک قدم به سمت محتوا جلو می‌رود و بزرگ می‌شود */
+#customize-theme-controls li.control-section:hover > h3.accordion-section-title::after,
+#customize-theme-controls li.control-panel:hover > h3.accordion-section-title::after,
+#customize-theme-controls li.control-section > h3.accordion-section-title:hover::after,
+#customize-theme-controls li.control-panel > h3.accordion-section-title:hover::after {
+	transform: var(--fv-chevron-hover);
+	color: var(--fv-accent);
+}
+
+/* حالت باز: چرخش ۹۰ درجه با انیمیشن فنری (جهت در RTL خودکار معکوس است) */
+#customize-theme-controls li.control-section.open > h3.accordion-section-title::after,
+#customize-theme-controls li.control-panel.current-panel > h3.accordion-section-title::after {
+	transform: var(--fv-chevron-open);
+	color: var(--fv-accent);
+}
+
+/* ----------------------------------------------------------------------------
+   ۹. انیمیشن باز/بسته‌شدن (آکاردئون)
+   ----------------------------------------------------------------------------
+   در WordPress 5.9+ پنل‌ها با CSS transform اسلاید می‌شوند؛ این‌جا فقط
+   زمان‌بندی و easing را نرم‌تر می‌کنیم و یک محوشودن ظریف (opacity)
+   به اسلاید اضافه می‌شود. (طول opacity و transform برابر است تا
+   رویداد transitionendِ هسته در زمان درست شلیک شود.)
+   ---------------------------------------------------------------------------- */
+#customize-info,
+#customize-theme-controls .customize-pane-parent,
+#customize-theme-controls .customize-pane-child {
+	transition: transform var(--fv-dur-slide) var(--fv-ease-slide),
+		opacity var(--fv-dur-slide) var(--fv-ease-slide);
+}
+
+/* پنل بسته‌شده محوشده است تا هنگام اسلاید نرم نمایان شود
+   (:not(.themes) چون بخش «پوسته‌ها» در جریان معمول لیست رندر می‌شود) */
+#customize-theme-controls .customize-pane-child:not(.themes) {
+	opacity: 0;
+}
+
+#customize-theme-controls .customize-pane-child.open:not(.themes),
+#customize-theme-controls .customize-pane-child.current-panel {
+	opacity: 1;
+}
+
+/* هنگام باز بودن یک بخش/پنل، لیست پشتی محو می‌شود */
+.section-open #customize-info,
+.in-sub-panel #customize-info {
+	opacity: 0;
+}
+
+.section-open #customize-theme-controls .customize-pane-parent,
+.in-sub-panel #customize-theme-controls .customize-pane-parent {
+	opacity: 0;
+}
+
+/* احترام به تنظیم «کاهش حرکت» سیستم کاربر */
+@media (prefers-reduced-motion: reduce) {
+	#customize-info,
+	#customize-theme-controls .customize-pane-parent,
+	#customize-theme-controls .customize-pane-child,
+	#customize-theme-controls .accordion-section-title::after,
+	#customize-theme-controls > li.control-section,
+	#customize-theme-controls > li.control-panel {
+		transition: none;
+	}
+}
+
+/* ----------------------------------------------------------------------------
+   ۱۰. داخل پنل باز: سربرگ چسبان (sticky) + دکمهٔ «بازگشت»
+   ---------------------------------------------------------------------------- */
+
+/* پس‌زمینهٔ سفیدِ کامل برای محتوای بخش (به‌جای شفاف هسته) */
+#customize-theme-controls .accordion-section-content {
+	background: var(--fv-surface);
+}
+
+#customize-theme-controls .customize-pane-child.accordion-section-content,
+#customize-theme-controls .customize-pane-child.accordion-sub-container {
+	padding: 14px;
+}
+
+/* سربرگ چسبان بالای پنل باز */
+#customize-controls .customize-section-title {
+	margin: -14px -14px 0;
+	border-bottom: 1px solid var(--fv-line);
+	background: linear-gradient(180deg, var(--fv-header-1) 0%, var(--fv-surface) 100%);
+}
+
+#customize-controls .customize-pane-child .customize-section-title h3,
+#customize-controls .customize-pane-child h3.customize-section-title,
+#customize-controls .customize-section-title h3 {
+	padding: 12px 16px;
+	margin: 0;
+	font-family: var(--fv-font);
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.6;
+	color: var(--fv-ink);
+	white-space: normal;
+}
+
+/* مسیر (breadcrumb): «طراحی و استایل رستوران» بالای عنوان — رنگ برند */
+#customize-controls .customize-section-title span.customize-action {
+	font-family: var(--fv-font);
+	font-size: 11.5px;
+	font-weight: 600;
+	line-height: 1.8;
+	color: var(--fv-accent);
+	white-space: normal;
+}
+
+/* دکمهٔ بازگشت: هاور نرم و رنگی */
+#customize-controls .customize-panel-back,
+#customize-controls .customize-section-back {
+	background: transparent;
+	color: var(--fv-muted);
+	transition: background-color 0.18s var(--fv-ease), color 0.18s var(--fv-ease);
+}
+
+#customize-controls .customize-panel-back:hover,
+#customize-controls .customize-section-back:hover,
+#customize-controls .customize-panel-back:focus,
+#customize-controls .customize-section-back:focus {
+	background: var(--fv-accent-soft);
+	color: var(--fv-accent);
+}
+
+/* توضیح بالای کنترل‌ها داخل پنل باز */
+#customize-controls .customize-section-description {
+	font-family: var(--fv-font);
+	font-size: 12px;
+	line-height: 1.9;
+	font-style: normal;
+	color: var(--fv-muted);
+}
+
+/* ----------------------------------------------------------------------------
+   ۱۱. کنترل‌ها: برچسب‌ها، توضیحات و ورودی‌ها
+   ---------------------------------------------------------------------------- */
+
+/* فضای بیشتر بین کنترل‌ها */
+#customize-theme-controls .customize-control {
+	margin-bottom: 18px;
+}
+
+#customize-theme-controls .customize-control-title {
+	font-family: var(--fv-font);
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.7;
+	color: var(--fv-ink);
+	margin-bottom: 6px;
+}
+
+#customize-theme-controls .customize-control label {
+	font-family: var(--fv-font);
+	font-size: 12.5px;
+	color: var(--fv-text);
+}
+
+#customize-theme-controls .customize-control .description,
+#customize-theme-controls .customize-control p.description,
+#customize-theme-controls .customize-control-description {
+	font-family: var(--fv-font);
+	font-size: 12px;
+	line-height: 1.9;
+	font-style: normal;
+	color: var(--fv-muted);
+}
+
+/* ورودی‌های متنی و منوی کشویی: کادر گرم، گوشه‌های گرد و حلقهٔ فوکوس رنگی */
+#customize-theme-controls .customize-control label > input[type="text"],
+#customize-theme-controls .customize-control label > input[type="email"],
+#customize-theme-controls .customize-control label > input[type="url"],
+#customize-theme-controls .customize-control label > input[type="number"],
+#customize-theme-controls .customize-control label > input[type="search"],
+#customize-theme-controls .customize-control label > input[type="tel"],
+#customize-theme-controls .customize-control label > select,
+#customize-theme-controls .customize-control label > textarea {
+	border: 1px solid var(--fv-line);
+	border-radius: var(--fv-radius-sm);
+	background: #fffefb;
+	color: var(--fv-ink);
+	font-family: var(--fv-font);
+	font-size: 13px;
+	padding: 8px 12px;
+	transition: border-color 0.18s var(--fv-ease), box-shadow 0.18s var(--fv-ease),
+		background-color 0.18s var(--fv-ease);
+}
+
+#customize-theme-controls .customize-control label > input[type="text"]:focus,
+#customize-theme-controls .customize-control label > input[type="email"]:focus,
+#customize-theme-controls .customize-control label > input[type="url"]:focus,
+#customize-theme-controls .customize-control label > input[type="number"]:focus,
+#customize-theme-controls .customize-control label > input[type="search"]:focus,
+#customize-theme-controls .customize-control label > input[type="tel"]:focus,
+#customize-theme-controls .customize-control label > select:focus,
+#customize-theme-controls .customize-control label > textarea:focus {
+	border-color: var(--fv-accent);
+	box-shadow: 0 0 0 3px var(--fv-accent-soft);
+	background: var(--fv-surface);
+	outline: 2px solid transparent;
+}
+
+/* چک‌باکس و رادیو: فاصلهٔ بهتر */
+#customize-theme-controls .customize-control-radio,
+#customize-theme-controls .customize-control-checkbox {
+	padding: 6px 0;
+}
+
+/* ----------------------------------------------------------------------------
+   ۱۲. دکمه‌های داخل کنترل‌ها («تغییر»، «پیش‌نمایش منو» و مشابه)
+   ---------------------------------------------------------------------------- */
+#customize-theme-controls .customize-control .button,
+#customize-theme-controls .customize-control button.button,
+#customize-theme-controls .customize-control a.button {
+	border-radius: 999px;
+	background: var(--fv-surface);
+	border: 1px solid var(--fv-accent-line);
+	color: var(--fv-accent);
+	font-family: var(--fv-font);
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 2;
+	padding: 4px 16px;
+	box-shadow: none;
+	cursor: pointer;
+	transition: background-color 0.18s var(--fv-ease), color 0.18s var(--fv-ease),
+		border-color 0.18s var(--fv-ease), box-shadow 0.18s var(--fv-ease),
+		transform 0.18s var(--fv-ease);
+}
+
+#customize-theme-controls .customize-control .button:hover,
+#customize-theme-controls .customize-control .button:focus {
+	background: var(--fv-accent);
+	border-color: var(--fv-accent);
+	color: #fff;
+	box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--fv-accent) 60%, transparent);
+	transform: translateY(-1px);
+}
+
+#customize-theme-controls .customize-control .button:active {
+	transform: translateY(0);
+	box-shadow: none;
+}
+
+/* دکمه‌های اصلی (primary) مثل «افزودن»: قرص رنگی */
+#customize-theme-controls .customize-control .button.button-primary {
+	background: var(--fv-accent);
+	border-color: var(--fv-accent);
+	color: #fff;
+}
+
+#customize-theme-controls .customize-control .button.button-primary:hover,
+#customize-theme-controls .customize-control .button.button-primary:focus {
+	background: var(--fv-accent-strong);
+	border-color: var(--fv-accent-strong);
+	color: #fff;
+}
+
+/* دکمهٔ «تغییر پوسته» در پنل پوسته‌ها */
+#customize-theme-controls .control-panel-themes .accordion-section-title .change-theme {
+	border-radius: 999px;
+	background: var(--fv-surface);
+	border: 1px solid var(--fv-accent-line);
+	color: var(--fv-accent);
+	font-family: var(--fv-font);
+	font-weight: 600;
+	font-size: 12px;
+	transition: background-color 0.18s var(--fv-ease), color 0.18s var(--fv-ease),
+		border-color 0.18s var(--fv-ease), box-shadow 0.18s var(--fv-ease);
+}
+
+#customize-theme-controls .control-panel-themes .accordion-section-title .change-theme:hover,
+#customize-theme-controls .control-panel-themes .accordion-section-title .change-theme:focus {
+	background: var(--fv-accent);
+	border-color: var(--fv-accent);
+	color: #fff;
+	box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--fv-accent) 60%, transparent);
+}
+
+/* لینک‌های دکمه‌ای (button-link) مثل «حذف تغییرات» */
+#customize-theme-controls .button-link {
+	color: var(--fv-accent);
+	font-family: var(--fv-font);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+#customize-theme-controls .button-link:hover {
+	color: var(--fv-accent-strong);
+	text-decoration: underline;
+}
+
+/* ----------------------------------------------------------------------------
+   ۱۳. بخش‌های داخل پنل باز (ردیف‌های لیستی داخل صفحهٔ پنل)
+   ---------------------------------------------------------------------------- */
+/* (قانون nth-child برای از‌بین‌بردن خط‌دوگانه‌ای که هسته برای ردیف دوم می‌گذارد) */
+#customize-theme-controls .control-panel-content .control-section,
+#customize-theme-controls .control-panel-content .control-section:nth-child(2) {
+	border: none;
+	border-bottom: 1px solid var(--fv-line-soft);
+}
+
+#customize-theme-controls .control-panel-content .control-section:last-child {
+	border-bottom: none;
+}
+
+#customize-theme-controls .control-panel-content .control-section .accordion-section-title {
+	background: transparent;
+}
+
+#customize-theme-controls .control-panel-content .control-section .accordion-section-title::before {
+	display: none; /* در لیست داخلی، نوار رنگی نمایش داده نمی‌شود */
+}
+
+/* ----------------------------------------------------------------------------
+   ۱۴. نوار اسکرول سایدبار (دکوراسیون ظریف)
+   ---------------------------------------------------------------------------- */
+.wp-full-overlay-sidebar-content {
+	scrollbar-width: thin;
+	scrollbar-color: #d8cdbc transparent;
+}
+
+.wp-full-overlay-sidebar-content::-webkit-scrollbar {
+	width: 10px;
+}
+
+.wp-full-overlay-sidebar-content::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.wp-full-overlay-sidebar-content::-webkit-scrollbar-thumb {
+	background: #d8cdbc;
+	border-radius: 999px;
+	border: 3px solid var(--fv-sidebar);
+}
+
+.wp-full-overlay-sidebar-content::-webkit-scrollbar-thumb:hover {
+	background: #c9bba9;
+}
+
+/* ============================================================================
+   پایان فایل
+   ============================================================================ */

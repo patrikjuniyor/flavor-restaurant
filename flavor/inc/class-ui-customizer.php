@@ -133,6 +133,13 @@ class UI_Customizer {
 		) );
 	}
 	public static function control_assets(): void {
+		wp_enqueue_style( 'flavor-customizer-modern', FLAVOR_URI . '/assets/css/customizer-modern.css', array( 'customize-controls' ), (string) filemtime( FLAVOR_DIR . '/assets/css/customizer-modern.css' ) );
+		// Match the customizer accent with the active skin's primary color.
+		$tokens = Design::tokens( Design::current_skin() );
+		$accent = sanitize_hex_color( $tokens['primary'] ?? '' );
+		if ( $accent ) {
+			wp_add_inline_style( 'flavor-customizer-modern', ':root { --fv-skin-accent: ' . $accent . '; }' );
+		}
 		wp_enqueue_script( 'flavor-customizer-controls', FLAVOR_URI . '/assets/js/customizer-controls.js', array( 'customize-controls' ), (string) filemtime( FLAVOR_DIR . '/assets/js/customizer-controls.js' ), true );
 	}
 }
