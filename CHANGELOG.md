@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added — automatic WooCommerce setup for Flavor Core / 2026-10-07
+
+Activating Flavor Core now attempts to install WooCommerce from the official WordPress.org plugin directory and activate it when missing. The plugin reports an actionable notice with the installation error and a manual-install link if the hosting environment blocks downloads, filesystem writes or plugin activation. The `Requires Plugins` header was removed so WordPress can run this setup during Flavor Core activation instead of blocking activation before the dependency installer runs.
+
 ### Fixed — opening hours were clipped off-screen on phones, and small type / tap targets missed their minimums / 2026-10-02
 
 A responsiveness audit of the whole marketing front end: seven page templates rendered against all twelve skins, with both normal and deliberately long Persian strings, at twelve viewport widths from 320px to 2560px — 2016 renders. Measured with `tests/ui/responsive.mjs`. Four faults, two of which were invisible to the eye because the page silently hid them.

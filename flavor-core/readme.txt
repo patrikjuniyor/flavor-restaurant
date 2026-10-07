@@ -26,15 +26,14 @@ Flavor Core is the companion plugin for the Flavor restaurant theme (رستور�
 * Roles: branch manager, kitchen, cashier
 * Kitchen dashboard skeleton (`/kitchen-dashboard/` and wp-admin)
 
-WooCommerce 8.5+ with HPOS is required.
+WooCommerce 8.5+ with HPOS is required. When Flavor Core is activated, it attempts to download and activate WooCommerce from the official WordPress.org directory if WooCommerce is missing. If the host blocks automatic downloads or filesystem writes, install WooCommerce manually from Plugins → Add New and then activate it.
 
 == Installation ==
 
-1. Install and activate WooCommerce.
-2. Upload `flavor-core` to `wp-content/plugins/`.
-3. Activate Flavor Core.
-4. Activate the Flavor theme (optional but recommended).
-5. Open رستوران مستقیم → Settings and edit the default branch.
+1. Upload `flavor-core` to `wp-content/plugins/` and activate Flavor Core. WooCommerce is installed and activated automatically when it is not already available.
+2. If automatic installation is blocked, install and activate WooCommerce 8.5+ from Plugins → Add New, then return to Flavor Core.
+3. Activate the Flavor theme (optional but recommended).
+4. Open رستوران مستقیم → Settings and edit the default branch.
 
 == Changelog ==
 

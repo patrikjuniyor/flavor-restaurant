@@ -44,7 +44,7 @@ ln -s /path/to/flavor-restaurant/flavor       /path/to/wp/wp-content/themes/flav
 ln -s /path/to/flavor-restaurant/flavor-core  /path/to/wp/wp-content/plugins/flavor-core
 ```
 
-ووکامرس → Flavor Core → قالب Flavor. پیوندهای یکتا را ذخیره کنید. از **نمایش → دموهای Flavor** یک دمو درون‌ریزی کنید.
+Flavor Core را فعال کنید؛ اگر ووکامرس نصب نباشد تلاش می‌کند آن را از مخزن رسمی وردپرس نصب و فعال کند. سپس قالب Flavor را فعال کنید. در صورت مسدودبودن نصب خودکار، ابتدا WooCommerce را دستی نصب کنید. پیوندهای یکتا را ذخیره کنید و از **نمایش → دموهای Flavor** یک دمو درون‌ریزی کنید.
 
 ## فازها
 

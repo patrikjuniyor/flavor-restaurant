@@ -6,7 +6,6 @@
  * Version:           1.4.0
  * Requires at least: 6.4
  * Requires PHP:      8.0
- * Requires Plugins:  woocommerce
  * WC requires at least: 8.5
  * WC tested up to:   9.9
  * Author:            Flavor

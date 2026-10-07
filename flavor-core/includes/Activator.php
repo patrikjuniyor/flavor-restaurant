@@ -9,6 +9,7 @@ namespace FlavorCore;
 
 use FlavorCore\Database\Schema;
 use FlavorCore\Support\Roles;
+use FlavorCore\WooCommerce\DependencyInstaller;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -23,6 +24,13 @@ class Activator {
 	 * @param bool $network_wide Whether the plugin is network-activated.
 	 */
 	public static function activate( bool $network_wide = false ): void {
+		$woocommerce_result = DependencyInstaller::ensure_active( $network_wide );
+		if ( is_wp_error( $woocommerce_result ) ) {
+			update_option( 'flavor_core_woocommerce_install_error', $woocommerce_result->get_error_message(), false );
+		} else {
+			delete_option( 'flavor_core_woocommerce_install_error' );
+		}
+
 		if ( $network_wide && is_multisite() ) {
 			$site_ids = get_sites( array( 'fields' => 'ids' ) );
 			foreach ( $site_ids as $site_id ) {

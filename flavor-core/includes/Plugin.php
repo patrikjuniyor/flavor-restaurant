@@ -84,6 +84,7 @@ final class Plugin {
 			return;
 		}
 
+		delete_option( 'flavor_core_woocommerce_install_error' );
 		Schema::maybe_upgrade();
 
 		if ( (string) get_option( 'flavor_core_plugin_version', '' ) !== FLAVOR_CORE_VERSION ) {
@@ -143,8 +144,22 @@ final class Plugin {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
+
 		echo '<div class="notice notice-error"><p>';
 		echo esc_html__( 'افزونه Flavor Core برای اجرا به ووکامرس ۸.۵ یا بالاتر نیاز دارد.', 'flavor-core' );
+
+		$install_error = (string) get_option( 'flavor_core_woocommerce_install_error', '' );
+		if ( '' !== $install_error ) {
+			echo '<br><small>' . esc_html( $install_error ) . '</small>';
+		}
+
+		if ( current_user_can( 'install_plugins' ) ) {
+			$install_url = admin_url( 'plugin-install.php?s=woocommerce&tab=search&type=term' );
+			echo ' <a class="button button-primary" href="' . esc_url( $install_url ) . '">';
+			echo esc_html__( 'نصب WooCommerce', 'flavor-core' );
+			echo '</a>';
+		}
+
 		echo '</p></div>';
 	}
 
