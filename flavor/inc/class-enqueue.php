@@ -85,6 +85,12 @@ class Enqueue {
 				$skin_deps,
 				(string) filemtime( FLAVOR_DIR . '/assets/css/bespoke-demos.css' )
 			);
+			wp_enqueue_style(
+				'flavor-demo-animations',
+				FLAVOR_URI . '/assets/css/demo-animations.css',
+				array( 'flavor-bespoke' ),
+				(string) filemtime( FLAVOR_DIR . '/assets/css/demo-animations.css' )
+			);
 			$skin_deps[] = 'flavor-bespoke';
 		}
 		if ( is_readable( $skin_path ) ) {
@@ -161,6 +167,13 @@ class Enqueue {
 				FLAVOR_URI . '/assets/js/bespoke-demos.js',
 				array( 'flavor-main-js' ),
 				(string) filemtime( FLAVOR_DIR . '/assets/js/bespoke-demos.js' ),
+				array( 'in_footer' => true, 'strategy' => 'defer' )
+			);
+			wp_enqueue_script(
+				'flavor-demo-animations-js',
+				FLAVOR_URI . '/assets/js/demo-animations.js',
+				array( 'flavor-bespoke-js' ),
+				(string) filemtime( FLAVOR_DIR . '/assets/js/demo-animations.js' ),
 				array( 'in_footer' => true, 'strategy' => 'defer' )
 			);
 		}

@@ -531,6 +531,33 @@ body.flavor-skin-pizza-italian {
 	.flavor-skin-pizza-italian .flavor-about__img-wrapper img { min-height: 410px; }
 }
 
+/* CSS-only art-direction pass: trattoria linen, tomato/basil accents and a tricolour table edge. */
+.flavor-skin-pizza-italian .flavor-section-header__tag {
+	border-inline: 3px solid var(--italy-red);
+	border-radius: 0;
+	background: rgba(36, 82, 60, .07);
+	padding-inline: 13px;
+}
+.flavor-skin-pizza-italian .flavor-food-card {
+	border: 1px solid rgba(41, 32, 25, .14);
+	border-top: 4px solid var(--italy-green);
+	border-radius: 22px 22px 8px 8px;
+	background: linear-gradient(150deg, var(--italy-paper), #f1e5d0);
+}
+.flavor-skin-pizza-italian .flavor-food-card__media { border-radius: 18px 18px 0 0; }
+.flavor-skin-pizza-italian .flavor-food-card__media img { aspect-ratio: 4 / 3; }
+.flavor-skin-pizza-italian .flavor-hours-card {
+	border: 5px solid transparent;
+	border-radius: 28px;
+	background: linear-gradient(var(--italy-paper), var(--italy-paper)) padding-box,
+		linear-gradient(90deg, var(--italy-green) 0 33%, #fff9eb 33% 66%, var(--italy-red) 66%) border-box;
+}
+.flavor-skin-pizza-italian .flavor-contact-row__icon { border-radius: 8px 50% 50% 50%; }
+@media (max-width: 767px) {
+	.flavor-skin-pizza-italian .flavor-hours-card { border-width: 3px; }
+	.flavor-skin-pizza-italian .flavor-food-card { border-radius: 17px 17px 7px 7px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.flavor-skin-pizza-italian *,
 	.flavor-skin-pizza-italian *::before,

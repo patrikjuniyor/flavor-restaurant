@@ -650,6 +650,39 @@ body.flavor-skin-fast-food {
 	}
 }
 
+/* CSS-only art-direction pass: street-poster panels, sticker labels and hard-edged ink. */
+.flavor-skin-fast-food .flavor-section-header__tag {
+	border: 2px solid var(--fast-black);
+	border-radius: 3px;
+	background: var(--fast-yellow);
+	box-shadow: 3px 3px 0 var(--fast-black);
+	transform: rotate(-1deg);
+}
+.flavor-skin-fast-food .flavor-food-card {
+	border: 2px solid var(--fast-black);
+	border-radius: 14px 4px 14px 4px;
+	box-shadow: 5px 6px 0 var(--fast-black);
+}
+.flavor-skin-fast-food .flavor-food-card__cat-badge {
+	border: 2px solid var(--fast-black);
+	border-radius: 3px;
+	background: var(--fast-yellow);
+	color: var(--fast-black);
+	transform: rotate(-2deg);
+}
+.flavor-skin-fast-food .flavor-food-card__price {
+	padding: 3px 8px;
+	background: var(--fast-yellow);
+	color: var(--fast-black);
+	border-radius: 3px;
+}
+.flavor-skin-fast-food .flavor-offer-banner { border: 3px solid var(--fast-black); }
+.flavor-skin-fast-food .flavor-offer-coupon { border: 2px dashed var(--fast-black); }
+@media (max-width: 767px) {
+	.flavor-skin-fast-food .flavor-food-card { box-shadow: 3px 4px 0 var(--fast-black); }
+	.flavor-skin-fast-food .flavor-food-card__cat-badge { transform: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.flavor-skin-fast-food *,
 	.flavor-skin-fast-food *::before,

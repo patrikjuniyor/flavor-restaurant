@@ -706,6 +706,38 @@ body.flavor-skin-luxury-dining {
 	}
 }
 
+/* CSS-only art-direction pass: gallery-framed tasting notes and champagne hairlines. */
+.flavor-skin-luxury-dining .flavor-food-card {
+	background: linear-gradient(145deg, #1b1a18, #10100f);
+	border-color: rgba(203, 177, 134, .28);
+}
+.flavor-skin-luxury-dining .flavor-food-card__media { position: relative; isolation: isolate; }
+.flavor-skin-luxury-dining .flavor-food-card__media::after {
+	content: "";
+	position: absolute;
+	inset: 14px;
+	border: 1px solid rgba(234, 216, 184, .34);
+	pointer-events: none;
+}
+.flavor-skin-luxury-dining .flavor-food-card__price { color: var(--luxe-champagne-light); }
+.flavor-skin-luxury-dining .flavor-section-header__title::after {
+	content: "";
+	display: block;
+	width: 54px;
+	height: 1px;
+	margin: 18px auto 0;
+	background: linear-gradient(90deg, transparent, var(--luxe-champagne), transparent);
+}
+.flavor-skin-luxury-dining .flavor-hours-card {
+	background: linear-gradient(145deg, var(--luxe-panel), #0d0d0c);
+	border: 1px solid rgba(203, 177, 134, .32);
+	box-shadow: inset 0 0 0 7px rgba(203, 177, 134, .035), 0 24px 60px rgba(0, 0, 0, .36);
+}
+@media (max-width: 767px) {
+	.flavor-skin-luxury-dining .flavor-food-card__media::after { inset: 9px; }
+	.flavor-skin-luxury-dining .flavor-section-header__title::after { margin-top: 12px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.flavor-skin-luxury-dining *,
 	.flavor-skin-luxury-dining *::before,

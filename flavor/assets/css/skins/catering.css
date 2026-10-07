@@ -347,6 +347,31 @@
 	.flavor-skin-catering .fd-product__order { width: 40px; height: 44px; }
 	.flavor-skin-catering .fd-mizan-proposal__panel { padding-inline: 20px; }
 }
+
+/* CSS-only art-direction pass: formal folio lines, brass details and a tailored proposal panel. */
+.flavor-skin-catering .fd-mizan-service { border-top: 3px solid #a67945; box-shadow: 0 12px 32px rgba(27, 43, 57, .055); }
+.flavor-skin-catering .fd-mizan-service__body { background: linear-gradient(180deg, rgba(238, 233, 223, .48), transparent 90px); }
+.flavor-skin-catering .fd-mizan-promises { border-top: 1px solid rgba(166, 121, 69, .3); }
+.flavor-skin-catering .fd-mizan-proposal__panel {
+	position: relative;
+	box-shadow: inset 0 0 0 6px rgba(166, 121, 69, .045), 0 24px 58px rgba(23, 44, 64, .14);
+}
+.flavor-skin-catering .fd-mizan-proposal__panel-head { padding-bottom: 16px; border-bottom: 1px solid rgba(166, 121, 69, .28); }
+.flavor-skin-catering .fd-mizan-planner input:focus-visible,
+.flavor-skin-catering .fd-mizan-planner select:focus-visible,
+.flavor-skin-catering .fd-mizan-planner textarea:focus-visible,
+.flavor-skin-catering .fd-mizan-summary textarea:focus-visible {
+	outline: 3px solid rgba(166, 121, 69, .34);
+	outline-offset: 2px;
+	border-color: #81582b;
+}
+.flavor-skin-catering .fd-mizan-hero__signature { font-size: 12px; }
+.flavor-skin-catering .fd-mizan-hero__seal small { font-size: 12px; }
+.flavor-skin-catering .fd-mizan-service__overline { font-size: 12px; }
+@media (max-width: 700px) {
+	.flavor-skin-catering .fd-mizan-proposal__panel { box-shadow: inset 0 0 0 4px rgba(166, 121, 69, .04), 0 16px 36px rgba(23, 44, 64, .1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.flavor-skin-catering .fd-mizan-service__media img,
 	.flavor-skin-catering .fd-product,

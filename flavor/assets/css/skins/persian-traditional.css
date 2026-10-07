@@ -653,6 +653,37 @@ body.flavor-skin-persian-traditional {
 	}
 }
 
+/* CSS-only art-direction pass: restrained zellige geometry, wine, turquoise and brass. */
+.flavor-skin-persian-traditional .flavor-section-header__tag {
+	border: 1px solid rgba(200, 150, 62, .58);
+	border-radius: 3px 12px 3px 12px;
+	background: rgba(200, 150, 62, .1);
+	padding-inline: 14px;
+}
+.flavor-skin-persian-traditional .flavor-food-card {
+	border: 1px solid rgba(200, 150, 62, .66);
+	border-radius: 14px 3px 14px 3px;
+	box-shadow: inset 0 0 0 4px rgba(200, 150, 62, .07), 0 15px 36px rgba(59, 17, 28, .09);
+}
+.flavor-skin-persian-traditional .flavor-food-card__media img {
+	border: 4px solid var(--traditional-cream);
+	border-radius: 3px 13px 3px 13px;
+}
+.flavor-skin-persian-traditional .flavor-hours-card {
+	background: linear-gradient(135deg, var(--traditional-cream), var(--traditional-parchment));
+	border: 2px solid rgba(200, 150, 62, .72);
+	box-shadow: inset 0 0 0 5px rgba(200, 150, 62, .09), 0 20px 44px rgba(59, 17, 28, .1);
+}
+.flavor-skin-persian-traditional .flavor-contact-row__icon {
+	border: 1px solid rgba(200, 150, 62, .62);
+	border-radius: 4px 12px 4px 12px;
+}
+@media (max-width: 767px) {
+	.flavor-skin-persian-traditional .flavor-food-card { border-radius: 10px 3px 10px 3px; }
+	.flavor-skin-persian-traditional .flavor-food-card__media img { border-width: 3px; }
+	.flavor-skin-persian-traditional .flavor-hours-card { box-shadow: inset 0 0 0 3px rgba(200, 150, 62, .08), 0 12px 30px rgba(59, 17, 28, .08); }
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.flavor-skin-persian-traditional *,
 	.flavor-skin-persian-traditional *::before,

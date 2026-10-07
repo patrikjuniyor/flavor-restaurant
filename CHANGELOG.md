@@ -7,9 +7,36 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added — scroll-driven animations and micro-interactions for bespoke demos / 2026-10-07
+
+Added a comprehensive JavaScript animation layer (`demo-animations.js` + `demo-animations.css`) for the bespoke demo family:
+
+- **Scroll-triggered entrance animations** using IntersectionObserver: sections, products, hero copy/art, process steps, FAQ items, visit card and footer columns all fade and slide in as the user scrolls.
+- **Staggered children** in product grids and process lists for a cinematic cascade.
+- **Parallax hero image** on desktop: the hero image subtly shifts on scroll for depth.
+- **Ripple click effect** on primary buttons and order buttons.
+- **Animated number counters** (`data-fd-count` attribute) with ease-out cubic timing.
+- **Smooth filter transitions** for menu category filters: cards animate in/out with scale and opacity.
+- **Magnetic tilt effect** on hero image (desktop only): 3D perspective tilt following cursor.
+- **Typewriter effect** on hero `em` elements: text types out letter-by-letter with a blinking cursor.
+- **Floating decorative shapes** (circles, squares, triangles) in the hero section background.
+- **Smooth anchor scrolling** for all `#hash` links.
+- **Smart header hide/show**: header hides on scroll-down, reveals on scroll-up.
+- **Image lazy-fade-in**: images fade in smoothly once loaded.
+- **Cursor glow** on dark-luxe product cards: a radial gradient follows the mouse.
+- **Brand mark pulse** on page load.
+- **Section divider ornaments** (CSS-only primary-color bars).
+- **Visit card shimmer** animation.
+- **Button press feedback** with scale-down on `:active`.
+- All animations respect `prefers-reduced-motion: reduce` — completely disabled when the user prefers less motion.
+
 ### Added — automatic WooCommerce setup for Flavor Core / 2026-10-07
 
 Activating Flavor Core now attempts to install WooCommerce from the official WordPress.org plugin directory and activate it when missing. The plugin reports an actionable notice with the installation error and a manual-install link if the hosting environment blocks downloads, filesystem writes or plugin activation. The `Requires Plugins` header was removed so WordPress can run this setup during Flavor Core activation instead of blocking activation before the dependency installer runs.
+
+### Design — CSS-only art direction for all twelve demos / 2026-10-07
+
+Added a per-skin visual signature across all 12 demos using only CSS geometry, gradients, borders, layout and existing theme tokens. No images or external assets were generated or added. Refined focus treatment on the catering planner and raised its small folio labels to the 12px floor. See [`docs/fa/07-demo-css.md`](docs/fa/07-demo-css.md) for the design map.
 
 ### Fixed — opening hours were clipped off-screen on phones, and small type / tap targets missed their minimums / 2026-10-02
 

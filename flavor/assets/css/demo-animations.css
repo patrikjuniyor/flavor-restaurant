@@ -1,0 +1,397 @@
+/**
+ * Flavor Demo Animations — CSS layer.
+ * Scroll entrance, ripple, filter, typewriter, floating shapes,
+ * cursor glow, image fade and smart header.
+ * Zero dependencies; paired with demo-animations.js.
+ *
+ * @version 1.0.0
+ * @license GPL-2.0-or-later
+ */
+
+/* ================================================================== */
+/*  Reduced-motion: kill everything                                   */
+/* ================================================================== */
+@media (prefers-reduced-motion: reduce) {
+	.fd-anim-enter,
+	.fd-anim-visible,
+	.fd-anim-filter-show,
+	.fd-anim-filter-hide,
+	.fd-anim-typewriter,
+	.fd-anim-img-loaded,
+	.fd-anim-glow-target,
+	.fd-anim-glow-active {
+		animation: none !important;
+		transition: none !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+}
+
+/* ================================================================== */
+/*  1. Scroll entrance                                                */
+/* ================================================================== */
+.fd-anim-enter {
+	opacity: 0;
+	transform: translateY(28px);
+	transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+	            transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+	will-change: opacity, transform;
+}
+
+.fd-anim-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Hero copy slides from right (RTL) */
+.fd-hero__copy.fd-anim-enter {
+	transform: translateX(30px) translateY(0);
+}
+.fd-hero__copy.fd-anim-visible {
+	transform: translateX(0) translateY(0);
+}
+
+/* Hero art slides from left */
+.fd-hero__art.fd-anim-enter {
+	transform: translateX(-30px) translateY(0);
+}
+.fd-hero__art.fd-anim-visible {
+	transform: translateX(0) translateY(0);
+}
+
+/* Products scale up */
+.fd-product.fd-anim-enter {
+	transform: translateY(20px) scale(0.96);
+}
+.fd-product.fd-anim-visible {
+	transform: translateY(0) scale(1);
+}
+
+/* Process steps fade in with slight rotate */
+.fd-process__steps li.fd-anim-enter {
+	transform: translateY(24px) rotate(-1deg);
+}
+.fd-process__steps li.fd-anim-visible {
+	transform: translateY(0) rotate(0);
+}
+
+/* FAQ items slide in */
+.fd-faq details.fd-anim-enter {
+	transform: translateX(20px);
+}
+.fd-faq details.fd-anim-visible {
+	transform: translateX(0);
+}
+
+/* Visit card scales up */
+.fd-visit__card.fd-anim-enter {
+	transform: scale(0.94);
+}
+.fd-visit__card.fd-anim-visible {
+	transform: scale(1);
+}
+
+/* Footer columns */
+.fd-footer__grid > div.fd-anim-enter {
+	transform: translateY(16px);
+}
+.fd-footer__grid > div.fd-anim-visible {
+	transform: translateY(0);
+}
+
+/* ================================================================== */
+/*  2. Ripple effect                                                  */
+/* ================================================================== */
+.fd-button--primary,
+.fd-product__order {
+	position: relative;
+	overflow: hidden;
+}
+
+.fd-anim-ripple {
+	position: absolute;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.35);
+	transform: scale(0);
+	animation: fd-ripple-expand 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	pointer-events: none;
+	z-index: 1;
+}
+
+@keyframes fd-ripple-expand {
+	to {
+		transform: scale(1);
+		opacity: 0;
+	}
+}
+
+/* ================================================================== */
+/*  3. Filter transition                                              */
+/* ================================================================== */
+.fd-anim-filter-hide {
+	animation: fd-filter-out 0.25s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.fd-anim-filter-show {
+	animation: fd-filter-in 0.35s cubic-bezier(0, 0, 0.2, 1) forwards;
+}
+
+@keyframes fd-filter-out {
+	0%   { opacity: 1; transform: scale(1); }
+	100% { opacity: 0; transform: scale(0.92); }
+}
+
+@keyframes fd-filter-in {
+	0%   { opacity: 0; transform: scale(0.92) translateY(12px); }
+	100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ================================================================== */
+/*  4. Typewriter cursor blink                                        */
+/* ================================================================== */
+.fd-anim-typewriter {
+	animation: fd-cursor-blink 0.6s step-end 3;
+}
+
+@keyframes fd-cursor-blink {
+	0%, 100% { border-color: currentColor; }
+	50%      { border-color: transparent; }
+}
+
+/* ================================================================== */
+/*  5. Floating shapes (hero background particles)                    */
+/* ================================================================== */
+.fd-anim-shapes {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+	z-index: 0;
+}
+
+.fd-anim-shape {
+	position: absolute;
+	inset-block-start: 100%;
+	inset-inline-start: var(--fd-shape-x, 50%);
+	width: var(--fd-shape-size, 12px);
+	height: var(--fd-shape-size, 12px);
+	opacity: 0;
+	animation: fd-shape-float 9s var(--fd-shape-delay, 0s) infinite ease-in-out;
+}
+
+.fd-anim-shape--circle {
+	border-radius: 50%;
+	background: var(--flavor-primary);
+	opacity: 0.08;
+}
+
+.fd-anim-shape--square {
+	border-radius: 3px;
+	border: 1px solid var(--flavor-primary);
+	opacity: 0.1;
+	transform: rotate(45deg);
+}
+
+.fd-anim-shape--triangle {
+	width: 0;
+	height: 0;
+	background: none;
+	border-inline-start: calc(var(--fd-shape-size, 12px) / 2) solid transparent;
+	border-inline-end: calc(var(--fd-shape-size, 12px) / 2) solid transparent;
+	border-block-end: var(--fd-shape-size, 12px) solid var(--flavor-primary);
+	opacity: 0.07;
+}
+
+@keyframes fd-shape-float {
+	0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
+	15%  { opacity: 0.12; }
+	50%  { transform: translateY(-55vh) rotate(180deg); opacity: 0.08; }
+	85%  { opacity: 0.04; }
+	100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+}
+
+/* ================================================================== */
+/*  6. Cursor glow (dark-luxe only)                                   */
+/* ================================================================== */
+.fd-anim-glow-target {
+	position: relative;
+}
+
+.fd-anim-glow-target::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	opacity: 0;
+	background: radial-gradient(
+		320px circle at var(--fd-glow-x, 50%) var(--fd-glow-y, 50%),
+		rgba(209, 165, 134, 0.1),
+		transparent 60%
+	);
+	pointer-events: none;
+	z-index: 0;
+	transition: opacity 0.3s ease;
+}
+
+.fd-anim-glow-active::before {
+	opacity: 1;
+}
+
+.fd-anim-glow-target > * {
+	position: relative;
+	z-index: 1;
+}
+
+/* ================================================================== */
+/*  7. Image fade-in on load                                          */
+/* ================================================================== */
+.fd-hero__image,
+.fd-product__media img,
+.fd-story__media img {
+	opacity: 0;
+	transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fd-anim-img-loaded {
+	opacity: 1;
+}
+
+/* ================================================================== */
+/*  8. Smart header (hide on scroll down, show on scroll up)          */
+/* ================================================================== */
+.fd-header-hidden {
+	transform: translateY(-100%);
+	transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fd-header-visible {
+	transform: translateY(0);
+	transition: transform 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* ================================================================== */
+/*  9. Extra polish: product card hover glow ring                     */
+/* ================================================================== */
+.flavor-bespoke .fd-product {
+	transition: border-color 0.25s, transform 0.25s, box-shadow 0.35s;
+}
+
+.flavor-bespoke .fd-product:hover {
+	box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--flavor-primary);
+}
+
+/* ================================================================== */
+/*  10. Smooth scroll for the whole page                              */
+/* ================================================================== */
+html {
+	scroll-behavior: smooth;
+}
+
+/* ================================================================== */
+/*  11. Section divider ornament (CSS-only)                           */
+/* ================================================================== */
+.flavor-bespoke .fd-section::before {
+	content: '';
+	display: block;
+	width: 40px;
+	height: 3px;
+	background: var(--flavor-primary);
+	border-radius: 2px;
+	margin-bottom: 28px;
+	opacity: 0.4;
+}
+
+/* ================================================================== */
+/*  12. Button press feedback                                         */
+/* ================================================================== */
+.fd-button--primary:active {
+	transform: scale(0.97);
+	transition: transform 0.1s;
+}
+
+.fd-product__order:active {
+	transform: scale(0.9);
+	transition: transform 0.1s;
+}
+
+/* ================================================================== */
+/*  13. Hero caption floating animation                               */
+/* ================================================================== */
+.fd-hero__caption {
+	animation: fd-caption-float 4s ease-in-out infinite;
+}
+
+@keyframes fd-caption-float {
+	0%, 100% { transform: translateY(0); }
+	50%      { transform: translateY(-6px); }
+}
+
+/* ================================================================== */
+/*  14. Perks list icon spin on hover                                 */
+/* ================================================================== */
+.fd-hero__perks li:hover svg {
+	animation: fd-icon-spin 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fd-icon-spin {
+	0%   { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+/* ================================================================== */
+/*  15. FAQ chevron smooth rotation                                   */
+/* ================================================================== */
+.fd-faq summary span {
+	transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ================================================================== */
+/*  16. Brand mark pulse on page load                                 */
+/* ================================================================== */
+.fd-brand__mark {
+	animation: fd-brand-pulse 2s cubic-bezier(0.16, 1, 0.3, 1) 1;
+}
+
+@keyframes fd-brand-pulse {
+	0%   { transform: scale(0.85); opacity: 0.5; }
+	50%  { transform: scale(1.05); }
+	100% { transform: scale(1); opacity: 1; }
+}
+
+/* ================================================================== */
+/*  17. Smooth border animation for active filter buttons             */
+/* ================================================================== */
+.fd-menu__filters button {
+	transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.2s;
+}
+
+.fd-menu__filters button:active {
+	transform: scale(0.95);
+}
+
+/* ================================================================== */
+/*  18. Visit card background shimmer                                 */
+/* ================================================================== */
+.fd-visit__card {
+	position: relative;
+	overflow: hidden;
+}
+
+.fd-visit__card::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		110deg,
+		transparent 30%,
+		rgba(255, 255, 255, 0.06) 45%,
+		transparent 60%
+	);
+	animation: fd-shimmer 4s ease-in-out infinite;
+	pointer-events: none;
+}
+
+@keyframes fd-shimmer {
+	0%   { transform: translateX(-100%); }
+	100% { transform: translateX(100%); }
+}

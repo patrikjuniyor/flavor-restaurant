@@ -30,6 +30,7 @@
 - [راهنمای مشتری](docs/fa/04-moshtari.md)
 - [توسعه‌دهنده](docs/fa/05-toshe-dahande.md)
 - [جست‌وجوگر هوشمند منو](docs/fa/06-jostojoo-hooshmand.md)
+- [امضای CSS اختصاصی دوازده دمو](docs/fa/07-demo-css.md)
 - [بازطراحی تخصصی دموها و نتایج آزمون](docs/DEMO-REDESIGN.md)
 - [رابط مشترک، تنظیمات ظاهری و آزمون شش مرحله](docs/UI-REDESIGN.md)
 - [گزارش QA نهایی رابط مشترک و محدودیت‌های آزمون](docs/QA-UI-2026-10-02.md)

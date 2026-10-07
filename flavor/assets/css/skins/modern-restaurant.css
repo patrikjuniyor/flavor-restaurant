@@ -609,6 +609,32 @@ body.flavor-skin-modern-restaurant {
 	}
 }
 
+/* CSS-only art-direction pass: chef's-table editorial, warm ceramic and a fine olive rail. */
+.flavor-skin-modern-restaurant .flavor-hero__content {
+	padding-inline-start: clamp(16px, 2.2vw, 32px);
+	border-inline-start: 1px solid rgba(214, 166, 79, .78);
+}
+.flavor-skin-modern-restaurant .flavor-section-header__tag {
+	background: transparent;
+	border: 0;
+	border-inline-start: 2px solid var(--modern-saffron);
+	border-radius: 0;
+	padding-inline-start: 12px;
+}
+.flavor-skin-modern-restaurant .flavor-food-card {
+	border: 1px solid rgba(38, 53, 43, .13);
+	border-bottom: 3px solid var(--modern-terracotta);
+	border-radius: 4px 26px 4px 4px;
+	background: linear-gradient(145deg, var(--modern-paper), #f3e9da);
+}
+.flavor-skin-modern-restaurant .flavor-food-card__media { border-radius: 2px 22px 0 0; }
+.flavor-skin-modern-restaurant .flavor-food-card__media img { aspect-ratio: 5 / 4; object-fit: cover; }
+.flavor-skin-modern-restaurant .flavor-hours-card { border-inline-start: 3px solid var(--modern-saffron); }
+@media (max-width: 767px) {
+	.flavor-skin-modern-restaurant .flavor-hero__content { padding-inline-start: 14px; }
+	.flavor-skin-modern-restaurant .flavor-food-card { border-radius: 4px 20px 4px 4px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.flavor-skin-modern-restaurant *,
 	.flavor-skin-modern-restaurant *::before,

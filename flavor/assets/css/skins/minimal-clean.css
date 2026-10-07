@@ -81,3 +81,25 @@
 	.flavor-skin-minimal-clean .fd-product__body { padding-inline-start: 12px; }
 	.flavor-skin-minimal-clean .fd-product__body h3 { font-size: 15px; }
 }
+
+/* CSS-only art-direction pass: gallery-white framing, zero ornamental noise. */
+.flavor-skin-minimal-clean .fd-form-hero__art { position: relative; border-block-end: 2px solid #263e32; }
+.flavor-skin-minimal-clean .fd-form-hero__art::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border: 1px solid rgba(38, 62, 50, .2);
+	pointer-events: none;
+}
+.flavor-skin-minimal-clean .fd-product:hover { background: linear-gradient(90deg, transparent, rgba(38, 62, 50, .035)); }
+.flavor-skin-minimal-clean .fd-menu__filters button[aria-pressed="true"] {
+	background: transparent;
+	border-color: var(--flavor-ink);
+	color: var(--flavor-ink);
+	box-shadow: inset 0 -2px 0 var(--flavor-ink);
+}
+.flavor-skin-minimal-clean .fd-form-experience { border-block: 1px solid rgba(38, 62, 50, .12); }
+.flavor-skin-minimal-clean .fd-visit__card { border-radius: 2px; box-shadow: none; }
+@media (max-width: 700px) {
+	.flavor-skin-minimal-clean .fd-form-hero__art figcaption { gap: 8px; }
+}

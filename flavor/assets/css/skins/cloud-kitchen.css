@@ -84,3 +84,33 @@
 	.flavor-skin-cloud-kitchen .fd-pack-team__card { flex-direction: column; align-items: start; gap: 25px; padding: 30px 25px; border-radius: 20px; }
 	.flavor-skin-cloud-kitchen .fd-pack-team h2 { font-size: 24px; }
 }
+
+/* CSS-only art-direction pass: a delivery-grid blueprint with route-like lime waypoints. */
+.flavor-skin-cloud-kitchen .fd-pack-art {
+	background-color: #e8edfd;
+	background-image: linear-gradient(rgba(37, 84, 223, .055) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(37, 84, 223, .055) 1px, transparent 1px);
+	background-size: 26px 26px;
+}
+.flavor-skin-cloud-kitchen .fd-pack-art figcaption { border-inline-start: 4px solid #d7f468; border-radius: 8px 15px 15px 8px; }
+.flavor-skin-cloud-kitchen .fd-coverage__hoods li { border: 1px dashed rgba(37, 84, 223, .3); border-radius: 999px; }
+.flavor-skin-cloud-kitchen .fd-coverage__card { border-inline-start: 4px solid #d7f468; }
+.flavor-skin-cloud-kitchen .fd-process__steps li { border-top: 3px solid rgba(37, 84, 223, .6); }
+.flavor-skin-cloud-kitchen .fd-pack-team__card { position: relative; isolation: isolate; overflow: hidden; border-radius: 18px 42px 18px 18px; }
+.flavor-skin-cloud-kitchen .fd-pack-team__card::after {
+	content: "";
+	position: absolute;
+	z-index: 0;
+	width: 156px;
+	aspect-ratio: 1;
+	inset-block-start: -88px;
+	inset-inline-end: -48px;
+	border: 1px solid rgba(23, 49, 84, .18);
+	border-radius: 50%;
+	box-shadow: 0 0 0 14px rgba(23, 49, 84, .045), 0 0 0 28px rgba(23, 49, 84, .035);
+	pointer-events: none;
+}
+.flavor-skin-cloud-kitchen .fd-pack-team__card > * { position: relative; z-index: 1; }
+@media (max-width: 700px) {
+	.flavor-skin-cloud-kitchen .fd-pack-team__card { border-radius: 16px 32px 16px 16px; }
+}

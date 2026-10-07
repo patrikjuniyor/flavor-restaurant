@@ -443,6 +443,29 @@ body.flavor-skin-bakery-pastry {
 	.flavor-skin-bakery-pastry .flavor-about__img-wrapper img { min-height: 410px; }
 }
 
+/* CSS-only art-direction pass: macaron pastels, scalloped cues and a patisserie window. */
+.flavor-skin-bakery-pastry .flavor-section-header__tag {
+	border: 1px dashed rgba(168, 62, 91, .48);
+	border-radius: 999px;
+	background: rgba(255, 253, 248, .82);
+	box-shadow: 0 4px 0 rgba(217, 168, 178, .22);
+}
+.flavor-skin-bakery-pastry .flavor-food-card {
+	border: 1px solid rgba(168, 62, 91, .15);
+	border-radius: 110px 110px 22px 22px;
+	box-shadow: 0 14px 36px rgba(77, 52, 59, .09), inset 0 0 0 5px rgba(255, 253, 248, .72);
+}
+.flavor-skin-bakery-pastry .flavor-food-card__body {
+	background: radial-gradient(circle at 100% 0, rgba(217, 168, 178, .15), transparent 55%);
+}
+.flavor-skin-bakery-pastry .flavor-food-card__media img { border-radius: 108px 108px 8px 8px; }
+.flavor-skin-bakery-pastry .flavor-offer-banner { box-shadow: inset 0 0 0 8px rgba(255, 248, 237, .12), 0 26px 66px rgba(168, 62, 91, .2); }
+.flavor-skin-bakery-pastry .flavor-contact-row__icon { border-radius: 50% 50% 12px 50%; }
+@media (max-width: 767px) {
+	.flavor-skin-bakery-pastry .flavor-food-card { border-radius: 82px 82px 18px 18px; }
+	.flavor-skin-bakery-pastry .flavor-food-card__media img { border-radius: 80px 80px 7px 7px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.flavor-skin-bakery-pastry *,
 	.flavor-skin-bakery-pastry *::before,
