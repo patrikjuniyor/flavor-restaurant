@@ -1,23 +1,845 @@
+/**
+ * Flavor Core — Premium Admin Design System.
+ *
+ * Covers every wp-admin screen of the plugin: settings pages, branch/table
+ * admin, the executive analytics dashboard and the white-label mobile app
+ * console. RTL-first, builds on wp-admin defaults, zero dependencies.
+ *
+ * Tokens are local so the admin keeps its identity even when the storefront
+ * theme changes skins.
+ */
+
 .flavor-admin {
-	max-width: 880px;
+	--fa-brand: #8a5a2b;
+	--fa-brand-strong: #6f4620;
+	--fa-accent: #c47d39;
+	--fa-accent-soft: #f6e8d8;
+	--fa-ink: #1c2430;
+	--fa-muted: #667085;
+	--fa-line: #e4e7ec;
+	--fa-line-soft: #eef0f3;
+	--fa-surface: #ffffff;
+	--fa-success: #0a7b3e;
+	--fa-success-bg: #e9f7ef;
+	--fa-warning: #b26b00;
+	--fa-warning-bg: #fdf4dc;
+	--fa-danger: #c5221f;
+	--fa-danger-bg: #fdecea;
+	--fa-info: #1a73e8;
+	--fa-info-bg: #e8f0fe;
+	--fa-radius: 14px;
+	--fa-radius-sm: 10px;
+	--fa-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
+	--fa-shadow-md: 0 6px 16px -4px rgba(16, 24, 40, 0.08), 0 2px 6px -2px rgba(16, 24, 40, 0.05);
+	--fa-shadow-lg: 0 16px 32px -8px rgba(16, 24, 40, 0.14);
+	--fa-gradient: linear-gradient(135deg, #c47d39 0%, #8a5a2b 60%, #5c3d1e 100%);
+	--fa-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+	max-width: 1280px;
+	color: var(--fa-ink);
+	-webkit-font-smoothing: antialiased;
 }
 
-.flavor-admin__grid {
+/* -------------------------------------------------------------
+ * 1. Shared surfaces
+ * ------------------------------------------------------------- */
+.flavor-admin .flavor-box,
+.flavor-admin .flavor-section-box,
+.flavor-admin .flavor-card,
+.flavor-admin .flavor-kpi-card,
+.flavor-admin .flavor-tab-content,
+.flavor-admin .flavor-dashboard-header,
+.flavor-admin .flavor-mobile-header,
+.flavor-admin .flavor-build-trigger-box,
+.flavor-admin .flavor-security-card,
+.flavor-admin .flavor-admin__checklist {
+	background: var(--fa-surface);
+	border: 1px solid var(--fa-line);
+	border-radius: var(--fa-radius);
+	box-shadow: var(--fa-shadow-sm);
+}
+
+.flavor-admin .flavor-section-box,
+.flavor-admin .flavor-build-trigger-box,
+.flavor-admin .flavor-admin__checklist {
+	padding: 22px 24px;
+	margin-bottom: 24px;
+}
+
+.flavor-admin .flavor-section-box__title,
+.flavor-admin .flavor-box__title {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0 0 18px;
+	padding-bottom: 14px;
+	border-bottom: 1px solid var(--fa-line-soft);
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--fa-ink);
+}
+
+.flavor-admin .flavor-box__title .dashicons,
+.flavor-admin .flavor-section-box__title .dashicons {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-	gap: 16px;
-	margin: 1rem 0 2rem;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	border-radius: 10px;
+	background: var(--fa-accent-soft);
+	color: var(--fa-brand);
+	font-size: 18px;
+	flex-shrink: 0;
 }
 
-.flavor-admin__checklist {
-	background: #fff;
-	border: 1px solid #dcdcde;
-	border-radius: 8px;
-	padding: 12px 28px;
+.flavor-admin .description {
+	color: var(--fa-muted);
+	font-size: 12.5px;
 	line-height: 1.9;
 }
 
-.flavor-branch-grid input[type="text"],
-.flavor-branch-grid textarea {
+/* -------------------------------------------------------------
+ * 2. Badges, pills and empty states
+ * ------------------------------------------------------------- */
+.flavor-admin .flavor-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 5px 12px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1.6;
+	white-space: nowrap;
+}
+
+.flavor-admin .flavor-badge--success { background: var(--fa-success-bg); color: var(--fa-success); }
+.flavor-admin .flavor-badge--warning { background: var(--fa-warning-bg); color: var(--fa-warning); }
+.flavor-admin .flavor-badge--error   { background: var(--fa-danger-bg);  color: var(--fa-danger); }
+.flavor-admin .flavor-badge--building { background: var(--fa-info-bg);   color: var(--fa-info); }
+.flavor-admin .flavor-badge--neutral { background: #f2f4f7; color: #475467; }
+.flavor-admin .flavor-badge--env-prod    { background: var(--fa-success-bg); color: var(--fa-success); }
+.flavor-admin .flavor-badge--env-staging { background: var(--fa-warning-bg); color: var(--fa-warning); }
+.flavor-admin .flavor-badge--env-dev     { background: #f2f4f7; color: #475467; }
+
+.flavor-admin .flavor-empty-state {
+	text-align: center;
+	padding: 48px 24px;
+	border: 1px dashed var(--fa-line);
+	border-radius: var(--fa-radius);
+	background: #fafbfc;
+	color: var(--fa-muted);
+	font-size: 13.5px;
+	line-height: 2;
+}
+
+.flavor-admin .flavor-artifact-pill {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+	padding: 12px 16px;
+	margin-bottom: 10px;
+	border: 1px solid var(--fa-line);
+	border-radius: var(--fa-radius-sm);
+	background: #fafbfc;
+	transition: border-color 0.2s var(--fa-ease), box-shadow 0.2s var(--fa-ease);
+}
+
+.flavor-admin .flavor-artifact-pill:hover {
+	border-color: var(--fa-accent);
+	box-shadow: var(--fa-shadow-sm);
+}
+
+.flavor-admin .flavor-checksum {
+	font-size: 11px;
+	color: var(--fa-muted);
+	font-family: Consolas, Monaco, monospace;
+	direction: ltr;
+	unicode-bidi: embed;
+	background: #f2f4f7;
+	padding: 2px 8px;
+	border-radius: 6px;
+}
+
+/* -------------------------------------------------------------
+ * 3. Executive analytics dashboard
+ * ------------------------------------------------------------- */
+.flavor-admin.flavor-executive-dashboard {
+	margin-top: 20px;
+}
+
+.flavor-admin .flavor-dashboard-header {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	gap: 18px;
+	padding: 26px 28px;
+	margin-bottom: 24px;
+	overflow: hidden;
+}
+
+.flavor-admin .flavor-dashboard-header::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	inset-block: 0;
+	width: 5px;
+	background: var(--fa-gradient);
+}
+
+.flavor-admin .flavor-dashboard-header__title h1 {
+	margin: 0 0 6px;
+	font-size: 21px;
+	font-weight: 800;
+	color: var(--fa-ink);
+}
+
+.flavor-admin .flavor-dashboard-header__subtitle {
+	margin: 0;
+	color: var(--fa-muted);
+	font-size: 13px;
+	line-height: 1.9;
+	max-width: 640px;
+}
+
+.flavor-admin .flavor-dashboard-filters {
+	display: flex;
+	align-items: flex-end;
+	gap: 14px;
+	flex-wrap: wrap;
+}
+
+.flavor-admin .flavor-filter-group {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font-size: 12px;
+	color: var(--fa-muted);
+	font-weight: 600;
+}
+
+.flavor-admin .flavor-filter-group select,
+.flavor-admin .flavor-filter-group input {
+	min-height: 38px;
+	padding: 6px 12px;
+	border: 1px solid var(--fa-line);
+	border-radius: var(--fa-radius-sm);
+	background: var(--fa-surface);
+	font-size: 13px;
+	color: var(--fa-ink);
+	box-shadow: var(--fa-shadow-sm);
+	transition: border-color 0.2s var(--fa-ease), box-shadow 0.2s var(--fa-ease);
+}
+
+.flavor-admin .flavor-filter-group select:focus,
+.flavor-admin .flavor-filter-group input:focus {
+	border-color: var(--fa-brand);
+	box-shadow: 0 0 0 3px rgba(138, 90, 43, 0.15);
+	outline: none;
+}
+
+/* KPI cards */
+.flavor-admin .flavor-kpi-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 18px;
+	margin-bottom: 24px;
+}
+
+.flavor-admin .flavor-kpi-card {
+	position: relative;
+	padding: 20px 22px;
+	overflow: hidden;
+	transition: transform 0.25s var(--fa-ease), box-shadow 0.25s var(--fa-ease), border-color 0.25s var(--fa-ease);
+}
+
+.flavor-admin .flavor-kpi-card::after {
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	top: 0;
+	height: 3px;
+	background: var(--fa-gradient);
+	opacity: 0;
+	transition: opacity 0.25s var(--fa-ease);
+}
+
+.flavor-admin .flavor-kpi-card:hover {
+	transform: translateY(-3px);
+	box-shadow: var(--fa-shadow-md);
+	border-color: #eadfce;
+}
+
+.flavor-admin .flavor-kpi-card:hover::after {
+	opacity: 1;
+}
+
+.flavor-admin .flavor-kpi-card__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 12px;
+}
+
+.flavor-admin .flavor-kpi-card__title {
+	font-size: 13px;
+	color: var(--fa-muted);
+	font-weight: 600;
+	line-height: 1.7;
+}
+
+.flavor-admin .flavor-kpi-card__icon,
+.flavor-admin .flavor-kpi-card__header .dashicons {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	border-radius: 11px;
+	font-size: 19px;
+	flex-shrink: 0;
+}
+
+/* A calm, varied palette across the KPI row without extra markup. */
+.flavor-admin .flavor-kpi-grid .flavor-kpi-card:nth-child(6n + 1) :is(.flavor-kpi-card__icon, .dashicons) { background: var(--fa-accent-soft); color: var(--fa-brand); }
+.flavor-admin .flavor-kpi-grid .flavor-kpi-card:nth-child(6n + 2) :is(.flavor-kpi-card__icon, .dashicons) { background: #e9f7ef; color: #0a7b3e; }
+.flavor-admin .flavor-kpi-grid .flavor-kpi-card:nth-child(6n + 3) :is(.flavor-kpi-card__icon, .dashicons) { background: #e8f0fe; color: #1a73e8; }
+.flavor-admin .flavor-kpi-grid .flavor-kpi-card:nth-child(6n + 4) :is(.flavor-kpi-card__icon, .dashicons) { background: #f3ecfb; color: #7c3aed; }
+.flavor-admin .flavor-kpi-grid .flavor-kpi-card:nth-child(6n + 5) :is(.flavor-kpi-card__icon, .dashicons) { background: #fdeeea; color: #c2410c; }
+.flavor-admin .flavor-kpi-grid .flavor-kpi-card:nth-child(6n + 6) :is(.flavor-kpi-card__icon, .dashicons) { background: #e6f6f7; color: #0e7490; }
+
+.flavor-admin .flavor-kpi-card__value {
+	font-size: 24px;
+	font-weight: 800;
+	color: var(--fa-ink);
+	margin-bottom: 6px;
+	letter-spacing: -0.02em;
+	line-height: 1.5;
+}
+
+.flavor-admin .flavor-kpi-card__meta {
+	font-size: 12px;
+	color: var(--fa-muted);
+	line-height: 1.8;
+}
+
+/* Two-column rows (modes / peak hours / dishes / branches) */
+.flavor-admin .flavor-dashboard-row {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+	gap: 20px;
+	margin-bottom: 24px;
+}
+
+.flavor-admin .flavor-box {
+	padding: 22px 24px;
+}
+
+/* Order modes breakdown */
+.flavor-admin .flavor-modes-breakdown {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.flavor-admin .flavor-mode-item__header {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+	font-size: 13px;
+	font-weight: 600;
+	margin-bottom: 8px;
+	color: var(--fa-ink);
+}
+
+.flavor-admin .flavor-progress-bar {
+	height: 9px;
+	background: var(--fa-line-soft);
+	border-radius: 999px;
+	overflow: hidden;
+}
+
+.flavor-admin .flavor-progress-fill {
+	height: 100%;
+	border-radius: 999px;
+	background: var(--fa-gradient);
+	transition: width 0.6s var(--fa-ease);
+}
+
+/* Peak hours chart */
+.flavor-admin .flavor-peak-grid {
+	display: flex;
+	align-items: flex-end;
+	height: 170px;
+	gap: 5px;
+	padding-top: 20px;
+	border-bottom: 1px solid var(--fa-line);
+}
+
+.flavor-admin .flavor-peak-col {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+	height: 100%;
+	min-width: 0;
+}
+
+.flavor-admin .flavor-peak-bar-wrap {
+	width: 100%;
+	height: 128px;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+}
+
+.flavor-admin .flavor-peak-bar {
+	width: 76%;
+	max-width: 26px;
+	background: linear-gradient(180deg, #c47d39 0%, #8a5a2b 100%);
+	border-radius: 6px 6px 2px 2px;
+	transition: height 0.5s var(--fa-ease), filter 0.2s var(--fa-ease), transform 0.2s var(--fa-ease);
+}
+
+.flavor-admin .flavor-peak-col:hover .flavor-peak-bar {
+	filter: brightness(1.12);
+	transform: scaleY(1.02);
+	transform-origin: bottom;
+}
+
+.flavor-admin .flavor-peak-label {
+	font-size: 10.5px;
+	color: var(--fa-muted);
+	margin-top: 6px;
+	font-weight: 600;
+}
+
+/* Data tables inside the dashboards */
+.flavor-admin .flavor-box .wp-list-table,
+.flavor-admin .flavor-section-box .wp-list-table {
+	border: 1px solid var(--fa-line);
+	border-radius: var(--fa-radius-sm);
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
+	box-shadow: none;
+}
+
+.flavor-admin .wp-list-table thead th {
+	background: #fafbfc;
+	color: var(--fa-muted);
+	font-size: 12px;
+	font-weight: 700;
+	border-bottom: 1px solid var(--fa-line);
+	padding: 11px 14px;
+}
+
+.flavor-admin .wp-list-table tbody td {
+	padding: 12px 14px;
+	border-bottom: 1px solid var(--fa-line-soft);
+	font-size: 13px;
+}
+
+.flavor-admin .wp-list-table tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+.flavor-admin .wp-list-table tbody tr {
+	transition: background-color 0.15s var(--fa-ease);
+}
+
+.flavor-admin .wp-list-table tbody tr:hover {
+	background: #fbf7f1;
+}
+
+.flavor-admin .wp-list-table.striped > tbody > :nth-child(odd),
+.flavor-admin .wp-list-table.striped > tbody > tr:nth-child(odd) {
+	background-color: #fcfcfd;
+}
+
+.flavor-admin .wp-list-table.striped > tbody > tr:hover {
+	background-color: #fbf7f1;
+}
+
+/* -------------------------------------------------------------
+ * 4. Settings pages & branch/table admin
+ * ------------------------------------------------------------- */
+.flavor-admin__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 18px;
+	margin: 1rem 0 2rem;
+}
+
+.flavor-admin .flavor-admin__checklist {
+	padding: 14px 28px;
+	line-height: 2;
+}
+
+.flavor-admin .form-table th {
+	font-weight: 700;
+	color: var(--fa-ink);
+	font-size: 13px;
+	padding-block: 18px;
+}
+
+.flavor-admin .form-table td {
+	padding-block: 14px;
+}
+
+/* Plain selectors (no :where) so the specificity ties wp-admin's core
+   forms.css rules and wins on load order. */
+.flavor-admin input[type="text"]:not(.wp-color-picker),
+.flavor-admin input[type="url"]:not(.wp-color-picker),
+.flavor-admin input[type="email"]:not(.wp-color-picker),
+.flavor-admin input[type="number"]:not(.wp-color-picker),
+.flavor-admin input[type="date"]:not(.wp-color-picker),
+.flavor-admin select,
+.flavor-admin textarea {
+	border: 1px solid var(--fa-line);
+	border-radius: var(--fa-radius-sm);
+	background: var(--fa-surface);
+	color: var(--fa-ink);
+	transition: border-color 0.2s var(--fa-ease), box-shadow 0.2s var(--fa-ease);
+}
+
+.flavor-admin input[type="text"]:focus:not(.wp-color-picker),
+.flavor-admin input[type="url"]:focus:not(.wp-color-picker),
+.flavor-admin input[type="email"]:focus:not(.wp-color-picker),
+.flavor-admin input[type="number"]:focus:not(.wp-color-picker),
+.flavor-admin input[type="date"]:focus:not(.wp-color-picker),
+.flavor-admin select:focus,
+.flavor-admin textarea:focus {
+	border-color: var(--fa-brand);
+	box-shadow: 0 0 0 3px rgba(138, 90, 43, 0.15);
+	outline: none;
+}
+
+.flavor-admin .button {
+	border-radius: var(--fa-radius-sm);
+	font-weight: 600;
+	transition: all 0.2s var(--fa-ease);
+}
+
+.flavor-admin .button-primary {
+	background: var(--fa-brand);
+	border-color: var(--fa-brand);
+	box-shadow: var(--fa-shadow-sm);
+}
+
+.flavor-admin .button-primary:hover,
+.flavor-admin .button-primary:focus {
+	background: var(--fa-brand-strong);
+	border-color: var(--fa-brand-strong);
+	box-shadow: var(--fa-shadow-md);
+	transform: translateY(-1px);
+}
+
+.flavor-admin .flavor-branch-grid input[type="text"],
+.flavor-admin .flavor-branch-grid textarea {
 	max-width: 420px;
+}
+
+/* -------------------------------------------------------------
+ * 5. White-label mobile app console
+ * ------------------------------------------------------------- */
+.flavor-admin .flavor-mobile-app-wrap {
+	margin-top: 20px;
+}
+
+.flavor-admin .flavor-mobile-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 18px;
+	padding: 26px 30px;
+	margin-bottom: 24px;
+	position: relative;
+	overflow: hidden;
+}
+
+.flavor-admin .flavor-mobile-header::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	inset-block: 0;
+	width: 5px;
+	background: var(--fa-gradient);
+}
+
+.flavor-admin .flavor-mobile-header__title h1 {
+	margin: 0 0 6px;
+	font-size: 22px;
+	font-weight: 800;
+}
+
+.flavor-admin .flavor-mobile-header__subtitle {
+	margin: 0;
+	color: var(--fa-muted);
+	font-size: 13.5px;
+	line-height: 1.9;
+}
+
+.flavor-admin .flavor-mobile-cards-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+	gap: 18px;
+	margin-bottom: 24px;
+}
+
+.flavor-admin .flavor-card {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 20px 22px;
+	transition: transform 0.25s var(--fa-ease), box-shadow 0.25s var(--fa-ease), border-color 0.25s var(--fa-ease);
+}
+
+.flavor-admin .flavor-card:hover {
+	transform: translateY(-3px);
+	box-shadow: var(--fa-shadow-md);
+	border-color: #eadfce;
+}
+
+.flavor-admin .flavor-card__icon {
+	display: grid;
+	place-items: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 12px;
+	background: var(--fa-accent-soft);
+	color: var(--fa-brand);
+	flex-shrink: 0;
+}
+
+.flavor-admin .flavor-card__icon .dashicons,
+.flavor-admin .flavor-card__icon span {
+	font-size: 22px;
+	width: 22px;
+	height: 22px;
+	color: inherit;
+}
+
+.flavor-admin .flavor-card__label {
+	font-size: 12.5px;
+	color: var(--fa-muted);
+	margin-bottom: 3px;
+	font-weight: 600;
+}
+
+.flavor-admin .flavor-card__value {
+	font-size: 16px;
+	font-weight: 800;
+	color: var(--fa-ink);
+}
+
+.flavor-admin .flavor-card__desc {
+	font-size: 12px;
+	color: var(--fa-muted);
+	margin-top: 4px;
+	line-height: 1.8;
+}
+
+.flavor-admin .flavor-card--status {
+	border-inline-start: 3px solid var(--fa-brand);
+}
+
+/* Tabs — modern segmented pills instead of the default wp-admin tabs */
+.flavor-admin .nav-tab-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 6px;
+	margin: 10px 0 22px;
+	border: 1px solid var(--fa-line);
+	border-radius: calc(var(--fa-radius) + 4px);
+	background: var(--fa-surface);
+	box-shadow: var(--fa-shadow-sm);
+	border-bottom: 1px solid var(--fa-line);
+}
+
+.flavor-admin .nav-tab-wrapper .nav-tab {
+	margin: 0;
+	padding: 9px 18px;
+	border: 0;
+	border-radius: var(--fa-radius-sm);
+	background: transparent;
+	color: var(--fa-muted);
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.7;
+	transition: all 0.2s var(--fa-ease);
+}
+
+.flavor-admin .nav-tab-wrapper .nav-tab:hover {
+	color: var(--fa-ink);
+	background: #f6f7f9;
+}
+
+.flavor-admin .nav-tab-wrapper .nav-tab-active,
+.flavor-admin .nav-tab-wrapper .nav-tab-active:hover,
+.flavor-admin .nav-tab-wrapper .nav-tab-active:focus {
+	background: var(--fa-gradient);
+	color: #fff;
+	box-shadow: var(--fa-shadow-sm);
+}
+
+.flavor-admin .flavor-tab-content {
+	padding: 28px;
+	border: 1px solid var(--fa-line);
+	border-radius: var(--fa-radius);
+	background: var(--fa-surface);
+	box-shadow: var(--fa-shadow-sm);
+	margin-bottom: 24px;
+}
+
+.flavor-admin .flavor-checklist-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: 12px;
+	margin-top: 16px;
+}
+
+.flavor-admin .flavor-checklist-item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 13px 16px;
+	border-radius: var(--fa-radius-sm);
+	border: 1px solid var(--fa-line);
+	background: #fafbfc;
+	transition: border-color 0.2s var(--fa-ease), background-color 0.2s var(--fa-ease);
+}
+
+.flavor-admin .flavor-checklist-item.is-passed {
+	border-color: #b7e0c6;
+	background: var(--fa-success-bg);
+}
+
+.flavor-admin .flavor-checklist-item.is-missing {
+	border-color: #f3c1be;
+	background: var(--fa-danger-bg);
+}
+
+.flavor-admin .flavor-checklist-item span.dashicons {
+	flex-shrink: 0;
+}
+
+.flavor-admin .flavor-checklist-item.is-passed span.dashicons { color: var(--fa-success); }
+.flavor-admin .flavor-checklist-item.is-missing span.dashicons { color: var(--fa-danger); }
+
+.flavor-admin .flavor-checklist-item__text strong {
+	display: block;
+	font-size: 13px;
+	color: var(--fa-ink);
+}
+
+.flavor-admin .flavor-checklist-item__text span {
+	font-size: 11.5px;
+	color: var(--fa-muted);
+	line-height: 1.7;
+}
+
+.flavor-admin .flavor-color-pickers {
+	display: flex;
+	gap: 22px;
+	flex-wrap: wrap;
+}
+
+.flavor-admin .flavor-color-field label {
+	display: block;
+	font-size: 12px;
+	margin-bottom: 6px;
+	color: var(--fa-muted);
+	font-weight: 600;
+}
+
+.flavor-admin .flavor-color-input {
+	width: 130px;
+	direction: ltr;
+	text-align: center;
+	font-family: Consolas, Monaco, monospace;
+	letter-spacing: 0.03em;
+}
+
+.flavor-admin .flavor-security-card {
+	padding: 22px 24px;
+	margin-bottom: 20px;
+}
+
+.flavor-admin .flavor-security-card:last-child {
+	margin-bottom: 0;
+}
+
+.flavor-admin .flavor-security-card h3 {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0 0 12px;
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--fa-ink);
+}
+
+.flavor-admin .flavor-security-card h3 .dashicons {
+	display: grid;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	border-radius: 10px;
+	background: var(--fa-accent-soft);
+	color: var(--fa-brand);
+	font-size: 18px;
+	flex-shrink: 0;
+}
+
+.flavor-admin .flavor-security-list {
+	margin-top: 16px;
+	line-height: 1.9;
+}
+
+.flavor-admin .flavor-security-list li {
+	margin-bottom: 12px;
+}
+
+/* -------------------------------------------------------------
+ * 6. Responsive & motion preferences
+ * ------------------------------------------------------------- */
+@media (max-width: 960px) {
+	.flavor-admin .flavor-dashboard-header {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.flavor-admin .flavor-dashboard-filters {
+		align-items: flex-end;
+	}
+}
+
+@media (max-width: 600px) {
+	.flavor-admin .flavor-dashboard-row {
+		grid-template-columns: 1fr;
+	}
+
+	.flavor-admin .flavor-kpi-grid {
+		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	}
+
+	.flavor-admin .flavor-tab-content {
+		padding: 20px 16px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flavor-admin *,
+	.flavor-admin *::before,
+	.flavor-admin *::after {
+		transition: none !important;
+		animation: none !important;
+	}
 }

@@ -131,6 +131,96 @@ class AppTheme {
         type: BottomNavigationBarType.fixed,
         elevation: 8,
       ),
+      // ---------------------------------------------------------------
+      // Premium component layer (1.3.0): dialogs, chips, snackbars and
+      // list affordances tuned to match the storefront design system.
+      // ---------------------------------------------------------------
+      dialogTheme: DialogTheme(
+        backgroundColor: cardColor,
+        surfaceTintColor: Colors.transparent,
+        elevation: 6,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius + 4),
+          side: BorderSide(color: borderColor, width: 1),
+        ),
+        titleTextStyle: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: 17,
+          fontWeight: FontWeight.bold,
+          color: textPrimary,
+        ),
+        contentTextStyle: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: 13.5,
+          height: 1.9,
+          color: textSecondary,
+        ),
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: isDark ? const Color(0xFF2A2A2A) : const Color(0xFFF3F4F6),
+        selectedColor: primaryColor.withOpacity(0.14),
+        checkmarkColor: primaryColor,
+        labelStyle: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: 12.5,
+          fontWeight: FontWeight.w600,
+          color: textPrimary,
+        ),
+        side: BorderSide(color: borderColor, width: 1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: isDark ? const Color(0xFF2E2E2E) : const Color(0xFF1F2937),
+        contentTextStyle: TextStyle(fontFamily: fontFamily, fontSize: 13, color: Colors.white),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        elevation: 8,
+      ),
+      listTileTheme: ListTileThemeData(
+        iconColor: textSecondary,
+        textColor: textPrimary,
+        selectedColor: primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+      ),
+      dividerTheme: DividerThemeData(
+        color: borderColor,
+        thickness: 1,
+        space: 1,
+      ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: primaryColor,
+        linearTrackColor: borderColor,
+        circularTrackColor: borderColor,
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius + 2),
+        ),
+      ),
+      tooltipTheme: TooltipThemeData(
+        textStyle: TextStyle(fontFamily: fontFamily, fontSize: 12, color: Colors.white),
+        decoration: BoxDecoration(
+          color: const Color(0xFF111827),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: primaryColor,
+        selectionColor: primaryColor.withOpacity(0.22),
+        selectionHandleColor: primaryColor,
+      ),
+      highlightColor: Colors.transparent,
     );
   }
 }

@@ -7,6 +7,39 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.3.0 / Core 1.5.0] — Premium UI Release / 2026-10-07
+
+نسخهٔ «پولیش پریمیوم»: ارتقای سراسری ظاهر و کد برای رسیدن به کیفیت قالب تجاری پولی. جزئیات کامل در [`docs/PREMIUM-UI-2026-10-07.md`](docs/PREMIUM-UI-2026-10-07.md).
+
+### Added — Premium Admin Design System (`flavor-core/assets/admin/css/admin.css`)
+
+- A full premium design system for every wp-admin screen of the plugin: local design tokens, shared card surfaces, badges, pills, empty states and form polish.
+- Executive analytics dashboard: gradient-ribbon hero header, KPI cards with hover lift, tinted icon chips (rotating palette), refined filter controls, gradient peak-hours bars, rounded soft-border data tables with hover rows and animated order-mode progress bars.
+- White-label mobile console: status cards, segmented-pill tabs replacing default wp-admin tabs, readiness checklist states, color-picker fields and artifact pills.
+- Settings/branch/table pages: branded focus rings on inputs, rounded primary buttons with press feedback.
+- The inline `<style>` blocks of `executive-dashboard.php` and `mobile-app-dashboard.php` were consolidated into this single stylesheet (code-quality cleanup; no markup changes).
+
+### Added — Premium Kitchen Display System
+
+- `kitchen-dashboard.css` rewritten: dark operations surface with gradient ambience, glass header bar with pulsing service dot, lane panels with colored headings and count badges, white high-contrast ticket cards with urgency rails (RTL-aware), elapsed-time chips (neutral / amber ≥10 min / blinking red ≥20 min), lane-colored advance buttons, entry animations and lane empty states — all with `prefers-reduced-motion` support.
+- `kitchen-dashboard.js` upgraded on the same REST contract: per-lane ticket counts, empty-state messages, live clock, connection indicator (offline dot on fetch failure), session sound toggle (`aria-pressed`) and instant re-fetch when switching branch.
+
+### Added — Storefront premium micro-polish (theme 1.3.0)
+
+- `main.css`: branded text selection, themed thin scrollbars, sticky-header depth shadow on scroll, button press feedback.
+- `ui.css`: branded focus ring + hover state on form controls, button lift/press micro-interactions, icon-button hover, toast entrance animation.
+- `ui-menu.css`: dish-image zoom inside clipped frames on hover, animated shimmer while the menu grid is busy, category-rail edge fade and chip hover lift, product-sheet entrance animation.
+- `ui-checkout.css`: floating cart-handle lift/press, cart drawer + backdrop entrance, order-mode card hover/active glow, step-indicator glow.
+
+### Changed — Flutter app theme (mobile 1.0.1)
+
+- `AppTheme` extended with premium Material 3 component styling: dialogs, chips, floating snackbars, list tiles, dividers, progress indicators, FAB, tooltips and text-selection colors, all driven by the same brand tokens (Flutter 3.24-compatible APIs).
+
+### Compatibility
+
+- No API, endpoint, markup-class or settings changes; all work is additive styling/behavior on existing contracts.
+- Respects `prefers-reduced-motion` everywhere; keyboard focus states preserved or improved.
+
 ### Added — scroll-driven animations and micro-interactions for bespoke demos / 2026-10-07
 
 Added a comprehensive JavaScript animation layer (`demo-animations.js` + `demo-animations.css`) for the bespoke demo family:

@@ -724,6 +724,47 @@ body.flavor-header-minimal .flavor-brand .custom-logo {
 }
 
 /* -------------------------------------------------------------
+ * 8.5 Premium polish — selection, scrollbar, header depth,
+ *     button press feedback.
+ * ------------------------------------------------------------- */
+body.flavor-theme ::selection {
+	background: rgba(var(--flavor-primary-rgb), 0.18);
+}
+
+body.flavor-theme {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(var(--flavor-ink-rgb), 0.25) transparent;
+}
+
+body.flavor-theme::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+body.flavor-theme::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+body.flavor-theme::-webkit-scrollbar-thumb {
+	background: rgba(var(--flavor-ink-rgb), 0.18);
+	border-radius: 999px;
+	border: 3px solid var(--flavor-bg);
+}
+
+body.flavor-theme::-webkit-scrollbar-thumb:hover {
+	background: rgba(var(--flavor-ink-rgb), 0.32);
+}
+
+.flavor-header.is-scrolled {
+	box-shadow: 0 12px 32px -14px rgba(var(--flavor-ink-rgb), 0.22);
+}
+
+.flavor-btn:active {
+	transform: translateY(0) scale(0.98);
+	box-shadow: none;
+}
+
+/* -------------------------------------------------------------
  * 9. Micro-Animations & Keyframes
  * ------------------------------------------------------------- */
 @keyframes flavorFadeIn {

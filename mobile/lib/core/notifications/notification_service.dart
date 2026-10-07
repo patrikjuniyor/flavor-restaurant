@@ -26,9 +26,16 @@ class NotificationPayloadParser {
         ?.toString()
         .trim();
     if (clickAction != null && clickAction.isNotEmpty) {
-      final uri = Uri.tryParse(clickAction);
-      if (uri != null && uri.scheme == 'flavor') {
-        return clickAction;
+      // Uri.tryParse accepts control characters (newlines, CR, tabs), which
+      // would let a hostile payload smuggle segments such as fake headers
+      // into the link router. Reject them explicitly before parsing.
+      final hasControlChars =
+          clickAction.codeUnits.any((c) => c < 0x20 || c == 0x7f);
+      if (!hasControlChars) {
+        final uri = Uri.tryParse(clickAction);
+        if (uri != null && uri.scheme == 'flavor') {
+          return clickAction;
+        }
       }
     }
 
@@ -171,6 +178,17 @@ class NotificationService {
     } catch (_) {
       // Registration failures are recoverable; push is best-effort until next sync.
     }
+  }
+
+  /// Handles a token rotation event from the messaging SDK.
+  ///
+  /// The rotated token is issued by Firebase/APNs, never fabricated here, so
+  /// rotation is handled by re-running the registration sync: it registers the
+  /// fresh token against the authenticated account and then revokes the
+  /// superseded one (see [syncTokenRegistration]).
+  Future<void> _onTokenRotated(String newToken) async {
+    if (newToken.trim().isEmpty) return;
+    await syncTokenRegistration();
   }
 
   /// Deactivates the device token on logout (server requires authentication).

@@ -1,133 +1,453 @@
+/**
+ * Flavor Core — Premium Kitchen Display System (KDS).
+ *
+ * Styles /kitchen-dashboard/ (tablet kiosk) and the wp-admin embed.
+ * Dark operations surface with high-contrast white ticket cards, tuned for
+ * distance reading, grease-proof gloves and fast taps. All selectors are
+ * stable markup contracts used by kitchen-dashboard.js.
+ */
+
 body.flavor-kitchen-kiosk {
 	margin: 0;
-	background: #161616;
-	color: #f5f5f5;
-	font-family: Vazirmatn, Tahoma, sans-serif;
+	background:
+		radial-gradient(1200px 500px at 85% -10%, rgba(196, 125, 57, 0.09), transparent 60%),
+		radial-gradient(900px 420px at 8% 110%, rgba(92, 107, 58, 0.08), transparent 55%),
+		#0f1216;
+	color: #f2f4f6;
+	font-family: Vazirmatn, Tahoma, -apple-system, sans-serif;
+	-webkit-font-smoothing: antialiased;
 }
 
 .flavor-kitchen {
-	padding: 12px 16px 24px;
+	--kd-line: rgba(255, 255, 255, 0.08);
+	--kd-panel: #161b21;
+	--kd-panel-2: #1c232b;
+	--kd-ink: #f2f4f6;
+	--kd-muted: #98a2b3;
+	--kd-new: #f5b942;
+	--kd-preparing: #f08a24;
+	--kd-ready: #34c471;
+	--kd-late: #ef5350;
+	--kd-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+	padding: 14px 18px 26px;
+	min-height: 100dvh;
 }
 
+/* -------------------------------------------------------------
+ * Header bar
+ * ------------------------------------------------------------- */
 .flavor-kitchen__bar {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 10px;
+	gap: 12px;
 	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 14px;
+	margin-bottom: 16px;
+	padding: 12px 16px;
+	background: linear-gradient(180deg, var(--kd-panel-2), var(--kd-panel));
+	border: 1px solid var(--kd-line);
+	border-radius: 16px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
 .flavor-kitchen__bar h1 {
+	display: flex;
+	align-items: center;
+	gap: 10px;
 	margin: 0;
-	font-size: 1.25rem;
+	font-size: 1.15rem;
+	font-weight: 800;
+	letter-spacing: -0.01em;
 }
 
-.flavor-kitchen__filters button,
-.flavor-kitchen__bar button,
-.flavor-kitchen__bar select {
+/* Pulsing service dot next to the title. */
+.flavor-kitchen__bar h1::before {
+	content: "";
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--kd-ready);
+	box-shadow: 0 0 0 0 rgba(52, 196, 113, 0.55);
+	animation: kd-pulse 2.4s var(--kd-ease) infinite;
+}
+
+@keyframes kd-pulse {
+	0% { box-shadow: 0 0 0 0 rgba(52, 196, 113, 0.5); }
+	70% { box-shadow: 0 0 0 9px rgba(52, 196, 113, 0); }
+	100% { box-shadow: 0 0 0 0 rgba(52, 196, 113, 0); }
+}
+
+.flavor-kitchen__bar label {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 0.85rem;
+	color: var(--kd-muted);
+}
+
+.flavor-kitchen__bar select,
+.flavor-kitchen__bar button {
 	font: inherit;
-	border-radius: 8px;
-	border: 1px solid #444;
-	background: #222;
-	color: #fff;
-	padding: 6px 10px;
+	font-size: 0.85rem;
+	border-radius: 10px;
+	border: 1px solid var(--kd-line);
+	background: #232b34;
+	color: var(--kd-ink);
+	padding: 9px 12px;
 	cursor: pointer;
+	transition: background-color 0.2s var(--kd-ease), border-color 0.2s var(--kd-ease), transform 0.2s var(--kd-ease);
+}
+
+.flavor-kitchen__bar select:hover,
+.flavor-kitchen__bar button:hover {
+	background: #2a333e;
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+.flavor-kitchen__bar select:focus-visible,
+.flavor-kitchen__bar button:focus-visible,
+.flavor-kitchen__filters button:focus-visible {
+	outline: 3px solid var(--kd-new);
+	outline-offset: 2px;
+}
+
+.flavor-kitchen__filters {
+	display: flex;
+	gap: 6px;
+	padding: 4px;
+	background: rgba(0, 0, 0, 0.25);
+	border: 1px solid var(--kd-line);
+	border-radius: 12px;
+}
+
+.flavor-kitchen__filters button {
+	border: 0;
+	background: transparent;
+	color: var(--kd-muted);
+	padding: 7px 14px;
+	border-radius: 9px;
+	font-weight: 600;
+}
+
+.flavor-kitchen__filters button:hover {
+	color: var(--kd-ink);
+	background: rgba(255, 255, 255, 0.06);
 }
 
 .flavor-kitchen__filters button.is-active {
-	background: #5c6b3a;
-	border-color: #5c6b3a;
+	background: linear-gradient(135deg, #c47d39, #8a5a2b);
+	color: #fff;
+	box-shadow: 0 4px 12px rgba(196, 125, 57, 0.35);
 }
 
+/* Live clock and connection status, injected by kitchen-dashboard.js. */
+.flavor-kitchen__clock {
+	margin-inline-start: auto;
+	font-size: 1rem;
+	font-weight: 800;
+	font-variant-numeric: tabular-nums;
+	direction: ltr;
+	color: var(--kd-ink);
+	padding: 7px 14px;
+	border: 1px solid var(--kd-line);
+	border-radius: 10px;
+	background: rgba(0, 0, 0, 0.25);
+}
+
+.flavor-kitchen__conn {
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	background: var(--kd-ready);
+	flex-shrink: 0;
+	transition: background-color 0.3s var(--kd-ease);
+}
+
+.flavor-kitchen__conn.is-offline {
+	background: var(--kd-late);
+	box-shadow: 0 0 0 4px rgba(239, 83, 80, 0.18);
+}
+
+.flavor-kitchen__sound[aria-pressed="false"] {
+	color: var(--kd-muted);
+	text-decoration: line-through;
+}
+
+/* -------------------------------------------------------------
+ * Lanes
+ * ------------------------------------------------------------- */
 .flavor-kitchen__lanes {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 12px;
+	gap: 14px;
 }
 
 .flavor-kitchen__lanes section {
-	background: #222;
-	border-radius: 12px;
-	padding: 10px;
-	min-height: 70vh;
+	background: var(--kd-panel);
+	border: 1px solid var(--kd-line);
+	border-radius: 16px;
+	padding: 12px;
+	min-height: 72vh;
+	box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
 }
-
-.flavor-kitchen__lanes section[data-lane="new"] h2 { color: #e6b800; }
-.flavor-kitchen__lanes section[data-lane="preparing"] h2 { color: #f08a24; }
-.flavor-kitchen__lanes section[data-lane="ready"] h2 { color: #3dba6d; }
 
 .flavor-kitchen__lanes h2 {
-	margin: 0 0 10px;
-	font-size: 1rem;
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	margin: 2px 6px 12px;
+	font-size: 0.95rem;
+	font-weight: 800;
 }
 
+.flavor-kitchen__lanes h2::before {
+	content: "";
+	width: 9px;
+	height: 9px;
+	border-radius: 3px;
+	background: currentColor;
+	flex-shrink: 0;
+}
+
+.flavor-kitchen__lanes section[data-lane="new"] h2 { color: var(--kd-new); }
+.flavor-kitchen__lanes section[data-lane="preparing"] h2 { color: var(--kd-preparing); }
+.flavor-kitchen__lanes section[data-lane="ready"] h2 { color: var(--kd-ready); }
+
+/* Ticket count badge, injected by kitchen-dashboard.js. */
+.flavor-kitchen__count {
+	margin-inline-start: auto;
+	min-width: 26px;
+	text-align: center;
+	padding: 2px 9px;
+	border-radius: 999px;
+	font-size: 0.78rem;
+	font-weight: 800;
+}
+
+.flavor-kitchen__lanes section[data-lane="new"] .flavor-kitchen__count { background: var(--kd-new); color: #171207; }
+.flavor-kitchen__lanes section[data-lane="preparing"] .flavor-kitchen__count { background: var(--kd-preparing); color: #1c0f03; }
+.flavor-kitchen__lanes section[data-lane="ready"] .flavor-kitchen__count { background: var(--kd-ready); color: #06180e; }
+
+/* Empty lane state, injected by kitchen-dashboard.js. */
+.flavor-kitchen__empty {
+	margin: 8px 4px;
+	padding: 34px 16px;
+	text-align: center;
+	color: var(--kd-muted);
+	font-size: 0.85rem;
+	border: 1.5px dashed rgba(255, 255, 255, 0.12);
+	border-radius: 12px;
+}
+
+/* -------------------------------------------------------------
+ * Ticket cards
+ * ------------------------------------------------------------- */
 .flavor-kcard {
-	background: #fff;
-	color: #111;
-	border-radius: 10px;
-	padding: 10px 12px;
-	margin-bottom: 8px;
+	background: #ffffff;
+	color: #15181d;
+	border-radius: 13px;
+	padding: 12px 14px;
+	margin-bottom: 10px;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+	animation: kd-card-in 0.35s var(--kd-ease) both;
+	transition: transform 0.2s var(--kd-ease), box-shadow 0.2s var(--kd-ease);
 }
 
-.flavor-kcard[data-urgency="yellow"] { box-shadow: inset 5px 0 0 #e6b800; }
-.flavor-kcard[data-urgency="red"] { box-shadow: inset 5px 0 0 #d63638; }
+.flavor-kcard:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 12px 26px rgba(0, 0, 0, 0.38);
+}
+
+@keyframes kd-card-in {
+	from {
+		opacity: 0;
+		transform: translateY(10px) scale(0.985);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/* Urgency rail on the leading edge (right in RTL). */
+.flavor-kcard[data-urgency="yellow"] { box-shadow: inset -5px 0 0 var(--kd-new), 0 6px 18px rgba(0, 0, 0, 0.3); }
+.flavor-kcard[data-urgency="red"] { box-shadow: inset -5px 0 0 var(--kd-late), 0 6px 18px rgba(0, 0, 0, 0.3); }
+.flavor-kcard[data-urgency="red"] .flavor-kcard__top { color: var(--kd-late); }
 
 .flavor-kcard__top {
 	display: flex;
 	justify-content: space-between;
-	font-weight: 700;
+	gap: 10px;
+	font-weight: 800;
+	font-size: 1.02rem;
 }
 
 .flavor-kcard__meta {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
 	font-size: 0.85rem;
-	color: #555;
-	margin: 4px 0 8px;
+	color: #5b6472;
+	margin: 6px 0 10px;
+}
+
+/* Age chip, injected by kitchen-dashboard.js around the elapsed text. */
+.flavor-kcard__age {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 2px 9px;
+	border-radius: 999px;
+	font-size: 0.78rem;
+	font-weight: 700;
+	background: #eef1f5;
+	color: #475467;
+	font-variant-numeric: tabular-nums;
+}
+
+.flavor-kcard__age.is-warn { background: #fdf3d7; color: #8a6100; }
+.flavor-kcard__age.is-late {
+	background: #fde8e7;
+	color: #b3261e;
+	animation: kd-age-blink 1.6s var(--kd-ease) infinite;
+}
+
+@keyframes kd-age-blink {
+	0%, 100% { box-shadow: 0 0 0 0 rgba(239, 83, 80, 0); }
+	50% { box-shadow: 0 0 0 4px rgba(239, 83, 80, 0.18); }
+}
+
+/* Order mode chip inside the meta row. */
+.flavor-kcard__mode {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 9px;
+	border-radius: 999px;
+	font-size: 0.75rem;
+	font-weight: 700;
+	background: #f3ecdf;
+	color: #7a5322;
 }
 
 .flavor-kcard ul {
-	margin: 0 0 8px;
-	padding: 0 16px 0 0;
+	margin: 0 0 10px;
+	padding: 0 18px 0 0;
+}
+
+.flavor-kcard li {
+	padding: 3px 0;
+	font-size: 0.95rem;
+	line-height: 1.7;
+	cursor: pointer;
+	border-radius: 6px;
+	transition: opacity 0.2s var(--kd-ease);
 }
 
 .flavor-kcard .mod {
 	color: #8a5a2b;
 	font-size: 0.85rem;
+	font-weight: 600;
 }
 
 .flavor-kcard .note {
+	display: inline-block;
+	margin-top: 2px;
+	padding: 2px 9px;
+	border-radius: 7px;
+	background: #fdecea;
+	color: #b3261e;
 	font-weight: 700;
-	color: #a00;
+	font-size: 0.83rem;
 }
 
+.flavor-kcard li.is-ready {
+	opacity: 0.45;
+	text-decoration: line-through;
+}
+
+/* -------------------------------------------------------------
+ * Ticket actions
+ * ------------------------------------------------------------- */
 .flavor-kcard__actions {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 6px;
+	gap: 7px;
+	border-top: 1px solid #eceef2;
+	padding-top: 10px;
 }
 
 .flavor-kcard__actions button,
 .flavor-kcard__actions a {
 	font: inherit;
+	font-size: 0.85rem;
+	font-weight: 700;
 	border: 0;
 	border-radius: 999px;
-	padding: 6px 10px;
+	padding: 9px 14px;
 	background: #2b2118;
 	color: #fff;
 	text-decoration: none;
 	cursor: pointer;
+	transition: background-color 0.2s var(--kd-ease), transform 0.2s var(--kd-ease), box-shadow 0.2s var(--kd-ease);
 }
 
-.flavor-kcard li.is-ready {
-	opacity: 0.5;
-	text-decoration: line-through;
+.flavor-kcard__actions button:hover,
+.flavor-kcard__actions a:hover {
+	background: #3d2f21;
+	transform: translateY(-1px);
+	box-shadow: 0 5px 14px rgba(43, 33, 24, 0.35);
+}
+
+.flavor-kcard__actions button:active,
+.flavor-kcard__actions a:active {
+	transform: translateY(0);
+}
+
+/* The primary "advance" action gets the lane color for glanceability. */
+.flavor-kitchen__lanes section[data-lane="new"] .flavor-kcard__actions button[data-next] { background: #a8741c; }
+.flavor-kitchen__lanes section[data-lane="new"] .flavor-kcard__actions button[data-next]:hover { background: #bd8423; }
+.flavor-kitchen__lanes section[data-lane="preparing"] .flavor-kcard__actions button[data-next] { background: #1d8a4e; }
+.flavor-kitchen__lanes section[data-lane="preparing"] .flavor-kcard__actions button[data-next]:hover { background: #239c59; }
+
+/* -------------------------------------------------------------
+ * Responsive & preferences
+ * ------------------------------------------------------------- */
+@media (max-width: 1100px) {
+	.flavor-kitchen__lanes {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }
 
 @media (max-width: 900px) {
 	.flavor-kitchen__lanes {
 		grid-template-columns: 1fr;
 	}
+
 	.flavor-kitchen__lanes section {
 		min-height: auto;
 	}
+
+	.flavor-kitchen__clock {
+		margin-inline-start: 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flavor-kitchen *,
+	.flavor-kitchen *::before,
+	.flavor-kitchen *::after {
+		animation: none !important;
+		transition: none !important;
+	}
+}
+
+/* wp-admin embed: keep the dark surface as a framed panel inside the light
+   admin screen instead of bleeding to the page edges. */
+.wrap .flavor-kitchen {
+	min-height: 0;
+	border-radius: 18px;
+	background: #0f1216;
+	border: 1px solid rgba(255, 255, 255, 0.06);
+	margin-top: 16px;
 }

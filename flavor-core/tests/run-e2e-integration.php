@@ -14,7 +14,7 @@ define( 'MINUTE_IN_SECONDS', 60 );
 define( 'HOUR_IN_SECONDS', 3600 );
 define( 'DAY_IN_SECONDS', 86400 );
 define( 'FLAVOR_CORE_PATH', dirname( __DIR__ ) . '/' );
-define( 'FLAVOR_CORE_VERSION', '1.4.0' );
+define( 'FLAVOR_CORE_VERSION', '1.5.0' );
 define( 'FLAVOR_CORE_REST_NAMESPACE', 'flavor/v1' );
 define( 'FLAVOR_CORE_REST_V2_NAMESPACE', 'flavor/v2' );
 

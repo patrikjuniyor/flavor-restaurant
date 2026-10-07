@@ -130,3 +130,23 @@
  .flavor-ui .flavor-sheet__price{font-size:16px}
  .flavor-ui .flavor-qty button{min-width:40px}
 }
+
+/* ---------- Premium polish (1.3.0) ---------- */
+/* Dish media gets a soft zoom on hover inside a clipped frame. */
+.flavor-ui .flavor-food-card__media{overflow:hidden;border-radius:var(--ui-card-radius,var(--flavor-radius)) var(--ui-card-radius,var(--flavor-radius)) 0 0}
+.flavor-ui .flavor-food-card:hover .flavor-food-card__media img{transform:scale(1.05)}
+.flavor-ui .flavor-food-card{overflow:hidden}
+/* Loading state: animated skeleton shimmer instead of a static fade. */
+@keyframes flavor-shimmer{0%{background-position:150% 0}100%{background-position:-50% 0}}
+.flavor-ui .flavor-menu__grid[aria-busy=true]{opacity:.8;background:linear-gradient(110deg,transparent 25%,rgba(var(--flavor-primary-rgb),.06) 45%,transparent 65%);background-size:200% 100%;animation:flavor-shimmer 1.4s linear infinite;border-radius:var(--flavor-radius)}
+/* Category scroller fades its horizontal edges like a native app rail. */
+.flavor-ui .flavor-cats__scroller{-webkit-mask-image:linear-gradient(to left,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(to left,transparent,#000 24px,#000 calc(100% - 24px),transparent)}
+.flavor-ui .flavor-cats button{transition:border-color var(--flavor-transition-fast),background-color var(--flavor-transition-fast),color var(--flavor-transition-fast),transform var(--flavor-transition-fast),box-shadow var(--flavor-transition-fast)}
+.flavor-ui .flavor-cats button:hover:not(.is-active){border-color:var(--flavor-primary);color:var(--flavor-primary);transform:translateY(-1px)}
+.flavor-ui .flavor-cats button.is-active{box-shadow:0 6px 16px rgba(var(--flavor-primary-rgb),.3)}
+/* Product sheet entrance. */
+@keyframes flavor-sheet-in{from{opacity:0;transform:translateY(22px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes flavor-sheet-backdrop-in{from{opacity:0}to{opacity:1}}
+.flavor-ui .flavor-sheet__panel{animation:flavor-sheet-in .38s var(--flavor-ease)}
+.flavor-ui .flavor-sheet__backdrop{animation:flavor-sheet-backdrop-in .3s var(--flavor-ease)}
+@media(max-width:700px){.flavor-ui .flavor-sheet__panel{animation-name:flavor-sheet-in;border-radius:18px 18px 0 0}}
