@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added — Premium admin/setup and customization audit / 2026-10-08
+
+- Added [`docs/PREMIUM-ADMIN-CUSTOMIZATION-AUDIT-2026-10-08.md`](docs/PREMIUM-ADMIN-CUSTOMIZATION-AUDIT-2026-10-08.md), a Persian audit of Flavor 1.5.0 / Core 1.5.1 against paid restaurant themes.
+- Documented the verified onboarding field-drop defect, importer safety risks, launch-health gaps, Customizer/Builder parity gaps and an ordered P0/P1/P2 mission backlog with acceptance criteria.
+
 ## [1.4.0 / Core 1.5.1] — Premium Parity Audit / 2026-10-08
 
 ممیزی پوسته در برابر قالب‌های تجاری پولی و رفع نقص‌های واقعی. گزارش کامل در [`docs/PREMIUM-AUDIT-2026-10-08.md`](docs/PREMIUM-AUDIT-2026-10-08.md).
