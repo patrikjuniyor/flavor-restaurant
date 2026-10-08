@@ -378,6 +378,60 @@ section('10. One rule composes the hero transform', () => {
   }
 });
 
+/* ==================================== 11. cross-file event wiring */
+section('11. Every document-level flavor: event can reach its listener', () => {
+  /* A listener on `document` hears an event dispatched on the document itself
+     or one that bubbles — nothing else. ui.js dispatched its dialog events on
+     the dialog host with no `bubbles`, so the cart-line stagger the motion
+     layer choreographs for them never ran: the listener, the CSS and the
+     markup were each correct, and the event never arrived. Every unit test
+     passed. This check exists because that failure is invisible to all of
+     them. */
+  const sources = fs.readdirSync(jsDir)
+    .filter((f) => f.endsWith('.js'))
+    .map((f) => ({ name: f, text: read(path.join(jsDir, f)) }));
+
+  const coreDir = path.join(path.dirname(theme), 'flavor-core/assets/js');
+  if (fs.existsSync(coreDir)) {
+    for (const f of fs.readdirSync(coreDir).filter((n) => n.endsWith('.js'))) {
+      sources.push({ name: `flavor-core/${f}`, text: read(path.join(coreDir, f)) });
+    }
+  }
+
+  const waited = new Set();
+  for (const src of sources) {
+    for (const m of src.text.matchAll(/\bdoc(?:ument)?\s*\.\s*addEventListener\(\s*'(flavor:[a-z:-]+)'/g)) {
+      waited.add(m[1]);
+    }
+  }
+  if (!waited.size) fail('the motion layer consumes no flavor: events at all');
+
+  for (const name of waited) {
+    let seen = 0;
+    let reachable = false;
+    let offender = '';
+
+    for (const src of sources) {
+      const marker = `new CustomEvent('${name}'`;
+      let index = src.text.indexOf(marker);
+      while (index >= 0) {
+        seen++;
+        const before = src.text.slice(Math.max(0, index - 140), index);
+        const after = src.text.slice(index, index + 180);
+        const onDocument = /document\s*\.\s*dispatchEvent\(\s*$/.test(before);
+        const bubbles = /bubbles\s*:\s*true/.test(after);
+        if (onDocument || bubbles) reachable = true;
+        else if (!offender) offender = src.name;
+        index = src.text.indexOf(marker, index + 1);
+      }
+    }
+
+    if (!seen) fail(`${name} is waited for on the document, but nothing dispatches it`);
+    else if (!reachable) fail(`${name} is dispatched on an element without bubbling (${offender}) — a document-level listener never receives it`);
+    else console.log(`  ·    ${name} reaches its document-level listener`);
+  }
+});
+
 /* ================================================ summary */
 console.log('\n=======================================================');
 console.log(failed

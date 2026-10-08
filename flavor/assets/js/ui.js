@@ -39,7 +39,11 @@
 		document.body.style.overflow = 'hidden';
 		var first = focusables(host)[0] || host.querySelector('[role="dialog"]');
 		if (first) first.focus({ preventScroll: true });
-		host.dispatchEvent(new CustomEvent('flavor:dialog-opened'));
+		/* Bubbles: this announces a page-level change, not something private to
+		   the dialog's own subtree. Dispatched on the host without bubbling it
+		   never reached the motion layer's document-level listener, so the
+		   cart-line stagger it choreographs for this event never ran. */
+		host.dispatchEvent(new CustomEvent('flavor:dialog-opened', { bubbles: true }));
 	}
 	function closeDialog(host) {
 		var index = stack.findIndex(function (entry) { return entry.host === host; });
@@ -51,7 +55,7 @@
 		record.inert.forEach(function (element) { element.removeAttribute('inert'); });
 		record.revealed.forEach(function (element) { if (element.isConnected) element.setAttribute('inert', ''); });
 		document.body.style.overflow = stack.length ? 'hidden' : record.overflow;
-		record.host.dispatchEvent(new CustomEvent('flavor:dialog-closed'));
+		record.host.dispatchEvent(new CustomEvent('flavor:dialog-closed', { bubbles: true }));
 		if (record.trigger && record.trigger.isConnected && record.trigger.getClientRects().length) record.trigger.focus({ preventScroll: true });
 	}
 	document.addEventListener('keydown', function (event) {
