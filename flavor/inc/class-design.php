@@ -382,6 +382,13 @@ class Design {
 		$logo_height        = Theme_Setup::logo_height();
 		$logo_height_mobile = max( 24, (int) round( $logo_height * 0.72 ) );
 		$logo_max_width     = min( 420, max( 120, $logo_height * 4 ) );
+		$gutter_mobile      = self::responsive_mod( 'flavor_gutter_mobile', array( '24px', '32px', '40px' ), '32px' );
+		$gutter_desktop     = self::responsive_mod( 'flavor_gutter_desktop', array( '32px', '48px', '64px', '80px' ), '48px' );
+		$body_size          = self::responsive_mod( 'flavor_body_size', array( '14px', '15px', '16px', '17px', '18px' ), '15px' );
+		$heading_mobile     = self::responsive_mod( 'flavor_heading_size_mobile', array( 'clamp(1.7rem, 7vw, 2.5rem)', 'clamp(1.9rem, 8vw, 3rem)', 'clamp(2.1rem, 9vw, 3.4rem)' ), 'clamp(1.9rem, 8vw, 3rem)' );
+		$heading_desktop    = self::responsive_mod( 'flavor_heading_size_desktop', array( 'clamp(2rem, 3vw, 3.6rem)', 'clamp(2.2rem, 4vw, 4.5rem)', 'clamp(2.6rem, 5vw, 5.4rem)' ), 'clamp(2.2rem, 4vw, 4.5rem)' );
+		$space_mobile       = self::responsive_mod( 'flavor_section_space_mobile', array( '40px', '56px', '72px' ), '56px' );
+		$space_desktop      = self::responsive_mod( 'flavor_section_space_desktop', array( '64px', '88px', '112px', '136px' ), '88px' );
 
 		$primary_rgb   = self::hex2rgb( $t['primary'] );
 		$secondary_rgb = self::hex2rgb( $t['secondary'] );
@@ -408,6 +415,13 @@ class Design {
 			--flavor-radius: {$t['radius']};
 			--flavor-btn-radius: {$t['btn_radius']};
 			--flavor-container-max: {$container_width};
+			--flavor-container-gutter: {$gutter_mobile};
+			--flavor-container-gutter-desktop: {$gutter_desktop};
+			--flavor-body-size: {$body_size};
+			--flavor-heading-size: {$heading_mobile};
+			--flavor-heading-size-desktop: {$heading_desktop};
+			--flavor-section-space: {$space_mobile};
+			--flavor-section-space-desktop: {$space_desktop};
 			--flavor-font-heading: '{$t['font_heading']}', 'Vazirmatn', Tahoma, sans-serif;
 			--flavor-font-body: '{$t['font_body']}', 'Vazirmatn', Tahoma, sans-serif;
 
@@ -455,7 +469,22 @@ class Design {
 			--flavor-transition-slow: 400ms var(--flavor-ease);
 		}";
 
+		$css .= "\nbody.flavor-theme { font-size: var(--flavor-body-size); }\nbody.flavor-theme h1, body.flavor-theme .flavor-hero h1, body.flavor-theme .fd-hero h1 { font-size: var(--flavor-heading-size); }\nbody.flavor-theme .flavor-container { width: min(var(--flavor-container-max), calc(100% - (2 * var(--flavor-container-gutter)))); }\nbody.flavor-theme .flavor-section, body.flavor-theme .fd-section { padding-block: var(--flavor-section-space); }\n@media (min-width: 768px) { :root { --flavor-container-gutter: var(--flavor-container-gutter-desktop); --flavor-heading-size: var(--flavor-heading-size-desktop); --flavor-section-space: var(--flavor-section-space-desktop); } }\n";
+
 		return $css;
+	}
+
+	/**
+	 * Resolve a finite responsive Customizer token.
+	 *
+	 * @param string          $key     Theme mod key.
+	 * @param array<int,string> $allowed Allowed values.
+	 * @param string          $default Fallback.
+	 * @return string
+	 */
+	private static function responsive_mod( string $key, array $allowed, string $default ): string {
+		$value = get_theme_mod( $key, $default );
+		return is_string( $value ) && in_array( $value, $allowed, true ) ? $value : $default;
 	}
 
 	/**

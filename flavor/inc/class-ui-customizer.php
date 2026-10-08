@@ -87,6 +87,13 @@ class UI_Customizer {
 			'flavor_radius' => $radius, 'flavor_btn_radius' => $buttons,
 			'flavor_container_width' => array( '1140px' => '1140px', '1240px' => '1240px', '1360px' => '1360px', '1440px' => '1440px' ),
 			'flavor_font_heading' => $fonts, 'flavor_font_body' => $fonts,
+			'flavor_gutter_mobile' => array( '24px' => '24px', '32px' => '32px', '40px' => '40px' ),
+			'flavor_gutter_desktop' => array( '32px' => '32px', '48px' => '48px', '64px' => '64px', '80px' => '80px' ),
+			'flavor_body_size' => array( '14px' => '14px', '15px' => '15px', '16px' => '16px', '17px' => '17px', '18px' => '18px' ),
+			'flavor_heading_size_mobile' => array( 'clamp(1.7rem, 7vw, 2.5rem)' => __( 'جمع‌وجور', 'flavor' ), 'clamp(1.9rem, 8vw, 3rem)' => __( 'استاندارد', 'flavor' ), 'clamp(2.1rem, 9vw, 3.4rem)' => __( 'درشت', 'flavor' ) ),
+			'flavor_heading_size_desktop' => array( 'clamp(2rem, 3vw, 3.6rem)' => __( 'جمع‌وجور', 'flavor' ), 'clamp(2.2rem, 4vw, 4.5rem)' => __( 'استاندارد', 'flavor' ), 'clamp(2.6rem, 5vw, 5.4rem)' => __( 'درشت', 'flavor' ) ),
+			'flavor_section_space_mobile' => array( '40px' => '40px', '56px' => '56px', '72px' => '72px' ),
+			'flavor_section_space_desktop' => array( '64px' => '64px', '88px' => '88px', '112px' => '112px', '136px' => '136px' ),
 			'flavor_header_layout' => array( 'default' => __( 'پیش‌فرض پوسته', 'flavor' ), 'centered' => __( 'لوگو و منو وسط‌چین', 'flavor' ), 'minimal' => __( 'مینیمال و باریک', 'flavor' ), 'transparent' => __( 'شیشه‌ای خوانا', 'flavor' ) ),
 		);
 	}

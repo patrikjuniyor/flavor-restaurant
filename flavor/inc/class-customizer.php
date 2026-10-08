@@ -195,6 +195,23 @@ class Customizer {
 			)
 		);
 
+		// Responsive controls are explicit desktop/mobile tokens rather than
+		// arbitrary CSS fields. They are reflected in the live preview and in
+		// the safe settings transfer file.
+		$responsive = array(
+			'flavor_gutter_mobile'          => array( __( 'حاشیهٔ افقی موبایل', 'flavor' ), '32px', array( '24px' => '24px', '32px' => '32px', '40px' => '40px' ) ),
+			'flavor_gutter_desktop'         => array( __( 'حاشیهٔ افقی دسکتاپ', 'flavor' ), '48px', array( '32px' => '32px', '48px' => '48px', '64px' => '64px', '80px' => '80px' ) ),
+			'flavor_body_size'              => array( __( 'اندازهٔ متن پایه', 'flavor' ), '15px', array( '14px' => '14px', '15px' => '15px', '16px' => '16px', '17px' => '17px', '18px' => '18px' ) ),
+			'flavor_heading_size_mobile'    => array( __( 'مقیاس تیتر موبایل', 'flavor' ), 'clamp(1.9rem, 8vw, 3rem)', array( 'clamp(1.7rem, 7vw, 2.5rem)' => __( 'جمع‌وجور', 'flavor' ), 'clamp(1.9rem, 8vw, 3rem)' => __( 'استاندارد', 'flavor' ), 'clamp(2.1rem, 9vw, 3.4rem)' => __( 'درشت', 'flavor' ) ) ),
+			'flavor_heading_size_desktop'   => array( __( 'مقیاس تیتر دسکتاپ', 'flavor' ), 'clamp(2.2rem, 4vw, 4.5rem)', array( 'clamp(2rem, 3vw, 3.6rem)' => __( 'جمع‌وجور', 'flavor' ), 'clamp(2.2rem, 4vw, 4.5rem)' => __( 'استاندارد', 'flavor' ), 'clamp(2.6rem, 5vw, 5.4rem)' => __( 'درشت', 'flavor' ) ) ),
+			'flavor_section_space_mobile'   => array( __( 'فاصلهٔ سکشن موبایل', 'flavor' ), '56px', array( '40px' => '40px', '56px' => '56px', '72px' => '72px' ) ),
+			'flavor_section_space_desktop'  => array( __( 'فاصلهٔ سکشن دسکتاپ', 'flavor' ), '88px', array( '64px' => '64px', '88px' => '88px', '112px' => '112px', '136px' => '136px' ) ),
+		);
+		foreach ( $responsive as $id => $config ) {
+			$wp_customize->add_setting( $id, array( 'default' => $config[1], 'sanitize_callback' => array( self::class, 'sanitize_responsive' ), 'transport' => 'postMessage' ) );
+			$wp_customize->add_control( $id, array( 'label' => $config[0], 'section' => 'flavor_section_layout', 'type' => 'select', 'choices' => $config[2] ) );
+		}
+
 		// -------------------------------------------------------------
 		// Panel 2: Header & Navigation
 		// -------------------------------------------------------------
@@ -511,6 +528,22 @@ class Customizer {
 	 */
 	public static function head_css(): void {
 		echo '<style id="flavor-tokens">' . Design::css_variables() . '</style>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+
+	/**
+	 * Sanitize responsive values against the finite token set.
+	 *
+	 * @param mixed $value Raw setting value.
+	 * @return string
+	 */
+	public static function sanitize_responsive( $value ): string {
+		$allowed = array(
+			'24px', '32px', '40px', '48px', '56px', '64px', '72px', '80px', '88px', '112px', '136px', '14px', '15px', '16px', '17px', '18px',
+			'clamp(1.7rem, 7vw, 2.5rem)', 'clamp(1.9rem, 8vw, 3rem)', 'clamp(2.1rem, 9vw, 3.4rem)',
+			'clamp(2rem, 3vw, 3.6rem)', 'clamp(2.2rem, 4vw, 4.5rem)', 'clamp(2.6rem, 5vw, 5.4rem)',
+		);
+		$value = is_scalar( $value ) ? trim( (string) $value ) : '';
+		return in_array( $value, $allowed, true ) ? $value : '15px';
 	}
 
 	/**

@@ -46,6 +46,23 @@
    document.dispatchEvent(new CustomEvent('flavor:ui-header-changed'));
   });
  });
+ /* Responsive design tokens are pure CSS variables, so desktop/mobile controls update without a reload. */
+ var responsiveTokens = {
+  flavor_gutter_mobile: '--flavor-container-gutter',
+  flavor_gutter_desktop: '--flavor-container-gutter-desktop',
+  flavor_body_size: '--flavor-body-size',
+  flavor_heading_size_mobile: '--flavor-heading-size',
+  flavor_heading_size_desktop: '--flavor-heading-size-desktop',
+  flavor_section_space_mobile: '--flavor-section-space',
+  flavor_section_space_desktop: '--flavor-section-space-desktop'
+ };
+ Object.keys(responsiveTokens).forEach(function (id) {
+  wp.customize(id, function (setting) {
+   setting.bind(function (value) {
+    document.documentElement.style.setProperty(responsiveTokens[id], value);
+   });
+  });
+ });
  /* The logo box is pure CSS tokens, so live preview is a variable write. */
  wp.customize('flavor_logo_height', function (setting) {
   setting.bind(function (value) {
