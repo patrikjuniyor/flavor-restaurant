@@ -475,3 +475,169 @@ body.flavor-skin-bakery-pastry {
 		transition-duration: .01ms !important;
 	}
 }
+/* ================================================================== */
+/*  Motion art direction — patisserie & bakery                        */
+/*                                                                     */
+/*  Signature: soft rise and gentle squish. Cards prove like a soufflé,*/
+/*  buttons compress like a macaron, and pastel ornament drifts. Every */
+/*  curve is round — sharp timing reads as brittle against a palette   */
+/*  of macaron pink and pistachio.                                    */
+/* ================================================================== */
+body.flavor-skin-bakery-pastry {
+	--flavor-m-signature: cubic-bezier(0.34, 1.34, 0.5, 1);
+	--flavor-m-hero: cubic-bezier(0.33, 1, 0.68, 1);
+	--flavor-m-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+	--flavor-m-rise: 20px;
+	--flavor-m-scale: 0.95;
+	--flavor-m-step: 78ms;
+	--flavor-base: 500ms;
+	--flavor-slow: 760ms;
+}
+
+/* Soufflé rise: cards swell past their size and settle back. */
+html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-food-card.flavor-anim-in,
+html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-cat-card.flavor-anim-in {
+	animation: flavor-m-bp-souffle 720ms var(--flavor-m-signature) both;
+}
+
+/* Macaron squish on press — the whole preset's tactile signature. */
+.flavor-skin-bakery-pastry .flavor-btn,
+.flavor-skin-bakery-pastry .flavor-food-card {
+	transition: transform 180ms var(--flavor-m-spring);
+}
+
+.flavor-skin-bakery-pastry .flavor-btn:active,
+.flavor-skin-bakery-pastry .flavor-food-card:active {
+	transform: scale(0.94) translate3d(0, 2px, 0);
+}
+
+.flavor-skin-bakery-pastry .flavor-btn:hover {
+	transform: translate3d(0, -3px, 0) scale(1.02);
+}
+
+.flavor-skin-bakery-pastry .flavor-hero__container {
+	position: relative;
+}
+
+/* Sprinkles drift across the hero. Pure ornament behind the copy, and it
+   never receives a pointer event. */
+html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-hero__container::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image:
+		radial-gradient(circle at 12% 18%, rgba(232, 158, 178, 0.55) 0 2.5px, transparent 3px),
+		radial-gradient(circle at 34% 62%, rgba(163, 206, 176, 0.5) 0 2.5px, transparent 3px),
+		radial-gradient(circle at 58% 28%, rgba(240, 205, 150, 0.55) 0 2.5px, transparent 3px),
+		radial-gradient(circle at 76% 72%, rgba(200, 176, 224, 0.5) 0 2.5px, transparent 3px),
+		radial-gradient(circle at 90% 40%, rgba(232, 158, 178, 0.45) 0 2.5px, transparent 3px);
+	background-size: 100% 220%;
+	animation: flavor-m-bp-sprinkle 16s linear infinite;
+	pointer-events: none;
+	opacity: 0.7;
+}
+
+/* Pastry-arch images soften and lift; they never hard-zoom. */
+.flavor-skin-bakery-pastry .flavor-food-card__media img {
+	transition: transform 900ms var(--flavor-m-hero), filter 900ms var(--flavor-m-hero);
+}
+
+.flavor-skin-bakery-pastry .flavor-food-card:hover .flavor-food-card__media img {
+	transform: scale(1.06);
+	filter: saturate(1.08) brightness(1.03);
+}
+
+/* The category badge is piped on like icing. */
+html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-food-card.flavor-anim-in .flavor-food-card__cat-badge {
+	animation: flavor-m-bp-pipe 640ms var(--flavor-m-signature) 200ms both;
+}
+
+/* Review avatars bob gently, one after another. */
+html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-review-card.flavor-anim-in .flavor-review-card__avatar {
+	animation: flavor-m-bp-bob 3.4s ease-in-out infinite;
+}
+
+/* Intro cards rise with a slight round tilt, like trays on a cooling rack. */
+html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-intro__card.flavor-anim-in {
+	animation: flavor-m-bp-tray 640ms var(--flavor-m-signature) both;
+}
+
+/* Stats count up inside a soft halo that fades as the number lands. */
+html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-about__stat.flavor-anim-in {
+	animation: flavor-m-bp-halo 900ms var(--flavor-m-hero) both;
+}
+
+/* Section titles rise softly, with no mask and no edge. */
+html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-section.flavor-anim-in .flavor-section-header__title {
+	animation: flavor-m-bp-rise var(--flavor-slow) var(--flavor-m-hero) both;
+}
+
+@keyframes flavor-m-bp-souffle {
+	0%   { opacity: 0; transform: scale(0.9) translate3d(0, 18px, 0); }
+	58%  { opacity: 1; transform: scale(1.045) translate3d(0, -3px, 0); }
+	80%  { transform: scale(0.995); }
+	100% { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-bp-sprinkle {
+	from { background-position: 0 0; }
+	to   { background-position: 0 220%; }
+}
+
+@keyframes flavor-m-bp-pipe {
+	0%   { opacity: 0; transform: scale(0.3) translate3d(0, -8px, 0); }
+	62%  { opacity: 1; transform: scale(1.14); }
+	100% { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-bp-bob {
+	0%, 100% { transform: translate3d(0, 0, 0); }
+	50%      { transform: translate3d(0, -5px, 0); }
+}
+
+@keyframes flavor-m-bp-tray {
+	from { opacity: 0; transform: translate3d(0, 22px, 0) rotate(-1.4deg); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-bp-halo {
+	0%   { opacity: 0; transform: scale(0.94); box-shadow: 0 0 0 0 rgba(232, 158, 178, 0.4); }
+	60%  { opacity: 1; box-shadow: 0 0 0 12px rgba(232, 158, 178, 0); }
+	100% { opacity: 1; transform: none; box-shadow: 0 0 0 0 rgba(232, 158, 178, 0); }
+}
+
+@keyframes flavor-m-bp-rise {
+	from { opacity: 0; transform: translate3d(0, 16px, 0) scale(0.985); }
+	to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-food-card.flavor-anim-in,
+	html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-cat-card.flavor-anim-in,
+	html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-hero__container::before,
+	html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-food-card.flavor-anim-in .flavor-food-card__cat-badge,
+	html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-review-card.flavor-anim-in .flavor-review-card__avatar,
+	html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-intro__card.flavor-anim-in,
+	html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-about__stat.flavor-anim-in,
+	html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-section.flavor-anim-in .flavor-section-header__title,
+	.flavor-skin-bakery-pastry .flavor-btn,
+	.flavor-skin-bakery-pastry .flavor-food-card,
+	.flavor-skin-bakery-pastry .flavor-btn:active,
+	.flavor-skin-bakery-pastry .flavor-btn:hover,
+	.flavor-skin-bakery-pastry .flavor-food-card:active,
+	.flavor-skin-bakery-pastry .flavor-food-card__media img,
+	.flavor-skin-bakery-pastry .flavor-food-card:hover .flavor-food-card__media img {
+		animation: none !important;
+		transition: none !important;
+		transform: none !important;
+		filter: none !important;
+		box-shadow: none !important;
+		opacity: 1 !important;
+	}
+
+	/* Sprinkles are pure decoration; with motion off they are removed rather
+	   than frozen, so no static speckle sits over the hero copy. */
+	html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-hero__container::before {
+		display: none !important;
+	}
+}

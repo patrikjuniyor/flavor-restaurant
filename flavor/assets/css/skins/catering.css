@@ -377,3 +377,210 @@
 	.flavor-skin-catering .fd-product,
 	.flavor-skin-catering .fd-product__media img { transition: none; }
 }
+/* ================================================================== */
+/*  Motion art direction — catering / formal brass                    */
+/*                                                                     */
+/*  Signature: a dossier being laid out. Brass rules expand to their   */
+/*  full width, panels arrive in a measured sequence, and the hero     */
+/*  seal is pressed on last — the way a document is signed and then    */
+/*  stamped. Timing is formal: long, even, and never bouncy.           */
+/* ================================================================== */
+body.flavor-skin-catering {
+	--fd-m-signature: cubic-bezier(0.22, 1, 0.36, 1);
+	--fd-m-formal: cubic-bezier(0.33, 0, 0.15, 1);
+	--fd-m-rise: 16px;
+	--fd-m-step: 100ms; /* a formal sequence is deliberately unhurried */
+	--fd-m-brass: #997541;
+}
+
+/* The caption rule expands to its full 34px width, from the reading edge. */
+.flavor-skin-catering .fd-mizan-hero__caption-line {
+	transform-origin: inline-start;
+}
+
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-hero__caption-line {
+	animation: fd-m-ct-brass 820ms var(--fd-m-signature) 260ms both;
+}
+
+/* The seal is pressed on last. It lands heavy and does not bounce: wax, not
+   rubber. This is the final beat of the hero sequence. */
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-hero__seal {
+	animation: fd-m-ct-seal 780ms var(--fd-m-formal) 900ms both;
+}
+
+/* The signature line draws itself, as if being written. */
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-hero__signature {
+	animation: fd-m-ct-sign 1.1s var(--fd-m-signature) 620ms both;
+}
+
+/* Hero art is unveiled from behind a brass edge rather than fading in. */
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-hero__art {
+	animation: fd-m-ct-unveil 1.2s var(--fd-m-formal) 180ms both;
+}
+
+/* Section heads get a rule that expands beneath them as the section lands. */
+.flavor-skin-catering .fd-section-head {
+	position: relative;
+}
+
+html.fd-anim-ready .flavor-skin-catering .fd-section.fd-anim-visible .fd-section-head::after {
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	bottom: -14px;
+	height: 1px;
+	background: linear-gradient(to left, var(--fd-m-brass), rgba(153, 117, 65, 0.16) 62%, transparent);
+	transform: scaleX(0);
+	transform-origin: inline-start;
+	animation: fd-m-ct-rule 940ms var(--fd-m-signature) both;
+	pointer-events: none;
+}
+
+/* Service rows arrive as a dossier: overline, then title, then body. */
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-service.fd-anim-visible .fd-mizan-service__overline {
+	animation: fd-m-ct-line 520ms var(--fd-m-signature) both;
+}
+
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-service.fd-anim-visible .fd-mizan-service__title {
+	animation: fd-m-ct-line 620ms var(--fd-m-signature) 110ms both;
+}
+
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-service.fd-anim-visible .fd-mizan-service__body {
+	animation: fd-m-ct-line 680ms var(--fd-m-signature) 220ms both;
+}
+
+/* Service media is framed: the brass border closes around it. */
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-service.fd-anim-visible .fd-mizan-service__media {
+	animation: fd-m-ct-frame 900ms var(--fd-m-formal) 140ms both;
+}
+
+/* The proposal panel is the decision point, so it settles last and heaviest. */
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-proposal__panel.fd-anim-visible {
+	animation: fd-m-ct-panel 1s var(--fd-m-formal) both;
+}
+
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-proposal__panel.fd-anim-visible .fd-mizan-proposal__panel-head {
+	animation: fd-m-ct-line 620ms var(--fd-m-signature) 260ms both;
+}
+
+/* Planner fields light up in reading order, which is what makes a long
+   corporate form feel like it is being filled in rather than dumped. */
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-proposal__panel.fd-anim-visible .fd-mizan-planner__field {
+	animation: fd-m-ct-field 460ms var(--fd-m-signature) both;
+}
+
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-proposal__panel.fd-anim-visible .fd-mizan-planner__field:nth-child(1) { animation-delay: 320ms; }
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-proposal__panel.fd-anim-visible .fd-mizan-planner__field:nth-child(2) { animation-delay: 390ms; }
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-proposal__panel.fd-anim-visible .fd-mizan-planner__field:nth-child(3) { animation-delay: 460ms; }
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-proposal__panel.fd-anim-visible .fd-mizan-planner__field:nth-child(4) { animation-delay: 530ms; }
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-proposal__panel.fd-anim-visible .fd-mizan-planner__field:nth-child(n+5) { animation-delay: 600ms; }
+
+/* A focused field gets a brass underline that draws itself — the planner's
+   own focus ring is untouched, this is an addition, not a replacement. */
+.flavor-skin-catering .fd-mizan-planner__field input:focus-visible,
+.flavor-skin-catering .fd-mizan-planner__field select:focus-visible,
+.flavor-skin-catering .fd-mizan-planner__field textarea:focus-visible {
+	animation: fd-m-ct-focus 320ms var(--fd-m-signature);
+}
+
+/* Process numerals are set in brass and arrive on the same formal beat. */
+html.fd-anim-ready .flavor-skin-catering .fd-process__steps li.fd-anim-visible .fd-process__number {
+	animation: fd-m-ct-numeral 760ms var(--fd-m-formal) both;
+}
+
+/* Promises and summary settle quietly; they follow the panel, not lead it. */
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-promises li,
+html.fd-anim-ready .flavor-skin-catering .fd-mizan-summary {
+	animation: fd-m-ct-line 620ms var(--fd-m-signature) both;
+}
+
+@keyframes fd-m-ct-brass {
+	from { transform: scaleX(0); opacity: 0; }
+	to   { transform: scaleX(1); opacity: 1; }
+}
+
+@keyframes fd-m-ct-seal {
+	0%   { opacity: 0; transform: scale(1.7) rotate(11deg); }
+	58%  { opacity: 1; transform: scale(0.97) rotate(-1.5deg); }
+	100% { opacity: 1; transform: none; }
+}
+
+@keyframes fd-m-ct-sign {
+	from { opacity: 0; transform: translate3d(-14px, 0, 0); clip-path: inset(0 100% 0 0); }
+	70%  { clip-path: inset(0 0 0 0); }
+	to   { opacity: 1; transform: none; clip-path: inset(0 0 0 0); }
+}
+
+@keyframes fd-m-ct-unveil {
+	from { opacity: 0; clip-path: inset(0 0 0 100%); }
+	to   { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+
+@keyframes fd-m-ct-rule {
+	from { transform: scaleX(0); }
+	to   { transform: scaleX(1); }
+}
+
+@keyframes fd-m-ct-line {
+	from { opacity: 0; transform: translate3d(0, 9px, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes fd-m-ct-frame {
+	from { opacity: 0; transform: scale(1.035); clip-path: inset(4% 4% 4% 4%); }
+	to   { opacity: 1; transform: none; clip-path: inset(0 0 0 0); }
+}
+
+@keyframes fd-m-ct-panel {
+	from { opacity: 0; transform: translate3d(0, 22px, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes fd-m-ct-field {
+	from { opacity: 0; transform: translate3d(12px, 0, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes fd-m-ct-focus {
+	from { box-shadow: 0 0 0 0 rgba(153, 117, 65, 0.4); }
+	to   { box-shadow: 0 0 0 4px rgba(153, 117, 65, 0); }
+}
+
+@keyframes fd-m-ct-numeral {
+	from { opacity: 0; transform: translate3d(0, 12px, 0); letter-spacing: 0.3em; }
+	to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-hero__caption-line,
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-hero__seal,
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-hero__signature,
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-hero__art,
+	html.fd-anim-ready .flavor-skin-catering .fd-section.fd-anim-visible .fd-section-head::after,
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-service.fd-anim-visible .fd-mizan-service__overline,
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-service.fd-anim-visible .fd-mizan-service__title,
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-service.fd-anim-visible .fd-mizan-service__body,
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-service.fd-anim-visible .fd-mizan-service__media,
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-proposal__panel.fd-anim-visible,
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-proposal__panel.fd-anim-visible .fd-mizan-proposal__panel-head,
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-proposal__panel.fd-anim-visible .fd-mizan-planner__field,
+	html.fd-anim-ready .flavor-skin-catering .fd-process__steps li.fd-anim-visible .fd-process__number,
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-promises li,
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-summary,
+	.flavor-skin-catering .fd-mizan-planner__field input:focus-visible,
+	.flavor-skin-catering .fd-mizan-planner__field select:focus-visible,
+	.flavor-skin-catering .fd-mizan-planner__field textarea:focus-visible {
+		animation: none !important;
+		transition: none !important;
+		transform: none !important;
+		clip-path: none !important;
+		opacity: 1 !important;
+	}
+
+	/* Brass rules are identity: they stay drawn at full width, they just do
+	   not expand. */
+	html.fd-anim-ready .flavor-skin-catering .fd-mizan-hero__caption-line,
+	html.fd-anim-ready .flavor-skin-catering .fd-section.fd-anim-visible .fd-section-head::after {
+		transform: scaleX(1) !important;
+	}
+}

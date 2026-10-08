@@ -747,3 +747,135 @@ body.flavor-skin-luxury-dining {
 		transition-duration: 0.01ms !important;
 	}
 }
+/* ================================================================== */
+/*  Motion art direction — luxury / champagne                         */
+/*                                                                     */
+/*  Signature: slow, gilt, and completely without bounce. A hairline   */
+/*  of champagne draws across the hero title, the night background     */
+/*  breathes like candlelight, and cards are illuminated rather than   */
+/*  lifted — an overshoot would read as cheap against a 2px radius.    */
+/* ================================================================== */
+body.flavor-skin-luxury-dining {
+	--flavor-m-signature: cubic-bezier(0.16, 1, 0.3, 1);
+	--flavor-m-hero: cubic-bezier(0.33, 0, 0.15, 1);
+	--flavor-m-spring: cubic-bezier(0.33, 1, 0.68, 1); /* luxury never springs */
+	--flavor-m-rise: 18px;
+	--flavor-m-slide: 24px;
+	--flavor-m-step: 95ms; /* a longer beat reads as ceremony, not as lag */
+	--flavor-base: 560ms;
+	--flavor-slow: 860ms;
+}
+
+html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-hero__title {
+	position: relative;
+}
+
+/* A gilt line sweeps the hero title once, then leaves it alone. */
+html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-hero__title::after {
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	bottom: -0.35em;
+	height: 1px;
+	background: linear-gradient(to left, transparent, var(--flavor-primary) 22%, var(--flavor-accent) 50%, var(--flavor-primary) 78%, transparent);
+	transform: scaleX(0);
+	animation: flavor-m-lx-gilt 1.5s var(--flavor-m-hero) 420ms both;
+	pointer-events: none;
+}
+
+/* Candlelight: the overlay brightens and dims on a long, soft loop. */
+html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-hero__overlay {
+	animation: flavor-m-lx-candle 7.5s ease-in-out 900ms infinite;
+}
+
+/* Cards do not lift — they are illuminated. A copper edge appears on hover. */
+.flavor-skin-luxury-dining .flavor-food-card,
+.flavor-skin-luxury-dining .flavor-cat-card {
+	transition: box-shadow var(--flavor-slow) var(--flavor-m-signature),
+	            border-color var(--flavor-slow) var(--flavor-m-signature);
+}
+
+.flavor-skin-luxury-dining .flavor-food-card:hover,
+.flavor-skin-luxury-dining .flavor-cat-card:hover {
+	box-shadow: 0 0 0 1px rgba(203, 177, 134, 0.42), 0 26px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* The category count is engraved: it fades up rather than sliding in. */
+html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-cat-card.flavor-anim-in .flavor-cat-card__count {
+	animation: flavor-m-lx-engrave var(--flavor-slow) var(--flavor-m-signature) both;
+}
+
+/* Gallery plates cross-fade behind a still frame, like a slideshow in a
+   dining room rather than a swipe on a phone. */
+.flavor-skin-luxury-dining .flavor-gallery__item img {
+	transition: transform 1.6s var(--flavor-m-hero), filter 1.6s var(--flavor-m-hero);
+}
+
+.flavor-skin-luxury-dining .flavor-gallery__item:hover img {
+	filter: saturate(1.12) brightness(1.06);
+}
+
+/* Stats count in gold, and the label settles a beat after the number. */
+html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-about__stat.flavor-anim-in .flavor-about__stat-num {
+	color: var(--flavor-primary);
+	animation: flavor-m-lx-engrave var(--flavor-slow) var(--flavor-m-hero) both;
+}
+
+html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-about__stat.flavor-anim-in .flavor-about__stat-lbl {
+	animation: flavor-m-lx-engrave var(--flavor-base) var(--flavor-m-signature) 260ms both;
+}
+
+/* Review stars fill slowly; five quick pops would fight the whole preset. */
+.flavor-skin-luxury-dining .flavor-review-card.flavor-anim-in .flavor-review-card__stars svg {
+	animation-duration: 700ms;
+	animation-timing-function: var(--flavor-m-signature);
+}
+
+/* Section titles rise behind a soft vignette instead of a hard mask. */
+html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-section.flavor-anim-in .flavor-section-header__title {
+	animation: flavor-m-lx-vignette var(--flavor-slow) var(--flavor-m-hero) both;
+}
+
+@keyframes flavor-m-lx-gilt {
+	0%   { transform: scaleX(0); opacity: 0; }
+	45%  { opacity: 1; }
+	100% { transform: scaleX(1); opacity: 0.9; }
+}
+
+@keyframes flavor-m-lx-candle {
+	0%, 100% { opacity: 1; }
+	42%      { opacity: 0.86; }
+	68%      { opacity: 0.95; }
+}
+
+@keyframes flavor-m-lx-engrave {
+	from { opacity: 0; transform: translate3d(0, 10px, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-lx-vignette {
+	from { opacity: 0; transform: translate3d(0, 14px, 0); filter: blur(5px); }
+	to   { opacity: 1; transform: none; filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-hero__title::after,
+	html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-hero__overlay,
+	html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-cat-card.flavor-anim-in .flavor-cat-card__count,
+	html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-about__stat.flavor-anim-in .flavor-about__stat-num,
+	html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-about__stat.flavor-anim-in .flavor-about__stat-lbl,
+	html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-section.flavor-anim-in .flavor-section-header__title,
+	.flavor-skin-luxury-dining .flavor-review-card.flavor-anim-in .flavor-review-card__stars svg,
+	.flavor-skin-luxury-dining .flavor-gallery__item img {
+		animation: none !important;
+		transition: none !important;
+		transform: none !important;
+		filter: none !important;
+		opacity: 1 !important;
+	}
+
+	.flavor-skin-luxury-dining .flavor-food-card:hover,
+	.flavor-skin-luxury-dining .flavor-cat-card:hover {
+		box-shadow: none;
+	}
+}

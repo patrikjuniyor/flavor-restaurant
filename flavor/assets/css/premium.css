@@ -83,7 +83,11 @@
 	border-radius: 999px;
 	background: var(--flavor-primary);
 	color: var(--ui-action-ink);
-	font-size: 11px;
+	/* 12px is the readability floor tests/ui/responsive.mjs sweeps for, and it
+	   is what the equivalent cart badge in ui-checkout.css already uses. This
+	   was 11px, so the two counters that sit side by side in the header did
+	   not match and the sweep failed. The 19px box still fits a 12px digit. */
+	font-size: 12px;
 	font-weight: 700;
 	line-height: 19px;
 	text-align: center;
@@ -655,7 +659,9 @@
 
 .flavor-countdown__unit small {
 	color: var(--flavor-muted);
-	font-size: 11px;
+	/* Same 12px floor as above; the unit sits in a 54px box, so the label has
+	   room and the countdown no longer trips the readability sweep. */
+	font-size: 12px;
 }
 
 .flavor-countdown__fallback {

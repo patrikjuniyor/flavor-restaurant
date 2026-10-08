@@ -694,3 +694,141 @@ body.flavor-skin-persian-traditional {
 		transition-duration: 0.01ms !important;
 	}
 }
+/* ================================================================== */
+/*  Motion art direction — Persian traditional                        */
+/*                                                                     */
+/*  Signature: geometry in motion. Icons turn like a girih tile, the   */
+/*  section tag shifts lapis → crimson → brass the way glazed tilework */
+/*  changes across a wall, and borders unroll from the centre outward  */
+/*  rather than sliding in — Persian ornament is always symmetrical.   */
+/* ================================================================== */
+body.flavor-skin-persian-traditional {
+	--flavor-m-signature: cubic-bezier(0.34, 0.9, 0.36, 1);
+	--flavor-m-hero: cubic-bezier(0.22, 1, 0.36, 1);
+	--flavor-m-rise: 16px;   /* short travel: ornament settles, it does not fly */
+	--flavor-m-slide: 16px;
+	--flavor-m-step: 80ms;
+}
+
+/* Section tags cycle the tile glazes while their section is on screen. */
+html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-section.flavor-anim-in .flavor-section-header__tag {
+	background-size: 260% 100%;
+	animation: flavor-m-pt-glaze 9s ease-in-out infinite;
+}
+
+/* Intro icons rotate an eighth-turn and stop, like a tile locking into place. */
+html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-intro__card.flavor-anim-in .flavor-intro__icon,
+html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-contact-row.flavor-anim-in .flavor-contact-row__icon {
+	animation: flavor-m-pt-girih 780ms var(--flavor-m-signature) both;
+}
+
+.flavor-skin-persian-traditional .flavor-intro__card:hover .flavor-intro__icon {
+	animation: flavor-m-pt-girih 780ms var(--flavor-m-signature);
+}
+
+/* Borders unroll from the centre on both axes — the way a carpet runner is
+   laid, which is why the clip origin is the middle and not an edge. */
+html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-hours-card.flavor-anim-in,
+html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-food-card.flavor-anim-in {
+	animation: flavor-m-pt-unroll 640ms var(--flavor-m-signature) both;
+}
+
+/* The hero badge dot becomes a small brass rosette that turns slowly. */
+html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-hero__badge-dot {
+	animation: flavor-m-pt-rosette 14s linear infinite;
+}
+
+/* Category tiles warm toward saffron instead of only zooming. */
+.flavor-skin-persian-traditional .flavor-cat-card__bg {
+	transition: transform var(--flavor-slow) var(--flavor-m-signature),
+	            filter var(--flavor-slow) var(--flavor-m-signature);
+}
+
+.flavor-skin-persian-traditional .flavor-cat-card:hover .flavor-cat-card__bg {
+	filter: saturate(1.15) hue-rotate(-6deg);
+}
+
+/* The experience badge is a seal; it is pressed on, not dropped in. */
+html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-about__media.flavor-anim-in .flavor-about__exp-badge {
+	animation: flavor-m-pt-seal 700ms var(--flavor-m-signature) both;
+}
+
+/* Reservation perks converge symmetrically toward the middle. */
+html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-res-banner__content.flavor-anim-in .flavor-res-banner__perk:nth-child(odd) {
+	animation: flavor-m-pt-converge-a 560ms var(--flavor-m-signature) both;
+}
+
+html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-res-banner__content.flavor-anim-in .flavor-res-banner__perk:nth-child(even) {
+	animation: flavor-m-pt-converge-b 560ms var(--flavor-m-signature) both;
+}
+
+/* The "open now" lamp turns slowly inside the hours card. */
+html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-hours-card.flavor-anim-in .flavor-live-status--open {
+	animation: flavor-m-pt-lamp 4.6s ease-in-out infinite;
+}
+
+@keyframes flavor-m-pt-glaze {
+	0%, 100% { background-position: 0% 50%; }
+	33%      { background-position: 50% 50%; }
+	66%      { background-position: 100% 50%; }
+}
+
+@keyframes flavor-m-pt-girih {
+	from { opacity: 0; transform: rotate(-45deg) scale(0.72); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-pt-unroll {
+	from { opacity: 0; transform: scale(0.94); clip-path: inset(0 50% 0 50%); }
+	55%  { clip-path: inset(0 0 0 0); }
+	to   { opacity: 1; transform: none; clip-path: inset(0 0 -0.05em 0); }
+}
+
+@keyframes flavor-m-pt-rosette {
+	from { transform: rotate(0deg); }
+	to   { transform: rotate(360deg); }
+}
+
+@keyframes flavor-m-pt-seal {
+	0%   { opacity: 0; transform: scale(1.5) rotate(9deg); }
+	62%  { opacity: 1; transform: scale(0.95) rotate(-2deg); }
+	100% { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-pt-converge-a {
+	from { opacity: 0; transform: translate3d(-14px, 0, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-pt-converge-b {
+	from { opacity: 0; transform: translate3d(14px, 0, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-pt-lamp {
+	0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(13, 92, 99, 0.36); }
+	50%      { opacity: 0.74; box-shadow: 0 0 0 7px rgba(13, 92, 99, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-section.flavor-anim-in .flavor-section-header__tag,
+	html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-intro__card.flavor-anim-in .flavor-intro__icon,
+	html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-contact-row.flavor-anim-in .flavor-contact-row__icon,
+	html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-hours-card.flavor-anim-in,
+	html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-food-card.flavor-anim-in,
+	html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-hero__badge-dot,
+	html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-about__media.flavor-anim-in .flavor-about__exp-badge,
+	html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-res-banner__content.flavor-anim-in .flavor-res-banner__perk,
+	html.flavor-anim-ready .flavor-skin-persian-traditional .flavor-hours-card.flavor-anim-in .flavor-live-status--open,
+	.flavor-skin-persian-traditional .flavor-intro__card:hover .flavor-intro__icon,
+	.flavor-skin-persian-traditional .flavor-cat-card__bg,
+	.flavor-skin-persian-traditional .flavor-cat-card:hover .flavor-cat-card__bg {
+		animation: none !important;
+		transition: none !important;
+		transform: none !important;
+		clip-path: none !important;
+		filter: none !important;
+		box-shadow: none !important;
+		opacity: 1 !important;
+	}
+}

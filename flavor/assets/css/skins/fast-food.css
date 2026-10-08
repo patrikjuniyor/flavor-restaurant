@@ -692,3 +692,167 @@ body.flavor-skin-fast-food {
 		transition-duration: 0.01ms !important;
 	}
 }
+/* ================================================================== */
+/*  Motion art direction — fast food / burger bar                     */
+/*                                                                     */
+/*  Signature: poster energy. Headings slam in, stickers wobble, cards */
+/*  pop against hard ink shadows and everything overshoots on purpose. */
+/*  This is the one preset where a spring curve is the right answer.   */
+/* ================================================================== */
+body.flavor-skin-fast-food {
+	--flavor-m-signature: cubic-bezier(0.34, 1.56, 0.64, 1);
+	--flavor-m-hero: cubic-bezier(0.2, 1.5, 0.4, 1);
+	--flavor-m-spring: cubic-bezier(0.34, 1.78, 0.5, 1);
+	--flavor-m-rise: 34px;  /* bigger travel reads as energy, not as sloppiness */
+	--flavor-m-slide: 40px;
+	--flavor-m-scale: 0.9;
+	--flavor-m-step: 55ms;  /* fast beats: a queue is reading, not lingering */
+	--flavor-base: 340ms;
+	--flavor-slow: 520ms;
+}
+
+/* The hero title slams down and settles with one overshoot. */
+html.flavor-anim-ready .flavor-skin-fast-food .flavor-hero__title {
+	animation: flavor-m-ff-slam 620ms var(--flavor-m-hero) both;
+}
+
+/* Sticker badges wobble on a loop — they are meant to look stuck on by hand. */
+html.flavor-anim-ready .flavor-skin-fast-food .flavor-hero__badge {
+	animation: flavor-m-ff-wobble 3.6s ease-in-out 700ms infinite;
+}
+
+html.flavor-anim-ready .flavor-skin-fast-food .flavor-offer-banner.flavor-anim-in .flavor-offer-banner__badge,
+html.flavor-anim-ready .flavor-skin-fast-food .flavor-res-banner__content.flavor-anim-in .flavor-res-banner__tag {
+	animation: flavor-m-ff-wobble 3.6s ease-in-out 300ms infinite;
+}
+
+/* Cards pop in against a hard ink shadow rather than a soft blur. */
+html.flavor-anim-ready .flavor-skin-fast-food .flavor-food-card.flavor-anim-in,
+html.flavor-anim-ready .flavor-skin-fast-food .flavor-cat-card.flavor-anim-in {
+	animation: flavor-m-ff-pop 420ms var(--flavor-m-signature) both;
+}
+
+.flavor-skin-fast-food .flavor-food-card,
+.flavor-skin-fast-food .flavor-cat-card {
+	transition: transform 180ms var(--flavor-m-signature), box-shadow 180ms var(--flavor-m-signature);
+}
+
+.flavor-skin-fast-food .flavor-food-card:hover,
+.flavor-skin-fast-food .flavor-cat-card:hover {
+	transform: translate3d(-4px, -6px, 0) rotate(-1.1deg);
+	box-shadow: 8px 8px 0 rgba(32, 22, 18, 0.85);
+}
+
+/* The category badge on each dish flips over like a price tag. */
+.flavor-skin-fast-food .flavor-food-card:hover .flavor-food-card__cat-badge {
+	animation: flavor-m-ff-tag 460ms var(--flavor-m-signature);
+}
+
+/* Prices get a beat of their own — they are the thing being sold. */
+html.flavor-anim-ready .flavor-skin-fast-food .flavor-food-card.flavor-anim-in .flavor-food-card__price {
+	animation: flavor-m-ff-price 520ms var(--flavor-m-signature) 140ms both;
+}
+
+/* Intro icons bounce once, hard, then hold. */
+html.flavor-anim-ready .flavor-skin-fast-food .flavor-intro__card.flavor-anim-in .flavor-intro__icon {
+	animation: flavor-m-ff-bounce 620ms var(--flavor-m-spring) both;
+}
+
+/* Buttons press down into the ink shadow instead of lifting away from it. */
+.flavor-skin-fast-food .flavor-btn:active {
+	transform: translate3d(2px, 3px, 0) scale(0.98);
+	transition: transform 90ms var(--flavor-m-signature);
+}
+
+/* Gallery tiles tilt alternately, like posters taped to a wall. */
+html.flavor-anim-ready .flavor-skin-fast-food .flavor-gallery__item.flavor-anim-in:nth-child(3n+1) {
+	animation: flavor-m-ff-tilt-a 420ms var(--flavor-m-signature) both;
+}
+
+html.flavor-anim-ready .flavor-skin-fast-food .flavor-gallery__item.flavor-anim-in:nth-child(3n+2) {
+	animation: flavor-m-ff-tilt-b 420ms var(--flavor-m-signature) both;
+}
+
+/* The offer banner title lands with the same slam as the hero. */
+html.flavor-anim-ready .flavor-skin-fast-food .flavor-offer-banner.flavor-anim-in .flavor-offer-banner__title {
+	animation: flavor-m-ff-slam 540ms var(--flavor-m-hero) 120ms both;
+}
+
+@keyframes flavor-m-ff-slam {
+	0%   { opacity: 0; transform: translate3d(0, -46px, 0) scale(1.12); }
+	62%  { opacity: 1; transform: translate3d(0, 6px, 0) scale(0.98); }
+	100% { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-ff-wobble {
+	0%, 100% { transform: rotate(-2.4deg); }
+	25%      { transform: rotate(2.2deg) scale(1.03); }
+	50%      { transform: rotate(-1.6deg); }
+	75%      { transform: rotate(2.8deg) scale(1.02); }
+}
+
+@keyframes flavor-m-ff-pop {
+	0%   { opacity: 0; transform: scale(0.82) rotate(-2.5deg); }
+	68%  { opacity: 1; transform: scale(1.05) rotate(0.8deg); }
+	100% { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-ff-tag {
+	0%   { transform: perspective(420px) rotateY(0deg); }
+	45%  { transform: perspective(420px) rotateY(-84deg); }
+	100% { transform: perspective(420px) rotateY(0deg); }
+}
+
+@keyframes flavor-m-ff-price {
+	0%   { opacity: 0; transform: scale(0.6); }
+	70%  { opacity: 1; transform: scale(1.16); }
+	100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes flavor-m-ff-bounce {
+	0%   { opacity: 0; transform: translate3d(0, -22px, 0) scale(0.7); }
+	55%  { opacity: 1; transform: translate3d(0, 5px, 0) scale(1.12); }
+	78%  { transform: translate3d(0, -2px, 0) scale(0.97); }
+	100% { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-ff-tilt-a {
+	from { opacity: 0; transform: translate3d(0, 22px, 0) rotate(-3deg); }
+	to   { opacity: 1; transform: rotate(-1.2deg); }
+}
+
+@keyframes flavor-m-ff-tilt-b {
+	from { opacity: 0; transform: translate3d(0, 22px, 0) rotate(3deg); }
+	to   { opacity: 1; transform: rotate(1.2deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.flavor-anim-ready .flavor-skin-fast-food .flavor-hero__title,
+	html.flavor-anim-ready .flavor-skin-fast-food .flavor-hero__badge,
+	html.flavor-anim-ready .flavor-skin-fast-food .flavor-offer-banner.flavor-anim-in .flavor-offer-banner__badge,
+	html.flavor-anim-ready .flavor-skin-fast-food .flavor-offer-banner.flavor-anim-in .flavor-offer-banner__title,
+	html.flavor-anim-ready .flavor-skin-fast-food .flavor-res-banner__content.flavor-anim-in .flavor-res-banner__tag,
+	html.flavor-anim-ready .flavor-skin-fast-food .flavor-food-card.flavor-anim-in,
+	html.flavor-anim-ready .flavor-skin-fast-food .flavor-cat-card.flavor-anim-in,
+	html.flavor-anim-ready .flavor-skin-fast-food .flavor-food-card.flavor-anim-in .flavor-food-card__price,
+	html.flavor-anim-ready .flavor-skin-fast-food .flavor-intro__card.flavor-anim-in .flavor-intro__icon,
+	html.flavor-anim-ready .flavor-skin-fast-food .flavor-gallery__item.flavor-anim-in,
+	.flavor-skin-fast-food .flavor-food-card,
+	.flavor-skin-fast-food .flavor-cat-card,
+	.flavor-skin-fast-food .flavor-food-card:hover,
+	.flavor-skin-fast-food .flavor-cat-card:hover,
+	.flavor-skin-fast-food .flavor-food-card:hover .flavor-food-card__cat-badge,
+	.flavor-skin-fast-food .flavor-btn:active {
+		animation: none !important;
+		transition: none !important;
+		transform: none !important;
+		opacity: 1 !important;
+	}
+
+	/* The hard ink shadow is part of the preset's identity, so a static
+	   version stays — only the movement that carries it is removed. */
+	.flavor-skin-fast-food .flavor-food-card:hover,
+	.flavor-skin-fast-food .flavor-cat-card:hover {
+		box-shadow: 4px 4px 0 rgba(32, 22, 18, 0.85);
+	}
+}

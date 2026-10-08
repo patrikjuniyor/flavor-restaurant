@@ -4,14 +4,27 @@
  * cursor glow, image fade and smart header.
  * Zero dependencies; paired with demo-animations.js.
  *
- * @version 1.0.0
+ * Every rule that can hide content is gated on `html.fd-anim-ready`, which
+ * demo-animations.js sets only once it is actually running. Before 1.1.0 the
+ * image fade set `opacity: 0` unconditionally while the script returned early
+ * for reduced-motion visitors, so all five bespoke demos rendered with an
+ * invisible hero, invisible product photography and an invisible story image.
+ *
+ * @version 1.1.0
  * @license GPL-2.0-or-later
  */
 
 /* ================================================================== */
 /*  Reduced-motion: kill everything                                   */
+/*                                                                     */
+/*  This list names every selector in this file that carries motion,    */
+/*  including the decorative loops the 1.0.0 guard missed.             */
 /* ================================================================== */
 @media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
 	.fd-anim-enter,
 	.fd-anim-visible,
 	.fd-anim-filter-show,
@@ -19,11 +32,40 @@
 	.fd-anim-typewriter,
 	.fd-anim-img-loaded,
 	.fd-anim-glow-target,
-	.fd-anim-glow-active {
+	.fd-anim-glow-active,
+	.fd-anim-ripple,
+	.fd-anim-shape,
+	.fd-anim-shapes,
+	.fd-hero__image,
+	.fd-product__media img,
+	.fd-story__media img,
+	.fd-header-hidden,
+	.fd-header-visible,
+	.flavor-bespoke .fd-product,
+	.flavor-bespoke .fd-product:hover,
+	.fd-brand__mark,
+	.fd-hero__caption,
+	.fd-hero__perks li:hover svg,
+	.fd-faq summary span,
+	.fd-menu__filters button,
+	.fd-menu__filters button:active,
+	.fd-button--primary:active,
+	.fd-product__order:active,
+	.fd-visit__card::after,
+	.fd-process__steps li,
+	.fd-faq details {
 		animation: none !important;
 		transition: none !important;
 		opacity: 1 !important;
 		transform: none !important;
+	}
+
+	/* The compositor must not hold a stale scale either. */
+	html.fd-anim-ready .fd-hero__image {
+		--fd-anim-parallax: 0px;
+		--fd-anim-tilt-x: 0deg;
+		--fd-anim-tilt-y: 0deg;
+		--fd-anim-zoom: 1;
 	}
 }
 
@@ -244,16 +286,55 @@
 
 /* ================================================================== */
 /*  7. Image fade-in on load                                          */
+/*                                                                     */
+/*  Gated on html.fd-anim-ready: the class that clears this opacity is */
+/*  written by demo-animations.js, so if the script never runs (blocked, */
+/*  errored, or a reduced-motion visitor) the images must stay visible. */
 /* ================================================================== */
-.fd-hero__image,
-.fd-product__media img,
-.fd-story__media img {
+html.fd-anim-ready .fd-hero__image,
+html.fd-anim-ready .fd-product__media img,
+html.fd-anim-ready .fd-story__media img {
 	opacity: 0;
 	transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.fd-anim-img-loaded {
+html.fd-anim-ready .fd-anim-img-loaded {
 	opacity: 1;
+}
+
+/* ================================================================== */
+/*  7b. Hero transform compositor                                     */
+/*                                                                     */
+/*  Parallax and pointer tilt both used to write `transform` directly  */
+/*  onto .fd-hero__image, so whichever ran last silently cancelled the */
+/*  other: scrolling killed the tilt, and moving the pointer killed the */
+/*  parallax. Both now write custom properties and this single rule     */
+/*  composes them, in the order that reads correctly (parallax first,   */
+/*  then perspective, then tilt, then the shared zoom).                */
+/* ================================================================== */
+html.fd-anim-ready .fd-hero__image {
+	transform:
+		translate3d(0, var(--fd-anim-parallax, 0px), 0)
+		perspective(800px)
+		rotateY(var(--fd-anim-tilt-y, 0deg))
+		rotateX(var(--fd-anim-tilt-x, 0deg))
+		scale(var(--fd-anim-zoom, 1));
+	/* A short linear ease acts as a low-pass filter over the per-frame parallax
+	   writes, which is what stops the hero trembling on a coarse scroll wheel. */
+	transition: transform 120ms linear;
+	will-change: transform;
+}
+
+/* Pointer release returns the art to rest on the page's own decisive curve,
+   not on the 120ms tracking curve. */
+html.fd-anim-ready .fd-hero__image.fd-anim-tilt-return {
+	transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Settled images drop the compositing hint; a page of hero art does not need
+   to keep a layer alive once the visitor has stopped moving the pointer. */
+html.fd-anim-ready .fd-hero__image.fd-anim-settled {
+	will-change: auto;
 }
 
 /* ================================================================== */

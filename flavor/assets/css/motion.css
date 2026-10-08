@@ -1,0 +1,1308 @@
+/**
+ * Flavor Motion — shared choreography layer for every demo.
+ *
+ * The bespoke five (`fd-*` vocabulary) already ship `demo-animations.css`.
+ * This file is the equivalent layer for the seven classic demos and for every
+ * shared commerce surface all twelve skins render (`flavor-*` vocabulary),
+ * plus the surfaces that arrived after the first animation pass: the floating
+ * dock, mega navigation, night-scheme toggle, menu filters, wishlist, quick
+ * view, consent bar, promo popup and the offer countdown.
+ *
+ * Two rules shaped the whole file:
+ *
+ *   1. Nothing is hidden until JavaScript says so. Every entrance state lives
+ *      behind `html.flavor-anim-ready`, which `motion.js` sets on boot. If the
+ *      script never runs, is blocked, or the visitor prefers reduced motion,
+ *      the page renders exactly as it did before this file existed.
+ *   2. Motion never decides layout. Only `transform`, `opacity`, `filter` and
+ *      `background-position` are animated, so no entrance can push a section
+ *      off the viewport on a 320px phone (see tests/ui/responsive.mjs).
+ *
+ * Paired with assets/js/motion.js. Zero dependencies.
+ *
+ * @version 1.0.0
+ * @license GPL-2.0-or-later
+ */
+
+/* ================================================================== */
+/*  0. Motion tokens                                                  */
+/* ================================================================== */
+:root {
+	/* Durations. Kept short on purpose: a restaurant page is read, not watched. */
+	--flavor-micro: 120ms;
+	--flavor-quick: 220ms;
+	--flavor-base: 420ms;
+	--flavor-slow: 680ms;
+	--flavor-cinematic: 980ms;
+
+	/* Easings. `--flavor-ease` already ships in main.css; these are the
+	   specialised curves the choreography needs on top of it. */
+	--flavor-m-ease: cubic-bezier(0.16, 1, 0.3, 1);      /* decisive exit */
+	--flavor-m-soft: cubic-bezier(0.33, 1, 0.68, 1);     /* gentle, no bounce */
+	--flavor-m-spring: cubic-bezier(0.34, 1.56, 0.64, 1);/* playful overshoot */
+	--flavor-m-in: cubic-bezier(0.55, 0.06, 0.68, 0.19); /* accelerate away */
+
+	/* Entrance travel. Small values keep RTL text from smearing. */
+	--flavor-m-rise: 26px;
+	--flavor-m-slide: 32px;
+	--flavor-m-scale: 0.965;
+
+	/* Stagger step, capped by motion.js so a 12-card grid never takes > 420ms. */
+	--flavor-m-step: 65ms;
+
+	/* Per-skin overrides. Each skins/{slug}.css may retune these; the
+	   choreography below reads them rather than hard-coding numbers. */
+	--flavor-m-signature: var(--flavor-m-ease);
+	--flavor-m-hero: var(--flavor-m-ease);
+	--flavor-m-accent-glow: rgba(var(--flavor-primary-rgb, 138, 90, 43), 0.28);
+}
+
+/* ================================================================== */
+/*  1. Entrance engine                                                */
+/*                                                                     */
+/*  Every rule is gated on html.flavor-anim-ready so a script failure  */
+/*  can never leave a shop with an invisible menu.                    */
+/* ================================================================== */
+html.flavor-anim-ready .flavor-anim-enter {
+	opacity: 0;
+	transition-property: opacity, transform, filter;
+	transition-duration: var(--flavor-base);
+	transition-timing-function: var(--flavor-m-signature);
+	transition-delay: var(--flavor-m-delay, 0ms);
+	will-change: opacity, transform;
+}
+
+/* Default: rise. RTL pages read top-to-bottom like LTR, so "up" is neutral. */
+html.flavor-anim-ready .flavor-anim-enter,
+html.flavor-anim-ready .flavor-anim-enter[data-flavor-anim="up"] {
+	transform: translate3d(0, var(--flavor-m-rise), 0);
+}
+
+html.flavor-anim-ready .flavor-anim-enter[data-flavor-anim="down"] {
+	transform: translate3d(0, calc(var(--flavor-m-rise) * -1), 0);
+}
+
+/* Logical directions: `start` is the right edge in RTL, so copy enters from
+   the reading edge and art enters from the opposite side. */
+html.flavor-anim-ready .flavor-anim-enter[data-flavor-anim="start"] {
+	transform: translate3d(var(--flavor-m-slide), 0, 0);
+}
+
+html.flavor-anim-ready .flavor-anim-enter[data-flavor-anim="end"] {
+	transform: translate3d(calc(var(--flavor-m-slide) * -1), 0, 0);
+}
+
+html.flavor-anim-ready .flavor-anim-enter[data-flavor-anim="zoom"] {
+	transform: scale(var(--flavor-m-scale));
+}
+
+html.flavor-anim-ready .flavor-anim-enter[data-flavor-anim="blur"] {
+	transform: scale(1.02);
+	filter: blur(8px);
+}
+
+html.flavor-anim-ready .flavor-anim-enter[data-flavor-anim="flip"] {
+	transform: perspective(900px) rotateX(-8deg) translate3d(0, 14px, 0);
+	transform-origin: 50% 0;
+}
+
+/* Mask wipe: the line is clipped and slides into place. Used for headings the
+   skins want to treat as editorial type rather than as boxes. */
+html.flavor-anim-ready .flavor-anim-enter[data-flavor-anim="mask"] {
+	transform: translate3d(0, 105%, 0);
+	opacity: 1;
+}
+
+html.flavor-anim-ready .flavor-anim-mask {
+	overflow: hidden;
+	display: block;
+}
+
+html.flavor-anim-ready .flavor-anim-in {
+	opacity: 1;
+	transform: none;
+	filter: none;
+}
+
+/* Drop the promotion hint once the element has settled; leaving `will-change`
+   on hundreds of cards costs real memory on mid-range Android. */
+html.flavor-anim-ready .flavor-anim-in.flavor-anim-settled {
+	will-change: auto;
+}
+
+/* ------------------------------------------------------------------ */
+/*  1b. Section choreography — the seven classic demos                */
+/* ------------------------------------------------------------------ */
+
+/* Hero: badge → title → text → actions → perks, a 5-beat cascade. The beats
+   are pure CSS so they fire on first paint without waiting for an observer. */
+html.flavor-anim-ready .flavor-hero__badge,
+html.flavor-anim-ready .flavor-hero__title,
+html.flavor-anim-ready .flavor-hero__text,
+html.flavor-anim-ready .flavor-hero__actions,
+html.flavor-anim-ready .flavor-hero__features {
+	animation: flavor-m-hero-beat var(--flavor-slow) var(--flavor-m-hero) both;
+}
+
+html.flavor-anim-ready .flavor-hero__title   { animation-delay: 90ms; }
+html.flavor-anim-ready .flavor-hero__text    { animation-delay: 190ms; }
+html.flavor-anim-ready .flavor-hero__actions { animation-delay: 290ms; }
+html.flavor-anim-ready .flavor-hero__features{ animation-delay: 400ms; }
+
+/* Split heroes get a mirrored art entrance so the two halves meet in the middle. */
+html.flavor-anim-ready .flavor-hero__media,
+html.flavor-anim-ready .flavor-hero__img-frame {
+	animation: flavor-m-hero-art var(--flavor-cinematic) var(--flavor-m-hero) both;
+	animation-delay: 140ms;
+}
+
+/* The full-bleed background drifts in slightly oversized so the parallax in
+   motion.js has room to move without ever exposing an edge. */
+html.flavor-anim-ready .flavor-hero__bg {
+	animation: flavor-m-hero-bg var(--flavor-cinematic) var(--flavor-m-soft) both;
+}
+
+html.flavor-anim-ready .flavor-hero__overlay {
+	animation: flavor-m-fade var(--flavor-slow) var(--flavor-m-soft) both;
+	animation-delay: 120ms;
+}
+
+@keyframes flavor-m-hero-beat {
+	from { opacity: 0; transform: translate3d(0, var(--flavor-m-rise), 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-hero-art {
+	from { opacity: 0; transform: translate3d(calc(var(--flavor-m-slide) * -1), 12px, 0) scale(0.98); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-hero-bg {
+	from { opacity: 0; transform: scale(1.12); }
+	to   { opacity: 1; transform: scale(1.06); }
+}
+
+@keyframes flavor-m-fade {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+
+/* Section headers announce themselves as three beats: tag, title, description.
+   The tag is the small eyebrow pill every classic skin renders. */
+html.flavor-anim-ready .flavor-section.flavor-anim-in .flavor-section-header__tag,
+html.flavor-anim-ready .flavor-section-header.flavor-anim-in .flavor-section-header__tag {
+	animation: flavor-m-tag-in var(--flavor-base) var(--flavor-m-signature) both;
+}
+
+html.flavor-anim-ready .flavor-section.flavor-anim-in .flavor-section-header__title,
+html.flavor-anim-ready .flavor-section-header.flavor-anim-in .flavor-section-header__title {
+	animation: flavor-m-line-up var(--flavor-slow) var(--flavor-m-signature) both;
+	animation-delay: 70ms;
+}
+
+html.flavor-anim-ready .flavor-section.flavor-anim-in .flavor-section-header__desc,
+html.flavor-anim-ready .flavor-section-header.flavor-anim-in .flavor-section-header__desc {
+	animation: flavor-m-fade-rise var(--flavor-base) var(--flavor-m-soft) both;
+	animation-delay: 150ms;
+}
+
+@keyframes flavor-m-tag-in {
+	from { opacity: 0; transform: translate3d(0, -8px, 0) scale(0.9); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-line-up {
+	from { opacity: 0; transform: translate3d(0, 18px, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-fade-rise {
+	from { opacity: 0; transform: translate3d(0, 10px, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/*  2. Micro-interactions                                             */
+/* ------------------------------------------------------------------ */
+
+/* Button sheen. A single skewed highlight sweeps across on hover; the pseudo
+   element never receives pointer events so it cannot steal a tap. */
+.flavor-btn,
+.fd-button {
+	position: relative;
+	isolation: isolate;
+}
+
+.flavor-btn::after,
+.fd-button::after {
+	content: "";
+	position: absolute;
+	inset-block: 0;
+	inset-inline-start: -60%;
+	width: 45%;
+	background: linear-gradient(
+		100deg,
+		transparent 0%,
+		rgba(255, 255, 255, 0.34) 50%,
+		transparent 100%
+	);
+	transform: skewX(-18deg);
+	opacity: 0;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.flavor-btn:hover::after,
+.fd-button:hover::after {
+	animation: flavor-m-sheen 620ms var(--flavor-m-soft);
+}
+
+@keyframes flavor-m-sheen {
+	0%   { opacity: 0; inset-inline-start: -60%; }
+	22%  { opacity: 1; }
+	100% { opacity: 0; inset-inline-start: 120%; }
+}
+
+/* Ripple. Injected by motion.js at the pointer coordinates. */
+.flavor-anim-ripple {
+	position: absolute;
+	border-radius: 50%;
+	background: currentColor;
+	opacity: 0.24;
+	transform: scale(0);
+	pointer-events: none;
+	animation: flavor-m-ripple 560ms var(--flavor-m-soft) forwards;
+	z-index: 0;
+}
+
+@keyframes flavor-m-ripple {
+	to { transform: scale(1); opacity: 0; }
+}
+
+/* Primary nav: an underline draws from the reading edge. Uses a transform so
+   the header never reflows when a visitor moves the pointer. */
+.flavor-nav > li > a,
+.flavor-drawer__nav a {
+	position: relative;
+}
+
+.flavor-nav > li > a::after,
+.flavor-drawer__nav a::after {
+	content: "";
+	position: absolute;
+	inset-inline: 10px;
+	bottom: 4px;
+	height: 2px;
+	border-radius: 2px;
+	background: currentColor;
+	transform: scaleX(0);
+	transform-origin: inline-start;
+	transition: transform var(--flavor-quick) var(--flavor-m-signature);
+	pointer-events: none;
+}
+
+.flavor-nav > li > a:hover::after,
+.flavor-nav > li > a:focus-visible::after,
+.flavor-nav > li.current-menu-item > a::after,
+.flavor-nav > li.current_page_item > a::after,
+.flavor-drawer__nav a:hover::after,
+.flavor-drawer__nav a:focus-visible::after {
+	transform: scaleX(1);
+}
+
+/* Card lift + Ken Burns. main.css already lifts `.flavor-food-card`; this adds
+   the media breathing and a soft accent wash so the lift reads as depth
+   instead of as a jump. */
+.flavor-food-card,
+.flavor-cat-card,
+.flavor-card {
+	transition-property: transform, box-shadow, border-color;
+	transition-duration: var(--flavor-quick);
+	transition-timing-function: var(--flavor-m-signature);
+}
+
+.flavor-food-card__media,
+.flavor-cat-card__bg,
+.flavor-gallery__item {
+	overflow: hidden;
+}
+
+.flavor-food-card:hover .flavor-food-card__media img,
+.flavor-cat-card:hover .flavor-cat-card__bg,
+.flavor-gallery__item:hover img {
+	animation: flavor-m-kenburns 6.5s var(--flavor-m-soft) both;
+}
+
+@keyframes flavor-m-kenburns {
+	from { transform: scale(1.04); }
+	to   { transform: scale(1.13) translate3d(-1.5%, -1.5%, 0); }
+}
+
+/* Tilt. motion.js writes --flavor-m-tilt-x/-y; CSS composes it with the hover
+   lift so the two effects never overwrite each other's transform. */
+.flavor-food-card.flavor-anim-tilt,
+.flavor-cat-card.flavor-anim-tilt {
+	transform:
+		perspective(900px)
+		rotateX(calc(var(--flavor-m-tilt-y, 0) * 1deg))
+		rotateY(calc(var(--flavor-m-tilt-x, 0) * -1deg))
+		translate3d(0, var(--flavor-m-tilt-lift, -4px), 0);
+}
+
+/* Gallery thumbs get a caption slide so the grid feels curated. */
+.flavor-gallery__item::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.42), transparent 55%);
+	opacity: 0;
+	transition: opacity var(--flavor-quick) var(--flavor-m-soft);
+	pointer-events: none;
+}
+
+.flavor-gallery__item {
+	position: relative;
+}
+
+.flavor-gallery__item:hover::after,
+.flavor-gallery__item:focus-within::after {
+	opacity: 1;
+}
+
+/* Review stars fill in sequence — one sweep, staggered per star. */
+.flavor-review-card.flavor-anim-in .flavor-review-card__stars svg,
+.flavor-testimonials.flavor-anim-in .flavor-review-card__stars svg {
+	transform-origin: 50% 60%;
+	animation: flavor-m-star-pop 420ms var(--flavor-m-spring) both;
+}
+
+.flavor-review-card__stars svg:nth-child(1) { animation-delay: 40ms; }
+.flavor-review-card__stars svg:nth-child(2) { animation-delay: 110ms; }
+.flavor-review-card__stars svg:nth-child(3) { animation-delay: 180ms; }
+.flavor-review-card__stars svg:nth-child(4) { animation-delay: 250ms; }
+.flavor-review-card__stars svg:nth-child(5) { animation-delay: 320ms; }
+
+@keyframes flavor-m-star-pop {
+	from { opacity: 0; transform: scale(0.4) rotate(-14deg); }
+	to   { opacity: 1; transform: none; }
+}
+
+/* Counted statistics tick once, then hold. motion.js only swaps the text. */
+.flavor-about__stat-num.flavor-anim-counting {
+	animation: flavor-m-count-tick 260ms var(--flavor-m-spring);
+}
+
+@keyframes flavor-m-count-tick {
+	0%   { transform: translateY(0); }
+	45%  { transform: translateY(-3px); }
+	100% { transform: translateY(0); }
+}
+
+/* Coupon code: a stamped look plus a copy pulse driven by motion.js. */
+.flavor-offer-coupon__code {
+	transition: transform var(--flavor-micro) var(--flavor-m-spring),
+	            background-color var(--flavor-quick) var(--flavor-m-soft);
+}
+
+.flavor-offer-coupon__code.flavor-anim-copied {
+	animation: flavor-m-stamp 420ms var(--flavor-m-spring);
+}
+
+@keyframes flavor-m-stamp {
+	0%   { transform: scale(1); }
+	35%  { transform: scale(1.14) rotate(-2deg); }
+	70%  { transform: scale(0.97) rotate(1deg); }
+	100% { transform: scale(1); }
+}
+
+/* Cart badge bumps whenever the count changes, so an add-to-cart that happens
+   off-screen still gets acknowledged. */
+.flavor-cart__count,
+.flavor-wish-count,
+.flavor-mobile-nav__amount {
+	display: inline-block;
+}
+
+.flavor-cart__count.flavor-anim-bump,
+.flavor-wish-count.flavor-anim-bump,
+.flavor-mobile-nav__amount.flavor-anim-bump {
+	animation: flavor-m-bump 460ms var(--flavor-m-spring);
+}
+
+@keyframes flavor-m-bump {
+	0%   { transform: scale(1); }
+	30%  { transform: scale(1.42); }
+	55%  { transform: scale(0.92); }
+	100% { transform: scale(1); }
+}
+
+/* Shimmer for skeleton states that are not the menu's own (ui-menu.css keeps
+   its `flavor-shimmer`); this one is opt-in via a class. */
+.flavor-anim-shimmer {
+	position: relative;
+	overflow: hidden;
+}
+
+.flavor-anim-shimmer::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		100deg,
+		transparent 20%,
+		rgba(255, 255, 255, 0.5) 50%,
+		transparent 80%
+	);
+	transform: translateX(-100%);
+	animation: flavor-m-shimmer 1.5s linear infinite;
+	pointer-events: none;
+}
+
+@keyframes flavor-m-shimmer {
+	to { transform: translateX(100%); }
+}
+
+/* ------------------------------------------------------------------ */
+/*  3. Floating dock (Flavor\Floating_Dock)                           */
+/* ------------------------------------------------------------------ */
+
+/* premium.css already fades the dock in on `.is-visible`. This adds the
+   per-button cascade and the press feedback, both of which were missing. */
+.flavor-dock.is-visible .flavor-dock__btn {
+	animation: flavor-m-dock-in 420ms var(--flavor-m-spring) both;
+}
+
+.flavor-dock.is-visible .flavor-dock__btn:nth-child(1) { animation-delay: 0ms; }
+.flavor-dock.is-visible .flavor-dock__btn:nth-child(2) { animation-delay: 70ms; }
+.flavor-dock.is-visible .flavor-dock__btn:nth-child(3) { animation-delay: 140ms; }
+
+@keyframes flavor-m-dock-in {
+	from { opacity: 0; transform: translate3d(0, 18px, 0) scale(0.82); }
+	to   { opacity: 1; transform: none; }
+}
+
+.flavor-dock__btn {
+	transition: transform var(--flavor-quick) var(--flavor-m-spring),
+	            box-shadow var(--flavor-quick) var(--flavor-m-soft),
+	            background-color var(--flavor-quick) var(--flavor-m-soft),
+	            color var(--flavor-quick) var(--flavor-m-soft);
+}
+
+.flavor-dock__btn:active {
+	transform: scale(0.9);
+}
+
+/* Scroll progress ring. premium.js drives stroke-dashoffset; a transition here
+   turns its per-frame writes into one smooth sweep instead of a staircase. */
+.flavor-dock__ring-fill {
+	transition: stroke-dashoffset var(--flavor-quick) linear,
+	            stroke var(--flavor-quick) var(--flavor-m-soft);
+	transform: rotate(-90deg);
+	transform-origin: 50% 50%;
+}
+
+.flavor-dock__btn--top:hover .flavor-dock__ring-fill {
+	stroke: var(--flavor-primary);
+}
+
+/* WhatsApp gets a slow attention pulse, but only while the dock is idle. */
+.flavor-dock.is-visible .flavor-dock__btn--wa::before {
+	content: "";
+	position: absolute;
+	inset: -4px;
+	border-radius: inherit;
+	border: 2px solid var(--flavor-m-accent-glow);
+	animation: flavor-m-halo 2.8s var(--flavor-m-soft) infinite;
+	pointer-events: none;
+}
+
+.flavor-dock__btn--wa {
+	position: relative;
+}
+
+@keyframes flavor-m-halo {
+	0%   { opacity: 0.7; transform: scale(0.9); }
+	70%  { opacity: 0; transform: scale(1.35); }
+	100% { opacity: 0; transform: scale(1.35); }
+}
+
+/* ------------------------------------------------------------------ */
+/*  4. Mega navigation (Flavor\Nav_Mega)                              */
+/* ------------------------------------------------------------------ */
+
+/* The panel itself is shown/hidden by the theme's nav CSS; motion only owns
+   the choreography, so a skin that disables mega menus loses nothing. */
+.flavor-header__nav .flavor-mega > .sub-menu {
+	transform-origin: 50% 0;
+	animation: flavor-m-mega-in 260ms var(--flavor-m-signature) both;
+}
+
+.flavor-header__nav .flavor-mega > .sub-menu > li {
+	animation: flavor-m-mega-item 340ms var(--flavor-m-soft) both;
+}
+
+.flavor-header__nav .flavor-mega > .sub-menu > li:nth-child(1)  { animation-delay: 40ms; }
+.flavor-header__nav .flavor-mega > .sub-menu > li:nth-child(2)  { animation-delay: 80ms; }
+.flavor-header__nav .flavor-mega > .sub-menu > li:nth-child(3)  { animation-delay: 120ms; }
+.flavor-header__nav .flavor-mega > .sub-menu > li:nth-child(4)  { animation-delay: 160ms; }
+.flavor-header__nav .flavor-mega > .sub-menu > li:nth-child(5)  { animation-delay: 200ms; }
+.flavor-header__nav .flavor-mega > .sub-menu > li:nth-child(6)  { animation-delay: 240ms; }
+.flavor-header__nav .flavor-mega > .sub-menu > li:nth-child(7)  { animation-delay: 280ms; }
+.flavor-header__nav .flavor-mega > .sub-menu > li:nth-child(8)  { animation-delay: 320ms; }
+.flavor-header__nav .flavor-mega > .sub-menu > li:nth-child(n+9){ animation-delay: 360ms; }
+
+@keyframes flavor-m-mega-in {
+	from { opacity: 0; transform: perspective(900px) rotateX(-6deg) translate3d(0, -10px, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-mega-item {
+	from { opacity: 0; transform: translate3d(10px, 0, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+/* Column rules slide down as the panel opens, which is what makes a 4-column
+   mega menu read as one object instead of four lists. */
+.flavor-header__nav .flavor-mega > .sub-menu > li > a::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	inset-block: 6px;
+	width: 2px;
+	border-radius: 2px;
+	background: var(--flavor-primary);
+	transform: scaleY(0);
+	transform-origin: 50% 0;
+	transition: transform var(--flavor-quick) var(--flavor-m-signature);
+}
+
+.flavor-header__nav .flavor-mega > .sub-menu > li > a {
+	position: relative;
+}
+
+.flavor-header__nav .flavor-mega > .sub-menu > li > a:hover::before,
+.flavor-header__nav .flavor-mega > .sub-menu > li > a:focus-visible::before {
+	transform: scaleY(1);
+}
+
+.flavor-mega__desc {
+	transition: color var(--flavor-quick) var(--flavor-m-soft),
+	            opacity var(--flavor-quick) var(--flavor-m-soft);
+	opacity: 0.86;
+}
+
+.flavor-header__nav .flavor-mega > .sub-menu > li > a:hover .flavor-mega__desc {
+	opacity: 1;
+	color: var(--flavor-primary);
+}
+
+/* ------------------------------------------------------------------ */
+/*  5. Night scheme toggle (Flavor\Dark_Mode)                         */
+/* ------------------------------------------------------------------ */
+
+/* The icons are swapped with display:none in dark-mode.css, which is instant.
+   A short morph on the button makes the switch feel deliberate instead of
+   like a flicker, and it costs nothing because it only runs on click. */
+.flavor-scheme-toggle {
+	overflow: hidden;
+	transition: background-color var(--flavor-transition-fast),
+	            border-color var(--flavor-transition-fast),
+	            color var(--flavor-transition-fast),
+	            transform var(--flavor-quick) var(--flavor-m-spring);
+}
+
+.flavor-scheme-toggle:active {
+	transform: scale(0.9);
+}
+
+.flavor-scheme-toggle.flavor-anim-switching .flavor-scheme-toggle__icon {
+	animation: flavor-m-scheme-morph 460ms var(--flavor-m-signature);
+}
+
+@keyframes flavor-m-scheme-morph {
+	0%   { opacity: 0; transform: rotate(-70deg) scale(0.5); }
+	60%  { opacity: 1; transform: rotate(8deg) scale(1.08); }
+	100% { opacity: 1; transform: none; }
+}
+
+/* A wash that follows the switch across the whole viewport. premium.js already
+   adds `flavor-scheme-switching` to <html>; this is the visible half of it. */
+html.flavor-scheme-switching::after {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: 9998;
+	background: radial-gradient(
+		circle at var(--flavor-m-scheme-x, 50%) var(--flavor-m-scheme-y, 0%),
+		var(--flavor-m-accent-glow) 0%,
+		transparent 62%
+	);
+	animation: flavor-m-scheme-wash 520ms var(--flavor-m-soft) both;
+	pointer-events: none;
+}
+
+@keyframes flavor-m-scheme-wash {
+	from { opacity: 0.85; transform: scale(0.6); }
+	to   { opacity: 0; transform: scale(1.6); }
+}
+
+/* ------------------------------------------------------------------ */
+/*  6. Menu filters (template-parts/menu/filters.php)                 */
+/* ------------------------------------------------------------------ */
+
+.flavor-filters__chip {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	transition: background-color var(--flavor-quick) var(--flavor-m-soft),
+	            color var(--flavor-quick) var(--flavor-m-soft),
+	            border-color var(--flavor-quick) var(--flavor-m-soft),
+	            transform var(--flavor-micro) var(--flavor-m-spring);
+}
+
+.flavor-filters__chip:active {
+	transform: scale(0.93);
+}
+
+/* A tick appears inside the pressed chip. Pure CSS, so it survives the
+   re-render premium.js performs on every filter change. */
+.flavor-filters__chip[aria-pressed="true"]::before {
+	content: "";
+	position: absolute;
+	inset-inline-end: 8px;
+	inset-block-start: 50%;
+	width: 5px;
+	height: 9px;
+	border: solid currentColor;
+	border-width: 0 2px 2px 0;
+	transform: translateY(-70%) rotate(45deg) scale(0);
+	animation: flavor-m-chip-tick 320ms var(--flavor-m-spring) forwards;
+	pointer-events: none;
+}
+
+.flavor-filters__chip[aria-pressed="true"] {
+	padding-inline-end: 24px;
+}
+
+@keyframes flavor-m-chip-tick {
+	to { transform: translateY(-70%) rotate(45deg) scale(1); }
+}
+
+/* The live result count flashes on every change so a screen-reader user's
+   `aria-live` announcement has a visual counterpart. */
+.flavor-filters__count.flavor-anim-flash {
+	animation: flavor-m-flash 520ms var(--flavor-m-soft);
+}
+
+@keyframes flavor-m-flash {
+	0%   { opacity: 0.2; transform: translate3d(0, 5px, 0); }
+	100% { opacity: 1; transform: none; }
+}
+
+/* FLIP. premium.js hides/shows cards; motion.js measures the before/after
+   boxes and writes these variables so the survivors glide to their new slots
+   instead of snapping. */
+.flavor-anim-flip {
+	transform: translate3d(var(--flavor-m-flip-x, 0), var(--flavor-m-flip-y, 0), 0);
+	animation: flavor-m-flip 380ms var(--flavor-m-signature) forwards;
+}
+
+@keyframes flavor-m-flip {
+	to { transform: none; }
+}
+
+/* Leaving cards cannot be animated: premium.css hides them with `display:none`,
+   which cancels any animation on the same element. Rather than ship a rule that
+   can never paint, the transition is carried by the survivors above — they
+   glide into the holes the removed cards left, which is what the eye follows. */
+
+/* Sort changes re-drop the grid from the top, which reads as "re-shuffled". */
+.flavor-anim-resort .flavor-food-card,
+.flavor-anim-resort .flavor-card {
+	animation: flavor-m-resort 380ms var(--flavor-m-signature) both;
+}
+
+@keyframes flavor-m-resort {
+	from { opacity: 0; transform: translate3d(0, -12px, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/*  7. Async menu grid (assets/js/menu.js)                            */
+/* ------------------------------------------------------------------ */
+
+/* menu.js renders products after the REST call resolves, long after the
+   entrance observer has swept the page. These two classes are what motion.js
+   puts on a card the moment it is injected, so the grid staggers in instead
+   of appearing fully-formed while the skeleton fades. */
+html.flavor-anim-ready .flavor-anim-injected {
+	animation: flavor-m-card-in 460ms var(--flavor-m-signature) both;
+	animation-delay: var(--flavor-m-delay, 0ms);
+}
+
+@keyframes flavor-m-card-in {
+	from { opacity: 0; transform: translate3d(0, 20px, 0) scale(0.97); }
+	to   { opacity: 1; transform: none; }
+}
+
+/* Category rail chips scroll-snap into place when menu.js reveals the rail. */
+#flavor-cats-nav:not([hidden]) {
+	animation: flavor-m-rail-in 380ms var(--flavor-m-signature) both;
+}
+
+@keyframes flavor-m-rail-in {
+	from { opacity: 0; transform: translate3d(0, -10px, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/*  8. Engagement surfaces (Flavor\Engagement)                        */
+/* ------------------------------------------------------------------ */
+
+/* Consent bar slides up from the bottom edge, icon first. */
+.flavor-consent:not([hidden]) .flavor-consent__inner {
+	animation: flavor-m-consent-in 420ms var(--flavor-m-signature) both;
+}
+
+.flavor-consent:not([hidden]) .flavor-consent__icon {
+	animation: flavor-m-icon-drop 520ms var(--flavor-m-spring) both;
+	animation-delay: 120ms;
+}
+
+.flavor-consent__actions .flavor-btn {
+	animation: flavor-m-fade-rise 380ms var(--flavor-m-soft) both;
+}
+
+.flavor-consent__actions .flavor-btn:nth-child(1) { animation-delay: 200ms; }
+.flavor-consent__actions .flavor-btn:nth-child(2) { animation-delay: 260ms; }
+
+@keyframes flavor-m-consent-in {
+	from { opacity: 0; transform: translate3d(0, 26px, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-icon-drop {
+	from { opacity: 0; transform: translate3d(0, -14px, 0) scale(0.7); }
+	to   { opacity: 1; transform: none; }
+}
+
+/* Countdown: each unit ticks when premium.js rewrites it. */
+.flavor-countdown__unit {
+	display: inline-flex;
+	overflow: hidden;
+}
+
+.flavor-countdown__unit.flavor-anim-tick > strong {
+	animation: flavor-m-unit-tick 340ms var(--flavor-m-signature);
+}
+
+@keyframes flavor-m-unit-tick {
+	0%   { opacity: 0.35; transform: translate3d(0, -45%, 0); }
+	100% { opacity: 1; transform: none; }
+}
+
+/* The last ten seconds nudge the clock, once, without looping. */
+.flavor-countdown.flavor-anim-urgent .flavor-countdown__clock {
+	animation: flavor-m-urgent 900ms var(--flavor-m-soft) 3;
+}
+
+@keyframes flavor-m-urgent {
+	0%, 100% { transform: none; }
+	25%      { transform: scale(1.035); }
+	60%      { transform: scale(0.99); }
+}
+
+/* Promo popup badge spins in; the panel entrance stays premium.css's job. */
+.flavor-popup__badge svg {
+	animation: flavor-m-badge-spin 620ms var(--flavor-m-spring) both;
+	animation-delay: 180ms;
+}
+
+@keyframes flavor-m-badge-spin {
+	from { opacity: 0; transform: rotate(-24deg) scale(0.6); }
+	to   { opacity: 1; transform: none; }
+}
+
+.flavor-popup__code {
+	transition: transform var(--flavor-micro) var(--flavor-m-spring);
+}
+
+.flavor-popup__code.flavor-anim-copied {
+	animation: flavor-m-stamp 420ms var(--flavor-m-spring);
+}
+
+/* ------------------------------------------------------------------ */
+/*  9. Wishlist and quick view (Flavor\Wishlist / Shopping_Extras)    */
+/* ------------------------------------------------------------------ */
+
+/* The heart breaks out of its box when pressed. premium.css owns the colour
+   change; this owns the gesture. */
+.flavor-wish-btn svg {
+	transform-origin: 50% 55%;
+	transition: transform var(--flavor-quick) var(--flavor-m-spring);
+}
+
+.flavor-wish-btn[aria-pressed="true"] svg {
+	animation: flavor-m-heart 560ms var(--flavor-m-spring);
+}
+
+@keyframes flavor-m-heart {
+	0%   { transform: scale(1); }
+	28%  { transform: scale(1.45); }
+	52%  { transform: scale(0.86); }
+	74%  { transform: scale(1.12); }
+	100% { transform: scale(1); }
+}
+
+/* Rows added to the wishlist panel slide in from the reading edge. */
+.flavor-wish__item {
+	animation: flavor-m-wish-row 340ms var(--flavor-m-signature) both;
+}
+
+@keyframes flavor-m-wish-row {
+	from { opacity: 0; transform: translate3d(var(--flavor-m-slide), 0, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+/* Quick view media zooms to fit while the panel is already open. */
+.flavor-qv__media img {
+	animation: flavor-m-qv-media 520ms var(--flavor-m-soft) both;
+	animation-delay: 80ms;
+}
+
+.flavor-qv__title,
+.flavor-qv__price,
+.flavor-qv__desc,
+.flavor-qv__actions {
+	animation: flavor-m-fade-rise 420ms var(--flavor-m-soft) both;
+}
+
+.flavor-qv__title  { animation-delay: 120ms; }
+.flavor-qv__price  { animation-delay: 180ms; }
+.flavor-qv__desc   { animation-delay: 240ms; }
+.flavor-qv__actions{ animation-delay: 300ms; }
+
+@keyframes flavor-m-qv-media {
+	from { opacity: 0; transform: scale(1.06); }
+	to   { opacity: 1; transform: none; }
+}
+
+.flavor-qv-btn {
+	transition: transform var(--flavor-quick) var(--flavor-m-spring),
+	            opacity var(--flavor-quick) var(--flavor-m-soft),
+	            background-color var(--flavor-quick) var(--flavor-m-soft);
+}
+
+.flavor-qv-btn:active { transform: scale(0.9); }
+
+/* ------------------------------------------------------------------ */
+/*  10. Commerce surfaces shared by all twelve demos                  */
+/* ------------------------------------------------------------------ */
+
+/* Free-delivery progress. premium.js writes the width; the transition turns
+   each cart mutation into one continuous pour. */
+.flavor-ship__fill {
+	transition: width var(--flavor-slow) var(--flavor-m-signature),
+	            background-color var(--flavor-quick) var(--flavor-m-soft);
+}
+
+/* Reaching the threshold celebrates once. */
+.flavor-ship__fill.flavor-anim-complete {
+	animation: flavor-m-threshold 760ms var(--flavor-m-spring);
+}
+
+@keyframes flavor-m-threshold {
+	0%, 100% { filter: brightness(1); }
+	40%      { filter: brightness(1.35); }
+}
+
+/* Sticky buy bar hands off from the page to the bar without a hard cut. */
+.flavor-buybar.is-visible .flavor-buybar__thumb,
+.flavor-buybar.is-visible .flavor-buybar__meta,
+.flavor-buybar.is-visible .flavor-buybar__cta {
+	animation: flavor-m-fade-rise 320ms var(--flavor-m-soft) both;
+}
+
+.flavor-buybar.is-visible .flavor-buybar__meta { animation-delay: 60ms; }
+.flavor-buybar.is-visible .flavor-buybar__cta  { animation-delay: 120ms; }
+
+/* Cart lines arrive one after another when the panel opens. */
+.flavor-cart-line {
+	animation: flavor-m-line-in 340ms var(--flavor-m-signature) both;
+	animation-delay: var(--flavor-m-delay, 0ms);
+}
+
+@keyframes flavor-m-line-in {
+	from { opacity: 0; transform: translate3d(var(--flavor-m-slide), 0, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+/* Quantity steppers give tactile feedback on a control that is otherwise just
+   two glyphs. */
+.flavor-qty button {
+	transition: transform var(--flavor-micro) var(--flavor-m-spring),
+	            background-color var(--flavor-quick) var(--flavor-m-soft);
+}
+
+.flavor-qty button:active:not([disabled]) { transform: scale(0.86); }
+
+/* Toasts already slide in (ui.css `flavor-toast-in`); the exit was missing, so
+   a toast vanished mid-sentence. */
+.flavor-ui-toast.flavor-anim-out {
+	animation: flavor-m-toast-out 260ms var(--flavor-m-in) forwards;
+}
+
+@keyframes flavor-m-toast-out {
+	to { opacity: 0; transform: translate3d(0, 14px, 0) scale(0.96); }
+}
+
+/* ------------------------------------------------------------------ */
+/*  11. Opening hours, live status, schedules                         */
+/* ------------------------------------------------------------------ */
+
+/* The "open now" dot already pulses (main.css `flavorPulse`). The row it sits
+   in now breathes with it, which is what actually catches the eye. */
+.flavor-hours-card.flavor-anim-in .flavor-live-status--open,
+.flavor-live-status--open.flavor-anim-in {
+	animation: flavor-m-live 3.4s var(--flavor-m-soft) infinite;
+}
+
+@keyframes flavor-m-live {
+	0%, 100% { box-shadow: 0 0 0 0 var(--flavor-m-accent-glow); }
+	50%      { box-shadow: 0 0 0 6px rgba(var(--flavor-primary-rgb, 138, 90, 43), 0); }
+}
+
+/* Today's row in the schedule is marked by a rule that draws itself. */
+.flavor-schedule-list li.flavor-anim-today::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	inset-block: 4px;
+	width: 3px;
+	border-radius: 3px;
+	background: var(--flavor-primary);
+	animation: flavor-m-rule-draw 620ms var(--flavor-m-signature) both;
+	transform-origin: 50% 0;
+}
+
+.flavor-schedule-list li {
+	position: relative;
+}
+
+@keyframes flavor-m-rule-draw {
+	from { transform: scaleY(0); }
+	to   { transform: scaleY(1); }
+}
+
+/* ------------------------------------------------------------------ */
+/*  12. Offer banner and marquees                                     */
+/* ------------------------------------------------------------------ */
+
+/* The banner's decorative pattern drifts. It is aria-hidden ornament, so the
+   movement carries no information and can be safely removed. */
+.flavor-offer-banner__bg-pattern {
+	animation: flavor-m-drift 24s linear infinite;
+}
+
+@keyframes flavor-m-drift {
+	from { background-position: 0 0; }
+	to   { background-position: 400px 200px; }
+}
+
+.flavor-offer-banner.flavor-anim-in .flavor-offer-banner__badge {
+	animation: flavor-m-badge-bob 3.2s var(--flavor-m-soft) infinite;
+}
+
+@keyframes flavor-m-badge-bob {
+	0%, 100% { transform: translate3d(0, 0, 0) rotate(-2deg); }
+	50%      { transform: translate3d(0, -5px, 0) rotate(2deg); }
+}
+
+/* Opt-in ticker for a topbar message the owner wants to scroll. */
+.flavor-anim-marquee {
+	overflow: hidden;
+}
+
+.flavor-anim-marquee > span {
+	display: inline-block;
+	white-space: nowrap;
+	animation: flavor-m-marquee var(--flavor-m-marquee-duration, 22s) linear infinite;
+}
+
+@keyframes flavor-m-marquee {
+	/* RTL: content travels from the left edge towards the right. */
+	from { transform: translate3d(-100%, 0, 0); }
+	to   { transform: translate3d(100%, 0, 0); }
+}
+
+/* ------------------------------------------------------------------ */
+/*  13. Page-level and template surfaces                              */
+/* ------------------------------------------------------------------ */
+
+/* Mastheads on the menu/branches/contact templates get the same editorial
+   treatment as a homepage hero. */
+.flavor-menu-masthead__text,
+.flavor-ui-page-head,
+.flavor-about-wordmark {
+	animation: flavor-m-line-up var(--flavor-slow) var(--flavor-m-signature) both;
+}
+
+.flavor-menu-context,
+.flavor-menu-tools,
+.flavor-ui-breadcrumb {
+	animation: flavor-m-fade-rise var(--flavor-base) var(--flavor-m-soft) both;
+	animation-delay: 90ms;
+}
+
+/* Panels (account, tracking, reservation) settle rather than pop. */
+.flavor-ui-panel,
+.flavor-account-login__panel,
+.flavor-tracking-result {
+	animation: flavor-m-panel-in 460ms var(--flavor-m-signature) both;
+}
+
+@keyframes flavor-m-panel-in {
+	from { opacity: 0; transform: translate3d(0, 16px, 0) scale(0.99); }
+	to   { opacity: 1; transform: none; }
+}
+
+/* Branch and contact rows cascade. */
+.flavor-contact-row.flavor-anim-in,
+.flavor-hours-card.flavor-anim-in .flavor-hours-card__col,
+.flavor-res-banner__content.flavor-anim-in .flavor-res-banner__perk {
+	animation: flavor-m-fade-rise var(--flavor-base) var(--flavor-m-soft) both;
+}
+
+.flavor-contact-row.flavor-anim-in:nth-child(2),
+.flavor-hours-card.flavor-anim-in .flavor-hours-card__col:nth-child(2),
+.flavor-res-banner__content.flavor-anim-in .flavor-res-banner__perk:nth-child(2) { animation-delay: 80ms; }
+
+.flavor-contact-row.flavor-anim-in:nth-child(3),
+.flavor-hours-card.flavor-anim-in .flavor-hours-card__col:nth-child(3),
+.flavor-res-banner__content.flavor-anim-in .flavor-res-banner__perk:nth-child(3) { animation-delay: 160ms; }
+
+.flavor-contact-row.flavor-anim-in:nth-child(4),
+.flavor-res-banner__content.flavor-anim-in .flavor-res-banner__perk:nth-child(4) { animation-delay: 240ms; }
+
+/* The about-page experience badge is a stamp; it lands like one. */
+.flavor-about.flavor-anim-in .flavor-about__exp-badge,
+.flavor-about__media.flavor-anim-in .flavor-about__exp-badge {
+	animation: flavor-m-stamp 620ms var(--flavor-m-spring) both;
+	animation-delay: 320ms;
+}
+
+/* Reservation banner media drifts slowly behind its copy. */
+.flavor-res-banner__media img {
+	animation: flavor-m-slow-zoom 18s var(--flavor-m-soft) infinite alternate;
+}
+
+@keyframes flavor-m-slow-zoom {
+	from { transform: scale(1); }
+	to   { transform: scale(1.09); }
+}
+
+/* ------------------------------------------------------------------ */
+/*  14. Scroll progress                                               */
+/* ------------------------------------------------------------------ */
+
+/* A hairline at the top of the viewport. Off by default; a skin opts in with
+   `--flavor-m-progress: 1` so it never surprises an owner who did not ask. */
+html.flavor-anim-progress::before {
+	content: "";
+	position: fixed;
+	inset-block-start: 0;
+	inset-inline: 0;
+	height: 2px;
+	z-index: 9999;
+	background: linear-gradient(
+		to left,
+		var(--flavor-primary),
+		var(--flavor-accent, var(--flavor-primary))
+	);
+	transform: scaleX(var(--flavor-m-progress, 0));
+	transform-origin: inline-start;
+	pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ */
+/*  15. Reduced motion                                                */
+/*                                                                     */
+/*  The project standard (CHANGELOG 1.4.0) is that every stylesheet     */
+/*  carrying motion also carries a guard using this file's own          */
+/*  selectors. This block is deliberately exhaustive.                  */
+/* ================================================================== */
+@media (prefers-reduced-motion: reduce) {
+	html.flavor-anim-ready .flavor-anim-enter {
+		opacity: 1;
+		transform: none;
+		filter: none;
+		transition: none;
+		animation: none;
+	}
+
+	html.flavor-anim-ready .flavor-anim-in,
+	html.flavor-anim-ready .flavor-anim-injected,
+	.flavor-anim-flip,
+	.flavor-anim-ripple,
+	.flavor-anim-shimmer::before,
+	.flavor-anim-marquee > span,
+	.flavor-hero__badge,
+	.flavor-hero__title,
+	.flavor-hero__text,
+	.flavor-hero__actions,
+	.flavor-hero__features,
+	.flavor-hero__media,
+	.flavor-hero__img-frame,
+	.flavor-hero__bg,
+	.flavor-hero__overlay,
+	.flavor-section-header__tag,
+	.flavor-section-header__title,
+	.flavor-section-header__desc,
+	.flavor-btn::after,
+	.fd-button::after,
+	.flavor-food-card:hover .flavor-food-card__media img,
+	.flavor-cat-card:hover .flavor-cat-card__bg,
+	.flavor-gallery__item:hover img,
+	.flavor-review-card__stars svg,
+	.flavor-about__stat-num.flavor-anim-counting,
+	.flavor-offer-coupon__code.flavor-anim-copied,
+	.flavor-popup__code.flavor-anim-copied,
+	.flavor-cart__count.flavor-anim-bump,
+	.flavor-wish-count.flavor-anim-bump,
+	.flavor-mobile-nav__amount.flavor-anim-bump,
+	.flavor-dock.is-visible .flavor-dock__btn,
+	.flavor-dock.is-visible .flavor-dock__btn--wa::before,
+	.flavor-header__nav .flavor-mega > .sub-menu,
+	.flavor-header__nav .flavor-mega > .sub-menu > li,
+	.flavor-scheme-toggle.flavor-anim-switching .flavor-scheme-toggle__icon,
+	html.flavor-scheme-switching::after,
+	.flavor-filters__chip[aria-pressed="true"]::before,
+	.flavor-filters__count.flavor-anim-flash,
+	.flavor-anim-resort .flavor-food-card,
+	.flavor-anim-resort .flavor-card,
+	#flavor-cats-nav:not([hidden]),
+	.flavor-consent:not([hidden]) .flavor-consent__inner,
+	.flavor-consent:not([hidden]) .flavor-consent__icon,
+	.flavor-consent__actions .flavor-btn,
+	.flavor-countdown__unit.flavor-anim-tick > strong,
+	.flavor-countdown.flavor-anim-urgent .flavor-countdown__clock,
+	.flavor-popup__badge svg,
+	.flavor-wish-btn[aria-pressed="true"] svg,
+	.flavor-wish__item,
+	.flavor-qv__media img,
+	.flavor-qv__title,
+	.flavor-qv__price,
+	.flavor-qv__desc,
+	.flavor-qv__actions,
+	.flavor-ship__fill.flavor-anim-complete,
+	.flavor-buybar.is-visible .flavor-buybar__thumb,
+	.flavor-buybar.is-visible .flavor-buybar__meta,
+	.flavor-buybar.is-visible .flavor-buybar__cta,
+	.flavor-cart-line,
+	.flavor-ui-toast.flavor-anim-out,
+	.flavor-live-status--open,
+	.flavor-schedule-list li.flavor-anim-today::before,
+	.flavor-offer-banner__bg-pattern,
+	.flavor-offer-banner__badge,
+	.flavor-menu-masthead__text,
+	.flavor-ui-page-head,
+	.flavor-about-wordmark,
+	.flavor-menu-context,
+	.flavor-menu-tools,
+	.flavor-ui-breadcrumb,
+	.flavor-ui-panel,
+	.flavor-account-login__panel,
+	.flavor-tracking-result,
+	.flavor-contact-row,
+	.flavor-hours-card__col,
+	.flavor-res-banner__perk,
+	.flavor-about__exp-badge,
+	.flavor-res-banner__media img {
+		animation: none !important;
+		transition: none !important;
+	}
+
+	/* Hover transforms are neutralised too, matching marketing.css's guard. */
+	.flavor-food-card.flavor-anim-tilt,
+	.flavor-cat-card.flavor-anim-tilt {
+		transform: none !important;
+	}
+
+	.flavor-dock__btn:active,
+	.flavor-scheme-toggle:active,
+	.flavor-filters__chip:active,
+	.flavor-qv-btn:active,
+	.flavor-qty button:active:not([disabled]) {
+		transform: none !important;
+	}
+
+	/* The mask variant parks content at translate(0,105%); without this the
+	   heading would stay clipped for a reduced-motion visitor. */
+	html.flavor-anim-ready .flavor-anim-enter[data-flavor-anim="mask"] {
+		transform: none !important;
+		opacity: 1 !important;
+	}
+}
+
+/* ================================================================== */
+/*  16. Print and forced-colours                                      */
+/* ================================================================== */
+@media print {
+	.flavor-anim-ripple,
+	.flavor-anim-shimmer::before,
+	.flavor-dock,
+	html.flavor-anim-progress::before,
+	html.flavor-scheme-switching::after {
+		display: none !important;
+	}
+
+	.flavor-anim-enter {
+		opacity: 1 !important;
+		transform: none !important;
+		filter: none !important;
+	}
+}
+
+@media (forced-colors: active) {
+	/* Decorative washes disappear in high-contrast mode; focus rings stay. */
+	.flavor-btn::after,
+	.fd-button::after,
+	.flavor-anim-ripple,
+	.flavor-anim-shimmer::before,
+	.flavor-gallery__item::after,
+	html.flavor-scheme-switching::after,
+	html.flavor-anim-progress::before,
+	.flavor-dock.is-visible .flavor-dock__btn--wa::before {
+		display: none !important;
+	}
+}
+
+/* Coarse pointers get no tilt, no Ken Burns and no sheen: they are hover-only
+   affordances that a thumb cannot trigger and would only cost frames. */
+@media (hover: none), (pointer: coarse) {
+	.flavor-btn:hover::after,
+	.fd-button:hover::after {
+		animation: none;
+	}
+
+	.flavor-food-card:hover .flavor-food-card__media img,
+	.flavor-cat-card:hover .flavor-cat-card__bg,
+	.flavor-gallery__item:hover img {
+		animation: none;
+	}
+
+	.flavor-food-card.flavor-anim-tilt,
+	.flavor-cat-card.flavor-anim-tilt {
+		transform: none;
+	}
+}
+
+/* Small screens: halve the travel so a 320px column does not slide in from
+   half a viewport away. */
+@media (max-width: 700px) {
+	:root {
+		--flavor-m-rise: 16px;
+		--flavor-m-slide: 18px;
+		--flavor-m-step: 45ms;
+	}
+}

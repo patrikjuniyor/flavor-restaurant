@@ -103,3 +103,151 @@
 @media (max-width: 700px) {
 	.flavor-skin-minimal-clean .fd-form-hero__art figcaption { gap: 8px; }
 }
+/* ================================================================== */
+/*  Motion art direction — minimal / gallery white                    */
+/*                                                                     */
+/*  Signature: precision. One hairline draws, one opacity step, and    */
+/*  nothing else. No overshoot, no rotation, no scale — this preset is */
+/*  about whitespace, so motion has to be the quietest of the twelve.  */
+/*  Durations are short because a long fade on a white page reads as   */
+/*  the site being slow rather than as restraint.                     */
+/* ================================================================== */
+body.flavor-skin-minimal-clean {
+	--fd-m-signature: cubic-bezier(0.33, 1, 0.68, 1); /* zero overshoot */
+	--fd-m-rise: 10px;   /* the smallest travel of any demo */
+	--fd-m-step: 48ms;
+	--fd-m-hair: 320ms;
+}
+
+/* The hero rule draws itself once, from the reading edge. */
+html.fd-anim-ready .flavor-skin-minimal-clean .fd-form-hero__copy h1::after {
+	content: "";
+	display: block;
+	width: 64px;
+	height: 1px;
+	background: var(--flavor-ink);
+	margin-top: 26px;
+	transform: scaleX(0);
+	transform-origin: inline-start;
+	animation: fd-m-mc-hairline var(--fd-m-hair) var(--fd-m-signature) 220ms both;
+}
+
+html.fd-anim-ready .flavor-skin-minimal-clean .fd-form-hero__copy h1 {
+	position: relative;
+}
+
+/* One opacity step. No transform at all: on a pure-white page even a 10px
+   slide reads as movement, and this preset is meant to feel static. */
+html.fd-anim-ready .flavor-skin-minimal-clean .fd-form-hero__art.fd-anim-enter,
+html.fd-anim-ready .flavor-skin-minimal-clean .fd-form-experience.fd-anim-enter,
+html.fd-anim-ready .flavor-skin-minimal-clean .fd-product.fd-anim-enter,
+html.fd-anim-ready .flavor-skin-minimal-clean .fd-section.fd-anim-enter {
+	transform: none;
+}
+
+/* The caption rule under the hero image extends as the section lands. */
+html.fd-anim-ready .flavor-skin-minimal-clean .fd-form-hero__art.fd-anim-visible figcaption {
+	animation: fd-m-mc-rule 620ms var(--fd-m-signature) both;
+}
+
+/* Product images resolve rather than zoom: a very small scale, over a long
+   duration, which reads as focus pulling instead of as movement. */
+.flavor-skin-minimal-clean .fd-product__media img {
+	transition: transform 1.1s var(--fd-m-signature), filter 1.1s var(--fd-m-signature);
+}
+
+.flavor-skin-minimal-clean .fd-product:hover .fd-product__media img {
+	transform: scale(1.022);
+	filter: saturate(0.94);
+}
+
+/* The order button is a hairline circle; on hover the line closes around it. */
+.flavor-skin-minimal-clean .fd-product__order {
+	transition: transform 240ms var(--fd-m-signature), background-color 240ms var(--fd-m-signature), color 240ms var(--fd-m-signature);
+}
+
+.flavor-skin-minimal-clean .fd-product__order:hover {
+	transform: scale(1.06);
+}
+
+/* Filter chips: the pressed one gets a rule under it, drawn not faded. */
+.flavor-skin-minimal-clean .fd-menu__filters button {
+	position: relative;
+}
+
+.flavor-skin-minimal-clean .fd-menu__filters button::after {
+	content: "";
+	position: absolute;
+	inset-inline: 12px;
+	bottom: 4px;
+	height: 1px;
+	background: currentColor;
+	transform: scaleX(0);
+	transform-origin: inline-start;
+	transition: transform 280ms var(--fd-m-signature);
+}
+
+.flavor-skin-minimal-clean .fd-menu__filters button[aria-pressed="true"]::after,
+.flavor-skin-minimal-clean .fd-menu__filters button:hover::after {
+	transform: scaleX(1);
+}
+
+/* Process numerals count in on a single hairline that draws beneath them. */
+html.fd-anim-ready .flavor-skin-minimal-clean .fd-process__steps li.fd-anim-visible .fd-process__number {
+	animation: fd-m-mc-numeral 560ms var(--fd-m-signature) both;
+}
+
+/* The prose block's leading rule extends with the section. */
+html.fd-anim-ready .flavor-skin-minimal-clean .fd-section.fd-anim-visible .fd-prose {
+	animation: fd-m-mc-rule 700ms var(--fd-m-signature) 120ms both;
+}
+
+/* Experience hours: a single quiet fade, no travel. */
+html.fd-anim-ready .flavor-skin-minimal-clean .fd-form-experience.fd-anim-visible .fd-form-experience__hours {
+	animation: fd-m-mc-fade 620ms var(--fd-m-signature) 200ms both;
+}
+
+@keyframes fd-m-mc-hairline {
+	from { transform: scaleX(0); }
+	to   { transform: scaleX(1); }
+}
+
+@keyframes fd-m-mc-rule {
+	from { opacity: 0; transform: scaleX(0.55); transform-origin: inline-start; }
+	to   { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes fd-m-mc-numeral {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+
+@keyframes fd-m-mc-fade {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.fd-anim-ready .flavor-skin-minimal-clean .fd-form-hero__copy h1::after,
+	html.fd-anim-ready .flavor-skin-minimal-clean .fd-form-hero__art.fd-anim-visible figcaption,
+	html.fd-anim-ready .flavor-skin-minimal-clean .fd-process__steps li.fd-anim-visible .fd-process__number,
+	html.fd-anim-ready .flavor-skin-minimal-clean .fd-section.fd-anim-visible .fd-prose,
+	html.fd-anim-ready .flavor-skin-minimal-clean .fd-form-experience.fd-anim-visible .fd-form-experience__hours,
+	.flavor-skin-minimal-clean .fd-product__media img,
+	.flavor-skin-minimal-clean .fd-product:hover .fd-product__media img,
+	.flavor-skin-minimal-clean .fd-product__order,
+	.flavor-skin-minimal-clean .fd-product__order:hover,
+	.flavor-skin-minimal-clean .fd-menu__filters button::after {
+		animation: none !important;
+		transition: none !important;
+		transform: none !important;
+		filter: none !important;
+		opacity: 1 !important;
+	}
+
+	/* The rules are identity, so they stay drawn; only the drawing stops. */
+	html.fd-anim-ready .flavor-skin-minimal-clean .fd-form-hero__copy h1::after,
+	.flavor-skin-minimal-clean .fd-menu__filters button[aria-pressed="true"]::after {
+		transform: scaleX(1) !important;
+	}
+}

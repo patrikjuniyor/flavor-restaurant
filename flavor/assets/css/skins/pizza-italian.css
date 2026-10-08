@@ -567,3 +567,153 @@ body.flavor-skin-pizza-italian {
 		transition-duration: 0.01ms !important;
 	}
 }
+/* ================================================================== */
+/*  Motion art direction — pizza & Italian trattoria                  */
+/*                                                                     */
+/*  Signature: the tricolore as a transition. A green-white-red edge   */
+/*  wipes across a card on hover, dough-like cards prove with a soft   */
+/*  give, and basil-leaf ornaments sway. Every curve is round; nothing */
+/*  in a trattoria is angular.                                        */
+/* ================================================================== */
+body.flavor-skin-pizza-italian {
+	--flavor-m-signature: cubic-bezier(0.34, 1.3, 0.64, 1);
+	--flavor-m-hero: cubic-bezier(0.22, 1, 0.36, 1);
+	--flavor-m-rise: 24px;
+	--flavor-m-scale: 0.94;
+	--flavor-m-step: 68ms;
+}
+
+.flavor-skin-pizza-italian .flavor-food-card,
+.flavor-skin-pizza-italian .flavor-cat-card {
+	position: relative;
+	isolation: isolate;
+}
+
+/* The tricolore rule wipes across a card's top edge on hover or focus. */
+.flavor-skin-pizza-italian .flavor-food-card::before,
+.flavor-skin-pizza-italian .flavor-cat-card::before {
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	top: 0;
+	height: 4px;
+	background: linear-gradient(to left, #2f7d3a 0 33.3%, #fbf7ef 33.3% 66.6%, #c0392b 66.6% 100%);
+	transform: scaleX(0);
+	transform-origin: inline-start;
+	transition: transform 460ms var(--flavor-m-signature);
+	pointer-events: none;
+	z-index: 2;
+}
+
+.flavor-skin-pizza-italian .flavor-food-card:hover::before,
+.flavor-skin-pizza-italian .flavor-food-card:focus-within::before,
+.flavor-skin-pizza-italian .flavor-cat-card:hover::before {
+	transform: scaleX(1);
+}
+
+/* Dough give: cards scale past their size and settle, like dough proving. */
+html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-food-card.flavor-anim-in,
+html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-cat-card.flavor-anim-in {
+	animation: flavor-m-pi-dough 560ms var(--flavor-m-signature) both;
+}
+
+.flavor-skin-pizza-italian .flavor-food-card {
+	transition: transform 260ms var(--flavor-m-signature);
+}
+
+.flavor-skin-pizza-italian .flavor-food-card:hover {
+	transform: scale(1.028);
+}
+
+/* Basil sway on the section tag and the intro icons. */
+html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-intro__card.flavor-anim-in .flavor-intro__icon,
+html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-section.flavor-anim-in .flavor-section-header__tag {
+	animation: flavor-m-pi-sway 4.4s ease-in-out 400ms infinite;
+}
+
+/* Hero features arrive like ingredients being laid on a base, one by one. */
+html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-hero__feat {
+	animation: flavor-m-pi-layer 520ms var(--flavor-m-signature) both;
+}
+
+html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-hero__feat:nth-child(1) { animation-delay: 420ms; }
+html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-hero__feat:nth-child(2) { animation-delay: 520ms; }
+html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-hero__feat:nth-child(3) { animation-delay: 620ms; }
+html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-hero__feat:nth-child(4) { animation-delay: 720ms; }
+
+/* The category badge spins in like a tossed disc. */
+html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-food-card.flavor-anim-in .flavor-food-card__cat-badge {
+	animation: flavor-m-pi-toss 640ms var(--flavor-m-signature) 180ms both;
+}
+
+/* Offer banner: the tomato-red field breathes warm, like an oven mouth. */
+html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-offer-banner.flavor-anim-in .flavor-offer-banner__badge {
+	animation: flavor-m-pi-ember 3.2s ease-in-out infinite;
+}
+
+/* Gallery images warm toward the oven glow on hover. */
+.flavor-skin-pizza-italian .flavor-gallery__item img {
+	transition: transform var(--flavor-slow) var(--flavor-m-signature),
+	            filter var(--flavor-slow) var(--flavor-m-signature);
+}
+
+.flavor-skin-pizza-italian .flavor-gallery__item:hover img {
+	filter: saturate(1.18) brightness(1.05);
+}
+
+@keyframes flavor-m-pi-dough {
+	0%   { opacity: 0; transform: scale(0.9) translate3d(0, 14px, 0); }
+	64%  { opacity: 1; transform: scale(1.035); }
+	100% { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-pi-sway {
+	0%, 100% { transform: rotate(-4deg); }
+	50%      { transform: rotate(4deg); }
+}
+
+@keyframes flavor-m-pi-layer {
+	from { opacity: 0; transform: translate3d(0, -16px, 0) scale(0.9); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-pi-toss {
+	0%   { opacity: 0; transform: rotate(-160deg) scale(0.5); }
+	70%  { opacity: 1; transform: rotate(12deg) scale(1.08); }
+	100% { opacity: 1; transform: none; }
+}
+
+@keyframes flavor-m-pi-ember {
+	0%, 100% { transform: scale(1); filter: brightness(1); }
+	50%      { transform: scale(1.06); filter: brightness(1.14); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-food-card.flavor-anim-in,
+	html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-cat-card.flavor-anim-in,
+	html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-intro__card.flavor-anim-in .flavor-intro__icon,
+	html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-section.flavor-anim-in .flavor-section-header__tag,
+	html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-hero__feat,
+	html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-food-card.flavor-anim-in .flavor-food-card__cat-badge,
+	html.flavor-anim-ready .flavor-skin-pizza-italian .flavor-offer-banner.flavor-anim-in .flavor-offer-banner__badge,
+	.flavor-skin-pizza-italian .flavor-food-card::before,
+	.flavor-skin-pizza-italian .flavor-cat-card::before,
+	.flavor-skin-pizza-italian .flavor-food-card,
+	.flavor-skin-pizza-italian .flavor-food-card:hover,
+	.flavor-skin-pizza-italian .flavor-gallery__item img,
+	.flavor-skin-pizza-italian .flavor-gallery__item:hover img {
+		animation: none !important;
+		transition: none !important;
+		transform: none !important;
+		filter: none !important;
+		opacity: 1 !important;
+	}
+
+	/* The tricolore stays as a static band on hover: it is brand identity, not
+	   decoration, so removing it would cost meaning. */
+	.flavor-skin-pizza-italian .flavor-food-card:hover::before,
+	.flavor-skin-pizza-italian .flavor-food-card:focus-within::before,
+	.flavor-skin-pizza-italian .flavor-cat-card:hover::before {
+		transform: scaleX(1);
+	}
+}

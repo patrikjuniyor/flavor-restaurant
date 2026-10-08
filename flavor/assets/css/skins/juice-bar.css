@@ -82,3 +82,178 @@ body.flavor-skin-juice-bar { --juice-citrus: #f2c14e; --juice-pith: #fff4c8; --j
 @media (max-width: 700px) {
 	.flavor-skin-juice-bar .fd-juice-feature__card::before { width: 180px; inset-block-start: -92px; inset-inline-start: -76px; opacity: .22; }
 }
+/* ================================================================== */
+/*  Motion art direction — juice bar / limo                           */
+/*                                                                     */
+/*  Signature: liquid. A citrus wash fills the hero arch from the      */
+/*  bottom, bubbles rise through the freshness strip, and the fresh    */
+/*  seal swings on its pin. Everything is round and buoyant; nothing   */
+/*  in this preset moves in a straight line for long.                  */
+/* ================================================================== */
+body.flavor-skin-juice-bar {
+	--fd-m-signature: cubic-bezier(0.34, 1.42, 0.5, 1);
+	--fd-m-liquid: cubic-bezier(0.4, 0, 0.2, 1);
+	--fd-m-rise: 22px;
+	--fd-m-step: 80ms;
+}
+
+/* Liquid fill: a citrus gradient rises inside the hero arch and drains away.
+   .fd-hero__art::before is already the outline ring this skin draws, so the
+   wash goes on ::after and never receives a pointer event. */
+.flavor-skin-juice-bar .fd-hero__art::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 180px 180px 36px 36px;
+	background: linear-gradient(to top, rgba(244, 215, 139, 0.5), rgba(220, 233, 156, 0.34) 58%, transparent 82%);
+	transform: translateY(101%);
+	pointer-events: none;
+	z-index: 1;
+	mix-blend-mode: multiply;
+}
+
+html.fd-anim-ready .flavor-skin-juice-bar .fd-hero__art::after {
+	animation: fd-m-jb-fill 1.5s var(--fd-m-liquid) 240ms both;
+}
+
+/* The fresh seal swings on its pin. Its resting state is rotate(-13deg), so
+   every keyframe carries that offset — animating from 0 would snap the seal
+   upright and break the composition the skin set up. */
+html.fd-anim-ready .flavor-skin-juice-bar .fd-fresh-seal {
+	animation: fd-m-jb-swing 4.6s ease-in-out 900ms infinite;
+	transform-origin: 50% 12%;
+}
+
+/* Bubbles rise through the freshness strip, one per item, offset. */
+.flavor-skin-juice-bar .fd-freshness__item {
+	position: relative;
+}
+
+.flavor-skin-juice-bar .fd-freshness__icon {
+	position: relative;
+}
+
+html.fd-anim-ready .flavor-skin-juice-bar .fd-freshness__item.fd-anim-visible .fd-freshness__icon::after {
+	content: "";
+	position: absolute;
+	inset-inline-start: 22%;
+	bottom: 10%;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.55);
+	animation: fd-m-jb-bubble 3.1s ease-in-out infinite;
+	pointer-events: none;
+}
+
+html.fd-anim-ready .flavor-skin-juice-bar .fd-freshness__item.fd-anim-visible:nth-child(2) .fd-freshness__icon::after {
+	animation-delay: 0.7s;
+}
+
+html.fd-anim-ready .flavor-skin-juice-bar .fd-freshness__item.fd-anim-visible:nth-child(3) .fd-freshness__icon::after {
+	animation-delay: 1.4s;
+}
+
+/* Products bob in like fruit dropped into water: up past rest, then settle. */
+html.fd-anim-ready .flavor-skin-juice-bar .fd-product.fd-anim-visible {
+	animation: fd-m-jb-bob 620ms var(--fd-m-signature) both;
+}
+
+/* The round product image pours into its frame rather than fading. */
+.flavor-skin-juice-bar .fd-product__media {
+	overflow: hidden;
+}
+
+.flavor-skin-juice-bar .fd-product:hover .fd-product__media img {
+	transform: scale(1.07) rotate(1.4deg);
+	transition: transform 720ms var(--fd-m-liquid);
+}
+
+/* The feature card's circular image turns slowly, like a glass on a bar mat. */
+html.fd-anim-ready .flavor-skin-juice-bar .fd-juice-feature__card.fd-anim-visible img {
+	animation: fd-m-jb-pour 1.3s var(--fd-m-liquid) both;
+}
+
+.flavor-skin-juice-bar .fd-juice-feature__card:hover img {
+	transform: rotate(7deg) scale(1.03);
+	transition: transform 900ms var(--fd-m-liquid);
+}
+
+/* The hero caption floats; this skin gives it a little more travel than the
+   shared layer, because the caption sits over a rounded arch. */
+html.fd-anim-ready .flavor-skin-juice-bar .fd-hero__caption {
+	animation-duration: 5.2s;
+}
+
+/* Brand mark squishes on press, like a citrus half. */
+.flavor-skin-juice-bar .fd-brand__mark {
+	transition: transform 220ms var(--fd-m-signature);
+}
+
+.flavor-skin-juice-bar .fd-brand__mark:hover {
+	transform: scale(1.08) rotate(-4deg);
+}
+
+@keyframes fd-m-jb-fill {
+	0%   { transform: translateY(101%); opacity: 0; }
+	38%  { opacity: 1; }
+	72%  { transform: translateY(0); opacity: 0.9; }
+	100% { transform: translateY(0); opacity: 0; }
+}
+
+@keyframes fd-m-jb-swing {
+	0%, 100% { transform: rotate(-13deg); }
+	28%      { transform: rotate(-6deg); }
+	56%      { transform: rotate(-17deg); }
+	78%      { transform: rotate(-11deg); }
+}
+
+@keyframes fd-m-jb-bubble {
+	0%   { opacity: 0; transform: translate3d(0, 6px, 0) scale(0.5); }
+	22%  { opacity: 0.85; }
+	70%  { opacity: 0.4; }
+	100% { opacity: 0; transform: translate3d(-5px, -26px, 0) scale(1.15); }
+}
+
+@keyframes fd-m-jb-bob {
+	0%   { opacity: 0; transform: translate3d(0, 26px, 0) scale(0.94); }
+	56%  { opacity: 1; transform: translate3d(0, -7px, 0) scale(1.02); }
+	78%  { transform: translate3d(0, 2px, 0) scale(0.995); }
+	100% { opacity: 1; transform: none; }
+}
+
+@keyframes fd-m-jb-pour {
+	0%   { opacity: 0; transform: rotate(-14deg) scale(0.82); }
+	62%  { opacity: 1; transform: rotate(4deg) scale(1.04); }
+	100% { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.fd-anim-ready .flavor-skin-juice-bar .fd-hero__art::after,
+	html.fd-anim-ready .flavor-skin-juice-bar .fd-fresh-seal,
+	html.fd-anim-ready .flavor-skin-juice-bar .fd-freshness__item.fd-anim-visible .fd-freshness__icon::after,
+	html.fd-anim-ready .flavor-skin-juice-bar .fd-product.fd-anim-visible,
+	html.fd-anim-ready .flavor-skin-juice-bar .fd-juice-feature__card.fd-anim-visible img,
+	html.fd-anim-ready .flavor-skin-juice-bar .fd-hero__caption,
+	.flavor-skin-juice-bar .fd-product:hover .fd-product__media img,
+	.flavor-skin-juice-bar .fd-juice-feature__card:hover img,
+	.flavor-skin-juice-bar .fd-brand__mark,
+	.flavor-skin-juice-bar .fd-brand__mark:hover {
+		animation: none !important;
+		transition: none !important;
+		transform: none !important;
+		opacity: 1 !important;
+	}
+
+	/* The seal keeps the rotation the skin gave it; only the swing stops. */
+	html.fd-anim-ready .flavor-skin-juice-bar .fd-fresh-seal {
+		transform: rotate(-13deg) !important;
+	}
+
+	/* The liquid wash and the bubbles are ornament: remove them rather than
+	   freeze them, so no gradient sits permanently over the photography. */
+	html.fd-anim-ready .flavor-skin-juice-bar .fd-hero__art::after,
+	html.fd-anim-ready .flavor-skin-juice-bar .fd-freshness__item.fd-anim-visible .fd-freshness__icon::after {
+		display: none !important;
+	}
+}

@@ -19,9 +19,75 @@ class Enqueue {
 	 */
 	public static function init(): void {
 		add_action( 'wp_enqueue_scripts', array( self::class, 'front' ) );
+		/* The motion layer is an overlay: it has to land after the skin sheets
+		   and after premium.css so that a rule it shares a selector with
+		   (`.flavor-filters__chip`, say) resolves in its favour. Skin art
+		   direction still wins on specificity, which is what we want. */
+		add_action( 'wp_enqueue_scripts', array( self::class, 'motion' ), 50 );
 		add_action( 'enqueue_block_editor_assets', array( self::class, 'editor' ) );
 		add_action( 'wp_head', array( self::class, 'preload' ), 1 );
 		add_filter( 'wp_lazy_loading_enabled', array( self::class, 'keep_hero_eager' ), 10, 3 );
+	}
+
+	/**
+	 * Shared motion layer for all twelve demos.
+	 *
+	 * The bespoke five keep `demo-animations.*` for their `fd-*` landing
+	 * templates; this pair drives the `flavor-*` vocabulary the seven classic
+	 * demos use plus every commerce surface all twelve share — including the
+	 * dock, mega nav, night-scheme toggle, menu filters, wishlist, quick view
+	 * and engagement surfaces that were added after the first animation pass.
+	 *
+	 * Both files are inert without JavaScript: every rule that can hide or move
+	 * content is gated on a class the script sets, so a blocked or failed
+	 * script leaves the site exactly as it renders today.
+	 */
+	public static function motion(): void {
+		if ( is_admin() ) {
+			return;
+		}
+
+		$css = '/assets/css/motion.css';
+		$js  = '/assets/js/motion.js';
+
+		if ( ! is_readable( FLAVOR_DIR . $css ) || ! is_readable( FLAVOR_DIR . $js ) ) {
+			return;
+		}
+
+		/* Depend on whatever is actually registered, so this still works if the
+		   premium layer is ever removed or if a skin sheet is missing. */
+		$deps = array( 'flavor-main' );
+		foreach ( array( 'flavor-marketing', 'flavor-premium', 'flavor-dark-mode' ) as $handle ) {
+			if ( wp_style_is( $handle, 'registered' ) || wp_style_is( $handle, 'enqueued' ) || wp_style_is( $handle, 'done' ) ) {
+				$deps[] = $handle;
+			}
+		}
+
+		$skin = Design::current_skin();
+		$skin_handle = 'flavor-skin-' . sanitize_html_class( $skin );
+		if ( wp_style_is( $skin_handle, 'registered' ) || wp_style_is( $skin_handle, 'enqueued' ) || wp_style_is( $skin_handle, 'done' ) ) {
+			$deps[] = $skin_handle;
+		}
+
+		wp_enqueue_style(
+			'flavor-motion',
+			FLAVOR_URI . $css,
+			$deps,
+			(string) filemtime( FLAVOR_DIR . $css )
+		);
+
+		/* Depends on main.js because the toast wrapper in motion.js decorates
+		   `window.flavorToast`, which main.js is what defines. */
+		wp_enqueue_script(
+			'flavor-motion-js',
+			FLAVOR_URI . $js,
+			array( 'flavor-main-js' ),
+			(string) filemtime( FLAVOR_DIR . $js ),
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
+		);
 	}
 
 	/**
