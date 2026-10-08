@@ -802,6 +802,8 @@ function user_can( $user, string $cap ): bool {
 }
 
 // Mock Options
+$GLOBALS['_mock_theme_mods'] = array();
+
 $GLOBALS['_mock_options'] = array(
 	'flavor_core_db_version' => '1.5.0',
 	'blogname'               => 'رستوران سنتی شاندیز',
@@ -825,8 +827,12 @@ function delete_option( string $key ): bool {
 	unset( $GLOBALS['_mock_options'][ $key ] );
 	return true;
 }
+/**
+ * Theme mods are empty by default (every test sees production defaults), but a
+ * suite may seed `$GLOBALS['_mock_theme_mods']` to exercise a configured site.
+ */
 function get_theme_mod( string $key, $default = false ) {
-	return $default;
+	return $GLOBALS['_mock_theme_mods'][ $key ] ?? $default;
 }
 function get_bloginfo( string $key ) {
 	return 'رستوران شاندیز';

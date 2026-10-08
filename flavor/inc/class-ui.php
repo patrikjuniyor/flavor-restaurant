@@ -159,6 +159,20 @@ class UI {
 			'grid' => '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
 			'list' => '<path d="M9 5h12M9 12h12M9 19h12M3 5h1M3 12h1M3 19h1"/>',
 			'info' => '<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/>',
+			'sun' => '<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.5 1.5m11.2 11.2 1.5 1.5M2 12h2m16 0h2M4.9 19.1l1.5-1.5M17.6 6.4l1.5-1.5"/>',
+			'moon' => '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>',
+			'heart' => '<path d="M12 20s-7-4.4-7-9.4A4.1 4.1 0 0 1 12 7.6a4.1 4.1 0 0 1 7 2.9c0 5-7 9.5-7 9.5Z"/>',
+			'arrow_up' => '<path d="M12 19V5m-7 7 7-7 7 7"/>',
+			'whatsapp' => '<path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5l1.5-4.6a8.4 8.4 0 1 1 15.5-4.3Z"/><path d="M9 8.4c.4 0 .6.1.8.6l.7 1.5c.1.3 0 .5-.1.7l-.5.5c.9 1.6 1.5 2.2 3.1 3.1l.5-.5c.2-.2.4-.2.7-.1l1.6.8c.4.2.5.4.5.7 0 .9-.8 1.6-1.8 1.6-3.3 0-7.4-4.1-7.4-7.3 0-1 .8-1.6 1.9-1.6Z"/>',
+			'shield' => '<path d="M12 3l7 3v6c0 4.4-2.9 7.6-7 9-4.1-1.4-7-4.6-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/>',
+			'truck' => '<path d="M3 7h11v9H3zM14 10h3.6l3.4 3.4V16h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/>',
+			'tag' => '<path d="M20 12.5 12.5 20 4 11.5V4h7.5L20 12.5Z"/><circle cx="8" cy="8" r="1.3"/>',
+			'star' => '<path d="m12 4 2.4 5 5.6.8-4 3.9 1 5.6-5-2.7-5 2.7 1-5.6-4-3.9 5.6-.8L12 4Z"/>',
+			'sort' => '<path d="M7 5v14m0 0-3-3m3 3 3-3M17 19V5m0 0-3 3m3-3 3 3"/>',
+			'filter' => '<path d="M4 6h16M7 12h10M10 18h4"/>',
+			'send' => '<path d="M21 3 10.5 13.5M21 3l-7 18-3.5-7.5L3 10l18-7Z"/>',
+			'trash' => '<path d="M4 7h16M9 7V5h6v2m-8 0 1 13h8l1-13"/>',
+			'lock' => '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
 		);
 		$size = max( 12, min( 64, $size ) );
 		echo '<svg aria-hidden="true" focusable="false" width="' . esc_attr( (string) $size ) . '" height="' . esc_attr( (string) $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">';

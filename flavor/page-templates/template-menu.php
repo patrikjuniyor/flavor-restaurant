@@ -22,6 +22,7 @@ get_header();
 		<div class="flavor-menu-view" role="group" aria-label="<?php esc_attr_e( 'شیوهٔ نمایش منو', 'flavor' ); ?>" data-ui-menu-view hidden><button type="button" data-ui-view="grid" aria-pressed="true" aria-label="<?php esc_attr_e( 'نمایش کارتی', 'flavor' ); ?>"><?php \Flavor\UI::icon( 'grid' ); ?></button><button type="button" data-ui-view="list" aria-pressed="false" aria-label="<?php esc_attr_e( 'نمایش فهرستی', 'flavor' ); ?>"><?php \Flavor\UI::icon( 'list' ); ?></button></div>
 	</div>
 	<?php get_template_part( 'template-parts/menu/category-nav' ); ?>
+	<?php get_template_part( 'template-parts/menu/filters' ); ?>
 	<?php get_template_part( 'template-parts/menu/item-card' ); ?>
 	<?php get_template_part( 'template-parts/menu/item-modal' ); ?>
 	<?php if ( \Flavor\Theme_Setup::has_core() ) { get_template_part( 'template-parts/menu/cart-drawer' ); } ?>

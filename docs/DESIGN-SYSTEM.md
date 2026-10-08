@@ -46,9 +46,11 @@ All visual elements in Flavor derive from centralized CSS custom properties decl
 
 ---
 
-## 3. The 11 Ready-Made Restaurant Presets
+## 3. The 12 Ready-Made Restaurant Presets
 
-Flavor ships with 11 distinct aesthetic presets configured in `Design::skins()`:
+Flavor ships with 12 distinct aesthetic presets configured in `Design::skins()`. Every preset also ships a
+contrast-checked night palette (see `Flavor\Dark_Mode`), so switching the site to dark mode restyles the whole
+palette instead of inverting it:
 
 1. **Modern Restaurant (`modern-restaurant`)**: Warm brown and beige with organic green highlights for contemporary bistros.
 2. **Luxury Dining (`luxury-dining`)**: Ultra-dark royal aesthetic with champagne gold and high contrast typography.
@@ -61,6 +63,7 @@ Flavor ships with 11 distinct aesthetic presets configured in `Design::skins()`:
 9. **Dark Luxe (`dark-luxe`)**: Minimalist deep charcoal with amber illumination.
 10. **Minimal Clean (`minimal-clean`)**: Monochromatic pure white and crisp black typography.
 11. **Cloud Kitchen (`cloud-kitchen`)**: Energetic delivery orange optimized for takeaway hubs.
+12. **Catering & Events (`catering`)**: Deep slate blue and cream for catering services, weddings, and corporate menus.
 
 ---
 
@@ -96,7 +99,7 @@ Accessible in WordPress admin under **Appearance → 🚀 راه‌اندازی 
 - **Step 2: Logo Upload**: Interactive WordPress media uploader with live thumbnail preview.
 - **Step 3: Cover Image**: Uploads hero background.
 - **Step 4: Colors**: Primary & Accent color picker.
-- **Step 5: Choose Preset**: Visual grid of all 11 restaurant presets.
+- **Step 5: Choose Preset**: Visual grid of all 12 restaurant presets.
 - **Step 6: Opening Hours & Service Modes**: Sets working hours and toggles Dine-in / Takeaway / Delivery.
 - **Step 7: Address & Delivery Area**: City and branch street address.
 - **Step 8: Contact & Socials**: Phone hotline, Instagram, Telegram.

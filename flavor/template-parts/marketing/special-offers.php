@@ -44,6 +44,13 @@ $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 						<?php esc_html_e( 'سفارش آنلاین با تخفیف', 'flavor' ); ?>
 					</a>
 				</div>
+
+				<?php
+				// A real deadline, not a decorative clock: the block disappears
+				// on its own once the timestamp passes.
+				\Flavor\Engagement::countdown( 'offer', 0, __( 'پایان پیشنهاد تا:', 'flavor' ) );
+				?>
+			</div>
 			</div>
 		</div>
 	</div>

@@ -1,0 +1,155 @@
+/**
+ * Night scheme chrome: toggle button, smooth hand-off and the few surfaces that
+ * were hard-coded light before the palette became switchable.
+ *
+ * The palette itself is generated in PHP (`Flavor\Dark_Mode::css()`), because
+ * each skin needs its own night colours and a contrast check.
+ */
+
+.flavor-scheme-toggle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	border: 1px solid var(--flavor-line);
+	border-radius: 999px;
+	background: var(--flavor-surface);
+	color: var(--flavor-ink);
+	cursor: pointer;
+	transition: background-color var(--flavor-transition-fast), border-color var(--flavor-transition-fast), color var(--flavor-transition-fast);
+}
+
+.flavor-scheme-toggle:hover {
+	background: var(--flavor-surface-alt);
+	color: var(--flavor-primary);
+}
+
+.flavor-scheme-toggle:focus-visible {
+	outline: 2px solid var(--flavor-primary);
+	outline-offset: 2px;
+}
+
+.flavor-scheme-toggle__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Light scheme offers "go dark"; the sun only appears once night is active. */
+.flavor-scheme-toggle__icon--sun {
+	display: none;
+}
+
+html[data-flavor-scheme="dark"] .flavor-scheme-toggle__icon--sun {
+	display: inline-flex;
+}
+
+html[data-flavor-scheme="dark"] .flavor-scheme-toggle__icon--moon {
+	display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] .flavor-scheme-toggle__icon--sun {
+		display: inline-flex;
+	}
+
+	html[data-flavor-scheme="auto"] .flavor-scheme-toggle__icon--moon {
+		display: none;
+	}
+}
+
+/* Drawer variant fills its row like the other drawer actions. */
+.flavor-scheme-toggle--drawer {
+	width: 100%;
+	height: auto;
+	padding: 14px 18px;
+	border-radius: var(--flavor-btn-radius);
+	justify-content: flex-start;
+	font: inherit;
+}
+
+.flavor-scheme-toggle--drawer:hover {
+	background: var(--flavor-surface-alt);
+}
+
+/* Native controls, scrollbars and form widgets follow the active scheme. */
+html[data-flavor-scheme="dark"] {
+	color-scheme: dark;
+}
+
+html[data-flavor-scheme="light"] {
+	color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] {
+		color-scheme: dark;
+	}
+}
+
+html[data-flavor-scheme="dark"] ::selection {
+	background: var(--flavor-primary);
+	color: var(--ui-action-ink);
+}
+
+/*
+ * The palette switch is instant, which reads as a flash on a long page. The
+ * script adds this class for ~320ms so backgrounds and text cross-fade, and
+ * never for visitors who asked for less motion.
+ */
+html.flavor-scheme-switching,
+html.flavor-scheme-switching body {
+	transition: background-color 300ms ease, color 300ms ease;
+}
+
+html.flavor-scheme-switching .flavor-header,
+html.flavor-scheme-switching .flavor-footer,
+html.flavor-scheme-switching .flavor-card,
+html.flavor-scheme-switching .flavor-ui-panel,
+html.flavor-scheme-switching .flavor-sheet__panel,
+html.flavor-scheme-switching .flavor-cart__dialog {
+	transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.flavor-scheme-switching,
+	html.flavor-scheme-switching body,
+	html.flavor-scheme-switching .flavor-header,
+	html.flavor-scheme-switching .flavor-footer,
+	html.flavor-scheme-switching .flavor-card,
+	html.flavor-scheme-switching .flavor-ui-panel,
+	html.flavor-scheme-switching .flavor-sheet__panel,
+	html.flavor-scheme-switching .flavor-cart__dialog {
+		transition: none;
+	}
+}
+
+/* Form feedback panels were painted for a white page; keep the meaning. */
+html[data-flavor-scheme="dark"] .flavor-ui .flavor-ui-error,
+html[data-flavor-scheme="dark"] .flavor-ui .flavor-checkout__err,
+html[data-flavor-scheme="dark"] .flavor-ui .flavor-ui-field-error,
+html[data-flavor-scheme="dark"] .flavor-ui .flavor-auth-status[data-error="yes"],
+html[data-flavor-scheme="dark"] .flavor-ui .flavor-zone-msg[data-available="no"],
+html[data-flavor-scheme="dark"] .flavor-ui .flavor-zone-msg[data-available="error"],
+html[data-flavor-scheme="dark"] .flavor-ui .woocommerce .woocommerce-error {
+	background: #3b1f1a;
+	border-color: #6b3a31;
+	color: #ffd8d2;
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] .flavor-ui .flavor-ui-error,
+	html[data-flavor-scheme="auto"] .flavor-ui .flavor-checkout__err,
+	html[data-flavor-scheme="auto"] .flavor-ui .flavor-ui-field-error,
+	html[data-flavor-scheme="auto"] .flavor-ui .flavor-auth-status[data-error="yes"],
+	html[data-flavor-scheme="auto"] .flavor-ui .flavor-zone-msg[data-available="no"],
+	html[data-flavor-scheme="auto"] .flavor-ui .flavor-zone-msg[data-available="error"],
+	html[data-flavor-scheme="auto"] .flavor-ui .woocommerce .woocommerce-error {
+		background: #3b1f1a;
+		border-color: #6b3a31;
+		color: #ffd8d2;
+	}
+}

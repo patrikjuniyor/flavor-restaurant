@@ -388,6 +388,7 @@ class MenuController extends BaseApiController {
 
 		$is_available = AvailabilityManager::is_available( $branch_id, $id );
 		$dietary      = get_post_meta( $id, ProductModifiers::META_DIETARY, true ) ?: array();
+		$allergens    = get_post_meta( $id, '_flavor_allergens', true ) ?: array();
 
 		return array(
 			'id'             => $id,
@@ -403,6 +404,7 @@ class MenuController extends BaseApiController {
 			'prep_time'      => (int) get_post_meta( $id, ProductModifiers::META_PREP, true ),
 			'calories'       => (int) get_post_meta( $id, ProductModifiers::META_CALORIES, true ),
 			'dietary'        => (array) $dietary,
+			'allergens'      => array_values( array_map( 'sanitize_key', (array) $allergens ) ),
 			'rating_avg'     => (float) $product->get_average_rating(),
 			'rating_count'   => (int) $product->get_rating_count(),
 			'available'      => $is_available,

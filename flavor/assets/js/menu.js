@@ -120,7 +120,15 @@
 		var media = image ? '<img src="' + esc(image) + '" alt="' + name + '" width="600" height="400" loading="lazy" decoding="async" />' : '<span class="flavor-food-card__placeholder">بدون تصویر</span>';
 		var metadata = (item.prep_time ? '<span class="flavor-food-card__meta-item">' + smallIcon('clock') + fa(item.prep_time) + ' دقیقه آماده‌سازی</span>' : '');
 		(item.dietary || []).slice(0, 1).forEach(function (flag) { if (dietLabels[flag]) metadata += '<span class="flavor-food-card__meta-item">' + esc(dietLabels[flag]) + '</span>'; });
-		return '<article class="flavor-card flavor-food-card' + (disabled ? ' is-unavailable' : '') + '" id="item-' + esc(item.id) + '" data-id="' + esc(item.id) + '" data-cats="' + esc((item.categories || []).map(function (c) { return c.id; }).join(',')) + '">' +
+		// The filter/sort layer and the wishlist metadata ride on the card itself,
+		// so no second request is needed to answer "which of these is vegan?".
+		var extra = ' data-dietary="' + esc((item.dietary || []).join(',')) + '"'
+			+ ' data-allergens="' + esc((item.allergens || []).join(',')) + '"'
+			+ ' data-prep="' + esc(item.prep_time || 0) + '"'
+			+ ' data-calories="' + esc(item.calories || 0) + '"'
+			+ ' data-price="' + esc(item.storagePrice || item.price || 0) + '"'
+			+ ' data-url="' + esc(item.permalink || '') + '"';
+		return '<article class="flavor-card flavor-food-card' + (disabled ? ' is-unavailable' : '') + '" id="item-' + esc(item.id) + '" data-id="' + esc(item.id) + '" data-name="' + name + '" data-cats="' + esc((item.categories || []).map(function (c) { return c.id; }).join(',')) + '"' + extra + '>' +
 			'<div class="flavor-food-card__media"><button type="button" data-detail="' + esc(item.id) + '" aria-label="جزئیات ' + name + '">' + media + '</button>' + (cat ? '<span class="flavor-food-card__cat-badge">' + esc(cat.name) + '</span>' : '') + '</div>' +
 			'<div class="flavor-food-card__body"><h2 class="flavor-food-card__title"><button type="button" data-detail="' + esc(item.id) + '">' + name + '</button>' + (disabled ? '<span class="flavor-food-card__unavailable">فعلاً ناموجود</span>' : '') + '</h2><p class="flavor-food-card__desc">' + esc(item.short) + '</p>' +
 			'<div class="flavor-food-card__meta">' + metadata + '</div><div class="flavor-food-card__footer"><strong class="flavor-food-card__price">' + esc(plain(item.price_html)) + '</strong><button type="button" class="flavor-btn flavor-btn--primary flavor-btn--sm" data-add="' + esc(item.id) + '" aria-label="انتخاب ' + name + '"' + (disabled ? ' disabled' : '') + '>' + smallIcon('plus') + 'انتخاب غذا</button></div></div></article>';
@@ -292,7 +300,10 @@
 		var coupons = document.getElementById('flavor-coupon-applied'); if (coupons) coupons.innerHTML = (cart.coupons || []).map(function (code) { return '<button type="button" class="flavor-cart__coupon-remove" data-ui-remove-coupon>حذف کد ' + esc(code) + ' ×</button>'; }).join('');
 		if (!cart.count) step('review');
 		readyCheckout();
-		document.dispatchEvent(new CustomEvent('flavor:cart-updated', { detail: { count: Number(cart.count || 0), total: plain(cart.total_html) } }));
+		// `subtotal` stays in storage units: the free-delivery bar compares it
+		// against the shop's own threshold without re-parsing Persian numbers.
+		window.flavorCartState = { count: Number(cart.count || 0), subtotal: Number(cart.subtotal || 0), subtotalHtml: plain(cart.subtotal_html), totalHtml: plain(cart.total_html) };
+		document.dispatchEvent(new CustomEvent('flavor:cart-updated', { detail: { count: Number(cart.count || 0), total: plain(cart.total_html), subtotal: Number(cart.subtotal || 0), subtotalHtml: plain(cart.subtotal_html) } }));
 	}
 	function openCart(trigger) {
 		if (!cartPanel) return;

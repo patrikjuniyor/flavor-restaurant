@@ -27,11 +27,15 @@ jobs:
 
       - name: PHP Syntax Check (Lint)
         run: |
-          find flavor-core/ flavor/ tests/ -name "*.php" -exec php -l {} \;
+          find flavor-core/ flavor/ flavor-child/ tests/ -name "*.php" -exec php -l {} \;
 
       - name: Run Theme Chrome & Manifest Tests (colors, icons, PWA)
         run: |
           php tests/theme/test-theme-meta.php
+
+      - name: Run Premium Parity Tests (night scheme, wishlist, mega menu, commerce extras)
+        run: |
+          php tests/theme/test-premium-features.php
 
       - name: Run Pure Logic Regression Suite (Jalali, tokens, RTL text)
         run: |

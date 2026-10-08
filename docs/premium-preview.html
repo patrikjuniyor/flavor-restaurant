@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-flavor-scheme="auto">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>پیش‌نمایش لایهٔ پریمیوم Flavor — نسخهٔ ۱.۵.۰</title>
+<style>
+/* توکن‌های واقعی پوسته در حالت روز (پوستهٔ «رستوران مدرن») */
+:root{
+  --flavor-primary:#a74e2c; --flavor-primary-rgb:167,78,44; --flavor-accent:#d6a64f; --flavor-accent-rgb:214,166,79;
+  --flavor-bg:#f4efe7; --flavor-surface:#fffaf4; --flavor-surface-rgb:255,250,244; --flavor-surface-alt:#ece4d9;
+  --flavor-ink:#201c19; --flavor-ink-rgb:32,28,25; --flavor-muted:#6b625b; --flavor-line:#ded4c7;
+  --flavor-radius:24px; --flavor-btn-radius:14px; --ui-action-ink:#ffffff;
+  --flavor-success:#16a34a; --flavor-success-bg:#dcfce7; --flavor-danger:#dc2626;
+  --flavor-shadow-md:0 8px 20px rgba(0,0,0,.06); --flavor-shadow-lg:0 16px 36px rgba(0,0,0,.09); --flavor-shadow-modal:0 20px 60px rgba(0,0,0,.3);
+  --flavor-transition-fast:150ms cubic-bezier(.16,1,.3,1); --flavor-ease:cubic-bezier(.16,1,.3,1); font-family:Vazirmatn,Tahoma,sans-serif;
+}
+/* پالتی که PHP برای همین پوسته در حالت شب تولید می‌کند (کنتراست بررسی‌شده) */
+html[data-flavor-scheme="dark"]{
+  --flavor-primary:#da8f72; --flavor-primary-rgb:218,143,114; --flavor-accent:#d6a64f;
+  --flavor-bg:#1f2023; --flavor-surface:#2e3035; --flavor-surface-rgb:46,48,53; --flavor-surface-alt:#36383d;
+  --flavor-ink:#e9e8e8; --flavor-ink-rgb:233,232,232; --flavor-muted:#a9a4a0; --flavor-line:#494b4f; --ui-action-ink:#201c19;
+  color-scheme:dark;
+}
+body{margin:0;background:var(--flavor-bg);color:var(--flavor-ink);line-height:1.9;transition:background-color .3s,color .3s}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+h1,h2,h3{margin:0 0 8px;line-height:1.5}
+a{color:inherit}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border:1px solid transparent;border-radius:var(--flavor-btn-radius);background:var(--flavor-surface-alt);color:var(--flavor-ink);font:inherit;font-size:14px;cursor:pointer;text-decoration:none}
+.btn--primary{background:var(--flavor-primary);color:var(--ui-action-ink)}
+.btn--outline{background:transparent;border-color:var(--flavor-line)}
+.btn--ghost{background:transparent}
+.btn--sm{padding:8px 14px;font-size:13px}
+.overline{display:block;font-size:12px;color:var(--flavor-muted);letter-spacing:.04em}
+.muted{color:var(--flavor-muted)}
+header.site{position:sticky;top:0;z-index:60;background:rgba(var(--flavor-surface-rgb),.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--flavor-line)}
+header.site .row{display:flex;align-items:center;gap:16px;padding:14px 0}
+.brand{font-weight:800;font-size:19px;text-decoration:none}
+nav.main{display:flex;gap:6px;margin-inline-start:auto}
+nav.main .item{position:relative}
+nav.main .link{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:var(--flavor-btn-radius);text-decoration:none;font-size:14px}
+nav.main .link:hover{background:var(--flavor-surface-alt);color:var(--flavor-primary)}
+.iconbtn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid var(--flavor-line);border-radius:999px;background:var(--flavor-surface);color:var(--flavor-ink);cursor:pointer}
+.iconbtn:hover{color:var(--flavor-primary);border-color:var(--flavor-primary)}
+.count{position:absolute;top:-5px;inset-inline-end:-5px;min-width:19px;height:19px;border-radius:999px;background:var(--flavor-primary);color:var(--ui-action-ink);font-size:11px;font-weight:700;line-height:19px;text-align:center}
+/* مگامنو */
+.mega>.sub{display:none;position:absolute;top:calc(100% + 8px);inset-inline-end:0;columns:3;column-gap:26px;min-width:640px;padding:20px 24px;border:1px solid var(--flavor-line);border-radius:var(--flavor-radius);background:var(--flavor-surface);box-shadow:var(--flavor-shadow-lg)}
+.mega:hover>.sub,.mega.is-open>.sub{display:block}
+.mega .sub a{display:block;padding:8px 10px;border-radius:10px;text-decoration:none;font-weight:600;font-size:14px}
+.mega .sub a:hover{background:var(--flavor-surface-alt);color:var(--flavor-primary)}
+.desc{display:block;margin-top:3px;color:var(--flavor-muted);font-size:12px;font-weight:400}
+main{padding:26px 0 90px}
+.card{background:var(--flavor-surface);border:1px solid var(--flavor-line);border-radius:var(--flavor-radius);padding:22px;box-shadow:var(--flavor-shadow-md)}
+.banner{display:grid;gap:14px;background:linear-gradient(135deg,rgba(var(--flavor-primary-rgb),.12),transparent 60%),var(--flavor-surface);border:1px solid var(--flavor-line);border-radius:var(--flavor-radius);padding:26px}
+/* شمارش معکوس */
+.cd{display:inline-flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 16px;border:1px solid rgba(var(--flavor-primary-rgb),.28);border-radius:var(--flavor-radius);background:rgba(var(--flavor-primary-rgb),.07)}
+.cd .u{display:flex;flex-direction:column;align-items:center;min-width:54px;padding:6px 8px;border-radius:10px;background:var(--flavor-surface);box-shadow:var(--flavor-shadow-md)}
+.cd .u strong{font-size:19px;font-variant-numeric:tabular-nums}
+.cd .u small{color:var(--flavor-muted);font-size:11px}
+/* فیلترها */
+.filters{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:18px 0}
+.group{display:flex;align-items:center;gap:8px;padding:4px 6px;border:1px solid var(--flavor-line);border-radius:999px;background:var(--flavor-surface)}
+.group b{font-size:12px;color:var(--flavor-muted);font-weight:600;padding-inline:6px}
+.chip{padding:8px 14px;border:1px solid transparent;border-radius:999px;background:var(--flavor-surface-alt);color:var(--flavor-ink);font:inherit;font-size:13px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--flavor-primary);border-color:var(--flavor-primary);color:var(--ui-action-ink)}
+.fcount{font-size:13px;color:var(--flavor-muted)}
+select{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--flavor-line);border-radius:999px;background:var(--flavor-surface);color:var(--flavor-ink)}
+/* کارت غذا */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin-top:18px}
+.dish{position:relative;background:var(--flavor-surface);border:1px solid var(--flavor-line);border-radius:var(--flavor-radius);overflow:hidden;box-shadow:var(--flavor-shadow-md);transition:transform var(--flavor-transition-fast)}
+.dish:hover{transform:translateY(-3px)}
+.dish.is-out{display:none}
+.dish .photo{position:relative;height:150px;display:flex;align-items:center;justify-content:center;font-size:44px;background:var(--flavor-surface-alt)}
+.dish .body{padding:16px}
+.dish .meta{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.tag{font-size:11px;padding:3px 9px;border-radius:999px;background:var(--flavor-surface-alt);color:var(--flavor-muted)}
+.dish .foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.price{font-weight:800;color:var(--flavor-primary)}
+.heart{position:absolute;top:12px;inset-inline-end:12px;z-index:2;display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid var(--flavor-line);border-radius:999px;background:rgba(var(--flavor-surface-rgb),.92);color:var(--flavor-ink);cursor:pointer}
+.heart[aria-pressed="true"]{background:var(--flavor-primary);border-color:var(--flavor-primary);color:var(--ui-action-ink)}
+.heart[aria-pressed="true"] svg{fill:currentColor}
+/* ارسال رایگان + نشان‌ها */
+.ship{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:12px 16px;border:1px dashed var(--flavor-line);border-radius:var(--flavor-radius);background:var(--flavor-surface-alt);margin:16px 0}
+.ship p{margin:0;font-size:13px;font-weight:600}
+.track{height:7px;border-radius:999px;background:rgba(var(--flavor-ink-rgb),.12);overflow:hidden}
+.fill{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--flavor-primary),var(--flavor-accent));transition:width .4s var(--flavor-ease)}
+.trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:18px 0;padding:0;list-style:none}
+.trust li{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--flavor-line);border-radius:var(--flavor-radius);background:var(--flavor-surface-alt);font-size:13px}
+/* داک شناور */
+.dock{position:fixed;inset-inline-end:18px;bottom:18px;z-index:70;display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateY(12px);transition:opacity .26s,transform .26s;pointer-events:none}
+.dock.on{opacity:1;transform:none;pointer-events:auto}
+.dock button,.dock a{position:relative;display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border:1px solid var(--flavor-line);border-radius:999px;background:var(--flavor-surface);color:var(--flavor-ink);box-shadow:var(--flavor-shadow-md);cursor:pointer;text-decoration:none}
+.dock .wa{background:#1f9d55;border-color:#1f9d55;color:#fff}
+.dock svg.ring{position:absolute;inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px);transform:rotate(-90deg)}
+.dock circle{fill:none;stroke-width:2}
+.dock .trackc{stroke:var(--flavor-line)}
+.dock .fillc{stroke:var(--flavor-primary);stroke-linecap:round;transition:stroke-dashoffset .18s linear}
+/* دیالوگ‌ها */
+.sheet{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:20px}
+.sheet.on{display:flex}
+.back{position:absolute;inset:0;background:rgba(12,10,8,.5)}
+.panel{position:relative;width:min(760px,100%);max-height:86vh;overflow:auto;padding:24px;border-radius:var(--flavor-radius);background:var(--flavor-surface);box-shadow:var(--flavor-shadow-modal)}
+.panel.side{width:min(420px,100%);inset-inline-end:-20px;margin-inline-start:auto;height:86vh}
+.close{position:absolute;top:12px;inset-inline-start:12px}
+.witem{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:12px;border:1px solid var(--flavor-line);border-radius:var(--flavor-radius);background:var(--flavor-surface-alt);margin-bottom:10px}
+.witem span.thumb{display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:14px;background:var(--flavor-surface);font-size:26px}
+/* نوار کوکی + پاپ‌آپ */
+.consent{position:fixed;inset-inline:0;bottom:0;z-index:80;padding:14px 16px;background:var(--flavor-surface);border-top:1px solid var(--flavor-line);box-shadow:0 -10px 34px rgba(0,0,0,.12);display:none}
+.consent.on{display:block}
+.consent .in{display:flex;flex-wrap:wrap;align-items:center;gap:12px;max-width:1180px;margin:0 auto}
+.popup{position:fixed;inset-inline:20px;bottom:20px;z-index:85;display:none;grid-template-columns:96px 1fr;width:min(520px,calc(100% - 40px));margin-inline:auto;overflow:hidden;border-radius:var(--flavor-radius);background:var(--flavor-surface);box-shadow:var(--flavor-shadow-modal)}
+.popup.on{display:grid}
+.popup .aside{display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--flavor-primary),var(--flavor-accent));color:var(--ui-action-ink);font-size:30px}
+.popup .pbody{padding:18px 20px}
+.note{font-size:12px;color:var(--flavor-muted);line-height:2}
+.toast{position:fixed;inset-inline-start:20px;bottom:20px;z-index:95;padding:12px 16px;border-radius:14px;background:var(--flavor-ink);color:var(--flavor-bg);font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap row">
+    <a class="brand" href="#">فلاور</a>
+    <nav class="main" id="mainnav">
+      <div class="item mega" id="mega">
+        <a class="link" href="#" aria-haspopup="true" aria-expanded="false">منوی غذا ▾</a>
+        <div class="sub">
+          <a href="#">پیش‌غذا<span class="desc">سالاد، سوپ و شروع‌کننده‌ها</span></a>
+          <a href="#">غذای اصلی<span class="desc">کباب، خورش و پلو</span></a>
+          <a href="#">دریایی<span class="desc">ماهی و میگو تازه</span></a>
+          <a href="#">نوشیدنی<span class="desc">دوغ، شربت و نوشیدنی گرم</span></a>
+          <a href="#">دسر<span class="desc">بستنی و دسر خانگی</span></a>
+          <a href="#">کودکانه<span class="desc">سهم کوچک و بی‌ادویه</span></a>
+        </div>
+      </div>
+      <div class="item"><a class="link" href="#menu">رزرو میز</a></div>
+      <div class="item"><a class="link" href="#menu">شعبه‌ها</a></div>
+    </nav>
+    <button class="iconbtn" id="scheme" aria-pressed="false" aria-label="تغییر حالت شب و روز" title="حالت شب / روز">
+      <svg id="iconsun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.5 1.5m11.2 11.2 1.5 1.5M2 12h2m16 0h2M4.9 19.1l1.5-1.5M17.6 6.4l1.5-1.5"/></svg>
+      <svg id="iconmoon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+    </button>
+    <button class="iconbtn" id="wishopen" aria-label="علاقه‌مندی‌ها">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-9.4A4.1 4.1 0 0 1 12 7.6a4.1 4.1 0 0 1 7 2.9c0 5-7 9.5-7 9.5Z"/></svg>
+      <span class="count" id="wishcount" style="display:none">۰</span>
+    </button>
+    <a class="btn btn--primary btn--sm" href="#menu">سفارش آنلاین</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="banner">
+    <span class="overline">پیشنهاد طلایی این ماه</span>
+    <h1>۱۵٪ تخفیف برای اولین سفارش آنلاین</h1>
+    <p class="muted" style="margin:0">کد <b id="promo">FIRST15</b> را در سبد وارد کنید؛ مهلت استفاده محدود است.</p>
+    <div class="cd" id="cd" data-deadline="0" role="timer" aria-live="off">
+      <span style="font-size:13px;font-weight:700">پایان پیشنهاد تا:</span>
+      <div style="display:flex;gap:8px">
+        <span class="u"><strong data-cd="day">۰</strong><small>روز</small></span>
+        <span class="u"><strong data-cd="hour">۰</strong><small>ساعت</small></span>
+        <span class="u"><strong data-cd="minute">۰</strong><small>دقیقه</small></span>
+        <span class="u"><strong data-cd="second">۰</strong><small>ثانیه</small></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="ship" id="ship" hidden>
+    <p id="shiptext" role="status" aria-live="polite">—</p>
+    <div class="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="پیشرفت تا ارسال رایگان"><span class="fill" id="shipfill" style="width:0%"></span></div>
+    <span style="grid-column:2;grid-row:1/span 2;display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:rgba(var(--flavor-primary-rgb),.12);color:var(--flavor-primary)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7h11v9H3zM14 10h3.6l3.4 3.4V16h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>
+    </span>
+  </section>
+
+  <div class="filters" id="filters">
+    <div class="group" role="group" aria-label="فیلتر رژیمی">
+      <b>رژیم:</b>
+      <button class="chip" data-filter="diet" data-value="vegetarian" aria-pressed="false">گیاهی</button>
+      <button class="chip" data-filter="diet" data-value="vegan" aria-pressed="false">وگان</button>
+      <button class="chip" data-filter="diet" data-value="spicy" aria-pressed="false">تند</button>
+    </div>
+    <div class="group" role="group" aria-label="پرهیز از حساسیت‌ها">
+      <b>پرهیز از:</b>
+      <button class="chip" data-filter="avoid" data-value="gluten" aria-pressed="false">بدون گلوتن</button>
+      <button class="chip" data-filter="avoid" data-value="milk" aria-pressed="false">بدون شیر</button>
+    </div>
+    <label class="chip" style="display:inline-flex;align-items:center;gap:8px">
+      <span class="fcount">ترتیب:</span>
+      <select id="sort">
+        <option value="default">چیدمان پیشنهادی</option>
+        <option value="price">ارزان‌ترین</option>
+        <option value="price-desc">گران‌ترین</option>
+        <option value="calories">کم‌کالری‌ترین</option>
+      </select>
+    </label>
+    <span class="fcount" id="fcount" role="status" aria-live="polite"></span>
+  </div>
+
+  <div class="grid" id="menu">
+    <article class="dish" data-id="101" data-name="کباب کوبیده" data-price="285000" data-calories="640" data-dietary="spicy" data-allergens="gluten">
+      <button class="heart" data-heart="101" aria-pressed="false" aria-label="افزودن کباب کوبیده به علاقه‌مندی‌ها"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 20s-7-4.4-7-9.4A4.1 4.1 0 0 1 12 7.6a4.1 4.1 0 0 1 7 2.9c0 5-7 9.5-7 9.5Z"/></svg></button>
+      <div class="photo">🍢</div>
+      <div class="body">
+        <h3>کباب کوبیده</h3>
+        <p class="muted" style="font-size:13px;margin:0">گوشت گوسفندی تازه، برنج ایرانی و کره محلی.</p>
+        <div class="meta"><span class="tag">تند</span><span class="tag">۶۴۰ کالری</span><span class="tag">۲۰ دقیقه</span></div>
+        <div class="foot"><span class="price">۲۸۵٬۰۰۰ تومان</span><button class="btn btn--primary btn--sm" data-add="101">افزودن</button></div>
+      </div>
+    </article>
+    <article class="dish" data-id="102" data-name="خورش فسنجان" data-price="245000" data-calories="520" data-dietary="vegetarian" data-allergens="nuts,milk">
+      <button class="heart" data-heart="102" aria-pressed="false" aria-label="افزودن خورش فسنجان به علاقه‌مندی‌ها"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 20s-7-4.4-7-9.4A4.1 4.1 0 0 1 12 7.6a4.1 4.1 0 0 1 7 2.9c0 5-7 9.5-7 9.5Z"/></svg></button>
+      <div class="photo">🥘</div>
+      <div class="body">
+        <h3>خورش فسنجان</h3>
+        <p class="muted" style="font-size:13px;margin:0">گردوی آسیاب‌شده و رب انار، بدون گوشت.</p>
+        <div class="meta"><span class="tag">گیاهی</span><span class="tag">۵۲۰ کالری</span><span class="tag">۲۵ دقیقه</span></div>
+        <div class="foot"><span class="price">۲۴۵٬۰۰۰ تومان</span><button class="btn btn--primary btn--sm" data-add="102">افزودن</button></div>
+      </div>
+    </article>
+    <article class="dish" data-id="103" data-name="سالاد فصل" data-price="145000" data-calories="180" data-dietary="vegan,vegetarian" data-allergens="">
+      <button class="heart" data-heart="103" aria-pressed="false" aria-label="افزودن سالاد فصل به علاقه‌مندی‌ها"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 20s-7-4.4-7-9.4A4.1 4.1 0 0 1 12 7.6a4.1 4.1 0 0 1 7 2.9c0 5-7 9.5-7 9.5Z"/></svg></button>
+      <div class="photo">🥗</div>
+      <div class="body">
+        <h3>سالاد فصل</h3>
+        <p class="muted" style="font-size:13px;margin:0">سبزیجات تازهٔ روز با سس لیمو و روغن زیتون.</p>
+        <div class="meta"><span class="tag">وگان</span><span class="tag">۱۸۰ کالری</span><span class="tag">۷ دقیقه</span></div>
+        <div class="foot"><span class="price">۱۴۵٬۰۰۰ تومان</span><button class="btn btn--primary btn--sm" data-add="103">افزودن</button></div>
+      </div>
+    </article>
+    <article class="dish" data-id="104" data-name="ماهی قزل‌آلا" data-price="395000" data-calories="430" data-dietary="" data-allergens="milk">
+      <button class="heart" data-heart="104" aria-pressed="false" aria-label="افزودن ماهی قزل‌آلا به علاقه‌مندی‌ها"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 20s-7-4.4-7-9.4A4.1 4.1 0 0 1 12 7.6a4.1 4.1 0 0 1 7 2.9c0 5-7 9.5-7 9.5Z"/></svg></button>
+      <div class="photo">🐟</div>
+      <div class="body">
+        <h3>ماهی قزل‌آلای گریل</h3>
+        <p class="muted" style="font-size:13px;margin:0">با کرهٔ لیمو و سبزیجات بخارپز.</p>
+        <div class="meta"><span class="tag">۴۳۰ کالری</span><span class="tag">۲۲ دقیقه</span></div>
+        <div class="foot"><span class="price">۳۹۵٬۰۰۰ تومان</span><button class="btn btn--primary btn--sm" data-add="104">افزودن</button></div>
+      </div>
+    </article>
+    <article class="dish" data-id="105" data-name="دوغ محلی" data-price="55000" data-calories="90" data-dietary="vegetarian" data-allergens="milk">
+      <button class="heart" data-heart="105" aria-pressed="false" aria-label="افزودن دوغ محلی به علاقه‌مندی‌ها"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 20s-7-4.4-7-9.4A4.1 4.1 0 0 1 12 7.6a4.1 4.1 0 0 1 7 2.9c0 5-7 9.5-7 9.5Z"/></svg></button>
+      <div class="photo">🥛</div>
+      <div class="body">
+        <h3>دوغ محلی گازدار</h3>
+        <p class="muted" style="font-size:13px;margin:0">با نعنا و پودر گل محمدی، بدون گاز افزوده.</p>
+        <div class="meta"><span class="tag">گیاهی</span><span class="tag">۹۰ کالری</span><span class="tag">۳ دقیقه</span></div>
+        <div class="foot"><span class="price">۵۵٬۰۰۰ تومان</span><button class="btn btn--primary btn--sm" data-add="105">افزودن</button></div>
+      </div>
+    </article>
+    <article class="dish" data-id="106" data-name="بستنی سنتی" data-price="125000" data-calories="310" data-dietary="vegetarian" data-allergens="milk,nuts">
+      <button class="heart" data-heart="106" aria-pressed="false" aria-label="افزودن بستنی سنتی به علاقه‌مندی‌ها"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 20s-7-4.4-7-9.4A4.1 4.1 0 0 1 12 7.6a4.1 4.1 0 0 1 7 2.9c0 5-7 9.5-7 9.5Z"/></svg></button>
+      <div class="photo">🍨</div>
+      <div class="body">
+        <h3>بستنی سنتی زعفرانی</h3>
+        <p class="muted" style="font-size:13px;margin:0">با خامهٔ تازه و خلال پسته.</p>
+        <div class="meta"><span class="tag">گیاهی</span><span class="tag">۳۱۰ کالری</span><span class="tag">۵ دقیقه</span></div>
+        <div class="foot"><span class="price">۱۲۵٬۰۰۰ تومان</span><button class="btn btn--primary btn--sm" data-add="106">افزودن</button></div>
+      </div>
+    </article>
+  </div>
+
+  <ul class="trust">
+    <li><span style="display:inline-flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:999px;background:rgba(var(--flavor-primary-rgb),.12);color:var(--flavor-primary)">🛡</span>پرداخت امن از طریق درگاه بانکی</li>
+    <li><span style="display:inline-flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:999px;background:rgba(var(--flavor-primary-rgb),.12);color:var(--flavor-primary)">🚚</span>ارسال با بستهٔ حرارتی و کنترل کیفیت</li>
+    <li><span style="display:inline-flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:999px;background:rgba(var(--flavor-primary-rgb),.12);color:var(--flavor-primary)">🌿</span>مواد اولیهٔ تازه، تهیهٔ روز</li>
+    <li><span style="display:inline-flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:999px;background:rgba(var(--flavor-primary-rgb),.12);color:var(--flavor-primary)">⏱</span>پشتیبانی و پیگیری سفارش</li>
+  </ul>
+  <p class="note">این صفحه یک پیش‌نمایش تعاملی از لایهٔ پریمیوم نسخهٔ ۱.۵.۰ است: همهٔ موارد بالا — مگامنو، تغییر حالت شب، علاقه‌مندی، نمای سریع، فیلتر، شمارش معکوس، نوار ارسال رایگان، رضایت کوکی و داک شناور — در همین صفحه کار می‌کنند. رنگ‌ها همان توکن‌های واقعی پوستهٔ «رستوران مدرن» است.</p>
+</main>
+
+<div class="dock" id="dock">
+  <a class="wa" href="#" aria-label="گفت‌وگو در واتس‌اپ">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5l1.5-4.6a8.4 8.4 0 1 1 15.5-4.3Z"/></svg>
+  </a>
+  <a href="tel:02188001234" aria-label="تماس تلفنی">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="m7 3 3 5-2 2a15 15 0 0 0 6 6l2-2 5 3v3c-9 2-20-9-18-18l4 1Z"/></svg>
+  </a>
+  <button id="totop" data-top aria-label="بازگشت به بالای صفحه">
+    <svg class="ring" viewBox="0 0 44 44" aria-hidden="true"><circle class="trackc" cx="22" cy="22" r="19"/><circle class="fillc" cx="22" cy="22" r="19" stroke-dasharray="119.38" stroke-dashoffset="119.38" data-ring/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5m-7 7 7-7 7 7"/></svg>
+  </button>
+</div>
+
+<div class="sheet" id="wishsheet">
+  <div class="back" data-wish-close></div>
+  <div class="panel side" role="dialog" aria-modal="true" aria-labelledby="wishtitle">
+    <button class="btn btn--ghost close" data-wish-close aria-label="بستن">✕</button>
+    <span class="overline">انتخاب‌های ذخیره‌شده</span>
+    <h2 id="wishtitle">علاقه‌مندی‌های من</h2>
+    <p class="note" id="wishempty">هنوز غذایی را ذخیره نکرده‌اید. با زدن قلب روی هر غذا، اینجا نگه‌داری می‌شود.</p>
+    <div id="wishlist"></div>
+    <button class="btn btn--primary" style="width:100%" id="wishall" hidden>افزودن همه به سبد</button>
+  </div>
+</div>
+
+<div class="sheet" id="qvsheet">
+  <div class="back" data-qv-close></div>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="qvtitle">
+    <button class="btn btn--ghost close" data-qv-close aria-label="بستن">✕</button>
+    <h2 id="qvtitle">نمای سریع غذا</h2>
+    <p class="note">در سایت واقعی، این مودال اطلاعات را از خود فروشگاه می‌خواند؛ در این پیش‌نمایش از دادهٔ صفحه پر می‌شود.</p>
+    <div id="qvbody"></div>
+  </div>
+</div>
+
+<div class="consent" id="consent">
+  <div class="in">
+    <span>🔒</span>
+    <p style="flex:1 1 320px;margin:0;font-size:13px">این سایت برای کارکرد درست سبد سفارش و ورود مشتری از حافظهٔ مرورگر استفاده می‌کند. با ادامهٔ بازدید، همین حالت ضروری را می‌پذیرید.</p>
+    <button class="btn btn--primary btn--sm" data-consent="all">قبول همه</button>
+    <button class="btn btn--outline btn--sm" data-consent="essential">فقط ضروری</button>
+    <a class="note" href="#">سیاست حریم خصوصی</a>
+  </div>
+</div>
+
+<div class="popup" id="popup" role="dialog" aria-labelledby="popuptitle">
+  <div class="aside">★</div>
+  <div class="pbody">
+    <button class="btn btn--ghost close" data-popup-close aria-label="بستن" style="top:8px">✕</button>
+    <h2 id="popuptitle" style="font-size:18px">اول از همه، تازه‌های منو را بدانید</h2>
+    <p class="note">منوی فصل و پیشنهادهای ویژه را یک هفته زودتر دریافت کنید.</p>
+    <form id="subform" style="display:flex;gap:8px;flex-wrap:wrap">
+      <input type="email" placeholder="name@example.com" dir="ltr" required style="flex:1 1 180px;padding:12px;border:1px solid var(--flavor-line);border-radius:var(--flavor-btn-radius);background:var(--flavor-surface);color:var(--flavor-ink);font:inherit" />
+      <button class="btn btn--primary" type="submit">عضویت</button>
+    </form>
+    <p class="note" id="substatus"></p>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  'use strict';
+  var d = document, root = d.documentElement;
+  function $(s, c){ return (c||d).querySelector(s); }
+  function $$(s, c){ return Array.prototype.slice.call((c||d).querySelectorAll(s)); }
+  function fa(v){ return String(v).replace(/\d/g, function(n){ return '۰۱۲۳۴۵۶۷۸۹'[n]; }); }
+  function money(n){ return Number(n).toLocaleString('fa-IR'); }
+  function say(msg){ var t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(t._t); t._t = setTimeout(function(){ t.classList.remove('on'); }, 2400); }
+
+  /* حالت شب/روز ------------------------------------------------------ */
+  var sun = $('#iconsun'), moon = $('#iconmoon');
+  function scheme(){ return root.getAttribute('data-flavor-scheme') === 'auto'
+    ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    : root.getAttribute('data-flavor-scheme'); }
+  function paintScheme(){
+    var mode = scheme();
+    sun.style.display = mode === 'dark' ? '' : 'none';
+    moon.style.display = mode === 'dark' ? 'none' : '';
+    $('#scheme').setAttribute('aria-pressed', String(mode === 'dark'));
+  }
+  $('#scheme').addEventListener('click', function(){
+    var next = scheme() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-flavor-scheme', next);
+    paintScheme();
+    say(next === 'dark' ? 'حالت شب فعال شد.' : 'حالت روز فعال شد.');
+  });
+  paintScheme();
+
+  /* مگامنو ----------------------------------------------------------- */
+  var mega = $('#mega'), link = $('.link', mega);
+  link.addEventListener('click', function(e){ e.preventDefault(); mega.classList.toggle('is-open'); link.setAttribute('aria-expanded', String(mega.classList.contains('is-open'))); });
+  mega.addEventListener('mouseenter', function(){ link.setAttribute('aria-expanded','true'); });
+  mega.addEventListener('mouseleave', function(){ link.setAttribute('aria-expanded','false'); });
+  d.addEventListener('keydown', function(e){ if (e.key === 'Escape'){ mega.classList.remove('is-open'); link.setAttribute('aria-expanded','false'); } });
+
+  /* شمارش معکوس ------------------------------------------------------ */
+  var cd = $('#cd'), deadline = Math.floor(Date.now()/1000) + 2*86400 + 5*3600 + 42*60;
+  setInterval(function(){
+    var left = deadline - Math.floor(Date.now()/1000);
+    if (left <= 0){ cd.style.display = 'none'; return; }
+    var parts = { day: Math.floor(left/86400), hour: Math.floor(left%86400/3600), minute: Math.floor(left%3600/60), second: left%60 };
+    Object.keys(parts).forEach(function(u){ var n = $('[data-cd="'+u+'"]', cd); if (n) n.textContent = fa(String(parts[u]).padStart(2,'0')); });
+  }, 1000);
+
+  /* فیلتر و مرتب‌سازی ------------------------------------------------ */
+  var grid = $('#menu'), dishes = $$('.dish', grid), order = dishes.slice();
+  function active(kind){ return $$('.chip[data-filter="'+kind+'"][aria-pressed="true"]').map(function(c){ return c.getAttribute('data-value'); }); }
+  function apply(){
+    var diets = active('diet'), avoid = active('avoid'), shown = 0;
+    dishes.forEach(function(card){
+      var own = (card.dataset.dietary||'').split(',').filter(Boolean);
+      var alg = (card.dataset.allergens||'').split(',').filter(Boolean);
+      var keep = diets.every(function(f){ return own.indexOf(f) >= 0; }) && avoid.every(function(f){ return alg.indexOf(f) < 0; });
+      card.classList.toggle('is-out', !keep);
+      if (keep) shown++;
+    });
+    $('#fcount').textContent = shown === dishes.length ? fa(shown) + ' غذا' : fa(shown) + ' از ' + fa(dishes.length) + ' غذا';
+  }
+  $('#filters').addEventListener('click', function(e){
+    var chip = e.target.closest('.chip'); if (!chip || !chip.dataset.filter) return;
+    chip.setAttribute('aria-pressed', chip.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+    apply();
+  });
+  $('#sort').addEventListener('change', function(){
+    var mode = this.value;
+    var list = dishes.slice().sort(function(a,b){
+      if (mode === 'default') return order.indexOf(a) - order.indexOf(b);
+      var l = Number(a.dataset[mode === 'price-desc' ? 'price' : mode] || 0), r = Number(b.dataset[mode === 'price-desc' ? 'price' : mode] || 0);
+      return mode === 'price-desc' ? r - l : l - r;
+    });
+    list.forEach(function(c){ grid.appendChild(c); });
+  });
+
+  /* علاقه‌مندی‌ها ------------------------------------------------------ */
+  var wish = [];
+  function paintWish(){
+    $$('.heart').forEach(function(b){ b.setAttribute('aria-pressed', String(wish.indexOf(b.dataset.heart) >= 0)); });
+    var badge = $('#wishcount');
+    badge.style.display = wish.length ? '' : 'none';
+    badge.textContent = fa(wish.length);
+    $('#wishempty').style.display = wish.length ? 'none' : '';
+    $('#wishall').hidden = !wish.length;
+    $('#wishlist').innerHTML = wish.map(function(id){
+      var card = $('.dish[data-id="'+id+'"]');
+      if (!card) return '';
+      return '<div class="witem"><span class="thumb">🍽</span><div><b style="display:block;font-size:14px">' + card.dataset.name + '</b>'
+        + '<span class="note">' + $('.price', card).textContent + '</span></div>'
+        + '<div style="display:flex;flex-direction:column;gap:6px"><button class="btn btn--primary btn--sm" data-wadd="'+id+'">افزودن به سبد</button>'
+        + '<button class="btn btn--ghost btn--sm" data-wrem="'+id+'">حذف</button></div></div>';
+    }).join('');
+  }
+  d.addEventListener('click', function(e){
+    var heart = e.target.closest('.heart');
+    if (heart){ var id = heart.dataset.heart, i = wish.indexOf(id);
+      if (i >= 0){ wish.splice(i,1); say('از علاقه‌مندی‌ها حذف شد.'); } else { wish.push(id); say('به علاقه‌مندی‌ها اضافه شد.'); }
+      paintWish(); return; }
+    if (e.target.closest('#wishopen')){ $('#wishsheet').classList.add('on'); return; }
+    if (e.target.closest('[data-wish-close]')){ $('#wishsheet').classList.remove('on'); return; }
+    var rem = e.target.closest('[data-wrem]');
+    if (rem){ wish.splice(wish.indexOf(rem.dataset.wrem), 1); paintWish(); say('از علاقه‌مندی‌ها حذف شد.'); return; }
+    var add = e.target.closest('[data-wadd]') || e.target.closest('[data-add]');
+    if (add){ addToCart(add.dataset.wadd || add.dataset.add); return; }
+    if (e.target.closest('#wishall')){ wish.slice().forEach(addToCart); return; }
+    if (e.target.closest('[data-qv-close]')){ $('#qvsheet').classList.remove('on'); }
+  });
+
+  /* سبد و نوار ارسال رایگان ------------------------------------------ */
+  var subtotal = 0, threshold = 500000;
+  function addToCart(id){
+    var card = $('.dish[data-id="'+id+'"]'); if (!card) return;
+    subtotal += Number(card.dataset.price || 0);
+    renderShip();
+    say('«' + card.dataset.name + '» به سبد اضافه شد.');
+  }
+  function renderShip(){
+    var bar = $('#ship'); bar.hidden = false;
+    var percent = Math.max(0, Math.min(100, Math.round(subtotal / threshold * 100)));
+    var remaining = Math.max(0, threshold - subtotal);
+    $('#shipfill').style.width = percent + '%';
+    $('.track', bar).setAttribute('aria-valuenow', String(percent));
+    $('#shiptext').textContent = remaining > 0 ? money(remaining) + ' تومان دیگر تا ارسال رایگان' : 'ارسال این سفارش رایگان است.';
+  }
+
+  /* نمای سریع -------------------------------------------------------- */
+  d.addEventListener('click', function(e){
+    var dbl = e.target.closest('.dish .photo');
+    if (!dbl) return;
+    var card = dbl.closest('.dish');
+    $('#qvbody').innerHTML = '<h3>' + card.dataset.name + '</h3><p class="price">' + $('.price', card).textContent + '</p>'
+      + '<p class="note">' + $('.muted', card).textContent + '</p><button class="btn btn--primary" data-add="' + card.dataset.id + '">افزودن به سبد</button>';
+    $('#qvsheet').classList.add('on');
+  });
+
+  /* رضایت کوکی ------------------------------------------------------- */
+  setTimeout(function(){ $('#consent').classList.add('on'); }, 700);
+  $('#consent').addEventListener('click', function(e){
+    var b = e.target.closest('[data-consent]'); if (!b) return;
+    $('#consent').classList.remove('on');
+    say(b.dataset.consent === 'all' ? 'انتخاب شما ثبت شد.' : 'فقط کوکی ضروری فعال است.');
+  });
+
+  /* پاپ‌آپ عضویت (نمونه) --------------------------------------------- */
+  setTimeout(function(){ if (!$('#consent').classList.contains('on')) $('#popup').classList.add('on'); }, 4200);
+  $('#popup').addEventListener('click', function(e){ if (e.target.closest('[data-popup-close]')) $('#popup').classList.remove('on'); });
+  $('#subform').addEventListener('submit', function(e){
+    e.preventDefault();
+    $('#substatus').textContent = 'ثبت شد. اولین خبر را به‌زودی می‌فرستیم.';
+    setTimeout(function(){ $('#popup').classList.remove('on'); }, 1800);
+  });
+
+  /* داک شناور -------------------------------------------------------- */
+  var ring = $('[data-ring]'), C = 119.38;
+  function scrollPaint(){
+    var max = d.documentElement.scrollHeight - innerHeight;
+    var p = max > 0 ? Math.min(1, scrollY / max) : 0;
+    $('#dock').classList.toggle('on', scrollY > 240);
+    if (ring) ring.setAttribute('stroke-dashoffset', String(C * (1 - p)));
+  }
+  addEventListener('scroll', scrollPaint, { passive: true });
+  scrollPaint();
+  $('#totop').addEventListener('click', function(){ scrollTo({ top: 0, behavior: 'smooth' }); });
+
+  apply();
+  paintWish();
+})();
+</script>
+</body>
+</html>

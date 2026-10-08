@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'FLAVOR_VERSION', '1.4.0' );
+define( 'FLAVOR_VERSION', '1.5.0' );
 define( 'FLAVOR_DIR', get_template_directory() );
 define( 'FLAVOR_URI', get_template_directory_uri() );
 
@@ -28,6 +28,15 @@ require_once FLAVOR_DIR . '/inc/class-demo-importer.php';
 require_once FLAVOR_DIR . '/inc/class-gutenberg.php';
 require_once FLAVOR_DIR . '/inc/class-elementor.php';
 require_once FLAVOR_DIR . '/inc/class-builder.php';
+require_once FLAVOR_DIR . '/inc/class-dark-mode.php';
+require_once FLAVOR_DIR . '/inc/class-wishlist.php';
+require_once FLAVOR_DIR . '/inc/class-nav-mega.php';
+require_once FLAVOR_DIR . '/inc/class-shopping-extras.php';
+require_once FLAVOR_DIR . '/inc/class-engagement.php';
+require_once FLAVOR_DIR . '/inc/class-floating-dock.php';
+require_once FLAVOR_DIR . '/inc/class-branch-map.php';
+require_once FLAVOR_DIR . '/inc/class-premium-customizer.php';
+require_once FLAVOR_DIR . '/inc/class-premium-assets.php';
 require_once FLAVOR_DIR . '/inc/template-tags.php';
 
 Flavor\Theme_Setup::init();
@@ -46,3 +55,11 @@ Flavor\Demo_Importer::init();
 Flavor\Gutenberg::init();
 Flavor\Elementor::init();
 Flavor\Builder::init();
+Flavor\Dark_Mode::init();
+Flavor\Wishlist::init();
+Flavor\Nav_Mega::init();
+Flavor\Shopping_Extras::init();
+Flavor\Engagement::init();
+Flavor\Floating_Dock::init();
+Flavor\Premium_Customizer::init();
+Flavor\Premium_Assets::init();

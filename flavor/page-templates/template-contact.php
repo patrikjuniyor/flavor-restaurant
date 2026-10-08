@@ -19,6 +19,7 @@ get_header();
   <?php if ( is_email( $email ) ) : ?><div class="flavor-contact-detail"><?php \Flavor\UI::icon( 'info', 25 ); ?><div><h3><?php esc_html_e( 'ایمیل مجموعه', 'flavor' ); ?></h3><a href="<?php echo esc_url( 'mailto:' . $email ); ?>"><bdi><?php echo esc_html( $email ); ?></bdi></a></div></div><?php endif; ?>
   <div class="flavor-contact-social"><?php flavor_social_links(); ?></div>
  </section><aside class="flavor-contact-hours flavor-ui-panel"><span class="flavor-ui-overline"><?php esc_html_e( 'پیش از مراجعه', 'flavor' ); ?></span><h2><?php echo 'catering' === \Flavor\Design::current_skin() ? esc_html__( 'ساعات هماهنگی', 'flavor' ) : esc_html__( 'ساعات ثبت‌شده', 'flavor' ); ?></h2><?php if ( $hours ) : ?><p><?php echo esc_html( $hours ); ?></p><?php else : ?><?php \Flavor\UI_Pages::render_hours( $context['id'] ); ?><?php endif; ?><p class="flavor-ui-note"><?php esc_html_e( 'تعطیلی‌های موردی، ظرفیت و زمان اجرای سفارش نیاز به تأیید مجموعه دارند؛ وضعیت بازبودن لحظه‌ای در این بخش ادعا نمی‌شود.', 'flavor' ); ?></p><a class="flavor-btn flavor-btn--primary" href="<?php echo esc_url( \Flavor\UI::url( 'menu' ) ); ?>"><?php esc_html_e( 'دیدن منو', 'flavor' ); ?><?php \Flavor\UI::icon( 'arrow', 18 ); ?></a></aside></div>
+ <?php if ( ! empty( $context['id'] ) ) { \Flavor\Branch_Map::render( (int) $context['id'], __( 'ما را روی نقشه ببینید', 'flavor' ) ); } ?>
  <?php while ( have_posts() ) : the_post(); \Flavor\UI_Pages::content( true ); endwhile; ?>
 </div>
 <?php get_footer(); ?>

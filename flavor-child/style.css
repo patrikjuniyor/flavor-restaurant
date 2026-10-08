@@ -1,0 +1,28 @@
+/*
+Theme Name: Flavor Child
+Theme URI: https://github.com/patrikjuniyor/flavor-restaurant
+Description: چایلدتم رسمی قالب Flavor. هر تغییر ظاهری را اینجا بنویسید تا با آپدیت قالب اصلی پاک نشود.
+Author: Flavor
+Author URI: https://github.com/patrikjuniyor/flavor-restaurant
+Template: flavor
+Version: 1.0.0
+Requires at least: 6.4
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: flavor-child
+*/
+
+/*
+ * استایل‌های اختصاصی شما.
+ *
+ * نمونه‌ها (خطوط زیر را از حالت توضیح خارج کنید):
+ *
+ *   :root { --flavor-radius: 8px; }
+ *   body.flavor-skin-modern-restaurant { --flavor-primary: #8a1f2b; }
+ *   .flavor-food-card__footer { gap: 12px; }
+ *
+ * برای تغییر رنگ در حالت شب، متغیرها را روی همان انتخابگرِ خود قالب بازنویسی کنید:
+ *
+ *   html[data-flavor-scheme="dark"], html[data-flavor-scheme="dark"] body { --flavor-primary: #e7b27f; }
+ */
