@@ -261,3 +261,15 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* Reduced motion: builder blocks keep their layout, drop the hover motion. */
+@media (prefers-reduced-motion: reduce) {
+  .fb-btn,
+  .fb-categories__grid li {
+    transition: none;
+  }
+  .fb-btn:hover,
+  .fb-btn:active {
+    transform: none;
+  }
+}

@@ -23,7 +23,7 @@ if ( php_sapi_name() !== 'cli' ) {
 
 define( 'ABSPATH', __DIR__ . '/../../' );
 define( 'FLAVOR_CORE_PATH', dirname( __DIR__ ) . '/' );
-define( 'FLAVOR_CORE_VERSION', '1.5.0' );
+define( 'FLAVOR_CORE_VERSION', '1.5.1' );
 defined( 'FLAVOR_CORE_REST_NAMESPACE' ) || define( 'FLAVOR_CORE_REST_NAMESPACE', 'flavor/v1' );
 
 require_once __DIR__ . '/mock-wp-environment.php';

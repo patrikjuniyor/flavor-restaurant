@@ -893,8 +893,10 @@ function sanitize_key( string $key ): string {
 function wp_generate_password( int $length = 12, bool $special_chars = true ): string {
 	return bin2hex( random_bytes( (int) ceil( $length / 2 ) ) );
 }
-function wp_json_encode( $data ): string {
-	return json_encode( $data, JSON_UNESCAPED_UNICODE );
+function wp_json_encode( $data, int $options = 0, int $depth = 512 ): string {
+	// Mirror the real signature so callers that pass JSON_* flags are exercised
+	// exactly as they are in WordPress.
+	return (string) json_encode( $data, $options ?: JSON_UNESCAPED_UNICODE, $depth );
 }
 function wp_rand( int $min = 0, int $max = 0 ): int {
 	return mt_rand( $min, $max ?: mt_getrandmax() );

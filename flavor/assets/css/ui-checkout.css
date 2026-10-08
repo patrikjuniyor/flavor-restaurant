@@ -120,3 +120,21 @@
 .flavor-ui .flavor-modes button.is-active{box-shadow:0 8px 20px rgba(var(--flavor-primary-rgb),.3)}
 /* Step indicator gets a soft completed state. */
 .flavor-ui .flavor-cart__steps button[aria-current=step]>span{box-shadow:0 4px 12px rgba(var(--flavor-primary-rgb),.35)}
+
+/* Reduced motion: the cart drawer opens instantly; handle and mode cards stop moving. */
+@media (prefers-reduced-motion: reduce) {
+	.flavor-ui .flavor-cart__dialog,
+	.flavor-ui .flavor-cart__backdrop {
+		animation: none;
+		opacity: 1;
+		transform: none;
+	}
+	.flavor-ui .flavor-cart__handle,
+	.flavor-ui .flavor-modes button {
+		transition: none;
+	}
+	.flavor-ui .flavor-cart__handle:hover,
+	.flavor-ui .flavor-modes button:hover:not(.is-active) {
+		transform: none;
+	}
+}

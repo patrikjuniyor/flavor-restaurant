@@ -14,7 +14,7 @@ define( 'MINUTE_IN_SECONDS', 60 );
 define( 'HOUR_IN_SECONDS', 3600 );
 define( 'DAY_IN_SECONDS', 86400 );
 define( 'FLAVOR_CORE_PATH', dirname( __DIR__ ) . '/' );
-define( 'FLAVOR_CORE_VERSION', '1.5.0' );
+define( 'FLAVOR_CORE_VERSION', '1.5.1' );
 define( 'FLAVOR_CORE_REST_NAMESPACE', 'flavor/v1' );
 define( 'FLAVOR_CORE_REST_V2_NAMESPACE', 'flavor/v2' );
 
@@ -586,6 +586,10 @@ $res_ctrl = new ReservationController();
 $guest_res_id    = 0;
 $guest_res_token = '';
 
+// Reservation fixtures must stay in the future, otherwise the slot engine
+// correctly returns zero slots and the suite rots with the calendar.
+$res_test_date = gmdate( 'Y-m-d', time() + ( 14 * DAY_IN_SECONDS ) );
+
 run_test( 'GET /flavor/v2/reservations/calendar returns Jalali month grid', function () use ( $res_ctrl ) {
 	$req = new \WP_REST_Request( 'GET', '/flavor/v2/reservations/calendar' );
 	$req->set_param( 'jy', 1403 );
@@ -599,10 +603,10 @@ run_test( 'GET /flavor/v2/reservations/calendar returns Jalali month grid', func
 		count( $data['data']['days'] ) === 30;
 } );
 
-run_test( 'GET /flavor/v2/reservations/slots calculates real-time table capacity', function () use ( $res_ctrl ) {
+run_test( 'GET /flavor/v2/reservations/slots calculates real-time table capacity', function () use ( $res_ctrl, $res_test_date ) {
 	$req = new \WP_REST_Request( 'GET', '/flavor/v2/reservations/slots' );
 	$req->set_param( 'branch_id', 1 );
-	$req->set_param( 'date', '2026-09-22' );
+	$req->set_param( 'date', $res_test_date );
 	$req->set_param( 'party', 4 );
 	$res = $res_ctrl->get_slots( $req );
 	$data = $res->get_data();
@@ -610,12 +614,30 @@ run_test( 'GET /flavor/v2/reservations/slots calculates real-time table capacity
 	return $res->get_status() === 200 && is_array( $data['data']['slots'] ) && count( $data['data']['slots'] ) > 0;
 } );
 
-run_test( 'POST /flavor/v2/reservations creates reservation & issues guest_token', function () use ( $res_ctrl, &$guest_res_id, &$guest_res_token ) {
+run_test( 'Jalali conversion: every displayed date label is a real 13xx/14xx year', function () use ( $res_ctrl, $res_test_date ) {
+	// Regression guard for the Gregorian→Jalali direction: a broken converter
+	// silently produced years like 7715 while the round-trip helpers looked fine.
+	$req = new \WP_REST_Request( 'GET', '/flavor/v2/reservations/slots' );
+	$req->set_param( 'branch_id', 1 );
+	$req->set_param( 'date', $res_test_date );
+	$res = $res_ctrl->get_slots( $req );
+	$data = $res->get_data()['data'];
+
+	$jy       = (int) ( $data['jalali']['y'] ?? 0 );
+	$expected = \FlavorCore\Support\Jalali::to_gregorian( $jy, (int) $data['jalali']['m'], (int) $data['jalali']['d'] );
+	$back     = sprintf( '%04d-%02d-%02d', $expected[0], $expected[1], $expected[2] );
+
+	return $res->get_status() === 200
+		&& $jy >= 1390 && $jy <= 1500
+		&& $back === $data['date'];
+} );
+
+run_test( 'POST /flavor/v2/reservations creates reservation & issues guest_token', function () use ( $res_ctrl, &$guest_res_id, &$guest_res_token, $res_test_date ) {
 	wp_set_current_user( 0 );
 	$req = new \WP_REST_Request( 'POST', '/flavor/v2/reservations' );
 	$req->set_json_params( array(
 		'branch_id'  => 1,
-		'date'       => '2026-09-22',
+		'date'       => $res_test_date,
 		'time'       => '20:30',
 		'party_size' => 4,
 		'mobile'     => '09127776655',

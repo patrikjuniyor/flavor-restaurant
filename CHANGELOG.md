@@ -7,6 +7,80 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.4.0 / Core 1.5.1] — Premium Parity Audit / 2026-10-08
+
+ممیزی پوسته در برابر قالب‌های تجاری پولی و رفع نقص‌های واقعی. گزارش کامل در [`docs/PREMIUM-AUDIT-2026-10-08.md`](docs/PREMIUM-AUDIT-2026-10-08.md).
+
+### Fixed — CRITICAL: Gregorian → Jalali conversion produced garbage years (Core 1.5.1)
+
+- `Jalali::from_gregorian()` used the `jalaali-js` formula while `Jalali::to_gregorian()` used
+  12053-day-cycle arithmetic: the two halves of the pair were incompatible, so every *displayed*
+  Jalali date was wrong — `2026-10-08` rendered as `24 آبان 7717` instead of `16 مهر 1405`.
+  This leaked into reservation slot labels, the reservation panel, the settings API and
+  time-boxed discounts.
+- `from_gregorian()` is now the exact inverse of `to_gregorian()`. Verified against two
+  independent oracles: a 73,414-day round-trip over 1900–2100 and an 18,628-day comparison
+  against the ICU Persian calendar — both with zero mismatches.
+- Regression guards added to the pure-logic suite: Nowruz anchors (1403/1404/1405), 22 Bahman
+  1357, the full 1900–2100 round trip, a plausible-year assertion for "today", and Esfand length.
+
+### Fixed — Test suite rot and false negatives
+
+- Reservation integration fixtures used a hard-coded `2026-09-22`; once that date passed, the slot
+  engine correctly returned zero slots and five tests failed forever. Fixtures are now relative
+  (`today + 14 days`), and a new test asserts that the emitted Jalali label converts back to the
+  requested Gregorian date, so this bug class cannot regress unnoticed.
+- `MockWPDB`'s `wp_json_encode()` dropped the `$options` argument, so code paths passing
+  `JSON_UNESCAPED_UNICODE` were never actually exercised. The mock now mirrors the WordPress signature.
+
+### Fixed — Accessibility: `prefers-reduced-motion` coverage was incomplete
+
+- Five stylesheets with animations/transitions had no guard at all (`marketing.css`, `ui-menu.css`,
+  `ui-checkout.css`, `builder.css`, `builder-admin.css`), contradicting the 1.3.0 release notes.
+  Each now carries a targeted reduced-motion block using the real selectors of that file
+  (menu shimmer, product sheet, cart drawer, badge pulse, image zoom, editor drag states).
+- Audit: all 29 stylesheets contain animations and all 29 are now guarded.
+
+### Added — Mobile browser chrome and installable app (theme 1.4.0)
+
+- `theme-color` meta tag resolved from the active skin palette, so all twelve demos paint their own
+  browser bar; a `flavor_theme_color` Customizer value overrides it (inline style, no extra request).
+- iOS home-screen metadata (`apple-mobile-web-app-*`), Apple touch icon, and fallback favicons that
+  step aside when the site owner has set a Site Icon.
+- Dynamic `flavor-app.webmanifest` served from PHP so the app name, colours and icons follow the live
+  site settings and active skin. Works with pretty permalinks (rewrite rule) and plain permalinks
+  (`?flavor_manifest=1`) alike; rewrite rules flush on theme switch.
+- Brand PWA icon set in `flavor/assets/pwa/`: 192, 512, maskable 512, 180px Apple touch icon and
+  32/48px favicons generated from the brand palette.
+
+### Added — White-label mobile app identity
+
+- Android launcher icons were a flat `#C62828` square: now the cloche brand mark in all five
+  densities, plus round variants, an adaptive icon (`mipmap-anydpi-v26` + five foreground densities,
+  66dp safe zone) and a `monochrome` layer for themed icons.
+- iOS shipped no `Assets.xcassets` at all, so `flutter create` produced the stock Flutter logo. A full
+  18-size `AppIcon.appiconset` (opaque 1024px App Store asset, no alpha) and a 1x/2x/3x `LaunchImage`
+  are now committed.
+- Android launch background was plain white (a white flash on every cold start): now the brand colour
+  with the centred brand mark.
+- `.github/workflows/build-mobile.yml`: new "Restore Branded Launcher Assets" step after
+  `flutter create` (which regenerates the iOS template and would strip the branded icon). The build
+  fails loudly if the assets cannot be restored, so an unbranded app can never ship.
+
+### Changed
+
+- Theme screenshot normalised to the 1200×900 dimensions WordPress documents, losing ~25% of its
+  file size (1918 KB → 1447 KB).
+- `.github/workflows/ci.yml` now lints `flavor/` and `tests/` (not just `flavor-core/`) and runs the
+  full test surface: theme chrome/manifest tests, pure-logic regression suite, integration suite.
+
+### Added — Test suites
+
+- `tests/theme/test-theme-meta.php` (+ `bootstrap.php`): 42 assertions covering skin→theme-colour
+  mapping for all twelve skins, manifest payload and JSON round-trip, icon presence/sizes/purposes,
+  the actual `wp_head` output, and screenshot dimensions.
+- Total: 145 passing assertions across three suites (was 74/79 with 5 failures).
+
 ## [1.3.0 / Core 1.5.0] — Premium UI Release / 2026-10-07
 
 نسخهٔ «پولیش پریمیوم»: ارتقای سراسری ظاهر و کد برای رسیدن به کیفیت قالب تجاری پولی. جزئیات کامل در [`docs/PREMIUM-UI-2026-10-07.md`](docs/PREMIUM-UI-2026-10-07.md).

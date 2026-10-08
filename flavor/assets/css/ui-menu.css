@@ -150,3 +150,26 @@
 .flavor-ui .flavor-sheet__panel{animation:flavor-sheet-in .38s var(--flavor-ease)}
 .flavor-ui .flavor-sheet__backdrop{animation:flavor-sheet-backdrop-in .3s var(--flavor-ease)}
 @media(max-width:700px){.flavor-ui .flavor-sheet__panel{animation-name:flavor-sheet-in;border-radius:18px 18px 0 0}}
+
+/* Reduced motion: shimmer stops, the product sheet appears instantly, no image zoom. */
+@media (prefers-reduced-motion: reduce) {
+	.flavor-ui .flavor-menu__grid[aria-busy=true] {
+		animation: none;
+		background: none;
+	}
+	.flavor-ui .flavor-sheet__panel,
+	.flavor-ui .flavor-sheet__backdrop {
+		animation: none;
+		opacity: 1;
+		transform: none;
+	}
+	.flavor-ui .flavor-food-card__media img,
+	.flavor-ui .flavor-cats button {
+		transition: none;
+	}
+	.flavor-ui .flavor-food-card__media img:hover,
+	.flavor-ui .flavor-food-card:hover .flavor-food-card__media img,
+	.flavor-ui .flavor-cats button:hover {
+		transform: none;
+	}
+}

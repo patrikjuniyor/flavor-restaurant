@@ -42,25 +42,47 @@ class Jalali {
 	);
 
 	/**
-	 * [jy, jm, jd] from a Gregorian Y-m-d or DateTime.
+	 * [jy, jm, jd] from a Gregorian Y-m-d.
+	 *
+	 * Exact inverse of {@see self::to_gregorian()}: both halves of the pair use
+	 * the same 12053-day cycle / 33-year arithmetic so a round trip is identity.
+	 * Days are counted from 1600-01-01 as in the reference implementation.
 	 *
 	 * @return int[]
 	 */
 	public static function from_gregorian( int $gy, int $gm, int $gd ): array {
-		$g_d_n = self::div( ( $gy + self::div( $gm - 8, 6 ) + 100100 ) * 1461, 4 )
-			+ self::div( 153 * ( ( $gm + 9 ) % 12 ) + 2, 5 )
-			+ $gd - 34840408;
-		$g_d_n = $g_d_n - self::div( self::div( $gy + 100100 + self::div( $gm - 8, 6 ), 100 ) * 3, 4 ) + 752;
-		$j_np  = self::div( $g_d_n - 79, 12053 );
-		$g_d_n = ( $g_d_n - 79 ) % 12053;
-		$jy    = 979 + 33 * $j_np + 4 * self::div( $g_d_n, 1461 );
+		// Cumulative days before the 1st of each Gregorian month.
+		$g_d_m = array( 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 );
+
+		// Leap day is only added for March onwards, so shift the year for Jan/Feb.
+		$gy_leap = ( $gm > 2 ) ? ( $gy + 1 ) : $gy;
+
+		$g_d_n = 355666
+			+ ( 365 * $gy )
+			+ self::div( $gy_leap + 3, 4 )
+			- self::div( $gy_leap + 99, 100 )
+			+ self::div( $gy_leap + 399, 400 )
+			+ $gd
+			+ $g_d_m[ $gm - 1 ];
+
+		$jy    = -1595 + ( 33 * self::div( $g_d_n, 12053 ) );
+		$g_d_n = $g_d_n % 12053;
+		$jy   += 4 * self::div( $g_d_n, 1461 );
 		$g_d_n = $g_d_n % 1461;
-		if ( $g_d_n >= 366 ) {
-			$jy   += self::div( $g_d_n - 1, 365 );
-			$g_d_n = ( $g_d_n - 1 ) % 365;
+
+		if ( $g_d_n > 365 ) {
+			$jy    += self::div( $g_d_n - 1, 365 );
+			$g_d_n  = ( $g_d_n - 1 ) % 365;
 		}
-		$jm = ( $g_d_n < 186 ) ? 1 + self::div( $g_d_n, 31 ) : 7 + self::div( $g_d_n - 186, 30 );
-		$jd = 1 + ( ( $g_d_n < 186 ) ? ( $g_d_n % 31 ) : ( ( $g_d_n - 186 ) % 30 ) );
+
+		if ( $g_d_n < 186 ) {
+			$jm = 1 + self::div( $g_d_n, 31 );
+			$jd = 1 + ( $g_d_n % 31 );
+		} else {
+			$jm = 7 + self::div( $g_d_n - 186, 30 );
+			$jd = 1 + ( ( $g_d_n - 186 ) % 30 );
+		}
+
 		return array( $jy, $jm, $jd );
 	}
 

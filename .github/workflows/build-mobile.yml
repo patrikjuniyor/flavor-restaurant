@@ -186,6 +186,19 @@ jobs:
         working-directory: mobile
         run: flutter create . --project-name flavor_mobile --platforms=ios
 
+      - name: Restore Branded Launcher Assets
+        # `flutter create` regenerates the iOS template, which would replace the
+        # branded AppIcon / LaunchImage catalog with the stock Flutter icons and
+        # ship an unbranded app. Re-apply the committed assets and fail loudly
+        # if anything is still dirty.
+        run: |
+          git checkout -- mobile/ios/Runner/Assets.xcassets mobile/android/app/src/main/res
+          if ! git diff --quiet -- mobile/ios/Runner/Assets.xcassets mobile/android/app/src/main/res; then
+            echo "::error::Branded launcher assets could not be restored; refusing to build an unbranded app."
+            exit 1
+          fi
+          echo "::notice::Branded Android + iOS launcher assets applied."
+
       - name: Provision Brand Configuration
         run: |
           python3 mobile/scripts/provision_brand.py \

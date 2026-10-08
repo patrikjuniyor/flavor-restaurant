@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'FLAVOR_VERSION', '1.3.0' );
+define( 'FLAVOR_VERSION', '1.4.0' );
 define( 'FLAVOR_DIR', get_template_directory() );
 define( 'FLAVOR_URI', get_template_directory_uri() );
 
@@ -22,6 +22,8 @@ require_once FLAVOR_DIR . '/inc/class-ui-customizer.php';
 require_once FLAVOR_DIR . '/inc/class-onboarding.php';
 require_once FLAVOR_DIR . '/inc/class-enqueue.php';
 require_once FLAVOR_DIR . '/inc/class-schema-output.php';
+require_once FLAVOR_DIR . '/inc/class-meta.php';
+require_once FLAVOR_DIR . '/inc/class-pwa.php';
 require_once FLAVOR_DIR . '/inc/class-demo-importer.php';
 require_once FLAVOR_DIR . '/inc/class-gutenberg.php';
 require_once FLAVOR_DIR . '/inc/class-elementor.php';
@@ -38,6 +40,8 @@ Flavor\UI_Customizer::init();
 Flavor\Onboarding::init();
 Flavor\Enqueue::init();
 Flavor\Schema_Output::init();
+Flavor\Meta::init();
+Flavor\PWA::init();
 Flavor\Demo_Importer::init();
 Flavor\Gutenberg::init();
 Flavor\Elementor::init();

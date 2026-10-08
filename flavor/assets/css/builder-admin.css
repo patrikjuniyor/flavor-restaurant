@@ -216,3 +216,18 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Reduced motion: the drag-and-drop editor stops animating while states stay visible. */
+@media (prefers-reduced-motion: reduce) {
+  .fb-admin,
+  .fb-admin *,
+  .fb-admin *::before,
+  .fb-admin *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  .fb-admin .fb-pitem:hover,
+  .fb-admin .fb-block-item:hover {
+    transform: none;
+  }
+}

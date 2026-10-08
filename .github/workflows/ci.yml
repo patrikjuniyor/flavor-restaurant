@@ -27,7 +27,15 @@ jobs:
 
       - name: PHP Syntax Check (Lint)
         run: |
-          find flavor-core/ -name "*.php" -exec php -l {} \;
+          find flavor-core/ flavor/ tests/ -name "*.php" -exec php -l {} \;
+
+      - name: Run Theme Chrome & Manifest Tests (colors, icons, PWA)
+        run: |
+          php tests/theme/test-theme-meta.php
+
+      - name: Run Pure Logic Regression Suite (Jalali, tokens, RTL text)
+        run: |
+          php flavor-core/tests/run-pure-tests.php
 
       - name: Run Phase 1 & Phase 2 Integration Tests
         run: |

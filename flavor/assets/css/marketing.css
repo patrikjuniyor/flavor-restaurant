@@ -893,3 +893,20 @@ a.flavor-contact-row__link {
 	font-size: 13px;
 	color: var(--flavor-muted);
 }
+
+/* Reduced-motion: pulsing dots stop, lift and image-zoom hover effects are neutralised. */
+@media (prefers-reduced-motion: reduce) {
+	.flavor-hero__badge-dot,
+	.flavor-live-status__dot {
+		animation: none;
+	}
+	.flavor-intro__card,
+	.flavor-cat-card__bg,
+	.flavor-gallery__item img {
+		transition: none;
+	}
+	.flavor-intro__card:hover,
+	.flavor-gallery__item:hover img {
+		transform: none;
+	}
+}
