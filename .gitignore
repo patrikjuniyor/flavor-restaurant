@@ -10,6 +10,9 @@ Desktop.ini
 *.swo
 *~
 
+# Generated: the self-contained motion preview (dev-tools/preview/build-preview.sh)
+flavor-motion-preview.html
+
 # Dependencies / build (not shipped; plugin has its own PSR-4 autoloader)
 node_modules/
 vendor/
