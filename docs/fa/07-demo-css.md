@@ -71,3 +71,8 @@ node responsive.mjs
 cd tests/ui
 node motion.mjs
 ```
+
+همین آزمون در CI هم اجرا می‌شود: job مستقل `motion-layer-guard` در
+`.github/workflows/ci.yml` با Node 20، روی هر push به `main` و هر pull request.
+هیچ مرورگر و هیچ وردپرسی لازم نیست، پس چند ثانیه بیشتر طول نمی‌کشد و ماتریس PHP را
+هم بی‌دلیل چهار برابر نمی‌کند.

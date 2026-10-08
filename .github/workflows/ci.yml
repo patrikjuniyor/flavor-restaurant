@@ -45,6 +45,23 @@ jobs:
         run: |
           php flavor-core/tests/run-e2e-integration.php
 
+  motion-layer-guard:
+    name: Motion Layer Guard (all twelve demos, no browser)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Verify Motion Layer (skins, keyframes, reduced motion, gating, enqueue)
+        run: |
+          node tests/ui/motion.mjs
+
   flutter-mobile-ci:
     name: Mobile Quality & Flutter Tests
     runs-on: ubuntu-latest
