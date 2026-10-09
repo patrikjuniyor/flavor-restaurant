@@ -69,6 +69,12 @@ jobs:
         run: |
           php tests/theme/test-live-preview.php
 
+      # A readme tag the code does not honour is a claim that survived
+      # because nothing checked it. full-site-editing was one: the theme
+      # is classic PHP and had no templates/ at all.
+      - name: Every readme tag is backed by code that exists
+        run: php tests/theme/test-distribution.php
+
       - name: Check every theme class is loaded before it is used
         run: |
           php dev-tools/check-class-wiring.php

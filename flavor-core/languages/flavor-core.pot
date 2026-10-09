@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-09 22:59+00:00\n"
+"POT-Creation-Date: 2026-10-09 23:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
@@ -190,7 +190,7 @@ msgstr ""
 msgid "اسکن کنید و از همین میز سفارش دهید."
 msgstr ""
 
-#: flavor-core/includes/API/MobileProvisionController.php:208
+#: flavor-core/includes/API/MobileProvisionController.php:212
 msgid "اطلاعات بیلد مورد نظر یافت نشد."
 msgstr ""
 

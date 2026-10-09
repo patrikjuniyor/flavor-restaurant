@@ -169,7 +169,11 @@ class MobileProvisionController extends BaseApiController {
 	 */
 	public function build_callback( \WP_REST_Request $request ): \WP_REST_Response {
 		$sig      = $request->get_header( 'X-Flavor-Signature' ) ?: '';
-		$raw_body = $request->get_body();
+		// get_body() returns null when the request carried no body, and
+		// passing null into a string parameter is a fatal rather than an
+		// empty payload. An unsigned callback with no body should be
+		// rejected as a request, not crash the endpoint.
+		$raw_body = (string) $request->get_body();
 
 		$res = BuildManager::update_build_from_ci( $raw_body, (string) $sig );
 		if ( is_wp_error( $res ) ) {

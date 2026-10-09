@@ -65,17 +65,30 @@ foreach ( $server->get_routes() as $route => $handlers ) {
 	foreach ( $handlers as $handler ) {
 		$methods = array_keys( $handler['methods'] );
 		foreach ( $methods as $method ) {
-			if ( in_array( $method, array( 'GET', 'HEAD' ), true ) ) {
-				$routes[] = array( $method, $route );
+			// Every method, not just GET: the mutating routes are where a
+			// fatal costs most and where an authorisation gap matters, and
+			// they are the least likely ever to have been dispatched.
+			if ( in_array( $method, array( 'HEAD' ), true ) ) {
+				continue;
 			}
+			$routes[] = array( $method, $route );
 		}
 	}
 }
 
 echo '--- 1. Routes are registered ---', "\n";
-check( ! empty( $routes ), 'flavor routes exist (' . count( $routes ) . ')' );
+check( ! empty( $routes ), 'flavor routes registered (' . count( $routes ) . ' method-route pairs)' );
 
-echo "\n--- 2. Every GET route answers without fataling ---\n";
+$by_method = array();
+foreach ( $routes as $r ) {
+	$by_method[ $r[0] ] = ( $by_method[ $r[0] ] ?? 0 ) + 1;
+}
+foreach ( $by_method as $method => $n ) {
+	printf( "    %-6s %d\n", $method, $n );
+}
+check( ! empty( $by_method['POST'] ?? 0 ), 'POST routes exist and are covered too (' . ( $by_method['POST'] ?? 0 ) . ')' );
+
+echo "\n--- 2. Every route answers without fataling ---\n";
 
 // Numbered placeholders are filled so the request reaches the callback;
 // a route like /orders/(?P<id>\d+) is dispatched as /orders/1.
