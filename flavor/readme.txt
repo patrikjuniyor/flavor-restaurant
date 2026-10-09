@@ -87,12 +87,36 @@ specificity race.
 = Is it translatable? =
 
 Yes. All strings are in the `flavor` text domain and the theme ships a POT file
-plus a compiled Persian catalogue. It is RTL-first, and the type scale carries
-an explicit warning that letter-spacing breaks Persian joining.
+plus compiled Persian and Arabic catalogues. It is RTL-first, and the type
+scale carries an explicit warning that letter-spacing breaks Persian joining.
+
+= Is it compatible with WPML or TranslatePress? =
+
+The theme is declared Persian-first rather than claiming official multilingual
+integration. It does not register its own translation layer, so a multilingual
+plugin is free to own the strings: nothing in the theme hardcodes a locale,
+a currency, or a direction, and every user-facing string goes through the
+`flavor` text domain.
+
+What this means in practice: the theme will not fight such a plugin, but it is
+not tested against one either. Claiming official integration would mean
+maintaining a compatibility matrix against two paid plugins for a market the
+theme is built for, and a half-kept promise is worse than an honest one. If you
+run a multilingual site, test your specific setup before you rely on it.
+
+= Why is the theme 1.3 MB when the repository is larger? =
+
+The demo photography is a separate download (`flavor-demo-pack.zip`, about
+12 MB). A customer who supplies their own photographs never loads it, and the
+theme renders correctly without it: sections that would point at missing
+images fall back to a bundled placeholder instead of emitting broken URLs.
 
 == Changelog ==
 
 = 1.6.1 =
+* Demo photography moved to a separate pack; the theme itself is now 1.3 MB
+  instead of 16 MB, and renders correctly with the pack absent.
+* Verified against a real WordPress 7.1.3 with WooCommerce 11.0.1 in CI.
 * Twelve Elementor widgets in a branded `flavor` category, up from five.
 * Responsive type scale with per-breakpoint weight, line height and letter spacing.
 * Per-page options: hide title, transparent header, content width, background.
