@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-09 23:10+00:00\n"
+"POT-Creation-Date: 2026-10-09 23:14+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
@@ -234,7 +234,7 @@ msgstr ""
 msgid "افزودن میز"
 msgstr ""
 
-#: flavor-core/includes/Plugin.php:151
+#: flavor-core/includes/Plugin.php:153
 msgid "افزونه Flavor Core برای اجرا به ووکامرس ۸.۵ یا بالاتر نیاز دارد."
 msgstr ""
 
@@ -418,7 +418,11 @@ msgstr ""
 msgid "بازهٔ انتخابی بزرگ است؛ خروجی به %s ردیف محدود شد. بازه را کوتاه‌تر کنید."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:143 flavor-core/includes/Admin/AdminMenus.php:144 flavor-core/includes/Loyalty/LoyaltyAdmin.php:57 flavor-core/includes/Reporting/ReportAdmin.php:91
+#: flavor-core/includes/Reporting/ScheduledReport.php:362
+msgid "بازهٔ گزارش محدود شده است؛ برای دریافتِ کامل بازه را کوتاه‌تر کنید."
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:143 flavor-core/includes/Admin/AdminMenus.php:144 flavor-core/includes/Loyalty/LoyaltyAdmin.php:57 flavor-core/includes/Reporting/ReportAdmin.php:91 flavor-core/includes/Reporting/ScheduledReport.php:325
 msgid "باشگاه مشتریان"
 msgstr ""
 
@@ -592,6 +596,10 @@ msgstr ""
 
 #: flavor-core/includes/Customer/OtpAuth.php:38
 msgid "تعداد درخواست کد بیش از حد مجاز است. ۱۰ دقیقه دیگر تلاش کنید."
+msgstr ""
+
+#: flavor-core/includes/Reporting/ScheduledReport.php:351
+msgid "تعداد ردیف‌ها: %d"
 msgstr ""
 
 #: flavor-core/admin/views/executive-dashboard.php:195
@@ -846,6 +854,10 @@ msgstr ""
 msgid "دانلود CSV"
 msgstr ""
 
+#: flavor-core/includes/Reporting/ScheduledReport.php:385
+msgid "در این بازه داده‌ای ثبت نشده است. این پیام تأیید می‌کند که زمان‌بندی فعال است."
+msgstr ""
+
 #: flavor-core/includes/Reporting/ReportAdmin.php:174
 msgid "در این بازه داده‌ای یافت نشد."
 msgstr ""
@@ -938,6 +950,10 @@ msgstr ""
 msgid "دقیقه"
 msgstr ""
 
+#: flavor-core/includes/Reporting/ScheduledReport.php:95
+msgid "دورهٔ ارسال باید روزانه، هفتگی یا ماهانه باشد."
+msgstr ""
+
 #: flavor-core/includes/API/ReviewController.php:202
 msgid "دیدگاه شما با موفقیت ثبت شد."
 msgstr ""
@@ -1006,7 +1022,7 @@ msgstr ""
 msgid "رزرو میز لغو شد"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:90
+#: flavor-core/includes/Reporting/ReportAdmin.php:90 flavor-core/includes/Reporting/ScheduledReport.php:324
 msgid "رزروها"
 msgstr ""
 
@@ -1206,7 +1222,7 @@ msgstr ""
 msgid "سفارشی‌سازی برند رستوران، اتصال به CI/CD و ساخت خودکار خروجی‌های Android (APK/AAB) و iOS (IPA) بدون تغییر کدهای اصلی."
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:89
+#: flavor-core/includes/Reporting/ReportAdmin.php:89 flavor-core/includes/Reporting/ScheduledReport.php:323
 msgid "سفارش‌ها"
 msgstr ""
 
@@ -1438,6 +1454,10 @@ msgstr ""
 msgid "فارسی (۲۵٬۰۰۰)"
 msgstr ""
 
+#: flavor-core/includes/Reporting/ScheduledReport.php:366
+msgid "فایل پیوست با اکسل، لیبره‌آفیس و گوگل‌شیت سازگار است."
+msgstr ""
+
 #: flavor-core/admin/views/mobile-app-dashboard.php:360
 msgid "فایلی تولید نشده"
 msgstr ""
@@ -1646,6 +1666,10 @@ msgstr ""
 msgid "منطقه زمانی"
 msgstr ""
 
+#: flavor-core/includes/Reporting/ScheduledReport.php:356
+msgid "منطقهٔ زمانی: %s"
+msgstr ""
+
 #: flavor-core/includes/Delivery/ZoneAdmin.php:107
 msgid "منطقه‌ای نیست."
 msgstr ""
@@ -1774,7 +1798,11 @@ msgstr ""
 msgid "نشانی"
 msgstr ""
 
-#: flavor-core/includes/Plugin.php:161
+#: flavor-core/includes/Reporting/ScheduledReport.php:98
+msgid "نشانی ایمیل معتبر نیست."
+msgstr ""
+
+#: flavor-core/includes/Plugin.php:163
 msgid "نصب WooCommerce"
 msgstr ""
 
@@ -1814,7 +1842,7 @@ msgstr ""
 msgid "نوع گزارش"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportQuery.php:82
+#: flavor-core/includes/Reporting/ReportQuery.php:82 flavor-core/includes/Reporting/ScheduledReport.php:92
 msgid "نوع گزارش نامعتبر است."
 msgstr ""
 
@@ -2116,6 +2144,10 @@ msgstr ""
 
 #: flavor-core/includes/Mobile/BuildManager.php:277
 msgid "گذار وضعیت از «%1$s» به «%2$s» مجاز نیست."
+msgstr ""
+
+#: flavor-core/includes/Reporting/ScheduledReport.php:330
+msgid "گزارش %1$s — %2$s تا %3$s"
 msgstr ""
 
 #: flavor-core/includes/Admin/AdminMenus.php:62 flavor-core/includes/Admin/AdminMenus.php:63

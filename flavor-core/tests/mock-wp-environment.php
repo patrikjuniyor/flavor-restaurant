@@ -12,6 +12,21 @@ if ( ! defined( 'ARRAY_N' ) ) define( 'ARRAY_N', 'ARRAY_N' );
 if ( ! defined( 'OBJECT' ) ) define( 'OBJECT', 'OBJECT' );
 if ( ! defined( 'AUTH_SALT' ) ) define( 'AUTH_SALT', 'mock-test-auth-salt-1234567890' );
 
+// Core time constants. WordPress defines these in wp-includes/default-constants.php,
+// which the mock does not load, so anything scheduling work needs them here.
+foreach ( array(
+	'MINUTE_IN_SECONDS' => 60,
+	'HOUR_IN_SECONDS'   => 3600,
+	'DAY_IN_SECONDS'    => 86400,
+	'WEEK_IN_SECONDS'   => 604800,
+	'MONTH_IN_SECONDS'  => 2592000,
+	'YEAR_IN_SECONDS'   => 31536000,
+) as $const => $value ) {
+	if ( ! defined( $const ) ) {
+		define( $const, $value );
+	}
+}
+
 // In-memory transients
 $GLOBALS['_mock_transients'] = array();
 function get_transient( string $transient ) {
@@ -867,6 +882,34 @@ function sanitize_hex_color( $color ) {
 	return '';
 }
 
+function wp_timezone_string(): string {
+	// A fixed offset keeps tests deterministic; the real function reads
+	// the site's timezone option.
+	return get_option( 'timezone_string', '+00:00' ) ?: '+00:00';
+}
+
+
+function wp_generate_uuid4(): string {
+	$data = '';
+	for ( $i = 0; $i < 16; $i++ ) {
+		$data .= chr( mt_rand( 0, 255 ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.rand_mt_rand
+	}
+	$data[6] = chr( ( ord( $data[6] ) & 0x0f ) | 0x40 );
+	$data[8] = chr( ( ord( $data[8] ) & 0x3f ) | 0x80 );
+	return vsprintf( '%s%s-%s-%s-%s-%s%s%s', str_split( bin2hex( $data ), 4 ) );
+}
+
+function get_temp_dir(): string {
+	return sys_get_temp_dir() . '/';
+}
+
+function wp_delete_file( string $file ): void {
+	if ( is_file( $file ) ) {
+		unlink( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
+	}
+}
+
+
 function sanitize_title( $title ) {
 	$title = strtolower( (string) $title );
 	$title = preg_replace( '/[^a-z0-9\x{0600}-\x{06FF}_\-\s]+/u', '', $title );
@@ -941,12 +984,6 @@ function add_action( string $tag, $callback, int $priority = 10, int $accepted_a
 	);
 }
 function add_filter( string $tag, $callback, int $priority = 10, int $accepted_args = 1 ) {}
-function wp_generate_uuid4(): string {
-	$data    = random_bytes( 16 );
-	$data[6] = chr( ( ord( $data[6] ) & 0x0f ) | 0x40 );
-	$data[8] = chr( ( ord( $data[8] ) & 0x3f ) | 0x80 );
-	return vsprintf( '%s%s-%s-%s-%s-%s%s%s', str_split( bin2hex( $data ), 4 ) );
-}
 
 // Cron scheduling registry — tests assert queued async work.
 $GLOBALS['_mock_cron_events'] = isset( $GLOBALS['_mock_cron_events'] ) && is_array( $GLOBALS['_mock_cron_events'] ) ? $GLOBALS['_mock_cron_events'] : array();

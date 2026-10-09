@@ -19,6 +19,7 @@ class Deactivator {
 	 */
 	public static function deactivate(): void {
 		\FlavorCore\Reservation\ReminderCron::clear();
+		\FlavorCore\Reporting\ScheduledReport::clear();
 		flush_rewrite_rules();
 	}
 }

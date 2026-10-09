@@ -17,6 +17,7 @@ use FlavorCore\Loyalty\DiscountManager;
 use FlavorCore\Loyalty\LoyaltyAdmin;
 use FlavorCore\Loyalty\PointsManager;
 use FlavorCore\Reporting\ReportAdmin;
+use FlavorCore\Reporting\ScheduledReport;
 use FlavorCore\Menu\AvailabilityAdmin;
 use FlavorCore\Menu\AvailabilityManager;
 use FlavorCore\Menu\ScheduleAdmin;
@@ -106,6 +107,7 @@ final class Plugin {
 		( new LoyaltyAdmin() )->hooks();
 		( new PointsManager() )->hooks();
 		ReportAdmin::hooks();
+		ScheduledReport::hooks();
 		( new DiscountManager() )->hooks();
 		( new Currency() )->hooks();
 		( new ProductModifiers() )->hooks();

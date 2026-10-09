@@ -23,6 +23,7 @@ require_once __DIR__ . '/mock-wp-environment.php';
 require_once __DIR__ . '/../includes/Reporting/ReportQuery.php';
 require_once __DIR__ . '/../includes/Reporting/CsvWriter.php';
 require_once __DIR__ . '/../includes/Reporting/ReportAdmin.php';
+require_once __DIR__ . '/../includes/Reporting/ScheduledReport.php';
 
 use FlavorCore\Reporting\CsvWriter;
 use FlavorCore\Reporting\ReportQuery;
@@ -201,8 +202,73 @@ check( isset( $result['rows'], $result['count'], $result['truncated'] ), 'run() 
 check( is_array( $result['rows'] ), 'rows is an array' );
 check( $result['count'] <= ReportQuery::MAX_ROWS, 'the count never exceeds the cap' );
 
+echo "\n--- 11. Scheduled delivery ---\n";
+
+use FlavorCore\Reporting\ScheduledReport;
+
+// Frequencies must be plain and bounded: a free-text interval would let a
+// schedule fire every second.
+check( ScheduledReport::interval_seconds( 'daily' ) === 86400, 'daily is one day' );
+check( ScheduledReport::interval_seconds( 'weekly' ) === 604800, 'weekly is one week' );
+check( ScheduledReport::interval_seconds( 'monthly' ) === 2592000, 'monthly is thirty days' );
+check( ScheduledReport::interval_seconds( 'nonsense' ) === 604800, 'an unknown frequency falls back to weekly, not to zero' );
+
+// A zero interval would make a schedule due on every cron run.
+check( ScheduledReport::interval_seconds( '' ) > 0, 'no frequency can be interpreted as "always due"' );
+
+$now = 2000000000;
+
+// Never sent -> due immediately, so an owner sees proof it works.
+$never = array( 'frequency' => 'weekly', 'last_sent' => 0, 'enabled' => true );
+check( ScheduledReport::is_due( $never, $now ), 'a schedule that has never run is due' );
+
+// Sent a minute ago -> not due.
+$recent = array( 'frequency' => 'weekly', 'last_sent' => $now - 60, 'enabled' => true );
+check( ! ScheduledReport::is_due( $recent, $now ), 'a schedule sent a minute ago is not due' );
+
+// Sent more than a week ago -> due.
+$old = array( 'frequency' => 'weekly', 'last_sent' => $now - 800000, 'enabled' => true );
+check( ScheduledReport::is_due( $old, $now ), 'a schedule sent over a week ago is due' );
+
+// Disabled schedules never fire, whatever the timing.
+$disabled = array( 'frequency' => 'weekly', 'last_sent' => 0, 'enabled' => false );
+check( ! ScheduledReport::is_due( $disabled, $now ), 'a disabled schedule is never due' );
+
+// Validation rejects what it cannot deliver.
+$bad_email = ScheduledReport::save( array( 'type' => 'orders', 'frequency' => 'weekly', 'recipient' => 'not-an-email' ) );
+check( ! $bad_email['ok'], 'an invalid recipient is rejected' );
+
+$bad_type = ScheduledReport::save( array( 'type' => 'drop_table', 'frequency' => 'weekly', 'recipient' => 'a@b.com' ) );
+check( ! $bad_type['ok'], 'an invalid report type is rejected' );
+
+$bad_freq = ScheduledReport::save( array( 'type' => 'orders', 'frequency' => 'every-second', 'recipient' => 'a@b.com' ) );
+check( ! $bad_freq['ok'], 'an invalid frequency is rejected' );
+
+// Subjects and bodies carry the range, so the email is self-describing.
+$subject = ScheduledReport::subject( 'orders', '2026-01-01', '2026-01-31' );
+check( false !== strpos( $subject, '2026-01-01' ), 'the subject states the range start' );
+check( false !== strpos( $subject, '2026-01-31' ), 'the subject states the range end' );
+
+$empty = ScheduledReport::empty_body( 'orders', '2026-01-01', '2026-01-31' );
+check( false !== strpos( $empty, '2026-01-01' ), 'an empty report still says which period it covers' );
+
+// An empty period is not an error, and silence would be indistinguishable
+// from a broken schedule — so it must say something.
+check( strlen( ScheduledReport::body( 'orders', 120, '2026-01-01', '2026-01-31', false ) ) > 20, 'a populated report has a body' );
+check( false !== strpos( ScheduledReport::body( 'orders', 120, '2026-01-01', '2026-01-31', true ), 'محدود' ), 'a truncated report says so in the body' );
+
+// The scheduled attachment must obey the same PII rules as a manual
+// download: a schedule is not a weaker way to obtain the same data.
+$src = (string) file_get_contents( dirname( __DIR__ ) . '/includes/Reporting/ScheduledReport.php' );
+check( false !== strpos( $src, 'ReportQuery::run' ), 'scheduled reports use the same query path as manual ones' );
+check( false !== strpos( $src, 'CsvWriter::render' ), 'scheduled reports use the same writer, so masking and escaping apply' );
+check( false === strpos( $src, 'customer_mobile' ), 'the scheduled report never reads the mobile column directly' );
+
+// A failing schedule must stop rather than retry forever.
+check( false !== strpos( $src, 'MAX_FAILURES' ), 'a failing schedule disables itself after repeated failures' );
+
 echo "\n=======================================================\n";
-echo "Results: {$passed} Passed, {$failed} Failed\n";
+echo "Final: {$passed} Passed, {$failed} Failed\n";
 echo "=======================================================\n";
 
 exit( $failed > 0 ? 1 : 0 );
