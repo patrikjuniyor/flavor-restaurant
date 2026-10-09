@@ -33,16 +33,21 @@
     "lint": "bash dev-tools/lint-php.sh",
     "phpcs": "phpcs",
     "phpcbf": "phpcbf",
+    "i18n": "php dev-tools/build-pot.php",
+    "check:versions": "php dev-tools/check-versions.php",
     "test:theme": "bash dev-tools/run-theme-tests.sh",
     "test:core": "phpunit -c flavor-core/phpunit.xml.dist",
     "check": [
       "@lint",
+      "@check:versions",
       "@test:theme"
     ]
   },
   "scripts-descriptions": {
     "lint": "PHP syntax check across every package (theme, core, child, tests).",
     "phpcs": "WordPress Coding Standards check (non-blocking: reports, does not fail yet).",
+    "i18n": "Regenerate the .pot translation catalogs from source.",
+    "check:versions": "Assert every version/compatibility header tells the same story.",
     "test:theme": "Run the standalone theme test suite (no PHPUnit required)."
   }
 }

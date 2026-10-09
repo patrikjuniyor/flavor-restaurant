@@ -7,7 +7,7 @@
  * Requires at least: 6.4
  * Requires PHP:      8.0
  * WC requires at least: 8.5
- * WC tested up to:   9.9
+ * WC tested up to:   11.0
  * Author:            Flavor
  * Author URI:        https://github.com/flavor-restaurant/flavor-restaurant
  * License:           GPL v2 or later

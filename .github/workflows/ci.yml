@@ -153,6 +153,23 @@ jobs:
               exit 1
             }
 
+  release-hygiene:
+    name: Version & Compatibility Headers
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP Environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, json
+
+      - name: Assert version headers agree with each other
+        run: php dev-tools/check-versions.php
+
   coding-standards:
     name: WordPress Coding Standards (report)
     runs-on: ubuntu-latest
