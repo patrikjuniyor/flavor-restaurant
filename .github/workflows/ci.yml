@@ -345,6 +345,13 @@ jobs:
           rm -rf "$RUNNER_TEMP/wordpress/wp-content/themes/flavor/demos"
           php tests/integration/real-wp-smoke.php --wp="$RUNNER_TEMP/wordpress"
 
+      # Registration proves nothing about execution: a route can be
+      # registered, reviewed and shipped while fataling the first time
+      # anyone calls it. This dispatches a real request at every one.
+      - name: Dispatch a request at every registered REST route
+        run: |
+          php tests/integration/real-rest-smoke.php --wp="$RUNNER_TEMP/wordpress"
+
       - name: Confirm no fatal was logged in either state
         run: |
           log="$RUNNER_TEMP/wordpress/wp-content/debug.log"

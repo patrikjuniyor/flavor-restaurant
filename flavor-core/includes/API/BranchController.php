@@ -223,7 +223,11 @@ class BranchController extends BaseApiController {
 	 */
 	public function get_schedule( \WP_REST_Request $request ): \WP_REST_Response {
 		$branch_id = (int) $request->get_param( 'id' );
-		$shifts    = \FlavorCore\Menu\ScheduleAdmin::for_branch( $branch_id );
+		// ScheduleAdmin is the admin screen; the schedule data lives in
+		// MenuScheduler. Calling the screen class here fataled, because the
+		// method never existed there — the route had never been dispatched
+		// by any test.
+		$shifts    = \FlavorCore\Menu\MenuScheduler::schedules( $branch_id );
 
 		return $this->respond_success(
 			$shifts,

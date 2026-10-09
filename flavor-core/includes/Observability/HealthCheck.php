@@ -74,7 +74,7 @@ class HealthCheck {
 		);
 
 		// 4. SMS & Communication Gateway
-		$active_provider = SmsManager::active_provider();
+		$active_provider = SmsManager::active();
 		$checks['sms_gateway'] = array(
 			'status'    => $active_provider->is_available() ? 'healthy' : 'degraded',
 			'provider'  => $active_provider->slug(),
@@ -101,11 +101,46 @@ class HealthCheck {
 			}
 		}
 
-		return array(
+		$payload = array(
 			'status'           => $overall,
 			'timestamp'        => gmdate( 'c' ),
 			'total_latency_ms' => $total_latency,
 			'checks'           => $checks,
 		);
+
+		// The route is reachable by anyone, so what it says to an
+		// anonymous visitor is public. Monitoring needs to know whether the
+		// service is up; it does not need the PHP version, the memory
+		// ceiling or which tables are missing. Those were being published
+		// to the internet, which is reconnaissance rather than health.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			$payload['checks'] = self::public_checks( $checks );
+		}
+
+		return $payload;
+	}
+
+	/**
+	 * Reduce the health report to what the public is allowed to know.
+	 *
+	 * @param array<string, array<string, mixed>> $checks Full checks.
+	 * @return array<string, array<string, mixed>>
+	 */
+	private static function public_checks( array $checks ): array {
+		$allowed = array(
+			'database'    => array( 'status' ),
+			'schema'      => array( 'status' ),
+			'environment' => array( 'status' ),
+			'sms_gateway' => array( 'status' ),
+		);
+
+		$out = array();
+		foreach ( $checks as $name => $values ) {
+			// Unknown check names are passed through as status only, so a
+			// future check cannot start publishing details by being new.
+			$keys = $allowed[ $name ] ?? array( 'status' );
+			$out[ $name ] = array_intersect_key( $values, array_flip( $keys ) );
+		}
+		return $out;
 	}
 }
