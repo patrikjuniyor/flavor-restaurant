@@ -36,6 +36,14 @@ $packages = array(
 /**
  * i18n calls we recognise: function => index of the $text argument.
  */
+/**
+ * i18n calls that carry a second text form (plural) at text index + 1.
+ *
+ * It has to be emitted as msgid_plural, or a translator never sees it and
+ * the plural is never translated.
+ */
+$plural_functions = array( '_n' => true, '_nx' => true );
+
 $functions = array(
 	'__'              => 0,
 	'esc_html__'      => 0,
@@ -231,11 +239,29 @@ foreach ( $packages as $out_file => $package ) {
 
 					$line = count( explode( "\n", substr( $code, 0, $m[0][1] ) ) );
 
+					// The plural form is the next argument, but only for the
+					// functions that have one. Reading it for the others
+					// would silently swallow the domain or a variable.
+					$plural = null;
+					if ( isset( $plural_functions[ $fn ] ) ) {
+						$raw_plural = $arg_at( substr( $code, $start - 1 ), $text_index + 1 );
+						if ( null !== $raw_plural ) {
+							$plural = $decode( $raw_plural );
+							if ( '' === $plural ) {
+								$plural = null;
+							}
+						}
+					}
+
 					if ( ! isset( $strings[ $text ] ) ) {
 						$strings[ $text ] = array(
 							'files'    => array(),
 							'comments' => array(),
+							'plural'   => null,
 						);
+					}
+					if ( null !== $plural ) {
+						$strings[ $text ]['plural'] = $plural;
 					}
 					$strings[ $text ]['files'][ "{$reference}:{$line}" ] = true;
 
@@ -273,6 +299,10 @@ foreach ( $packages as $out_file => $package ) {
 	$pot .= "\"MIME-Version: 1.0\\n\"\n";
 	$pot .= "\"Content-Type: text/plain; charset=UTF-8\\n\"\n";
 	$pot .= "\"Content-Transfer-Encoding: 8bit\\n\"\n";
+
+	// Declared so msgfmt accepts plural entries. The POT has no
+	// translations of its own; each .po overrides it per language.
+	$pot .= "\"Plural-Forms: nplurals=2; plural=(n != 1)\\n\"\n";
 	$pot .= "\"POT-Creation-Date: {$date}\\n\"\n";
 	$pot .= "\"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n\"\n";
 	$pot .= "\"X-Generator: Flavor build-pot.php\\n\"\n";
@@ -288,7 +318,16 @@ foreach ( $packages as $out_file => $package ) {
 			$pot .= "#. " . $comment . "\n";
 		}
 		$pot .= 'msgid "' . $pot_escape( (string) $msgid ) . '"' . "\n";
-		$pot .= 'msgstr ""' . "\n\n";
+
+		if ( null !== $meta['plural'] ) {
+			// Two msgstr slots is the whole point: a plural with a single
+			// msgstr silently drops every count but one.
+			$pot .= 'msgid_plural "' . $pot_escape( (string) $meta['plural'] ) . '"' . "\n";
+			$pot .= 'msgstr[0] ""' . "\n";
+			$pot .= 'msgstr[1] ""' . "\n\n";
+		} else {
+			$pot .= 'msgstr ""' . "\n\n";
+		}
 	}
 
 	if ( ! is_dir( dirname( $out_file ) ) ) {

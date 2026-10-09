@@ -165,9 +165,8 @@ jobs:
           php flavor-core/tests/run-e2e-integration.php
 
   i18n-guard:
-    name: Translation Catalog Freshness
+    name: Translation catalogues
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -176,26 +175,25 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          extensions: mbstring, json
-          tools: composer:v2
+          coverage: none
 
-      - name: Verify catalogs parse as valid gettext
+      - name: Install gettext
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq gettext
-          msgfmt --check -o /dev/null flavor/languages/flavor.pot
-          msgfmt --check -o /dev/null flavor-core/languages/flavor-core.pot
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq gettext
 
-      - name: Verify catalogs are up to date with the source
+      # Supersedes the two steps this job used to run. check-i18n.sh covers
+      # both and adds the checks that matter for a catalogue with real
+      # translations: msgfmt --strict on every .po (a dropped %s or a wrong
+      # plural count is a runtime bug, not a build one), .po drift, and a
+      # compiled .mo beside every .po.
+      - name: Guard the translation catalogues
         run: |
-          php dev-tools/build-pot.php
-          # The generator is deterministic apart from POT-Creation-Date, so a
-          # drift shows up as a diff in the message entries.
-          git diff --ignore-matching-lines='POT-Creation-Date' --exit-code -- \
-            flavor/languages/flavor.pot flavor-core/languages/flavor-core.pot \
-            || {
-              echo "::error::Translation catalogs are stale. Run 'php dev-tools/build-pot.php' and commit the result."
-              exit 1
-            }
+          ./dev-tools/check-i18n.sh
+
+      - name: Run Translation Contract Tests (mo loads, placeholders survive)
+        run: |
+          php tests/theme/test-translation.php
 
   release-hygiene:
     name: Version & Compatibility Headers
