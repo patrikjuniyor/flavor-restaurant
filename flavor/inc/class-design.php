@@ -399,6 +399,39 @@ class Design {
 		$ink_rgb       = self::hex2rgb( $t['ink'] );
 		$surface_rgb   = self::hex2rgb( $t['surface'] );
 
+		/**
+		 * Build a font stack without repeating a family.
+		 *
+		 * The stack always falls back through Vazirmatn, so a skin whose own
+		 * font *is* Vazirmatn used to emit
+		 * `'Vazirmatn', 'Vazirmatn', Tahoma, sans-serif`. Harmless to a
+		 * browser, but it is the value a theme.json fallback has to match, so
+		 * the duplication leaked outward.
+		 *
+		 * @param string ...$families Families in priority order.
+		 * @return string
+		 */
+		$font_stack = static function ( string ...$families ): string {
+			$seen  = array();
+			$stack = array();
+			foreach ( $families as $family ) {
+				$family = trim( $family );
+				if ( '' === $family ) {
+					continue;
+				}
+				$key = strtolower( trim( $family, " '\"" ) );
+				if ( isset( $seen[ $key ] ) ) {
+					continue;
+				}
+				$seen[ $key ]  = true;
+				$stack[]       = $family;
+			}
+			return implode( ', ', $stack );
+		};
+
+		$heading_stack = $font_stack( "'{$t['font_heading']}'", "'Vazirmatn'", 'Tahoma', 'sans-serif' );
+		$body_stack    = $font_stack( "'{$t['font_body']}'", "'Vazirmatn'", 'Tahoma', 'sans-serif' );
+
 		$css = ":root {
 			--flavor-primary: {$t['primary']};
 			--flavor-primary-rgb: {$primary_rgb};
@@ -428,8 +461,8 @@ class Design {
 			--flavor-section-space: {$space_mobile};
 			--flavor-section-space-tablet: {$space_tablet};
 			--flavor-section-space-desktop: {$space_desktop};
-			--flavor-font-heading: '{$t['font_heading']}', 'Vazirmatn', Tahoma, sans-serif;
-			--flavor-font-body: '{$t['font_body']}', 'Vazirmatn', Tahoma, sans-serif;
+			--flavor-font-heading: {$heading_stack};
+			--flavor-font-body: {$body_stack};
 
 			/* Site logo box */
 			--flavor-logo-height: {$logo_height}px;
