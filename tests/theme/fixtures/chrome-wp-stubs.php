@@ -365,3 +365,70 @@ if ( ! function_exists( 'sanitize_file_name' ) ) {
 		return trim( (string) $filename, '.-' );
 	}
 }
+
+if ( ! function_exists( 'wp_die' ) ) {
+	/**
+	 * Throws instead of exiting, so a test can observe the guard firing
+	 * rather than having the whole process stop mid-assertion.
+	 *
+	 * @param string $message Message.
+	 * @throws \RuntimeException Always.
+	 */
+	function wp_die( string $message = '' ): void {
+		throw new \RuntimeException( 'wp_die: ' . $message );
+	}
+}
+
+if ( ! function_exists( 'wp_get_theme' ) ) {
+	/**
+	 * Minimal theme object carrying the version, which the changelog panel
+	 * reads to mark the installed release.
+	 *
+	 * @param string $slug Slug.
+	 * @return object
+	 */
+	function wp_get_theme( string $slug = '' ): object {
+		return new class( $slug ) {
+			/** @var string */
+			private string $slug;
+
+			/**
+			 * @param string $slug Slug.
+			 */
+			public function __construct( string $slug ) {
+				$this->slug = $slug;
+			}
+
+			/**
+			 * Read the Version header from the theme stylesheet.
+			 *
+			 * @param string $header Header name.
+			 * @return string
+			 */
+			public function get( string $header ): string {
+				if ( 'Version' === $header ) {
+					$css = dirname( __DIR__, 3 ) . '/flavor/style.css';
+					if ( is_readable( $css ) ) {
+						$head = (string) file_get_contents( $css, false, null, 0, 2048 );
+						if ( preg_match( '/^[ \t\/*#@]*Version:(.*)$/mi', $head, $m ) ) {
+							return trim( $m[1] );
+						}
+					}
+				}
+				return '';
+			}
+		};
+	}
+}
+
+if ( ! function_exists( 'get_template' ) ) {
+	/**
+	 * The active theme's slug. get_stylesheet() is the child; get_template()
+	 * is always the parent, which is where the version header lives.
+	 *
+	 * @return string
+	 */
+	function get_template(): string {
+		return 'flavor';
+	}
+}

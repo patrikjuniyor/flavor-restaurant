@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-09 22:22+00:00\n"
+"POT-Creation-Date: 2026-10-09 22:26+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
@@ -610,6 +610,10 @@ msgstr ""
 msgid "این غذا"
 msgstr ""
 
+#: flavor/inc/class-changelog.php:170
+msgid "این فهرست مستقیماً از readme.txtِ قالب خوانده می‌شود، بنابراین با همان فایلی که مارکت‌پلیس می‌خواند همگام است."
+msgstr ""
+
 #: flavor/inc/class-chrome-builder.php:448
 msgid "این مقدار برای این گزینه مجاز نیست."
 msgstr ""
@@ -750,6 +754,10 @@ msgstr ""
 msgid "بخش هیرو (بنر اصلی صفحه نخست)"
 msgstr ""
 
+#: flavor/inc/class-changelog.php:179
+msgid "بخشِ Changelog در readme.txt خالی است."
+msgstr ""
+
 #: flavor/inc/class-block-patterns.php:79
 msgid "بخش پایانی با تیتر، توضیح و دکمهٔ رزرو روی پس‌زمینهٔ برند."
 msgstr ""
@@ -821,6 +829,10 @@ msgstr ""
 
 #: flavor/template-parts/reservation/reservation-form.php:10
 msgid "برای این مجموعه شعبهٔ رزروپذیر با میز فعال معرفی نشده است. از منو یا راه‌های تماس استفاده کنید."
+msgstr ""
+
+#: flavor/inc/class-changelog.php:213
+msgid "برای این نسخه یادداشتی ثبت نشده است."
 msgstr ""
 
 #: flavor/inc/class-wishlist.php:188
@@ -1229,6 +1241,14 @@ msgstr ""
 
 #: flavor/template-parts/marketing/intro.php:21
 msgid "تعهد به بالاترین استانداردهای بهداشت، مواد تازه و طبخ اصیل با عشق و احترام به ذائقه شما"
+msgstr ""
+
+#: flavor/inc/class-changelog.php:45
+msgid "تغییرات"
+msgstr ""
+
+#: flavor/inc/class-changelog.php:44 flavor/inc/class-changelog.php:167
+msgid "تغییرات Flavor"
 msgstr ""
 
 #: flavor/inc/class-demo-importer.php:88
@@ -2685,6 +2705,10 @@ msgstr ""
 msgid "شعبه‌ها و ساعات کاری"
 msgstr ""
 
+#: flavor/inc/class-changelog.php:158
+msgid "شما اجازهٔ دسترسی به این صفحه را ندارید."
+msgstr ""
+
 #: flavor/inc/class-premium-customizer.php:167
 msgid "شمارش معکوس، خبرنامه و کوکی"
 msgstr ""
@@ -2943,6 +2967,10 @@ msgstr ""
 
 #: flavor/inc/class-ui.php:26
 msgid "فاصله‌گذاری کارت غذا"
+msgstr ""
+
+#: flavor/inc/class-changelog.php:175
+msgid "فایل readme.txt در پوشهٔ قالب یافت نشد. فهرستِ تغییرات در دسترس نیست، ولی قالب سالم است."
 msgstr ""
 
 #: flavor/inc/class-transfer.php:59
@@ -3750,6 +3778,14 @@ msgstr ""
 msgid "نسبت ۴:۳، دست‌کم ۸۰۰×۶۰۰ پیکسل. اگر خالی بماند تصویر دموی پوستهٔ فعال نمایش داده می‌شود."
 msgstr ""
 
+#: flavor/inc/class-changelog.php:201
+msgid "نسخهٔ %s"
+msgstr ""
+
+#: flavor/inc/class-changelog.php:188
+msgid "نسخهٔ نصب‌شده: %s"
+msgstr ""
+
 #: flavor/elementor/widgets/class-branch-info-widget.php:133 flavor/template-parts/demos/visit.php:13
 msgid "نشانی"
 msgstr ""
@@ -3804,6 +3840,10 @@ msgstr ""
 
 #: flavor/inc/class-engagement.php:320
 msgid "نشست منقضی شده است؛ صفحه را دوباره باز کنید."
+msgstr ""
+
+#: flavor/inc/class-changelog.php:207
+msgid "نصب‌شده"
 msgstr ""
 
 #: flavor/inc/class-builder.php:190

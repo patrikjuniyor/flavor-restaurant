@@ -201,6 +201,18 @@ check( post_type_supports( 'page', 'title' ), 'pages are intact' );
 check( is_callable( array( 'Flavor\\Page_Options', 'sanitize' ) ), 'Page_Options::sanitize() is callable' );
 check( '' === \Flavor\Page_Options::sanitize( 'page_bg', 'javascript:alert(1)' ), 'the metabox sanitizer rejects a javascript: URL' );
 
+echo "\n--- The changelog panel is registered on a real install ---\n";
+
+check( class_exists( 'Flavor\\Changelog' ), 'Changelog is loaded on a real install' );
+check( is_readable( get_template_directory() . '/readme.txt' ), 'readme.txt is where the panel reads from' );
+$releases = \Flavor\Changelog::releases();
+check( ! empty( $releases ), 'the changelog parses on a real install (' . count( $releases ) . ' release(s))' );
+if ( ! empty( $releases ) ) {
+	$installed = \Flavor\Changelog::current_version();
+	check( '' !== $installed, 'the installed version is readable (' . $installed . ')' );
+	check( $releases[0]['version'] === $installed, 'the newest changelog entry matches the installed version' );
+}
+
 echo "\n--- Translation actually loads ---\n";
 
 $loaded = is_textdomain_loaded( 'flavor' ) || is_file( get_template_directory() . '/languages/flavor-ar.mo' );

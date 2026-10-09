@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flavor\n"
 "Report-Msgid-Bugs-To: https://github.com/patrikjuniyor/flavor-restaurant/issues\n"
-"PO-Revision-Date: 2026-10-09 22:22+0000\n"
+"PO-Revision-Date: 2026-10-09 22:26+0000\n"
 "Last-Translator: Flavor Translations\n"
 "Language-Team: Flavor Translations\n"
 "Language: ar\n"
@@ -613,6 +613,10 @@ msgstr ""
 msgid "این غذا"
 msgstr ""
 
+#: flavor/inc/class-changelog.php:170
+msgid "این فهرست مستقیماً از readme.txtِ قالب خوانده می‌شود، بنابراین با همان فایلی که مارکت‌پلیس می‌خواند همگام است."
+msgstr ""
+
 #: flavor/inc/class-chrome-builder.php:448
 msgid "این مقدار برای این گزینه مجاز نیست."
 msgstr ""
@@ -753,6 +757,10 @@ msgstr "القسم الرئيسي"
 msgid "بخش هیرو (بنر اصلی صفحه نخست)"
 msgstr ""
 
+#: flavor/inc/class-changelog.php:179
+msgid "بخشِ Changelog در readme.txt خالی است."
+msgstr ""
+
 #: flavor/inc/class-block-patterns.php:79
 msgid "بخش پایانی با تیتر، توضیح و دکمهٔ رزرو روی پس‌زمینهٔ برند."
 msgstr ""
@@ -825,6 +833,10 @@ msgstr ""
 #: flavor/template-parts/reservation/reservation-form.php:10
 msgid "برای این مجموعه شعبهٔ رزروپذیر با میز فعال معرفی نشده است. از منو یا راه‌های تماس استفاده کنید."
 msgstr "لم يُحدَّد لهذا المطعم فرعٌ قابل للحجز بطاولات مفعّلة. استخدم القائمة أو وسائل الاتصال."
+
+#: flavor/inc/class-changelog.php:213
+msgid "برای این نسخه یادداشتی ثبت نشده است."
+msgstr ""
 
 #: flavor/inc/class-wishlist.php:188
 msgid "برای بعضی موارد انتخاب ترکیبات لازم است؛ آن‌ها را از فهرست باز کنید."
@@ -1233,6 +1245,14 @@ msgstr ""
 #: flavor/template-parts/marketing/intro.php:21
 msgid "تعهد به بالاترین استانداردهای بهداشت، مواد تازه و طبخ اصیل با عشق و احترام به ذائقه شما"
 msgstr "التزام بأعلى معايير النظافة والمكوّنات الطازجة والطبخ الأصيل، بحبّ واحترام لذائقتكم"
+
+#: flavor/inc/class-changelog.php:45
+msgid "تغییرات"
+msgstr ""
+
+#: flavor/inc/class-changelog.php:44 flavor/inc/class-changelog.php:167
+msgid "تغییرات Flavor"
+msgstr ""
 
 #: flavor/inc/class-demo-importer.php:88
 msgid "تغییرات احتمالی: %d مسیر صفحهٔ موجود با پسوند امن ساخته می‌شود؛ محتوای اصلی حذف نمی‌شود."
@@ -2692,6 +2712,10 @@ msgstr "الفروع وطرق الوصول"
 msgid "شعبه‌ها و ساعات کاری"
 msgstr ""
 
+#: flavor/inc/class-changelog.php:158
+msgid "شما اجازهٔ دسترسی به این صفحه را ندارید."
+msgstr ""
+
 #: flavor/inc/class-premium-customizer.php:167
 msgid "شمارش معکوس، خبرنامه و کوکی"
 msgstr ""
@@ -2950,6 +2974,10 @@ msgstr ""
 
 #: flavor/inc/class-ui.php:26
 msgid "فاصله‌گذاری کارت غذا"
+msgstr ""
+
+#: flavor/inc/class-changelog.php:175
+msgid "فایل readme.txt در پوشهٔ قالب یافت نشد. فهرستِ تغییرات در دسترس نیست، ولی قالب سالم است."
 msgstr ""
 
 #: flavor/inc/class-transfer.php:59
@@ -3757,6 +3785,14 @@ msgstr ""
 msgid "نسبت ۴:۳، دست‌کم ۸۰۰×۶۰۰ پیکسل. اگر خالی بماند تصویر دموی پوستهٔ فعال نمایش داده می‌شود."
 msgstr ""
 
+#: flavor/inc/class-changelog.php:201
+msgid "نسخهٔ %s"
+msgstr ""
+
+#: flavor/inc/class-changelog.php:188
+msgid "نسخهٔ نصب‌شده: %s"
+msgstr ""
+
 #: flavor/elementor/widgets/class-branch-info-widget.php:133 flavor/template-parts/demos/visit.php:13
 msgid "نشانی"
 msgstr "العنوان"
@@ -3812,6 +3848,10 @@ msgstr "العنوان الكامل"
 #: flavor/inc/class-engagement.php:320
 msgid "نشست منقضی شده است؛ صفحه را دوباره باز کنید."
 msgstr "انتهت الجلسة؛ أعد فتح الصفحة."
+
+#: flavor/inc/class-changelog.php:207
+msgid "نصب‌شده"
+msgstr ""
 
 #: flavor/inc/class-builder.php:190
 msgid "نظرات (هر خط: نام | نظر)"
