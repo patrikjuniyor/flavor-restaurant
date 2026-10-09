@@ -120,6 +120,9 @@
 		if (config.off) {
 			document.body.classList.toggle(config.off, ! on);
 		}
+		if (config.on) {
+			document.body.classList.toggle(config.on, on);
+		}
 	}
 
 	Object.keys(schema.tokens || {}).forEach(function (id) {

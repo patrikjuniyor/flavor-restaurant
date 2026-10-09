@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once $flavor_root . '/flavor-core/tests/mock-wp-environment.php';
 
 if ( ! defined( 'FLAVOR_VERSION' ) ) {
-	define( 'FLAVOR_VERSION', '1.6.0' );
+	define( 'FLAVOR_VERSION', '1.6.1' );
 }
 if ( ! defined( 'FLAVOR_DIR' ) ) {
 	define( 'FLAVOR_DIR', $flavor_root . '/flavor' );

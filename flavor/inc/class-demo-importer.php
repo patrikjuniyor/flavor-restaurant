@@ -103,21 +103,34 @@ class Demo_Importer {
 				</div>
 			<?php endif; ?>
 			<div class="flavor-demo-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
-				<?php foreach ( $catalog as $slug => $demo ) : ?>
-					<?php $hero = FLAVOR_URI . '/demos/' . $slug . '/hero.jpg'; ?>
-					<article style="border:1px solid #ddd;border-radius:12px;overflow:hidden;background:#fff;">
-						<img src="<?php echo esc_url( $hero ); ?>" alt="" style="width:100%;height:140px;object-fit:cover;" />
+				<?php
+				$active_skin = (string) get_theme_mod( 'flavor_skin', 'modern-restaurant' );
+				foreach ( $catalog as $slug => $demo ) :
+					$is_active    = $active_skin === $slug;
+					$hero         = FLAVOR_URI . '/demos/' . $slug . '/hero.jpg';
+					$customizer_url = admin_url( 'customize.php?autofocus[control]=flavor_skin&flavor_try_demo=' . rawurlencode( $slug ) . '&return=' . rawurlencode( admin_url( 'themes.php?page=flavor-demos' ) ) );
+				?>
+					<article style="border:1px solid <?php echo $is_active ? '#a74e2c' : '#ddd'; ?>;border-radius:12px;overflow:hidden;background:#fff;position:relative;box-shadow:<?php echo $is_active ? '0 8px 24px rgba(167,78,44,0.15)' : 'none'; ?>;">
+						<div style="position:relative;">
+							<img src="<?php echo esc_url( $hero ); ?>" alt="" style="width:100%;height:140px;object-fit:cover;" />
+							<?php if ( $is_active ) : ?>
+								<span style="position:absolute;inset-inline-start:10px;inset-block-start:10px;padding:4px 10px;border-radius:999px;background:#a74e2c;color:#fff;font-size:11px;font-weight:600;"><?php esc_html_e( 'دموی فعال', 'flavor' ); ?></span>
+							<?php endif; ?>
+						</div>
 						<div style="padding:12px 14px 16px;">
 							<h2 style="margin:0 0 6px;font-size:1.1rem;"><?php echo esc_html( $demo['title'] ); ?></h2>
 							<p style="color:#555;min-height:3em;"><?php echo esc_html( $demo['tagline'] ); ?></p>
 							<p><?php echo esc_html( sprintf( /* translators: count */ __( '%d آیتم منو', 'flavor' ), count( $demo['items'] ) ) ); ?></p>
-							<a class="button" href="<?php echo esc_url( add_query_arg( array( 'page' => 'flavor-demos', 'preview' => $slug ), admin_url( 'themes.php' ) ) ); ?>"><?php esc_html_e( 'پیش‌نمایش تغییرات', 'flavor' ); ?></a>
-							<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline-block;margin-right:6px;">
-								<?php wp_nonce_field( 'flavor_import_demo' ); ?>
-								<input type="hidden" name="action" value="flavor_import_demo" />
-								<input type="hidden" name="demo" value="<?php echo esc_attr( $slug ); ?>" />
-								<button class="button button-primary"><?php esc_html_e( 'درون‌ریزی با پشتیبان', 'flavor' ); ?></button>
-							</form>
+							<div style="display:flex;flex-wrap:wrap;gap:6px;">
+								<a class="button" target="_blank" rel="noopener" href="<?php echo esc_url( $customizer_url ); ?>"><?php esc_html_e( 'پیش‌نمایش در سفارشی‌ساز (بدون ذخیره)', 'flavor' ); ?></a>
+								<a class="button" href="<?php echo esc_url( add_query_arg( array( 'page' => 'flavor-demos', 'preview' => $slug ), admin_url( 'themes.php' ) ) ); ?>"><?php esc_html_e( 'بررسی تغییرات درون‌ریزی', 'flavor' ); ?></a>
+								<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline-block;">
+									<?php wp_nonce_field( 'flavor_import_demo' ); ?>
+									<input type="hidden" name="action" value="flavor_import_demo" />
+									<input type="hidden" name="demo" value="<?php echo esc_attr( $slug ); ?>" />
+									<button class="button button-primary" onclick="return confirm('<?php echo esc_js( sprintf( __( 'درون‌ریزی «%s» محتوای فعلی این دموی Flavor را با محتوای جدید جایگزین می‌کند (سایر محتواها دست‌نخورده باقی می‌مانند) و یک آرشیو پشتیبان پیش از اعمال ساخته می‌شود. ادامه می‌دهید؟', 'flavor' ), $demo['title'] ) ); ?>')"><?php esc_html_e( 'درون‌ریزی با پشتیبان', 'flavor' ); ?></button>
+								</form>
+							</div>
 						</div>
 					</article>
 				<?php endforeach; ?>

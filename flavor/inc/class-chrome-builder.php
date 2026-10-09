@@ -1609,6 +1609,7 @@ class Chrome_Builder {
 	 */
 	public static function state_gates(): array {
 		return array(
+			'flavor_header_sticky'            => array( 'on' => 'flavor-header-sticky', 'off' => 'flavor-header-not-sticky' ),
 			'flavor_header_sticky_mobile'     => array( 'off' => 'flavor-chrome-sticky-mobile-off' ),
 			'flavor_header_show_mobile_nav'   => array( 'off' => 'flavor-chrome-no-mobile-nav' ),
 		);
@@ -1637,7 +1638,11 @@ class Chrome_Builder {
 		}
 
 		foreach ( self::state_gates() as $id => $map ) {
-			if ( 'no' === self::sanitize_checkbox( get_theme_mod( $id, 'yes' ) ) && isset( $map['off'] ) ) {
+			$on = 'no' !== self::sanitize_checkbox( get_theme_mod( $id, 'yes' ) );
+			if ( $on && ! empty( $map['on'] ) ) {
+				$gates[] = $map['on'];
+			}
+			if ( ! $on && ! empty( $map['off'] ) ) {
 				$gates[] = $map['off'];
 			}
 		}

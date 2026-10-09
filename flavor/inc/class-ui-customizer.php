@@ -88,11 +88,14 @@ class UI_Customizer {
 			'flavor_container_width' => array( '1140px' => '1140px', '1240px' => '1240px', '1360px' => '1360px', '1440px' => '1440px' ),
 			'flavor_font_heading' => $fonts, 'flavor_font_body' => $fonts,
 			'flavor_gutter_mobile' => array( '24px' => '24px', '32px' => '32px', '40px' => '40px' ),
+			'flavor_gutter_tablet' => array( '' => __( 'مثل موبایل', 'flavor' ), '32px' => '32px', '40px' => '40px', '48px' => '48px' ),
 			'flavor_gutter_desktop' => array( '32px' => '32px', '48px' => '48px', '64px' => '64px', '80px' => '80px' ),
 			'flavor_body_size' => array( '14px' => '14px', '15px' => '15px', '16px' => '16px', '17px' => '17px', '18px' => '18px' ),
 			'flavor_heading_size_mobile' => array( 'clamp(1.7rem, 7vw, 2.5rem)' => __( 'جمع‌وجور', 'flavor' ), 'clamp(1.9rem, 8vw, 3rem)' => __( 'استاندارد', 'flavor' ), 'clamp(2.1rem, 9vw, 3.4rem)' => __( 'درشت', 'flavor' ) ),
+			'flavor_heading_size_tablet' => array( '' => __( 'مثل موبایل', 'flavor' ), 'clamp(2rem, 6vw, 3.6rem)' => __( 'جمع‌وجور', 'flavor' ), 'clamp(2.2rem, 7vw, 4rem)' => __( 'استاندارد', 'flavor' ), 'clamp(2.4rem, 8vw, 4.6rem)' => __( 'درشت', 'flavor' ) ),
 			'flavor_heading_size_desktop' => array( 'clamp(2rem, 3vw, 3.6rem)' => __( 'جمع‌وجور', 'flavor' ), 'clamp(2.2rem, 4vw, 4.5rem)' => __( 'استاندارد', 'flavor' ), 'clamp(2.6rem, 5vw, 5.4rem)' => __( 'درشت', 'flavor' ) ),
 			'flavor_section_space_mobile' => array( '40px' => '40px', '56px' => '56px', '72px' => '72px' ),
+			'flavor_section_space_tablet' => array( '' => __( 'مثل موبایل', 'flavor' ), '64px' => '64px', '80px' => '80px', '96px' => '96px' ),
 			'flavor_section_space_desktop' => array( '64px' => '64px', '88px' => '88px', '112px' => '112px', '136px' => '136px' ),
 			'flavor_header_layout' => array( 'default' => __( 'پیش‌فرض پوسته', 'flavor' ), 'centered' => __( 'لوگو و منو وسط‌چین', 'flavor' ), 'minimal' => __( 'مینیمال و باریک', 'flavor' ), 'transparent' => __( 'شیشه‌ای خوانا', 'flavor' ) ),
 		);
@@ -148,5 +151,17 @@ class UI_Customizer {
 			wp_add_inline_style( 'flavor-customizer-modern', ':root { --fv-skin-accent: ' . $accent . '; }' );
 		}
 		wp_enqueue_script( 'flavor-customizer-controls', FLAVOR_URI . '/assets/js/customizer-controls.js', array( 'customize-controls' ), (string) filemtime( FLAVOR_DIR . '/assets/js/customizer-controls.js' ), true );
+		// Preview-a-demo without importing: if the user arrived from the demo
+		// grid, stage the skin choice inside the changeset so they can inspect
+		// it in the preview. Nothing is saved until they press Publish.
+		$try_demo = isset( $_GET['flavor_try_demo'] ) ? sanitize_key( wp_unslash( $_GET['flavor_try_demo'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( '' !== $try_demo && array_key_exists( $try_demo, Design::skins() ) ) {
+			wp_add_inline_script(
+				'flavor-customizer-controls',
+				'window.wp && wp.customize && wp.customize.bind("ready",function(){'
+				. 'var s=wp.customize("flavor_skin");if(s&&s.get()!=="'.esc_js($try_demo).'"){s.set("'.esc_js($try_demo).'");}'
+				. '});'
+			);
+		}
 	}
 }

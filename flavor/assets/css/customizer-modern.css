@@ -838,3 +838,100 @@ html[dir="rtl"] {
 /* ============================================================================
    پایان فایل
    ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   Flavor extras: search, unsaved badge, per-section reset, responsive control UI
+   ---------------------------------------------------------------------------- */
+#flavor-customizer-search-wrap {
+	padding: 10px 14px 6px;
+	background: var(--fv-sidebar, #faf6ef);
+	border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+#flavor-customizer-search {
+	width: 100%;
+	padding: 10px 14px;
+	border: 1px solid rgba(0,0,0,0.10);
+	border-radius: 10px;
+	background: #fff;
+	font-size: 13px;
+	font-family: inherit;
+	color: #2a221c;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
+	transition: border-color .15s ease, box-shadow .15s ease;
+}
+#flavor-customizer-search:focus {
+	outline: none;
+	border-color: var(--fv-skin-accent, #a74e2c);
+	box-shadow: 0 0 0 3px rgba(167,78,44,0.15);
+}
+[dir="rtl"] #flavor-customizer-search {
+	padding: 10px 38px 10px 14px;
+}
+[dir="ltr"] #flavor-customizer-search {
+	padding: 10px 14px 10px 38px;
+}
+
+/* Per-section reset button (small, inside each section header). */
+.flavor-section-reset {
+	margin-inline-start: auto;
+	padding: 4px 10px;
+	border: 1px solid rgba(0,0,0,0.08);
+	border-radius: 8px;
+	background: transparent;
+	color: #8a5a2b;
+	font-size: 11px;
+	font-family: inherit;
+	cursor: pointer;
+	opacity: 0.8;
+	transition: all .15s ease;
+}
+.flavor-section-reset:hover {
+	opacity: 1;
+	background: rgba(167,78,44,0.08);
+	border-color: rgba(167,78,44,0.25);
+	color: var(--fv-skin-accent, #a74e2c);
+}
+.customize-section-title h3, .accordion-section-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+.accordion-section-title button.flavor-section-reset {
+	margin-inline-start: auto;
+}
+
+/* Unsaved badge next to the Publish button. */
+.flavor-unsaved-badge {
+	margin-inline-start: 8px;
+	padding: 4px 10px;
+	border-radius: 999px;
+	background: #fff3cd;
+	color: #8a6d00;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1;
+	animation: flavor-pulse 1.6s ease-in-out infinite;
+}
+@keyframes flavor-pulse {
+	0%, 100% { box-shadow: 0 0 0 0 rgba(217,119,6,0.35); }
+	50%      { box-shadow: 0 0 0 6px rgba(217,119,6,0); }
+}
+
+/* Responsive helper: label responsive groups with a subtle badge. */
+.flavor-responsive-token {
+	display: inline-block;
+	margin-inline-start: 6px;
+	padding: 1px 6px;
+	border-radius: 6px;
+	font-size: 10px;
+	background: rgba(167,78,44,0.1);
+	color: var(--fv-skin-accent, #a74e2c);
+	vertical-align: middle;
+}
+
+/* Reduced-motion: don't pulse. */
+@media (prefers-reduced-motion: reduce) {
+	.flavor-unsaved-badge { animation: none; }
+	#flavor-customizer-search, .flavor-section-reset { transition: none; }
+}

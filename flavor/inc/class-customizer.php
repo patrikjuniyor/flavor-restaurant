@@ -87,7 +87,7 @@ class Customizer {
 			$preset_choices[ $slug ] = $data['title'] . ' — ' . $data['desc'];
 		}
 
-		$wp_customize->add_setting( 'flavor_skin', array( 'default' => 'modern-restaurant', 'sanitize_callback' => 'sanitize_key' ) );
+		$wp_customize->add_setting( 'flavor_skin', array( 'default' => 'modern-restaurant', 'sanitize_callback' => 'sanitize_key', 'transport' => 'postMessage' ) );
 		// Radio (not select) so the preset list renders inside the customizer
 		// pane where it can be styled; a native <select> opens a browser
 		// overlay that CSS cannot reach.
@@ -124,7 +124,7 @@ class Customizer {
 		);
 
 		foreach ( $colors as $key => $label ) {
-			$wp_customize->add_setting( 'flavor_' . $key, array( 'default' => '', 'sanitize_callback' => 'sanitize_hex_color' ) );
+			$wp_customize->add_setting( 'flavor_' . $key, array( 'default' => '', 'sanitize_callback' => 'sanitize_hex_color', 'transport' => 'postMessage' ) );
 			$wp_customize->add_control(
 				new \WP_Customize_Color_Control(
 					$wp_customize,
@@ -146,7 +146,7 @@ class Customizer {
 			)
 		);
 
-		$wp_customize->add_setting( 'flavor_radius', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
+		$wp_customize->add_setting( 'flavor_radius', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field', 'transport' => 'postMessage' ) );
 		$wp_customize->add_control(
 			'flavor_radius',
 			array(
@@ -163,7 +163,7 @@ class Customizer {
 			)
 		);
 
-		$wp_customize->add_setting( 'flavor_btn_radius', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
+		$wp_customize->add_setting( 'flavor_btn_radius', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field', 'transport' => 'postMessage' ) );
 		$wp_customize->add_control(
 			'flavor_btn_radius',
 			array(
@@ -179,7 +179,7 @@ class Customizer {
 			)
 		);
 
-		$wp_customize->add_setting( 'flavor_container_width', array( 'default' => '1240px', 'sanitize_callback' => 'sanitize_text_field' ) );
+		$wp_customize->add_setting( 'flavor_container_width', array( 'default' => '1240px', 'sanitize_callback' => 'sanitize_text_field', 'transport' => 'postMessage' ) );
 		$wp_customize->add_control(
 			'flavor_container_width',
 			array(
@@ -200,11 +200,14 @@ class Customizer {
 		// the safe settings transfer file.
 		$responsive = array(
 			'flavor_gutter_mobile'          => array( __( 'حاشیهٔ افقی موبایل', 'flavor' ), '32px', array( '24px' => '24px', '32px' => '32px', '40px' => '40px' ) ),
+			'flavor_gutter_tablet'          => array( __( 'حاشیهٔ افقی تبلت', 'flavor' ), '', array( '' => __( 'مثل موبایل', 'flavor' ), '32px' => '32px', '40px' => '40px', '48px' => '48px' ) ),
 			'flavor_gutter_desktop'         => array( __( 'حاشیهٔ افقی دسکتاپ', 'flavor' ), '48px', array( '32px' => '32px', '48px' => '48px', '64px' => '64px', '80px' => '80px' ) ),
 			'flavor_body_size'              => array( __( 'اندازهٔ متن پایه', 'flavor' ), '15px', array( '14px' => '14px', '15px' => '15px', '16px' => '16px', '17px' => '17px', '18px' => '18px' ) ),
 			'flavor_heading_size_mobile'    => array( __( 'مقیاس تیتر موبایل', 'flavor' ), 'clamp(1.9rem, 8vw, 3rem)', array( 'clamp(1.7rem, 7vw, 2.5rem)' => __( 'جمع‌وجور', 'flavor' ), 'clamp(1.9rem, 8vw, 3rem)' => __( 'استاندارد', 'flavor' ), 'clamp(2.1rem, 9vw, 3.4rem)' => __( 'درشت', 'flavor' ) ) ),
+			'flavor_heading_size_tablet'    => array( __( 'مقیاس تیتر تبلت', 'flavor' ), '', array( '' => __( 'مثل موبایل', 'flavor' ), 'clamp(2rem, 6vw, 3.6rem)' => __( 'جمع‌وجور', 'flavor' ), 'clamp(2.2rem, 7vw, 4rem)' => __( 'استاندارد', 'flavor' ), 'clamp(2.4rem, 8vw, 4.6rem)' => __( 'درشت', 'flavor' ) ) ),
 			'flavor_heading_size_desktop'   => array( __( 'مقیاس تیتر دسکتاپ', 'flavor' ), 'clamp(2.2rem, 4vw, 4.5rem)', array( 'clamp(2rem, 3vw, 3.6rem)' => __( 'جمع‌وجور', 'flavor' ), 'clamp(2.2rem, 4vw, 4.5rem)' => __( 'استاندارد', 'flavor' ), 'clamp(2.6rem, 5vw, 5.4rem)' => __( 'درشت', 'flavor' ) ) ),
 			'flavor_section_space_mobile'   => array( __( 'فاصلهٔ سکشن موبایل', 'flavor' ), '56px', array( '40px' => '40px', '56px' => '56px', '72px' => '72px' ) ),
+			'flavor_section_space_tablet'   => array( __( 'فاصلهٔ سکشن تبلت', 'flavor' ), '', array( '' => __( 'مثل موبایل', 'flavor' ), '64px' => '64px', '80px' => '80px', '96px' => '96px' ) ),
 			'flavor_section_space_desktop'  => array( __( 'فاصلهٔ سکشن دسکتاپ', 'flavor' ), '88px', array( '64px' => '64px', '88px' => '88px', '112px' => '112px', '136px' => '136px' ) ),
 		);
 		foreach ( $responsive as $id => $config ) {
@@ -223,7 +226,7 @@ class Customizer {
 			)
 		);
 
-		$wp_customize->add_setting( 'flavor_header_layout', array( 'default' => 'default', 'sanitize_callback' => 'sanitize_key' ) );
+		$wp_customize->add_setting( 'flavor_header_layout', array( 'default' => 'default', 'sanitize_callback' => 'sanitize_key', 'transport' => 'postMessage' ) );
 		$wp_customize->add_control(
 			'flavor_header_layout',
 			array(
@@ -262,7 +265,7 @@ class Customizer {
 			)
 		);
 
-		$wp_customize->add_setting( 'flavor_header_sticky', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key' ) );
+		$wp_customize->add_setting( 'flavor_header_sticky', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key', 'transport' => 'postMessage' ) );
 		$wp_customize->add_control(
 			'flavor_header_sticky',
 			array(
@@ -272,7 +275,7 @@ class Customizer {
 			)
 		);
 
-		$wp_customize->add_setting( 'flavor_header_topbar', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
+		$wp_customize->add_setting( 'flavor_header_topbar', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field', 'transport' => 'postMessage' ) );
 		$wp_customize->add_control(
 			'flavor_header_topbar',
 			array(
