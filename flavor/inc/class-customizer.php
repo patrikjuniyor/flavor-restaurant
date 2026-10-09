@@ -56,6 +56,7 @@ class Customizer {
 		add_action( 'customize_controls_enqueue_scripts', array( self::class, 'preset_assets' ) );
 		add_action( 'customize_controls_enqueue_scripts', array( self::class, 'contrast_assets' ) );
 		add_action( 'customize_controls_enqueue_scripts', array( self::class, 'repeater_assets' ) );
+		add_action( 'customize_preview_init', array( self::class, 'live_preview_assets' ) );
 	}
 
 	/**
@@ -68,6 +69,40 @@ class Customizer {
 	 *
 	 * Customizer-only.
 	 */
+	/**
+	 * Assets for live token preview.
+	 *
+	 * Preview-frame only: this runs inside the site being previewed, not in
+	 * the Customizer pane.
+	 */
+	public static function live_preview_assets(): void {
+		wp_enqueue_script(
+			'flavor-customizer-live-preview',
+			FLAVOR_URI . '/assets/js/customizer-live-preview.js',
+			array( 'customize-preview' ),
+			FLAVOR_VERSION,
+			true
+		);
+
+		$tokens = self::typography_tokens();
+
+		wp_add_inline_script(
+			'flavor-customizer-live-preview',
+			'window.flavorLivePreview = ' . wp_json_encode(
+				array(
+					'tokens'   => Live_Preview::tokens(),
+					'defaults' => array(
+						'bodySize'  => '15px',
+						'typeScale' => $tokens['flavor_type_scale']['default'],
+						// Colours the server also emits as a "r, g, b" twin.
+						'rgbVars' => array( 'flavor_primary', 'flavor_secondary', 'flavor_accent', 'flavor_surface', 'flavor_ink' ),
+					),
+				)
+			) . ';',
+			'before'
+		);
+	}
+
 	/**
 	 * Assets for the repeating sections.
 	 *
@@ -270,9 +305,11 @@ class Customizer {
 			$wp_customize->add_setting(
 				'flavor_contrast_report',
 				array(
+					// Display-only: it renders a report inside the pane and
+					// produces no front-end markup, so there is nothing for
+					// a live preview to update.
 					'default'           => '',
 					'sanitize_callback' => '__return_empty_string',
-					'transport'         => 'postMessage',
 				)
 			);
 			$wp_customize->add_control(
@@ -845,6 +882,10 @@ class Customizer {
 
 		$wp_customize->add_setting( 'flavor_footer_copy', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
 		$wp_customize->add_control( 'flavor_footer_copy', array( 'label' => __( 'متن کپی‌رایت اختصاصی', 'flavor' ), 'section' => 'flavor_section_footer', 'type' => 'text' ) );
+
+		// Live preview routing. Last, deliberately: it flips the transport of
+		// settings that must already have been registered above.
+		Live_Preview::register( $wp_customize );
 	}
 
 	/**
