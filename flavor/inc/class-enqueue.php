@@ -19,6 +19,7 @@ class Enqueue {
 	 */
 	public static function init(): void {
 		add_action( 'wp_enqueue_scripts', array( self::class, 'front' ) );
+		add_action( 'wp_enqueue_scripts', array( self::class, 'elementor_widgets' ), 20 );
 		/* The motion layer is an overlay: it has to land after the skin sheets
 		   and after premium.css so that a rule it shares a selector with
 		   (`.flavor-filters__chip`, say) resolves in its favour. Skin art
@@ -355,5 +356,29 @@ class Enqueue {
 	public static function keep_hero_eager( bool $default, string $tag, string $context ): bool {
 		unset( $tag, $context );
 		return $default;
+	}
+
+	/**
+	 * Elementor widget styling, only when Elementor is actually active.
+	 *
+	 * Elementor loads its own base stylesheet for a widget but not a theme's
+	 * opinion about how that widget should look. Registering here rather than
+	 * in Elementor's own hook keeps the file off every site that does not use
+	 * the page builder.
+	 */
+	public static function elementor_widgets(): void {
+		if ( ! did_action( 'elementor/loaded' ) && ! class_exists( '\Elementor\Plugin' ) ) {
+			return;
+		}
+
+		$css = '/assets/css/elementor-widgets.css';
+		$path = FLAVOR_DIR . $css;
+
+		wp_enqueue_style(
+			'flavor-elementor-widgets',
+			FLAVOR_URI . $css,
+			array( 'flavor-main' ),
+			is_file( $path ) ? (string) filemtime( $path ) : FLAVOR_VERSION
+		);
 	}
 }

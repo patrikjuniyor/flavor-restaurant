@@ -41,6 +41,10 @@ jobs:
         run: |
           php tests/theme/test-block-patterns.php
 
+      - name: Run Elementor Widget Contract Tests (registration, escaping, markup)
+        run: |
+          php tests/theme/test-elementor-widgets.php
+
       - name: Run Premium Parity Tests (night scheme, wishlist, mega menu, commerce extras)
         run: |
           php tests/theme/test-premium-features.php

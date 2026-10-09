@@ -18,26 +18,81 @@ class Elementor {
 	 * Hooks.
 	 */
 	public static function init(): void {
+		add_action( 'elementor/elements/categories_registered', array( \Flavor\Elementor\Widget_Base::class, 'register_category' ) );
 		add_action( 'elementor/widgets/register', array( self::class, 'register' ) );
+	}
+
+	/**
+	 * Widget class files, in load order.
+	 *
+	 * Kept as data so a test can assert the list, the file names and the
+	 * registered instances all agree — a widget that exists on disk but is
+	 * not registered here is invisible and nothing else would notice.
+	 *
+	 * @return string[]
+	 */
+	public static function widget_files(): array {
+		return array(
+			'class-hero-widget.php',
+			'class-about-widget.php',
+			'class-gallery-widget.php',
+			'class-testimonials-widget.php',
+			'class-branch-info-widget.php',
+			'class-menu-widget.php',
+			'class-reservation-widget.php',
+			'class-hours-widget.php',
+			'class-order-cta-widget.php',
+			'class-offers-widget.php',
+			'class-chefs-widget.php',
+			'class-cart-widget.php',
+		);
+	}
+
+	/**
+	 * Widget class names, matched to widget_files() by position.
+	 *
+	 * @return string[]
+	 */
+	public static function widget_classes(): array {
+		return array(
+			'Hero_Widget',
+			'About_Widget',
+			'Gallery_Widget',
+			'Testimonials_Widget',
+			'Branch_Info_Widget',
+			'Menu_Widget',
+			'Reservation_Widget',
+			'Hours_Widget',
+			'Order_CTA_Widget',
+			'Offers_Widget',
+			'Chefs_Widget',
+			'Cart_Widget',
+		);
 	}
 
 	/**
 	 * @param \Elementor\Widgets_Manager $widgets Manager.
 	 */
 	public static function register( $widgets ): void {
-		if ( ! class_exists( '\\Elementor\\Widget_Base' ) ) {
+		if ( ! class_exists( '\Elementor\Widget_Base' ) ) {
 			return;
 		}
 		require_once FLAVOR_DIR . '/elementor/class-widget-base.php';
-		require_once FLAVOR_DIR . '/elementor/widgets/class-hero-widget.php';
-		require_once FLAVOR_DIR . '/elementor/widgets/class-about-widget.php';
-		require_once FLAVOR_DIR . '/elementor/widgets/class-gallery-widget.php';
-		require_once FLAVOR_DIR . '/elementor/widgets/class-testimonials-widget.php';
-		require_once FLAVOR_DIR . '/elementor/widgets/class-branch-info-widget.php';
-		$widgets->register( new \Flavor\Elementor\Hero_Widget() );
-		$widgets->register( new \Flavor\Elementor\About_Widget() );
-		$widgets->register( new \Flavor\Elementor\Gallery_Widget() );
-		$widgets->register( new \Flavor\Elementor\Testimonials_Widget() );
-		$widgets->register( new \Flavor\Elementor\Branch_Info_Widget() );
+
+		foreach ( self::widget_files() as $file ) {
+			require_once FLAVOR_DIR . '/elementor/widgets/' . $file;
+		}
+
+		foreach ( self::widget_classes() as $class ) {
+			$fqcn = '\\Flavor\\Elementor\\' . $class;
+
+			// A missing class here would be a fatal on every page load, so
+			// skip silently rather than take the site down with it.
+			if ( ! class_exists( $fqcn ) ) {
+				continue;
+			}
+
+			$widgets->register( new $fqcn() );
+		}
 	}
 }

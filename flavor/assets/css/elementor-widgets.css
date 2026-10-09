@@ -1,0 +1,200 @@
+/**
+ * Styling for the Flavor Elementor widgets.
+ *
+ * Loaded only when Elementor is active. Everything here is built from the
+ * --flavor-* custom properties, so a widget placed by Elementor repaints with
+ * the active skin and with dark mode exactly like the theme's own sections.
+ *
+ * Spacing and alignment use logical properties (margin-inline, padding-inline,
+ * inset-inline-start, text-align: start) so the same rules serve RTL and LTR
+ * without a mirrored copy of the file.
+ */
+
+/* Shared ---------------------------------------------------------------- */
+
+.flavor-section__title {
+	margin: 0 0 var(--flavor-space-6, 24px);
+	font-family: var(--flavor-font-heading, 'Vazirmatn', Tahoma, sans-serif);
+	font-size: var(--flavor-heading-size, clamp(1.9rem, 8vw, 3rem));
+	line-height: 1.2;
+	color: var(--flavor-ink, #201c19);
+}
+
+.flavor-widget-note {
+	margin: 0;
+	padding: var(--flavor-space-4, 16px);
+	border: 1px dashed var(--flavor-line, #ded4c7);
+	border-radius: var(--flavor-radius, 24px);
+	color: var(--flavor-muted, #6b625b);
+	text-align: start;
+}
+
+/* Opening hours -------------------------------------------------------- */
+
+.flavor-hours-list {
+	margin: 0;
+	display: grid;
+	gap: 0;
+	border: 1px solid var(--flavor-line, #ded4c7);
+	border-radius: var(--flavor-radius, 24px);
+	overflow: hidden;
+	background: var(--flavor-surface, #fffaf4);
+}
+
+.flavor-hours-list__row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--flavor-space-2, 8px);
+	justify-content: space-between;
+	align-items: baseline;
+	padding: var(--flavor-space-3, 12px) var(--flavor-space-4, 16px);
+}
+
+.flavor-hours-list__row + .flavor-hours-list__row {
+	border-top: 1px solid var(--flavor-line, #ded4c7);
+}
+
+.flavor-hours-list__row dt {
+	margin: 0;
+	font-weight: 600;
+	color: var(--flavor-ink, #201c19);
+}
+
+.flavor-hours-list__row dd {
+	margin: 0;
+	color: var(--flavor-muted, #6b625b);
+}
+
+.flavor-hours-list__closed {
+	color: var(--flavor-danger, #dc2626);
+	font-weight: 600;
+}
+
+.flavor-hours-list__note {
+	margin: var(--flavor-space-3, 12px) 0 0;
+	color: var(--flavor-muted, #6b625b);
+	font-size: 0.9rem;
+	text-align: start;
+}
+
+/* Chefs and team ------------------------------------------------------- */
+
+.flavor-chefs {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: var(--flavor-space-6, 24px);
+}
+
+.flavor-chef {
+	border-radius: var(--flavor-radius, 24px);
+	background: var(--flavor-surface, #fffaf4);
+	border: 1px solid var(--flavor-line, #ded4c7);
+	overflow: hidden;
+	box-shadow: var(--flavor-card-shadow, 0 18px 45px rgba(42, 31, 22, 0.07));
+}
+
+.flavor-chef__media {
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+	background: var(--flavor-surface-alt, #ece4d9);
+}
+
+.flavor-chef__media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.flavor-chef__body {
+	padding: var(--flavor-space-4, 16px);
+	text-align: start;
+}
+
+.flavor-chef__name {
+	margin: 0 0 var(--flavor-space-1, 4px);
+	font-size: 1.05rem;
+	font-family: var(--flavor-font-heading, 'Vazirmatn', Tahoma, sans-serif);
+	color: var(--flavor-ink, #201c19);
+}
+
+.flavor-chef__role {
+	margin: 0 0 var(--flavor-space-2, 8px);
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--flavor-primary, #a74e2c);
+}
+
+.flavor-chef__bio {
+	margin: 0;
+	font-size: 0.9rem;
+	color: var(--flavor-muted, #6b625b);
+}
+
+/* Order CTA ------------------------------------------------------------ */
+
+.flavor-order-cta__text {
+	margin: 0 0 var(--flavor-space-6, 24px);
+	color: var(--flavor-muted, #6b625b);
+	text-align: start;
+}
+
+.flavor-order-cta__modes {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: var(--flavor-space-4, 16px);
+}
+
+.flavor-order-cta__mode {
+	display: block;
+	padding: var(--flavor-space-5, 20px);
+	border: 1px solid var(--flavor-line, #ded4c7);
+	border-radius: var(--flavor-radius, 24px);
+	background: var(--flavor-surface, #fffaf4);
+	text-decoration: none;
+	transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.flavor-order-cta__mode:hover,
+.flavor-order-cta__mode:focus-visible {
+	border-color: var(--flavor-primary, #a74e2c);
+	transform: translateY(-2px);
+}
+
+.flavor-order-cta__mode-label {
+	display: block;
+	font-weight: 700;
+	color: var(--flavor-ink, #201c19);
+	text-align: center;
+}
+
+/* Cart summary --------------------------------------------------------- */
+
+.flavor-cart-summary__count,
+.flavor-cart-summary__total,
+.flavor-cart-summary__empty {
+	margin: 0 0 var(--flavor-space-3, 12px);
+	color: var(--flavor-ink, #201c19);
+	text-align: start;
+}
+
+.flavor-cart-summary__total {
+	font-size: 1.35rem;
+	font-weight: 700;
+	color: var(--flavor-primary, #a74e2c);
+}
+
+.flavor-cart-summary__empty {
+	color: var(--flavor-muted, #6b625b);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flavor-order-cta__mode {
+		transition: none;
+	}
+
+	.flavor-order-cta__mode:hover,
+	.flavor-order-cta__mode:focus-visible {
+		transform: none;
+	}
+}

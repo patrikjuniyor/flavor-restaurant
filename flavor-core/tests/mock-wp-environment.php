@@ -178,6 +178,9 @@ class WC_Product {
 	public function get_average_rating(): float { return 4.9; }
 	public function get_rating_count(): int { return 120; }
 	public function get_sku(): string { return 'DISH-' . $this->id; }
+	public function get_permalink(): string { return home_url( '/product/dish-' . $this->id . '/' ); }
+	public function get_price_html(): string { return number_format( $this->price ) . ' تومان'; }
+	public function is_in_stock(): bool { return true; }
 }
 
 /**
@@ -1201,12 +1204,54 @@ $GLOBALS['_mock_wc_products'] = array(
 function wc_get_product( int $id ) {
 	return $GLOBALS['_mock_wc_products'][ $id ] ?? new WC_Product( $id, 'غذای ویژه', 150000 );
 }
-function wc_get_products( array $args ): object {
-	return (object) array(
-		'products' => array_values( $GLOBALS['_mock_wc_products'] ),
-		'total'    => count( $GLOBALS['_mock_wc_products'] ),
-	);
+/**
+ * Fetch products, honoring `paginate` the way WooCommerce does.
+ *
+ * WooCommerce returns an ARRAY of WC_Product objects normally, and a stdClass
+ * with `products`/`total` only when `paginate => true` is passed. This double
+ * used to return the paginated object unconditionally, which silently broke
+ * every caller that does not ask for pagination — the theme's own
+ * item-card.php, featured.php and class-schema-output.php all iterate the
+ * result directly, so they were walking two properties instead of products.
+ *
+ * @param array<string, mixed> $args Query args.
+ * @return array<int, WC_Product>|object
+ */
+function wc_get_products( array $args ) {
+	$products = array_values( $GLOBALS['_mock_wc_products'] );
+
+	if ( ! empty( $args['paginate'] ) ) {
+		return (object) array(
+			'products' => $products,
+			'total'    => count( $products ),
+		);
+	}
+
+	// Respect `limit` so a widget asking for three items can be told apart
+	// from one asking for all of them.
+	$limit = isset( $args['limit'] ) ? (int) $args['limit'] : -1;
+	if ( $limit > 0 ) {
+		$products = array_slice( $products, 0, $limit );
+	}
+
+	return $products;
 }
+/**
+ * Permalink of a WooCommerce page (shop, cart, checkout, myaccount).
+ *
+ * @param string $page Page slug.
+ */
+function wc_get_page_permalink( string $page ): string {
+	return home_url( '/' . $page . '/' );
+}
+
+/**
+ * Checkout URL.
+ */
+function wc_get_checkout_url(): string {
+	return home_url( '/checkout/' );
+}
+
 function wc_get_order( int $id ): ?WC_Order {
 	return $GLOBALS['_mock_wc_orders'][ $id ] ?? null;
 }
