@@ -13,26 +13,10 @@ if ( 'no' === get_theme_mod( 'flavor_testimonials_enable', 'yes' ) ) {
 	return;
 }
 
-$items = $args['items'] ?? array(
-	array(
-		'name'   => 'سارا محمدی',
-		'role'   => 'مشتری وفادار',
-		'rating' => 5,
-		'text'   => 'کیفیت غذاها بی‌نظیر بود، سفارش با بسته‌بندی کاملاً گرم و به موقع تحویل داده شد. به شدت کوبیده مخصوص را پیشنهاد می‌کنم.',
-	),
-	array(
-		'name'   => 'کیان رضایی',
-		'role'   => 'مهمان سالن',
-		'rating' => 5,
-		'text'   => 'فضای سالن فوق‌العاده آرام و دلنشین است. برخورد پرسنل عالی و سرعت آماده‌سازی سفارش با QR کد سر میز بسیار راحت و مدرن بود.',
-	),
-	array(
-		'name'   => 'مریم شفیعی',
-		'role'   => 'سفارش آنلاین',
-		'rating' => 5,
-		'text'   => 'برای مهمانی خانوادگی سفارش دادیم؛ همه مهمان‌ها از طعم اصیل و تازگی سالادها و پیش‌غذاها تعریف کردند. ممنون از تیم حرفه‌ای‌تان.',
-	),
-);
+// The three sample reviews used to be hard-coded here. They are now editable
+// and unlimited, and live in Repeater::fallback() as translated defaults so
+// a site that has never touched the control looks exactly as it did.
+$items = $args['items'] ?? \Flavor\Repeater::items( 'testimonials' );
 ?>
 <section class="flavor-section flavor-testimonials" aria-label="<?php esc_attr_e( 'نظرات مهمان‌ها', 'flavor' ); ?>">
 	<div class="flavor-container">

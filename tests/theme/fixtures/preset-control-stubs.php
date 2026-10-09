@@ -87,6 +87,18 @@ namespace {
 		}
 	}
 
+	if ( ! function_exists( 'esc_textarea' ) ) {
+		/**
+		 * Escape for a textarea.
+		 *
+		 * @param string $text Text.
+		 * @return string
+		 */
+		function esc_textarea( string $text ): string {
+			return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
+		}
+	}
+
 	if ( ! function_exists( 'wp_json_encode' ) ) {
 		/**
 		 * JSON encode.

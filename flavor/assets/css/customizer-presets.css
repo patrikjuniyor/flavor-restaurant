@@ -188,3 +188,90 @@
 .flavor-contrast__warn {
 	color: #7a5c00;
 }
+
+/* ---------------------------------------------------------------------------
+   Repeating sections (flavor/inc/class-repeater-control.php)
+   Customizer-only.
+   --------------------------------------------------------------------------- */
+
+.flavor-repeater__list {
+	margin: 8px 0;
+}
+
+.flavor-repeater__item {
+	margin: 0 0 8px;
+	padding: 8px 10px;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	background: #fff;
+}
+
+.flavor-repeater__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	margin-bottom: 6px;
+}
+
+.flavor-repeater__index {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: #f0f0f1;
+	color: #50575e;
+	font-size: 11px;
+	font-weight: 600;
+	direction: ltr;
+}
+
+.flavor-repeater__actions {
+	display: flex;
+	gap: 8px;
+}
+
+.flavor-repeater__actions .button-link {
+	font-size: 12px;
+}
+
+.flavor-repeater__body {
+	display: grid;
+	gap: 2px;
+}
+
+.flavor-repeater__field {
+	margin: 0 0 6px;
+}
+
+.flavor-repeater__field label > span {
+	display: block;
+	margin-bottom: 3px;
+	font-size: 11px;
+	color: #646970;
+}
+
+.flavor-repeater__field input[type="text"],
+.flavor-repeater__field input[type="url"],
+.flavor-repeater__field textarea,
+.flavor-repeater__field select {
+	width: 100%;
+	font-size: 12px;
+}
+
+.flavor-repeater__field--image .flavor-repeater__input {
+	width: calc(100% - 62px);
+}
+
+.flavor-repeater__pick {
+	margin-inline-start: 4px;
+}
+
+.flavor-repeater__empty {
+	margin: 0 0 8px;
+	font-size: 12px;
+	color: #646970;
+	font-style: italic;
+}

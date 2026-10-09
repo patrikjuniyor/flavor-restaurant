@@ -55,6 +55,7 @@ class Customizer {
 		add_action( 'wp_head', array( self::class, 'head_css' ), 20 );
 		add_action( 'customize_controls_enqueue_scripts', array( self::class, 'preset_assets' ) );
 		add_action( 'customize_controls_enqueue_scripts', array( self::class, 'contrast_assets' ) );
+		add_action( 'customize_controls_enqueue_scripts', array( self::class, 'repeater_assets' ) );
 	}
 
 	/**
@@ -62,6 +63,29 @@ class Customizer {
 	 *
 	 * Customizer-only: the stylesheet is never enqueued on the front end.
 	 */
+	/**
+	 * Assets for the live readability report.
+	 *
+	 * Customizer-only.
+	 */
+	/**
+	 * Assets for the repeating sections.
+	 *
+	 * Customizer-only. Depends on the media frame for image fields, and on
+	 * jQuery only to satisfy the media API; the list logic itself is plain
+	 * DOM, because the Customizer is not always running a jQuery build the
+	 * theme can rely on.
+	 */
+	public static function repeater_assets(): void {
+		wp_enqueue_script(
+			'flavor-customizer-repeater',
+			FLAVOR_URI . '/assets/js/customizer-repeater.js',
+			array( 'customize-controls', 'jquery', 'media-editor' ),
+			FLAVOR_VERSION,
+			true
+		);
+	}
+
 	/**
 	 * Assets for the live readability report.
 	 *
@@ -714,9 +738,37 @@ class Customizer {
 				$wp_customize,
 				'flavor_gallery_image_' . $slot,
 				'flavor_section_gallery',
-				/* translators: %d: gallery slot number. */
-				sprintf( __( 'تصویر گالری %d', 'flavor' ), $slot ),
-				1 === $slot ? __( 'نسبت ۴:۳. هر جای خالی با تصویر دموی قالب پر می‌شود.', 'flavor' ) : ''
+					/* translators: %d: gallery slot number. */
+					sprintf( __( 'تصویر گالری %d', 'flavor' ), $slot ),
+					1 === $slot ? __( 'نسبت ۴:۳. هر جای خالی با تصویر دموی قالب پر می‌شود.', 'flavor' ) : ''
+				);
+		}
+
+		// A repeater on top of the fixed slots: add, reorder, duplicate and
+		// delete, with alt text per image. The old slots stay in place so an
+		// existing site keeps its photos; Repeater::migrate() reads them
+		// whenever the new list is empty.
+		if ( class_exists( '\Flavor\Repeater_Control' ) ) {
+			$wp_customize->register_control_type( '\Flavor\Repeater_Control' );
+			$wp_customize->add_setting(
+				'flavor_gallery_items',
+				array(
+					'default'           => array(),
+					'sanitize_callback' => static fn( $value ) => Repeater::sanitize( $value, 'gallery' ),
+					'transport'         => 'refresh',
+				)
+			);
+			$wp_customize->add_control(
+				new \Flavor\Repeater_Control(
+					$wp_customize,
+					'flavor_gallery_items',
+					array(
+						'label'       => __( 'تصویرهای گالری', 'flavor' ),
+						'description' => __( 'تعداد دلخواه تصویر بیفزایید و با فلش‌ها جابه‌جا کنید. متن جایگزین برای هر تصویر را پر کنید — این متن را صفحه‌خوان‌ها می‌خوانند.', 'flavor' ),
+						'section'     => 'flavor_section_gallery',
+						'schema'      => 'gallery',
+					)
+				)
 			);
 		}
 
@@ -730,6 +782,31 @@ class Customizer {
 		);
 		$wp_customize->add_setting( 'flavor_testimonials_enable', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key' ) );
 		$wp_customize->add_control( 'flavor_testimonials_enable', array( 'label' => __( 'نمایش بخش نظرات', 'flavor' ), 'section' => 'flavor_section_testimonials', 'type' => 'checkbox' ) );
+
+		// The three reviews were hard-coded in the template. Now they are
+		// editable, reorderable and unlimited (up to the cap).
+		if ( class_exists( '\Flavor\Repeater_Control' ) ) {
+			$wp_customize->add_setting(
+				'flavor_testimonials_items',
+				array(
+					'default'           => array(),
+					'sanitize_callback' => static fn( $value ) => Repeater::sanitize( $value, 'testimonials' ),
+					'transport'         => 'refresh',
+				)
+			);
+			$wp_customize->add_control(
+				new \Flavor\Repeater_Control(
+					$wp_customize,
+					'flavor_testimonials_items',
+					array(
+						'label'       => __( 'نظر مهمان‌ها', 'flavor' ),
+						'description' => __( 'هر تعداد نظر که دارید بیفزایید. اگر خالی بماند، نمونه‌های پیش‌فرض نمایش داده می‌شود.', 'flavor' ),
+						'section'     => 'flavor_section_testimonials',
+						'schema'      => 'testimonials',
+					)
+				)
+			);
+		}
 
 		// Section: Working Hours & Location
 		$wp_customize->add_section(

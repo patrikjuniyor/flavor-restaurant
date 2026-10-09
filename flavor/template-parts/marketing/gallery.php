@@ -13,27 +13,17 @@ if ( 'no' === get_theme_mod( 'flavor_gallery_enable', 'yes' ) ) {
 	return;
 }
 
-$skin        = \Flavor\Design::current_skin();
-$default_img = FLAVOR_URI . '/demos/' . $skin . '/hero.jpg';
+// Items come from the repeater («سفارشی‌سازی → گالری تصاویر رستوران»).
+// An untouched site still sees the demo art: Repeater falls back to the
+// migrated fixed slots and then to the skin's own images.
+$images = $args['images'] ?? \Flavor\Repeater::items( 'gallery' );
 
-// Demo art is only the fallback now; each slot can hold a real photo of the
-// restaurant, set from «سفارشی‌سازی → گالری تصاویر رستوران».
-$fallbacks = array(
-	$default_img,
-	FLAVOR_URI . '/demos/fast-food/hero.jpg',
-	FLAVOR_URI . '/demos/traditional/hero.jpg',
-	FLAVOR_URI . '/demos/fine-dining/hero.jpg',
-	FLAVOR_URI . '/demos/pastry/hero.jpg',
-	FLAVOR_URI . '/demos/modern-cafe/hero.jpg',
+// A caller passing plain URLs still works, so nothing outside this file
+// needs to know the shape changed.
+$images = array_map(
+	static fn( $item ) => is_array( $item ) ? $item : array( 'image' => (string) $item, 'alt' => '' ),
+	(array) $images
 );
-
-$images = $args['images'] ?? array();
-if ( ! $images ) {
-	for ( $slot = 1; $slot <= \Flavor\Customizer::GALLERY_SLOTS; $slot++ ) {
-		$chosen   = (string) get_theme_mod( 'flavor_gallery_image_' . $slot, '' );
-		$images[] = $chosen ? $chosen : $fallbacks[ $slot - 1 ];
-	}
-}
 ?>
 <section class="flavor-section flavor-gallery" aria-label="<?php esc_attr_e( 'گالری تصاویر', 'flavor' ); ?>">
 	<div class="flavor-container">
@@ -44,15 +34,21 @@ if ( ! $images ) {
 		</div>
 
 		<div class="flavor-gallery__grid">
-			<?php foreach ( array_slice( $images, 0, 6 ) as $index => $src ) : ?>
+			<?php foreach ( array_slice( $images, 0, 6 ) as $index => $item ) : ?>
+				<?php
+				$src = \Flavor\Repeater::image_url( $item );
+				if ( '' === $src ) {
+					continue;
+				}
+				?>
 				<figure class="flavor-gallery__item flavor-gallery__item--<?php echo esc_attr( (string) ( $index + 1 ) ); ?>">
 					<?php
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in flavor_responsive_image().
 					echo flavor_responsive_image(
-						(string) $src,
+						$src,
 						'flavor-card',
 						array(
-							'alt'      => __( 'تصویر رستوران', 'flavor' ),
+								'alt'      => \Flavor\Repeater::image_alt( $item ),
 							'sizes'    => '(min-width: 992px) 30vw, 92vw',
 							'width'    => 600,
 							'height'   => 400,
