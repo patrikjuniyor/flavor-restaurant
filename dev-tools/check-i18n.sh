@@ -26,6 +26,14 @@ strip_volatile() {
 }
 
 echo "== 1. Committed POT matches what the source produces =="
+# The committed copies are taken BEFORE the build runs. Taking them after
+# would compare a file against itself, which is how this check spent its
+# life passing while verifying nothing.
+for pot in flavor/languages/flavor.pot flavor-core/languages/flavor-core.pot; do
+  [ -f "$pot" ] || continue
+  cp "$pot" "$scratch/committed-$(basename "$pot")"
+done
+
 if ! php dev-tools/build-pot.php >/dev/null 2>&1; then
   printf 'build-pot.php failed to run\n'
   fail=1
@@ -33,10 +41,9 @@ else
   for pot in flavor/languages/flavor.pot flavor-core/languages/flavor-core.pot; do
     [ -f "$pot" ] || continue
     name="$(basename "$pot")"
-    # build-pot.php writes in place, so hold the committed copy and put it
-    # back: a check must never leave the working tree dirty.
-    cp "$pot" "$scratch/committed.pot"
-    strip_volatile < "$scratch/committed.pot" > "$scratch/committed.txt"
+    held="$scratch/committed-$name"
+    [ -f "$held" ] || continue
+    strip_volatile < "$held" > "$scratch/committed.txt"
     strip_volatile < "$pot" > "$scratch/rebuilt.txt"
     if cmp -s "$scratch/committed.txt" "$scratch/rebuilt.txt"; then
       printf '[PASS] %s درست و به‌روز است\n' "$name"
@@ -45,7 +52,8 @@ else
       diff -u "$scratch/committed.txt" "$scratch/rebuilt.txt" | head -30
       fail=1
     fi
-    cp "$scratch/committed.pot" "$pot"
+    # A check must never leave the working tree dirty.
+    cp "$held" "$pot"
   done
 fi
 

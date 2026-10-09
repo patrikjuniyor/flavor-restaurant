@@ -307,6 +307,7 @@ class Customizer {
 					array(
 						'label'   => $label,
 						'section' => 'flavor_section_colors',
+						'description' => __( 'رنگ را خالی بگذارید تا مقدارِ پوستهٔ انتخابی به کار برود؛ پرکردنش آن را برای این رنگ لغو می‌کند.', 'flavor' ),
 					)
 				)
 			);
@@ -354,6 +355,7 @@ class Customizer {
 			'flavor_radius',
 			array(
 				'label'   => __( 'گردی گوشه کارت‌ها', 'flavor' ),
+				'description' => __( 'شعاعِ گوشهٔ کارت‌ها به پیکسل. عددِ بزرگ‌تر حسِ نرم‌تر و دوستانه‌تر می‌دهد.', 'flavor' ),
 				'section' => 'flavor_section_layout',
 				'type'    => 'select',
 				'choices' => array(
@@ -371,6 +373,7 @@ class Customizer {
 			'flavor_btn_radius',
 			array(
 				'label'   => __( 'استایل دکمه‌ها', 'flavor' ),
+				'description' => __( 'شکلِ دکمه‌ها، از گوشه‌دار تا کاملاً گرد.', 'flavor' ),
 				'section' => 'flavor_section_layout',
 				'type'    => 'select',
 				'choices' => array(
@@ -387,6 +390,7 @@ class Customizer {
 			'flavor_container_width',
 			array(
 				'label'   => __( 'حداکثر عرض محتوا', 'flavor' ),
+				'description' => __( 'حداکثرِ عرضِ محتوا به پیکسل. روی صفحه‌های عریض، محتوا از این مقدار فراتر نمی‌رود.', 'flavor' ),
 				'section' => 'flavor_section_layout',
 				'type'    => 'select',
 				'choices' => array(
@@ -415,7 +419,19 @@ class Customizer {
 		);
 		foreach ( $responsive as $id => $config ) {
 			$wp_customize->add_setting( $id, array( 'default' => $config[1], 'sanitize_callback' => array( self::class, 'sanitize_responsive' ), 'transport' => 'postMessage' ) );
-			$wp_customize->add_control( $id, array( 'label' => $config[0], 'section' => 'flavor_section_layout', 'type' => 'select', 'choices' => $config[2] ) );
+			$wp_customize->add_control(
+				$id,
+				array(
+					'label'   => $config[0],
+					'section' => 'flavor_section_layout',
+					'type'    => 'select',
+					'choices' => $config[2],
+					// N-02's acceptance criterion, stated where it is set: the
+					// three breakpoints are independent, so a mobile value can
+					// never silently change the desktop one.
+					'description' => __( 'این مقدار فقط برای همین اندازهٔ صفحه اعمال می‌شود؛ تغییرِ موبایل دسکتاپ را عوض نمی‌کند.', 'flavor' ),
+				)
+			);
 		}
 
 		// -------------------------------------------------------------
@@ -551,6 +567,7 @@ class Customizer {
 			'flavor_header_layout',
 			array(
 				'label'   => __( 'استایل و چینش هدر', 'flavor' ),
+				'description' => __( 'چینشِ هدر: لوگو در میان، لوگو در راست با منو در چپ، یا منو در زیرِ لوگو.', 'flavor' ),
 				'section' => 'flavor_section_header',
 				'type'    => 'select',
 				'choices' => array(
@@ -590,6 +607,7 @@ class Customizer {
 			'flavor_header_sticky',
 			array(
 				'label'   => __( 'هدر چسبان هنگام اسکرول (Sticky Header)', 'flavor' ),
+				'description' => __( 'با فعال‌بودن، هدر هنگامِ اسکرول بالای صفحه می‌ماند. روی موبایل برای صرفه‌جویی در فضا غیرفعال می‌شود.', 'flavor' ),
 				'section' => 'flavor_section_header',
 				'type'    => 'checkbox',
 			)
@@ -622,6 +640,7 @@ class Customizer {
 			'flavor_hero_style',
 			array(
 				'label'   => __( 'استایل بخش هیرو', 'flavor' ),
+				'description' => __( 'قالبِ بخشِ اصلی: تمام‌صفحه، دوستونه با تصویر در کنار، یا مینیمال بدونِ تصویرِ بزرگ.', 'flavor' ),
 				'section' => 'flavor_section_hero',
 				'type'    => 'select',
 				'choices' => array(
@@ -643,19 +662,19 @@ class Customizer {
 		);
 
 		$wp_customize->add_setting( 'flavor_hero_badge', array( 'default' => __( 'طعم اصیل و ماندگار', 'flavor' ), 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control( 'flavor_hero_badge', array( 'label' => __( 'بج بالای عنوان هیرو', 'flavor' ), 'section' => 'flavor_section_hero', 'type' => 'text' ) );
+		$wp_customize->add_control( 'flavor_hero_badge', array( 'label' => __( 'بج بالای عنوان هیرو', 'flavor' ), 'description' => __( 'متن کوتاهِ بالای عنوان؛ مثلاً «تازه‌ترین منو». بیش از دو سه واژه نشود چون در موبایل دورِ عنوان می‌پیچد.', 'flavor' ), 'section' => 'flavor_section_hero', 'type' => 'text' ) );
 
 		$wp_customize->add_setting( 'flavor_hero_title', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control( 'flavor_hero_title', array( 'label' => __( 'عنوان اصلی هیرو', 'flavor' ), 'section' => 'flavor_section_hero', 'type' => 'text' ) );
+		$wp_customize->add_control( 'flavor_hero_title', array( 'label' => __( 'عنوان اصلی هیرو', 'flavor' ), 'description' => __( 'عنوانی که بازدیدکننده در نگاهِ اول می‌بیند. کوتاه‌تر از این، نرخِ تبدیل بهتر است.', 'flavor' ), 'section' => 'flavor_section_hero', 'type' => 'text' ) );
 
 		$wp_customize->add_setting( 'flavor_hero_text', array( 'default' => '', 'sanitize_callback' => 'sanitize_textarea_field' ) );
-		$wp_customize->add_control( 'flavor_hero_text', array( 'label' => __( 'توضیحات کوتاه هیرو', 'flavor' ), 'section' => 'flavor_section_hero', 'type' => 'textarea' ) );
+		$wp_customize->add_control( 'flavor_hero_text', array( 'label' => __( 'توضیحات کوتاه هیرو', 'flavor' ), 'description' => __( 'یک یا دو جمله زیرِ عنوان. اگر طولانی شود، در موبایل دکمه‌ها را به پایینِ صفحه می‌راند.', 'flavor' ), 'section' => 'flavor_section_hero', 'type' => 'textarea' ) );
 
 		$wp_customize->add_setting( 'flavor_hero_cta', array( 'default' => __( 'مشاهده منو و سفارش آنلاین', 'flavor' ), 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control( 'flavor_hero_cta', array( 'label' => __( 'متن دکمه اول (سفارش)', 'flavor' ), 'section' => 'flavor_section_hero', 'type' => 'text' ) );
+		$wp_customize->add_control( 'flavor_hero_cta', array( 'label' => __( 'متن دکمه اول (سفارش)', 'flavor' ), 'description' => __( 'متنِ دکمهٔ اصلی. مقصدِ این دکمه را هسته تعیین می‌کند؛ بدونِ آن، به صفحهٔ منو می‌رود.', 'flavor' ), 'section' => 'flavor_section_hero', 'type' => 'text' ) );
 
 		$wp_customize->add_setting( 'flavor_hero_cta2', array( 'default' => __( 'رزرو میز', 'flavor' ), 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control( 'flavor_hero_cta2', array( 'label' => __( 'متن دکمه دوم (رزرو)', 'flavor' ), 'section' => 'flavor_section_hero', 'type' => 'text' ) );
+		$wp_customize->add_control( 'flavor_hero_cta2', array( 'label' => __( 'متن دکمه دوم (رزرو)', 'flavor' ), 'description' => __( 'متنِ دکمهٔ دوم. برای پنهان‌کردن، خالی بگذارید.', 'flavor' ), 'section' => 'flavor_section_hero', 'type' => 'text' ) );
 
 		// -------------------------------------------------------------
 		// Panel 4: Reusable Homepage Sections
@@ -678,9 +697,9 @@ class Customizer {
 			)
 		);
 		$wp_customize->add_setting( 'flavor_intro_enable', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key' ) );
-		$wp_customize->add_control( 'flavor_intro_enable', array( 'label' => __( 'نمایش بخش معرفی', 'flavor' ), 'section' => 'flavor_section_intro', 'type' => 'checkbox' ) );
+		$wp_customize->add_control( 'flavor_intro_enable', array( 'label' => __( 'نمایش بخش معرفی', 'flavor' ), 'description' => __( 'نمایشِ بخشِ معرفی در صفحهٔ اصلی. غیرفعال‌کردن محتوا را پاک نمی‌کند.', 'flavor' ), 'section' => 'flavor_section_intro', 'type' => 'checkbox' ) );
 		$wp_customize->add_setting( 'flavor_intro_title', array( 'default' => __( 'چرا مهمان‌ها ما را انتخاب می‌کنند؟', 'flavor' ), 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control( 'flavor_intro_title', array( 'label' => __( 'عنوان بخش', 'flavor' ), 'section' => 'flavor_section_intro', 'type' => 'text' ) );
+		$wp_customize->add_control( 'flavor_intro_title', array( 'label' => __( 'عنوان بخش', 'flavor' ), 'description' => __( 'عنوانِ بخشِ معرفی. این عنوان در تیترِ بخش و در نشانه‌گذاریِ ساختاریافتهٔ صفحه به کار می‌رود.', 'flavor' ), 'section' => 'flavor_section_intro', 'type' => 'text' ) );
 
 		// Section: Featured Dishes
 		$wp_customize->add_section(
@@ -691,9 +710,9 @@ class Customizer {
 			)
 		);
 		$wp_customize->add_setting( 'flavor_featured_enable', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key' ) );
-		$wp_customize->add_control( 'flavor_featured_enable', array( 'label' => __( 'نمایش پیشنهادهای ویژه', 'flavor' ), 'section' => 'flavor_section_featured', 'type' => 'checkbox' ) );
+		$wp_customize->add_control( 'flavor_featured_enable', array( 'label' => __( 'نمایش پیشنهادهای ویژه', 'flavor' ), 'description' => __( 'نمایشِ پیشنهادهای ویژه. آیتم‌ها از محصولاتِ برگزیدهٔ ووکامرس خوانده می‌شوند.', 'flavor' ), 'section' => 'flavor_section_featured', 'type' => 'checkbox' ) );
 		$wp_customize->add_setting( 'flavor_featured_title', array( 'default' => __( 'محبوب‌ترین و لذیذترین‌های این هفته', 'flavor' ), 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control( 'flavor_featured_title', array( 'label' => __( 'عنوان بخش', 'flavor' ), 'section' => 'flavor_section_featured', 'type' => 'text' ) );
+		$wp_customize->add_control( 'flavor_featured_title', array( 'label' => __( 'عنوان بخش', 'flavor' ), 'description' => __( 'عنوانِ بخشِ پیشنهادهای ویژه.', 'flavor' ), 'section' => 'flavor_section_featured', 'type' => 'text' ) );
 
 		// Section: Categories Showcase
 		$wp_customize->add_section(
@@ -704,9 +723,9 @@ class Customizer {
 			)
 		);
 		$wp_customize->add_setting( 'flavor_cats_enable', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key' ) );
-		$wp_customize->add_control( 'flavor_cats_enable', array( 'label' => __( 'نمایش کارت‌های دسته‌بندی', 'flavor' ), 'section' => 'flavor_section_categories', 'type' => 'checkbox' ) );
+		$wp_customize->add_control( 'flavor_cats_enable', array( 'label' => __( 'نمایش کارت‌های دسته‌بندی', 'flavor' ), 'description' => __( 'نمایشِ کارت‌های دسته‌بندیِ منو.', 'flavor' ), 'section' => 'flavor_section_categories', 'type' => 'checkbox' ) );
 		$wp_customize->add_setting( 'flavor_cats_title', array( 'default' => __( 'منوی غذا و نوشیدنی', 'flavor' ), 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control( 'flavor_cats_title', array( 'label' => __( 'عنوان دسته‌ها', 'flavor' ), 'section' => 'flavor_section_categories', 'type' => 'text' ) );
+		$wp_customize->add_control( 'flavor_cats_title', array( 'label' => __( 'عنوان دسته‌ها', 'flavor' ), 'description' => __( 'عنوانِ بخشِ دسته‌بندی‌ها.', 'flavor' ), 'section' => 'flavor_section_categories', 'type' => 'text' ) );
 
 		// Section: Special Offers & Coupon Promo
 		$wp_customize->add_section(
@@ -717,11 +736,11 @@ class Customizer {
 			)
 		);
 		$wp_customize->add_setting( 'flavor_offers_enable', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key' ) );
-		$wp_customize->add_control( 'flavor_offers_enable', array( 'label' => __( 'نمایش بنر تخفیف ویژه', 'flavor' ), 'section' => 'flavor_section_offers', 'type' => 'checkbox' ) );
+		$wp_customize->add_control( 'flavor_offers_enable', array( 'label' => __( 'نمایش بنر تخفیف ویژه', 'flavor' ), 'description' => __( 'نمایشِ بنرِ تخفیف. آفر در صفحهٔ اصلی دیده می‌شود؛ تعریفِ خودِ تخفیف در ووکامرس انجام می‌شود.', 'flavor' ), 'section' => 'flavor_section_offers', 'type' => 'checkbox' ) );
 		$wp_customize->add_setting( 'flavor_offers_title', array( 'default' => __( '۱۵٪ تخفیف برای اولین سفارش آنلاین', 'flavor' ), 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control( 'flavor_offers_title', array( 'label' => __( 'عنوان آفر', 'flavor' ), 'section' => 'flavor_section_offers', 'type' => 'text' ) );
+		$wp_customize->add_control( 'flavor_offers_title', array( 'label' => __( 'عنوان آفر', 'flavor' ), 'description' => __( 'عنوانِ روی بنرِ تخفیف. کدِ تخفیف را در فیلدِ بعدی وارد کنید تا مشتری بتواند کپی‌اش کند.', 'flavor' ), 'section' => 'flavor_section_offers', 'type' => 'text' ) );
 		$wp_customize->add_setting( 'flavor_offers_code', array( 'default' => 'FIRST15', 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control( 'flavor_offers_code', array( 'label' => __( 'کد تخفیف', 'flavor' ), 'section' => 'flavor_section_offers', 'type' => 'text' ) );
+		$wp_customize->add_control( 'flavor_offers_code', array( 'label' => __( 'کد تخفیف', 'flavor' ), 'description' => __( 'کدی که مشتری در سبد وارد می‌کند. خودِ تخفیف باید در ووکامرس تعریف شود؛ اینجا فقط نمایش است.', 'flavor' ), 'section' => 'flavor_section_offers', 'type' => 'text' ) );
 
 		// Section: Table Reservation CTA
 		$wp_customize->add_section(
@@ -732,9 +751,9 @@ class Customizer {
 			)
 		);
 		$wp_customize->add_setting( 'flavor_res_enable', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key' ) );
-		$wp_customize->add_control( 'flavor_res_enable', array( 'label' => __( 'نمایش بنر رزرو میز', 'flavor' ), 'section' => 'flavor_section_reservation', 'type' => 'checkbox' ) );
+		$wp_customize->add_control( 'flavor_res_enable', array( 'label' => __( 'نمایش بنر رزرو میز', 'flavor' ), 'description' => __( 'نمایشِ بنرِ دعوت به رزرو. مقصدِ دکمه صفحهٔ رزرو است؛ اگر هسته فعال نباشد، بنر نمایش داده نمی‌شود.', 'flavor' ), 'section' => 'flavor_section_reservation', 'type' => 'checkbox' ) );
 		$wp_customize->add_setting( 'flavor_res_title', array( 'default' => __( 'لحظات ماندگار خود را پیشاپیش رزرو کنید', 'flavor' ), 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control( 'flavor_res_title', array( 'label' => __( 'عنوان بنر رزرو', 'flavor' ), 'section' => 'flavor_section_reservation', 'type' => 'text' ) );
+		$wp_customize->add_control( 'flavor_res_title', array( 'label' => __( 'عنوان بنر رزرو', 'flavor' ), 'description' => __( 'عنوانِ روی بنرِ رزرو. کوتاه بنویسید؛ متنِ بلند در موبایل دکمه را به خطِ بعد می‌راند.', 'flavor' ), 'section' => 'flavor_section_reservation', 'type' => 'text' ) );
 		self::image_control(
 			$wp_customize,
 			'flavor_res_image',
@@ -752,9 +771,9 @@ class Customizer {
 			)
 		);
 		$wp_customize->add_setting( 'flavor_about_enable', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key' ) );
-		$wp_customize->add_control( 'flavor_about_enable', array( 'label' => __( 'نمایش بخش درباره ما', 'flavor' ), 'section' => 'flavor_section_about', 'type' => 'checkbox' ) );
+		$wp_customize->add_control( 'flavor_about_enable', array( 'label' => __( 'نمایش بخش درباره ما', 'flavor' ), 'description' => __( 'نمایشِ بخشِ «دربارهٔ ما».', 'flavor' ), 'section' => 'flavor_section_about', 'type' => 'checkbox' ) );
 		$wp_customize->add_setting( 'flavor_about', array( 'default' => '', 'sanitize_callback' => 'wp_kses_post' ) );
-		$wp_customize->add_control( 'flavor_about', array( 'label' => __( 'متن داستان رستوران', 'flavor' ), 'section' => 'flavor_section_about', 'type' => 'textarea' ) );
+		$wp_customize->add_control( 'flavor_about', array( 'label' => __( 'متن داستان رستوران', 'flavor' ), 'description' => __( 'متنِ داستانِ رستوران. این متن در نشانه‌گذاریِ ساختاریافتهٔ صفحه هم به کار می‌رود.', 'flavor' ), 'section' => 'flavor_section_about', 'type' => 'textarea' ) );
 		self::image_control(
 			$wp_customize,
 			'flavor_about_image',
@@ -782,7 +801,7 @@ class Customizer {
 			)
 		);
 		$wp_customize->add_setting( 'flavor_gallery_enable', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key' ) );
-		$wp_customize->add_control( 'flavor_gallery_enable', array( 'label' => __( 'نمایش گالری تصاویر', 'flavor' ), 'section' => 'flavor_section_gallery', 'type' => 'checkbox' ) );
+		$wp_customize->add_control( 'flavor_gallery_enable', array( 'label' => __( 'نمایش گالری تصاویر', 'flavor' ), 'description' => __( 'نمایشِ گالری. اگر تصویری در بستهٔ دمو نباشد، این بخش خودبه‌خود پنهان می‌شود.', 'flavor' ), 'section' => 'flavor_section_gallery', 'type' => 'checkbox' ) );
 		// Six discrete slots rather than a repeater: the Customizer has no
 		// native repeating control, and six is what the grid lays out.
 		for ( $slot = 1; $slot <= self::GALLERY_SLOTS; $slot++ ) {
@@ -833,7 +852,7 @@ class Customizer {
 			)
 		);
 		$wp_customize->add_setting( 'flavor_testimonials_enable', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key' ) );
-		$wp_customize->add_control( 'flavor_testimonials_enable', array( 'label' => __( 'نمایش بخش نظرات', 'flavor' ), 'section' => 'flavor_section_testimonials', 'type' => 'checkbox' ) );
+		$wp_customize->add_control( 'flavor_testimonials_enable', array( 'label' => __( 'نمایش بخش نظرات', 'flavor' ), 'description' => __( 'نمایشِ بخشِ نظراتِ مشتریان. آیتم‌ها را در بخشِ مربوط ویرایش کنید.', 'flavor' ), 'section' => 'flavor_section_testimonials', 'type' => 'checkbox' ) );
 
 		// The three reviews were hard-coded in the template. Now they are
 		// editable, reorderable and unlimited (up to the cap).
@@ -869,11 +888,11 @@ class Customizer {
 			)
 		);
 		$wp_customize->add_setting( 'flavor_hours_enable', array( 'default' => 'yes', 'sanitize_callback' => 'sanitize_key' ) );
-		$wp_customize->add_control( 'flavor_hours_enable', array( 'label' => __( 'نمایش ساعات کاری و آدرس', 'flavor' ), 'section' => 'flavor_section_hours', 'type' => 'checkbox' ) );
+		$wp_customize->add_control( 'flavor_hours_enable', array( 'label' => __( 'نمایش ساعات کاری و آدرس', 'flavor' ), 'description' => __( 'نمایشِ ساعاتِ کاری و نشانی. ساعاتِ هر شعبه در هسته تنظیم می‌شود.', 'flavor' ), 'section' => 'flavor_section_hours', 'type' => 'checkbox' ) );
 		$wp_customize->add_setting( 'flavor_phone', array( 'default' => '02188001234', 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control( 'flavor_phone', array( 'label' => __( 'شماره تلفن تماس / سفارش', 'flavor' ), 'section' => 'flavor_section_hours', 'type' => 'text' ) );
+		$wp_customize->add_control( 'flavor_phone', array( 'label' => __( 'شماره تلفن تماس / سفارش', 'flavor' ), 'description' => __( 'شماره‌ای که در هدر و دکمه‌های تماس استفاده می‌شود؛ برای دکمهٔ تماس به‌صورت خودکار به پیوندِ tel تبدیل می‌شود.', 'flavor' ), 'section' => 'flavor_section_hours', 'type' => 'text' ) );
 		$wp_customize->add_setting( 'flavor_address', array( 'default' => 'تهران، خیابان ولیعصر، بالاتر از پارک‌وی', 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control( 'flavor_address', array( 'label' => __( 'نشانی شعبه اصلی', 'flavor' ), 'section' => 'flavor_section_hours', 'type' => 'text' ) );
+		$wp_customize->add_control( 'flavor_address', array( 'label' => __( 'نشانی شعبه اصلی', 'flavor' ), 'description' => __( 'نشانیِ شعبهٔ اصلی؛ در پانوشت و در نشانه‌گذاریِ ساختاریافتهٔ محلِ کسب نمایش داده می‌شود.', 'flavor' ), 'section' => 'flavor_section_hours', 'type' => 'text' ) );
 
 		// -------------------------------------------------------------
 		// Panel 5: Footer & Social Links
@@ -887,16 +906,16 @@ class Customizer {
 		);
 
 		$wp_customize->add_setting( 'flavor_social_instagram', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
-		$wp_customize->add_control( 'flavor_social_instagram', array( 'label' => __( 'لینک اینستاگرام', 'flavor' ), 'section' => 'flavor_section_footer', 'type' => 'url' ) );
+		$wp_customize->add_control( 'flavor_social_instagram', array( 'label' => __( 'لینک اینستاگرام', 'flavor' ), 'description' => __( 'نشانی کامل با https://. خالی بگذارید تا این آیکون در پانوشت نمایش داده نشود.', 'flavor' ), 'section' => 'flavor_section_footer', 'type' => 'url' ) );
 
 		$wp_customize->add_setting( 'flavor_social_telegram', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
-		$wp_customize->add_control( 'flavor_social_telegram', array( 'label' => __( 'لینک تلگرام', 'flavor' ), 'section' => 'flavor_section_footer', 'type' => 'url' ) );
+		$wp_customize->add_control( 'flavor_social_telegram', array( 'label' => __( 'لینک تلگرام', 'flavor' ), 'description' => __( 'نشانی کامل با https://. خالی بگذارید تا این آیکون در پانوشت نمایش داده نشود.', 'flavor' ), 'section' => 'flavor_section_footer', 'type' => 'url' ) );
 
 		$wp_customize->add_setting( 'flavor_social_whatsapp', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
-		$wp_customize->add_control( 'flavor_social_whatsapp', array( 'label' => __( 'لینک واتس‌اپ', 'flavor' ), 'section' => 'flavor_section_footer', 'type' => 'url' ) );
+		$wp_customize->add_control( 'flavor_social_whatsapp', array( 'label' => __( 'لینک واتس‌اپ', 'flavor' ), 'description' => __( 'نشانی کاملِ واتس‌اپ. خالی بگذارید تا این آیکون در پانوشت نمایش داده نشود.', 'flavor' ), 'section' => 'flavor_section_footer', 'type' => 'url' ) );
 
 		$wp_customize->add_setting( 'flavor_footer_copy', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control( 'flavor_footer_copy', array( 'label' => __( 'متن کپی‌رایت اختصاصی', 'flavor' ), 'section' => 'flavor_section_footer', 'type' => 'text' ) );
+		$wp_customize->add_control( 'flavor_footer_copy', array( 'label' => __( 'متن کپی‌رایت اختصاصی', 'flavor' ), 'description' => __( 'متنِ کپی‌رایتِ پانوشت. خالی بگذارید تا متنِ پیش‌فرضِ قالب استفاده شود.', 'flavor' ), 'section' => 'flavor_section_footer', 'type' => 'text' ) );
 
 		// Live preview routing. Last, deliberately: it flips the transport of
 		// settings that must already have been registered above.
