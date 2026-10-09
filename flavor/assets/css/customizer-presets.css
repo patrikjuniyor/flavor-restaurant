@@ -116,3 +116,75 @@
 		transition: none;
 	}
 }
+
+/* ---------------------------------------------------------------------------
+   Readability report (flavor/inc/class-contrast-control.php)
+   Customizer-only.
+   --------------------------------------------------------------------------- */
+
+.flavor-contrast {
+	margin: 6px 0 0;
+}
+
+.flavor-contrast__row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 5px 0;
+	border-bottom: 1px solid #f0f0f1;
+	font-size: 12px;
+}
+
+.flavor-contrast__row:last-of-type {
+	border-bottom: 0;
+}
+
+.flavor-contrast__label {
+	flex: 1 1 auto;
+	min-width: 0;
+	color: #1d2327;
+}
+
+.flavor-contrast__value {
+	flex: 0 0 auto;
+	direction: ltr;
+	color: #646970;
+}
+
+/* The JS rewrites this number on every colour change. Tabular figures keep
+   it from shifting the row as digits change width. */
+.flavor-contrast__ratio {
+	font-variant-numeric: tabular-nums;
+}
+
+.flavor-contrast__sample {
+	flex: 0 0 auto;
+	padding: 1px 7px;
+	border-radius: 3px;
+	font-size: 11px;
+	line-height: 1.6;
+}
+
+/* The ratio is the signal, but colour-blind merchants need the shape too:
+   a failing row also carries a marker beside the number. */
+.flavor-contrast__row--fail .flavor-contrast__value {
+	color: #b32d2e;
+	font-weight: 600;
+}
+
+.flavor-contrast__row--fail .flavor-contrast__value::before {
+	content: "▲ ";
+}
+
+.flavor-contrast__warn,
+.flavor-contrast__ok,
+.flavor-contrast__empty {
+	margin: 8px 0 0 !important;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #646970;
+}
+
+.flavor-contrast__warn {
+	color: #7a5c00;
+}

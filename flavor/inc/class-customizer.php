@@ -54,6 +54,51 @@ class Customizer {
 		add_action( 'customize_register', array( self::class, 'register' ) );
 		add_action( 'wp_head', array( self::class, 'head_css' ), 20 );
 		add_action( 'customize_controls_enqueue_scripts', array( self::class, 'preset_assets' ) );
+		add_action( 'customize_controls_enqueue_scripts', array( self::class, 'contrast_assets' ) );
+	}
+
+	/**
+	 * Assets for the visual preset picker.
+	 *
+	 * Customizer-only: the stylesheet is never enqueued on the front end.
+	 */
+	/**
+	 * Assets for the live readability report.
+	 *
+	 * Customizer-only.
+	 */
+	public static function contrast_assets(): void {
+		wp_enqueue_script(
+			'flavor-customizer-contrast',
+			FLAVOR_URI . '/assets/js/customizer-contrast.js',
+			array( 'customize-controls' ),
+			FLAVOR_VERSION,
+			true
+		);
+
+		$pairs = array();
+		foreach ( Contrast::pairs() as $key => $pair ) {
+			$pairs[] = array(
+				'key' => $key,
+				'fg'  => $pair['fg'],
+				'bg'  => $pair['bg'],
+				'min' => $pair['min'],
+			);
+		}
+
+		// The preset values ship too, so a token the merchant left empty is
+		// judged against what the front end would actually resolve it to.
+		wp_add_inline_script(
+			'flavor-customizer-contrast',
+			'window.flavorContrastData = ' . wp_json_encode(
+				array(
+					'pairs'    => $pairs,
+					'settings' => array_keys( Design::colour_token_labels() ),
+					'current'  => Design::tokens( Design::current_skin() ),
+				)
+			) . ';',
+			'before'
+		);
 	}
 
 	/**
@@ -188,6 +233,32 @@ class Customizer {
 					array(
 						'label'   => $label,
 						'section' => 'flavor_section_colors',
+					)
+				)
+			);
+		}
+
+		// A readability report sits with the colour pickers, because that is
+		// where the decision is made. UI::variables() already corrects an
+		// unreadable pair; this says so out loud instead of doing it silently.
+		if ( class_exists( '\Flavor\Contrast_Control' ) ) {
+			$wp_customize->register_control_type( '\Flavor\Contrast_Control' );
+			$wp_customize->add_setting(
+				'flavor_contrast_report',
+				array(
+					'default'           => '',
+					'sanitize_callback' => '__return_empty_string',
+					'transport'         => 'postMessage',
+				)
+			);
+			$wp_customize->add_control(
+				new \Flavor\Contrast_Control(
+					$wp_customize,
+					'flavor_contrast_report',
+					array(
+						'label'       => __( 'خوانایی رنگ‌ها', 'flavor' ),
+						'description' => __( 'نسبت کنتراست هر ترکیب با استاندارد WCAG AA سنجیده می‌شود. این فقط گزارش است و مانع ذخیره نمی‌شود.', 'flavor' ),
+						'section'     => 'flavor_section_colors',
 					)
 				)
 			);
