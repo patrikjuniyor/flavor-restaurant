@@ -216,6 +216,123 @@ class Customizer {
 		}
 
 		// -------------------------------------------------------------
+		// Type scale: the responsive block above sets the base sizes; this
+		// block sets the hierarchy around them. Every value is a fixed choice
+		// rather than a free-text field, so a merchant cannot type a value
+		// that collapses the layout.
+		// -------------------------------------------------------------
+		$wp_customize->add_section(
+			'flavor_section_typography',
+			array(
+				'title'       => __( 'مقیاس تایپوگرافی', 'flavor' ),
+				'panel'       => 'flavor_panel_design',
+				'description' => __( 'اندازهٔ پایه و مقیاس تیتر اصلی در بخش «تایپوگرافی و گوشه‌ها» تنظیم می‌شوند؛ اینجا سلسله‌مراتب títuloها و وزن و فاصلهٔ خطوط را تعیین می‌کنید.', 'flavor' ),
+			)
+		);
+
+		$typography = array(
+			'flavor_type_scale'              => array(
+				__( 'نسبت مقیاس تیترها', 'flavor' ),
+				'1.25',
+				array(
+					'1.125' => __( 'جمع‌وجور — ۱.۱۲۵ (نهم بزرگ)', 'flavor' ),
+					'1.15'  => __( 'ملایم — ۱.۱۵', 'flavor' ),
+					'1.2'   => __( 'متعادل — ۱.۲ (سوم کوچک)', 'flavor' ),
+					'1.25'  => __( 'استاندارد — ۱.۲۵ (پیش‌فرض)', 'flavor' ),
+					'1.333' => __( 'برجسته — ۱.۳۳۳ (چهارم درست)', 'flavor' ),
+					'1.414' => __( 'دراماتیک — ۱.۴۱۴', 'flavor' ),
+					'1.5'   => __( 'بسیار درشت — ۱.۵ (پنجم درست)', 'flavor' ),
+				),
+				__( 'فقط títuloهای h2 تا h6 را تغییر می‌دهد. título اصلی (h1) از مقیاس ریسپانسیو پیروی می‌کند تا روی موبایل نشکند.', 'flavor' ),
+			),
+			'flavor_heading_weight'          => array(
+				__( 'وزن تیترها', 'flavor' ),
+				'700',
+				array(
+					'500' => __( 'نیمه‌ضخیم (500)', 'flavor' ),
+					'600' => __( 'نیمه‌درشت (600)', 'flavor' ),
+					'700' => __( 'درشت (700) — پیش‌فرض', 'flavor' ),
+					'800' => __( 'خیلی درشت (800)', 'flavor' ),
+					'900' => __( 'سیاه (900)', 'flavor' ),
+				),
+				'',
+			),
+			'flavor_heading_line_height'     => array(
+				__( 'ارتفاع خط تیترها', 'flavor' ),
+				'1.25',
+				array(
+					'1.1'  => __( 'فشرده (1.1)', 'flavor' ),
+					'1.15' => __( 'نیمه‌فشرده (1.15)', 'flavor' ),
+					'1.2'  => __( 'متوسط (1.2)', 'flavor' ),
+					'1.25' => __( 'استاندارد (1.25) — پیش‌فرض', 'flavor' ),
+					'1.3'  => __( 'باز (1.3)', 'flavor' ),
+					'1.4'  => __( 'خیلی باز (1.4)', 'flavor' ),
+				),
+				'',
+			),
+			'flavor_heading_letter_spacing'  => array(
+				__( 'فاصلهٔ حروف تیترها', 'flavor' ),
+				'0em',
+				array(
+					'-0.02em' => __( 'فشرده‌تر (0.02em-)', 'flavor' ),
+					'-0.01em' => __( 'کمی فشرده (0.01em-)', 'flavor' ),
+					'0em'     => __( 'پیش‌فرض (0) — پیشنهادی برای فارسی', 'flavor' ),
+					'0.01em'  => __( 'کمی باز (0.01em)', 'flavor' ),
+					'0.02em'  => __( 'باز (0.02em)', 'flavor' ),
+					'0.04em'  => __( 'خیلی باز (0.04em)', 'flavor' ),
+				),
+				__( 'هشدار: در خط فارسی حروف به هم می‌چسبند. هر مقدارِ غیرصفر پیوستگیِ کلمات را می‌شکند و متن را نازیبا می‌کند؛ فقط برای تیترهای لاتین استفاده کنید.', 'flavor' ),
+			),
+			'flavor_body_weight'             => array(
+				__( 'وزن متن بدنه', 'flavor' ),
+				'400',
+				array(
+					'300' => __( 'نازک (300)', 'flavor' ),
+					'400' => __( 'معمولی (400) — پیش‌فرض', 'flavor' ),
+					'500' => __( 'متوسط (500)', 'flavor' ),
+					'600' => __( 'نیمه‌درشت (600)', 'flavor' ),
+					'700' => __( 'درشت (700)', 'flavor' ),
+				),
+				'',
+			),
+			'flavor_body_line_height'        => array(
+				__( 'ارتفاع خط متن بدنه', 'flavor' ),
+				'1.7',
+				array(
+					'1.5' => __( 'فشرده (1.5)', 'flavor' ),
+					'1.6' => __( 'نیمه‌فشرده (1.6)', 'flavor' ),
+					'1.7' => __( 'استاندارد (1.7) — پیش‌فرض', 'flavor' ),
+					'1.8' => __( 'خوانا (1.8)', 'flavor' ),
+					'1.9' => __( 'خیلی خوانا (1.9)', 'flavor' ),
+					'2'   => __( 'حداکثر خوانایی (2)', 'flavor' ),
+				),
+				__( 'برای متن فارسی، مقادیر بازتر خوانایی را به‌طور محسوسی بهتر می‌کنند.', 'flavor' ),
+			),
+		);
+
+		foreach ( $typography as $id => $config ) {
+			$wp_customize->add_setting(
+				$id,
+				array(
+					'default'           => $config[1],
+					'sanitize_callback' => array( self::class, 'sanitize_typography' ),
+					'transport'         => 'postMessage',
+				)
+			);
+
+			$wp_customize->add_control(
+				$id,
+				array(
+					'label'       => $config[0],
+					'description' => $config[3],
+					'section'     => 'flavor_section_typography',
+					'type'        => 'select',
+					'choices'     => $config[2],
+				)
+			);
+		}
+
+		// -------------------------------------------------------------
 		// Panel 2: Header & Navigation
 		// -------------------------------------------------------------
 		$wp_customize->add_section(
@@ -547,6 +664,34 @@ class Customizer {
 		);
 		$value = is_scalar( $value ) ? trim( (string) $value ) : '';
 		return in_array( $value, $allowed, true ) ? $value : '15px';
+	}
+
+	/**
+	 * Sanitize a typography token.
+	 *
+	 * Deliberately separate from sanitize_responsive(): that one falls back to
+	 * '15px' for anything outside its hard-coded list, which would turn a
+	 * heading weight of '700' into '--flavor-heading-weight: 15px'. A shared
+	 * sanitizer needs a shared fallback, and these two groups have none.
+	 *
+	 * @param mixed $value Raw setting value.
+	 * @return string
+	 */
+	public static function sanitize_typography( $value ): string {
+		$allowed = array(
+			// Type scale ratios.
+			'1.125', '1.15', '1.2', '1.25', '1.333', '1.414', '1.5',
+			// Weights.
+			'300', '400', '500', '600', '700', '800', '900',
+			// Line heights.
+			'1.1', '1.15', '1.2', '1.3', '1.4', '1.5', '1.6', '1.7', '1.8', '1.9', '2',
+			// Letter spacing.
+			'-0.02em', '-0.01em', '0em', '0.01em', '0.02em', '0.04em',
+		);
+
+		$value = is_scalar( $value ) ? trim( (string) $value ) : '';
+
+		return in_array( $value, $allowed, true ) ? $value : '';
 	}
 
 	/**

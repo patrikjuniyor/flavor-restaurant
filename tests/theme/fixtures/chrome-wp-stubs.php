@@ -17,6 +17,10 @@ if ( ! function_exists( 'set_theme_mod' ) ) {
 	 * @param string $key   Setting.
 	 * @param mixed  $value Value.
 	 */
+	function remove_theme_mod( string $key ): void {
+		unset( $GLOBALS['_mock_theme_mods'][ $key ] );
+	}
+
 	function set_theme_mod( string $key, $value ): void {
 		$GLOBALS['_mock_theme_mods'][ $key ] = $value;
 	}

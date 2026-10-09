@@ -45,6 +45,10 @@ jobs:
         run: |
           php tests/theme/test-elementor-widgets.php
 
+      - name: Run Typography Contract Tests (type scale, sanitizer parity)
+        run: |
+          php tests/theme/test-typography.php
+
       - name: Run Premium Parity Tests (night scheme, wishlist, mega menu, commerce extras)
         run: |
           php tests/theme/test-premium-features.php

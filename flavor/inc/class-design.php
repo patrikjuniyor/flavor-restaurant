@@ -393,6 +393,30 @@ class Design {
 		$space_tablet       = self::responsive_mod( 'flavor_section_space_tablet', array( '64px', '80px', '96px' ), '' );
 		$space_desktop      = self::responsive_mod( 'flavor_section_space_desktop', array( '64px', '88px', '112px', '136px' ), '88px' );
 
+		// Typography. Defaults reproduce what the stylesheet already did, so a
+		// site that has never opened these controls renders identically.
+		$tokens          = self::typography_tokens();
+		$body_weight     = self::responsive_mod( 'flavor_body_weight', $tokens['flavor_body_weight']['allowed'], $tokens['flavor_body_weight']['default'] );
+		$body_line_height = self::responsive_mod( 'flavor_body_line_height', $tokens['flavor_body_line_height']['allowed'], $tokens['flavor_body_line_height']['default'] );
+		$heading_weight  = self::responsive_mod( 'flavor_heading_weight', $tokens['flavor_heading_weight']['allowed'], $tokens['flavor_heading_weight']['default'] );
+		$heading_line    = self::responsive_mod( 'flavor_heading_line_height', $tokens['flavor_heading_line_height']['allowed'], $tokens['flavor_heading_line_height']['default'] );
+		$heading_spacing = self::responsive_mod( 'flavor_heading_letter_spacing', $tokens['flavor_heading_letter_spacing']['allowed'], $tokens['flavor_heading_letter_spacing']['default'] );
+		$type_scale      = (float) self::responsive_mod( 'flavor_type_scale', $tokens['flavor_type_scale']['allowed'], $tokens['flavor_type_scale']['default'] );
+
+		// Heading sizes are derived from the body size and one ratio, so the
+		// page stays in a single harmony instead of six unrelated numbers.
+		// h6 sits on the body size and each level up is one more step.
+		$base_px = (float) rtrim( $body_size, 'px' );
+		if ( $base_px <= 0 ) {
+			$base_px = 15.0;
+		}
+
+		$heading_sizes = array();
+		for ( $level = 2; $level <= 6; $level++ ) {
+			$size                     = $base_px * ( $type_scale ** ( 6 - $level ) );
+			$heading_sizes[ $level ] = self::format_px( $size );
+		}
+
 		$primary_rgb   = self::hex2rgb( $t['primary'] );
 		$secondary_rgb = self::hex2rgb( $t['secondary'] );
 		$accent_rgb    = self::hex2rgb( $t['accent'] );
@@ -461,6 +485,16 @@ class Design {
 			--flavor-section-space: {$space_mobile};
 			--flavor-section-space-tablet: {$space_tablet};
 			--flavor-section-space-desktop: {$space_desktop};
+			--flavor-body-weight: {$body_weight};
+			--flavor-body-line-height: {$body_line_height};
+			--flavor-heading-weight: {$heading_weight};
+			--flavor-heading-line-height: {$heading_line};
+			--flavor-heading-letter-spacing: {$heading_spacing};
+			--flavor-h2: {$heading_sizes[2]};
+			--flavor-h3: {$heading_sizes[3]};
+			--flavor-h4: {$heading_sizes[4]};
+			--flavor-h5: {$heading_sizes[5]};
+			--flavor-h6: {$heading_sizes[6]};
 			--flavor-font-heading: {$heading_stack};
 			--flavor-font-body: {$body_stack};
 
@@ -513,7 +547,7 @@ class Design {
 		$tablet_css .= '' !== $heading_tablet ? '--flavor-heading-size: var(--flavor-heading-size-tablet);' : '';
 		$tablet_css .= '' !== $space_tablet ? '--flavor-section-space: var(--flavor-section-space-tablet);' : '';
 
-		$css .= "\nbody.flavor-theme { font-size: var(--flavor-body-size); }\nbody.flavor-theme h1, body.flavor-theme .flavor-hero h1, body.flavor-theme .fd-hero h1 { font-size: var(--flavor-heading-size); }\nbody.flavor-theme .flavor-container { width: min(var(--flavor-container-max), calc(100% - (2 * var(--flavor-container-gutter)))); }\nbody.flavor-theme .flavor-section, body.flavor-theme .fd-section { padding-block: var(--flavor-section-space); }\n";
+		$css .= "\nbody.flavor-theme { font-size: var(--flavor-body-size); font-weight: var(--flavor-body-weight); line-height: var(--flavor-body-line-height); }\nbody.flavor-theme h1, body.flavor-theme .flavor-hero h1, body.flavor-theme .fd-hero h1 { font-size: var(--flavor-heading-size); }\nbody.flavor-theme h1, body.flavor-theme h2, body.flavor-theme h3, body.flavor-theme h4, body.flavor-theme h5, body.flavor-theme h6 { font-weight: var(--flavor-heading-weight); line-height: var(--flavor-heading-line-height); letter-spacing: var(--flavor-heading-letter-spacing); }\nbody.flavor-theme h2 { font-size: var(--flavor-h2); }\nbody.flavor-theme h3 { font-size: var(--flavor-h3); }\nbody.flavor-theme h4 { font-size: var(--flavor-h4); }\nbody.flavor-theme h5 { font-size: var(--flavor-h5); }\nbody.flavor-theme h6 { font-size: var(--flavor-h6); }\nbody.flavor-theme .flavor-container { width: min(var(--flavor-container-max), calc(100% - (2 * var(--flavor-container-gutter)))); }\nbody.flavor-theme .flavor-section, body.flavor-theme .fd-section { padding-block: var(--flavor-section-space); }\n";
 		if ( '' !== $tablet_css ) {
 			$css .= '@media (min-width: 768px) { :root { ' . $tablet_css . ' } }' . "\n";
 		}
@@ -533,6 +567,59 @@ class Design {
 	private static function responsive_mod( string $key, array $allowed, string $default ): string {
 		$value = get_theme_mod( $key, $default );
 		return is_string( $value ) && in_array( $value, $allowed, true ) ? $value : $default;
+	}
+
+	/**
+	 * Typography tokens: theme mod key => [ default, allowed values ].
+	 *
+	 * Declared once, in data, for two reasons. The Customizer builds its
+	 * select choices from the same list the CSS generator validates against,
+	 * so the two cannot drift apart; and a test can iterate every allowed
+	 * value and assert the resulting stylesheet is still sane.
+	 *
+	 * @return array<string, array{default: string, allowed: string[]}>
+	 */
+	public static function typography_tokens(): array {
+		return array(
+			'flavor_type_scale'             => array(
+				'default' => '1.25',
+				'allowed' => array( '1.125', '1.15', '1.2', '1.25', '1.333', '1.414', '1.5' ),
+			),
+			'flavor_heading_weight'         => array(
+				'default' => '700',
+				'allowed' => array( '500', '600', '700', '800', '900' ),
+			),
+			'flavor_heading_line_height'    => array(
+				'default' => '1.25',
+				'allowed' => array( '1.1', '1.15', '1.2', '1.25', '1.3', '1.4' ),
+			),
+			'flavor_heading_letter_spacing' => array(
+				'default' => '0em',
+				'allowed' => array( '-0.02em', '-0.01em', '0em', '0.01em', '0.02em', '0.04em' ),
+			),
+			'flavor_body_weight'            => array(
+				'default' => '400',
+				'allowed' => array( '300', '400', '500', '600', '700' ),
+			),
+			'flavor_body_line_height'       => array(
+				'default' => '1.7',
+				'allowed' => array( '1.5', '1.6', '1.7', '1.8', '1.9', '2' ),
+			),
+		);
+	}
+
+	/**
+	 * Format a computed pixel size without pointless precision.
+	 *
+	 * @param float $size Size in pixels.
+	 * @return string
+	 */
+	public static function format_px( float $size ): string {
+		// Two decimals at most: 36.62px is legible, 36.62109375px is noise in
+		// a stylesheet a merchant may read.
+		$rounded = round( $size, 2 );
+
+		return rtrim( rtrim( number_format( $rounded, 2, '.', '' ), '0' ), '.' ) . 'px';
 	}
 
 	/**
