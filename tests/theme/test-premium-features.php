@@ -331,7 +331,13 @@ if ( is_readable( $child ) ) {
 }
 
 $style = (string) file_get_contents( $root . '/flavor/style.css' );
-check( (bool) preg_match( '/Version:\s*1\.5\.0/', $style ), 'Theme version is bumped for the release' );
+$bootstrap = (string) file_get_contents( $root . '/flavor/functions.php' );
+preg_match( '/Version:\s*([0-9.]+)/', $style, $style_version );
+preg_match( '/FLAVOR_VERSION\x27,\s*\x27([0-9.]+)\x27/', $bootstrap, $const_version );
+check(
+	isset( $style_version[1], $const_version[1] ) && version_compare( $style_version[1], '1.5.0', '>' ) && $style_version[1] === $const_version[1],
+	'Theme version is bumped and style.css agrees with FLAVOR_VERSION (' . ( $style_version[1] ?? '?' ) . ')'
+);
 
 $core_menu = (string) file_get_contents( $root . '/flavor-core/includes/API/MenuController.php' );
 check( strpos( $core_menu, "'allergens'" ) !== false, 'Allergen data reaches the menu payload the filters read' );

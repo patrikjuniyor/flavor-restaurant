@@ -37,6 +37,10 @@ jobs:
         run: |
           php tests/theme/test-premium-features.php
 
+      - name: Run Header & Footer Builder Contract Tests (chrome settings drive real markup)
+        run: |
+          php tests/theme/test-chrome-builder.php
+
       - name: Run Pure Logic Regression Suite (Jalali, tokens, RTL text)
         run: |
           php flavor-core/tests/run-pure-tests.php
