@@ -2157,7 +2157,7 @@ class Chrome_Builder {
 			return;
 		}
 
-		$wp_customize->add_partial(
+		$wp_customize->selective_refresh->add_partial(
 			'flavor_header_actions',
 			array(
 				'selector'            => '.flavor-header__actions',
@@ -2167,7 +2167,7 @@ class Chrome_Builder {
 			)
 		);
 
-		$wp_customize->add_partial(
+		$wp_customize->selective_refresh->add_partial(
 			'flavor_brand',
 			array(
 				'selector'            => '.flavor-brand,.fd-brand',
@@ -2177,7 +2177,7 @@ class Chrome_Builder {
 			)
 		);
 
-		$wp_customize->add_partial(
+		$wp_customize->selective_refresh->add_partial(
 			'flavor_topbar',
 			array(
 				'selector'            => '#flavor-topbar',
@@ -2188,7 +2188,7 @@ class Chrome_Builder {
 			)
 		);
 
-		$wp_customize->add_partial(
+		$wp_customize->selective_refresh->add_partial(
 			'flavor_footer',
 			array(
 				'selector'            => '#flavor-footer',
