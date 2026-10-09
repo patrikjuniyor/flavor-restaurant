@@ -1,0 +1,110 @@
+/*
+ * Flavor chrome builder — Customizer pane styling.
+ *
+ * Admin frame only. Every rule is written with logical properties, so the list
+ * reads correctly in RTL without a separate sheet.
+ */
+
+.flavor-builder-list {
+	list-style: none;
+	margin: 10px 0 0;
+	padding: 0;
+	display: grid;
+	gap: 6px;
+}
+
+.flavor-builder-item {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 10px;
+	border: 1px solid #dcdcde;
+	border-radius: 10px;
+	background: #fff;
+	transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.flavor-builder-item.is-on {
+	border-color: var(--fv-skin-accent, #2271b1);
+	box-shadow: inset 3px 0 0 var(--fv-skin-accent, #2271b1);
+}
+
+.flavor-builder-item--placeholder {
+	background: #f6f7f7;
+	border-style: dashed;
+	box-shadow: none;
+}
+
+.flavor-builder-item__handle {
+	cursor: grab;
+	color: #787c82;
+	user-select: none;
+	padding-inline: 4px;
+	line-height: 1;
+}
+
+.flavor-builder-item__handle:active {
+	cursor: grabbing;
+}
+
+.flavor-builder-item__label {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-weight: 600;
+	cursor: pointer;
+	min-width: 0;
+}
+
+.flavor-builder-item__label input[type="checkbox"] {
+	flex: 0 0 auto;
+}
+
+.flavor-builder-item__buttons {
+	display: flex;
+	gap: 2px;
+}
+
+.flavor-builder-item__buttons .button-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	color: #50575e;
+	text-decoration: none;
+	cursor: pointer;
+	background: transparent;
+	border: 0;
+}
+
+.flavor-builder-item__buttons .button-link:hover {
+	background: #f0f0f1;
+	color: #1d2327;
+}
+
+.flavor-builder-item__buttons .button-link:focus-visible,
+.flavor-builder-item__label input[type="checkbox"]:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 1px;
+}
+
+.flavor-builder-item__hint {
+	grid-column: 1 / -1;
+	font-size: 12px;
+	line-height: 1.6;
+	color: #646970;
+}
+
+.flavor-builder-item:not(.is-on) .flavor-builder-item__label {
+	color: #8c8f94;
+	font-weight: 400;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flavor-builder-item {
+		transition: none;
+	}
+}

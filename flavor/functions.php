@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'FLAVOR_VERSION', '1.5.0' );
+define( 'FLAVOR_VERSION', '1.6.0' );
 define( 'FLAVOR_DIR', get_template_directory() );
 define( 'FLAVOR_URI', get_template_directory_uri() );
 
@@ -19,6 +19,7 @@ require_once FLAVOR_DIR . '/inc/class-customer-ui.php';
 require_once FLAVOR_DIR . '/inc/class-ui-pages.php';
 require_once FLAVOR_DIR . '/inc/class-customizer.php';
 require_once FLAVOR_DIR . '/inc/class-ui-customizer.php';
+require_once FLAVOR_DIR . '/inc/class-chrome-builder.php';
 require_once FLAVOR_DIR . '/inc/class-onboarding.php';
 require_once FLAVOR_DIR . '/inc/class-launch-center.php';
 require_once FLAVOR_DIR . '/inc/class-transfer.php';
@@ -48,6 +49,7 @@ Flavor\Customer_UI::init();
 Flavor\UI_Pages::init();
 Flavor\Customizer::init();
 Flavor\UI_Customizer::init();
+Flavor\Chrome_Builder::init();
 Flavor\Onboarding::init();
 Flavor\Launch_Center::init();
 Flavor\Transfer::init();

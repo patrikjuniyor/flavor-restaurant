@@ -2,6 +2,10 @@
 /**
  * Header template.
  *
+ * The row itself is assembled by `Chrome_Builder`, which is the same code the
+ * Customizer partials run — what the owner sees in the preview is what the
+ * theme prints for visitors.
+ *
  * @package Flavor
  */
 
@@ -12,14 +16,10 @@ if ( \Flavor\Bespoke_Demos::active() ) {
 	return;
 }
 
-$topbar = get_theme_mod( 'flavor_header_topbar', '' );
 $layout = get_theme_mod( 'flavor_header_layout', 'default' );
-$layout = in_array( $layout, array( 'default', 'centered', 'minimal', 'transparent' ), true ) ? $layout : 'default';
-$phone  = get_theme_mod( 'flavor_phone', '02188001234' );
-
-$menu_page = get_page_by_path( 'menu' );
-$menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
-?><!DOCTYPE html>
+$layout = in_array( $layout, array( 'default', 'centered', 'minimal', 'transparent' ), true ) ? $layout : 'default'
+?>
+<!DOCTYPE html>
 <html <?php language_attributes(); ?> dir="rtl">
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
@@ -31,25 +31,13 @@ $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 
 <a class="flavor-skip" href="#main"><?php esc_html_e( 'پرش به محتوای اصلی', 'flavor' ); ?></a>
 
-<?php if ( $topbar ) : ?>
-	<aside class="flavor-topbar" aria-label="<?php esc_attr_e( 'پیام ویژه', 'flavor' ); ?>">
-		<div class="flavor-container flavor-topbar__inner">
-			<span><?php echo esc_html( $topbar ); ?></span>
-		</div>
-	</aside>
-<?php endif; ?>
+<?php \Flavor\Chrome_Builder::render_topbar(); ?>
 
 <header class="flavor-header flavor-header--<?php echo esc_attr( $layout ); ?>" id="flavor-site-header">
 	<div class="flavor-container flavor-header__inner">
 		<!-- Brand / Logo -->
 		<div class="flavor-brand">
-			<?php if ( has_custom_logo() ) : ?>
-				<?php the_custom_logo(); ?>
-			<?php else : ?>
-				<a class="flavor-brand__name" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-					<?php flavor_site_name(); ?>
-				</a>
-			<?php endif; ?>
+			<?php \Flavor\Chrome_Builder::render_brand(); ?>
 		</div>
 
 		<!-- Desktop Primary Nav -->
@@ -57,57 +45,13 @@ $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 			<?php flavor_primary_nav(); ?>
 		</nav>
 
-		<!-- Header Actions -->
+		<!-- Header Actions, in the order the owner chose -->
 		<div class="flavor-header__actions">
-			<?php if ( $phone ) : ?>
-				<a href="tel:<?php echo esc_attr( preg_replace( '/\D+/', '', $phone ) ); ?>" class="flavor-header__phone" aria-label="<?php esc_attr_e( 'تماس تلفنی', 'flavor' ); ?>">
-					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-					<span><?php echo esc_html( $phone ); ?></span>
-				</a>
-			<?php endif; ?>
-
-			<?php \Flavor\Dark_Mode::toggle( 'header', 'flavor-header__scheme' ); ?>
-
-			<?php \Flavor\Wishlist::header_button(); ?>
-
-			<a href="<?php echo esc_url( $menu_url ); ?>" class="flavor-btn flavor-btn--primary flavor-btn--sm flavor-header__order-btn">
-				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-				<?php esc_html_e( 'سفارش آنلاین', 'flavor' ); ?>
-			</a>
-
-			<!-- Mobile Hamburger Toggle -->
-			<button type="button" class="flavor-hamburger" id="flavor-drawer-toggle" aria-label="<?php esc_attr_e( 'باز کردن منو', 'flavor' ); ?>" aria-expanded="false" aria-controls="flavor-mobile-drawer">
-				<span></span>
-				<span></span>
-				<span></span>
-			</button>
+			<?php \Flavor\Chrome_Builder::render_header_actions(); ?>
 		</div>
 	</div>
 </header>
 
-<!-- Mobile Navigation Drawer -->
-<div class="flavor-drawer-overlay" id="flavor-drawer-overlay" aria-hidden="true"></div>
-<aside class="flavor-drawer" id="flavor-mobile-drawer" role="dialog" aria-modal="true" inert aria-label="<?php esc_attr_e( 'منوی موبایل', 'flavor' ); ?>" aria-hidden="true">
-	<div class="flavor-drawer__header">
-		<span class="flavor-drawer__title"><?php flavor_site_name(); ?></span>
-		<button type="button" class="flavor-drawer__close" id="flavor-drawer-close" aria-label="<?php esc_attr_e( 'بستن منو', 'flavor' ); ?>">✕</button>
-	</div>
-	<div class="flavor-drawer__body">
-		<nav class="flavor-drawer__nav">
-			<?php flavor_primary_nav(); ?>
-		</nav>
-		<div class="flavor-drawer__tools">
-			<?php \Flavor\Dark_Mode::toggle( 'drawer', 'flavor-scheme-toggle--drawer' ); ?>
-			<?php \Flavor\Wishlist::header_button(); ?>
-		</div>
-		<div class="flavor-drawer__contact">
-			<a href="tel:<?php echo esc_attr( preg_replace( '/\D+/', '', $phone ) ); ?>" class="flavor-btn flavor-btn--primary flavor-btn--full">
-				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-				<?php echo esc_html( sprintf( /* translators: phone */ __( 'تماس تلفنی: %s', 'flavor' ), $phone ) ); ?>
-			</a>
-			<?php flavor_social_links(); ?>
-		</div>
-	</div>
-</aside>
+<?php \Flavor\Chrome_Builder::render_mobile_drawer(); ?>
 
 <main id="main" class="flavor-main">

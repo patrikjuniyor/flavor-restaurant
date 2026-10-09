@@ -1,0 +1,390 @@
+/*
+ * Flavor chrome layer — header and footer builder output.
+ *
+ * Loaded after main.css, marketing.css, the dark mode layer and the twelve
+ * skins, so a rule written here wins the cascade without `!important`.
+ *
+ * Two rules of the layer:
+ *
+ * 1. Every declaration is gated on a `flavor-chrome-*` body class. The class is
+ *    only printed when the owner actually changed that setting, so an untouched
+ *    site keeps the skin's own geometry and the file costs nothing to apply.
+ * 2. Values always come from a CSS custom property. The properties are printed
+ *    in one small inline block (`Chrome_Builder::head_css()`), which is also the
+ *    only thing the live preview writes — one mechanism for both.
+ *
+ * Logical properties only (`padding-block`, `margin-inline-start`, …) so the
+ * layer is correct in RTL without a separate stylesheet.
+ */
+
+/* ---------------------------------------------------------------- header row */
+
+body.flavor-chrome-header-min-height-mobile .flavor-header .flavor-header__inner {
+	min-height: var(--flavor-header-height-mobile);
+}
+
+@media (min-width: 992px) {
+	body.flavor-chrome-header-min-height .flavor-header .flavor-header__inner {
+		min-height: var(--flavor-header-height);
+	}
+}
+
+body.flavor-chrome-header-align .flavor-header .flavor-header__inner {
+	justify-content: var(--flavor-header-align);
+}
+
+body.flavor-chrome-header-gap .flavor-header .flavor-header__inner,
+body.flavor-chrome-header-gap .flavor-header__actions {
+	gap: var(--flavor-header-gap);
+}
+
+body.flavor-chrome-no-mobile-nav .flavor-header__nav {
+	display: flex;
+}
+
+body.flavor-chrome-no-mobile-nav .flavor-nav {
+	flex-wrap: wrap;
+	gap: 14px;
+}
+
+@media (max-width: 991px) {
+	body.flavor-chrome-sticky-mobile-off .flavor-header {
+		position: static;
+		top: auto;
+	}
+}
+
+/* -------------------------------------------------------------- header paint */
+
+body.flavor-chrome-header-bg .flavor-header {
+	background: var(--flavor-header-bg);
+}
+
+body.flavor-chrome-header-ink .flavor-header,
+body.flavor-chrome-header-ink .flavor-header .flavor-nav a,
+body.flavor-chrome-header-ink .flavor-header .flavor-header__phone,
+body.flavor-chrome-header-ink .flavor-header .flavor-brand__name {
+	color: var(--flavor-header-ink);
+}
+
+body.flavor-chrome-header-border .flavor-header {
+	border-bottom-width: var(--flavor-header-border-size);
+	box-shadow: var(--flavor-header-shadow);
+}
+
+body.flavor-chrome-header-line .flavor-header {
+	border-bottom-color: var(--flavor-header-line);
+}
+
+body.flavor-chrome-header-nav-size-mobile .flavor-nav a {
+	font-size: var(--flavor-nav-size-mobile);
+}
+
+@media (min-width: 992px) {
+	body.flavor-chrome-header-nav-size .flavor-nav a {
+		font-size: var(--flavor-nav-size);
+	}
+}
+
+/* ------------------------------------------------------------- announcement bar */
+
+.flavor-topbar__link {
+	color: inherit;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.flavor-topbar__link:hover,
+.flavor-topbar__link:focus-visible {
+	text-decoration: none;
+}
+
+body.flavor-chrome-header-topbar-bg .flavor-topbar {
+	background: var(--flavor-topbar-bg);
+}
+
+body.flavor-chrome-header-topbar-ink .flavor-topbar,
+body.flavor-chrome-header-topbar-ink .flavor-topbar a {
+	color: var(--flavor-topbar-ink);
+}
+
+/* ------------------------------------------------------------- brand + search */
+
+.flavor-brand {
+	gap: 10px;
+}
+
+.flavor-brand__tagline {
+	font-size: 12px;
+	color: var(--flavor-muted);
+	line-height: 1.5;
+}
+
+.flavor-header__search {
+	display: none;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	padding: 4px 6px 4px 10px;
+	border: 1px solid var(--flavor-line);
+	border-radius: 999px;
+	background: var(--flavor-surface-alt);
+}
+
+.flavor-header__search input[type="search"] {
+	width: 100%;
+	min-width: 0;
+	border: 0;
+	background: transparent;
+	font: inherit;
+	font-size: 14px;
+	color: var(--flavor-ink);
+	padding: 4px 0;
+}
+
+.flavor-header__search input[type="search"]:focus {
+	outline: none;
+}
+
+.flavor-header__search:focus-within {
+	border-color: var(--flavor-primary);
+	box-shadow: 0 0 0 3px rgba(var(--flavor-primary-rgb), 0.18);
+}
+
+.flavor-header__search-submit {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border: 0;
+	border-radius: 50%;
+	background: transparent;
+	color: var(--flavor-ink);
+	cursor: pointer;
+	flex: 0 0 auto;
+}
+
+.flavor-header__search-submit:hover {
+	background: var(--flavor-surface);
+	color: var(--flavor-primary);
+}
+
+.flavor-header__search-submit:focus-visible,
+.flavor-header__cart:focus-visible,
+.flavor-header__account:focus-visible {
+	outline: 3px solid var(--flavor-primary);
+	outline-offset: 2px;
+}
+
+@media (min-width: 992px) {
+	.flavor-header__search {
+		display: flex;
+		flex: 0 1 220px;
+	}
+}
+
+.flavor-drawer__search {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	margin-block-end: 18px;
+}
+
+.flavor-drawer__search input[type="search"] {
+	flex: 1 1 auto;
+	min-width: 0;
+	padding: 12px 14px;
+	border: 1px solid var(--flavor-line);
+	border-radius: var(--flavor-btn-radius);
+	background: var(--flavor-surface);
+	font: inherit;
+	font-size: 15px;
+	color: var(--flavor-ink);
+}
+
+/* --------------------------------------------------- cart / account controls */
+
+.flavor-header__cart,
+.flavor-header__account {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	color: var(--flavor-ink);
+	background: var(--flavor-surface-alt);
+	text-decoration: none;
+	transition: background var(--flavor-transition-fast, 160ms ease), color var(--flavor-transition-fast, 160ms ease);
+}
+
+.flavor-header__cart:hover,
+.flavor-header__account:hover {
+	background: var(--flavor-primary);
+	color: #fff;
+}
+
+.flavor-header__cart-count {
+	position: absolute;
+	inset-block-start: -4px;
+	inset-inline-end: -4px;
+	min-width: 19px;
+	height: 19px;
+	padding-inline: 5px;
+	border-radius: 999px;
+	background: var(--flavor-accent);
+	color: #201c19;
+	font-size: 12px;
+	font-weight: 800;
+	line-height: 19px;
+	text-align: center;
+}
+
+.flavor-header__cart-count:not(.has-items),
+.flavor-header__cart:not(.has-items) .flavor-header__cart-count {
+	display: none;
+}
+
+/* ------------------------------------------------------------ button metrics */
+
+body.flavor-chrome-button-size .flavor-btn {
+	padding: var(--flavor-btn-pad-y) var(--flavor-btn-pad-x);
+	gap: var(--flavor-btn-gap);
+}
+
+/* --------------------------------------------------------------------- footer */
+
+/*
+ * One breakpoint per control, so choosing a desktop column count never changes
+ * the phone layout on its own. Untouched breakpoints keep the skin's `auto-fit`.
+ */
+@media (min-width: 992px) {
+	body.flavor-chrome-footer-columns .flavor-footer__grid,
+	body.flavor-chrome-footer-columns .fd-footer__grid {
+		grid-template-columns: var(--flavor-footer-cols);
+	}
+}
+
+@media (min-width: 640px) and (max-width: 991px) {
+	body.flavor-chrome-footer-columns-tablet .flavor-footer__grid,
+	body.flavor-chrome-footer-columns-tablet .fd-footer__grid {
+		grid-template-columns: var(--flavor-footer-cols-tablet);
+	}
+}
+
+@media (max-width: 639px) {
+	body.flavor-chrome-footer-columns-mobile .flavor-footer__grid,
+	body.flavor-chrome-footer-columns-mobile .fd-footer__grid {
+		grid-template-columns: var(--flavor-footer-cols-mobile);
+	}
+}
+
+/* Explicit column counts must not keep the brand column's legacy wider span. */
+body[class*="flavor-chrome-footer-columns"] .flavor-footer__col--brand {
+	grid-column: auto;
+}
+
+body.flavor-chrome-footer-space .flavor-footer,
+body.flavor-chrome-footer-space .fd-footer {
+	padding-block-start: var(--flavor-footer-space);
+	padding-block-end: calc(var(--flavor-footer-space) / 2);
+}
+
+@media (max-width: 991px) {
+	body.flavor-chrome-footer-space-mobile .flavor-footer,
+	body.flavor-chrome-footer-space-mobile .fd-footer {
+		padding-block-start: var(--flavor-footer-space-mobile);
+		padding-block-end: calc(var(--flavor-footer-space-mobile) / 2);
+	}
+}
+
+body.flavor-chrome-footer-bg .flavor-footer,
+body.flavor-chrome-footer-bg .fd-footer {
+	background: var(--flavor-footer-bg);
+}
+
+body.flavor-chrome-footer-ink .flavor-footer,
+body.flavor-chrome-footer-ink .fd-footer,
+body.flavor-chrome-footer-ink .flavor-footer a,
+body.flavor-chrome-footer-ink .flavor-footer p,
+body.flavor-chrome-footer-ink .fd-footer a,
+body.flavor-chrome-footer-ink .fd-footer p,
+body.flavor-chrome-footer-ink .flavor-footer__heading,
+body.flavor-chrome-footer-ink .flavor-footer__copy {
+	color: var(--flavor-footer-ink);
+}
+
+body.flavor-chrome-footer-heading-size .flavor-footer__heading {
+	font-size: var(--flavor-footer-heading-size);
+}
+
+body.flavor-chrome-footer-link-size .flavor-footer__links a,
+body.flavor-chrome-footer-link-size .flavor-footer__contact-item,
+body.flavor-chrome-footer-link-size .flavor-footer__schedule li {
+	font-size: var(--flavor-footer-link-size);
+}
+
+/* ------------------------------------------------------- footer newsletter bit */
+
+.flavor-footer__newsletter {
+	display: flex;
+	gap: 8px;
+	align-items: stretch;
+	flex-wrap: wrap;
+}
+
+.flavor-footer__newsletter input[type="email"] {
+	flex: 1 1 160px;
+	min-width: 0;
+	padding: 10px 12px;
+	border: 1px solid var(--flavor-line);
+	border-radius: var(--flavor-btn-radius);
+	background: var(--flavor-surface);
+	color: var(--flavor-ink);
+	font: inherit;
+	font-size: 14px;
+}
+
+.flavor-footer__newsletter input[type="email"]:focus-visible {
+	outline: 3px solid var(--flavor-primary);
+	outline-offset: 2px;
+}
+
+.flavor-footer__status {
+	margin: 8px 0 0;
+	font-size: 13px;
+	min-height: 18px;
+	color: var(--flavor-success);
+}
+
+.flavor-footer__status[data-error="yes"] {
+	color: var(--flavor-danger);
+}
+
+.flavor-footer__map {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	color: var(--flavor-primary);
+	font-size: 14px;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.flavor-footer__map:hover,
+.flavor-footer__map:focus-visible {
+	text-decoration: underline;
+}
+
+/*
+ * The chrome layer adds no motion of its own. Anything that animates stays in
+ * the motion layer, which already respects `prefers-reduced-motion`.
+ */
+@media (prefers-reduced-motion: reduce) {
+	.flavor-header__cart,
+	.flavor-header__account {
+		transition: none;
+	}
+}
