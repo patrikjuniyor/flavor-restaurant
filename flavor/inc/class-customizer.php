@@ -203,6 +203,21 @@ class Customizer {
 	 * @param \WP_Customize_Manager $wp_customize Customizer Manager.
 	 */
 	public static function register( $wp_customize ): void {
+		// Customizer control classes extend WP_Customize_Control, which core
+		// only loads when the Customizer itself boots — inside
+		// WP_Customize_Manager::__construct(), before this hook fires.
+		// Declaring these from functions.php fatals on every other request,
+		// including the front end, because the parent class is not there.
+		//
+		// Found by running the theme against real WordPress 7.1.3: the
+		// offline test fixtures define a WP_Customize_Control stub, so the
+		// unit tests passed while the site did not load at all.
+		if ( class_exists( '\WP_Customize_Control' ) ) {
+			require_once FLAVOR_DIR . '/inc/class-preset-control.php';
+			require_once FLAVOR_DIR . '/inc/class-contrast-control.php';
+			require_once FLAVOR_DIR . '/inc/class-repeater-control.php';
+		}
+
 		// -------------------------------------------------------------
 		// Panel 1: Design System & Presets
 		// -------------------------------------------------------------
