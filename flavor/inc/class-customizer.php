@@ -53,6 +53,44 @@ class Customizer {
 	public static function init(): void {
 		add_action( 'customize_register', array( self::class, 'register' ) );
 		add_action( 'wp_head', array( self::class, 'head_css' ), 20 );
+		add_action( 'customize_controls_enqueue_scripts', array( self::class, 'preset_assets' ) );
+	}
+
+	/**
+	 * Assets for the visual preset picker.
+	 *
+	 * Customizer-only: the stylesheet is never enqueued on the front end.
+	 */
+	public static function preset_assets(): void {
+		wp_enqueue_style(
+			'flavor-customizer-presets',
+			FLAVOR_URI . '/assets/css/customizer-presets.css',
+			array(),
+			FLAVOR_VERSION
+		);
+
+		wp_enqueue_script(
+			'flavor-customizer-presets',
+			FLAVOR_URI . '/assets/js/customizer-presets.js',
+			array( 'customize-controls' ),
+			FLAVOR_VERSION,
+			true
+		);
+
+		// The button clears these, all through the changeset. The list is
+		// shipped from PHP so it cannot fall out of step with the tokens.
+		wp_add_inline_script(
+			'flavor-customizer-presets',
+			'window.flavorPresetData = ' . wp_json_encode(
+				array(
+					'colourSettings' => array_map(
+						static fn( string $key ): string => 'flavor_' . $key,
+						array_keys( Design::colour_token_labels() )
+					),
+				)
+			) . ';',
+			'before'
+		);
 	}
 
 	/**
@@ -88,19 +126,37 @@ class Customizer {
 		}
 
 		$wp_customize->add_setting( 'flavor_skin', array( 'default' => 'modern-restaurant', 'sanitize_callback' => 'sanitize_key', 'transport' => 'postMessage' ) );
-		// Radio (not select) so the preset list renders inside the customizer
-		// pane where it can be styled; a native <select> opens a browser
-		// overlay that CSS cannot reach.
-		$wp_customize->add_control(
-			'flavor_skin',
-			array(
-				'label'       => __( 'انتخاب پوسته رستوران', 'flavor' ),
-				'description' => __( 'با تغییر پوسته، رنگ‌بندی، فونت و استایل کلی رستوران هماهنگ می‌شود.', 'flavor' ),
-				'section'     => 'flavor_section_preset',
-				'type'        => 'radio',
-				'choices'     => $preset_choices,
-			)
-		);
+
+		// A visual picker replaces the old radio list. Twelve prose
+		// descriptions in a row gave the merchant no way to compare palettes;
+		// a thumbnail of each skin does.
+		if ( class_exists( '\Flavor\Preset_Control' ) ) {
+			$wp_customize->register_control_type( '\Flavor\Preset_Control' );
+			$wp_customize->add_control(
+				new \Flavor\Preset_Control(
+					$wp_customize,
+					'flavor_skin',
+					array(
+						'label'       => __( 'انتخاب پوسته رستوران', 'flavor' ),
+						'description' => __( 'با تغییر پوسته، رنگ‌بندی، فونت و استایل کلی رستوران هماهنگ می‌شود.', 'flavor' ),
+						'section'     => 'flavor_section_preset',
+					)
+				)
+			);
+		} else {
+			// Radio, not select: a native <select> opens a browser overlay
+			// that the Customizer's CSS cannot reach.
+			$wp_customize->add_control(
+				'flavor_skin',
+				array(
+					'label'       => __( 'انتخاب پوسته رستوران', 'flavor' ),
+					'description' => __( 'با تغییر پوسته، رنگ‌بندی، فونت و استایل کلی رستوران هماهنگ می‌شود.', 'flavor' ),
+					'section'     => 'flavor_section_preset',
+					'type'        => 'radio',
+					'choices'     => $preset_choices,
+				)
+			);
+		}
 
 		// Section: Colors
 		$wp_customize->add_section(

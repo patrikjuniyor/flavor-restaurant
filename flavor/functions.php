@@ -18,6 +18,7 @@ require_once FLAVOR_DIR . '/inc/class-ui.php';
 require_once FLAVOR_DIR . '/inc/class-customer-ui.php';
 require_once FLAVOR_DIR . '/inc/class-ui-pages.php';
 require_once FLAVOR_DIR . '/inc/class-customizer.php';
+require_once FLAVOR_DIR . '/inc/class-preset-control.php';
 require_once FLAVOR_DIR . '/inc/class-ui-customizer.php';
 require_once FLAVOR_DIR . '/inc/class-chrome-builder.php';
 require_once FLAVOR_DIR . '/inc/class-onboarding.php';

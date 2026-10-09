@@ -295,6 +295,77 @@ class Design {
 	/**
 	 * Active skin slug.
 	 */
+	/**
+	 * The colours a preset is recognised by, for the Customizer thumbnail.
+	 *
+	 * Derived from the preset's own tokens rather than stored as a second
+	 * list, so a palette can never drift away from its swatch: change a
+	 * token and the thumbnail follows automatically.
+	 *
+	 * @param string $skin Preset slug.
+	 * @return array<string, string> Ordered: primary, accent, surface, bg, ink.
+	 */
+	public static function skin_swatch( string $skin ): array {
+		$tokens = self::tokens( $skin );
+		$keys   = array( 'primary', 'accent', 'surface', 'bg', 'ink' );
+		$out    = array();
+
+		foreach ( $keys as $key ) {
+			$value = (string) ( $tokens[ $key ] ?? '' );
+			// A swatch is printed straight into an inline style, so anything
+			// that is not a plain hex colour is dropped rather than escaped.
+			$out[ $key ] = (bool) preg_match( '/^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i', $value ) ? $value : '';
+		}
+
+		return $out;
+	}
+
+	/**
+	 * Colour token keys a merchant may override individually.
+	 *
+	 * Used to tell the merchant when their own colour choices are masking the
+	 * preset they just picked — the single most confusing thing about a
+	 * preset picker that writes to the same tokens.
+	 *
+	 * @return array<string, string> Setting id => label.
+	 */
+	public static function colour_token_labels(): array {
+		return array(
+			'primary'     => __( 'رنگ اصلی', 'flavor' ),
+			'secondary'   => __( 'رنگ دوم', 'flavor' ),
+			'accent'      => __( 'رنگ تأکید', 'flavor' ),
+			'bg'          => __( 'رنگ پس‌زمینه', 'flavor' ),
+			'surface'     => __( 'رنگ سطح', 'flavor' ),
+			'surface_alt' => __( 'رنگ سطح دوم', 'flavor' ),
+			'ink'         => __( 'رنگ متن', 'flavor' ),
+			'muted'       => __( 'رنگ متن کم‌رنگ', 'flavor' ),
+			'line'        => __( 'رنگ خطوط', 'flavor' ),
+		);
+	}
+
+	/**
+	 * The colour overrides the merchant has actually set.
+	 *
+	 * @return array<string, string> Setting id => value, for set overrides only.
+	 */
+	public static function active_colour_overrides(): array {
+		$overrides = array();
+
+		foreach ( array_keys( self::colour_token_labels() ) as $key ) {
+			$mod = get_theme_mod( 'flavor_' . $key, '' );
+			if ( is_string( $mod ) && '' !== trim( $mod ) ) {
+				$overrides[ 'flavor_' . $key ] = trim( $mod );
+			}
+		}
+
+		return $overrides;
+	}
+
+	/**
+	 * Current skin.
+	 *
+	 * @return string
+	 */
 	public static function current_skin(): string {
 		$skin = (string) get_theme_mod( 'flavor_skin', 'modern-restaurant' );
 		$skins = self::skins();

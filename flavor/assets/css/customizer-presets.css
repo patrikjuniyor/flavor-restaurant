@@ -1,0 +1,118 @@
+/**
+ * Visual preset picker (flavor/inc/class-preset-control.php).
+ *
+ * Customizer-only. Never enqueued on the front end.
+ */
+
+.flavor-preset__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+	margin: 8px 0 10px;
+}
+
+@media (min-width: 900px) {
+	.flavor-preset__grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+.flavor-preset__card {
+	display: block;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	background: #fff;
+	cursor: pointer;
+	overflow: hidden;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.flavor-preset__card:hover {
+	border-color: #9aa0a6;
+}
+
+.flavor-preset__card.is-active {
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+}
+
+.flavor-preset__card input[type="radio"] {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+/* The card itself is the affordance, so the focused radio must still be
+   visible to a keyboard user. */
+.flavor-preset__card:focus-within {
+	outline: 2px solid #2271b1;
+	outline-offset: 1px;
+}
+
+.flavor-preset__swatch {
+	display: flex;
+	height: 44px;
+}
+
+.flavor-preset__chip {
+	flex: 1 1 0;
+	min-width: 0;
+}
+
+.flavor-preset__title {
+	display: block;
+	padding: 7px 9px;
+	font-size: 12px;
+	line-height: 1.35;
+	font-weight: 600;
+	color: #1d2327;
+}
+
+.flavor-preset__desc {
+	min-height: 1.4em;
+	margin: 0 0 6px;
+	font-size: 12px;
+	color: #646970;
+	font-style: italic;
+}
+
+.flavor-preset__notice {
+	margin: 10px 0 0;
+	padding: 10px 12px;
+	border: 1px solid #dba617;
+	border-inline-start-width: 4px;
+	border-radius: 4px;
+	background: #fcf9e8;
+}
+
+.flavor-preset__notice p {
+	margin: 0 0 6px;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #1d2327;
+}
+
+.flavor-preset__list {
+	color: #646970;
+}
+
+.flavor-preset__notice .button-link {
+	padding: 0;
+	font-size: 12px;
+}
+
+.flavor-preset__hint {
+	margin-bottom: 0 !important;
+	color: #646970;
+	font-size: 11px;
+}
+
+/* Honour the OS setting: this panel is used by people who get motion sick. */
+@media (prefers-reduced-motion: reduce) {
+	.flavor-preset__card {
+		transition: none;
+	}
+}
