@@ -24,6 +24,13 @@ $images = array_map(
 	static fn( $item ) => is_array( $item ) ? $item : array( 'image' => (string) $item, 'alt' => '' ),
 	(array) $images
 );
+
+// The demo pack is a separate download. With no photographs at all, an
+// empty grid of headings and no pictures looks broken, so the whole
+// section steps aside rather than advertising a gallery that is not there.
+if ( empty( $images ) ) {
+	return;
+}
 ?>
 <section class="flavor-section flavor-gallery" aria-label="<?php esc_attr_e( 'گالری تصاویر', 'flavor' ); ?>">
 	<div class="flavor-container">

@@ -333,6 +333,56 @@ jobs:
           wp core version --allow-root
           wp plugin get woocommerce --field=version --allow-root
 
-      - name: Run the real WordPress smoke test
+      - name: Run the real WordPress smoke test (demo pack installed)
         run: |
           php tests/integration/real-wp-smoke.php --wp="$RUNNER_TEMP/wordpress"
+
+      # The sellable theme ships without the 12 MB demo pack. That state
+      # has to boot too, and it is the one customers actually get, so it
+      # is tested rather than assumed.
+      - name: Run the smoke test again with the demo pack removed
+        run: |
+          rm -rf "$RUNNER_TEMP/wordpress/wp-content/themes/flavor/demos"
+          php tests/integration/real-wp-smoke.php --wp="$RUNNER_TEMP/wordpress"
+
+      - name: Confirm no fatal was logged in either state
+        run: |
+          log="$RUNNER_TEMP/wordpress/wp-content/debug.log"
+          if [ -f "$log" ] && grep -qi "fatal" "$log"; then
+            echo "fatal errors were logged:"
+            grep -i "fatal" "$log"
+            exit 1
+          fi
+          echo "no fatal errors in either state"
+
+  distribution-weight:
+    name: Distribution weight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install zip
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq zip
+
+      - name: Build the sellable theme and the separate demo pack
+        run: ./dev-tools/build-distribution.sh
+
+      - name: Report the two artefacts
+        run: |
+          echo "=== What a customer downloads ==="
+          for f in dist/*.zip; do
+            printf '%-28s %s KB\n' "$(basename "$f")" "$(du -k "$f" | cut -f1)"
+          done
+
+      - name: The packless theme must actually boot
+        run: |
+          # The split is only an improvement if the theme survives it.
+          # Unzip the sellable artefact and confirm it has no demos/ and
+          # still contains the placeholder the code falls back to.
+          mkdir -p /tmp/packless
+          unzip -q dist/flavor.zip -d /tmp/packless
+          test ! -d /tmp/packless/flavor/demos
+          test -f /tmp/packless/flavor/assets/img/demo-placeholder.svg
+          test -f /tmp/packless/flavor/style.css
+          test -f /tmp/packless/flavor/functions.php
+          echo "packless theme is complete and demo-free"

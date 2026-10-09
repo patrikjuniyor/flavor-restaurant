@@ -252,18 +252,25 @@ class Repeater {
 	 */
 	public static function fallback( string $schema ): array {
 		if ( 'gallery' === $schema ) {
-			$skin  = Design::current_skin();
-			$base  = FLAVOR_URI . '/demos/';
-			$slugs = array( $skin, 'fast-food', 'traditional', 'fine-dining', 'pastry', 'modern-cafe' );
+			$slugs = array( Design::current_skin(), 'fast-food', 'traditional', 'fine-dining', 'pastry', 'modern-cafe' );
 			$out   = array();
 
 			foreach ( $slugs as $slug ) {
+				// The demo pack is a separate download, so most of these are
+				// absent on a default install. Listing a URL that 404s would
+				// fill the gallery with broken-image icons, so only art that
+				// is actually on disk is offered.
+				if ( ! is_readable( FLAVOR_DIR . '/demos/' . $slug . '/hero.jpg' ) ) {
+					continue;
+				}
 				$out[] = array(
-					'image' => $base . $slug . '/hero.jpg',
+					'image' => FLAVOR_URI . '/demos/' . $slug . '/hero.jpg',
 					'alt'   => __( 'تصویر رستوران', 'flavor' ),
 				);
 			}
 
+			// With the demo pack absent there is nothing to show, and an
+			// empty grid is better than six identical placeholders.
 			return $out;
 		}
 

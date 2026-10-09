@@ -23,7 +23,7 @@ if ( ! $text ) {
 $skin     = \Flavor\Design::current_skin();
 $hero_img = $args['image'] ?? get_theme_mod( 'flavor_about_image', '' );
 if ( ! $hero_img ) {
-	$hero_img = FLAVOR_URI . '/demos/' . $skin . '/hero.jpg';
+	$hero_img = \Flavor\Bespoke_Demos::asset( 'hero.jpg' );
 }
 ?>
 <section class="flavor-section flavor-about" aria-label="<?php echo esc_attr( $title ); ?>">

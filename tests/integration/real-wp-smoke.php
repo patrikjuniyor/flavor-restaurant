@@ -160,10 +160,37 @@ check( ! class_exists( 'Flavor\\Repeater_Control' ), 'Repeater_Control is not lo
 
 echo "\n--- The repeater feeds the gallery with real fallback data ---\n";
 
-$items = \Flavor\Repeater::items( 'gallery' );
-check( ! empty( $items ), 'the gallery has items to render (' . count( $items ) . ')' );
-check( '' !== ( $items[0]['image'] ?? '' ), 'the first gallery item has an image' );
-check( '' !== \Flavor\Repeater::image_alt( $items[0] ), 'the first gallery item has alt text' );
+// The demo pack is a separate download, so this theme may be running
+// with no photography installed at all. Both states are supported and
+// both are asserted here; N-15 is only done if the packless one is clean.
+$has_demo_art = is_dir( get_template_directory() . '/demos' );
+$items        = \Flavor\Repeater::items( 'gallery' );
+
+if ( $has_demo_art ) {
+	check( ! empty( $items ), 'the gallery has items to render (' . count( $items ) . ')' );
+	check( '' !== ( $items[0]['image'] ?? '' ), 'the first gallery item has an image' );
+	check( '' !== \Flavor\Repeater::image_alt( $items[0] ), 'the first gallery item has alt text' );
+} else {
+	// No photographs means no gallery, and the section steps aside rather
+	// than rendering a grid of broken images.
+	check( empty( $items ), 'with no demo art the gallery offers nothing rather than dead URLs' );
+	check(
+		0 === substr_count( (string) @file_get_contents( get_template_directory() . '/template-parts/marketing/gallery.php' ), 'FLAVOR_URI . ' ),
+		'the gallery template never concatenates a demo URL directly'
+	);
+	check(
+		is_file( get_template_directory() . '/assets/img/demo-placeholder.svg' ),
+		'the placeholder survived into the packless install'
+	);
+	check(
+		\Flavor\Bespoke_Demos::asset( 'hero.jpg' ) === \Flavor\Bespoke_Demos::placeholder(),
+		'asset() degrades to the placeholder when the demo pack is absent'
+	);
+	check(
+		false === strpos( \Flavor\Bespoke_Demos::asset( 'story.jpg' ), '/demos/' ),
+		'a missing skin image does not produce a /demos/ URL'
+	);
+}
 
 $testimonials = \Flavor\Repeater::items( 'testimonials' );
 check( ! empty( $testimonials ), 'the testimonials have items (' . count( $testimonials ) . ')' );

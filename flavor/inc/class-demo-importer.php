@@ -107,7 +107,9 @@ class Demo_Importer {
 				$active_skin = (string) get_theme_mod( 'flavor_skin', 'modern-restaurant' );
 				foreach ( $catalog as $slug => $demo ) :
 					$is_active    = $active_skin === $slug;
-					$hero         = FLAVOR_URI . '/demos/' . $slug . '/hero.jpg';
+					$hero         = is_readable( FLAVOR_DIR . '/demos/' . $slug . '/hero.jpg' )
+						? FLAVOR_URI . '/demos/' . $slug . '/hero.jpg'
+						: \Flavor\Bespoke_Demos::placeholder();
 					$customizer_url = admin_url( 'customize.php?autofocus[control]=flavor_skin&flavor_try_demo=' . rawurlencode( $slug ) . '&return=' . rawurlencode( admin_url( 'themes.php?page=flavor-demos' ) ) );
 				?>
 					<article style="border:1px solid <?php echo $is_active ? '#a74e2c' : '#ddd'; ?>;border-radius:12px;overflow:hidden;background:#fff;position:relative;box-shadow:<?php echo $is_active ? '0 8px 24px rgba(167,78,44,0.15)' : 'none'; ?>;">

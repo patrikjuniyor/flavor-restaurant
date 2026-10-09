@@ -61,7 +61,10 @@ class Schema_Output {
 			$img = get_the_post_thumbnail_url( get_queried_object_id(), 'large' );
 		}
 		if ( ! $img ) {
-			$img = FLAVOR_URI . '/demos/' . Design::current_skin() . '/hero.jpg';
+			// The demo pack ships separately, so this file may not exist.
+			// asset() degrades to a placeholder; a dead og:image here would
+			// be worse than a plain one, since it is fetched by crawlers.
+			$img = \Flavor\Bespoke_Demos::asset( 'hero.jpg' );
 		}
 		printf( '<meta property="og:type" content="%s" />' . "\n", is_front_page() ? 'restaurant' : 'website' );
 		printf( '<meta property="og:title" content="%s" />' . "\n", esc_attr( $title ) );

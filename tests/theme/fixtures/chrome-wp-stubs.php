@@ -348,3 +348,20 @@ if ( ! function_exists( 'is_checkout' ) ) {
 		return false;
 	}
 }
+
+if ( ! function_exists( 'sanitize_file_name' ) ) {
+	/**
+	 * Mirrors core: strip anything that could escape the directory, keep it
+	 * a single safe filename. Bespoke_Demos::asset() relies on this before
+	 * it will touch the filesystem, so the stub has to behave like core and
+	 * flatten directory separators rather than merely run.
+	 *
+	 * @param string $filename Filename.
+	 * @return string
+	 */
+	function sanitize_file_name( string $filename ): string {
+		$filename = str_replace( array( '\\', '/', '..' ), '', $filename );
+		$filename = preg_replace( '/[^\w.\-]/', '', $filename );
+		return trim( (string) $filename, '.-' );
+	}
+}

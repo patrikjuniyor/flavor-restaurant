@@ -31,7 +31,7 @@ if ( ! $image && has_post_thumbnail() ) {
 }
 $skin = \Flavor\Design::current_skin();
 if ( ! $image ) {
-	$image = FLAVOR_URI . '/demos/' . $skin . '/hero.jpg';
+	$image = \Flavor\Bespoke_Demos::asset( 'hero.jpg' );
 }
 ?>
 <section class="flavor-hero flavor-hero--<?php echo esc_attr( $style ); ?>" aria-label="<?php esc_attr_e( 'بخش اصلی', 'flavor' ); ?>">

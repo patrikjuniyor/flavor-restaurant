@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 90" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+	<!--
+		Placeholder for demo art that is not installed.
+
+		The sellable theme ships without the 12 MB demo pack, so any section
+		that would point at a missing photograph points here instead. A 404
+		in an <img> renders as a broken-image icon; this renders as a calm
+		empty plate. It is 700 bytes, inlined by nothing, and cached forever.
+	-->
+	<rect width="120" height="90" fill="#ece4d9"/>
+	<circle cx="60" cy="36" r="15" fill="none" stroke="#c9bdae" stroke-width="2"/>
+	<circle cx="60" cy="36" r="9" fill="none" stroke="#c9bdae" stroke-width="1.5"/>
+	<path d="M40 66h40" stroke="#c9bdae" stroke-width="2" stroke-linecap="round"/>
+	<path d="M47 71h26" stroke="#d8cec1" stroke-width="2" stroke-linecap="round"/>
+</svg>

@@ -45,14 +45,34 @@ class Bespoke_Demos {
 		return 'no' !== get_theme_mod( 'flavor_landing_' . $key . '_enable', 'yes' );
 	}
 
-	/** Local, bundled media only; traversal and missing-image paths are rejected. */
+	/**
+	 * Shipped placeholder for demo art that is not installed.
+	 *
+	 * @return string
+	 */
+	public static function placeholder(): string {
+		return FLAVOR_URI . '/assets/img/demo-placeholder.svg';
+	}
+
+	/**
+	 * Local, bundled media only; traversal and missing-image paths are rejected.
+	 *
+	 * The sellable theme ships without the 12 MB demo pack, so the file is
+	 * often absent. Returning a URL that 404s renders a broken-image icon on
+	 * the front page, which reads as a bug in the theme rather than as "install
+	 * the demo pack". Missing art degrades to a bundled placeholder instead.
+	 */
 	public static function asset( string $file ): string {
 		$file = sanitize_file_name( basename( $file ) );
 		$skin = Design::current_skin();
-		if ( ! is_readable( FLAVOR_DIR . '/demos/' . $skin . '/' . $file ) ) {
-			$file = 'hero.jpg';
+
+		foreach ( array( $file, 'hero.jpg' ) as $candidate ) {
+			if ( '' !== $candidate && is_readable( FLAVOR_DIR . '/demos/' . $skin . '/' . $candidate ) ) {
+				return FLAVOR_URI . '/demos/' . $skin . '/' . $candidate;
+			}
 		}
-		return FLAVOR_URI . '/demos/' . $skin . '/' . $file;
+
+		return self::placeholder();
 	}
 
 	public static function page_url( string $slug ): string {
