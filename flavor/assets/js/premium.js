@@ -32,6 +32,65 @@
 		} catch (error) { return null; }
 	}
 
+	/*
+	 * One subscribe path for every [data-flavor-subscribe] form: the exit popup,
+	 * the footer builder's newsletter column and anything a child theme adds.
+	 * The form itself carries its status paragraph next to it, so the markup and
+	 * the script stay in sync wherever the owner drops the column.
+	 */
+	function subscribeStatus(form) {
+		var scope = form.parentElement || form;
+		return scope.querySelector('[data-flavor-subscribe-status]');
+	}
+
+	function bindSubscribe(form, onSuccess) {
+		if (!form || form.getAttribute('data-flavor-subscribe-bound')) { return; }
+		form.setAttribute('data-flavor-subscribe-bound', 'yes');
+
+		form.addEventListener('submit', function (event) {
+			event.preventDefault();
+
+			var field = form.querySelector('input[type="email"], input[type="text"]');
+			var status = subscribeStatus(form);
+			var email = field ? String(field.value).trim() : '';
+
+			function say(message, failed) {
+				if (!status) { return; }
+				status.textContent = message;
+				if (failed) { status.setAttribute('data-error', 'yes'); } else { status.removeAttribute('data-error'); }
+			}
+
+			if (!email || email.indexOf('@') < 1) {
+				say('ایمیل معتبر وارد کنید.', true);
+				if (field) { field.focus(); }
+				return;
+			}
+
+			var data = new FormData();
+			data.append('action', 'flavor_subscribe');
+			data.append('nonce', cfg.nonce || '');
+			data.append('email', email);
+
+			say(t('loading', '…'));
+
+			fetch(cfg.ajax, { method: 'POST', credentials: 'same-origin', body: data })
+				.then(function (response) { return response.json(); })
+				.then(function (payload) {
+					var ok = !!(payload && payload.success);
+					var message = (payload && payload.data && payload.data.message) || (ok ? t('saved', 'ثبت شد.') : t('failed', 'ثبت نشد.'));
+
+					say(message, !ok);
+
+					if (!ok) { return; }
+
+					announce(message);
+					if (field) { field.value = ''; }
+					if (onSuccess) { onSuccess(); }
+				})
+				.catch(function () { say(t('failed', 'ثبت نشد؛ بعداً تلاش کنید.'), true); });
+		});
+	}
+
 	function stored(key) {
 		try {
 			var raw = window.localStorage.getItem(key);
@@ -674,41 +733,20 @@
 			if (event.key === 'Escape' && !host.hidden) { host.hidden = true; remember(); }
 		});
 
-		var form = $('[data-flavor-subscribe]', host);
-		if (!form) { return; }
+		bindSubscribe($('[data-flavor-subscribe]', host), function () {
+			remember();
+			window.setTimeout(function () { host.hidden = true; }, 2600);
+		});
+	})();
 
-		form.addEventListener('submit', function (event) {
-			event.preventDefault();
+	/* ------------------------------------------------------ footer newsletter */
 
-			var field = $('#flavor-popup-email', form);
-			var status = $('[data-flavor-subscribe-status]', host);
-			var email = field ? field.value.trim() : '';
-
-			if (!email || email.indexOf('@') < 1) {
-				if (status) { status.textContent = 'ایمیل معتبر وارد کنید.'; status.setAttribute('data-error', 'yes'); }
-				return;
-			}
-
-			var data = new FormData();
-			data.append('action', 'flavor_subscribe');
-			data.append('nonce', cfg.nonce || '');
-			data.append('email', email);
-
-			if (status) { status.removeAttribute('data-error'); status.textContent = t('loading', '…'); }
-
-			fetch(cfg.ajax, { method: 'POST', credentials: 'same-origin', body: data })
-				.then(function (response) { return response.json(); })
-				.then(function (payload) {
-					var message = (payload && payload.data && payload.data.message) || (payload && payload.success ? t('saved', 'ثبت شد.') : t('failed', 'ثبت نشد.'));
-					if (status) {
-						status.textContent = message;
-						if (!payload || !payload.success) { status.setAttribute('data-error', 'yes'); }
-					}
-					if (payload && payload.success) { remember(); window.setTimeout(function () { host.hidden = true; }, 2600); }
-				})
-				.catch(function () {
-					if (status) { status.textContent = t('failed', 'ثبت نشد؛ بعداً تلاش کنید.'); status.setAttribute('data-error', 'yes'); }
-				});
+	(function newsletterForms() {
+		// The footer builder puts the column wherever the owner asks for it, so the
+		// form is bound by attribute rather than by a position in the template.
+		$$('[data-flavor-subscribe]').forEach(function (form) {
+			if (form.closest('[data-flavor-popup]')) { return; }
+			bindSubscribe(form, null);
 		});
 	})();
 
