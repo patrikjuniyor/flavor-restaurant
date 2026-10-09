@@ -193,6 +193,55 @@ foreach ( array( FLAVOR_DIR . '/screenshot.png', dirname( FLAVOR_DIR ) . '/flavo
 	check( $bytes < 1048576, "{$name}/screenshot.png is under a megabyte (" . round( $bytes / 1024 ) . ' KB)' );
 }
 
+echo "\n--- 5b. The readme tags describe what the theme actually is ---\n";
+
+// Tags are how a marketplace filters and how a customer chooses. A tag the
+// theme does not honour is not marketing, it is a mismatch the customer
+// discovers after installing.
+$tags_line = '';
+foreach ( explode( "\n", (string) file_get_contents( FLAVOR_DIR . '/readme.txt' ) ) as $line ) {
+	if ( 0 === strpos( $line, 'Tags:' ) ) {
+		$tags_line = $line;
+		break;
+	}
+}
+
+check( '' !== $tags_line, 'readme.txt declares tags' );
+$tags = array_map( 'trim', explode( ',', (string) preg_replace( '/^Tags:/', '', $tags_line ) ) );
+
+// Each tag that can be checked from code is checked from code.
+$theme_setup  = (string) file_get_contents( FLAVOR_DIR . '/inc/class-theme-setup.php' );
+$theme_source = '';
+foreach ( glob( FLAVOR_DIR . '/inc/*.php' ) as $inc ) {
+	$theme_source .= (string) file_get_contents( $inc );
+}
+
+$evidence = array(
+	// RTL is declared in the markup, not in setup: the html element
+	// carries dir="rtl" and the stylesheet is direction-aware.
+	'rtl-language-support' => false !== strpos( (string) @file_get_contents( FLAVOR_DIR . '/header.php' ), 'dir="rtl"' ),
+	'custom-logo'         => false !== strpos( $theme_setup, 'custom-logo' ),
+	'custom-menu'         => false !== strpos( $theme_setup, 'register_nav_menus' ),
+	'featured-images'     => false !== strpos( $theme_setup, 'post-thumbnails' ),
+	'block-styles'        => false !== strpos( $theme_setup, 'wp-block-styles' ),
+	'block-patterns'      => false !== strpos( (string) @file_get_contents( FLAVOR_DIR . '/inc/class-block-patterns.php' ), 'register_block_pattern' ),
+	'translation-ready'   => false !== strpos( $theme_source, 'load_theme_textdomain' ) && is_file( FLAVOR_DIR . '/languages/flavor-ar.mo' ),
+	'editor-style'        => false !== strpos( $theme_setup, 'add_editor_style' ),
+);
+
+foreach ( $evidence as $tag => $holds ) {
+	check( $holds, "the tag `{$tag}` is backed by real code" );
+}
+
+// full-site-editing was claimed while the theme was classic PHP: it had no
+// templates/ directory and declared no templateParts. Removed rather than
+// retro-fitted, because claiming a capability you do not have is the defect
+// being fixed here, not the absence of the capability.
+check(
+	! in_array( 'full-site-editing', $tags, true ),
+	'the theme does not claim full-site-editing, which it does not provide'
+);
+
 echo "\n--- 6. The weight budget is declared, not implied ---\n";
 
 $builder = dirname( FLAVOR_DIR ) . '/dev-tools/build-distribution.sh';

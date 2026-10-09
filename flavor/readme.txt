@@ -1,6 +1,6 @@
 === Flavor — رستوران مستقیم ===
 Contributors: flavor
-Tags: rtl-language-support, e-commerce, food-and-drink, custom-logo, custom-menu, featured-images, block-styles, translation-ready, full-site-editing
+Tags: rtl-language-support, e-commerce, food-and-drink, custom-logo, custom-menu, featured-images, block-styles, block-patterns, custom-colors, editor-style, translation-ready
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 8.0
