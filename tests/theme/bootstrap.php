@@ -18,7 +18,62 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', $flavor_root . '/' );
 }
 
-require_once $flavor_root . '/flavor-core/tests/mock-wp-environment.php';
+/**
+ * Locate the Flavor Core mock WordPress environment.
+ *
+ * The theme's tests exercise code that calls get_theme_mod(), add_action()
+ * and friends, and the only maintained offline stand-in for those lives in
+ * the plugin. In this repository they sit side by side, so the default
+ * resolution just works.
+ *
+ * The theme and the plugin ship as separate packages, and tests are a
+ * development artifact rather than something installed on a customer's
+ * site — so this is a developer dependency, not a runtime one. It is
+ * resolved explicitly here rather than with a bare require, because the
+ * default failure mode of a missing file is a PHP fatal that says nothing
+ * about what to install. FLAVOR_CORE_DIR overrides it for a checkout where
+ * the plugin lives elsewhere.
+ *
+ * @param string $root Repository root.
+ * @return string Absolute path to the mock, or '' when it cannot be found.
+ */
+function flavor_locate_core_mock( string $root ): string {
+	$candidates = array();
+
+	$env = getenv( 'FLAVOR_CORE_DIR' );
+	if ( is_string( $env ) && '' !== trim( $env ) ) {
+		$candidates[] = rtrim( trim( $env ), '/' ) . '/tests/mock-wp-environment.php';
+	}
+
+	$candidates[] = $root . '/flavor-core/tests/mock-wp-environment.php';
+
+	foreach ( $candidates as $candidate ) {
+		if ( is_file( $candidate ) ) {
+			return $candidate;
+		}
+	}
+
+	return '';
+}
+
+$flavor_core_mock = flavor_locate_core_mock( $flavor_root );
+
+if ( '' === $flavor_core_mock ) {
+	fwrite(
+		STDERR,
+		"Cannot find the Flavor Core mock WordPress environment.\n\n" .
+		"The theme's tests need the offline WordPress stand-in that lives in the\n" .
+		"Flavor Core plugin's test suite. This repository normally holds both, so a\n" .
+		"missing file usually means a partial checkout.\n\n" .
+		"Fix one of these ways:\n" .
+		"  - clone the plugin alongside the theme:  flavor-core/tests/mock-wp-environment.php\n" .
+		"  - or point at it:                         FLAVOR_CORE_DIR=/path/to/flavor-core\n\n" .
+		"Tests are a development dependency only; nothing on a live site loads this file.\n"
+	);
+	exit( 1 );
+}
+
+require_once $flavor_core_mock;
 
 if ( ! defined( 'FLAVOR_VERSION' ) ) {
 	define( 'FLAVOR_VERSION', '1.6.1' );

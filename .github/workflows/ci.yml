@@ -69,6 +69,14 @@ jobs:
         run: |
           php tests/theme/test-live-preview.php
 
+      - name: Run Template Tag Tests (multi-byte safety, both substr paths)
+        run: |
+          php tests/theme/test-template-tags.php
+
+      - name: Check the child theme stays in step with the parent
+        run: |
+          ./dev-tools/check-child-theme.sh
+
       - name: Run Premium Parity Tests (night scheme, wishlist, mega menu, commerce extras)
         run: |
           php tests/theme/test-premium-features.php

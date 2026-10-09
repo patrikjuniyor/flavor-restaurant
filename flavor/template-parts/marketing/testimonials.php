@@ -37,7 +37,7 @@ $items = $args['items'] ?? \Flavor\Repeater::items( 'testimonials' );
 					<p class="flavor-review-card__text"><?php echo esc_html( (string) ( $item['text'] ?? '' ) ); ?></p>
 					<footer class="flavor-review-card__author">
 						<div class="flavor-review-card__avatar">
-							<?php echo esc_html( mb_substr( (string) ( $item['name'] ?? 'م' ), 0, 1, 'UTF-8' ) ); ?>
+							<?php echo esc_html( flavor_substr( (string) ( $item['name'] ?? 'م' ), 0, 1 ) ); ?>
 						</div>
 						<div>
 							<strong class="flavor-review-card__name"><?php echo esc_html( (string) ( $item['name'] ?? '' ) ); ?></strong>

@@ -15,6 +15,59 @@ function flavor_site_name(): void {
 }
 
 /**
+ * Cut a string to a number of characters, without depending on mbstring.
+ *
+ * WordPress loads a polyfill for mb_substr() in wp-includes/compat.php, so
+ * calling it directly works today. But that is an invisible dependency: the
+ * theme would break on any load path that skips the polyfill, and the
+ * failure mode is a fatal error rather than a wrong character count.
+ *
+ * Persian and Arabic are multi-byte, so a byte-based substr() would slice a
+ * character in half and emit a replacement character. This falls back to
+ * splitting on UTF-8 code points, which is slower but correct.
+ *
+ * @param string $text   Input text.
+ * @param int    $start  Start offset, in characters.
+ * @param int    $length Maximum characters to return; 0 means the rest.
+ * @return string
+ */
+function flavor_substr( string $text, int $start = 0, int $length = 0 ): string {
+	if ( function_exists( 'mb_substr' ) ) {
+		return 0 === $length
+			? (string) mb_substr( $text, $start, null, 'UTF-8' )
+			: (string) mb_substr( $text, $start, $length, 'UTF-8' );
+	}
+
+	return flavor_substr_fallback( $text, $start, $length );
+}
+
+/**
+ * The no-mbstring path, split out so it can be tested.
+ *
+ * A fallback that only runs on machines missing mbstring is a fallback
+ * nobody ever exercises. Making it callable on its own lets the tests run
+ * both paths over the same fixtures and assert they agree.
+ *
+ * @param string $text   Input text.
+ * @param int    $start  Start offset, in characters.
+ * @param int    $length Maximum characters; 0 means the rest.
+ * @return string
+ */
+function flavor_substr_fallback( string $text, int $start = 0, int $length = 0 ): string {
+	// preg_split with the /u modifier yields whole UTF-8 code points.
+	$chars = preg_split( '//u', $text, -1, PREG_SPLIT_NO_EMPTY );
+
+	if ( false === $chars ) {
+		// Not valid UTF-8: fall back to bytes rather than returning nothing.
+		return 0 === $length ? (string) substr( $text, $start ) : (string) substr( $text, $start, $length );
+	}
+
+	$slice = 0 === $length ? array_slice( $chars, $start ) : array_slice( $chars, $start, $length );
+
+	return implode( '', $slice );
+}
+
+/**
  * Resolve a media-library attachment ID from a stored image URL.
  *
  * Theme mods such as `flavor_hero_image` store a plain URL, which means the

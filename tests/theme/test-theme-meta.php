@@ -17,6 +17,7 @@ require_once __DIR__ . '/bootstrap.php';
 
 require_once FLAVOR_DIR . '/inc/class-design.php';
 require_once FLAVOR_DIR . '/inc/class-meta.php';
+require_once FLAVOR_DIR . '/inc/template-tags.php';
 require_once FLAVOR_DIR . '/inc/class-pwa.php';
 
 use Flavor\Design;

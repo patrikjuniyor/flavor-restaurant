@@ -11,6 +11,7 @@ define( 'FLAVOR_VERSION', '1.6.1' );
 define( 'FLAVOR_DIR', get_template_directory() );
 define( 'FLAVOR_URI', get_template_directory_uri() );
 
+require_once FLAVOR_DIR . '/inc/template-tags.php';
 require_once FLAVOR_DIR . '/inc/class-theme-setup.php';
 require_once FLAVOR_DIR . '/inc/class-design.php';
 require_once FLAVOR_DIR . '/inc/class-bespoke-demos.php';
@@ -46,7 +47,6 @@ require_once FLAVOR_DIR . '/inc/class-floating-dock.php';
 require_once FLAVOR_DIR . '/inc/class-branch-map.php';
 require_once FLAVOR_DIR . '/inc/class-premium-customizer.php';
 require_once FLAVOR_DIR . '/inc/class-premium-assets.php';
-require_once FLAVOR_DIR . '/inc/template-tags.php';
 
 Flavor\Theme_Setup::init();
 Flavor\Bespoke_Demos::init();

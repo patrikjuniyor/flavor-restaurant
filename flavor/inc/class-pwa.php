@@ -101,7 +101,7 @@ class PWA {
 
 		$manifest = array(
 			'name'             => $name,
-			'short_name'       => mb_substr( $name, 0, 12 ),
+			'short_name'       => flavor_substr( $name, 0, 12 ),
 			'description'      => $desc,
 			'lang'             => get_bloginfo( 'language' ),
 			'dir'              => is_rtl() ? 'rtl' : 'ltr',
