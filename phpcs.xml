@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<ruleset name="Flavor">
+	<description>WordPress Coding Standards for the Flavor monorepo (theme, core plugin, child theme).</description>
+
+	<!-- What to scan. -->
+	<file>flavor</file>
+	<file>flavor-core</file>
+	<file>flavor-child</file>
+
+	<!-- Generated/minified and vendored code is not ours to fix. -->
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/languages/*</exclude-pattern>
+	<exclude-pattern>*/assets/js/*.min.js</exclude-pattern>
+	<exclude-pattern>*/assets/css/*.min.css</exclude-pattern>
+	<exclude-pattern>*/includes/lib/*</exclude-pattern>
+
+	<!-- PHP 8.0 is the floor declared by both packages. -->
+	<config name="testVersion" value="8.0-"/>
+	<arg name="extensions" value="php"/>
+	<arg value="ps"/>
+
+	<rule ref="WordPress">
+		<!-- Enforced from day one: security and correctness. -->
+		<!-- (Security, WP.I18n, DB, and escaping sniffs stay on.) -->
+
+		<!-- Phased in later: these are style-only and would bury the signal. -->
+		<exclude name="WordPress.Files.FileName"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<exclude name="Generic.Commenting.DocComment.MissingShort"/>
+		<exclude name="Squiz.Commenting.FileComment"/>
+		<exclude name="Squiz.Commenting.ClassComment"/>
+		<exclude name="Squiz.Commenting.FunctionComment"/>
+		<exclude name="Squiz.Commenting.VariableComment"/>
+		<exclude name="Squiz.Commenting.InlineComment"/>
+		<exclude name="WordPress.PHP.YodaConditions"/>
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+		<exclude name="Generic.Arrays.DisallowLongArraySyntax"/>
+		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals"/>
+		<exclude name="WordPress.WhiteSpace.PrecisionAlignment"/>
+		<exclude name="WordPress.Arrays.MultipleStatementAlignment"/>
+		<exclude name="Generic.Formatting.MultipleStatementAlignment"/>
+		<exclude name="WordPress.WhiteSpace.OperatorSpacing"/>
+		<exclude name="Squiz.PHP.EmbeddedPhp"/>
+		<exclude name="Generic.WhiteSpace.ScopeIndent"/>
+		<exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
+		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
+		<exclude name="PEAR.Functions.FunctionCallSignature"/>
+		<exclude name="Generic.Commenting.DocComment"/>
+
+		<!-- The text domain is Persian-first; msgid is the Persian string itself. -->
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="flavor"/>
+				<element value="flavor-core"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- The mock WordPress environment is a test double, not shipped code. -->
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
+</ruleset>
