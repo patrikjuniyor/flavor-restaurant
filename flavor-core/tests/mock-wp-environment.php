@@ -1307,8 +1307,46 @@ function wp_get_attachment_image_url( $id, $size = 'thumbnail' ): string {
 function get_permalink( int $id ): string {
 	return "https://restaurant.example.com/dish/{$id}";
 }
+/**
+ * Post meta, backed by a global store.
+ *
+ * This used to return '' unconditionally, which made any feature that reads
+ * and writes meta impossible to test. Reading from an empty store still
+ * yields '', so nothing that relied on the old behaviour changes.
+ *
+ * @param int    $post_id Post ID.
+ * @param string $key     Meta key.
+ * @param bool   $single  Return a single value.
+ * @return mixed
+ */
 function get_post_meta( int $post_id, string $key, bool $single = false ) {
-	return $single ? '' : array();
+	$all = $GLOBALS['_mock_post_meta'][ $post_id ][ $key ] ?? array();
+	return $single ? ( $all[0] ?? '' ) : $all;
+}
+
+function update_post_meta( int $post_id, string $key, $value ) {
+	$GLOBALS['_mock_post_meta'][ $post_id ][ $key ] = array( $value );
+	return true;
+}
+
+function add_post_meta( int $post_id, string $key, $value ) {
+	$GLOBALS['_mock_post_meta'][ $post_id ][ $key ][] = $value;
+	return true;
+}
+
+function delete_post_meta( int $post_id, string $key, $value = '' ) {
+	if ( '' === $value ) {
+		unset( $GLOBALS['_mock_post_meta'][ $post_id ][ $key ] );
+		return true;
+	}
+	$all = $GLOBALS['_mock_post_meta'][ $post_id ][ $key ] ?? array();
+	$kept = array_values( array_filter( $all, static fn( $v ) => $v !== $value ) );
+	if ( empty( $kept ) ) {
+		unset( $GLOBALS['_mock_post_meta'][ $post_id ][ $key ] );
+	} else {
+		$GLOBALS['_mock_post_meta'][ $post_id ][ $key ] = $kept;
+	}
+	return true;
 }
 function get_the_terms( int $id, string $tax ) {
 	return array( new WP_Term( 1, 'کباب‌ها', 'kabab' ) );

@@ -791,3 +791,53 @@ body.flavor-theme::-webkit-scrollbar-thumb:hover {
 		scroll-behavior: auto !important;
 	}
 }
+
+/* ---------------------------------------------------------------------------
+   Per-page options (flavor/inc/class-page-options.php)
+
+   The metabox only writes custom properties on <body>; every selector lives
+   here. Renaming a template's title class therefore cannot break the option.
+   Each property falls back to the global token, so a page with no options set
+   renders exactly as it always did.
+   --------------------------------------------------------------------------- */
+
+body.flavor-page-scoped {
+	background: var(--flavor-page-bg, var(--flavor-bg, #f4efe7));
+}
+
+body.flavor-page-scoped .flavor-article__title,
+body.flavor-page-scoped .flavor-entry-title,
+body.flavor-page-scoped .entry-title {
+	display: var(--flavor-page-title-display, block);
+}
+
+body.flavor-layout-narrow .flavor-container,
+body.flavor-layout-narrow .flavor-article__content {
+	max-width: 68ch;
+	margin-inline: auto;
+}
+
+body.flavor-layout-full .flavor-container {
+	max-width: none;
+	width: 100%;
+	padding-inline: var(--flavor-container-gutter, 32px);
+}
+
+body.flavor-header-overlay .flavor-header {
+	position: absolute;
+	inset-inline: 0;
+	top: 0;
+	z-index: 20;
+	background: transparent;
+	box-shadow: none;
+}
+
+body.flavor-header-overlay .flavor-header:not(.is-stuck) .flavor-header__nav a,
+body.flavor-header-overlay .flavor-header:not(.is-stuck) .flavor-brand__name {
+	color: #fff;
+	text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+}
+
+body.flavor-header-overlay .flavor-main {
+	padding-top: 0;
+}

@@ -60,6 +60,7 @@ Flavor\PWA::init();
 Flavor\Demo_Importer::init();
 Flavor\Gutenberg::init();
 Flavor\Block_Patterns::init();
+Flavor\Page_Options::init();
 Flavor\Elementor::init();
 Flavor\Builder::init();
 Flavor\Dark_Mode::init();
