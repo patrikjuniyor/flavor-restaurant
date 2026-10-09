@@ -45,6 +45,10 @@ class Roles {
 			'flavor_manage_sms',
 			'flavor_manage_webhooks',
 			'flavor_manage_staff',
+			// Exporting unmasked customer phone numbers. Deliberately NOT part
+			// of the owner's blanket grant below: seeing that a table is booked
+			// is operational, holding a guest phone list is not.
+			'flavor_export_pii',
 		);
 	}
 
@@ -74,7 +78,10 @@ class Roles {
 					'upload_files' => true,
 					'edit_posts'   => true,
 				),
-				array_fill_keys( self::caps(), true )
+				// Every capability except PII export. A franchise owner managing
+				// several branches does not need a guest phone list in a
+				// spreadsheet, and the fewer copies of it exist, the better.
+				array_fill_keys( array_diff( self::caps(), array( 'flavor_export_pii' ) ), true )
 			)
 		);
 

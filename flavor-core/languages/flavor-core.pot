@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-09 22:38+00:00\n"
+"POT-Creation-Date: 2026-10-09 22:51+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
@@ -170,6 +170,10 @@ msgstr ""
 msgid "از"
 msgstr ""
 
+#: flavor-core/includes/Reporting/ReportAdmin.php:130
+msgid "از تاریخ"
+msgstr ""
+
 #: flavor-core/admin/views/executive-dashboard.php:52
 msgid "از تاریخ:"
 msgstr ""
@@ -230,7 +234,7 @@ msgstr ""
 msgid "افزودن میز"
 msgstr ""
 
-#: flavor-core/includes/Plugin.php:149
+#: flavor-core/includes/Plugin.php:151
 msgid "افزونه Flavor Core برای اجرا به ووکامرس ۸.۵ یا بالاتر نیاز دارد."
 msgstr ""
 
@@ -410,7 +414,11 @@ msgstr ""
 msgid "بازه نظرسنجی آشپزخانه (ثانیه)"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:143 flavor-core/includes/Admin/AdminMenus.php:144 flavor-core/includes/Loyalty/LoyaltyAdmin.php:57
+#: flavor-core/includes/Reporting/ReportAdmin.php:166
+msgid "بازهٔ انتخابی بزرگ است؛ خروجی به %s ردیف محدود شد. بازه را کوتاه‌تر کنید."
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:143 flavor-core/includes/Admin/AdminMenus.php:144 flavor-core/includes/Loyalty/LoyaltyAdmin.php:57 flavor-core/includes/Reporting/ReportAdmin.php:91
 msgid "باشگاه مشتریان"
 msgstr ""
 
@@ -506,8 +514,16 @@ msgstr ""
 msgid "تا"
 msgstr ""
 
+#: flavor-core/includes/Reporting/ReportAdmin.php:134
+msgid "تا تاریخ"
+msgstr ""
+
 #: flavor-core/admin/views/executive-dashboard.php:57
 msgid "تا تاریخ:"
+msgstr ""
+
+#: flavor-core/includes/Reporting/ReportQuery.php:89
+msgid "تاریخ باید با قالب سال-ماه-روز باشد."
 msgstr ""
 
 #: flavor-core/includes/Reservation/ReservationService.php:46
@@ -798,6 +814,14 @@ msgstr ""
 msgid "خارج از محدوده ارسال."
 msgstr ""
 
+#: flavor-core/includes/Reporting/ReportAdmin.php:48 flavor-core/includes/Reporting/ReportAdmin.php:96
+msgid "خروجی گزارش"
+msgstr ""
+
+#: flavor-core/includes/Reporting/ReportAdmin.php:47
+msgid "خروجی گزارش (CSV)"
+msgstr ""
+
 #: flavor-core/includes/Customer/TokenService.php:188
 msgid "خطا در بازنشانی توکن. لطفاً دوباره تلاش کنید."
 msgstr ""
@@ -816,6 +840,14 @@ msgstr ""
 
 #: flavor-core/admin/views/kitchen-dashboard.php:39
 msgid "داشبورد آشپزخانه"
+msgstr ""
+
+#: flavor-core/includes/Reporting/ReportAdmin.php:183
+msgid "دانلود CSV"
+msgstr ""
+
+#: flavor-core/includes/Reporting/ReportAdmin.php:174
+msgid "در این بازه داده‌ای یافت نشد."
 msgstr ""
 
 #: flavor-core/includes/WooCommerce/ProductModifiers.php:99 flavor-core/includes/WooCommerce/ProductModifiers.php:439
@@ -972,6 +1004,10 @@ msgstr ""
 
 #: flavor-core/includes/Notification/PushNotificationService.php:287
 msgid "رزرو میز لغو شد"
+msgstr ""
+
+#: flavor-core/includes/Reporting/ReportAdmin.php:90
+msgid "رزروها"
 msgstr ""
 
 #: flavor-core/admin/views/executive-dashboard.php:106
@@ -1170,6 +1206,10 @@ msgstr ""
 msgid "سفارشی‌سازی برند رستوران، اتصال به CI/CD و ساخت خودکار خروجی‌های Android (APK/AAB) و iOS (IPA) بدون تغییر کدهای اصلی."
 msgstr ""
 
+#: flavor-core/includes/Reporting/ReportAdmin.php:89
+msgid "سفارش‌ها"
+msgstr ""
+
 #: flavor-core/includes/Order/PhoneOrderAdmin.php:125
 msgid "سفارش‌های اخیر:"
 msgstr ""
@@ -1190,7 +1230,7 @@ msgstr ""
 msgid "شعاع km"
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:63 flavor-core/includes/Delivery/ZoneAdmin.php:50 flavor-core/includes/Menu/AvailabilityAdmin.php:54 flavor-core/includes/PostTypes/BranchPostType.php:58 flavor-core/includes/Reservation/ReservationAdmin.php:56 flavor-core/includes/Table/TableAdmin.php:53
+#: flavor-core/admin/views/kitchen-dashboard.php:63 flavor-core/includes/Delivery/ZoneAdmin.php:50 flavor-core/includes/Menu/AvailabilityAdmin.php:54 flavor-core/includes/PostTypes/BranchPostType.php:58 flavor-core/includes/Reporting/ReportAdmin.php:138 flavor-core/includes/Reservation/ReservationAdmin.php:56 flavor-core/includes/Table/TableAdmin.php:53
 msgid "شعبه"
 msgstr ""
 
@@ -1250,6 +1290,10 @@ msgstr ""
 msgid "شما اجازه مشاهده گزارشات تحلیلی رستوران را ندارید."
 msgstr ""
 
+#: flavor-core/includes/Reporting/ReportAdmin.php:70 flavor-core/includes/Reporting/ReportAdmin.php:217
+msgid "شما اجازهٔ دسترسی به این صفحه را ندارید."
+msgstr ""
+
 #: flavor-core/includes/API/BaseApiController.php:167
 msgid "شما دسترسی لازم برای این عملیات را ندارید."
 msgstr ""
@@ -1284,6 +1328,10 @@ msgstr ""
 
 #: flavor-core/admin/views/mobile-app-dashboard.php:260
 msgid "شماره نسخه نمایشی (Version Name)"
+msgstr ""
+
+#: flavor-core/includes/Reporting/ReportAdmin.php:110
+msgid "شمارهٔ تلفنِ مشتریان در خروجی پوشانده می‌شود. دیدنِ شمارهٔ کامل نیازمندِ تواناییِ ویژه است."
 msgstr ""
 
 #: flavor-core/admin/views/mobile-app-dashboard.php:141
@@ -1342,7 +1390,11 @@ msgstr ""
 msgid "صرف در سالن (Dine-in)"
 msgstr ""
 
-#: flavor-core/includes/Support/Roles.php:127
+#: flavor-core/includes/Reporting/ReportAdmin.php:141
+msgid "صفر یعنی همهٔ شعبه‌ها."
+msgstr ""
+
+#: flavor-core/includes/Support/Roles.php:134
 msgid "صندوق‌دار (Cashier)"
 msgstr ""
 
@@ -1430,6 +1482,10 @@ msgstr ""
 msgid "فقط اولین سفارش"
 msgstr ""
 
+#: flavor-core/includes/Reporting/ReportAdmin.php:204
+msgid "فقط ۵۰ ردیفِ نخست در پیش‌نمایش نمایش داده می‌شود؛ خروجیِ CSV کامل است."
+msgstr ""
+
 #: flavor-core/includes/Mobile/BuildManager.php:229
 msgid "قالب امضای وب‌هوک نامعتبر است."
 msgstr ""
@@ -1470,7 +1526,7 @@ msgstr ""
 msgid "لیست میزها"
 msgstr ""
 
-#: flavor-core/includes/Support/Roles.php:70
+#: flavor-core/includes/Support/Roles.php:74
 msgid "مالک رستوران (Owner)"
 msgstr ""
 
@@ -1534,11 +1590,11 @@ msgstr ""
 msgid "مدت رزرو (دقیقه)"
 msgstr ""
 
-#: flavor-core/includes/Support/Roles.php:106
+#: flavor-core/includes/Support/Roles.php:113
 msgid "مدیر شعبه (Branch Manager)"
 msgstr ""
 
-#: flavor-core/includes/Support/Roles.php:84
+#: flavor-core/includes/Support/Roles.php:91
 msgid "مدیر کل رستوران (General Manager)"
 msgstr ""
 
@@ -1718,7 +1774,7 @@ msgstr ""
 msgid "نشانی"
 msgstr ""
 
-#: flavor-core/includes/Plugin.php:159
+#: flavor-core/includes/Plugin.php:161
 msgid "نصب WooCommerce"
 msgstr ""
 
@@ -1742,12 +1798,24 @@ msgstr ""
 msgid "نمای داشبورد آشپزخانه پیدا نشد."
 msgstr ""
 
+#: flavor-core/includes/Reporting/ReportAdmin.php:145
+msgid "نمایش"
+msgstr ""
+
 #: flavor-core/includes/Notification/PushNotificationService.php:234
 msgid "نوش جان! سفارش #%d تحویل داده شد. ممنون از اعتماد شما."
 msgstr ""
 
 #: flavor-core/includes/Delivery/ZoneAdmin.php:68 flavor-core/includes/Delivery/ZoneAdmin.php:98 flavor-core/includes/WooCommerce/ProductModifiers.php:143
 msgid "نوع"
+msgstr ""
+
+#: flavor-core/includes/Reporting/ReportAdmin.php:118
+msgid "نوع گزارش"
+msgstr ""
+
+#: flavor-core/includes/Reporting/ReportQuery.php:82
+msgid "نوع گزارش نامعتبر است."
 msgstr ""
 
 #: flavor-core/admin/views/mobile-app-dashboard.php:44
@@ -1784,6 +1852,10 @@ msgstr ""
 
 #: flavor-core/includes/PostTypes/BranchPostType.php:67
 msgid "همه شعبه‌ها"
+msgstr ""
+
+#: flavor-core/includes/Reporting/ReportAdmin.php:102
+msgid "همهٔ تاریخ‌ها بر پایهٔ منطقهٔ زمانیِ سایت (%s) هستند."
 msgstr ""
 
 #: flavor-core/admin/views/mobile-app-dashboard.php:298
@@ -1894,7 +1966,7 @@ msgstr ""
 msgid "پرداخت پای صندوق"
 msgstr ""
 
-#: flavor-core/includes/Support/Roles.php:141
+#: flavor-core/includes/Support/Roles.php:148
 msgid "پرسنل آشپزخانه (Kitchen Staff)"
 msgstr ""
 
@@ -1932,6 +2004,10 @@ msgstr ""
 
 #: flavor-core/includes/Admin/AdminMenus.php:267
 msgid "پیش‌فرض ریال است تا با درگاه‌های ایرانی هماهنگ بماند."
+msgstr ""
+
+#: flavor-core/includes/Reporting/ReportAdmin.php:154
+msgid "پیش‌نمایش: %1$s (%2$s ردیف)"
 msgstr ""
 
 #: flavor-core/includes/WooCommerce/DependencyInstaller.php:97
@@ -2034,7 +2110,7 @@ msgstr ""
 msgid "کنار پنجره"
 msgstr ""
 
-#: flavor-core/includes/Support/Roles.php:151
+#: flavor-core/includes/Support/Roles.php:158
 msgid "گارسون و سالن‌دار (Waiter / Floor Staff)"
 msgstr ""
 
