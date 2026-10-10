@@ -19,6 +19,12 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - برای تأیید خودِ آزمون، بارگذاری `ui-checkout` از فهرست حذف شد: سه بررسی FAIL دادند؛ سپس کد به حالت اول برگشت.
 - گام جدید در CI (`php-backend-tests`).
 
+### Fixed — CI: two more red jobs on `main`
+
+- `dev-tools/check-child-theme.sh` ابعاد اسکرین‌شات را با Pillow می‌خواند؛ runner گیت‌هاب Pillow ندارد و بررسی `0×0` گزارش می‌کرد. حالا هدر PNG با کتابخانهٔ استاندارد خوانده می‌شود.
+- گام نصب WP-CLI در `real-wordpress` بعد از گامی بود که به `wp` نیاز داشت (`wp: command not found`). ترتیب اصلاح شد.
+- نتیجه: ۱۲ job در CI روی `4fbf0d2` سبز، شامل Real WordPress 7.1 + WooCommerce 11.
+
 ### Docs
 
 - نقشهٔ مأموریت تازه: [`docs/PREMIUM-MISSION-LIST-2026-10-10-R2.md`](docs/PREMIUM-MISSION-LIST-2026-10-10-R2.md).
