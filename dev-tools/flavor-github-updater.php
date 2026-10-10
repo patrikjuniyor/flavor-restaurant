@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Flavor GitHub Updater
- * Description: دکمهٔ آپدیت مستقیم پوسته Flavor از مخزن گیت‌هاب — فقط برای محیط توسعه.
- * Version:     1.0.0
+ * Description: آپدیت مستقیم پوسته Flavor و افزونهٔ Flavor Core از مخزن گیت‌هاب — فقط برای محیط توسعه.
+ * Version:     1.1.0
  * Author:      Flavor Dev
  * License:     GPL-2.0-or-later
  * Network:     false
@@ -18,8 +18,10 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * تنظیمات مخزن گیت‌هاب.
- * این مقادیر را مطابق مخزن خودتان تغییر دهید.
+ * به‌روزرسانی مستقیم از گیت‌هاب برای دو هدف: پوسته و افزونه.
+ *
+ * هر دو از یک مخزن و یک commit خوانده می‌شوند، پس یک بررسی برای هر دو کافی است.
+ * SHA محلی هر هدف جداگانه ذخیره می‌شود تا بدانیم کدام یک عقب است.
  */
 final class Flavor_GitHub_Updater {
 
@@ -27,16 +29,20 @@ final class Flavor_GitHub_Updater {
 	const REPO_OWNER = 'patrikjuniyor';
 
 	/** نام مخزن */
-	const REPO_NAME  = 'flavor-restaurant';
+	const REPO_NAME = 'flavor-restaurant';
 
 	/** شاخهٔ پیش‌فرض */
-	const BRANCH     = 'main';
+	const BRANCH = 'main';
 
-	/** نام فولدر پوسته داخل زیپ گیت‌هاب */
+	/** نام فولدر پوسته، هم داخل مخزن و هم داخل themes */
 	const THEME_SLUG = 'flavor';
 
-	/** توکن دسترسی (شخصی — این مقدار جایگزین می‌شود) */
-	private static $token = '';
+	/** نام فولدر افزونه، هم داخل مخزن و هم داخل plugins */
+	const PLUGIN_SLUG = 'flavor-core';
+
+	const OPT_LATEST  = 'flavor_github_latest_sha';
+	const OPT_CHECKED = 'flavor_github_last_check';
+	const OPT_ERROR   = 'flavor_github_last_error';
 
 	/* ------------------------------------------------------------------ */
 
@@ -44,17 +50,37 @@ final class Flavor_GitHub_Updater {
 	 * راه‌اندازی هوک‌ها.
 	 */
 	public static function init(): void {
-		// صفحهٔ مدیریت آپدیت
 		add_action( 'admin_menu', array( __CLASS__, 'add_menu_page' ) );
-		// اجرای آپدیت وقتی دکمه زده شد
 		add_action( 'admin_init', array( __CLASS__, 'handle_update_request' ) );
-		// نوتیف آپدیت در نوار بالای وردپرس
 		add_action( 'admin_bar_menu', array( __CLASS__, 'admin_bar_item' ), 999 );
-		// بررسی خودکار هر ۱۲ ساعت
 		add_action( 'flavor_github_check', array( __CLASS__, 'check_for_updates' ) );
 		if ( ! wp_next_scheduled( 'flavor_github_check' ) ) {
 			wp_schedule_event( time(), 'twicedaily', 'flavor_github_check' );
 		}
+	}
+
+	/**
+	 * اهداف قابل آپدیت.
+	 *
+	 * @return array<string, array{label:string, subdir:string, option:string, dir:string, cap:string}>
+	 */
+	public static function targets(): array {
+		return array(
+			'theme'  => array(
+				'label'  => 'پوسته Flavor',
+				'subdir' => self::THEME_SLUG,
+				'option' => 'flavor_github_local_sha',
+				'dir'    => get_theme_root() . '/' . self::THEME_SLUG,
+				'cap'    => 'update_themes',
+			),
+			'plugin' => array(
+				'label'  => 'افزونه Flavor Core',
+				'subdir' => self::PLUGIN_SLUG,
+				'option' => 'flavor_github_plugin_local_sha',
+				'dir'    => WP_PLUGIN_DIR . '/' . self::PLUGIN_SLUG,
+				'cap'    => 'update_plugins',
+			),
+		);
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -72,35 +98,37 @@ final class Flavor_GitHub_Updater {
 	}
 
 	public static function render_page(): void {
-		$last_check = get_option( 'flavor_github_last_check', 0 );
-		$latest_sha = get_option( 'flavor_github_latest_sha', '' );
-		$local_sha  = self::get_local_sha();
-		$update_available = $latest_sha && $local_sha !== $latest_sha;
-		$last_error = get_option( 'flavor_github_last_error', '' );
-
-		// اگر توکن در wp-config تعریف شده باشد
-		$has_token = defined( 'FLAVOR_GITHUB_TOKEN' ) && FLAVOR_GITHUB_TOKEN;
+		$last_check = (int) get_option( self::OPT_CHECKED, 0 );
+		$latest_sha = get_option( self::OPT_LATEST, '' );
+		$last_error = get_option( self::OPT_ERROR, '' );
+		$has_token  = '' !== self::get_token();
+		$targets    = self::targets();
 
 		echo '<div class="wrap" style="max-width:720px;direction:rtl;text-align:right;font-family:Tahoma,Vazirmatn,sans-serif;">';
-		echo '<h1>🔄 آپدیت پوسته Flavor از گیت‌هاب</h1>';
+		echo '<h1>🔄 آپدیت Flavor از گیت‌هاب</h1>';
 
-		// باکس وضعیت
 		echo '<div style="background:#fff;border:1px solid #ccd0d4;border-radius:8px;padding:24px;margin:20px 0;box-shadow:0 1px 3px rgba(0,0,0,.04);">';
-
 		echo '<table class="form-table" style="margin:0;">';
 		echo '<tr><th style="width:180px;">مخزن:</th><td><code>' . esc_html( self::REPO_OWNER . '/' . self::REPO_NAME ) . '</code> → شاخهٔ <code>' . esc_html( self::BRANCH ) . '</code></td></tr>';
-		echo '<tr><th>SHA محلی:</th><td><code>' . esc_html( $local_sha ?: 'نامشخص' ) . '</code></td></tr>';
 		echo '<tr><th>SHA آخرین کامیت:</th><td><code>' . esc_html( $latest_sha ?: 'هنوز بررسی نشده' ) . '</code></td></tr>';
 		echo '<tr><th>آخرین بررسی:</th><td>' . ( $last_check ? esc_html( self::jalali_date( $last_check ) ) . ' — ' . esc_html( human_time_diff( $last_check ) . ' پیش' ) : 'هرگز' ) . '</td></tr>';
-		echo '<tr><th>وضعیت:</th><td>';
 
-		if ( $update_available ) {
-			echo '<span style="color:#d63638;font-weight:bold;font-size:15px;">⚠️ نسخهٔ جدید موجود است!</span>';
-		} else {
-			echo '<span style="color:#00a32a;font-weight:bold;">✅ پوسته به‌روز است.</span>';
+		foreach ( $targets as $key => $t ) {
+			$installed = is_dir( $t['dir'] );
+			$local     = get_option( $t['option'], '' );
+			echo '<tr><th>' . esc_html( $t['label'] ) . ':</th><td>';
+			if ( ! $installed ) {
+				echo '<span style="color:#d63638;">⚠️ در ' . esc_html( $t['dir'] ) . ' پیدا نشد.</span>';
+			} else {
+				echo 'SHA محلی: <code>' . esc_html( $local ?: 'نامشخص' ) . '</code> — ';
+				if ( self::update_available( $key ) ) {
+					echo '<span style="color:#d63638;font-weight:bold;">⚠️ نسخهٔ جدید موجود است</span>';
+				} else {
+					echo '<span style="color:#00a32a;font-weight:bold;">✅ به‌روز است</span>';
+				}
+			}
+			echo '</td></tr>';
 		}
-
-		echo '</td></tr>';
 
 		if ( ! $has_token ) {
 			echo '<tr><th>توکن:</th><td><span style="color:#d63638;">⚠️ توکن تعریف نشده. خط زیر را به <code>wp-config.php</code> اضافه کنید:</span><br><code style="display:block;margin-top:8px;padding:12px;background:#f0f0f1;border-radius:4px;direction:ltr;text-align:left;">define( \'FLAVOR_GITHUB_TOKEN\', \'ghp_xxxxxxxxxxxx\' );</code></td></tr>';
@@ -114,39 +142,52 @@ final class Flavor_GitHub_Updater {
 		// دکمه‌ها
 		echo '<div style="display:flex;gap:12px;flex-wrap:wrap;margin:20px 0;">';
 
-		// دکمه بررسی
 		echo '<form method="post" style="display:inline;">';
 		wp_nonce_field( 'flavor_github_check' );
 		echo '<input type="hidden" name="flavor_action" value="check">';
 		submit_button( '🔍 بررسی نسخهٔ جدید', 'secondary', 'flavor_check', false );
 		echo '</form>';
 
-		// دکمه آپدیت
-		if ( $update_available ) {
-			echo '<form method="post" style="display:inline;" onsubmit="return confirm(\'آیا مطمئنید؟ فایل‌های فعلی پوسته با نسخهٔ جدید جایگزین می‌شوند.\');">';
-			wp_nonce_field( 'flavor_github_update' );
-			echo '<input type="hidden" name="flavor_action" value="update">';
-			submit_button( '⬇️ آپدیت اکنون', 'primary', 'flavor_update', false );
-			echo '</form>';
+		$available = array();
+		foreach ( $targets as $key => $t ) {
+			if ( self::update_available( $key ) ) {
+				$available[] = $key;
+			}
+		}
+
+		if ( $available ) {
+			$buttons = array();
+			foreach ( $available as $key ) {
+				$buttons[ $key ] = '⬇️ آپدیت ' . $targets[ $key ]['label'];
+			}
+			if ( count( $available ) > 1 ) {
+				$buttons['all'] = '⬇️ آپدیت هر دو';
+			}
+			foreach ( $buttons as $value => $label ) {
+				echo '<form method="post" style="display:inline;" onsubmit="return confirm(\'فایل‌های فعلی با نسخهٔ جدید جایگزین می‌شوند. ادامه می‌دهید؟\');">';
+				wp_nonce_field( 'flavor_github_update' );
+				echo '<input type="hidden" name="flavor_action" value="update">';
+				echo '<input type="hidden" name="flavor_target" value="' . esc_attr( $value ) . '">';
+				submit_button( $label, 'primary', 'flavor_update_' . $value, false );
+				echo '</form>';
+			}
 		}
 
 		echo '</div>';
 
-		// پیام خطا
 		if ( $last_error ) {
 			echo '<div style="background:#fcf0f1;border:1px solid #d63638;border-radius:6px;padding:16px;margin:16px 0;">';
 			echo '<strong>خطای آخرین عملیات:</strong> ' . esc_html( $last_error );
 			echo '</div>';
 		}
 
-		// راهنما
 		echo '<div style="background:#f9f9f9;border:1px solid #e0e0e0;border-radius:6px;padding:20px;margin:20px 0;">';
 		echo '<h3>📖 راهنما</h3>';
 		echo '<ol style="line-height:2.2;">';
 		echo '<li>توکن شخصی گیت‌هاب را در <code>wp-config.php</code> تعریف کنید.</li>';
 		echo '<li>هر وقت کد جدید به گیت‌هاب پوش کردید، به این صفحه بیایید.</li>';
 		echo '<li>«بررسی نسخهٔ جدید» بزنید تا SHA آخرین کامیت را ببینید.</li>';
-		echo '<li>«آپدیت اکنون» بزنید — فایل‌های پوسته مستقیم از گیت‌هاب دانلود و جایگزین می‌شوند.</li>';
+		echo '<li>«آپدیت» را بزنید. پوسته و افزونه به‌صورت جداگانه از همان کامیت دانلود و جایگزین می‌شوند. پیش از جایگزینی، نسخهٔ فعلی هر هدف موقتاً پشتیبان گرفته می‌شود.</li>';
 		echo '<li>کش وردپرس را در صورت نیاز پاک کنید.</li>';
 		echo '</ol>';
 		echo '<p style="color:#666;">⚠️ <strong>این ابزار فقط برای توسعه است.</strong> در سایت زندهٔ مشتری از بستهٔ رسمی نصب استفاده کنید.</p>';
@@ -160,25 +201,41 @@ final class Flavor_GitHub_Updater {
 	/* ------------------------------------------------------------------ */
 
 	public static function handle_update_request(): void {
-		// بررسی نسخه جدید
-		if ( isset( $_POST['flavor_action'] ) && $_POST['flavor_action'] === 'check' ) {
-			if ( ! check_admin_referer( 'flavor_github_check' ) ) return;
+		if ( ! isset( $_POST['flavor_action'] ) ) {
+			return;
+		}
+		$action = sanitize_key( wp_unslash( $_POST['flavor_action'] ) );
+		$page   = menu_page_url( 'flavor-github-updater', false );
+
+		if ( 'check' === $action ) {
+			check_admin_referer( 'flavor_github_check' );
+			// check_for_updates() خطا را خودش ثبت می‌کند و در صورت موفقیت، خطای قبلی را پاک می‌کند.
 			self::check_for_updates();
-			delete_option( 'flavor_github_last_error' );
-			wp_redirect( add_query_arg( 'flavor_checked', '1', menu_page_url( 'flavor-github-updater', false ) ) );
+			wp_safe_redirect( add_query_arg( 'flavor_checked', '1', $page ) );
 			exit;
 		}
 
-		// آپدیت
-		if ( isset( $_POST['flavor_action'] ) && $_POST['flavor_action'] === 'update' ) {
-			if ( ! check_admin_referer( 'flavor_github_update' ) ) return;
-			$result = self::do_update();
-			if ( is_wp_error( $result ) ) {
-				update_option( 'flavor_github_last_error', $result->get_error_message() );
+		if ( 'update' === $action ) {
+			check_admin_referer( 'flavor_github_update' );
+			$choice  = isset( $_POST['flavor_target'] ) ? sanitize_key( wp_unslash( $_POST['flavor_target'] ) ) : '';
+			$targets = self::targets();
+			if ( 'all' === $choice ) {
+				$keys = array_keys( $targets );
+			} elseif ( isset( $targets[ $choice ] ) ) {
+				$keys = array( $choice );
 			} else {
-				delete_option( 'flavor_github_last_error' );
+				$keys = array();
 			}
-			wp_redirect( add_query_arg( 'flavor_updated', is_wp_error( $result ) ? '0' : '1', menu_page_url( 'flavor-github-updater', false ) ) );
+
+			$result = empty( $keys ) ? array( 'updated' => array(), 'failed' => array( 'هدف نامعتبر است.' ) ) : self::do_update( $keys );
+
+			if ( $result['failed'] ) {
+				update_option( self::OPT_ERROR, implode( ' | ', $result['failed'] ) );
+			} else {
+				delete_option( self::OPT_ERROR );
+			}
+
+			wp_safe_redirect( add_query_arg( 'flavor_updated', $result['failed'] ? '0' : '1', $page ) );
 			exit;
 		}
 	}
@@ -188,9 +245,31 @@ final class Flavor_GitHub_Updater {
 	/* ------------------------------------------------------------------ */
 
 	/**
-	 * SHA آخرین کامیت شاخه را از GitHub API می‌گیرد.
+	 * SHA کوتاه آخرین کامیت را می‌گیرد و ذخیره می‌کند.
+	 *
+	 * @return string SHA کوتاه، یا '' در صورت خطا.
 	 */
 	public static function check_for_updates(): string {
+		$sha = self::fetch_head_sha();
+		update_option( self::OPT_CHECKED, time() );
+
+		if ( is_wp_error( $sha ) ) {
+			update_option( self::OPT_ERROR, $sha->get_error_message() );
+			return '';
+		}
+
+		$short = substr( $sha, 0, 7 );
+		update_option( self::OPT_LATEST, $short );
+		delete_option( self::OPT_ERROR );
+		return $short;
+	}
+
+	/**
+	 * SHA کامل آخرین کامیت شاخه.
+	 *
+	 * @return string|\WP_Error
+	 */
+	private static function fetch_head_sha() {
 		$url = sprintf(
 			'https://api.github.com/repos/%s/%s/commits/%s',
 			self::REPO_OWNER,
@@ -200,23 +279,29 @@ final class Flavor_GitHub_Updater {
 
 		$response = self::github_get( $url );
 		if ( is_wp_error( $response ) ) {
-			update_option( 'flavor_github_last_error', $response->get_error_message() );
-			update_option( 'flavor_github_last_check', time() );
-			return '';
+			return $response;
 		}
 
 		$body = json_decode( wp_remote_retrieve_body( $response ), true );
-		if ( empty( $body['sha'] ) ) {
-			update_option( 'flavor_github_last_error', 'پاسخ API معتبر نبود.' );
-			update_option( 'flavor_github_last_check', time() );
-			return '';
+		if ( empty( $body['sha'] ) || ! preg_match( '/^[0-9a-f]{40}$/', $body['sha'] ) ) {
+			return new \WP_Error( 'api', 'پاسخ API معتبر نبود.' );
 		}
 
-		$sha = substr( $body['sha'], 0, 7 );
-		update_option( 'flavor_github_latest_sha', $sha );
-		update_option( 'flavor_github_last_check', time() );
-		delete_option( 'flavor_github_last_error' );
-		return $sha;
+		return $body['sha'];
+	}
+
+	/**
+	 * آیا نسخهٔ جدیدی برای این هدف هست؟ فقط وقتی نصب باشد.
+	 *
+	 * @param string $key Target key.
+	 */
+	public static function update_available( string $key ): bool {
+		$targets = self::targets();
+		if ( ! isset( $targets[ $key ] ) || ! is_dir( $targets[ $key ]['dir'] ) ) {
+			return false;
+		}
+		$latest = get_option( self::OPT_LATEST, '' );
+		return '' !== $latest && get_option( $targets[ $key ]['option'], '' ) !== $latest;
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -224,95 +309,157 @@ final class Flavor_GitHub_Updater {
 	/* ------------------------------------------------------------------ */
 
 	/**
-	 * دانلود زیپ از گیت‌هاب و جایگزینی فایل‌های پوسته.
+	 * یک زیپ از همان commit دانلود می‌کند و هدف‌های درخواستی را جایگزین می‌کند.
+	 *
+	 * هر هدف فقط وقتی جایگزین می‌شود که از قبل نصب باشد؛ افزونه‌ای که وجود ندارد،
+	 * بی‌صدا نصب نمی‌شود. پیش از جایگزینی، نسخهٔ فعلی پشتیبان موقت می‌گیرد و اگر
+	 * کپی شکست بخورد، برمی‌گرداند.
+	 *
+	 * @param string[] $keys Target keys.
+	 * @return array{updated: string[], failed: string[]}
 	 */
-	private static function do_update() {
-		if ( ! current_user_can( 'update_themes' ) ) {
-			return new \WP_Error( 'forbidden', 'شما اجازهٔ آپدیت ندارید.' );
+	private static function do_update( array $keys ): array {
+		$result  = array( 'updated' => array(), 'failed' => array() );
+		$targets = self::targets();
+
+		// ۱. دسترسی هر هدف را جداگانه بررسی کنید.
+		$allowed = array();
+		foreach ( $keys as $key ) {
+			if ( current_user_can( $targets[ $key ]['cap'] ) ) {
+				$allowed[] = $key;
+			} else {
+				$result['failed'][] = $targets[ $key ]['label'] . ': دسترسی ندارید.';
+			}
+		}
+		if ( empty( $allowed ) ) {
+			return $result;
 		}
 
-		// ۱. دانلود زیپ شاخه
-		$zip_url = sprintf(
+		// ۲. دقیقاً همان commit را دانلود کنیم که SHA آن را گرفته‌ایم.
+		$sha = self::fetch_head_sha();
+		if ( is_wp_error( $sha ) ) {
+			foreach ( $allowed as $key ) {
+				$result['failed'][] = $targets[ $key ]['label'] . ': ' . $sha->get_error_message();
+			}
+			return $result;
+		}
+		$short = substr( $sha, 0, 7 );
+
+		if ( ! class_exists( '\ZipArchive' ) ) {
+			foreach ( $allowed as $key ) {
+				$result['failed'][] = $targets[ $key ]['label'] . ': افزونهٔ ZipArchive روی سرور فعال نیست.';
+			}
+			return $result;
+		}
+
+		$tmp_dir = get_temp_dir();
+		$stamp   = time() . '-' . wp_rand( 1000, 9999 );
+
+		// ۳. دانلود زیپ.
+		$zip_file = self::download_zip( $sha, $tmp_dir . 'flavor-github-' . $stamp . '.zip' );
+		if ( is_wp_error( $zip_file ) ) {
+			foreach ( $allowed as $key ) {
+				$result['failed'][] = $targets[ $key ]['label'] . ': ' . $zip_file->get_error_message();
+			}
+			return $result;
+		}
+
+		// ۴. باز کردن و استخراج.
+		$zip = new \ZipArchive();
+		if ( true !== $zip->open( $zip_file ) ) {
+			@unlink( $zip_file );
+			foreach ( $allowed as $key ) {
+				$result['failed'][] = $targets[ $key ]['label'] . ': باز کردن فایل زیپ ممکن نشد.';
+			}
+			return $result;
+		}
+
+		// گیت‌هاب یک فولدر بالایی مثل owner-repo-abc1234/ می‌سازد.
+		$top_folder  = trailingslashit( $zip->getNameIndex( 0 ) );
+		$extract_dir = $tmp_dir . 'flavor-extract-' . $stamp;
+		wp_mkdir_p( $extract_dir );
+
+		$extracted = $zip->extractTo( $extract_dir );
+		$zip->close();
+		@unlink( $zip_file );
+
+		if ( ! $extracted ) {
+			self::rmdir_recursive( $extract_dir );
+			foreach ( $allowed as $key ) {
+				$result['failed'][] = $targets[ $key ]['label'] . ': استخراج زیپ ممکن نشد.';
+			}
+			return $result;
+		}
+
+		// ۵. جایگزینی هر هدف.
+		foreach ( $allowed as $key ) {
+			$t      = $targets[ $key ];
+			$source = $extract_dir . '/' . $top_folder . $t['subdir'];
+			$dest   = $t['dir'];
+
+			if ( ! is_dir( $source ) ) {
+				$result['failed'][] = $t['label'] . ': فولدر ' . $t['subdir'] . ' داخل زیپ پیدا نشد.';
+				continue;
+			}
+			if ( ! is_dir( $dest ) ) {
+				$result['failed'][] = $t['label'] . ': در ' . $dest . ' نصب نیست؛ این ابزار نصب نمی‌کند.';
+				continue;
+			}
+
+			$backup = $tmp_dir . 'flavor-backup-' . $key . '-' . $stamp;
+			$copy   = self::copy_recursive( $dest, $backup );
+			if ( is_wp_error( $copy ) ) {
+				self::rmdir_recursive( $backup );
+				$result['failed'][] = $t['label'] . ': پشتیبان موقت ساخته نشد؛ جایگزینی انجام نشد (' . $copy->get_error_message() . ').';
+				continue;
+			}
+
+			$copy = self::copy_recursive( $source, $dest );
+			if ( is_wp_error( $copy ) ) {
+				// برگرداندن از پشتیبان. فایل‌های جدیدی که کپی شده‌اند باقی می‌مانند.
+				self::copy_recursive( $backup, $dest );
+				$result['failed'][] = $t['label'] . ': ' . $copy->get_error_message() . ' (نسخهٔ قبلی برگردانده شد).';
+				self::rmdir_recursive( $backup );
+				continue;
+			}
+
+			self::rmdir_recursive( $backup );
+			update_option( $t['option'], $short );
+			$result['updated'][] = $t['label'];
+		}
+
+		self::rmdir_recursive( $extract_dir );
+		wp_clean_themes_cache();
+
+		return $result;
+	}
+
+	/**
+	 * زیپ commit را در $file ذخیره می‌کند.
+	 *
+	 * @return string|\WP_Error مسیر فایل یا خطا.
+	 */
+	private static function download_zip( string $sha, string $file ) {
+		$url = sprintf(
 			'https://api.github.com/repos/%s/%s/zipball/%s',
 			self::REPO_OWNER,
 			self::REPO_NAME,
-			self::BRANCH
+			$sha
 		);
 
-		$response = self::github_get( $zip_url );
+		$response = self::github_get( $url );
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
 
-		$zip_body = wp_remote_retrieve_body( $response );
-		if ( empty( $zip_body ) ) {
+		$body = wp_remote_retrieve_body( $response );
+		if ( '' === $body ) {
 			return new \WP_Error( 'empty', 'فایل زیپ خالی بود.' );
 		}
-
-		// ۲. ذخیهٔ موقت
-		$tmp_dir  = get_temp_dir();
-		$zip_file = $tmp_dir . 'flavor-github-' . time() . '.zip';
-
-		if ( ! file_put_contents( $zip_file, $zip_body ) ) {
+		if ( false === file_put_contents( $file, $body ) ) {
 			return new \WP_Error( 'write', 'نوشتن فایل زیپ موقت ممکن نشد.' );
 		}
-
-		// ۳. باز کردن زیپ
-		$zip = new \ZipArchive();
-		if ( $zip->open( $zip_file ) !== true ) {
-			@unlink( $zip_file );
-			return new \WP_Error( 'zip', 'باز کردن فایل زیپ ممکن نشد.' );
-		}
-
-		// پیدا کردن نام فولدر داخل زیپ (گیت‌هاب فولدری مثل flavor-restaurant-abc1234 می‌سازد)
-		$top_folder = $zip->getNameIndex( 0 );
-		$top_folder = trailingslashit( $top_folder );
-
-		// ۴. استخراج موقت
-		$extract_dir = $tmp_dir . 'flavor-extract-' . time();
-		mkdir( $extract_dir, 0755, true );
-
-		if ( ! $zip->extractTo( $extract_dir ) ) {
-			$zip->close();
-			@unlink( $zip_file );
-			self::rmdir_recursive( $extract_dir );
-			return new \WP_Error( 'extract', 'استخراج زیپ ممکن نشد.' );
-		}
-		$zip->close();
-		@unlink( $zip_file );
-
-		// ۵. مسیر پوسته داخل زیپ استخراج‌شده
-		$source_theme = $extract_dir . '/' . $top_folder . self::THEME_SLUG;
-		if ( ! is_dir( $source_theme ) ) {
-			self::rmdir_recursive( $extract_dir );
-			return new \WP_Error( 'not_found', 'فولدر پوسته (' . self::THEME_SLUG . ') داخل زیپ پیدا نشد.' );
-		}
-
-		// ۶. مسیر فعلی پوسته
-		$theme_dir = get_theme_root() . '/' . self::THEME_SLUG;
-
-		// بکاپ سریع از SHA فعلی
-		$current_sha = self::get_local_sha();
-
-		// ۷. حذف پوستهٔ فعلی (فایل‌ها — پوسته نباید فعال باشد اگر فولدر حذف شود)
-		//    به جای حذف کامل، فقط فایل‌ها و فولدرهای قدیمی رو جایگزین می‌کنیم
-		//    تا اگر خطایی رخ داد پوسته از کار نیفتد.
-		$result = self::copy_recursive( $source_theme, $theme_dir );
-		self::rmdir_recursive( $extract_dir );
-
-		if ( is_wp_error( $result ) ) {
-			return $result;
-		}
-
-		// ۸. ذخیرهٔ SHA جدید
-		$new_sha = self::read_sha_from_filesystem( $theme_dir );
-		update_option( 'flavor_github_local_sha', $new_sha ?: self::check_for_updates() );
-
-		// ۹. پاک کردن کش پوسته
-		wp_clean_themes_cache();
-		delete_option( 'flavor_github_last_error' );
-
-		return true;
+		return $file;
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -320,12 +467,14 @@ final class Flavor_GitHub_Updater {
 	/* ------------------------------------------------------------------ */
 
 	/**
-	 * درخواست GET به گیت‌هاب با توکن.
+	 * درخواست GET به گیت‌هاب. با توکن اگر تعریف شده باشد.
+	 *
+	 * @return array|\WP_Error
 	 */
 	private static function github_get( string $url ) {
 		$headers = array(
 			'Accept'     => 'application/vnd.github+json',
-			'User-Agent' => 'Flavor-GitHub-Updater/1.0',
+			'User-Agent' => 'Flavor-GitHub-Updater/1.1',
 		);
 
 		$token = self::get_token();
@@ -333,17 +482,20 @@ final class Flavor_GitHub_Updater {
 			$headers['Authorization'] = 'Bearer ' . $token;
 		}
 
-		$response = wp_remote_get( $url, array(
-			'headers' => $headers,
-			'timeout' => 60,
-		) );
+		$response = wp_remote_get(
+			$url,
+			array(
+				'headers' => $headers,
+				'timeout' => 120,
+			)
+		);
 
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
 
 		$code = wp_remote_retrieve_response_code( $response );
-		if ( $code !== 200 ) {
+		if ( 200 !== (int) $code ) {
 			return new \WP_Error( 'http', 'خطای HTTP ' . $code . ' از گیت‌هاب.' );
 		}
 
@@ -351,67 +503,52 @@ final class Flavor_GitHub_Updater {
 	}
 
 	/**
-	 * توکن دسترسی — اولویت: wp-config → آپشن.
+	 * توکن دسترسی — اولویت: wp-config، سپس گزینه.
 	 */
 	private static function get_token(): string {
 		if ( defined( 'FLAVOR_GITHUB_TOKEN' ) && FLAVOR_GITHUB_TOKEN ) {
-			return FLAVOR_GITHUB_TOKEN;
+			return (string) FLAVOR_GITHUB_TOKEN;
 		}
-		return get_option( 'flavor_github_token', '' );
+		return (string) get_option( 'flavor_github_token', '' );
 	}
 
 	/**
-	 * SHA محلی ذخیره‌شده.
+	 * کپی بازگشتی. فایل‌های مقصد که در مبدأ نیستند حذف نمی‌شوند.
+	 *
+	 * @return true|\WP_Error
 	 */
-	public static function get_local_sha(): string {
-		return get_option( 'flavor_github_local_sha', '' );
-	}
-
-	/**
-	 * خواندن SHA از فایل .git یا فایل متنی.
-	 */
-	private static function read_sha_from_filesystem( string $dir ): string {
-		// اگر فایل .flavor-sha ذخیره شده
-		$sha_file = $dir . '/.flavor-sha';
-		if ( file_exists( $sha_file ) ) {
-			return trim( file_get_contents( $sha_file ) );
-		}
-		return '';
-	}
-
-	/**
-	 * کپی بازگشتی فایل‌ها — جایگزینی بدون حذف اول.
-	 */
-	private static function copy_recursive( string $source, string $dest ): bool {
+	private static function copy_recursive( string $source, string $dest ) {
 		if ( ! is_dir( $source ) ) {
 			return new \WP_Error( 'src', 'مسیر مبدأ وجود ندارد.' );
 		}
 
-		if ( ! is_dir( $dest ) ) {
-			mkdir( $dest, 0755, true );
+		if ( ! is_dir( $dest ) && ! wp_mkdir_p( $dest ) ) {
+			return new \WP_Error( 'mkdir', 'ساخت مسیر ' . basename( $dest ) . ' ممکن نشد.' );
 		}
 
 		$items = scandir( $source );
-		if ( $items === false ) {
+		if ( false === $items ) {
 			return new \WP_Error( 'scan', 'خواندن مسیر مبدأ ممکن نشد.' );
 		}
 
 		foreach ( $items as $item ) {
-			if ( $item === '.' || $item === '..' ) continue;
+			if ( '.' === $item || '..' === $item ) {
+				continue;
+			}
 
 			$s = $source . '/' . $item;
-			$d = $dest   . '/' . $item;
+			$d = $dest . '/' . $item;
 
 			if ( is_dir( $s ) ) {
 				$result = self::copy_recursive( $s, $d );
-				if ( is_wp_error( $result ) ) return $result;
-			} else {
+				if ( is_wp_error( $result ) ) {
+					return $result;
+				}
+			} elseif ( ! @copy( $s, $d ) ) {
+				// یک بار دیگر، پس از حذف مقصد (مثلاً فایل قفل‌شده یا فقط‌خواندنی).
+				@unlink( $d );
 				if ( ! @copy( $s, $d ) ) {
-					// تلاش با حذف و کپی مجدد
-					@unlink( $d );
-					if ( ! @copy( $s, $d ) ) {
-						return new \WP_Error( 'copy', 'کپی فایل ' . $item . ' ممکن نشد.' );
-					}
+					return new \WP_Error( 'copy', 'کپی فایل ' . $item . ' ممکن نشد.' );
 				}
 			}
 		}
@@ -423,55 +560,77 @@ final class Flavor_GitHub_Updater {
 	 * حذف بازگشتی فولدر موقت.
 	 */
 	private static function rmdir_recursive( string $dir ): void {
-		if ( ! is_dir( $dir ) ) return;
+		if ( ! is_dir( $dir ) ) {
+			return;
+		}
 		$items = scandir( $dir );
-		if ( $items === false ) return;
+		if ( false === $items ) {
+			return;
+		}
 		foreach ( $items as $item ) {
-			if ( $item === '.' || $item === '..' ) continue;
+			if ( '.' === $item || '..' === $item ) {
+				continue;
+			}
 			$path = $dir . '/' . $item;
-			is_dir( $path ) ? self::rmdir_recursive( $path ) : @unlink( $path );
+			if ( is_dir( $path ) ) {
+				self::rmdir_recursive( $path );
+			} else {
+				@unlink( $path );
+			}
 		}
 		@rmdir( $dir );
 	}
 
 	/**
-	 * آیتم نوار مدیریت.
+	 * آیتم نوار مدیریت وقتی حداقل یک هدف عقب است.
+	 *
+	 * @param \WP_Admin_Bar $wp_admin_bar Admin bar.
 	 */
 	public static function admin_bar_item( $wp_admin_bar ): void {
-		$latest = get_option( 'flavor_github_latest_sha', '' );
-		$local  = self::get_local_sha();
-		if ( ! $latest || $local === $latest ) return;
+		$any = false;
+		foreach ( array_keys( self::targets() ) as $key ) {
+			if ( self::update_available( $key ) ) {
+				$any = true;
+				break;
+			}
+		}
+		if ( ! $any ) {
+			return;
+		}
 
-		$wp_admin_bar->add_node( array(
-			'id'    => 'flavor-update-alert',
-			'title' => '🔄 آپدیت Flavor موجود است!',
-			'href'  => menu_page_url( 'flavor-github-updater', false ),
-		) );
+		$wp_admin_bar->add_node(
+			array(
+				'id'    => 'flavor-update-alert',
+				'title' => '🔄 آپدیت Flavor موجود است!',
+				'href'  => menu_page_url( 'flavor-github-updater', false ),
+			)
+		);
 	}
 
 	/**
 	 * تاریخ جلالی ساده.
 	 */
 	private static function jalali_date( int $timestamp ): string {
-		$g = getdate( $timestamp );
-		$gy = $g['year']; $gm = $g['mon']; $gd = $g['mday'];
-		// تبدیل میلادی به شمسی (الگوریتم ساده)
+		$g  = getdate( $timestamp );
+		$gy = $g['year'];
+		$gm = $g['mon'];
+		$gd = $g['mday'];
 		$g_d_m = array( 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 );
-		$gy2 = ( $gm > 2 ) ? ( $gy + 1 ) : $gy;
-		$days = 355666 + ( 365 * $gy ) + intval( ( $gy2 + 3 ) / 4 ) - intval( ( $gy2 + 99 ) / 100 )
-		        + intval( ( $gy2 + 399 ) / 400 ) + $gd + $g_d_m[ $gm - 1 ];
-		$jy = -1595 + ( 33 * intval( $days / 12053 ) );
+		$gy2   = ( $gm > 2 ) ? ( $gy + 1 ) : $gy;
+		$days  = 355666 + ( 365 * $gy ) + intval( ( $gy2 + 3 ) / 4 ) - intval( ( $gy2 + 99 ) / 100 )
+			+ intval( ( $gy2 + 399 ) / 400 ) + $gd + $g_d_m[ $gm - 1 ];
+		$jy    = -1595 + ( 33 * intval( $days / 12053 ) );
 		$days %= 12053;
-		$jy += 4 * intval( $days / 1461 );
+		$jy   += 4 * intval( $days / 1461 );
 		$days %= 1461;
 		if ( $days > 365 ) {
-			$jy += intval( ( $days - 1 ) / 365 );
-			$days = ( $days - 1 ) % 365;
+			$jy   += intval( ( $days - 1 ) / 365 );
+			$days  = ( $days - 1 ) % 365;
 		}
 		$jm = ( $days < 186 ) ? 1 + intval( $days / 31 ) : 7 + intval( ( $days - 186 ) / 30 );
 		$jd = 1 + ( ( $days < 186 ) ? ( $days % 31 ) : ( ( $days - 186 ) % 30 ) );
-		return $jy . '/' . str_pad( $jm, 2, '0', STR_PAD_LEFT ) . '/' . str_pad( $jd, 2, '0', STR_PAD_LEFT )
-		       . ' ' . $g['hours'] . ':' . str_pad( $g['minutes'], 2, '0', STR_PAD_LEFT );
+		return $jy . '/' . str_pad( (string) $jm, 2, '0', STR_PAD_LEFT ) . '/' . str_pad( (string) $jd, 2, '0', STR_PAD_LEFT )
+			. ' ' . $g['hours'] . ':' . str_pad( (string) $g['minutes'], 2, '0', STR_PAD_LEFT );
 	}
 }
 
