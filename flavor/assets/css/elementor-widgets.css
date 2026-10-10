@@ -237,6 +237,9 @@
 }
 
 .flavor-stat {
+	display: flex;
+	flex-direction: column-reverse;
+	gap: var(--flavor-space-2, 8px);
 	margin: 0;
 	padding: var(--flavor-space-4, 16px);
 }
@@ -268,7 +271,7 @@
 
 .flavor-process__step {
 	position: relative;
-	padding-block-start: var(--flavor-space-6, 24px);
+	padding-block-start: 56px;
 	padding-inline-start: 0;
 	counter-increment: flavor-step;
 }

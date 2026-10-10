@@ -154,7 +154,7 @@
 | **M-07** | preview preset و postMessage | thumbnail/preview و preview زندهٔ تنظیمات امن | تغییر رنگ/فونت/هدر/سکشن بدون refresh دیده شود؛ اعمال skin قابل undo باشد و محتوای منو سفارش‌ها تغییر نکند. |
 | **M-08** | responsive typography/layout | type scale و spacing/visibility per-device | سه breakpoint، contrast check و clamp مقادیر؛ تنظیم موبایل نباید desktop را ناخواسته خراب کند. |
 | **M-09** | Header/Footer Builder | templateهای drag-and-drop و شرط نمایش | حداقل header/footerهای آماده، preview واقعی، fallback قابل دسترس و سازگاری با menu/cart/mobile nav. |
-| **M-10** | widget/template kit | widgetهای رستورانی بیشتر یا integration کامل Elementor | منو، رزرو، branch, hours, CTA, offer, cart و testimonial به‌صورت widget قابل استفاده باشند؛ هرکدام RTL و keyboard test داشته باشند. |
+| **M-10** (بخش‌ها: ویجت‌ها و همگام‌سازی کیت انجام شد؛ Theme Builder در Elementor رایگان نیست) | widget/template kit | widgetهای رستورانی بیشتر یا integration کامل Elementor | منو، رزرو، branch, hours, CTA, offer, cart و testimonial به‌صورت widget قابل استفاده باشند؛ هرکدام RTL و keyboard test داشته باشند. |
 | **M-11** | سکشن‌های تکرارشونده | repeater/block patterns | add/reorder/duplicate/delete، media library، alt text، fallback و ترجمه برای gallery/testimonial/features. |
 | **M-12** | Woo/page-level controls | archive/product/cart/checkout/page templates | کنترل ظاهر باشد، نه محاسبهٔ مالی؛ مبلغ نهایی، stock، shipping و authorization فقط server-side بماند. |
 

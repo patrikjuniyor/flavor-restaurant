@@ -20,6 +20,9 @@ class Elementor {
 	public static function init(): void {
 		add_action( 'elementor/elements/categories_registered', array( \Flavor\Elementor\Widget_Base::class, 'register_category' ) );
 		add_action( 'elementor/widgets/register', array( self::class, 'register' ) );
+
+		require_once FLAVOR_DIR . '/elementor/class-kit-sync.php';
+		\Flavor\Elementor\Kit_Sync::init();
 	}
 
 	/**
