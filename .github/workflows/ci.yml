@@ -107,6 +107,10 @@ jobs:
         run: |
           php tests/theme/test-update-channel.php
 
+      - name: Run Release Tooling Tests (keygen guards, sign/verify, release-site contents)
+        run: |
+          php tests/theme/test-release-tooling.php
+
       - name: Run Pure Logic Regression Suite (Jalali, tokens, RTL text)
         run: |
           php flavor-core/tests/run-pure-tests.php

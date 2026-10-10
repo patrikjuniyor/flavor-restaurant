@@ -32,6 +32,11 @@ coverage/
 auth.json
 *.pem
 
+# Update-channel signing key: must live outside the repo; never commit it
+secret.key
+*.secret.key
+release-keys/
+
 # Logs
 *.log
 npm-debug.log*

@@ -1,0 +1,120 @@
+name: publish-release
+
+# Deploys release-site/ to GitHub Pages.
+#
+# By design this workflow has no access to the signing key and reads no
+# repository secret store. It only re-checks what the owner signed on their
+# own machine, using the committed public key. Pages must be set to
+# "Build and deployment: GitHub Actions".
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'release-site/**'
+      - 'dev-tools/release/**'
+      - '.github/workflows/publish-release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-release
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Verify release-site (public key only)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: json, zip, sodium, openssl, curl
+          coverage: none
+
+      - name: Refuse secret-looking files in release-site
+        run: |
+          set -eu
+          bad=$(find release-site -type f \( -iname '*secret*' -o -iname '*private*' -o -iname '*.pem' -o \( -iname '*.key' ! -name 'public.key' \) \) -print)
+          if [ -n "$bad" ]; then
+            echo "Secret-looking files found in release-site; refusing to publish:" >&2
+            echo "$bad" >&2
+            exit 1
+          fi
+
+      - name: Verify manifest and package (if a release exists)
+        run: |
+          set -eu
+          if [ ! -f release-site/flavor/manifest.json ]; then
+            echo "No manifest yet; only the static page will be deployed."
+            exit 0
+          fi
+          # Public URL prefix derived from this repository, not typed by hand.
+          owner="${GITHUB_REPOSITORY_OWNER,,}"
+          repo="${GITHUB_REPOSITORY#*/}"
+          prefix="https://${owner}.github.io/${repo}/flavor/"
+          php dev-tools/release/build-release.php verify \
+            --dir=release-site/flavor \
+            --public-key=release-site/public.key \
+            --url-prefix="${prefix}"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: release-site
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  check-live:
+    name: Check live URLs return 200 without redirect
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Fetch each public URL directly
+        run: |
+          set -eu
+          base="https://${GITHUB_REPOSITORY_OWNER,,}.github.io/${GITHUB_REPOSITORY#*/}"
+          urls="${base}/status.txt"
+          if [ -f release-site/flavor/manifest.json ]; then
+            urls="$urls ${base}/flavor/manifest.json ${base}/flavor/manifest.json.sig"
+          fi
+          for url in $urls; do
+            ok=0
+            for attempt in 1 2 3 4 5 6; do
+              # --max-redirs 0 plus no -L: any redirect shows up as a non-200 code.
+              code=$(curl -sS -o /dev/null -w '%{http_code}' --max-redirs 0 "$url" || echo 000)
+              if [ "$code" = "200" ]; then ok=1; break; fi
+              echo "attempt $attempt: $url -> HTTP $code; waiting for Pages to update"
+              sleep 10
+            done
+            if [ "$ok" != "1" ]; then
+              echo "FAILED: $url did not return 200 directly" >&2
+              exit 1
+            fi
+            echo "OK 200 (no redirect): $url"
+          done

@@ -172,7 +172,7 @@ check( throws_code( fn() => Package::check_entries( array_fill( 0, 5001, 'flavor
 $zip_path = $work . '/good.zip';
 $zip      = new \ZipArchive();
 $zip->open( $zip_path, \ZipArchive::CREATE );
-$zip->addFromString( 'flavor/style.css', '/* theme */' );
+$zip->addFromString( 'flavor/style.css', "/*\nTheme Name: Flavor\nVersion: 1.7.0\n*/" );
 $zip->addFromString( 'flavor/inc/a.php', '<?php' );
 $zip->close();
 Package::check_zip( $zip_path, 'flavor' );
