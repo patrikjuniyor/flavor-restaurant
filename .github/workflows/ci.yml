@@ -95,6 +95,12 @@ jobs:
         run: |
           php tests/theme/test-chrome-builder.php
 
+      # M-06: the stub suites never built a page, so nothing proved the cart
+      # and checkout screens receive the checkout sheet. This one does.
+      - name: Run Cart & Checkout Asset Tests (page state drives enqueued sheets)
+        run: |
+          php tests/theme/test-cart-checkout-assets.php
+
       - name: Run Pure Logic Regression Suite (Jalali, tokens, RTL text)
         run: |
           php flavor-core/tests/run-pure-tests.php

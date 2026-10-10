@@ -7,6 +7,22 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed — CI: the motion-layer guard was red on `main`
+
+- `flavor/assets/css/customizer-presets.css` (از N-05، `e713c3e`) چهار بار `11px` داشت، در حالی که کف خوانایی پروژه `12px` است.
+- انتخاب‌گر radio با `opacity: 0` پنهان می‌شد؛ این الگو کنترل فرم را از مرورگر و صفحه‌خوان هم پنهان می‌کند. حالا از الگوی استاندارد «visually hidden» (`clip-path`) استفاده می‌کند تا radio در ترتیب Tab و درخت دسترس‌پذیری بماند.
+- `tests/ui/motion.mjs`: ۱۱/۱۱ بررسی سبز شد (پیش از این ۵ مورد FAIL بود).
+
+### Added — آزمون قرارداد دارایی‌های سبد و تسویه‌حساب (M-06)
+
+- `tests/theme/test-cart-checkout-assets.php` صفحه‌های سبد، تسویه و خانه را شبیه‌سازی می‌کند و آنچه `UI::assets()` بارگذاری می‌کند را می‌سنجد. تا این آزمون، هیچ آزمونی ثابت نمی‌کرد که این صفحه‌ها `ui-checkout.css` می‌گیرند.
+- برای تأیید خودِ آزمون، بارگذاری `ui-checkout` از فهرست حذف شد: سه بررسی FAIL دادند؛ سپس کد به حالت اول برگشت.
+- گام جدید در CI (`php-backend-tests`).
+
+### Docs
+
+- نقشهٔ مأموریت تازه: [`docs/PREMIUM-MISSION-LIST-2026-10-10-R2.md`](docs/PREMIUM-MISSION-LIST-2026-10-10-R2.md).
+
 ## [1.6.1 / Core 1.5.1] — 2026-10-09
 
 ### Added — پیش‌نمایش زنده و کنترل‌های حرفه‌ایِ Customizer
