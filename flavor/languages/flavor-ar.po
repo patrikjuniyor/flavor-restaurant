@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flavor\n"
 "Report-Msgid-Bugs-To: https://github.com/patrikjuniyor/flavor-restaurant/issues\n"
-"PO-Revision-Date: 2026-10-10 07:39+0000\n"
+"PO-Revision-Date: 2026-10-10 07:51+0000\n"
 "Last-Translator: Flavor Translations\n"
 "Language-Team: Flavor Translations\n"
 "Language: ar\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: flavor/inc/class-contrast.php:202
 msgid "%1$s — %2$s به ۱ (حداقل %3$s به ۱)"
-msgstr ""
+msgstr "%1$s — %2$s إلى ۱ (الحد الأدنى %3$s إلى ۱)"
 
 #: flavor/template-parts/marketing/categories.php:60
 msgid "%d آیتم"
@@ -37,19 +37,19 @@ msgstr[5] "%d عنصر في السلة"
 
 #: flavor/inc/class-demo-importer.php:125
 msgid "%d آیتم منو"
-msgstr ""
+msgstr "%d عنصر من القائمة"
 
 #: flavor/inc/class-launch-center.php:269
 msgid "%d از %d مورد اصلی"
-msgstr ""
+msgstr "%d من %d عنصراً أساسياً"
 
 #: flavor/inc/class-demo-importer.php:86
 msgid "%d صفحه و %d آیتم منو ایجاد می‌شود."
-msgstr ""
+msgstr "سيتم إنشاء %d صفحة و%d عنصر في القائمة."
 
 #: flavor/inc/class-launch-center.php:161
 msgid "%d محصول منتشر شده است."
-msgstr ""
+msgstr "نُشر %d منتج."
 
 #: flavor/inc/class-shopping-extras.php:133 flavor/inc/class-shopping-extras.php:187
 msgid "%s دیگر تا ارسال رایگان"
@@ -65,59 +65,59 @@ msgstr "(مطلوب)"
 
 #: flavor/inc/class-launch-center.php:62
 msgid "Flavor Core فعال است"
-msgstr ""
+msgstr "Flavor Core مفعّل"
 
 #: flavor/inc/class-demo-importer.php:72
 msgid "Flavor Core فعال نیست؛ صفحات و رنگ‌ها وارد می‌شوند اما محصول و شعبه ساخته نمی‌شود."
-msgstr ""
+msgstr "Flavor Core غير مفعّل؛ تُستورد الصفحات والألوان، لكن لا يُنشأ المنتج والفرع."
 
 #: flavor/inc/class-launch-center.php:189
 msgid "WooCommerce حداقل یک درگاه/روش پرداخت فعال دارد."
-msgstr ""
+msgstr "لدى WooCommerce بوابة دفع أو طريقة دفع مفعّلة واحدة على الأقل."
 
 #: flavor/inc/class-launch-center.php:72
 msgid "WooCommerce فعال است"
-msgstr ""
+msgstr "WooCommerce مفعّل"
 
 #: flavor/inc/class-chrome-builder.php:1348
 msgid "«خودکار» همان شبکهٔ فعلی پوسته است و برای بیشتر رستوران‌ها بهترین انتخاب است."
-msgstr ""
+msgstr "«تلقائي» هو الشبكة الحالية للقالب، وهو الخيار الأفضل لمعظم المطاعم."
 
 #: flavor/inc/class-design.php:56
 msgid "آبمیوه، اسموتی و بار سلامت"
-msgstr ""
+msgstr "عصائر وسموذي وبار الصحة"
 
 #: flavor/inc/class-update-channel.php:378
 msgid "آخرین بررسی موفق: %s"
-msgstr ""
+msgstr "آخر فحص ناجح: %s"
 
 #: flavor/inc/class-customer-ui.php:84
 msgid "آخرین سفارش‌های شما"
-msgstr ""
+msgstr "آخر طلباتكم"
 
 #: flavor/inc/class-onboarding.php:267
 msgid "آدرس اینستاگرام"
-msgstr ""
+msgstr "رابط إنستغرام"
 
 #: flavor/inc/class-demo-importer.php:188
 msgid "آرشیو معتبر نیست."
-msgstr ""
+msgstr "الأرشيف غير صالح."
 
 #: flavor/inc/class-demo-importer.php:94
 msgid "آرشیوهای قابل بازگشت"
-msgstr ""
+msgstr "الأرشيفات القابلة للاسترجاع"
 
 #: flavor/inc/class-demo-importer.php:192
 msgid "آرشیو پیدا نشد."
-msgstr ""
+msgstr "لم يُعثر على الأرشيف."
 
 #: flavor/page-templates/template-about.php:12
 msgid "آشنایی با منو"
-msgstr ""
+msgstr "التعرّف على القائمة"
 
 #: flavor/inc/class-design.php:68
 msgid "آشپزخانه ابری و دلیوری"
-msgstr ""
+msgstr "المطبخ السحابي والتوصيل"
 
 #: flavor/elementor/widgets/class-features-widget.php:61
 msgid "آشپزخانهٔ باز"
@@ -125,11 +125,11 @@ msgstr "مطبخ مفتوح"
 
 #: flavor/inc/class-launch-center.php:313
 msgid "آماده"
-msgstr ""
+msgstr "جاهز"
 
 #: flavor/inc/class-customer-ui.php:120
 msgid "آمادهٔ تحویل بودن با تحویل به پیک یا رسیدن به مقصد یکی نیست؛ رهگیری زندهٔ پیک در این رابط ارائه نمی‌شود."
-msgstr ""
+msgstr "الجاهزية للتسليم لا تعني وصول المندوب إلى الوجهة؛ التتبع المباشر للمندوب غير متوفر في هذه الواجهة."
 
 #: flavor/template-parts/marketing/hero.php:90
 msgid "آماده‌سازی سریع (۱۵ تا ۳۰ دقیقه)"
@@ -161,11 +161,11 @@ msgstr "هل لديكم أطباق نباتية؟"
 
 #: flavor/inc/class-block-patterns.php:374
 msgid "آیا می‌توانم رزرو را لغو کنم؟"
-msgstr ""
+msgstr "هل يمكنني إلغاء الحجز؟"
 
 #: flavor/inc/class-enqueue.php:184
 msgid "آیتمی پیدا نشد."
-msgstr ""
+msgstr "لم يُعثر على عنصر."
 
 #: flavor/elementor/widgets/class-price-list-widget.php:57
 msgid "آیتم‌ها"
@@ -173,7 +173,7 @@ msgstr "العناصر"
 
 #: flavor/inc/class-premium-customizer.php:154
 msgid "آیکون‌های مجاز: shield, truck, leaf, clock, star, tag, check, lock, info, heart"
-msgstr ""
+msgstr "الأيقونات المسموحة: shield, truck, leaf, clock, star, tag, check, lock, info, heart"
 
 #: flavor/template-parts/reservation/reservation-form.php:14
 msgid "ابتدا روز موردنظر را انتخاب کنید."
@@ -181,15 +181,15 @@ msgstr "اختر اليوم المطلوب أولاً."
 
 #: flavor/inc/class-premium-customizer.php:126
 msgid "ابزارهای فروش"
-msgstr ""
+msgstr "أدوات البيع"
 
 #: flavor/inc/class-chrome-builder.php:1316
 msgid "ابعاد دکمه‌ها"
-msgstr ""
+msgstr "أبعاد الأزرار"
 
 #: flavor/inc/class-launch-center.php:224
 msgid "اتصال امن HTTPS است"
-msgstr ""
+msgstr "اتصال HTTPS آمن"
 
 #: flavor/template-parts/menu/cart-drawer.php:35
 msgid "ادامه؛ اطلاعات و پرداخت"
@@ -201,23 +201,23 @@ msgstr "المتابعة بجلسة آمنة على الموقع"
 
 #: flavor/inc/class-launch-center.php:210
 msgid "ارائه‌دهندهٔ پیامک «%s» انتخاب شده است."
-msgstr ""
+msgstr "تم اختيار مزوّد الرسائل النصية «%s»."
 
 #: flavor/inc/class-builder.php:138
 msgid "ارتفاع (پیکسل)"
-msgstr ""
+msgstr "الارتفاع (بكسل)"
 
 #: flavor/inc/class-customizer.php:484
 msgid "ارتفاع خط تیترها"
-msgstr ""
+msgstr "ارتفاع سطر العناوين"
 
 #: flavor/inc/class-customizer.php:522
 msgid "ارتفاع خط متن بدنه"
-msgstr ""
+msgstr "ارتفاع سطر نص المحتوى"
 
 #: flavor/inc/class-customizer.php:597
 msgid "ارتفاع لوگو در هدر (پیکسل)"
-msgstr ""
+msgstr "ارتفاع الشعار في الترويسة (بكسل)"
 
 #: flavor/elementor/widgets/class-menu-widget.php:72 flavor/template-parts/menu/filters.php:35
 msgid "ارزان‌ترین"
@@ -225,11 +225,11 @@ msgstr "الأقل سعراً"
 
 #: flavor/inc/class-ui.php:132 flavor/template-parts/menu/cart-drawer.php:18
 msgid "ارسال"
-msgstr ""
+msgstr "الشحن"
 
 #: flavor/inc/class-premium-customizer.php:199
 msgid "ارسال ایمیل اطلاع به مدیر برای هر عضو جدید"
-msgstr ""
+msgstr "إرسال بريد إشعار إلى المدير عند كل عضو جديد"
 
 #: flavor/inc/class-shopping-extras.php:134 flavor/inc/class-shopping-extras.php:188
 #. %s: formatted amount. */
@@ -246,7 +246,7 @@ msgstr "إرسال طلب الحجز"
 
 #: flavor/inc/class-onboarding.php:241
 msgid "ارسال سریع با پیک"
-msgstr ""
+msgstr "توصيل سريع بالمندوب"
 
 #: flavor/template-parts/marketing/hero.php:94
 msgid "ارسال گرم با بسته‌بندی عایق"
@@ -254,19 +254,19 @@ msgstr "توصيل ساخن بعبوات عازلة"
 
 #: flavor/inc/class-update-channel.php:436
 msgid "از wp-config تعیین شده است"
-msgstr ""
+msgstr "محدَّد من wp-config"
 
 #: flavor/page-templates/template-about.php:15
 msgid "از آشنایی تا سفارش."
-msgstr ""
+msgstr "من التعارف حتى الطلب."
 
 #: flavor/inc/class-block-patterns.php:296
 msgid "از سال ۱۳۹۵ با یک هدف ساده شروع کردیم: غذای خانگی با مواد تازه و قیمت منصفانه. امروز هر روز صبح مواد اولیه را خودمان از بازار می‌خریم."
-msgstr ""
+msgstr "منذ عام ۱۳۹۵ ش. بدأنا بهدف بسيط: طعام منزلي بمكونات طازجة وسعر منصف. واليوم نشتري المكونات بأنفسنا من السوق كل صباح."
 
 #: flavor/inc/class-wishlist.php:180
 msgid "از علاقه‌مندی‌ها حذف شد."
-msgstr ""
+msgstr "أُزيل من المفضلة."
 
 #: flavor/elementor/widgets/class-process-widget.php:58
 msgid "از منو غذای مورد نظرتان را انتخاب کنید."
@@ -278,67 +278,67 @@ msgstr "من الفاكهة إلى الكوب"
 
 #: flavor/inc/class-chrome-builder.php:182
 msgid "از ۹۹۲ پیکسل بالا در هدر است؛ در موبایل داخل کشوی منو نمایش داده می‌شود."
-msgstr ""
+msgstr "فوق ۹۹۲ بكسل يظهر في الترويسة؛ وعلى الجوال يظهر داخل درج القائمة."
 
 #: flavor/inc/class-customizer.php:417 flavor/inc/class-customizer.php:418 flavor/inc/class-customizer.php:419 flavor/inc/class-ui-customizer.php:94 flavor/inc/class-ui-customizer.php:95 flavor/inc/class-ui-customizer.php:96
 msgid "استاندارد"
-msgstr ""
+msgstr "قياسي"
 
 #: flavor/inc/class-customizer.php:527
 msgid "استاندارد (1.7) — پیش‌فرض"
-msgstr ""
+msgstr "قياسي (1.7) — الافتراضي"
 
 #: flavor/inc/class-customizer.php:490
 msgid "استاندارد (1.25) — پیش‌فرض"
-msgstr ""
+msgstr "قياسي (1.25) — الافتراضي"
 
 #: flavor/inc/class-customizer.php:402
 msgid "استاندارد (1240px)"
-msgstr ""
+msgstr "قياسي (1240px)"
 
 #: flavor/inc/class-chrome-builder.php:1323
 msgid "استاندارد قالب"
-msgstr ""
+msgstr "قياسي للقالب"
 
 #: flavor/inc/class-customizer.php:464
 msgid "استاندارد — ۱.۲۵ (پیش‌فرض)"
-msgstr ""
+msgstr "قياسي — 1.25 (الافتراضي)"
 
 #: flavor/inc/class-customizer.php:646
 msgid "استایل بخش هیرو"
-msgstr ""
+msgstr "نمط قسم الواجهة الرئيسية"
 
 #: flavor/inc/class-customizer.php:379
 msgid "استایل دکمه‌ها"
-msgstr ""
+msgstr "نمط الأزرار"
 
 #: flavor/inc/class-design.php:29
 msgid "استایل شیک و مینیمال با رنگ‌های گرم قهوه‌ای و بژ"
-msgstr ""
+msgstr "نمط أنيق بسيط بألوان بنية ودافئة وبيج"
 
 #: flavor/inc/class-customizer.php:573
 msgid "استایل و چینش هدر"
-msgstr ""
+msgstr "نمط الترويسة وترتيبها"
 
 #: flavor/inc/class-ui-customizer.php:74
 msgid "استعداد"
-msgstr ""
+msgstr "الجاهزية"
 
 #: flavor/inc/class-ui-customizer.php:58
 msgid "استعداد و وزیرمتن همراه قالب و به‌صورت محلی بارگذاری می‌شوند. پیش‌فرض، فونت خود پوسته را نگه می‌دارد."
-msgstr ""
+msgstr "الخطوط وخط وزير متن المرفقان مع القالب ويُحمّلان محلياً. الافتراضي يُبقي خط القالب نفسه."
 
 #: flavor/inc/class-onboarding.php:147
 msgid "اطلاعات اولیه رستوران را تکمیل کنید تا سایت و سیستم سفارش آنلاین شما آماده بهره‌برداری شود. پیشرفت فرم به‌صورت خودکار ذخیره می‌شود."
-msgstr ""
+msgstr "أكملوا المعلومات الأساسية للمطعم حتى يصبح الموقع ونظام الطلب الإلكتروني جاهزين للتشغيل. يُحفظ تقدّم النموذج تلقائياً."
 
 #: flavor/single-flavor_branch.php:6
 msgid "اطلاعات این شعبه"
-msgstr ""
+msgstr "معلومات هذا الفرع"
 
 #: flavor/inc/class-chrome-builder.php:1079
 msgid "اطلاعات تماس"
-msgstr ""
+msgstr "معلومات الاتصال"
 
 #: flavor/template-parts/menu/cart-drawer.php:22
 msgid "اطلاعات دریافت سفارش"
@@ -358,7 +358,7 @@ msgstr "بيانات التنسيق"
 
 #: flavor/inc/class-customer-ui.php:105
 msgid "اطلاعات واقعی سفارش"
-msgstr ""
+msgstr "بيانات الطلب الفعلية"
 
 #: flavor/template-parts/menu/cart-drawer.php:15
 msgid "اطلاعات و پرداخت"
@@ -378,7 +378,7 @@ msgstr "تطبيق"
 
 #: flavor/inc/class-demo-importer.php:215
 msgid "اعمال پوسته و تنظیمات ظاهری"
-msgstr ""
+msgstr "تطبيق القالب والإعدادات المرئية"
 
 #: flavor/template-parts/marketing/testimonials.php:26
 msgid "افتخار ما لبخند رضایت و ثبت خاطرات خوشمزه برای شماست"
@@ -390,15 +390,15 @@ msgstr "زيادة الكمية"
 
 #: flavor/inc/class-enqueue.php:182
 msgid "افزودن"
-msgstr ""
+msgstr "إضافة"
 
 #: flavor/inc/class-repeater-control.php:185
 msgid "افزودن %s"
-msgstr ""
+msgstr "إضافة %s"
 
 #: flavor/inc/class-wishlist.php:114
 msgid "افزودن %s به علاقه‌مندی‌ها"
-msgstr ""
+msgstr "إضافة %s إلى المفضلة"
 
 #: flavor/inc/class-shopping-extras.php:356 flavor/inc/class-wishlist.php:186 flavor/template-parts/menu/item-modal.php:16
 msgid "افزودن به سبد"
@@ -406,19 +406,19 @@ msgstr "أضف إلى السلة"
 
 #: flavor/inc/class-wishlist.php:189
 msgid "افزودن به سبد در این صفحه ممکن نیست؛ صفحهٔ غذا را باز کنید."
-msgstr ""
+msgstr "لا يمكن الإضافة إلى السلة من هذه الصفحة؛ افتحوا صفحة الطبق."
 
 #: flavor/inc/class-launch-center.php:162
 msgid "افزودن محصول"
-msgstr ""
+msgstr "إضافة منتج"
 
 #: flavor/inc/class-wishlist.php:187 flavor/inc/class-wishlist.php:208
 msgid "افزودن همه به سبد"
-msgstr ""
+msgstr "إضافة الكل إلى السلة"
 
 #: flavor/inc/class-enqueue.php:185
 msgid "افزونه Flavor Core فعال نیست. منو از ووکامرس خوانده نمی‌شود."
-msgstr ""
+msgstr "الإضافة Flavor Core غير مفعّلة. لا تُقرأ القائمة من WooCommerce."
 
 #: flavor/elementor/widgets/class-branch-info-widget.php:114
 msgid "افزونهٔ Flavor Core برای نمایش اطلاعات شعبه لازم است."
@@ -426,19 +426,19 @@ msgstr "يلزم تفعيل إضافة Flavor Core لعرض بيانات الف�
 
 #: flavor/inc/class-launch-center.php:65 flavor/inc/class-launch-center.php:75
 msgid "افزونه‌ها"
-msgstr ""
+msgstr "الإضافات"
 
 #: flavor/inc/class-ui.php:27
 msgid "افقی ۳ به ۲ یا مربع؛ تصویر اصلی و فایل‌های دمو تغییر نمی‌کنند. در فهرست، عکس با ارتفاع ردیف هماهنگ است."
-msgstr ""
+msgstr "أفقي 3 إلى 2 أو مربع؛ لا تتغير الصورة الأصلية وملفات العرض التجريبي. في القائمة تتناسق الصورة مع ارتفاع الصف."
 
 #: flavor/inc/class-ui.php:27
 msgid "افقی — ۳ به ۲"
-msgstr ""
+msgstr "أفقي — 3 إلى 2"
 
 #: flavor/inc/class-launch-center.php:278
 msgid "اقدام"
-msgstr ""
+msgstr "الإجراء"
 
 #: flavor/elementor/widgets/class-menu-widget.php:74
 msgid "الفبایی"
@@ -446,23 +446,23 @@ msgstr "أبجدي"
 
 #: flavor/inc/class-builder.php:514
 msgid "المنت‌ها را از فهرست زیر بکشید و در چیدمان رها کنید."
-msgstr ""
+msgstr "اسحبوا العناصر من القائمة أدناه وأفلتوها في التخطيط."
 
 #: flavor/inc/class-builder.php:540
 msgid "المنت‌ها را اینجا رها کنید"
-msgstr ""
+msgstr "أفلتوا العناصر هنا"
 
 #: flavor/inc/class-repeater.php:73
 msgid "امتیاز"
-msgstr ""
+msgstr "التقييم"
 
 #: flavor/inc/class-customer-ui.php:83
 msgid "امتیاز ثبت‌شده"
-msgstr ""
+msgstr "التقييم المسجّل"
 
 #: flavor/page-templates/template-menu.php:15
 msgid "امروز، به سلیقهٔ شما."
-msgstr ""
+msgstr "اليوم، على ذوقكم."
 
 #: flavor/template-parts/marketing/intro.php:54
 msgid "امکان رزرو آسان سالن برای جشن‌ها، دورهمی‌ها و قرارهای کاری با پذیرایی اختصاصی."
@@ -470,7 +470,7 @@ msgstr "حجز سهل للقاعة للحفلات والتجمّعات والل�
 
 #: flavor/inc/class-repeater-control.php:81
 msgid "انتخاب"
-msgstr ""
+msgstr "اختيار"
 
 #: flavor/template-parts/marketing/categories.php:39
 msgid "انتخاب از میان بهترین غذاهای اصلی، پیش‌غذا، نوشیدنی‌ها و دسرهای لذیذ"
@@ -478,7 +478,7 @@ msgstr "اختيار من بين أفضل الأطباق الرئيسية وال
 
 #: flavor/inc/class-onboarding.php:196
 msgid "انتخاب از گالری رسانه"
-msgstr ""
+msgstr "اختيار من مكتبة الوسائط"
 
 #: flavor/template-parts/marketing/reservation-cta.php:40
 msgid "انتخاب بخش سالن یا فضای باز"
@@ -502,15 +502,15 @@ msgstr "اختيار مميّز"
 
 #: flavor/inc/class-customizer.php:263 flavor/inc/class-customizer.php:275
 msgid "انتخاب پوسته رستوران"
-msgstr ""
+msgstr "اختيار قالب المطعم"
 
 #: flavor/inc/class-onboarding.php:182
 msgid "انتخاب یا آپلود لوگو از رسانه"
-msgstr ""
+msgstr "اختيار الشعار أو رفعه من الوسائط"
 
 #: flavor/inc/class-wishlist.php:199
 msgid "انتخاب‌های ذخیره‌شده"
-msgstr ""
+msgstr "الاختيارات المحفوظة"
 
 #: flavor/template-parts/menu/cart-drawer.php:10
 msgid "انتخاب‌های شما"
@@ -518,56 +518,56 @@ msgstr "خياراتك"
 
 #: flavor/inc/class-chrome-control.php:110
 msgid "انتقال «%s» به بالا"
-msgstr ""
+msgstr "نقل «%s» إلى الأعلى"
 
 #: flavor/inc/class-chrome-control.php:112
 #. %s: element label. */ echo esc_attr( sprintf( __( 'انتقال «%s» به بالا', 'flavor' ), (string) $item['label'] ) ); ?>">&#x25B2;</button>
 msgid "انتقال «%s» به پایین"
-msgstr ""
+msgstr "نقل «%s» إلى الأسفل"
 
 #: flavor/inc/class-transfer.php:37 flavor/inc/class-transfer.php:55
 msgid "انتقال امن تنظیمات Flavor"
-msgstr ""
+msgstr "نقل آمن لإعدادات Flavor"
 
 #: flavor/inc/class-repeater-control.php:126
 msgid "انتقال به بالا"
-msgstr ""
+msgstr "نقل إلى الأعلى"
 
 #: flavor/inc/class-repeater-control.php:127
 msgid "انتقال به پایین"
-msgstr ""
+msgstr "نقل إلى الأسفل"
 
 #: flavor/inc/class-customizer.php:369
 msgid "انحنای استاندارد مدرن (16px)"
-msgstr ""
+msgstr "انحناء قياسي حديث (16px)"
 
 #: flavor/inc/class-customizer.php:368
 msgid "انحنای ملایم (8px)"
-msgstr ""
+msgstr "انحناء لطيف (8px)"
 
 #: flavor/inc/class-chrome-builder.php:1260
 msgid "اندازهٔ آیتم‌های منو (دسکتاپ)"
-msgstr ""
+msgstr "حجم عناصر القائمة (سطح المكتب)"
 
 #: flavor/inc/class-chrome-builder.php:1275
 msgid "اندازهٔ آیتم‌های منو (موبایل)"
-msgstr ""
+msgstr "حجم عناصر القائمة (الجوال)"
 
 #: flavor/inc/class-chrome-builder.php:1417
 msgid "اندازهٔ تیتر ستون‌های پاورقی"
-msgstr ""
+msgstr "حجم عنوان أعمدة التذييل"
 
 #: flavor/inc/class-chrome-builder.php:1431
 msgid "اندازهٔ لینک‌های پاورقی"
-msgstr ""
+msgstr "حجم روابط التذييل"
 
 #: flavor/inc/class-customizer.php:416
 msgid "اندازهٔ متن پایه"
-msgstr ""
+msgstr "حجم النص الأساسي"
 
 #: flavor/inc/class-customizer.php:452
 msgid "اندازهٔ پایه و مقیاس تیتر اصلی در بخش «تایپوگرافی و گوشه‌ها» تنظیم می‌شوند؛ اینجا سلسله‌مراتب títuloها و وزن و فاصلهٔ خطوط را تعیین می‌کنید."
-msgstr ""
+msgstr "يُضبط الحجم الأساسي وسلّم العنوان الرئيسي في قسم «الخطوط والزوايا»، وهنا تحددون تسلسل العناوين وسُمك الخط والتباعد بين الأسطر."
 
 #: flavor/inc/class-engagement.php:210 flavor/inc/class-premium-customizer.php:196
 msgid "اول از همه، تازه‌های منو را بدانید"
@@ -575,7 +575,7 @@ msgstr "أولاً، كن أول من يعرف جديد قائمتنا"
 
 #: flavor/inc/class-ui-preview-control.php:10
 msgid "اول پیش‌نمایش، بعد انتشار"
-msgstr ""
+msgstr "معاينة أولاً، ثم نشر"
 
 #: flavor/elementor/widgets/class-reservation-widget.php:73
 msgid "اگر خالی بماند، به صفحهٔ پیش‌فرض رزرو می‌رود."
@@ -583,7 +583,7 @@ msgstr "إذا تُرك فارغاً يذهب إلى صفحة الحجز الا�
 
 #: flavor/inc/class-page-options.php:73
 msgid "اگر خالی بماند، رنگ پوستهٔ فعال استفاده می‌شود."
-msgstr ""
+msgstr "إن بقي فارغاً يُستخدم لون القالب الفعّال."
 
 #: flavor/elementor/widgets/class-branch-info-widget.php:45
 msgid "اگر خالی بماند، نام شعبه به‌عنوان عنوان نمایش داده می‌شود."
@@ -591,35 +591,35 @@ msgstr "إذا تُرك فارغاً يُعرض اسم الفرع كعنوان."
 
 #: flavor/inc/class-premium-customizer.php:135
 msgid "اگر خالی بود، از قانون ارسال رایگان ووکامرس خوانده شود"
-msgstr ""
+msgstr "إذا كان فارغاً، يُقرأ من قاعدة الشحن المجاني في WooCommerce"
 
 #: flavor/inc/class-chrome-builder.php:177
 msgid "اگر خاموشش کنید، منوی اصلی در موبایل همیشه نمایش داده می‌شود تا ناوبری گم نشود."
-msgstr ""
+msgstr "إذا أوقفتموه، تظهر القائمة الرئيسية على الجوال دائماً حتى لا يضيع التنقل."
 
 #: flavor/inc/class-chrome-builder.php:213
 msgid "اگر منوی «پاورقی» را در نمایش ← منوها بسازید، همان جای فهرست ثابت می‌آید."
-msgstr ""
+msgstr "إذا أنشأتم قائمة «التذييل» من المظهر ← القوائم، ستظهر في مكان القائمة الثابتة نفسه."
 
 #: flavor/inc/class-ui-customizer.php:76
 msgid "ایران‌سنس — فقط با فایل دارای مجوز؛ در غیر این صورت وزیرمتن"
-msgstr ""
+msgstr "Iran Sans — فقط بملف مرخّص؛ وإلا فوزير متن"
 
 #: flavor/inc/class-chrome-builder.php:1106 flavor/inc/class-engagement.php:226
 msgid "ایمیل شما"
-msgstr ""
+msgstr "بريدكم الإلكتروني"
 
 #: flavor/page-templates/template-contact.php:19
 msgid "ایمیل مجموعه"
-msgstr ""
+msgstr "البريد الإلكتروني للمجموعة"
 
 #: flavor/inc/class-launch-center.php:199
 msgid "ایمیل مدیر را در تنظیمات عمومی اصلاح کنید."
-msgstr ""
+msgstr "صحّحوا بريد المدير في الإعدادات العامة."
 
 #: flavor/inc/class-launch-center.php:197
 msgid "ایمیل مدیر معتبر است"
-msgstr ""
+msgstr "بريد المدير صالح"
 
 #: flavor/inc/class-engagement.php:326
 msgid "ایمیل معتبر وارد کنید."
@@ -627,7 +627,7 @@ msgstr "أدخل بريداً إلكترونياً صحيحاً."
 
 #: flavor/inc/class-launch-center.php:236
 msgid "این check عمداً خودکار مبلغ‌گذاری یا سفارش واقعی نمی‌سازد؛ یک سفارش staging را دستی از QR تا آشپزخانه بررسی کنید."
-msgstr ""
+msgstr "هذا الفحص لا ينشئ عمداً تسعيراً أو طلباً فعلياً؛ راجعوا طلب staging يدوياً من رمز QR حتى المطبخ."
 
 #: flavor/template-parts/demos/catering.php:75
 msgid "این ابزار فقط خلاصهٔ قابل‌کپی می‌سازد؛ هیچ اطلاعاتی ارسال یا ذخیره نمی‌شود و هیچ رزرو یا سفارشی ثبت نمی‌کند."
@@ -643,47 +643,47 @@ msgstr "يستخدم هذا الموقع ذاكرة المتصفح لعمل سل
 
 #: flavor/inc/template-tags.php:207
 msgid "اینستاگرام"
-msgstr ""
+msgstr "إنستغرام"
 
 #: flavor/inc/class-chrome-builder.php:1122
 msgid "این ستون هنوز ویجتی ندارد. از نمایش ← ویجت‌ها، «ویجت‌های پاورقی %d» را پر کنید."
-msgstr ""
+msgstr "هذا العمود لا يحتوي على أدوات بعد. من المظهر ← أدوات، املأوا «أدوات التذييل %d»."
 
 #: flavor/404.php:6
 msgid "این صفحه پیدا نشد."
-msgstr ""
+msgstr "لم تُعثر على هذه الصفحة."
 
 #: flavor/inc/class-wishlist.php:104
 msgid "این غذا"
-msgstr ""
+msgstr "هذا الطبق"
 
 #: flavor/inc/class-changelog.php:171
 msgid "این فهرست مستقیماً از readme.txtِ قالب خوانده می‌شود، بنابراین با همان فایلی که مارکت‌پلیس می‌خواند همگام است."
-msgstr ""
+msgstr "تُقرأ هذه القائمة مباشرة من readme.txt الخاص بالقالب، لذلك تتطابق مع الملف نفسه الذي تقرؤه السوق."
 
 #: flavor/inc/class-chrome-builder.php:448
 msgid "این مقدار برای این گزینه مجاز نیست."
-msgstr ""
+msgstr "هذه القيمة غير مسموح بها لهذا الخيار."
 
 #: flavor/inc/class-customizer.php:436
 msgid "این مقدار فقط برای همین اندازهٔ صفحه اعمال می‌شود؛ تغییرِ موبایل دسکتاپ را عوض نمی‌کند."
-msgstr ""
+msgstr "تُطبَّق هذه القيمة على حجم الشاشة هذا فقط؛ ولا يغيّر تعديل الجوال قيمة سطح المكتب."
 
 #: flavor/inc/class-customer-ui.php:105
 msgid "این وضعیت از سفارش ثبت‌شده خوانده می‌شود؛ رسیدن به این صفحه به‌تنهایی به معنی پرداخت موفق یا تحویل غذا نیست."
-msgstr ""
+msgstr "تُقرأ هذه الحالة من الطلب المسجَّل؛ الوصول إلى هذه الصفحة وحده لا يعني نجاح الدفع أو تسليم الطعام."
 
 #: flavor/inc/class-preset-control.php:116
 msgid "این پوسته را رنگ‌های دستی شما پوشانده است."
-msgstr ""
+msgstr "ألوانكم اليدوية تتجاوز ألوان هذا القالب."
 
 #: flavor/inc/class-premium-assets.php:111
 msgid "این پیشنهاد به پایان رسید."
-msgstr ""
+msgstr "انتهى هذا العرض."
 
 #: flavor/inc/class-customer-ui.php:107
 msgid "این کد خصوصی است و فقط پس از احراز دسترسی به رسید نمایش داده می‌شود. آن را در اختیار دیگران نگذارید."
-msgstr ""
+msgstr "هذا الرمز خاص ولا يُعرض إلا بعد التحقق من الوصول إلى الإيصال. لا تشاركوه مع غيركم."
 
 #: flavor/template-parts/ui/login.php:6
 msgid "با تأیید شمارهٔ موبایل وارد حساب شوید. اگر حسابی ندارید، پس از تأیید شماره یک حساب مشتری ساخته می‌شود."
@@ -691,79 +691,79 @@ msgstr "سجّل الدخول بتأكيد رقم الهاتف. إن لم يكن
 
 #: flavor/inc/class-customizer.php:264 flavor/inc/class-customizer.php:276
 msgid "با تغییر پوسته، رنگ‌بندی، فونت و استایل کلی رستوران هماهنگ می‌شود."
-msgstr ""
+msgstr "بتغيير القالب تتناسق الألوان والخطوط والنمط العام للمطعم."
 
 #: flavor/inc/class-chrome-builder.php:1887
 msgid "با درگ کردن یا دکمهٔ جابه‌جایی، ترتیب را عوض کنید. تیک هر مورد یعنی در هدر نمایش داده شود."
-msgstr ""
+msgstr "غيّروا الترتيب بالسحب أو بزر النقل. علامة الاختيار لكل عنصر تعني أنه يظهر في الترويسة."
 
 #: flavor/inc/class-page-options.php:66
 msgid "باریک (متن‌محور)"
-msgstr ""
+msgstr "رفيع (نصي)"
 
 #: flavor/inc/class-customizer.php:504
 msgid "باز (0.02em)"
-msgstr ""
+msgstr "مفتوح (0.02em)"
 
 #: flavor/inc/class-customizer.php:491
 msgid "باز (1.3)"
-msgstr ""
+msgstr "مفتوح (1.3)"
 
 #: flavor/inc/class-transfer.php:72
 msgid "باز کردن سفارشی‌ساز"
-msgstr ""
+msgstr "فتح أداة التخصيص"
 
 #: flavor/inc/class-onboarding.php:143
 msgid "باز کردن مرکز آمادگی انتشار"
-msgstr ""
+msgstr "فتح مركز جاهزية النشر"
 
 #: flavor/inc/class-chrome-builder.php:797 flavor/inc/class-launch-center.php:237
 msgid "باز کردن منو"
-msgstr ""
+msgstr "فتح القائمة"
 
 #: flavor/inc/class-update-channel.php:421
 msgid "بازگردانی"
-msgstr ""
+msgstr "استعادة"
 
 #: flavor/inc/class-demo-importer.php:194
 msgid "بازگردانی آرشیو"
-msgstr ""
+msgstr "استعادة الأرشيف"
 
 #: flavor/inc/class-demo-importer.php:664
 msgid "بازگردانی تنظیمات اصلی"
-msgstr ""
+msgstr "استعادة الإعدادات الأصلية"
 
 #: flavor/inc/class-demo-importer.php:173
 msgid "بازگردانی خودکار پس از خطا"
-msgstr ""
+msgstr "استعادة تلقائية بعد الخطأ"
 
 #: flavor/inc/class-demo-importer.php:564
 msgid "بازگردانی محتوا و رسانه"
-msgstr ""
+msgstr "استعادة المحتوى والوسائط"
 
 #: flavor/inc/class-update-channel.php:405
 msgid "بازگردانی نسخهٔ قبلی"
-msgstr ""
+msgstr "استعادة النسخة السابقة"
 
 #: flavor/inc/class-chrome-builder.php:1892
 msgid "بازگردانی چینش پیش‌فرض هدر"
-msgstr ""
+msgstr "استعادة ترتيب الترويسة الافتراضي"
 
 #: flavor/inc/class-chrome-builder.php:2070
 msgid "بازگردانی چینش پیش‌فرض پاورقی"
-msgstr ""
+msgstr "استعادة ترتيب التذييل الافتراضي"
 
 #: flavor/inc/class-demo-importer.php:100
 msgid "بازگشت به %s (%s)"
-msgstr ""
+msgstr "العودة إلى %s (%s)"
 
 #: flavor/inc/class-floating-dock.php:120
 msgid "بازگشت به بالا"
-msgstr ""
+msgstr "العودة إلى الأعلى"
 
 #: flavor/inc/class-floating-dock.php:120
 msgid "بازگشت به بالای صفحه"
-msgstr ""
+msgstr "العودة إلى أعلى الصفحة"
 
 #: flavor/template-parts/menu/cart-drawer.php:35
 msgid "بازگشت به سبد"
@@ -771,19 +771,19 @@ msgstr "العودة إلى السلة"
 
 #: flavor/inc/class-demo-importer.php:197
 msgid "بازگشت کامل شد"
-msgstr ""
+msgstr "اكتملت الاستعادة"
 
 #: flavor/inc/class-demo-importer.php:200
 msgid "بازگشت کامل نشد"
-msgstr ""
+msgstr "لم تكتمل الاستعادة"
 
 #: flavor/inc/class-customizer.php:614
 msgid "با فعال‌بودن، هدر هنگامِ اسکرول بالای صفحه می‌ماند. روی موبایل برای صرفه‌جویی در فضا غیرفعال می‌شود."
-msgstr ""
+msgstr "عند التفعيل تبقى الترويسة أعلى الصفحة أثناء التمرير. على الجوال تُعطَّل لتوفير المساحة."
 
 #: flavor/inc/class-builder.php:595
 msgid "بالا"
-msgstr ""
+msgstr "أعلى"
 
 #: flavor/template-parts/demos/visit.php:13
 msgid "با ما تماس بگیر"
@@ -799,15 +799,15 @@ msgstr "بإدخال كود الخصم أدناه في سلّة الشراء، �
 
 #: flavor/inc/class-chrome-builder.php:187
 msgid "با ووکامرس فعال، تعداد را در بج نشان می‌دهد."
-msgstr ""
+msgstr "مع تفعيل WooCommerce يُعرض العدد في الشارة."
 
 #: flavor/inc/class-onboarding.php:302
 msgid "با کلیک روی دکمه زیر، اطلاعات ذخیره شده، صفحات اصلی، شعبه و اولین آیتم منو آماده می‌شوند. پس از آن مرکز آمادگی انتشار مواردی مثل درگاه و سفارش آزمایشی را بررسی می‌کند."
-msgstr ""
+msgstr "بالنقر على الزر أدناه تُجهَّز المعلومات المحفوظة والصفحات الرئيسية والفرع وأول عنصر في القائمة. بعد ذلك يفحص مركز الجاهزية عناصر مثل بوابة الدفع والطلب التجريبي."
 
 #: flavor/inc/class-customizer.php:669
 msgid "بج بالای عنوان هیرو"
-msgstr ""
+msgstr "شارة فوق عنوان الواجهة"
 
 #: flavor/template-parts/marketing/hero.php:37
 msgid "بخش اصلی"
@@ -815,23 +815,23 @@ msgstr "القسم الرئيسي"
 
 #: flavor/inc/class-customizer.php:637
 msgid "بخش هیرو (بنر اصلی صفحه نخست)"
-msgstr ""
+msgstr "قسم الواجهة (البانر الرئيسي للصفحة الأولى)"
 
 #: flavor/inc/class-changelog.php:180
 msgid "بخشِ Changelog در readme.txt خالی است."
-msgstr ""
+msgstr "قسم Changelog في readme.txt فارغ."
 
 #: flavor/inc/class-block-patterns.php:79
 msgid "بخش پایانی با تیتر، توضیح و دکمهٔ رزرو روی پس‌زمینهٔ برند."
-msgstr ""
+msgstr "قسم ختامي بعنوان ووصف وزر الحجز على خلفية العلامة."
 
 #: flavor/inc/class-builder.php:149 flavor/inc/class-builder.php:164 flavor/inc/class-builder.php:187
 msgid "بخش‌ها"
-msgstr ""
+msgstr "الأقسام"
 
 #: flavor/inc/class-customizer.php:689
 msgid "بخش‌های صفحه نخست (Homepage Sections)"
-msgstr ""
+msgstr "أقسام الصفحة الرئيسية (Homepage Sections)"
 
 #: flavor/template-parts/reservation/reservation-form.php:18
 msgid "بدون آن، درخواست رزرو خودکار ارسال نمی‌شود. برای هماهنگی با مجموعه تماس بگیرید."
@@ -839,7 +839,7 @@ msgstr "بدونه لا يُرسل طلب الحجز تلقائياً. للتن�
 
 #: flavor/inc/class-ui-customizer.php:78
 msgid "بدون انحنا"
-msgstr ""
+msgstr "بدون انحناء"
 
 #: flavor/template-parts/menu/filters.php:29
 msgid "بدون تخم‌مرغ"
@@ -847,7 +847,7 @@ msgstr "بدون بيض"
 
 #: flavor/inc/class-chrome-builder.php:1296
 msgid "بدون خط و سایه"
-msgstr ""
+msgstr "بدون حد وظل"
 
 #: flavor/template-parts/menu/filters.php:28
 msgid "بدون شیر"
@@ -863,7 +863,7 @@ msgstr "بدون مكسّرات"
 
 #: flavor/inc/class-launch-center.php:64
 msgid "بدون هسته، سایت فقط حالت معرفی دارد و سفارش‌گیری فعال نیست."
-msgstr ""
+msgstr "بدون النواة يعمل الموقع بوضع التعريف فقط، ولا يُقبل الطلب."
 
 #: flavor/template-parts/marketing/hours.php:41
 msgid "بدون وقفه تا پایان ساعت کاری"
@@ -875,20 +875,20 @@ msgstr "خالٍ من الغلوتين"
 
 #: flavor/inc/class-block-patterns.php:371
 msgid "بر اساس فاصلهٔ شما از شعبه محاسبه می‌شود و پیش از پرداخت نمایش داده می‌شود."
-msgstr ""
+msgstr "يُحسب حسب المسافة بينكم وبين الفرع، ويظهر قبل الدفع."
 
 #: flavor/inc/class-launch-center.php:118
 msgid "برای QR، ساعت کاری، رزرو و محدودهٔ ارسال یک شعبه با نشانی کامل بسازید."
-msgstr ""
+msgstr "أنشئوا فرعاً بعنوان كامل لرمز QR وساعات العمل والحجز ونطاق التوصيل."
 
 #: flavor/inc/class-launch-center.php:199
 msgid "برای اعلان‌های رزرو و سفارش یک آدرس معتبر ثبت شده است."
-msgstr ""
+msgstr "سُجّل عنوان صالح لإشعارات الحجز والطلب."
 
 #: flavor/inc/class-wishlist.php:185
 #. %d: number. */ __( 'حداکثر %d مورد قابل ذخیره است.', 'flavor' ), self::MAX_ITEMS ),
 msgid "برای این غذا باید ترکیبات را انتخاب کنید."
-msgstr ""
+msgstr "يجب اختيار المكونات لهذا الطبق."
 
 #: flavor/template-parts/reservation/reservation-form.php:10
 msgid "برای این مجموعه شعبهٔ رزروپذیر با میز فعال معرفی نشده است. از منو یا راه‌های تماس استفاده کنید."
@@ -896,15 +896,15 @@ msgstr "لم يُحدَّد لهذا المطعم فرعٌ قابل للحجز �
 
 #: flavor/inc/class-changelog.php:214
 msgid "برای این نسخه یادداشتی ثبت نشده است."
-msgstr ""
+msgstr "لم تُسجَّل ملاحظات لهذه النسخة."
 
 #: flavor/inc/class-wishlist.php:188
 msgid "برای بعضی موارد انتخاب ترکیبات لازم است؛ آن‌ها را از فهرست باز کنید."
-msgstr ""
+msgstr "تحتاج بعض العناصر إلى اختيار المكونات؛ افتحوها من القائمة."
 
 #: flavor/inc/class-builder.php:268
 msgid "برای تجربهٔ یک شام بی‌نقص، از قبل میز خود را ثبت کنید."
-msgstr ""
+msgstr "لتجربة عشاء مثالية، احجزوا طاولتكم مسبقاً."
 
 #: flavor/elementor/widgets/class-chefs-widget.php:93
 msgid "برای دسترس‌پذیری لازم است. اگر خالی بماند، از نام استفاده می‌شود."
@@ -916,7 +916,7 @@ msgstr "للتجمّعات العائلية والاجتماعات العملي�
 
 #: flavor/inc/class-ui-preview-control.php:11
 msgid "برای دیدن کارت‌ها، پیش‌نمایش را به صفحهٔ منو ببرید. تغییرات زیر بدون بارگذاری دوبارهٔ منو نمایش داده می‌شوند و تا زدن «انتشار» عمومی نیستند. از دکمه‌های پایین سفارشی‌ساز، اندازهٔ موبایل و دسکتاپ را هم بررسی کنید."
-msgstr ""
+msgstr "لرؤية البطاقات انتقلوا بالمعاينة إلى صفحة القائمة. تظهر التغييرات أدناه دون إعادة تحميل القائمة، ولا تصبح عامة إلا بعد النشر. راجعوا أيضاً حجم الجوال وسطح المكتب من الأزرار أسفل أداة التخصيص."
 
 #: flavor/template-parts/demos/faq.php:8
 msgid "برای راهنمایی بیشتر، با ما تماس بگیرید."
@@ -924,15 +924,15 @@ msgstr "لمزيد من الإرشاد، اتصل بنا."
 
 #: flavor/inc/class-onboarding.php:66
 msgid "برای راه‌اندازی هویت بصری، منو، رزرو و شعب رستوران در کمتر از ۲ دقیقه، ویزارد راه‌اندازی سریع را اجرا کنید."
-msgstr ""
+msgstr "لإعداد الهوية البصرية والقائمة والحجز والفروع في أقل من دقيقتين، شغّلوا معالج الإعداد السريع."
 
 #: flavor/inc/class-launch-center.php:74
 msgid "برای ساخت منو و سفارش آنلاین، WooCommerce را فعال کنید."
-msgstr ""
+msgstr "لإنشاء القائمة والطلب الإلكتروني، فعّلوا WooCommerce."
 
 #: flavor/inc/class-launch-center.php:226
 msgid "برای سایت واقعی SSL را فعال کنید؛ محیط localhost می‌تواند این مورد را نادیده بگیرد."
-msgstr ""
+msgstr "فعّلوا SSL للموقع الفعلي؛ يمكن لبيئة localhost تجاهل هذا البند."
 
 #: flavor/template-parts/menu/item-card.php:18
 msgid "برای سفارش سریع و بررسی موجودی شعبه، JavaScript را فعال کنید. در این حالت جزئیات منتشرشدهٔ محصول از ووکامرس قابل مشاهده است."
@@ -940,11 +940,11 @@ msgstr "لطلب سريع وللتحقّق من توفّر الفرع، فعّل
 
 #: flavor/page-templates/template-order-tracking.php:13
 msgid "برای سفارش متعلق به حساب واردشده اختیاری است. کد در نشانی صفحه یا حافظهٔ مرورگر ذخیره نمی‌شود؛ آن را در اختیار دیگران نگذارید."
-msgstr ""
+msgstr "اختياري للطلب المرتبط بالحساب المسجّل. لا يُحفظ الرمز في عنوان الصفحة أو ذاكرة المتصفح؛ لا تشاركوه مع غيركم."
 
 #: flavor/inc/class-page-options.php:54
 msgid "برای صفحاتی که خودشان تیتر بزرگ دارند (مثل صفحهٔ اصلی)."
-msgstr ""
+msgstr "للصفحات التي لها عنوان كبير خاص بها (مثل الصفحة الرئيسية)."
 
 #: flavor/template-parts/reservation/reservation-form.php:18
 msgid "برای ظرفیت زنده، JavaScript لازم است."
@@ -952,11 +952,11 @@ msgstr "يلزم JavaScript لمعرفة السعة المتاحة الآن."
 
 #: flavor/inc/class-customizer.php:532
 msgid "برای متن فارسی، مقادیر بازتر خوانایی را به‌طور محسوسی بهتر می‌کنند."
-msgstr ""
+msgstr "للنص الفارسي تحسّن القيم الأوسع للقراءة بشكل ملحوظ."
 
 #: flavor/inc/class-repeater.php:295
 msgid "برای مهمانی خانوادگی سفارش دادیم؛ همه مهمان‌ها از طعم اصیل و تازگی سالادها و پیش‌غذاها تعریف کردند. ممنون از تیم حرفه‌ای‌تان."
-msgstr ""
+msgstr "طلبنا لحفلة عائلية، وأُعجب جميع الضيوف بالنكهة الأصيلة وطزاجة السلطات والمقبلات. شكراً لفريقكم المحترف."
 
 #: flavor/elementor/widgets/class-cart-widget.php:84
 msgid "برای نمایش سبد، ووکامرس باید فعال باشد."
@@ -964,7 +964,7 @@ msgstr "يلزم تفعيل ووكومرس لعرض السلة."
 
 #: flavor/page-templates/template-contact.php:15
 msgid "برای هماهنگی سفارش، نیاز غذایی یا جزئیات مراجعه، از راه‌های ارتباطی ثبت‌شده استفاده کنید."
-msgstr ""
+msgstr "لتنسيق الطلب أو الاحتياجات الغذائية أو تفاصيل الزيارة، استخدموا وسائل التواصل المسجّلة."
 
 #: flavor/template-parts/demos/catering.php:86
 msgid "برای گفت‌وگو، نوع پذیرایی، تعداد، روز و محل برنامه و نیازهای غذایی را آماده کنید. برنامه‌ریز به JavaScript نیاز دارد؛ هماهنگی تلفنی بدون آن هم ممکن است."
@@ -976,11 +976,11 @@ msgstr "احجز مكانك لأمسية جميلة."
 
 #: flavor/inc/class-customizer.php:465
 msgid "برجسته — ۱.۳۳۳ (چهارم درست)"
-msgstr ""
+msgstr "بارز — 1.333 (الرابع الصحيح)"
 
 #: flavor/inc/class-launch-center.php:278
 msgid "بررسی"
-msgstr ""
+msgstr "مراجعة"
 
 #: flavor/template-parts/demos/coverage.php:14
 msgid "بررسی آنلاین محله به JavaScript نیاز دارد. محدوده‌های بالا از تنظیمات شعبه خوانده شده‌اند؛ برای هماهنگی تماس بگیر."
@@ -988,15 +988,15 @@ msgstr "يفحص الحيّ عبر الإنترنت يحتاج JavaScript. ال�
 
 #: flavor/page-templates/template-order-tracking.php:14
 msgid "بررسی با کد مهمان به JavaScript نیاز دارد. برای پیگیری با شناسه و ایمیل صورتحساب، فرم اصلی ووکامرس در ادامه در دسترس است."
-msgstr ""
+msgstr "الاستعلام بالرمز للضيف يحتاج إلى JavaScript. لمتابعة الطلب برقم المرجع والبريد الإلكتروني للفواتير، يتوفر نموذج WooCommerce الرئيسي أدناه."
 
 #: flavor/inc/class-demo-importer.php:128
 msgid "بررسی تغییرات درون‌ریزی"
-msgstr ""
+msgstr "مراجعة تغييرات الاستيراد"
 
 #: flavor/inc/class-launch-center.php:313 flavor/inc/class-update-channel.php:398
 msgid "بررسی دستی"
-msgstr ""
+msgstr "فحص يدوي"
 
 #: flavor/template-parts/branch/branch-selector.php:14
 msgid "بررسی رزرو میز"
@@ -1004,11 +1004,11 @@ msgstr "التحقّق من حجز الطاولة"
 
 #: flavor/page-templates/template-order-tracking.php:11
 msgid "بررسی سفارش"
-msgstr ""
+msgstr "استعلام الطلب"
 
 #: flavor/single-flavor_branch.php:6
 msgid "بررسی ظرفیت رزرو"
-msgstr ""
+msgstr "التحقق من سعة الحجز"
 
 #: flavor/template-parts/demos/coverage.php:14
 msgid "بررسی محله"
@@ -1016,19 +1016,19 @@ msgstr "التحقّق من الحي"
 
 #: flavor/inc/class-update-channel.php:402
 msgid "بررسی نسخهٔ جدید"
-msgstr ""
+msgstr "التحقق من نسخة جديدة"
 
 #: flavor/page-templates/template-order-tracking.php:13
 msgid "بررسی وضعیت واقعی"
-msgstr ""
+msgstr "التحقق من الحالة الفعلية"
 
 #: flavor/inc/class-transfer.php:81
 msgid "بررسی و وارد کردن JSON"
-msgstr ""
+msgstr "التحقق من JSON واستيراده"
 
 #: flavor/single-flavor_branch.php:6
 msgid "برنامهٔ ثبت‌شدهٔ شعبه"
-msgstr ""
+msgstr "جدول الفرع المسجَّل"
 
 #: flavor/template-parts/marketing/hours.php:28
 msgid "برنامه کاری رستوران"
@@ -1044,7 +1044,7 @@ msgstr "التسمية"
 
 #: flavor/inc/class-bespoke-demos.php:171
 msgid "برچسب بالای تیتر"
-msgstr ""
+msgstr "وسم فوق العنوان"
 
 #: flavor/template-parts/menu/cart-drawer.php:13
 msgid "برگشت به منو"
@@ -1064,11 +1064,11 @@ msgstr "إغلاق السلة"
 
 #: flavor/inc/class-wishlist.php:202
 msgid "بستن علاقه‌مندی‌ها"
-msgstr ""
+msgstr "إغلاق المفضلة"
 
 #: flavor/inc/class-chrome-builder.php:912 flavor/template-parts/demos/header.php:44
 msgid "بستن منو"
-msgstr ""
+msgstr "إغلاق القائمة"
 
 #: flavor/inc/class-shopping-extras.php:317
 msgid "بستن نمای سریع"
@@ -1076,15 +1076,15 @@ msgstr "إغلاق العرض السريع"
 
 #: flavor/inc/class-customizer.php:467
 msgid "بسیار درشت — ۱.۵ (پنجم درست)"
-msgstr ""
+msgstr "عريض جداً — 1.5 (الخامس الصحيح)"
 
 #: flavor/page-templates/template-order-tracking.php:10
 msgid "بعد از انتخاب، در جریان بمانید"
-msgstr ""
+msgstr "ابقوا على اطلاع بعد الاختيار"
 
 #: flavor/inc/class-premium-customizer.php:192
 msgid "بعد از چند ثانیه"
-msgstr ""
+msgstr "بعد بضع ثوانٍ"
 
 #: flavor/elementor/widgets/class-faq-widget.php:65
 msgid "بله، با علامت مخصوص در منو مشخص شده است."
@@ -1092,35 +1092,35 @@ msgstr "نعم، وهي مُعلَّمة برمز خاص في القائمة."
 
 #: flavor/inc/class-block-patterns.php:375
 msgid "بله؛ از طریق پیامکِ تأیید یا تماس با شعبه تا یک ساعت پیش از زمان رزرو."
-msgstr ""
+msgstr "نعم؛ عبر رسالة التأكيد النصية أو الاتصال بالفرع حتى ساعة قبل موعد الحجز."
 
 #: flavor/inc/class-chrome-builder.php:2064
 msgid "بلوک‌های پاورقی"
-msgstr ""
+msgstr "كتل التذييل"
 
 #: flavor/inc/class-chrome-builder.php:1317
 msgid "به جای CSS آزاد، سه اندازهٔ بررسی‌شده؛ فاصلهٔ داخلی و فاصلهٔ آیکن با هم تنظیم می‌شوند تا چیدمان نشکند."
-msgstr ""
+msgstr "بدلاً من CSS حر، ثلاثة أحجام تم اختبارها؛ تُضبط المسافة الداخلية ومسافة الأيقونة معاً حتى لا ينكسر التخطيط."
 
 #: flavor/inc/class-chrome-builder.php:259
 msgid "به صفحهٔ شعبه‌ها لینک می‌دهد؛ اگر آن صفحه را نساخته‌اید، لینک به همان نشانی می‌رود که هدر و فوتر استفاده می‌کنند."
-msgstr ""
+msgstr "يشير إلى صفحة الفروع؛ وإذا لم تكونوا أنشأتموها، يذهب الرابط إلى العنوان نفسه الذي تستخدمه الترويسة والتذييل."
 
 #: flavor/inc/class-wishlist.php:179
 msgid "به علاقه‌مندی‌ها اضافه شد."
-msgstr ""
+msgstr "أُضيف إلى المفضلة."
 
 #: flavor/inc/class-onboarding.php:65
 msgid "به پلتفرم رستوران مستقیم Flavor خوش آمدید!"
-msgstr ""
+msgstr "أهلاً بكم في منصة مطعم Flavor المباشرة!"
 
 #: flavor/inc/class-update-channel.php:271
 msgid "به‌روزرسانی"
-msgstr ""
+msgstr "تحديث"
 
 #: flavor/inc/class-update-channel.php:270 flavor/inc/class-update-channel.php:363
 msgid "به‌روزرسانی Flavor"
-msgstr ""
+msgstr "تحديث Flavor"
 
 #: flavor/elementor/widgets/class-order-cta-widget.php:89 flavor/inc/class-ui.php:132 flavor/template-parts/menu/cart-drawer.php:18
 msgid "بیرون‌بر"
@@ -1128,7 +1128,7 @@ msgstr "طلب خارجي"
 
 #: flavor/inc/class-premium-customizer.php:195
 msgid "تأخیر یا زمان موبایل (ثانیه)"
-msgstr ""
+msgstr "التأخير أو الوقت على الجوال (ثانية)"
 
 #: flavor/template-parts/menu/cart-drawer.php:24
 msgid "تأیید ورود"
@@ -1140,20 +1140,20 @@ msgstr "تأكيد ودخول"
 
 #: flavor/inc/class-chrome-builder.php:226
 msgid "تا این بلوک جدا نشده باشد، لینک‌ها زیر معرفی کوتاه می‌آیند (مثل قبل)."
-msgstr ""
+msgstr "ما لم تُفصل هذه الكتلة، تظهر الروابط تحت التعريف القصير (كما كان من قبل)."
 
 #: flavor/inc/class-update-channel.php:388
 #. %s: version */ __( 'نسخهٔ %s', 'flavor' ), $offer['version'] ) ); ?></h2>
 msgid "تاریخ انتشار: %s"
-msgstr ""
+msgstr "تاريخ النشر: %s"
 
 #: flavor/inc/class-preset-control.php:131
 msgid "تا وقتی تغییرات را منتشر نکنید، چیزی در سایت تغییر نمی‌کند و با لغوِ تغییرات همه‌چیز برمی‌گردد."
-msgstr ""
+msgstr "ما دمتم لم تنشروا التغييرات فلن يتغير شيء في الموقع، وبإلغاء التغييرات تعود الأمور كما كانت."
 
 #: flavor/inc/class-customizer.php:352
 msgid "تایپوگرافی و گوشه‌ها"
-msgstr ""
+msgstr "الخطوط والزوايا"
 
 #: flavor/template-parts/marketing/reservation-cta.php:36
 msgid "تایید آنی با پیامک"
@@ -1161,7 +1161,7 @@ msgstr "تأكيد فوري عبر الرسائل النصية"
 
 #: flavor/inc/class-chrome-builder.php:1028
 msgid "تجربه طعم اصیل و فراموش‌نشدنی با تازه‌ترین مواد اولیه و میزبانی صمیمانه در محیطی آرام و دلپذیر."
-msgstr ""
+msgstr "تجربة نكهة أصيلة لا تُنسى، بأحدث المكونات الطازجة وضيافة دافئة في أجواء هادئة وممتعة."
 
 #: flavor/template-parts/marketing/testimonials.php:24
 msgid "تجربه مهمانان"
@@ -1177,19 +1177,19 @@ msgstr "خصم"
 
 #: flavor/inc/class-builder.php:71 flavor/inc/class-builder.php:99
 msgid "تراز"
-msgstr ""
+msgstr "المحاذاة"
 
 #: flavor/inc/class-chrome-builder.php:1203
 msgid "تراز ردیف هدر"
-msgstr ""
+msgstr "محاذاة صف الترويسة"
 
 #: flavor/inc/class-ui-preview-control.php:13
 msgid "تراکم و قاب عکس برای منوی سفارش است، نه ترکیب صفحهٔ اصلی دمو. قاب مربع در نمایش کارتی دیده می‌شود؛ عکس فهرست با ارتفاع ردیف هماهنگ است. «پیش‌فرض پوسته» گردی و هویت همان دمو را نگه می‌دارد."
-msgstr ""
+msgstr "الكثافة وإطار الصورة للطلب فقط، وليس تركيبة الصفحة الرئيسية التجريبية. يظهر الإطار المربع في العرض البطاقي، وتتناسق صورة القائمة مع ارتفاع الصف. «الافتراضي للقالب» يحافظ على استدارة الهوية نفسها."
 
 #: flavor/inc/class-chrome-builder.php:2065
 msgid "ترتیب بلوک‌ها همان ترتیب ستون‌هاست. اگر «تعداد ستون در دسکتاپ» را کمتر از بلوک‌های روشن بگذارید، بلوک‌های اضافه در ستون آخر زیر هم می‌آیند."
-msgstr ""
+msgstr "ترتيب الكتل هو ترتيب الأعمدة. إذا جعلتم «عدد الأعمدة على سطح المكتب» أقل من عدد الكتل الظاهرة، تنزل الكتل الزائدة في العمود الأخير تحت بعضها."
 
 #: flavor/elementor/widgets/class-menu-widget.php:69
 msgid "ترتیب دستی"
@@ -1205,11 +1205,11 @@ msgstr "تفضيل القسم"
 
 #: flavor/page-templates/template-menu.php:15
 msgid "ترکیبات را ببینید، انتخابتان را شخصی کنید و بعد به سبد اضافه کنید. قیمت نهایی پیش از افزودن نمایش داده می‌شود."
-msgstr ""
+msgstr "شاهدوا المكونات، خصّصوا اختياركم، ثم أضيفوه إلى السلة. يظهر السعر النهائي قبل الإضافة."
 
 #: flavor/inc/class-design.php:49
 msgid "ترکیب اشتهاآور قرمز گوجه‌ای، سبز ریحان و سفید"
-msgstr ""
+msgstr "مزيج شهي من الأحمر الطماطمي والأخضر الريحاني والأبيض"
 
 #: flavor/elementor/widgets/class-gallery-widget.php:30
 msgid "تصاویر"
@@ -1217,7 +1217,7 @@ msgstr "الصور"
 
 #: flavor/inc/class-demo-importer.php:87
 msgid "تصاویر بسته: %d فایل؛ شعبه و %d میز نمونه."
-msgstr ""
+msgstr "حزمة الصور: %d ملفاً؛ فرع و%d طاولات نموذجية."
 
 #: flavor/elementor/widgets/class-chefs-widget.php:82 flavor/elementor/widgets/class-hero-widget.php:34 flavor/inc/class-builder.php:108 flavor/inc/class-repeater.php:48
 msgid "تصویر"
@@ -1225,43 +1225,43 @@ msgstr "صورة"
 
 #: flavor/inc/class-customizer.php:785
 msgid "تصویر بخش درباره ما"
-msgstr ""
+msgstr "صورة قسم «من نحن»"
 
 #: flavor/inc/class-customizer.php:664
 msgid "تصویر بخش هیرو"
-msgstr ""
+msgstr "صورة قسم الواجهة"
 
 #: flavor/inc/class-customizer.php:765
 msgid "تصویر بنر رزرو"
-msgstr ""
+msgstr "صورة بانر الحجز"
 
 #: flavor/inc/class-onboarding.php:192
 msgid "تصویر جذاب و باکیفیت از فضای رستوران یا غذاهای شاخص"
-msgstr ""
+msgstr "صورة جذابة وعالية الجودة لأجواء المطعم أو أطباقه المميزة"
 
 #: flavor/inc/class-block-patterns.php:91
 msgid "تصویر در کنار متن برای روایت داستان رستوران یا معرفی سرآشپز."
-msgstr ""
+msgstr "صورة بجانب النص لسرد قصة المطعم أو تقديم الشيف."
 
 #: flavor/inc/class-repeater.php:54 flavor/inc/class-repeater.php:237 flavor/inc/class-repeater.php:268 flavor/inc/class-repeater.php:328
 msgid "تصویر رستوران"
-msgstr ""
+msgstr "صورة المطعم"
 
 #: flavor/inc/class-customizer.php:795
 msgid "تصویر صفحهٔ «دربارهٔ مجموعه»"
-msgstr ""
+msgstr "صورة صفحة «عن المجموعة»"
 
 #: flavor/inc/class-customizer.php:796
 msgid "تصویر عمودی (نسبت ۴:۵) مناسب‌تر است. در دموهای اختصاصی برای بخش داستان برند هم استفاده می‌شود."
-msgstr ""
+msgstr "الصورة العمودية (نسبة 4:5) أنسب، وتُستخدم أيضاً في قسم قصة العلامة في العروض التجريبية المخصصة."
 
 #: flavor/page-templates/template-about.php:13
 msgid "تصویر معرفی مجموعه"
-msgstr ""
+msgstr "صورة تعريف المجموعة"
 
 #: flavor/inc/class-customizer.php:841
 msgid "تصویرهای گالری"
-msgstr ""
+msgstr "صور المعرض"
 
 #: flavor/elementor/widgets/class-reservation-widget.php:80
 msgid "تصویر پس‌زمینه"
@@ -1269,11 +1269,11 @@ msgstr "صورة الخلفية"
 
 #: flavor/inc/class-repeater.php:43
 msgid "تصویر گالری"
-msgstr ""
+msgstr "صورة المعرض"
 
 #: flavor/inc/class-customizer.php:817
 msgid "تصویر گالری %d"
-msgstr ""
+msgstr "صورة المعرض %d"
 
 #: flavor/inc/class-shopping-extras.php:260
 msgid "تضمین‌های خرید"
@@ -1281,7 +1281,7 @@ msgstr "ضمانات الشراء"
 
 #: flavor/inc/class-premium-assets.php:110
 msgid "تعداد"
-msgstr ""
+msgstr "العدد"
 
 #: flavor/elementor/widgets/class-menu-widget.php:54
 msgid "تعداد آیتم"
@@ -1289,27 +1289,27 @@ msgstr "عدد العناصر"
 
 #: flavor/inc/class-builder.php:209
 msgid "تعداد آیتم‌ها"
-msgstr ""
+msgstr "عدد العناصر"
 
 #: flavor/inc/class-customizer.php:842
 msgid "تعداد دلخواه تصویر بیفزایید و با فلش‌ها جابه‌جا کنید. متن جایگزین برای هر تصویر را پر کنید — این متن را صفحه‌خوان‌ها می‌خوانند."
-msgstr ""
+msgstr "أضيفوا عدد الصور الذي تريدونه وانقلوها بالأسهم. اكتبوا نصاً بديلاً لكل صورة، فقارئات الشاشة تقرؤه."
 
 #: flavor/inc/class-chrome-builder.php:1363
 msgid "تعداد ستون در تبلت"
-msgstr ""
+msgstr "عدد الأعمدة على الجهاز اللوحي"
 
 #: flavor/inc/class-chrome-builder.php:1347
 msgid "تعداد ستون در دسکتاپ"
-msgstr ""
+msgstr "عدد الأعمدة على سطح المكتب"
 
 #: flavor/inc/class-chrome-builder.php:1377
 msgid "تعداد ستون در موبایل"
-msgstr ""
+msgstr "عدد الأعمدة على الجوال"
 
 #: flavor/inc/class-premium-customizer.php:110
 msgid "تعداد ستون‌ها"
-msgstr ""
+msgstr "عدد الأعمدة"
 
 #: flavor/template-parts/menu/item-modal.php:14
 msgid "تعداد غذا"
@@ -1329,7 +1329,7 @@ msgstr "مغلق"
 
 #: flavor/page-templates/template-contact.php:21
 msgid "تعطیلی‌های موردی، ظرفیت و زمان اجرای سفارش نیاز به تأیید مجموعه دارند؛ وضعیت بازبودن لحظه‌ای در این بخش ادعا نمی‌شود."
-msgstr ""
+msgstr "العطل الطارئة والسعة ووقت تنفيذ الطلب تحتاج إلى تأكيد المجموعة؛ ولا يُدّعى هنا وضع الفتح اللحظي."
 
 #: flavor/template-parts/marketing/intro.php:21
 msgid "تعهد به بالاترین استانداردهای بهداشت، مواد تازه و طبخ اصیل با عشق و احترام به ذائقه شما"
@@ -1337,15 +1337,15 @@ msgstr "التزام بأعلى معايير النظافة والمكوّنات
 
 #: flavor/inc/class-changelog.php:46
 msgid "تغییرات"
-msgstr ""
+msgstr "التغييرات"
 
 #: flavor/inc/class-changelog.php:45 flavor/inc/class-changelog.php:168
 msgid "تغییرات Flavor"
-msgstr ""
+msgstr "تغييرات Flavor"
 
 #: flavor/inc/class-demo-importer.php:88
 msgid "تغییرات احتمالی: %d مسیر صفحهٔ موجود با پسوند امن ساخته می‌شود؛ محتوای اصلی حذف نمی‌شود."
-msgstr ""
+msgstr "تغييرات محتملة: سيُنشأ %d مسار لصفحة موجودة بلاحقة آمنة؛ ولن يُحذف المحتوى الأصلي."
 
 #: flavor/template-parts/reservation/reservation-form.php:17
 msgid "تغییر تعداد یا بخش، ساعت قبلی را پاک و ظرفیت را دوباره بررسی می‌کند."
@@ -1353,11 +1353,11 @@ msgstr "تغيير العدد أو القسم يزيل الوقت المختار
 
 #: flavor/inc/class-dark-mode.php:224
 msgid "تغییر حالت شب و روز"
-msgstr ""
+msgstr "تبديل الوضع الليلي والنهاري"
 
 #: flavor/inc/class-live-preview.php:169
 msgid "تغییر چیدمان هدر کل صفحه را دوباره می‌چیند."
-msgstr ""
+msgstr "تغيير تخطيط الترويسة يعيد ترتيب الصفحة كلها."
 
 #: flavor/template-parts/reservation/reservation-form.php:17
 msgid "تقویم شمسی است؛ تاریخ درخواست به قالب موردنیاز سرور تبدیل می‌شود."
@@ -1377,15 +1377,15 @@ msgstr "هاتف الدعم والطلب الهاتفي:"
 
 #: flavor/inc/template-tags.php:212
 msgid "تلگرام"
-msgstr ""
+msgstr "تيليغرام"
 
 #: flavor/inc/class-demo-importer.php:274 flavor/inc/class-onboarding.php:810 flavor/page-templates/template-contact.php:14 flavor/template-parts/ui/mobile-nav.php:8
 msgid "تماس"
-msgstr ""
+msgstr "اتصال"
 
 #: flavor/inc/class-chrome-builder.php:764
 msgid "تماس با %s"
-msgstr ""
+msgstr "الاتصال بـ%s"
 
 #: flavor/template-parts/demos/catering.php:91
 msgid "تماس با تیم هماهنگی"
@@ -1401,15 +1401,15 @@ msgstr "اتصل للتنسيق"
 
 #: flavor/inc/class-chrome-builder.php:771 flavor/inc/class-floating-dock.php:116
 msgid "تماس تلفنی"
-msgstr ""
+msgstr "اتصال هاتفي"
 
 #: flavor/inc/class-chrome-builder.php:929
 msgid "تماس تلفنی: %s"
-msgstr ""
+msgstr "الاتصال الهاتفي: %s"
 
 #: flavor/inc/class-floating-dock.php:116
 msgid "تماس تلفنی با رستوران"
-msgstr ""
+msgstr "الاتصال الهاتفي بالمطعم"
 
 #: flavor/template-parts/marketing/hours.php:74
 msgid "تماس مستقیم"
@@ -1417,19 +1417,19 @@ msgstr "اتصال مباشر"
 
 #: flavor/inc/class-customizer.php:404
 msgid "تمام صفحه لوکس (1440px)"
-msgstr ""
+msgstr "عرض كامل فاخر (1440px)"
 
 #: flavor/inc/class-chrome-builder.php:1167
 msgid "تمامی حقوق محفوظ است."
-msgstr ""
+msgstr "جميع الحقوق محفوظة."
 
 #: flavor/inc/class-customizer.php:651
 msgid "تمام‌صفحه با تصویر پس‌زمینه و پوشش تاریک"
-msgstr ""
+msgstr "ملء الشاشة مع صورة خلفية وتغطية داكنة"
 
 #: flavor/inc/class-page-options.php:67
 msgid "تمام‌عرض"
-msgstr ""
+msgstr "عرض كامل"
 
 #: flavor/template-parts/marketing/intro.php:19
 msgid "تمایز ما"
@@ -1441,37 +1441,37 @@ msgstr "حار"
 
 #: flavor/inc/class-transfer.php:57
 msgid "تنظیمات با موفقیت وارد شد."
-msgstr ""
+msgstr "تم استيراد الإعدادات بنجاح."
 
 #: flavor/inc/class-launch-center.php:175 flavor/inc/class-launch-center.php:217
 msgid "تنظیمات رستوران"
-msgstr ""
+msgstr "إعدادات المطعم"
 
 #: flavor/inc/class-launch-center.php:200 flavor/inc/class-launch-center.php:227
 msgid "تنظیمات عمومی"
-msgstr ""
+msgstr "الإعدادات العامة"
 
 #: flavor/inc/class-page-options.php:198
 msgid "تنظیمات نمایش این صفحه"
-msgstr ""
+msgstr "إعدادات عرض هذه الصفحة"
 
 #: flavor/inc/class-launch-center.php:85
 msgid "تنظیمات پیوند یکتا"
-msgstr ""
+msgstr "إعدادات الروابط الدائمة"
 
 #: flavor/inc/class-update-channel.php:430
 msgid "تنظیمات کانال"
-msgstr ""
+msgstr "إعدادات القناة"
 
 #: flavor/inc/class-preset-control.php:120
 msgid "تنظیم زیر از پوسته پیروی نمی‌کند:"
 msgid_plural "تنظیمات زیر از پوسته پیروی نمی‌کنند:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "الإعدادات التالية لا تتبع القالب:"
+msgstr[1] "الإعداد التالي لا يتبع القالب:"
+msgstr[2] "الإعدادان التاليان لا يتبعان القالب:"
+msgstr[3] "الإعدادات التالية لا تتبع القالب:"
+msgstr[4] "الإعدادات التالية لا تتبع القالب:"
+msgstr[5] "الإعدادات التالية لا تتبع القالب:"
 
 #: flavor/template-parts/marketing/about.php:74
 msgid "تنوع آیتم‌های منو"
@@ -1483,7 +1483,7 @@ msgstr "تنوّع لا مثيل له"
 
 #: flavor/inc/class-block-patterns.php:272
 msgid "تهران، خیابان ولیعصر"
-msgstr ""
+msgstr "طهران، شارع وليعصر"
 
 #: flavor/template-parts/marketing/intro.php:30
 msgid "تهیه روزانه گوشت گرم، سبزیجات تازه و برنج خالص ایرانی بدون افزودنی‌های غیرمجاز."
@@ -1495,19 +1495,19 @@ msgstr "الوصف"
 
 #: flavor/inc/class-customizer.php:675
 msgid "توضیحات کوتاه هیرو"
-msgstr ""
+msgstr "وصف الواجهة المختصر"
 
 #: flavor/inc/class-bespoke-demos.php:183
 msgid "توضیح خدمات پذیرایی"
-msgstr ""
+msgstr "وصف خدمات الضيافة"
 
 #: flavor/inc/class-bespoke-demos.php:184
 msgid "توضیح مقدار و شرایط منوی کترینگ"
-msgstr ""
+msgstr "وصف الكمية وشروط قائمة التموين"
 
 #: flavor/inc/class-bespoke-demos.php:177
 msgid "توضیح پیشنهاد اختصاصی"
-msgstr ""
+msgstr "وصف العرض الحصري"
 
 #: flavor/elementor/widgets/class-price-list-widget.php:52
 msgid "توضیح کوتاه"
@@ -1515,23 +1515,23 @@ msgstr "وصف قصير"
 
 #: flavor/inc/class-contrast.php:80
 msgid "توضیح کوتاه روی پس‌زمینه"
-msgstr ""
+msgstr "وصف قصير على الخلفية"
 
 #: flavor/inc/class-contrast.php:73
 msgid "توضیح کوتاه روی کارت‌ها"
-msgstr ""
+msgstr "وصف قصير على البطاقات"
 
 #: flavor/inc/class-shopping-extras.php:116
 msgid "تومان"
-msgstr ""
+msgstr "تومان إيراني"
 
 #: flavor/inc/class-repeater-control.php:129
 msgid "تکرار"
-msgstr ""
+msgstr "تكرار"
 
 #: flavor/inc/class-repeater-control.php:128
 msgid "تکرار این مورد"
-msgstr ""
+msgstr "تكرار هذا العنصر"
 
 #: flavor/elementor/widgets/class-cart-widget.php:56 flavor/elementor/widgets/class-cart-widget.php:76
 msgid "تکمیل سفارش"
@@ -1539,35 +1539,35 @@ msgstr "إتمام الطلب"
 
 #: flavor/inc/class-builder.php:65 flavor/inc/class-builder.php:151 flavor/inc/class-builder.php:264
 msgid "تیتر"
-msgstr ""
+msgstr "عنوان"
 
 #: flavor/inc/class-bespoke-demos.php:167
 msgid "تیتر، تصویر اصلی، رنگ و فونت از بخش‌های معمول قالب قابل تغییرند. این بخش محتوای صفحه اختصاصی را کنترل می‌کند."
-msgstr ""
+msgstr "يمكن تغيير العنوان والصورة الأساسية واللون والخط من الأقسام المعتادة للقالب. يتحكم هذا القسم في محتوى الصفحة المخصصة."
 
 #: flavor/inc/class-bespoke-demos.php:178
 msgid "تیتر بخش تماس"
-msgstr ""
+msgstr "عنوان قسم الاتصال"
 
 #: flavor/inc/class-bespoke-demos.php:182
 msgid "تیتر خدمات پذیرایی"
-msgstr ""
+msgstr "عنوان خدمات الضيافة"
 
 #: flavor/inc/class-bespoke-demos.php:175
 msgid "تیتر داستان برند"
-msgstr ""
+msgstr "عنوان قصة العلامة"
 
 #: flavor/inc/class-bespoke-demos.php:174
 msgid "تیتر منوی منتخب"
-msgstr ""
+msgstr "عنوان القائمة المختارة"
 
 #: flavor/inc/class-bespoke-demos.php:176
 msgid "تیتر پیشنهاد اختصاصی"
-msgstr ""
+msgstr "عنوان العرض الحصري"
 
 #: flavor/inc/class-customizer.php:367
 msgid "تیز و بدون انحنا (0px)"
-msgstr ""
+msgstr "حاد وبلا انحناء (0px)"
 
 #: flavor/elementor/widgets/class-chefs-widget.php:44 flavor/elementor/widgets/class-chefs-widget.php:120
 msgid "تیم ما"
@@ -1591,31 +1591,31 @@ msgstr "تم التسجيل. سنرسل أول خبر قريباً."
 
 #: flavor/inc/class-premium-assets.php:112
 msgid "ثبت شد. ممنون!"
-msgstr ""
+msgstr "تم التسجيل. شكراً!"
 
 #: flavor/inc/class-premium-assets.php:113
 msgid "ثبت نشد؛ بعداً تلاش کنید."
-msgstr ""
+msgstr "لم يُسجَّل؛ حاولوا لاحقاً."
 
 #: flavor/inc/class-chrome-builder.php:116
 msgid "جابه‌جا شد."
-msgstr ""
+msgstr "تم النقل."
 
 #: flavor/inc/class-chrome-builder.php:1120
 msgid "جایگاه ویجت"
-msgstr ""
+msgstr "موضع الأداة"
 
 #: flavor/inc/class-chrome-builder.php:1324
 msgid "جای‌دار"
-msgstr ""
+msgstr "محجوز"
 
 #: flavor/inc/class-builder.php:124
 msgid "جداکننده"
-msgstr ""
+msgstr "فاصل"
 
 #: flavor/inc/class-chrome-builder.php:1289
 msgid "جدول پایین هدر"
-msgstr ""
+msgstr "شريط أسفل الترويسة"
 
 #: flavor/elementor/widgets/class-menu-widget.php:71
 msgid "جدیدترین"
@@ -1631,23 +1631,23 @@ msgstr "تفاصيل المنتج"
 
 #: flavor/page-templates/template-about.php:15
 msgid "جزئیات هر انتخاب را پیش از سفارش بخوانید."
-msgstr ""
+msgstr "اقرؤوا تفاصيل كل اختيار قبل الطلب."
 
 #: flavor/inc/class-chrome-builder.php:180 flavor/inc/class-chrome-builder.php:817 flavor/inc/class-chrome-builder.php:886 flavor/search.php:6
 msgid "جست‌وجو"
-msgstr ""
+msgstr "بحث"
 
 #: flavor/inc/class-chrome-builder.php:814 flavor/inc/class-chrome-builder.php:883
 msgid "جست‌وجو در منو و صفحات"
-msgstr ""
+msgstr "البحث في القائمة والصفحات"
 
 #: flavor/inc/class-enqueue.php:303
 msgid "جست‌وجو ناموفق بود. دوباره تلاش کنید."
-msgstr ""
+msgstr "فشل البحث. حاولوا مرة أخرى."
 
 #: flavor/inc/class-enqueue.php:295
 msgid "جست‌وجوهای اخیر"
-msgstr ""
+msgstr "عمليات البحث الأخيرة"
 
 #: flavor/template-parts/branch/branch-selector.php:11
 msgid "جست‌وجوی نام یا شهر شعبه"
@@ -1659,7 +1659,7 @@ msgstr "بحث ذكي في القائمة"
 
 #: flavor/inc/class-chrome-builder.php:816 flavor/inc/class-chrome-builder.php:885
 msgid "جست‌وجو…"
-msgstr ""
+msgstr "بحث…"
 
 #: flavor/template-parts/menu/cart-drawer.php:31
 msgid "جمع غذاها و افزودنی‌ها"
@@ -1671,59 +1671,59 @@ msgstr "الجمعة"
 
 #: flavor/inc/class-chrome-builder.php:1322 flavor/inc/class-customizer.php:417 flavor/inc/class-customizer.php:418 flavor/inc/class-customizer.php:419 flavor/inc/class-ui-customizer.php:94 flavor/inc/class-ui-customizer.php:95 flavor/inc/class-ui-customizer.php:96 flavor/inc/class-ui.php:26
 msgid "جمع‌وجور"
-msgstr ""
+msgstr "مدمج"
 
 #: flavor/inc/class-customizer.php:401
 msgid "جمع‌وجور (1140px)"
-msgstr ""
+msgstr "مدمج (1140px)"
 
 #: flavor/inc/class-customizer.php:461
 msgid "جمع‌وجور — ۱.۱۲۵ (نهم بزرگ)"
-msgstr ""
+msgstr "مدمج — 1.125 (التاسع الكبير)"
 
 #: flavor/inc/class-customizer.php:414
 msgid "حاشیهٔ افقی تبلت"
-msgstr ""
+msgstr "الهامش الأفقي للجهاز اللوحي"
 
 #: flavor/inc/class-customizer.php:415
 msgid "حاشیهٔ افقی دسکتاپ"
-msgstr ""
+msgstr "الهامش الأفقي لسطح المكتب"
 
 #: flavor/inc/class-customizer.php:413
 msgid "حاشیهٔ افقی موبایل"
-msgstr ""
+msgstr "الهامش الأفقي للجوال"
 
 #: flavor/inc/class-launch-center.php:206
 msgid "حالت توسعه فعال است؛ OTP در لاگ محلی ثبت می‌شود و پیامک واقعی ارسال نمی‌شود."
-msgstr ""
+msgstr "وضع التطوير مفعّل؛ يُسجَّل رمز OTP في السجل المحلي ولا تُرسل رسالة فعلية."
 
 #: flavor/inc/class-premium-customizer.php:46
 msgid "حالت شب، مگامنو، ابزارهای فروش، شمارش معکوس، عضویت خبرنامه و رضایت کوکی."
-msgstr ""
+msgstr "الوضع الليلي، والقائمة الضخمة، وأدوات البيع، والعد التنازلي، واشتراك النشرة، وموافقة ملفات تعريف الارتباط."
 
 #: flavor/inc/class-premium-customizer.php:68
 msgid "حالت شب و علاقه‌مندی‌ها"
-msgstr ""
+msgstr "الوضع الليلي والمفضلة"
 
 #: flavor/inc/class-premium-customizer.php:78
 msgid "حالت پیش‌فرض سایت"
-msgstr ""
+msgstr "الوضع الافتراضي للموقع"
 
 #: flavor/inc/class-live-preview.php:170
 msgid "حالت چسبان به اسکریپت هدر وابسته است و با جابه‌جاییِ بخشی درست اعمال نمی‌شود."
-msgstr ""
+msgstr "وضع الترويسة الثابتة يعتمد على سكريبت الترويسة، ولا يُطبَّق بشكل صحيح عند نقل جزء منها."
 
 #: flavor/inc/class-launch-center.php:127
 msgid "حالت‌های سفارش‌گیری شعبه ثبت شده‌اند"
-msgstr ""
+msgstr "تم تسجيل أوضاع استقبال الطلبات للفرع"
 
 #: flavor/inc/class-onboarding.php:238
 msgid "حالت‌های فعال سفارش‌گیری"
-msgstr ""
+msgstr "أوضاع استقبال الطلبات المفعّلة"
 
 #: flavor/inc/class-premium-customizer.php:114
 msgid "حداقل تعداد زیرمنو برای مگامنو شدن"
-msgstr ""
+msgstr "الحد الأدنى لعدد القوائم الفرعية لتصبح القائمة ضخمة"
 
 #: flavor/template-parts/demos/coverage.php:12
 msgid "حداقل سفارش"
@@ -1731,79 +1731,79 @@ msgstr "الحد الأدنى للطلب"
 
 #: flavor/inc/class-launch-center.php:159
 msgid "حداقل یک آیتم منوی منتشر وجود دارد"
-msgstr ""
+msgstr "يوجد عنصر منشور واحد على الأقل في القائمة"
 
 #: flavor/inc/class-launch-center.php:129
 msgid "حداقل یک حالت سالن، بیرون‌بر یا ارسال را برای شعبه انتخاب کنید."
-msgstr ""
+msgstr "اختاروا وضعاً واحداً على الأقل للفرع: الصالة أو الاستلام أو التوصيل."
 
 #: flavor/inc/class-launch-center.php:187
 msgid "حداقل یک روش پرداخت فعال است"
-msgstr ""
+msgstr "توجد طريقة دفع مفعّلة واحدة على الأقل"
 
 #: flavor/inc/class-wishlist.php:183
 msgid "حداکثر %d مورد قابل ذخیره است."
-msgstr ""
+msgstr "الحد الأقصى للحفظ %d عنصراً."
 
 #: flavor/inc/class-customizer.php:530
 msgid "حداکثر خوانایی (2)"
-msgstr ""
+msgstr "أقصى وضوح للقراءة (2)"
 
 #: flavor/inc/class-customizer.php:396
 msgid "حداکثر عرض محتوا"
-msgstr ""
+msgstr "أقصى عرض للمحتوى"
 
 #: flavor/inc/class-customizer.php:397
 msgid "حداکثرِ عرضِ محتوا به پیکسل. روی صفحه‌های عریض، محتوا از این مقدار فراتر نمی‌رود."
-msgstr ""
+msgstr "أقصى عرض للمحتوى بالبكسل. في الشاشات العريضة لا يتجاوز المحتوى هذه القيمة."
 
 #: flavor/inc/class-builder.php:597 flavor/inc/class-repeater-control.php:131
 msgid "حذف"
-msgstr ""
+msgstr "إزالة"
 
 #: flavor/inc/class-repeater-control.php:130
 msgid "حذف این مورد"
-msgstr ""
+msgstr "حذف هذا العنصر"
 
 #: flavor/inc/class-demo-importer.php:213
 msgid "حذف فقط محتوای دموی مالکیت‌شده"
-msgstr ""
+msgstr "حذف المحتوى التجريبي المملوك فقط"
 
 #: flavor/inc/class-customer-ui.php:82
 msgid "حساب مشتری"
-msgstr ""
+msgstr "حساب العميل"
 
 #: flavor/inc/class-chrome-builder.php:851 flavor/page.php:16 flavor/template-parts/ui/mobile-nav.php:8
 msgid "حساب من"
-msgstr ""
+msgstr "حسابي"
 
 #: flavor/inc/class-chrome-builder.php:190
 msgid "حساب کاربری"
-msgstr ""
+msgstr "الحساب"
 
 #: flavor/inc/class-chrome-builder.php:2010
 msgid "خالی بگذارید تا رنگ خودِ پوسته حفظ شود."
-msgstr ""
+msgstr "اتركوه فارغاً ليبقى لون القالب نفسه."
 
 #: flavor/inc/class-premium-customizer.php:180
 msgid "خالی بگذارید تا شمارش معکوس روی محصولات زمان‌دار، از تاریخ پایان حراج خود ووکامرس خوانده شود."
-msgstr ""
+msgstr "اتركوه فارغاً ليُقرأ العد التنازلي للمنتجات المحدودة الوقت من تاريخ انتهاء التخفيض في WooCommerce."
 
 #: flavor/inc/class-chrome-builder.php:1929
 msgid "خاموش کردنش جای بیشتری برای محتوا روی گوشی می‌گذارد."
-msgstr ""
+msgstr "إيقافه يوفر مساحة أكبر للمحتوى على الهاتف."
 
 #: flavor/inc/class-onboarding.php:790 flavor/inc/class-schema-output.php:180 flavor/inc/class-ui-pages.php:67 flavor/inc/template-tags.php:177 flavor/page-templates/template-menu.php:13 flavor/page-templates/template-order-tracking.php:9 flavor/template-parts/ui/mobile-nav.php:14
 msgid "خانه"
-msgstr ""
+msgstr "الرئيسية"
 
 #: flavor/inc/class-chrome-builder.php:1101 flavor/inc/class-chrome-builder.php:2078
 msgid "خبرنامهٔ منو و تخفیف‌ها"
-msgstr ""
+msgstr "نشرة القائمة والتخفيضات"
 
 #: flavor/inc/class-chrome-builder.php:1295
 msgid "خط و سایه"
-msgstr ""
+msgstr "حد وظل"
 
 #: flavor/template-parts/demos/catering.php:88
 msgid "خلاصهٔ شما آماده است؛ هنوز ارسال نشده."
@@ -1811,19 +1811,19 @@ msgstr "ملخّصك جاهز؛ لم يُرسل بعد."
 
 #: flavor/inc/class-customizer.php:528
 msgid "خوانا (1.8)"
-msgstr ""
+msgstr "واضح (1.8)"
 
 #: flavor/inc/class-customizer.php:340
 msgid "خوانایی رنگ‌ها"
-msgstr ""
+msgstr "وضوح الألوان"
 
 #: flavor/inc/class-chrome-builder.php:1352 flavor/inc/class-chrome-builder.php:1367 flavor/inc/class-chrome-builder.php:1381
 msgid "خودکار"
-msgstr ""
+msgstr "تلقائي"
 
 #: flavor/inc/class-premium-customizer.php:81
 msgid "خودکار (پیروی از تنظیم دستگاه بازدیدکننده)"
-msgstr ""
+msgstr "تلقائي (وفقاً لإعداد جهاز الزائر)"
 
 #: flavor/template-parts/demos/visit.php:12
 msgid "خوشحال می‌شویم ببینیمت"
@@ -1831,23 +1831,23 @@ msgstr "يسعدنا أن نراك"
 
 #: flavor/inc/class-customizer.php:505
 msgid "خیلی باز (0.04em)"
-msgstr ""
+msgstr "مفتوح جداً (0.04em)"
 
 #: flavor/inc/class-customizer.php:492
 msgid "خیلی باز (1.4)"
-msgstr ""
+msgstr "مفتوح جداً (1.4)"
 
 #: flavor/inc/class-customizer.php:529
 msgid "خیلی خوانا (1.9)"
-msgstr ""
+msgstr "واضح جداً (1.9)"
 
 #: flavor/inc/class-customizer.php:478
 msgid "خیلی درشت (800)"
-msgstr ""
+msgstr "عريض جداً (800)"
 
 #: flavor/inc/class-block-patterns.php:90
 msgid "داستان سرآشپز"
-msgstr ""
+msgstr "قصة الشيف"
 
 #: flavor/elementor/widgets/class-about-widget.php:31 flavor/inc/class-block-patterns.php:292 flavor/inc/class-demo-importer.php:776
 msgid "داستان ما"
@@ -1859,15 +1859,15 @@ msgstr "قصّتنا وفلسفتنا في الطبخ"
 
 #: flavor/inc/class-premium-customizer.php:214
 msgid "داک شناور"
-msgstr ""
+msgstr "شريط عائم"
 
 #: flavor/page-templates/template-contact.php:15
 msgid "در ارتباط باشیم."
-msgstr ""
+msgstr "لنبقَ على تواصل."
 
 #: flavor/inc/class-customizer.php:466
 msgid "دراماتیک — ۱.۴۱۴"
-msgstr ""
+msgstr "درامي — 1.414"
 
 #: flavor/elementor/widgets/class-chefs-widget.php:71
 msgid "درباره"
@@ -1879,7 +1879,7 @@ msgstr "حول المطعم"
 
 #: flavor/inc/class-demo-importer.php:273 flavor/inc/class-onboarding.php:809 flavor/template-parts/marketing/about.php:57
 msgid "درباره ما"
-msgstr ""
+msgstr "من نحن"
 
 #: flavor/template-parts/demos/dark-luxe.php:10
 msgid "دربارهٔ فلسفهٔ ما"
@@ -1887,15 +1887,15 @@ msgstr "حول فلسفتنا"
 
 #: flavor/page-templates/template-about.php:11
 msgid "دربارهٔ ما"
-msgstr ""
+msgstr "عنا"
 
 #: flavor/inc/class-wishlist.php:184
 msgid "در حال افزودن به سبد…"
-msgstr ""
+msgstr "جارٍ الإضافة إلى السلة…"
 
 #: flavor/inc/class-enqueue.php:183
 msgid "در حال بارگذاری منو…"
-msgstr ""
+msgstr "جارٍ تحميل القائمة…"
 
 #: flavor/inc/class-shopping-extras.php:319
 msgid "در حال دریافت اطلاعات غذا…"
@@ -1903,7 +1903,7 @@ msgstr "جارٍ جلب بيانات الطبق…"
 
 #: flavor/inc/class-premium-assets.php:107
 msgid "در حال دریافت اطلاعات…"
-msgstr ""
+msgstr "جارٍ جلب المعلومات…"
 
 #: flavor/template-parts/reservation/reservation-form.php:17
 msgid "درخواست خاص یا حساسیت غذایی را پیش از مراجعه با مجموعه هماهنگ کنید."
@@ -1911,67 +1911,67 @@ msgstr "نسّق الطلبات الخاصة أو الحساسية الغذائ�
 
 #: flavor/inc/class-customer-ui.php:105
 msgid "در رسید اصلی بررسی کنید"
-msgstr ""
+msgstr "راجعوه في الإيصال الأصلي"
 
 #: flavor/inc/class-customizer.php:417 flavor/inc/class-customizer.php:418 flavor/inc/class-customizer.php:419 flavor/inc/class-ui-customizer.php:94 flavor/inc/class-ui-customizer.php:95 flavor/inc/class-ui-customizer.php:96
 msgid "درشت"
-msgstr ""
+msgstr "عريض"
 
 #: flavor/inc/class-customizer.php:517
 msgid "درشت (700)"
-msgstr ""
+msgstr "عريض (700)"
 
 #: flavor/inc/class-customizer.php:477
 msgid "درشت (700) — پیش‌فرض"
-msgstr ""
+msgstr "عريض (700) — الافتراضي"
 
 #: flavor/inc/class-launch-center.php:267
 msgid "درصد آمادگی"
-msgstr ""
+msgstr "نسبة الجاهزية"
 
 #: flavor/inc/class-demo-importer.php:75
 msgid "درون‌ریزی «%s» در مرحلهٔ «%s» است: %d٪"
-msgstr ""
+msgstr "الاستيراد «%s» في مرحلة «%s»: %d٪"
 
 #: flavor/inc/class-demo-importer.php:133
 msgid "درون‌ریزی «%s» محتوای فعلی این دموی Flavor را با محتوای جدید جایگزین می‌کند (سایر محتواها دست‌نخورده باقی می‌مانند) و یک آرشیو پشتیبان پیش از اعمال ساخته می‌شود. ادامه می‌دهید؟"
-msgstr ""
+msgstr "الاستيراد «%s» يستبدل المحتوى الحالي لهذا العرض التجريبي من Flavor بالمحتوى الجديد (تبقى بقية المحتويات دون تغيير)، وينشئ أرشيفاً احتياطياً قبل التطبيق. هل تريدون المتابعة؟"
 
 #: flavor/inc/class-demo-importer.php:133
 msgid "درون‌ریزی با پشتیبان"
-msgstr ""
+msgstr "استيراد مع نسخة احتياطية"
 
 #: flavor/inc/class-launch-center.php:273
 msgid "درون‌ریزی دمو"
-msgstr ""
+msgstr "استيراد العرض التجريبي"
 
 #: flavor/inc/class-launch-center.php:97
 msgid "درون‌ریزی دموها"
-msgstr ""
+msgstr "استيراد العروض التجريبية"
 
 #: flavor/inc/class-demo-importer.php:38
 msgid "درون‌ریزی دموی Flavor"
-msgstr ""
+msgstr "استيراد عرض Flavor التجريبي"
 
 #: flavor/inc/class-demo-importer.php:325
 msgid "درون‌ریزی کامل شد"
-msgstr ""
+msgstr "اكتمل الاستيراد"
 
 #: flavor/inc/class-demo-importer.php:77
 msgid "درون‌ریزی کامل نشد. محتوای پیشین از آرشیو محافظت می‌شود؛ از بخش بازگشت استفاده کنید."
-msgstr ""
+msgstr "لم يكتمل الاستيراد. المحتوى السابق محفوظ في الأرشيف؛ استخدموا قسم الاستعادة."
 
 #: flavor/inc/class-launch-center.php:189
 msgid "درگاه بانکی یا روش پرداخت محلی را در WooCommerce فعال کنید."
-msgstr ""
+msgstr "فعّلوا بوابة بنكية أو طريقة دفع محلية في WooCommerce."
 
 #: flavor/inc/class-premium-assets.php:108
 msgid "دریافت اطلاعات ناموفق بود. صفحهٔ محصول را باز کنید."
-msgstr ""
+msgstr "فشل جلب المعلومات. افتحوا صفحة المنتج."
 
 #: flavor/inc/class-transfer.php:70
 msgid "دریافت فایل JSON تنظیمات"
-msgstr ""
+msgstr "تنزيل ملف JSON للإعدادات"
 
 #: flavor/template-parts/ui/login.php:10
 msgid "دریافت کد ورود"
@@ -1979,7 +1979,7 @@ msgstr "استلام رمز الدخول"
 
 #: flavor/inc/class-chrome-builder.php:1039
 msgid "دسترسی سریع"
-msgstr ""
+msgstr "الوصول السريع"
 
 #: flavor/template-parts/ui/mobile-nav.php:13
 msgid "دسترسی سریع موبایل"
@@ -1987,11 +1987,11 @@ msgstr "وصول سريع من الهاتف"
 
 #: flavor/inc/class-demo-importer.php:51 flavor/inc/class-demo-importer.php:149 flavor/inc/class-demo-importer.php:184 flavor/inc/class-launch-center.php:251 flavor/inc/class-onboarding.php:80 flavor/inc/class-onboarding.php:487 flavor/inc/class-onboarding.php:511 flavor/inc/class-transfer.php:50 flavor/inc/class-transfer.php:243 flavor/inc/class-update-channel.php:525
 msgid "دسترسی ندارید."
-msgstr ""
+msgstr "ليست لديكم صلاحية الوصول."
 
 #: flavor/inc/class-onboarding.php:290
 msgid "دسته‌بندی"
-msgstr ""
+msgstr "التصنيف"
 
 #: flavor/template-parts/menu/category-nav.php:5
 msgid "دسته‌بندی منو"
@@ -1999,11 +1999,11 @@ msgstr "تصنيف القائمة"
 
 #: flavor/inc/class-builder.php:246
 msgid "دسته‌بندی‌ای یافت نشد."
-msgstr ""
+msgstr "لم يُعثر على تصنيف."
 
 #: flavor/inc/class-builder.php:235 flavor/inc/class-builder.php:241
 msgid "دسته‌بندی‌های منو"
-msgstr ""
+msgstr "تصنيفات القائمة"
 
 #: flavor/template-parts/marketing/categories.php:14
 msgid "دسته‌بندی‌های منوی رستوران"
@@ -2027,35 +2027,35 @@ msgstr "دقائق التحضير"
 
 #: flavor/inc/class-demo-importer.php:64
 msgid "دمو «%s» درون‌ریزی شد. صفحه نخست را بررسی کنید. آرشیو بازگشت هم ساخته شد."
-msgstr ""
+msgstr "تم استيراد العرض «%s». راجعوا الصفحة الرئيسية. تم إنشاء أرشيف الاستعادة أيضاً."
 
 #: flavor/inc/class-demo-importer.php:39
 msgid "دموهای Flavor"
-msgstr ""
+msgstr "عروض Flavor التجريبية"
 
 #: flavor/inc/class-demo-importer.php:61
 msgid "دموهای نصب یک‌کلیکی Flavor"
-msgstr ""
+msgstr "عروض Flavor للتثبيت بنقرة واحدة"
 
 #: flavor/inc/class-demo-importer.php:156
 msgid "دمو پیدا نشد."
-msgstr ""
+msgstr "لم يُعثر على العرض التجريبي."
 
 #: flavor/inc/class-demo-importer.php:119
 msgid "دموی فعال"
-msgstr ""
+msgstr "العرض التجريبي الفعّال"
 
 #: flavor/inc/class-block-patterns.php:85
 msgid "دو ستونه: ساعات کاری در یک ستون و نشانی و تلفن در ستون دیگر."
-msgstr ""
+msgstr "عمودان: ساعات العمل في عمود، والعنوان والهاتف في العمود الآخر."
 
 #: flavor/inc/class-customizer.php:652
 msgid "دوطرفه (متن در راست / تصویر شاخص در چپ)"
-msgstr ""
+msgstr "ثنائي الاتجاه (النص على اليمين / الصورة البارزة على اليسار)"
 
 #: flavor/inc/class-block-patterns.php:220
 msgid "دوغ، نوشیدنی‌های سرد و دسرهای روز."
-msgstr ""
+msgstr "دوغ ومشروبات باردة وحلويات اليوم."
 
 #: flavor/elementor/widgets/class-price-list-widget.php:67
 msgid "دوغ محلی"
@@ -2067,91 +2067,91 @@ msgstr "الزر"
 
 #: flavor/inc/class-customizer.php:386
 msgid "دکمه مدرن گرد (12px)"
-msgstr ""
+msgstr "زر عصري دائري (12px)"
 
 #: flavor/inc/class-customizer.php:385
 msgid "دکمه مربعی ملایم (6px)"
-msgstr ""
+msgstr "زر مربع لطيف (6px)"
 
 #: flavor/inc/class-premium-customizer.php:220
 msgid "دکمهٔ بازگشت به بالا با حلقهٔ پیشرفت"
-msgstr ""
+msgstr "زر العودة إلى الأعلى مع حلقة التقدم"
 
 #: flavor/inc/class-premium-customizer.php:221
 msgid "دکمهٔ تماس تلفنی"
-msgstr ""
+msgstr "زر الاتصال الهاتفي"
 
 #: flavor/inc/class-chrome-builder.php:171
 msgid "دکمهٔ سفارش آنلاین"
-msgstr ""
+msgstr "زر الطلب الإلكتروني"
 
 #: flavor/inc/class-chrome-builder.php:175
 msgid "دکمهٔ منوی موبایل"
-msgstr ""
+msgstr "زر قائمة الجوال"
 
 #: flavor/inc/class-premium-customizer.php:222
 msgid "دکمهٔ واتس‌اپ (از شمارهٔ تماس ساخته می‌شود)"
-msgstr ""
+msgstr "زر واتساب (يُنشأ من رقم الاتصال)"
 
 #: flavor/inc/class-customizer.php:387
 msgid "دکمه کپسولی کامل (Pill 9999px)"
-msgstr ""
+msgstr "زر كبسولي كامل (Pill 9999px)"
 
 #: flavor/search.php:6
 msgid "دیدن جزئیات"
-msgstr ""
+msgstr "عرض التفاصيل"
 
 #: flavor/inc/class-customer-ui.php:85 flavor/page-templates/template-contact.php:21 flavor/template-parts/reservation/reservation-form.php:10
 msgid "دیدن منو"
-msgstr ""
+msgstr "عرض القائمة"
 
 #: flavor/search.php:6
 msgid "دیدن منوی کامل"
-msgstr ""
+msgstr "عرض القائمة كاملة"
 
 #: flavor/page-templates/template-contact.php:18
 msgid "دیدن موقعیت ثبت‌شده در نقشه"
-msgstr ""
+msgstr "عرض الموقع المسجّل على الخريطة"
 
 #: flavor/inc/class-chrome-builder.php:1087
 msgid "دیدن نقشهٔ شعب"
-msgstr ""
+msgstr "عرض خريطة الفروع"
 
 #: flavor/inc/class-wishlist.php:119
 msgid "ذخیره در علاقه‌مندی‌ها"
-msgstr ""
+msgstr "حفظ في المفضلة"
 
 #: flavor/inc/class-update-channel.php:437
 msgid "ذخیرهٔ تنظیمات"
-msgstr ""
+msgstr "حفظ الإعدادات"
 
 #: flavor/inc/class-ui.php:26
 msgid "راحت و باز"
-msgstr ""
+msgstr "مريح ومفتوح"
 
 #: flavor/inc/class-builder.php:71 flavor/inc/class-builder.php:99
 msgid "راست"
-msgstr ""
+msgstr "يمين"
 
 #: flavor/inc/class-onboarding.php:143
 msgid "راه‌اندازی ذخیره شد. مرکز آمادگی انتشار را برای بررسی درگاه، شعبه، منو و سفارش آزمایشی باز کنید."
-msgstr ""
+msgstr "تم حفظ الإعداد. افتحوا مركز جاهزية النشر لمراجعة البوابة والفرع والقائمة والطلب التجريبي."
 
 #: flavor/inc/class-launch-center.php:108 flavor/inc/class-launch-center.php:148 flavor/inc/class-launch-center.php:272
 msgid "راه‌اندازی سریع"
-msgstr ""
+msgstr "الإعداد السريع"
 
 #: flavor/inc/class-onboarding.php:39
 msgid "راه‌اندازی سریع رستوران"
-msgstr ""
+msgstr "الإعداد السريع للمطعم"
 
 #: flavor/inc/class-onboarding.php:146
 msgid "راه‌اندازی سریع رستوران در ۱۰ گام ساده"
-msgstr ""
+msgstr "الإعداد السريع للمطعم في 10 خطوات بسيطة"
 
 #: flavor/page-templates/template-contact.php:16
 msgid "راه‌های ارتباطی"
-msgstr ""
+msgstr "وسائل التواصل"
 
 #: flavor/template-parts/branch/branch-selector.php:10 flavor/template-parts/reservation/reservation-form.php:17
 msgid "راه‌های تماس"
@@ -2163,11 +2163,11 @@ msgstr "الصفوف"
 
 #: flavor/inc/class-demo-importer.php:271 flavor/template-parts/reservation/reservation-form.php:8
 msgid "رزرو"
-msgstr ""
+msgstr "الحجز"
 
 #: flavor/inc/class-block-patterns.php:333
 msgid "رزرو آنلاین خیلی راحت بود؛ میز آماده بود و منتظر نماندیم."
-msgstr ""
+msgstr "كان الحجز الإلكتروني سهلاً جداً؛ كانت الطاولة جاهزة ولم ننتظر."
 
 #: flavor/elementor/widgets/class-reservation-widget.php:54 flavor/inc/class-block-patterns.php:240
 msgid "رزرو آنلاین در چند ثانیه، بدون تماس تلفنی."
@@ -2183,7 +2183,7 @@ msgstr "حجز الطاولة عبر الإنترنت غير متاح."
 
 #: flavor/inc/class-chrome-builder.php:989
 msgid "رزرو اینترنتی میز"
-msgstr ""
+msgstr "حجز الطاولة عبر الإنترنت"
 
 #: flavor/elementor/widgets/class-faq-widget.php:61
 msgid "رزرو برای گروه‌های بیشتر از چهار نفر توصیه می‌شود."
@@ -2191,7 +2191,7 @@ msgstr "يُنصح بالحجز للمجموعات التي تزيد عن أرب
 
 #: flavor/inc/class-block-patterns.php:335
 msgid "رزرو سالن"
-msgstr ""
+msgstr "حجز القاعة"
 
 #: flavor/elementor/widgets/class-reservation-widget.php:63 flavor/elementor/widgets/class-reservation-widget.php:93 flavor/inc/class-block-patterns.php:167 flavor/inc/class-block-patterns.php:245 flavor/inc/class-builder.php:260 flavor/inc/class-builder.php:268 flavor/inc/class-customizer.php:680 flavor/inc/class-onboarding.php:800 flavor/inc/template-tags.php:184 flavor/template-parts/ui/mobile-nav.php:8
 msgid "رزرو میز"
@@ -2203,31 +2203,31 @@ msgstr "حجز طاولة ومساحة هادئة"
 
 #: flavor/inc/class-design.php:60
 msgid "رستوران دارک پریمیوم"
-msgstr ""
+msgstr "مطعم داكن فاخر"
 
 #: flavor/inc/class-design.php:36
 msgid "رستوران سنتی و اصیل ایرانی"
-msgstr ""
+msgstr "مطعم إيراني تقليدي أصيل"
 
 #: flavor/inc/class-design.php:32
 msgid "رستوران لوکس و مجلل"
-msgstr ""
+msgstr "مطعم فاخر وباذخ"
 
 #: flavor/inc/class-design.php:28
 msgid "رستوران مدرن"
-msgstr ""
+msgstr "مطعم عصري"
 
 #: flavor/inc/class-block-patterns.php:51
 msgid "رستوران مستقیم"
-msgstr ""
+msgstr "مطعم مباشر"
 
 #: flavor/elementor/class-widget-base.php:54
 msgid "رستوران مستقیم — Flavor"
-msgstr ""
+msgstr "مطعم مباشر — Flavor"
 
 #: flavor/inc/class-block-patterns.php:334
 msgid "رضا کریمی"
-msgstr ""
+msgstr "رضا كريمي"
 
 #: flavor/template-parts/marketing/about.php:70
 msgid "رضایت مهمان‌ها"
@@ -2239,119 +2239,119 @@ msgstr "الموافقة على ملفات تعريف الارتباط"
 
 #: flavor/page-templates/template-order-tracking.php:17
 msgid "رفتن به حساب مشتری"
-msgstr ""
+msgstr "الذهاب إلى حساب العميل"
 
 #: flavor/inc/class-customer-ui.php:107
 msgid "رفتن به صفحهٔ پیگیری"
-msgstr ""
+msgstr "الذهاب إلى صفحة المتابعة"
 
 #: flavor/404.php:6
 msgid "رفتن به منو"
-msgstr ""
+msgstr "الانتقال إلى القائمة"
 
 #: flavor/inc/class-design.php:334
 msgid "رنگ اصلی"
-msgstr ""
+msgstr "اللون الأساسي"
 
 #: flavor/inc/class-onboarding.php:206
 msgid "رنگ اصلی برند"
-msgstr ""
+msgstr "اللون الأساسي للعلامة"
 
 #: flavor/inc/class-customizer.php:294
 msgid "رنگ اصلی برند (Primary)"
-msgstr ""
+msgstr "اللون الأساسي للعلامة (Primary)"
 
 #: flavor/inc/class-design.php:336
 msgid "رنگ تأکید"
-msgstr ""
+msgstr "لون التمييز"
 
 #: flavor/inc/class-customizer.php:296
 msgid "رنگ تاکید و بج‌ها (Accent)"
-msgstr ""
+msgstr "لون التمييز والشارات (Accent)"
 
 #: flavor/inc/class-customizer.php:295
 msgid "رنگ ثانویه (Secondary)"
-msgstr ""
+msgstr "اللون الثانوي (Secondary)"
 
 #: flavor/inc/class-onboarding.php:210
 msgid "رنگ ثانویه / تاکیدی"
-msgstr ""
+msgstr "اللون الثانوي / التمييزي"
 
 #: flavor/inc/class-design.php:342
 msgid "رنگ خطوط"
-msgstr ""
+msgstr "لون الخطوط"
 
 #: flavor/inc/class-customizer.php:302
 msgid "رنگ خطوط و کادرها (Border Line)"
-msgstr ""
+msgstr "لون الخطوط والإطارات (Border Line)"
 
 #: flavor/inc/class-chrome-builder.php:1467
 msgid "رنگ خط پایین هدر"
-msgstr ""
+msgstr "لون الخط أسفل الترويسة"
 
 #: flavor/inc/class-design.php:335
 msgid "رنگ دوم"
-msgstr ""
+msgstr "اللون الثاني"
 
 #: flavor/inc/class-customizer.php:314
 msgid "رنگ را خالی بگذارید تا مقدارِ پوستهٔ انتخابی به کار برود؛ پرکردنش آن را برای این رنگ لغو می‌کند."
-msgstr ""
+msgstr "اتركوا اللون فارغاً ليُستخدم لون القالب المختار؛ وملؤه يلغي ذلك لهذا اللون."
 
 #: flavor/inc/class-design.php:338
 msgid "رنگ سطح"
-msgstr ""
+msgstr "لون السطح"
 
 #: flavor/inc/class-design.php:339
 msgid "رنگ سطح دوم"
-msgstr ""
+msgstr "لون السطح الثاني"
 
 #: flavor/inc/class-design.php:340
 msgid "رنگ متن"
-msgstr ""
+msgstr "لون النص"
 
 #: flavor/inc/class-customizer.php:300
 msgid "رنگ متن اصلی (Text Color)"
-msgstr ""
+msgstr "لون النص الأساسي (Text Color)"
 
 #: flavor/inc/class-customizer.php:301
 msgid "رنگ متن فرعی (Muted Text)"
-msgstr ""
+msgstr "لون النص الثانوي (Muted Text)"
 
 #: flavor/inc/class-chrome-builder.php:1479
 msgid "رنگ متن نوار اطلاعیه"
-msgstr ""
+msgstr "لون نص شريط الإعلانات"
 
 #: flavor/inc/class-chrome-builder.php:1461
 msgid "رنگ متن و آیکن‌های هدر"
-msgstr ""
+msgstr "لون نص أيقونات الترويسة"
 
 #: flavor/inc/class-chrome-builder.php:1491
 msgid "رنگ متن پاورقی"
-msgstr ""
+msgstr "لون نص التذييل"
 
 #: flavor/inc/class-design.php:341
 msgid "رنگ متن کم‌رنگ"
-msgstr ""
+msgstr "لون النص الباهت"
 
 #: flavor/inc/class-design.php:337
 msgid "رنگ پس‌زمینه"
-msgstr ""
+msgstr "لون الخلفية"
 
 #: flavor/inc/class-page-options.php:71
 msgid "رنگ پس‌زمینهٔ صفحه"
-msgstr ""
+msgstr "لون خلفية الصفحة"
 
 #: flavor/inc/class-design.php:45
 msgid "رنگ‌های شاد، جذاب و پرانرژی قرمز، خردلی و دودی"
-msgstr ""
+msgstr "ألوان مبهجة وجذابة ونابضة بالحيوية: أحمر وخردلي ودخاني"
 
 #: flavor/inc/class-design.php:53
 msgid "رنگ‌های ملایم پاستلی، صورتی ملیح و سبز نعنایی"
-msgstr ""
+msgstr "ألوان باستيلية هادئة، وردي عذب وأخضر نعناعي"
 
 #: flavor/inc/class-contrast-control.php:46
 msgid "رنگ‌هایی که وارد کنید اینجا سنجیده می‌شوند."
-msgstr ""
+msgstr "الألوان التي تُدخلونها تُقاس هنا."
 
 #: flavor/elementor/widgets/class-hours-widget.php:55 flavor/inc/class-engagement.php:117
 msgid "روز"
@@ -2371,11 +2371,11 @@ msgstr "اختر طريقة الاستلام؛ نتولّى نحن بقية ال
 
 #: flavor/inc/class-block-patterns.php:407
 msgid "روش دریافت را مشخص کنید"
-msgstr ""
+msgstr "حدّدوا طريقة الاستلام"
 
 #: flavor/inc/class-premium-customizer.php:82
 msgid "روشن"
-msgstr ""
+msgstr "فاتح"
 
 #: flavor/template-parts/menu/cart-drawer.php:27
 msgid "روش پرداخت"
@@ -2383,7 +2383,7 @@ msgstr "طريقة الدفع"
 
 #: flavor/inc/class-customer-ui.php:105
 msgid "روش پرداخت ثبت‌شده"
-msgstr ""
+msgstr "طريقة الدفع المسجّلة"
 
 #: flavor/elementor/widgets/class-order-cta-widget.php:61
 msgid "روش‌های سفارش"
@@ -2395,7 +2395,7 @@ msgstr "اطّلع على طرق الطلب وعنوان كل فرع وبيان�
 
 #: flavor/inc/class-launch-center.php:190
 msgid "روش‌های پرداخت"
-msgstr ""
+msgstr "طرق الدفع"
 
 #: flavor/template-parts/demos/catering.php:30
 msgid "رویکرد پذیرایی میزان"
@@ -2407,11 +2407,11 @@ msgstr "النظام الغذائي:"
 
 #: flavor/inc/class-ui.php:28
 msgid "زاویه‌دار"
-msgstr ""
+msgstr "زاوي"
 
 #: flavor/inc/class-block-patterns.php:366
 msgid "زمان آماده‌سازی سفارش چقدر است؟"
-msgstr ""
+msgstr "كم يستغرق تجهيز الطلب؟"
 
 #: flavor/template-parts/demos/coverage.php:15
 msgid "زمان احتمالی ارسال، برآورد منطقه است؛ نه رهگیری زنده یا زمان تضمین‌شده."
@@ -2419,11 +2419,11 @@ msgstr "وقت التوصيل المتوقّع تقدير حسب المنطقة�
 
 #: flavor/inc/class-premium-customizer.php:188
 msgid "زمان نمایش فرم عضویت"
-msgstr ""
+msgstr "وقت ظهور نموذج الاشتراك"
 
 #: flavor/inc/class-update-channel.php:410
 msgid "زمان پشتیبان"
-msgstr ""
+msgstr "وقت النسخة الاحتياطية"
 
 #: flavor/template-parts/reservation/reservation-form.php:9
 msgid "زمانی برای دور هم بودن."
@@ -2431,11 +2431,11 @@ msgstr "وقت لنكون معاً."
 
 #: flavor/inc/class-bespoke-demos.php:179
 msgid "زیرعنوان لوگوی متنی"
-msgstr ""
+msgstr "العنوان الفرعي للشعار النصي"
 
 #: flavor/page-templates/template-about.php:15
 msgid "سؤال و نیاز خاصتان را با مجموعه مطرح کنید."
-msgstr ""
+msgstr "اطرحوا سؤالكم واحتياجكم الخاص مع المجموعة."
 
 #: flavor/template-parts/demos/faq.php:8
 msgid "سؤالی مانده؟"
@@ -2443,19 +2443,19 @@ msgstr "ما زال لديك سؤال؟"
 
 #: flavor/inc/class-demo-importer.php:162
 msgid "ساخت آرشیو پشتیبان"
-msgstr ""
+msgstr "إنشاء أرشيف احتياطي"
 
 #: flavor/inc/class-launch-center.php:84
 msgid "ساختار ساده کار می‌کند، اما برای QR و تجربهٔ حرفه‌ای پیوندهای یکتا را ذخیره کنید."
-msgstr ""
+msgstr "البنية البسيطة تعمل، لكن احفظوا الروابط الدائمة من أجل QR وتجربة احترافية."
 
 #: flavor/inc/class-demo-importer.php:313
 msgid "ساخت صفحات و منوی اصلی"
-msgstr ""
+msgstr "إنشاء الصفحات والقائمة الرئيسية"
 
 #: flavor/inc/class-demo-importer.php:317
 msgid "ساخت محصولات، شعبه و ساعات کاری"
-msgstr ""
+msgstr "إنشاء المنتجات والفرع وساعات العمل"
 
 #: flavor/template-parts/demos/footer.php:31
 msgid "ساخته‌شده با"
@@ -2463,47 +2463,47 @@ msgstr "صُنع بـ"
 
 #: flavor/inc/class-repeater.php:280
 msgid "سارا محمدی"
-msgstr ""
+msgstr "سارة محمدي"
 
 #: flavor/inc/class-block-patterns.php:339
 msgid "سارا موسوی"
-msgstr ""
+msgstr "سارة موسوي"
 
 #: flavor/inc/class-chrome-builder.php:1823
 msgid "سازندهٔ هدر"
-msgstr ""
+msgstr "منشئ الترويسة"
 
 #: flavor/inc/class-chrome-builder.php:1833
 msgid "سازندهٔ پاورقی"
-msgstr ""
+msgstr "منشئ التذييل"
 
 #: flavor/single-flavor_branch.php:6
 msgid "ساعات با تعطیلی موردی یا برنامهٔ خاص ممکن است تغییر کنند؛ پیش از مراجعه هماهنگ کنید."
-msgstr ""
+msgstr "قد تتغير الساعات مع العطل الطارئة أو الجدول الخاص؛ نسّقوا قبل الزيارة."
 
 #: flavor/page-templates/template-contact.php:21
 msgid "ساعات ثبت‌شده"
-msgstr ""
+msgstr "الساعات المسجّلة"
 
 #: flavor/inc/class-ui-pages.php:59
 msgid "ساعات ثبت‌شده‌ای برای نمایش وجود ندارد؛ پیش از مراجعه هماهنگ کنید."
-msgstr ""
+msgstr "لا توجد ساعات مسجّلة للعرض؛ نسّقوا قبل الزيارة."
 
 #: flavor/single-flavor_branch.php:6 flavor/template-parts/demos/visit.php:13
 msgid "ساعات فعالیت"
-msgstr ""
+msgstr "ساعات النشاط"
 
 #: flavor/page-templates/template-contact.php:21
 msgid "ساعات هماهنگی"
-msgstr ""
+msgstr "ساعات التنسيق"
 
 #: flavor/inc/class-chrome-builder.php:216
 msgid "ساعات پذیرایی"
-msgstr ""
+msgstr "ساعات الضيافة"
 
 #: flavor/inc/class-chrome-builder.php:1063
 msgid "ساعات پذیرایی و ارسال"
-msgstr ""
+msgstr "ساعات الضيافة والتوصيل"
 
 #: flavor/elementor/widgets/class-hours-widget.php:22 flavor/elementor/widgets/class-hours-widget.php:44 flavor/elementor/widgets/class-hours-widget.php:116 flavor/inc/class-block-patterns.php:258
 msgid "ساعات کاری"
@@ -2511,11 +2511,11 @@ msgstr "ساعات العمل"
 
 #: flavor/inc/class-onboarding.php:234
 msgid "ساعات کاری رستوران"
-msgstr ""
+msgstr "ساعات عمل المطعم"
 
 #: flavor/inc/class-launch-center.php:145
 msgid "ساعات کاری شعبه ذخیره شده‌اند"
-msgstr ""
+msgstr "تم حفظ ساعات عمل الفرع"
 
 #: flavor/template-parts/marketing/hours.php:18
 msgid "ساعات کاری و اطلاعات تماس"
@@ -2523,7 +2523,7 @@ msgstr "ساعات العمل وبيانات الاتصال"
 
 #: flavor/inc/class-block-patterns.php:84
 msgid "ساعات کاری و نشانی"
-msgstr ""
+msgstr "ساعات العمل والعنوان"
 
 #: flavor/elementor/widgets/class-hours-widget.php:64 flavor/inc/class-engagement.php:117
 msgid "ساعت"
@@ -2535,11 +2535,11 @@ msgstr "الوقت والعنوان"
 
 #: flavor/inc/class-launch-center.php:147
 msgid "ساعت کاری را در ویزارد ذخیره کنید یا در تنظیمات شعبه وارد کنید."
-msgstr ""
+msgstr "احفظوا ساعات العمل من المعالج أو أدخلوها في إعدادات الفرع."
 
 #: flavor/inc/class-launch-center.php:147
 msgid "ساعت‌های فعال برای رزرو و نمایش شعبه در دسترس‌اند."
-msgstr ""
+msgstr "الساعات الفعّالة متاحة للحجز وعرض الفرع."
 
 #: flavor/template-parts/reservation/reservation-form.php:14
 msgid "ساعت‌های قابل رزرو"
@@ -2547,7 +2547,7 @@ msgstr "الأوقات القابلة للحجز"
 
 #: flavor/inc/class-block-patterns.php:206
 msgid "سالاد فصل، ماست‌موسیر و پیش‌غذاهای خانگی."
-msgstr ""
+msgstr "سلطة الموسم، ومخلل الموسير، ومقبلات منزلية."
 
 #: flavor/elementor/widgets/class-stats-widget.php:53
 msgid "سال تجربه"
@@ -2559,15 +2559,15 @@ msgstr "عاماً من الخبرة وشرف الضيافة"
 
 #: flavor/inc/class-ui.php:132 flavor/template-parts/menu/cart-drawer.php:18
 msgid "سالن"
-msgstr ""
+msgstr "القاعة"
 
 #: flavor/inc/class-block-patterns.php:407
 msgid "سالن، بیرون‌بر یا ارسال با پیک."
-msgstr ""
+msgstr "القاعة أو الاستلام الخارجي أو التوصيل بالمندوب."
 
 #: flavor/inc/class-chrome-builder.php:1294
 msgid "سایهٔ نرم بدون خط"
-msgstr ""
+msgstr "ظل ناعم بدون حد"
 
 #: flavor/template-parts/ui/mobile-nav.php:20 flavor/template-parts/ui/mobile-nav.php:22
 msgid "سبد"
@@ -2603,7 +2603,7 @@ msgstr "تُوفَّر الخضروات واللحوم كل صباح."
 
 #: flavor/inc/class-chrome-builder.php:1834
 msgid "ستون‌های پاورقی، بلوک هر ستون و ظاهرشان. محتوای ویجت‌ها از نمایش ← ویجت‌ها مدیریت می‌شود."
-msgstr ""
+msgstr "أعمدة التذييل، وكتلة كل عمود ومظهرها. يُدار محتوى الأدوات من المظهر ← الأدوات."
 
 #: flavor/elementor/widgets/class-chefs-widget.php:64
 msgid "سرآشپز"
@@ -2611,7 +2611,7 @@ msgstr "الشيف"
 
 #: flavor/inc/class-block-patterns.php:300
 msgid "سرآشپز: شما اینجا نام سرآشپز را بنویسید."
-msgstr ""
+msgstr "الشيف: اكتبوا هنا اسم الشيف."
 
 #: flavor/elementor/widgets/class-chefs-widget.php:106
 msgid "سرآشپز ارشد"
@@ -2627,11 +2627,11 @@ msgstr "الطهاة والفريق"
 
 #: flavor/inc/class-block-patterns.php:67
 msgid "سربرگ بزرگ با تیتر، توضیح کوتاه و دو دکمهٔ سفارش و رزرو."
-msgstr ""
+msgstr "ترويسة كبيرة بعنوان ووصف قصير وزرّي الطلب والحجز."
 
 #: flavor/inc/class-design.php:73
 msgid "سرمه‌ای، عاجی و برنجی با مسیر اختصاصی برنامه‌ریزی پذیرایی سازمانی"
-msgstr ""
+msgstr "كحلي وعاجي ونحاسي مع مسار مخصص لتخطيط الضيافة المؤسسية"
 
 #: flavor/template-parts/marketing/hours.php:40
 msgid "سرویس بیرون‌بر و پیک:"
@@ -2643,15 +2643,15 @@ msgstr "أسرع تحضير"
 
 #: flavor/inc/class-builder.php:70
 msgid "سطح"
-msgstr ""
+msgstr "السطح"
 
 #: flavor/inc/class-customizer.php:299
 msgid "سطح متناوب (Alternate Surface)"
-msgstr ""
+msgstr "السطح البديل (Alternate Surface)"
 
 #: flavor/inc/class-customizer.php:298
 msgid "سطح کارت‌ها (Card Surface)"
-msgstr ""
+msgstr "سطح البطاقات (Card Surface)"
 
 #: flavor/template-parts/marketing/featured.php:103
 msgid "سفارش"
@@ -2659,15 +2659,15 @@ msgstr "الطلب"
 
 #: flavor/inc/class-customer-ui.php:86 flavor/inc/class-customer-ui.php:105
 msgid "سفارش %s"
-msgstr ""
+msgstr "طلب %s"
 
 #: flavor/inc/class-launch-center.php:64
 msgid "سفارش، شعبه، رزرو، QR و آشپزخانه قابل استفاده‌اند."
-msgstr ""
+msgstr "الطلب والفرع والحجز وQR والمطبخ جاهزة للاستخدام."
 
 #: flavor/inc/class-launch-center.php:234
 msgid "سفارش آزمایشی ثبت شده است"
-msgstr ""
+msgstr "تم تسجيل طلب تجريبي"
 
 #: flavor/elementor/widgets/class-offers-widget.php:72 flavor/elementor/widgets/class-offers-widget.php:93 flavor/inc/class-block-patterns.php:163 flavor/inc/class-chrome-builder.php:792 flavor/inc/class-repeater.php:293
 msgid "سفارش آنلاین"
@@ -2675,7 +2675,7 @@ msgstr "طلب عبر الإنترنت"
 
 #: flavor/inc/class-chrome-builder.php:1071
 msgid "سفارش آنلاین:"
-msgstr ""
+msgstr "الطلب الإلكتروني:"
 
 #: flavor/template-parts/demos/cloud-kitchen.php:7
 msgid "سفارش آنلاین · بیرون‌بر یا ارسال"
@@ -2683,11 +2683,11 @@ msgstr "طلب عبر الإنترنت · استلام خارجي أو توصي�
 
 #: flavor/inc/class-block-patterns.php:158
 msgid "سفارش آنلاین، رزرو میز و تحویل در کمتر از ۳۰ دقیقه."
-msgstr ""
+msgstr "طلب إلكتروني وحجز طاولة وتسليم في أقل من 30 دقيقة."
 
 #: flavor/inc/class-builder.php:156
 msgid "سفارش آنلاین، سریع و تازه، مستقیم از آشپزخانهٔ ما."
-msgstr ""
+msgstr "طلب إلكتروني سريع وطازج، مباشرة من مطبخنا."
 
 #: flavor/template-parts/marketing/special-offers.php:44
 msgid "سفارش آنلاین با تخفیف"
@@ -2695,15 +2695,15 @@ msgstr "طلب عبر الإنترنت بخصم"
 
 #: flavor/inc/class-block-patterns.php:330
 msgid "سفارش ارسال"
-msgstr ""
+msgstr "طلب التوصيل"
 
 #: flavor/inc/class-block-patterns.php:340 flavor/inc/class-onboarding.php:240
 msgid "سفارش بیرون‌بر"
-msgstr ""
+msgstr "طلب الاستلام الخارجي"
 
 #: flavor/inc/class-block-patterns.php:280
 msgid "سفارش بیرون‌بر و ارسال در تمام ساعات کاری فعال است."
-msgstr ""
+msgstr "الطلب الخارجي والتوصيل متاحان في كل ساعات العمل."
 
 #: flavor/elementor/widgets/class-process-widget.php:62
 msgid "سفارش را با پرداخت آنلاین یا در محل ثبت کنید."
@@ -2715,7 +2715,7 @@ msgstr "طلب الصالة (رمز QR)"
 
 #: flavor/inc/class-onboarding.php:239
 msgid "سفارش سر میز سالن (QR)"
-msgstr ""
+msgstr "الطلب من الطاولة في القاعة (QR)"
 
 #: flavor/template-parts/menu/item-card.php:7
 msgid "سفارش سریع فعلاً فعال نیست؛ جزئیات محصولات را ببینید یا برای هماهنگی تماس بگیرید."
@@ -2723,7 +2723,7 @@ msgstr "الطلب السريع غير مفعّل حالياً؛ اطّلع عل
 
 #: flavor/page-templates/template-order-tracking.php:10
 msgid "سفارش شما در چه وضعیتی است؟"
-msgstr ""
+msgstr "ما حالة طلبكم؟"
 
 #: flavor/elementor/widgets/class-features-widget.php:66
 msgid "سفارش شما در کوتاه‌ترین زمان آماده می‌شود."
@@ -2731,23 +2731,23 @@ msgstr "يُجهَّز طلبك في أقصر وقت."
 
 #: flavor/inc/class-customer-ui.php:85
 msgid "سفارش مهمان لزوماً در تاریخچهٔ حساب نمایش داده نمی‌شود؛ از رسید یا مسیر پیگیری آن استفاده کنید."
-msgstr ""
+msgstr "طلب الضيف لا يظهر بالضرورة في سجل الحساب؛ استخدموا الإيصال أو مسار المتابعة الخاص به."
 
 #: flavor/inc/class-launch-center.php:274
 msgid "سفارشی‌سازی ظاهر"
-msgstr ""
+msgstr "تخصيص المظهر"
 
 #: flavor/inc/class-customer-ui.php:82
 msgid "سفارش‌ها و اطلاعاتی که به همین حساب متصل‌اند، اینجا در دسترس شما هستند."
-msgstr ""
+msgstr "الطلبات والمعلومات المرتبطة بهذا الحساب متاحة لكم هنا."
 
 #: flavor/inc/class-block-patterns.php:367
 msgid "سفارش‌های ارسال معمولاً بین ۲۰ تا ۳۰ دقیقه آماده می‌شوند."
-msgstr ""
+msgstr "تُجهَّز طلبات التوصيل عادةً خلال 20 إلى 30 دقيقة."
 
 #: flavor/inc/class-customer-ui.php:83
 msgid "سفارش‌های حساب"
-msgstr ""
+msgstr "طلبات الحساب"
 
 #: flavor/template-parts/ui/login.php:6
 msgid "سفارش‌های متصل به حساب"
@@ -2755,31 +2755,31 @@ msgstr "الطلبات المرتبطة بالحساب"
 
 #: flavor/inc/class-design.php:65
 msgid "سفید خالص، خطوط باریک با تمرکز ۱۰۰٪ روی تصاویر غذا"
-msgstr ""
+msgstr "أبيض نقي، وخطوط رفيعة مع تركيز 100% على صور الطعام"
 
 #: flavor/inc/class-premium-customizer.php:134
 msgid "سقف ارسال رایگان (به تومان، ۰ = خاموش)"
-msgstr ""
+msgstr "سقف التوصيل المجاني (بالتومان، 0 = مُعطّل)"
 
 #: flavor/inc/class-customer-ui.php:82
 msgid "سلام، %s"
-msgstr ""
+msgstr "مرحباً، %s"
 
 #: flavor/inc/class-block-patterns.php:73
 msgid "سه ستون برای معرفی دسته‌های اصلی منو با دکمهٔ مشاهده."
-msgstr ""
+msgstr "ثلاثة أعمدة لتعريف التصنيفات الرئيسية للقائمة مع زر العرض."
 
 #: flavor/inc/class-block-patterns.php:97
 msgid "سه نقل‌قول در کنار هم با نام و نقش هر مشتری."
-msgstr ""
+msgstr "ثلاثة اقتباسات جنباً إلى جنب مع اسم ودور كل عميل."
 
 #: flavor/inc/class-block-patterns.php:401
 msgid "سه گام تا سفارش"
-msgstr ""
+msgstr "ثلاث خطوات حتى الطلب"
 
 #: flavor/inc/class-block-patterns.php:109
 msgid "سه گام ساده برای توضیح مسیر سفارش از انتخاب غذا تا دریافت."
-msgstr ""
+msgstr "ثلاث خطوات بسيطة لشرح مسار الطلب من اختيار الطعام حتى الاستلام."
 
 #: flavor/inc/class-engagement.php:177
 msgid "سیاست حریم خصوصی"
@@ -2787,7 +2787,7 @@ msgstr "سياسة الخصوصية"
 
 #: flavor/inc/class-customizer.php:479
 msgid "سیاه (900)"
-msgstr ""
+msgstr "أسود (900)"
 
 #: flavor/template-parts/demos/juice-bar.php:22
 msgid "شات زنجبیل و لیمو کنار مواد تازه"
@@ -2795,35 +2795,35 @@ msgstr "جرعة زنجبيل وليمون مع مكوّنات طازجة"
 
 #: flavor/inc/class-premium-customizer.php:101
 msgid "شاخه‌هایی که فرزند زیادی دارند به پنل چندستونی تبدیل می‌شوند. با گذاشتن کلاس «mega-menu» روی یک آیتم، آن را دستی هم می‌توان مگامنو کرد."
-msgstr ""
+msgstr "تتحول الفروع التي تحتوي على عناصر فرعية كثيرة إلى لوحة متعددة الأعمدة. وبإضافة الصنف «mega-menu» إلى عنصر ما يمكن تحويله يدوياً إلى قائمة ضخمة."
 
 #: flavor/inc/class-premium-customizer.php:83
 msgid "شب"
-msgstr ""
+msgstr "ليلاً"
 
 #: flavor/inc/class-builder.php:204
 msgid "شبکهٔ منو"
-msgstr ""
+msgstr "شبكة القائمة"
 
 #: flavor/inc/class-chrome-builder.php:224
 msgid "شبکه‌های اجتماعی"
-msgstr ""
+msgstr "شبكات التواصل الاجتماعي"
 
 #: flavor/inc/class-onboarding.php:68
 msgid "شروع راه‌اندازی ۱۰ مرحله‌ای"
-msgstr ""
+msgstr "بدء الإعداد من 10 مراحل"
 
 #: flavor/inc/class-builder.php:156
 msgid "شروع سفارش"
-msgstr ""
+msgstr "بدء الطلب"
 
 #: flavor/inc/class-onboarding.php:170
 msgid "شعار یا زمینه فعالیت"
-msgstr ""
+msgstr "الشعار أو مجال النشاط"
 
 #: flavor/inc/class-customizer.php:362
 msgid "شعاعِ گوشهٔ کارت‌ها به پیکسل. عددِ بزرگ‌تر حسِ نرم‌تر و دوستانه‌تر می‌دهد."
-msgstr ""
+msgstr "نصف قطر زوايا البطاقات بالبكسل. العدد الأكبر يعطي إحساساً أنعم وأودّ."
 
 #: flavor/template-parts/reservation/reservation-form.php:13
 msgid "شعبه"
@@ -2839,15 +2839,15 @@ msgstr "الفرع والضيوف"
 
 #: flavor/inc/class-launch-center.php:116
 msgid "شعبهٔ اصلی با نشانی و شهر فعال است"
-msgstr ""
+msgstr "الفرع الرئيسي مفعّل مع العنوان والمدينة"
 
 #: flavor/inc/class-launch-center.php:118
 msgid "شعبهٔ پیش‌فرض: %s"
-msgstr ""
+msgstr "الفرع الافتراضي: %s"
 
 #: flavor/inc/class-demo-importer.php:272 flavor/inc/class-launch-center.php:119 flavor/inc/class-onboarding.php:805 flavor/inc/template-tags.php:188 flavor/template-parts/branch/branch-selector.php:8
 msgid "شعبه‌ها"
-msgstr ""
+msgstr "الفروع"
 
 #: flavor/template-parts/branch/branch-selector.php:9
 msgid "شعبه‌ها و راه‌های دسترسی"
@@ -2855,27 +2855,27 @@ msgstr "الفروع وطرق الوصول"
 
 #: flavor/inc/class-chrome-builder.php:995
 msgid "شعبه‌ها و ساعات کاری"
-msgstr ""
+msgstr "الفروع وساعات العمل"
 
 #: flavor/inc/class-changelog.php:159
 msgid "شما اجازهٔ دسترسی به این صفحه را ندارید."
-msgstr ""
+msgstr "ليست لديكم صلاحية الوصول إلى هذه الصفحة."
 
 #: flavor/inc/class-premium-customizer.php:167
 msgid "شمارش معکوس، خبرنامه و کوکی"
-msgstr ""
+msgstr "العد التنازلي والنشرة وملف تعريف الارتباط"
 
 #: flavor/inc/class-customizer.php:897
 msgid "شماره تلفن تماس / سفارش"
-msgstr ""
+msgstr "رقم الاتصال / الطلب"
 
 #: flavor/inc/class-onboarding.php:262
 msgid "شماره تلفن رستوران (جهت تماس و سفارش تلفنی)"
-msgstr ""
+msgstr "رقم هاتف المطعم (للاتصال والطلب الهاتفي)"
 
 #: flavor/inc/class-chrome-builder.php:157
 msgid "شماره تماس"
-msgstr ""
+msgstr "رقم الاتصال"
 
 #: flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/ui/login.php:9
 msgid "شمارهٔ موبایل"
@@ -2883,19 +2883,19 @@ msgstr "رقم الهاتف المحمول"
 
 #: flavor/inc/class-customizer.php:897
 msgid "شماره‌ای که در هدر و دکمه‌های تماس استفاده می‌شود؛ برای دکمهٔ تماس به‌صورت خودکار به پیوندِ tel تبدیل می‌شود."
-msgstr ""
+msgstr "الرقم المستخدم في الترويسة وأزرار الاتصال؛ يتحول تلقائياً إلى رابط tel لزر الاتصال."
 
 #: flavor/page-templates/template-order-tracking.php:13
 msgid "شناسه درج‌شده در رسید"
-msgstr ""
+msgstr "المعرّف المدرج في الإيصال"
 
 #: flavor/page-templates/template-order-tracking.php:13
 msgid "شناسهٔ سفارش"
-msgstr ""
+msgstr "معرّف الطلب"
 
 #: flavor/page-templates/template-order-tracking.php:10
 msgid "شناسهٔ سفارش و کد پیگیری مهمان را از رسید وارد کنید. سفارش‌های متصل به حساب، پس از ورود بدون کد مهمان قابل بررسی‌اند."
-msgstr ""
+msgstr "أدخلوا معرّف الطلب ورمز متابعة الضيف من الإيصال. الطلبات المرتبطة بحساب يمكن مراجعتها بعد تسجيل الدخول دون رمز الضيف."
 
 #: flavor/elementor/widgets/class-hours-widget.php:57 flavor/elementor/widgets/class-hours-widget.php:88 flavor/inc/class-block-patterns.php:262
 msgid "شنبه تا پنج‌شنبه"
@@ -2903,7 +2903,7 @@ msgstr "من السبت إلى الخميس"
 
 #: flavor/inc/class-chrome-builder.php:1069 flavor/template-parts/marketing/hours.php:32
 msgid "شنبه تا چهارشنبه:"
-msgstr ""
+msgstr "السبت إلى الأربعاء:"
 
 #: flavor/elementor/widgets/class-branch-info-widget.php:140 flavor/inc/class-onboarding.php:249 flavor/template-parts/menu/cart-drawer.php:26
 msgid "شهر"
@@ -2915,51 +2915,51 @@ msgstr "مدينة المناسبة ومكانها"
 
 #: flavor/inc/class-customizer.php:380
 msgid "شکلِ دکمه‌ها، از گوشه‌دار تا کاملاً گرد."
-msgstr ""
+msgstr "شكل الأزرار، من الزوايا المدببة إلى الدائري تماماً."
 
 #: flavor/inc/class-ui-customizer.php:100
 msgid "شیشه‌ای خوانا"
-msgstr ""
+msgstr "زجاجي واضح"
 
 #: flavor/page-templates/template-menu.php:22
 msgid "شیوهٔ نمایش منو"
-msgstr ""
+msgstr "طريقة عرض القائمة"
 
 #: flavor/inc/class-bespoke-demos.php:166
 msgid "صفحه اختصاصی دمو"
-msgstr ""
+msgstr "صفحة العرض التجريبي المخصصة"
 
 #: flavor/inc/class-chrome-builder.php:978
 msgid "صفحه اصلی"
-msgstr ""
+msgstr "الصفحة الرئيسية"
 
 #: flavor/404.php:6
 msgid "صفحهٔ اصلی"
-msgstr ""
+msgstr "الصفحة الرئيسية"
 
 #: flavor/inc/class-launch-center.php:96
 msgid "صفحهٔ اصلی برای بازدیدکننده قابل مشاهده است."
-msgstr ""
+msgstr "الصفحة الرئيسية مرئية للزائر."
 
 #: flavor/inc/class-wishlist.php:190
 msgid "صفحهٔ غذا"
-msgstr ""
+msgstr "صفحة الطبق"
 
 #: flavor/inc/class-launch-center.php:107
 msgid "صفحهٔ منو با قالب «منوی غذا» ساخته نشده است."
-msgstr ""
+msgstr "لم تُنشأ صفحة القائمة بقالب «قائمة الطعام»."
 
 #: flavor/inc/class-launch-center.php:105
 msgid "صفحهٔ منو وجود دارد"
-msgstr ""
+msgstr "توجد صفحة القائمة"
 
 #: flavor/inc/class-launch-center.php:94
 msgid "صفحهٔ نخست منتشر شده است"
-msgstr ""
+msgstr "نُشرت الصفحة الأولى"
 
 #: flavor/inc/class-premium-assets.php:109
 msgid "صفحهٔ کامل محصول"
-msgstr ""
+msgstr "صفحة المنتج الكاملة"
 
 #: flavor/template-parts/marketing/hero.php:98
 msgid "ضمانت ۱۰۰٪ تازگی مواد اوليه"
@@ -2967,31 +2967,31 @@ msgstr "ضمان طزاجة المكوّنات بنسبة 100٪"
 
 #: flavor/inc/class-design.php:61
 msgid "طراحی مدرن تیره با کنتراست فوق‌العاده بالا و نورپردازی نرم"
-msgstr ""
+msgstr "تصميم عصري داكن بتباين عالٍ جداً وإضاءة ناعمة"
 
 #: flavor/inc/class-customizer.php:231
 msgid "طراحی و استایل رستوران"
-msgstr ""
+msgstr "تصميم ونمط المطعم"
 
 #: flavor/inc/class-design.php:37
 msgid "طرح اصیل زرشکی، طلایی و لاجوردی با حس نوستالژیک"
-msgstr ""
+msgstr "تصميم أصيل بالأحمر الزرشكي والذهبي واللازوردي بإحساس حنيني"
 
 #: flavor/inc/class-customizer.php:668 flavor/template-parts/marketing/hero.php:12
 msgid "طعم اصیل و ماندگار"
-msgstr ""
+msgstr "نكهة أصيلة وخالدة"
 
 #: flavor/inc/class-block-patterns.php:154
 msgid "طعمی که به خانه می‌برید"
-msgstr ""
+msgstr "نكهة تأخذونها إلى البيت"
 
 #: flavor/inc/class-design.php:57
 msgid "طیف تازه و ارگانیک سبز، نارنجی مرکباتی و لیمویی"
-msgstr ""
+msgstr "طيف طازج وعضوي: أخضر، وبرتقالي حمضي، وليموني"
 
 #: flavor/inc/class-ui-customizer.php:16
 msgid "ظاهر منو و ناوبری را پیش از انتشار ببینید. این تنظیمات قیمت، موجودی، روش دریافت، ظرفیت رزرو یا درگاه پرداخت را تغییر نمی‌دهند."
-msgstr ""
+msgstr "راجعوا مظهر القائمة والتنقل قبل النشر. هذه الإعدادات لا تغيّر الأسعار أو المخزون أو طريقة الاستلام أو سعة الحجز أو بوابة الدفع."
 
 #: flavor/template-parts/demos/dark-luxe.php:16
 msgid "ظرفیت و ساعت‌های رزرو در صفحهٔ بعد نمایش داده می‌شوند."
@@ -2999,11 +2999,11 @@ msgstr "تظهر السعة وأوقات الحجز في الصفحة التال
 
 #: flavor/inc/class-bespoke-demos.php:172
 msgid "عبارت برجسته در تیتر اصلی"
-msgstr ""
+msgstr "عبارة مميزة في العنوان الرئيسي"
 
 #: flavor/search.php:6
 msgid "عبارت کوتاه‌تر یا نام دیگری امتحان کنید؛ منوی کامل هم در دسترس است."
-msgstr ""
+msgstr "جرّبوا عبارة أقصر أو اسماً آخر؛ القائمة الكاملة متاحة أيضاً."
 
 #: flavor/elementor/widgets/class-stats-widget.php:41
 msgid "عدد یا متن کوتاه"
@@ -3011,11 +3011,11 @@ msgstr "رقم أو نص قصير"
 
 #: flavor/inc/class-page-options.php:62
 msgid "عرض محتوا"
-msgstr ""
+msgstr "عرض المحتوى"
 
 #: flavor/inc/class-customizer.php:403
 msgid "عریض مدرن (1360px)"
-msgstr ""
+msgstr "عريض عصري (1360px)"
 
 #: flavor/inc/class-engagement.php:308
 msgid "عضو جدید خبرنامه"
@@ -3023,27 +3023,27 @@ msgstr "عضو جديد في النشرة البريدية"
 
 #: flavor/inc/class-chrome-builder.php:1108 flavor/inc/class-engagement.php:228
 msgid "عضویت"
-msgstr ""
+msgstr "العضوية"
 
 #: flavor/inc/class-chrome-builder.php:229
 msgid "عضویت در خبرنامه"
-msgstr ""
+msgstr "الاشتراك في النشرة"
 
 #: flavor/inc/class-chrome-builder.php:167 flavor/inc/class-wishlist.php:159 flavor/inc/class-wishlist.php:161
 msgid "علاقه‌مندی‌ها"
-msgstr ""
+msgstr "المفضلة"
 
 #: flavor/inc/class-wishlist.php:200
 msgid "علاقه‌مندی‌های من"
-msgstr ""
+msgstr "مفضلتي"
 
 #: flavor/inc/class-demo-importer.php:69
 msgid "عملیات کامل نشد. آرشیو قبلی را بررسی کنید و در صورت نیاز بازگردانی را اجرا کنید."
-msgstr ""
+msgstr "لم تكتمل العملية. راجعوا الأرشيف السابق، ونفّذوا الاستعادة عند الحاجة."
 
 #: flavor/inc/class-chrome-builder.php:1824
 msgid "عناصر هدر را روشن یا خاموش کنید و با کشیدن، ترتیبشان را بچینید. تغییرات روی همین پیش‌نمایش اعمال می‌شود."
-msgstr ""
+msgstr "فعّلوا أو عطّلوا عناصر الترويسة ورتّبوها بالسحب. تُطبَّق التغييرات على هذه المعاينة نفسها."
 
 #: flavor/elementor/widgets/class-about-widget.php:31 flavor/elementor/widgets/class-branch-info-widget.php:42 flavor/elementor/widgets/class-cart-widget.php:45 flavor/elementor/widgets/class-chefs-widget.php:42 flavor/elementor/widgets/class-features-widget.php:46 flavor/elementor/widgets/class-hero-widget.php:31 flavor/elementor/widgets/class-hours-widget.php:42 flavor/elementor/widgets/class-offers-widget.php:42 flavor/elementor/widgets/class-order-cta-widget.php:42 flavor/elementor/widgets/class-price-list-widget.php:43 flavor/elementor/widgets/class-reservation-widget.php:42
 msgid "عنوان"
@@ -3051,11 +3051,11 @@ msgstr "العنوان"
 
 #: flavor/inc/class-customizer.php:745
 msgid "عنوان آفر"
-msgstr ""
+msgstr "عنوان العرض"
 
 #: flavor/inc/class-customizer.php:672
 msgid "عنوان اصلی هیرو"
-msgstr ""
+msgstr "العنوان الرئيسي للواجهة"
 
 #: flavor/elementor/widgets/class-faq-widget.php:42 flavor/elementor/widgets/class-features-widget.php:39 flavor/elementor/widgets/class-menu-widget.php:45 flavor/elementor/widgets/class-process-widget.php:39 flavor/inc/class-builder.php:166 flavor/inc/class-builder.php:189 flavor/inc/class-builder.php:208 flavor/inc/class-builder.php:239 flavor/inc/class-customizer.php:706 flavor/inc/class-customizer.php:719
 msgid "عنوان بخش"
@@ -3063,19 +3063,19 @@ msgstr "عنوان القسم"
 
 #: flavor/inc/class-chrome-builder.php:2086
 msgid "عنوان بلوک خبرنامه"
-msgstr ""
+msgstr "عنوان كتلة النشرة"
 
 #: flavor/inc/class-customizer.php:760
 msgid "عنوان بنر رزرو"
-msgstr ""
+msgstr "عنوان بانر الحجز"
 
 #: flavor/inc/class-customizer.php:732
 msgid "عنوان دسته‌ها"
-msgstr ""
+msgstr "عنوان التصنيفات"
 
 #: flavor/inc/class-premium-customizer.php:196
 msgid "عنوان فرم عضویت"
-msgstr ""
+msgstr "عنوان نموذج الاشتراك"
 
 #: flavor/elementor/widgets/class-process-widget.php:46
 msgid "عنوان مرحله"
@@ -3083,27 +3083,27 @@ msgstr "عنوان الخطوة"
 
 #: flavor/inc/class-customizer.php:732
 msgid "عنوانِ بخشِ دسته‌بندی‌ها."
-msgstr ""
+msgstr "عنوان قسم التصنيفات."
 
 #: flavor/inc/class-customizer.php:706
 msgid "عنوانِ بخشِ معرفی. این عنوان در تیترِ بخش و در نشانه‌گذاریِ ساختاریافتهٔ صفحه به کار می‌رود."
-msgstr ""
+msgstr "عنوان قسم التعريف. يُستخدم هذا العنوان في عنوان القسم وفي البيانات المنظمة للصفحة."
 
 #: flavor/inc/class-customizer.php:719
 msgid "عنوانِ بخشِ پیشنهادهای ویژه."
-msgstr ""
+msgstr "عنوان قسم العروض الخاصة."
 
 #: flavor/inc/class-customizer.php:745
 msgid "عنوانِ روی بنرِ تخفیف. کدِ تخفیف را در فیلدِ بعدی وارد کنید تا مشتری بتواند کپی‌اش کند."
-msgstr ""
+msgstr "عنوان بانر الخصم. أدخلوا رمز الخصم في الحقل التالي ليتمكن العميل من نسخه."
 
 #: flavor/inc/class-customizer.php:760
 msgid "عنوانِ روی بنرِ رزرو. کوتاه بنویسید؛ متنِ بلند در موبایل دکمه را به خطِ بعد می‌راند."
-msgstr ""
+msgstr "عنوان بانر الحجز. اكتبوه قصيراً؛ فالنص الطويل على الجوال يدفع الزر إلى السطر التالي."
 
 #: flavor/inc/class-customizer.php:672
 msgid "عنوانی که بازدیدکننده در نگاهِ اول می‌بیند. کوتاه‌تر از این، نرخِ تبدیل بهتر است."
-msgstr ""
+msgstr "العنوان الذي يراه الزائر أولاً. كلما كان أقصر كان معدل التحويل أفضل."
 
 #: flavor/template-parts/marketing/intro.php:38
 msgid "غذاها به صورت زنده و اختصاصی پس از سفارش شما آماده و مستقیماً از روی حرارت سرو می‌شوند."
@@ -3115,7 +3115,7 @@ msgstr "الأطباق والمشروبات"
 
 #: flavor/inc/class-block-patterns.php:188
 msgid "غذاهای اصلی"
-msgstr ""
+msgstr "الأطباق الرئيسية"
 
 #: flavor/template-parts/menu/cart-drawer.php:17
 msgid "غذاهای سبد"
@@ -3123,7 +3123,7 @@ msgstr "أطباق السلة"
 
 #: flavor/inc/class-block-patterns.php:406
 msgid "غذایتان را انتخاب کنید"
-msgstr ""
+msgstr "اختاروا طعامكم"
 
 #: flavor/elementor/widgets/class-process-widget.php:66
 msgid "غذای شما آماده و تحویل داده می‌شود."
@@ -3135,75 +3135,75 @@ msgstr "يُدعم أيضاً الخطأ الإملائي والياء والك�
 
 #: flavor/inc/class-builder.php:134
 msgid "فاصله"
-msgstr ""
+msgstr "المسافة"
 
 #: flavor/inc/class-chrome-builder.php:1246
 msgid "فاصلهٔ بین عناصر هدر"
-msgstr ""
+msgstr "المسافة بين عناصر الترويسة"
 
 #: flavor/inc/class-customizer.php:497
 msgid "فاصلهٔ حروف تیترها"
-msgstr ""
+msgstr "تباعد أحرف العناوين"
 
 #: flavor/inc/class-customizer.php:421
 msgid "فاصلهٔ سکشن تبلت"
-msgstr ""
+msgstr "مسافة القسم على الجهاز اللوحي"
 
 #: flavor/inc/class-customizer.php:422
 msgid "فاصلهٔ سکشن دسکتاپ"
-msgstr ""
+msgstr "مسافة القسم على سطح المكتب"
 
 #: flavor/inc/class-customizer.php:420
 msgid "فاصلهٔ سکشن موبایل"
-msgstr ""
+msgstr "مسافة القسم على الجوال"
 
 #: flavor/inc/class-ui.php:26
 msgid "فاصلهٔ محتوا در هر دو نمای منو؛ اندازهٔ دکمه‌ها و اهداف لمس کوچک نمی‌شود."
-msgstr ""
+msgstr "المسافة الداخلية في عرضي القائمة؛ ولا تُصغَّر أحجام الأزرار ومناطق اللمس."
 
 #: flavor/inc/class-ui.php:26
 msgid "فاصله‌گذاری کارت غذا"
-msgstr ""
+msgstr "تباعد بطاقة الطعام"
 
 #: flavor/inc/class-changelog.php:176
 msgid "فایل readme.txt در پوشهٔ قالب یافت نشد. فهرستِ تغییرات در دسترس نیست، ولی قالب سالم است."
-msgstr ""
+msgstr "لم يُعثر على ملف readme.txt في مجلد القالب. سجل التغييرات غير متاح، لكن القالب سليم."
 
 #: flavor/inc/class-transfer.php:59
 msgid "فایل تنظیمات آماده شد."
-msgstr ""
+msgstr "أُعدّ ملف الإعدادات."
 
 #: flavor/inc/class-transfer.php:61
 msgid "فایل تنظیمات معتبر نبود یا عملیات انجام نشد."
-msgstr ""
+msgstr "ملف الإعدادات غير صالح أو لم تُنفَّذ العملية."
 
 #: flavor/inc/class-builder.php:147
 msgid "فراخوان اقدام"
-msgstr ""
+msgstr "دعوة إلى الإجراء"
 
 #: flavor/inc/class-launch-center.php:226
 msgid "فرم ورود، OTP و پرداخت روی اتصال امن اجرا می‌شوند."
-msgstr ""
+msgstr "تُنفَّذ نماذج الدخول ورمز OTP والدفع عبر اتصال آمن."
 
 #: flavor/inc/class-design.php:44
 msgid "فست‌فود و برگر بار"
-msgstr ""
+msgstr "الوجبات السريعة وبار البرغر"
 
 #: flavor/inc/class-customizer.php:487
 msgid "فشرده (1.1)"
-msgstr ""
+msgstr "مضغوط (1.1)"
 
 #: flavor/inc/class-customizer.php:525
 msgid "فشرده (1.5)"
-msgstr ""
+msgstr "مضغوط (1.5)"
 
 #: flavor/inc/class-customizer.php:500
 msgid "فشرده‌تر (0.02em-)"
-msgstr ""
+msgstr "أكثر إحكاماً (0.02em-)"
 
 #: flavor/inc/class-design.php:41
 msgid "فضای آرام کافه‌ای با تونالیته چوب، زیتونی و کرم"
-msgstr ""
+msgstr "أجواء مقهى هادئة بدرجات الخشب والزيتوني والكريمي"
 
 #: flavor/template-parts/demos/story.php:11
 msgid "فضای برند و مواد اولیه تازه"
@@ -3211,47 +3211,47 @@ msgstr "مساحة العلامة والمكوّنات الطازجة"
 
 #: flavor/inc/class-repeater.php:289
 msgid "فضای سالن فوق‌العاده آرام و دلنشین است. برخورد پرسنل عالی و سرعت آماده‌سازی سفارش با QR کد سر میز بسیار راحت و مدرن بود."
-msgstr ""
+msgstr "أجواء القاعة هادئة وممتعة للغاية. تعامل الطاقم ممتاز، وكان الطلب من الطاولة عبر رمز QR مريحاً وعصرياً وسريعاً."
 
 #: flavor/inc/class-chrome-builder.php:1390
 msgid "فضای پاورقی (دسکتاپ)"
-msgstr ""
+msgstr "مساحة التذييل (سطح المكتب)"
 
 #: flavor/inc/class-chrome-builder.php:1404
 msgid "فضای پاورقی (موبایل)"
-msgstr ""
+msgstr "مساحة التذييل (الجوال)"
 
 #: flavor/inc/class-premium-customizer.php:73
 msgid "فعال‌بودن حالت شب/روز"
-msgstr ""
+msgstr "تفعيل الوضع الليلي/النهاري"
 
 #: flavor/inc/class-premium-customizer.php:172
 msgid "فعال‌بودن شمارش معکوس پیشنهاد"
-msgstr ""
+msgstr "تفعيل العد التنازلي للعرض"
 
 #: flavor/inc/class-premium-customizer.php:87
 msgid "فعال‌بودن علاقه‌مندی‌ها (بدون افزونه)"
-msgstr ""
+msgstr "تفعيل المفضلة (بدون إضافة)"
 
 #: flavor/inc/class-premium-customizer.php:183
 msgid "فعال‌بودن فرم عضویت خبرنامه"
-msgstr ""
+msgstr "تفعيل نموذج الاشتراك في النشرة"
 
 #: flavor/inc/class-premium-customizer.php:105
 msgid "فعال‌بودن مگامنو در منوی اصلی"
-msgstr ""
+msgstr "تفعيل القائمة الضخمة في القائمة الرئيسية"
 
 #: flavor/inc/class-builder.php:512
 msgid "فعال‌سازی صفحه‌ساز برای این صفحه"
-msgstr ""
+msgstr "تفعيل منشئ الصفحات لهذه الصفحة"
 
 #: flavor/inc/class-update-channel.php:434
 msgid "فعال‌سازی کانال به‌روزرسانی (بررسی روزانه و درخواست به سرور)"
-msgstr ""
+msgstr "تفعيل قناة التحديث (فحص يومي وطلب إلى الخادم)"
 
 #: flavor/inc/class-customizer.php:469
 msgid "فقط títuloهای h2 تا h6 را تغییر می‌دهد. título اصلی (h1) از مقیاس ریسپانسیو پیروی می‌کند تا روی موبایل نشکند."
-msgstr ""
+msgstr "يغيّر العناوين من h2 إلى h6 فقط. أما العنوان الرئيسي (h1) فيتبع المقياس المتجاوب كي لا ينكسر على الجوال."
 
 #: flavor/inc/class-engagement.php:175
 msgid "فقط ضروری"
@@ -3259,19 +3259,19 @@ msgstr "الضروري فقط"
 
 #: flavor/inc/class-transfer.php:76
 msgid "فقط فایل JSON صادرشده از Flavor را انتخاب کنید. وارد کردن، قیمت، سفارش یا محتوای سایت را تغییر نمی‌دهد."
-msgstr ""
+msgstr "اختاروا ملف JSON المُصدَّر من Flavor فقط. لا يغيّر الاستيراد الأسعار أو الطلبات أو محتوى الموقع."
 
 #: flavor/inc/class-chrome-builder.php:164
 msgid "فقط وقتی نمایش داده می‌شود که حالت شب روشن باشد."
-msgstr ""
+msgstr "يظهر فقط عند تفعيل الوضع الليلي."
 
 #: flavor/inc/class-live-preview.php:186
 msgid "فقط گزارش است؛ خروجی‌ای در صفحه ندارد."
-msgstr ""
+msgstr "تقرير فقط؛ لا يحتوي على مخرجات في الصفحة."
 
 #: flavor/inc/class-builder.php:487
 msgid "فلیور ساز — صفحه‌ساز"
-msgstr ""
+msgstr "منشئ Flavor — منشئ الصفحات"
 
 #: flavor/inc/class-engagement.php:343
 msgid "فهرست اعضا تکمیل است؛ با ما تماس بگیرید."
@@ -3279,7 +3279,7 @@ msgstr "قائمة الأعضاء مكتملة؛ اتصل بنا."
 
 #: flavor/inc/class-wishlist.php:182
 msgid "فهرست علاقه‌مندی‌ها پر است؛ ابتدا چند مورد را حذف کنید."
-msgstr ""
+msgstr "قائمة المفضلة ممتلئة؛ احذفوا بعض العناصر أولاً."
 
 #: flavor/elementor/widgets/class-price-list-widget.php:80
 msgid "فهرست قیمت"
@@ -3291,19 +3291,19 @@ msgstr "قائمة الأسعار (المطبوعة)"
 
 #: flavor/inc/class-ui.php:25
 msgid "فهرستی"
-msgstr ""
+msgstr "قائمة"
 
 #: flavor/inc/class-block-patterns.php:103
 msgid "فهرستی از پرسش و پاسخ‌های رایج دربارهٔ سفارش، ارسال و رزرو."
-msgstr ""
+msgstr "قائمة بالأسئلة والأجوبة الشائعة حول الطلب والتوصيل والحجز."
 
 #: flavor/inc/class-ui-customizer.php:54
 msgid "فونت تیترها"
-msgstr ""
+msgstr "خط العناوين"
 
 #: flavor/inc/class-ui-customizer.php:54
 msgid "فونت متن و فرم‌ها"
-msgstr ""
+msgstr "خط النص والنماذج"
 
 #: flavor/template-parts/demos/menu.php:21
 msgid "فیلتر دسته‌بندی منو"
@@ -3327,27 +3327,27 @@ msgstr "فيليه مشوي، على طريقة نوار"
 
 #: flavor/inc/class-ui.php:27
 msgid "قاب عکس در منوی کارتی"
-msgstr ""
+msgstr "إطار الصورة في القائمة البطاقية"
 
 #: flavor/inc/class-theme-setup.php:147
 msgid "قالب Flavor بدون افزونه Flavor Core مثل یک قالب رستورانی معمولی کار می‌کند. برای سفارش‌گیری، QR و آشپزخانه افزونه را فعال کنید."
-msgstr ""
+msgstr "يعمل قالب Flavor بدون إضافة Flavor Core كقالب مطاعم عادي. لاستقبال الطلبات وQR والمطبخ، فعّلوا الإضافة."
 
 #: flavor/inc/class-contrast-control.php:81
 msgid "قالب رنگ‌های بی‌خوانا را خودکار اصلاح می‌کند، اما بهتر است خودتان ترکیب خواناتری انتخاب کنید."
-msgstr ""
+msgstr "يصحّح القالب الألوان غير المقروءة تلقائياً، لكن الأفضل أن تختاروا تركيباً أوضح بأنفسكم."
 
 #: flavor/inc/class-launch-center.php:54
 msgid "قالب فعال، تنظیمات ظاهری و صفحهٔ اصلی را در اختیار دارد."
-msgstr ""
+msgstr "القالب الفعّال يتحكم في الإعدادات المرئية والصفحة الرئيسية."
 
 #: flavor/inc/class-update-channel.php:417
 msgid "قالب فعلی با این نسخه جایگزین شود؟"
-msgstr ""
+msgstr "هل يُستبدل القالب الحالي بهذه النسخة؟"
 
 #: flavor/inc/class-customizer.php:647
 msgid "قالبِ بخشِ اصلی: تمام‌صفحه، دوستونه با تصویر در کنار، یا مینیمال بدونِ تصویرِ بزرگ."
-msgstr ""
+msgstr "قالب القسم الرئيسي: ملء الشاشة، أو عمودان مع صورة بجانب النص، أو بسيط بلا صورة كبيرة."
 
 #: flavor/template-parts/demos/faq.php:8
 msgid "قبل از انتخاب"
@@ -3355,7 +3355,7 @@ msgstr "قبل الاختيار"
 
 #: flavor/inc/class-launch-center.php:266
 msgid "قبل از تبلیغ سایت، وابستگی‌ها، منو، شعبه، پرداخت و مسیر سفارش را بررسی کنید."
-msgstr ""
+msgstr "قبل الترويج للموقع، راجعوا الاعتماديات والقائمة والفرع والدفع ومسار الطلب."
 
 #: flavor/inc/class-engagement.php:174
 msgid "قبول همه"
@@ -3363,15 +3363,15 @@ msgstr "قبول الكل"
 
 #: flavor/inc/class-chrome-builder.php:1173
 msgid "قدرت گرفته از پلتفرم رستوران مستقیم Flavor"
-msgstr ""
+msgstr "مدعوم بمنصة مطعم Flavor المباشرة"
 
 #: flavor/inc/class-design.php:52
 msgid "قنادی و نانوایی فرانسوی"
-msgstr ""
+msgstr "حلويات ومخبز فرنسي"
 
 #: flavor/inc/class-onboarding.php:286
 msgid "قیمت (تومان)"
-msgstr ""
+msgstr "السعر (تومان)"
 
 #: flavor/elementor/widgets/class-price-list-widget.php:51
 msgid "قیمت (متن آزاد)"
@@ -3379,15 +3379,15 @@ msgstr "السعر (نص حر)"
 
 #: flavor/inc/class-launch-center.php:174
 msgid "قیمت‌ها برای مشتری ایرانی با واحد تومان نمایش داده می‌شوند."
-msgstr ""
+msgstr "يُعرض السعر للعميل الإيراني بوحدة التومان."
 
 #: flavor/inc/class-block-patterns.php:338
 msgid "قیمت‌ها منصفانه است و برخورد پرسنل عالی."
-msgstr ""
+msgstr "الأسعار منصفة وتعامل الطاقم ممتاز."
 
 #: flavor/inc/class-customizer.php:759
 msgid "لحظات ماندگار خود را پیشاپیش رزرو کنید"
-msgstr ""
+msgstr "احجزوا لحظاتكم الخالدة مسبقاً"
 
 #: flavor/elementor/widgets/class-process-widget.php:65
 msgid "لذت ببرید"
@@ -3395,59 +3395,59 @@ msgstr "استمتع بوجبتك"
 
 #: flavor/inc/class-customizer.php:598
 msgid "لوگو با حفظ نسبت ابعاد تا این ارتفاع کوچک می‌شود و در موبایل خودکار کوچک‌تر می‌شود. فایل لوگو با هر ابعادی آپلود شود، هدر به هم نمی‌ریزد."
-msgstr ""
+msgstr "يُصغَّر الشعار مع الحفاظ على النسبة حتى هذا الارتفاع، ويُصغَّر تلقائياً على الجوال. لا تختل الترويسة مهما كانت أبعاد ملف الشعار المرفوع."
 
 #: flavor/inc/class-customizer.php:579
 msgid "لوگو وسط‌چین / منو دوطرفه"
-msgstr ""
+msgstr "الشعار في المنتصف / قائمة ثنائية الجانب"
 
 #: flavor/inc/class-chrome-builder.php:207
 msgid "لوگو و معرفی کوتاه"
-msgstr ""
+msgstr "الشعار والتعريف القصير"
 
 #: flavor/inc/class-ui-customizer.php:100
 msgid "لوگو و منو وسط‌چین"
-msgstr ""
+msgstr "الشعار والقائمة في المنتصف"
 
 #: flavor/inc/class-onboarding.php:179
 msgid "لوگوی باکیفیت (PNG با پس‌زمینه شفاف پیشنهاد می‌شود)"
-msgstr ""
+msgstr "شعار عالي الجودة (يُنصح بملف PNG بخلفية شفافة)"
 
 #: flavor/inc/class-chrome-builder.php:1208
 msgid "لوگو یک سر، منو و دکمه‌ها سر دیگر"
-msgstr ""
+msgstr "الشعار في طرف، والقائمة والأزرار في الطرف الآخر"
 
 #: flavor/inc/class-builder.php:162
 msgid "لیست ویژگی"
-msgstr ""
+msgstr "قائمة المميزات"
 
 #: flavor/inc/class-chrome-builder.php:257
 msgid "لینک «دیدن نقشهٔ شعب» در ستون تماس"
-msgstr ""
+msgstr "رابط «عرض خريطة الفروع» في عمود الاتصال"
 
 #: flavor/inc/class-customizer.php:913
 msgid "لینک اینستاگرام"
-msgstr ""
+msgstr "رابط إنستغرام"
 
 #: flavor/inc/class-customizer.php:916
 msgid "لینک تلگرام"
-msgstr ""
+msgstr "رابط تيليغرام"
 
 #: flavor/inc/class-chrome-builder.php:1909
 msgid "لینک نوار اطلاعیه (اختیاری)"
-msgstr ""
+msgstr "رابط شريط الإعلانات (اختياري)"
 
 #: flavor/inc/class-customizer.php:919
 msgid "لینک واتس‌اپ"
-msgstr ""
+msgstr "رابط واتساب"
 
 #: flavor/inc/class-chrome-builder.php:1094
 msgid "ما را دنبال کنید"
-msgstr ""
+msgstr "تابعونا"
 
 #: flavor/page-templates/template-contact.php:22
 msgid "ما را روی نقشه ببینید"
-msgstr ""
+msgstr "اعثروا علينا على الخريطة"
 
 #: flavor/template-parts/marketing/about.php:20
 msgid "ما فعالیت خود را با یک باور ساده آغاز کردیم: غذا فراتر از یک وعده روزمره است؛ غذا روایتی از اصالت، گردهمایی عزیزان و خلق خاطرات ماندگار است. در آشپزخانه ما، تمامی مواد اولیه روزانه و با وسواس از برترین مزارع و تأمین‌کنندگان تهیه می‌شوند و بدون هیچ‌گونه ماده نگه‌دارنده یا فرآوری‌شده، با مهارت و عشق سرآشپزان باسابقه طبخ می‌گردند."
@@ -3475,7 +3475,7 @@ msgstr "المبلغ حسب خياراتك"
 
 #: flavor/inc/class-customer-ui.php:105
 msgid "مبلغ سفارش"
-msgstr ""
+msgstr "قيمة الطلب"
 
 #: flavor/template-parts/menu/cart-drawer.php:31
 msgid "مبلغ فعلی سبد"
@@ -3483,7 +3483,7 @@ msgstr "المبلغ الحالي للسلة"
 
 #: flavor/inc/class-customizer.php:463
 msgid "متعادل — ۱.۲ (سوم کوچک)"
-msgstr ""
+msgstr "متوازن — 1.2 (الثالث الصغير)"
 
 #: flavor/elementor/widgets/class-about-widget.php:32 flavor/elementor/widgets/class-hero-widget.php:32 flavor/elementor/widgets/class-testimonials-widget.php:33 flavor/inc/class-builder.php:81 flavor/inc/class-builder.php:85
 msgid "متن"
@@ -3491,27 +3491,27 @@ msgstr "النص"
 
 #: flavor/inc/class-contrast.php:66
 msgid "متن اصلی روی بخش‌های کم‌رنگ"
-msgstr ""
+msgstr "النص الأساسي على الأقسام الباهتة"
 
 #: flavor/inc/class-contrast.php:52
 msgid "متن اصلی روی پس‌زمینهٔ صفحه"
-msgstr ""
+msgstr "النص الأساسي على خلفية الصفحة"
 
 #: flavor/inc/class-contrast.php:59
 msgid "متن اصلی روی کارت‌ها"
-msgstr ""
+msgstr "النص الأساسي على البطاقات"
 
 #: flavor/inc/class-chrome-builder.php:2104
 msgid "متن بلوک خبرنامه"
-msgstr ""
+msgstr "نص كتلة النشرة"
 
 #: flavor/inc/class-builder.php:69
 msgid "متن تیتر"
-msgstr ""
+msgstr "نص العنوان"
 
 #: flavor/inc/class-builder.php:113 flavor/inc/class-repeater.php:52
 msgid "متن جایگزین"
-msgstr ""
+msgstr "النص البديل"
 
 #: flavor/elementor/widgets/class-chefs-widget.php:90
 msgid "متن جایگزین تصویر"
@@ -3523,11 +3523,11 @@ msgstr "نص ملخّص التنسيق للنسخ"
 
 #: flavor/inc/class-builder.php:87
 msgid "متن خود را اینجا بنویسید…"
-msgstr ""
+msgstr "اكتبوا نصكم هنا…"
 
 #: flavor/inc/class-customizer.php:780
 msgid "متن داستان رستوران"
-msgstr ""
+msgstr "نص قصة المطعم"
 
 #: flavor/elementor/widgets/class-cart-widget.php:54 flavor/elementor/widgets/class-offers-widget.php:70 flavor/elementor/widgets/class-reservation-widget.php:61 flavor/inc/class-builder.php:97 flavor/inc/class-builder.php:153 flavor/inc/class-builder.php:266
 msgid "متن دکمه"
@@ -3535,39 +3535,39 @@ msgstr "نص الزر"
 
 #: flavor/inc/class-bespoke-demos.php:173
 msgid "متن دکمه اصلی"
-msgstr ""
+msgstr "نص الزر الأساسي"
 
 #: flavor/inc/class-customizer.php:678
 msgid "متن دکمه اول (سفارش)"
-msgstr ""
+msgstr "نص الزر الأول (الطلب)"
 
 #: flavor/inc/class-customizer.php:681
 msgid "متن دکمه دوم (رزرو)"
-msgstr ""
+msgstr "نص الزر الثاني (الحجز)"
 
 #: flavor/inc/class-premium-customizer.php:197
 msgid "متن فرم عضویت"
-msgstr ""
+msgstr "نص نموذج الاشتراك"
 
 #: flavor/inc/class-repeater.php:77
 msgid "متن نظر"
-msgstr ""
+msgstr "نص الرأي"
 
 #: flavor/inc/class-premium-customizer.php:202
 msgid "متن نوار کوکی"
-msgstr ""
+msgstr "نص شريط ملفات تعريف الارتباط"
 
 #: flavor/inc/class-customizer.php:780
 msgid "متنِ داستانِ رستوران. این متن در نشانه‌گذاریِ ساختاریافتهٔ صفحه هم به کار می‌رود."
-msgstr ""
+msgstr "نص قصة المطعم. يُستخدم هذا النص أيضاً في البيانات المنظمة للصفحة."
 
 #: flavor/inc/class-customizer.php:678
 msgid "متنِ دکمهٔ اصلی. مقصدِ این دکمه را هسته تعیین می‌کند؛ بدونِ آن، به صفحهٔ منو می‌رود."
-msgstr ""
+msgstr "نص الزر الأساسي. تحدد النواة وجهة هذا الزر؛ وبدونها ينتقل إلى صفحة القائمة."
 
 #: flavor/inc/class-customizer.php:681
 msgid "متنِ دکمهٔ دوم. برای پنهان‌کردن، خالی بگذارید."
-msgstr ""
+msgstr "نص الزر الثاني. اتركوه فارغاً لإخفائه."
 
 #: flavor/elementor/widgets/class-cart-widget.php:63
 msgid "متنِ سبد خالی"
@@ -3575,35 +3575,35 @@ msgstr "نص السلة الفارغة"
 
 #: flavor/inc/class-customizer.php:922
 msgid "متنِ کپی‌رایتِ پانوشت. خالی بگذارید تا متنِ پیش‌فرضِ قالب استفاده شود."
-msgstr ""
+msgstr "نص حقوق النشر في التذييل. اتركوه فارغاً لاستخدام النص الافتراضي للقالب."
 
 #: flavor/inc/class-customizer.php:669
 msgid "متن کوتاهِ بالای عنوان؛ مثلاً «تازه‌ترین منو». بیش از دو سه واژه نشود چون در موبایل دورِ عنوان می‌پیچد."
-msgstr ""
+msgstr "نص قصير فوق العنوان، مثل «أحدث قائمة». لا تتجاوز ثلاث كلمات، لأنه على الجوال يلتف حول العنوان."
 
 #: flavor/inc/class-customizer.php:922
 msgid "متن کپی‌رایت اختصاصی"
-msgstr ""
+msgstr "نص حقوق نشر مخصص"
 
 #: flavor/inc/class-customizer.php:489
 msgid "متوسط (1.2)"
-msgstr ""
+msgstr "معتدل (1.2)"
 
 #: flavor/inc/class-customizer.php:515
 msgid "متوسط (500)"
-msgstr ""
+msgstr "معتدل (500)"
 
 #: flavor/inc/class-customizer.php:625
 msgid "مثال: ارسال رایگان سفارش‌های بالای ۳۰۰ هزار تومان در سراسر منطقه"
-msgstr ""
+msgstr "مثال: توصيل مجاني للطلبات فوق 300 ألف تومان في كامل المنطقة"
 
 #: flavor/inc/class-onboarding.php:171
 msgid "مثال: طعم اصیل کباب و نان داغ در محیطی آرام"
-msgstr ""
+msgstr "مثال: نكهة أصيلة من الكباب والخبز الساخن في أجواء هادئة"
 
 #: flavor/inc/class-chrome-builder.php:1910
 msgid "مثلاً نشانی صفحهٔ تخفیف‌ها. خالی بگذارید تا نوار فقط متن باشد."
-msgstr ""
+msgstr "مثلاً عنوان صفحة الخصومات. اتركوه فارغاً ليكون الشريط نصاً فقط."
 
 #: flavor/template-parts/demos/coverage.php:14
 msgid "مثلاً ونک"
@@ -3611,11 +3611,11 @@ msgstr "مثال: ونك"
 
 #: flavor/inc/class-chrome-builder.php:1236 flavor/inc/class-chrome-builder.php:1279 flavor/inc/class-chrome-builder.php:1408
 msgid "مثل دسکتاپ"
-msgstr ""
+msgstr "مثل سطح المكتب"
 
 #: flavor/inc/class-customizer.php:414 flavor/inc/class-customizer.php:418 flavor/inc/class-customizer.php:421 flavor/inc/class-ui-customizer.php:91 flavor/inc/class-ui-customizer.php:95 flavor/inc/class-ui-customizer.php:98
 msgid "مثل موبایل"
-msgstr ""
+msgstr "مثل الجوال"
 
 #: flavor/elementor/widgets/class-menu-widget.php:70
 msgid "محبوب‌ترین"
@@ -3623,7 +3623,7 @@ msgstr "الأكثر شعبية"
 
 #: flavor/inc/class-customizer.php:718
 msgid "محبوب‌ترین و لذیذترین‌های این هفته"
-msgstr ""
+msgstr "الأكثر شعبية ومذاقاً لهذا الأسبوع"
 
 #: flavor/elementor/widgets/class-about-widget.php:30 flavor/elementor/widgets/class-branch-info-widget.php:36 flavor/elementor/widgets/class-cart-widget.php:39 flavor/elementor/widgets/class-chefs-widget.php:36 flavor/elementor/widgets/class-faq-widget.php:37 flavor/elementor/widgets/class-features-widget.php:34 flavor/elementor/widgets/class-hero-widget.php:30 flavor/elementor/widgets/class-hours-widget.php:36 flavor/elementor/widgets/class-menu-widget.php:39 flavor/elementor/widgets/class-offers-widget.php:36 flavor/elementor/widgets/class-order-cta-widget.php:36 flavor/elementor/widgets/class-price-list-widget.php:38 flavor/elementor/widgets/class-process-widget.php:34 flavor/elementor/widgets/class-reservation-widget.php:36 flavor/elementor/widgets/class-stats-widget.php:38 flavor/inc/class-builder.php:67 flavor/inc/class-builder.php:83 flavor/inc/class-builder.php:95 flavor/inc/class-builder.php:110
 msgid "محتوا"
@@ -3631,11 +3631,11 @@ msgstr "المحتوى"
 
 #: flavor/index.php:24
 msgid "محتوایی پیدا نشد."
-msgstr ""
+msgstr "لم يُعثر على محتوى."
 
 #: flavor/inc/class-launch-center.php:74
 msgid "محصول و سبد خرید در دسترس است."
-msgstr ""
+msgstr "المنتج وسلة الشراء متاحان."
 
 #: flavor/elementor/widgets/class-menu-widget.php:117
 msgid "محصولی برای نمایش پیدا نشد. ووکامرس را نصب و دستهٔ محصولات را پر کنید."
@@ -3651,7 +3651,7 @@ msgstr "إدارة العنوان وبيانات الاستلام"
 
 #: flavor/inc/class-customizer.php:690
 msgid "مدیریت و فعال‌سازی ۱۵ سکشن کاربردی صفحه اصلی"
-msgstr ""
+msgstr "إدارة وتفعيل 15 قسماً مفيداً للصفحة الرئيسية"
 
 #: flavor/elementor/widgets/class-process-widget.php:52
 msgid "مراحل"
@@ -3659,7 +3659,7 @@ msgstr "الخطوات"
 
 #: flavor/inc/class-block-patterns.php:108 flavor/template-parts/menu/cart-drawer.php:15
 msgid "مراحل سفارش"
-msgstr ""
+msgstr "خطوات الطلب"
 
 #: flavor/elementor/widgets/class-process-widget.php:22
 msgid "مراحل سفارش یا رزرو"
@@ -3667,7 +3667,7 @@ msgstr "خطوات الطلب أو الحجز"
 
 #: flavor/inc/class-ui.php:27
 msgid "مربع — ۱ به ۱"
-msgstr ""
+msgstr "مربع — 1 إلى 1"
 
 #: flavor/elementor/widgets/class-menu-widget.php:65
 msgid "مرتب‌سازی"
@@ -3675,31 +3675,31 @@ msgstr "الترتيب"
 
 #: flavor/inc/class-launch-center.php:35
 msgid "مرکز آمادگی انتشار"
-msgstr ""
+msgstr "مركز جاهزية النشر"
 
 #: flavor/inc/class-launch-center.php:265
 msgid "مرکز آمادگی انتشار Flavor"
-msgstr ""
+msgstr "مركز جاهزية نشر Flavor"
 
 #: flavor/inc/class-block-patterns.php:329
 msgid "مریم احمدی"
-msgstr ""
+msgstr "مريم أحمدي"
 
 #: flavor/inc/class-repeater.php:292
 msgid "مریم شفیعی"
-msgstr ""
+msgstr "مريم شفيعي"
 
 #: flavor/inc/class-ui-pages.php:67 flavor/page-templates/template-menu.php:13 flavor/page-templates/template-order-tracking.php:9
 msgid "مسیر صفحه"
-msgstr ""
+msgstr "مسار الصفحة"
 
 #: flavor/inc/class-launch-center.php:84
 msgid "مسیرهای منو، شعبه و API از ساختار خوانا استفاده می‌کنند."
-msgstr ""
+msgstr "تستخدم مسارات القائمة والفرع وAPI بنية واضحة."
 
 #: flavor/inc/class-branch-map.php:135
 msgid "مسیریابی"
-msgstr ""
+msgstr "الملاحة"
 
 #: flavor/template-parts/marketing/reservation-cta.php:51
 msgid "مشاهده تقویم و رزرو میز"
@@ -3715,7 +3715,7 @@ msgstr "عرض القائمة"
 
 #: flavor/inc/class-customizer.php:677 flavor/template-parts/marketing/hero.php:15
 msgid "مشاهده منو و سفارش آنلاین"
-msgstr ""
+msgstr "عرض القائمة والطلب الإلكتروني"
 
 #: flavor/template-parts/demos/menu.php:18
 msgid "مشاهده منوی کامل"
@@ -3727,7 +3727,7 @@ msgstr "عرض وطلب %s"
 
 #: flavor/inc/class-onboarding.php:143
 msgid "مشاهدهٔ سایت"
-msgstr ""
+msgstr "عرض الموقع"
 
 #: flavor/elementor/widgets/class-branch-info-widget.php:159
 msgid "مشاهدهٔ شعبه"
@@ -3739,11 +3739,11 @@ msgstr "عرض القائمة"
 
 #: flavor/inc/class-block-patterns.php:196 flavor/inc/class-block-patterns.php:210 flavor/inc/class-block-patterns.php:224
 msgid "مشاهدهٔ منو ←"
-msgstr ""
+msgstr "عرض القائمة ←"
 
 #: flavor/inc/class-launch-center.php:55
 msgid "مشاهدهٔ پوسته"
-msgstr ""
+msgstr "عرض القالب"
 
 #: flavor/template-parts/marketing/featured.php:43
 msgid "مشاهده کل منو"
@@ -3751,11 +3751,11 @@ msgstr "عرض القائمة بالكامل"
 
 #: flavor/inc/class-block-patterns.php:322
 msgid "مشتریان ما چه می‌گویند"
-msgstr ""
+msgstr "ماذا يقول عملاؤنا"
 
 #: flavor/inc/class-builder.php:192
 msgid "مشتریان چه می‌گویند؟"
-msgstr ""
+msgstr "ماذا يقول العملاء؟"
 
 #: flavor/elementor/widgets/class-stats-widget.php:61
 msgid "مشتری راضی"
@@ -3763,39 +3763,39 @@ msgstr "عميل راضٍ"
 
 #: flavor/inc/class-repeater.php:281
 msgid "مشتری وفادار"
-msgstr ""
+msgstr "عميل وفيّ"
 
 #: flavor/inc/class-block-patterns.php:72
 msgid "معرفی دسته‌های منو"
-msgstr ""
+msgstr "تعريف تصنيفات القائمة"
 
 #: flavor/inc/class-customizer.php:514
 msgid "معمولی (400) — پیش‌فرض"
-msgstr ""
+msgstr "عادي (400) — الافتراضي"
 
 #: flavor/inc/class-customizer.php:450
 msgid "مقیاس تایپوگرافی"
-msgstr ""
+msgstr "مقياس الطباعة"
 
 #: flavor/inc/class-customizer.php:418
 msgid "مقیاس تیتر تبلت"
-msgstr ""
+msgstr "مقياس العنوان للجهاز اللوحي"
 
 #: flavor/inc/class-customizer.php:419
 msgid "مقیاس تیتر دسکتاپ"
-msgstr ""
+msgstr "مقياس العنوان لسطح المكتب"
 
 #: flavor/inc/class-customizer.php:417
 msgid "مقیاس تیتر موبایل"
-msgstr ""
+msgstr "مقياس العنوان للجوال"
 
 #: flavor/inc/class-customizer.php:462
 msgid "ملایم — ۱.۱۵"
-msgstr ""
+msgstr "لطيف — 1.15"
 
 #: flavor/404.php:6
 msgid "ممکن است نشانی تغییر کرده باشد. از منو شروع کنید یا به صفحهٔ اصلی برگردید؛ انتخاب‌های شما بی‌دلیل پاک نمی‌شوند."
-msgstr ""
+msgstr "قد يكون العنوان قد تغيّر. ابدأوا من القائمة أو عودوا إلى الصفحة الرئيسية؛ لن تُحذف اختياراتكم دون سبب."
 
 #: flavor/template-parts/demos/coverage.php:13
 msgid "منطقهٔ ارسال فعالی تنظیم نشده است. برای هماهنگی دریافت بیرون‌بر با ما تماس بگیر."
@@ -3803,11 +3803,11 @@ msgstr "لم تُضبط منطقة توصيل مفعّلة. لترتيب است�
 
 #: flavor/inc/class-enqueue.php:298
 msgid "منظورتان این بود؟"
-msgstr ""
+msgstr "هل قصدتم هذا؟"
 
 #: flavor/inc/class-builder.php:206 flavor/inc/class-builder.php:237 flavor/inc/class-builder.php:262 flavor/inc/class-demo-importer.php:270 flavor/inc/class-schema-output.php:163 flavor/page-templates/template-menu.php:13 flavor/template-parts/ui/mobile-nav.php:15
 msgid "منو"
-msgstr ""
+msgstr "القائمة"
 
 #: flavor/template-parts/menu/cart-drawer.php:13
 msgid "منو را ببینید و انتخاب دلخواهتان را اضافه کنید. هیچ غذایی با بازکردن صفحه به سبد اضافه نمی‌شود."
@@ -3815,7 +3815,7 @@ msgstr "تصفّح القائمة وأضف ما تريد. لا يُضاف أي �
 
 #: flavor/inc/class-block-patterns.php:406
 msgid "منو را مرور کنید و هرچه خواستید به سبد بیفزایید."
-msgstr ""
+msgstr "تصفّحوا القائمة وأضيفوا ما تريدون إلى السلة."
 
 #: flavor/template-parts/menu/item-card.php:17
 msgid "منو هنوز آماده نیست."
@@ -3827,27 +3827,27 @@ msgstr "لم تُنشر القائمة بعد. بعد تفعيل ووكومرس 
 
 #: flavor/single-flavor_branch.php:6 flavor/template-parts/branch/branch-selector.php:14
 msgid "منو و انتخاب این شعبه"
-msgstr ""
+msgstr "القائمة واختيار هذا الفرع"
 
 #: flavor/page-templates/template-about.php:15
 msgid "منو و ترکیبات"
-msgstr ""
+msgstr "القائمة والمكونات"
 
 #: flavor/inc/class-ui-customizer.php:15
 msgid "منو و رابط سفارش"
-msgstr ""
+msgstr "القائمة ورابط الطلب"
 
 #: flavor/header.php:44 flavor/inc/class-theme-setup.php:114 flavor/template-parts/demos/header.php:33
 msgid "منوی اصلی"
-msgstr ""
+msgstr "القائمة الرئيسية"
 
 #: flavor/inc/class-block-patterns.php:178
 msgid "منوی امروز"
-msgstr ""
+msgstr "قائمة اليوم"
 
 #: flavor/inc/class-chrome-builder.php:211
 msgid "منوی دسترسی سریع"
-msgstr ""
+msgstr "قائمة الوصول السريع"
 
 #: flavor/elementor/widgets/class-menu-widget.php:22
 msgid "منوی رستوران"
@@ -3855,15 +3855,15 @@ msgstr "قائمة المطعم"
 
 #: flavor/inc/class-chrome-builder.php:982
 msgid "منوی سفارش آنلاین"
-msgstr ""
+msgstr "قائمة الطلب الإلكتروني"
 
 #: flavor/inc/class-onboarding.php:795 flavor/inc/template-tags.php:180
 msgid "منوی غذا"
-msgstr ""
+msgstr "قائمة الطعام"
 
 #: flavor/inc/class-customizer.php:731
 msgid "منوی غذا و نوشیدنی"
-msgstr ""
+msgstr "قائمة الطعام والمشروبات"
 
 #: flavor/inc/class-engagement.php:213 flavor/inc/class-premium-customizer.php:197
 msgid "منوی فصل، پیشنهادهای ویژه و تخفیف‌های مناسبتی را یک هفته زودتر دریافت کنید. هر وقت خواستید لغو کنید."
@@ -3875,11 +3875,11 @@ msgstr "قائمتنا"
 
 #: flavor/inc/class-chrome-builder.php:907 flavor/inc/class-chrome-builder.php:915 flavor/template-parts/demos/header.php:46
 msgid "منوی موبایل"
-msgstr ""
+msgstr "قائمة الجوال"
 
 #: flavor/inc/class-theme-setup.php:115
 msgid "منوی پاورقی"
-msgstr ""
+msgstr "قائمة التذييل"
 
 #: flavor/template-parts/demos/footer.php:14
 msgid "منوی کامل"
@@ -3887,19 +3887,19 @@ msgstr "القائمة الكاملة"
 
 #: flavor/inc/class-customer-ui.php:83
 msgid "مهرهای ثبت‌شده"
-msgstr ""
+msgstr "الأختام المسجّلة"
 
 #: flavor/inc/class-repeater.php:69 flavor/template-parts/marketing/testimonials.php:44
 msgid "مهمان رستوران"
-msgstr ""
+msgstr "ضيف المطعم"
 
 #: flavor/inc/class-repeater.php:287
 msgid "مهمان سالن"
-msgstr ""
+msgstr "ضيف القاعة"
 
 #: flavor/inc/class-launch-center.php:107
 msgid "مهمان می‌تواند منوی سفارش را باز کند."
-msgstr ""
+msgstr "يستطيع الضيف فتح قائمة الطلب."
 
 #: flavor/template-parts/marketing/about.php:66
 msgid "مواد اولیه تازه روزانه"
@@ -3923,19 +3923,19 @@ msgstr "يُعاد التحقّق من التوفّر وتكلفة التوصي�
 
 #: flavor/inc/class-launch-center.php:282
 msgid "مورد اصلی انتشار"
-msgstr ""
+msgstr "عنصر النشر الأساسي"
 
 #: flavor/single-flavor_branch.php:6
 msgid "موقعیت ثبت‌شده در نقشه"
-msgstr ""
+msgstr "الموقع المسجّل على الخريطة"
 
 #: flavor/inc/class-premium-customizer.php:99
 msgid "مگامنو"
-msgstr ""
+msgstr "القائمة الضخمة"
 
 #: flavor/page-templates/template-menu.php:17
 msgid "میز %s"
-msgstr ""
+msgstr "الطاولة %s"
 
 #: flavor/template-parts/marketing/reservation-cta.php:14
 msgid "میز خود را در محیطی دنج و آرام رزرو کنید"
@@ -3951,27 +3951,27 @@ msgstr "طاولتك"
 
 #: flavor/inc/class-block-patterns.php:236
 msgid "میز شما آماده است"
-msgstr ""
+msgstr "طاولتكم جاهزة"
 
 #: flavor/inc/class-customizer.php:580
 msgid "مینیمال باریک"
-msgstr ""
+msgstr "بسيط رفيع"
 
 #: flavor/inc/class-ui-customizer.php:100
 msgid "مینیمال و باریک"
-msgstr ""
+msgstr "بسيط ورفيع"
 
 #: flavor/inc/class-customizer.php:653
 msgid "مینیمال وسط‌چین بدون شلوغی"
-msgstr ""
+msgstr "بسيط في المنتصف بلا ازدحام"
 
 #: flavor/inc/class-design.php:64
 msgid "مینیمال و معاصر"
-msgstr ""
+msgstr "بسيط ومعاصر"
 
 #: flavor/inc/class-customizer.php:513
 msgid "نازک (300)"
-msgstr ""
+msgstr "رفيع (300)"
 
 #: flavor/elementor/widgets/class-chefs-widget.php:53 flavor/elementor/widgets/class-price-list-widget.php:50 flavor/elementor/widgets/class-testimonials-widget.php:32 flavor/inc/class-repeater.php:64 flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/reservation/reservation-form.php:15
 msgid "نام"
@@ -3979,7 +3979,7 @@ msgstr "الاسم"
 
 #: flavor/inc/class-onboarding.php:166
 msgid "نام رستوران / کافه"
-msgstr ""
+msgstr "اسم المطعم / المقهى"
 
 #: flavor/template-parts/branch/branch-selector.php:11
 msgid "نام شعبه یا شهر…"
@@ -3987,7 +3987,7 @@ msgstr "اسم الفرع أو المدينة…"
 
 #: flavor/inc/class-onboarding.php:281
 msgid "نام غذا / نوشیدنی"
-msgstr ""
+msgstr "اسم الطعام / المشروب"
 
 #: flavor/template-parts/menu/smart-search.php:31
 msgid "نام غذا یا ترکیبات موردنظر شما…"
@@ -3999,7 +3999,7 @@ msgstr "اسم الحي"
 
 #: flavor/inc/class-enqueue.php:300
 msgid "ناموجود"
-msgstr ""
+msgstr "غير متوفر"
 
 #: flavor/template-parts/marketing/intro.php:45
 msgid "ناوگان ارسال اختصاصی"
@@ -4007,7 +4007,7 @@ msgstr "أسطول توصيل مخصّص"
 
 #: flavor/search.php:6
 msgid "نتایج برای «%s»"
-msgstr ""
+msgstr "نتائج البحث عن «%s»"
 
 #: flavor/template-parts/menu/smart-search.php:55
 msgid "نتایج جست‌وجو"
@@ -4015,40 +4015,40 @@ msgstr "نتائج البحث"
 
 #: flavor/inc/class-enqueue.php:299
 msgid "نتیجه برای"
-msgstr ""
+msgstr "نتيجة لـ"
 
 #: flavor/inc/class-ui.php:28
 msgid "نرم و گرد"
-msgstr ""
+msgstr "ناعم ودائري"
 
 #: flavor/inc/class-customizer.php:458
 msgid "نسبت مقیاس تیترها"
-msgstr ""
+msgstr "نسبة سلّم العناوين"
 
 #: flavor/inc/class-customizer.php:341
 msgid "نسبت کنتراست هر ترکیب با استاندارد WCAG AA سنجیده می‌شود. این فقط گزارش است و مانع ذخیره نمی‌شود."
-msgstr ""
+msgstr "تُقاس نسبة التباين لكل تركيبة بمعيار WCAG AA. هذا تقرير فقط ولا يمنع الحفظ."
 
 #: flavor/inc/class-customizer.php:818
 #. %d: gallery slot number. */
 msgid "نسبت ۴:۳. هر جای خالی با تصویر دموی قالب پر می‌شود."
-msgstr ""
+msgstr "نسبة 4:3. يُملأ كل فراغ بصورة العرض التجريبي للقالب."
 
 #: flavor/inc/class-customizer.php:766 flavor/inc/class-customizer.php:786
 msgid "نسبت ۴:۳، دست‌کم ۸۰۰×۶۰۰ پیکسل. اگر خالی بماند تصویر دموی پوستهٔ فعال نمایش داده می‌شود."
-msgstr ""
+msgstr "نسبة 4:3، بحد أدنى 800×600 بكسل. إن بقي فارغاً تُعرض صورة العرض التجريبي للقالب الفعّال."
 
 #: flavor/inc/class-update-channel.php:410
 msgid "نسخه"
-msgstr ""
+msgstr "الإصدار"
 
 #: flavor/inc/class-changelog.php:202 flavor/inc/class-update-channel.php:386
 msgid "نسخهٔ %s"
-msgstr ""
+msgstr "الإصدار %s"
 
 #: flavor/inc/class-changelog.php:189 flavor/inc/class-update-channel.php:369
 msgid "نسخهٔ نصب‌شده: %s"
-msgstr ""
+msgstr "الإصدار المثبّت: %s"
 
 #: flavor/elementor/widgets/class-branch-info-widget.php:133 flavor/template-parts/demos/visit.php:13
 msgid "نشانی"
@@ -4056,19 +4056,19 @@ msgstr "العنوان"
 
 #: flavor/inc/class-update-channel.php:435
 msgid "نشانی manifest.json (https)"
-msgstr ""
+msgstr "عنوان manifest.json (https)"
 
 #: flavor/inc/class-builder.php:112
 msgid "نشانی تصویر"
-msgstr ""
+msgstr "عنوان الصورة"
 
 #: flavor/page-templates/template-contact.php:18
 msgid "نشانی ثبت‌شده"
-msgstr ""
+msgstr "العنوان المسجّل"
 
 #: flavor/inc/class-onboarding.php:253
 msgid "نشانی دقیق شعبه اصلی"
-msgstr ""
+msgstr "العنوان الدقيق للفرع الرئيسي"
 
 #: flavor/elementor/widgets/class-offers-widget.php:79 flavor/elementor/widgets/class-reservation-widget.php:70
 msgid "نشانی دکمه"
@@ -4076,11 +4076,11 @@ msgstr "عنوان الزر"
 
 #: flavor/inc/class-branch-map.php:121
 msgid "نشانی روی نقشه"
-msgstr ""
+msgstr "العنوان على الخريطة"
 
 #: flavor/inc/class-customizer.php:899
 msgid "نشانی شعبه اصلی"
-msgstr ""
+msgstr "عنوان الفرع الرئيسي"
 
 #: flavor/template-parts/marketing/hours.php:54
 msgid "نشانی شعبه اصلی:"
@@ -4092,11 +4092,11 @@ msgstr "لم يُسجَّل العنوان بعد؛ نسّق هاتفياً."
 
 #: flavor/inc/class-chrome-builder.php:220
 msgid "نشانی و تلفن"
-msgstr ""
+msgstr "العنوان والهاتف"
 
 #: flavor/inc/class-block-patterns.php:268
 msgid "نشانی و تماس"
-msgstr ""
+msgstr "العنوان والاتصال"
 
 #: flavor/template-parts/marketing/hours.php:47
 msgid "نشانی و راه‌های ارتباطی"
@@ -4104,7 +4104,7 @@ msgstr "العنوان ووسائل الاتصال"
 
 #: flavor/inc/class-customizer.php:899
 msgid "نشانیِ شعبهٔ اصلی؛ در پانوشت و در نشانه‌گذاریِ ساختاریافتهٔ محلِ کسب نمایش داده می‌شود."
-msgstr ""
+msgstr "عنوان الفرع الرئيسي؛ يظهر في التذييل وفي البيانات المنظمة لنشاط المكان."
 
 #: flavor/template-parts/menu/cart-drawer.php:26
 msgid "نشانی کامل"
@@ -4112,11 +4112,11 @@ msgstr "العنوان الكامل"
 
 #: flavor/inc/class-customizer.php:913 flavor/inc/class-customizer.php:916
 msgid "نشانی کامل با https://. خالی بگذارید تا این آیکون در پانوشت نمایش داده نشود."
-msgstr ""
+msgstr "عنوان كامل يبدأ بـ https://. اتركوه فارغاً لعدم عرض هذه الأيقونة في التذييل."
 
 #: flavor/inc/class-customizer.php:919
 msgid "نشانی کاملِ واتس‌اپ. خالی بگذارید تا این آیکون در پانوشت نمایش داده نشود."
-msgstr ""
+msgstr "رابط واتساب الكامل. اتركوه فارغاً لعدم عرض هذه الأيقونة في التذييل."
 
 #: flavor/inc/class-engagement.php:320
 msgid "نشست منقضی شده است؛ صفحه را دوباره باز کنید."
@@ -4124,15 +4124,15 @@ msgstr "انتهت الجلسة؛ أعد فتح الصفحة."
 
 #: flavor/inc/class-changelog.php:208
 msgid "نصب‌شده"
-msgstr ""
+msgstr "مثبّت"
 
 #: flavor/inc/class-builder.php:190
 msgid "نظرات (هر خط: نام | نظر)"
-msgstr ""
+msgstr "الآراء (كل سطر: الاسم | الرأي)"
 
 #: flavor/inc/class-block-patterns.php:96 flavor/inc/class-builder.php:185
 msgid "نظرات مشتریان"
-msgstr ""
+msgstr "آراء العملاء"
 
 #: flavor/elementor/widgets/class-testimonials-widget.php:22
 msgid "نظرات مهمان"
@@ -4148,11 +4148,11 @@ msgstr "آراء ورضا روّادنا"
 
 #: flavor/inc/class-repeater.php:59
 msgid "نظر مهمان"
-msgstr ""
+msgstr "رأي الضيف"
 
 #: flavor/inc/class-customizer.php:877
 msgid "نظر مهمان‌ها"
-msgstr ""
+msgstr "آراء الضيوف"
 
 #: flavor/elementor/widgets/class-testimonials-widget.php:30
 msgid "نظرها"
@@ -4164,15 +4164,15 @@ msgstr "الدور"
 
 #: flavor/inc/class-premium-customizer.php:236
 msgid "نقشه بدون کلید API و بدون درخواست به سرور گوگل نمایش داده می‌شود و فقط وقتی دیده می‌شود که در قاب باشد."
-msgstr ""
+msgstr "تُعرض الخريطة دون مفتاح API ودون طلب إلى خوادم Google، ولا تُحمَّل إلا عندما تكون ضمن الإطار."
 
 #: flavor/inc/class-branch-map.php:129
 msgid "نقشهٔ %s"
-msgstr ""
+msgstr "خريطة %s"
 
 #: flavor/inc/class-premium-customizer.php:234
 msgid "نقشهٔ شعبه‌ها"
-msgstr ""
+msgstr "خريطة الفروع"
 
 #: flavor/inc/class-shopping-extras.php:300
 msgid "نمای سریع"
@@ -4180,7 +4180,7 @@ msgstr "عرض سريع"
 
 #: flavor/inc/class-premium-customizer.php:132
 msgid "نمای سریع روی کارت‌های فروشگاه"
-msgstr ""
+msgstr "عرض سريع على بطاقات المتجر"
 
 #: flavor/inc/class-shopping-extras.php:321
 msgid "نمای سریع غذا"
@@ -4188,31 +4188,31 @@ msgstr "عرض سريع للطبق"
 
 #: flavor/inc/class-bespoke-demos.php:195
 msgid "نمایش"
-msgstr ""
+msgstr "العرض"
 
 #: flavor/inc/class-chrome-builder.php:253
 msgid "نمایش «قدرت گرفته از Flavor»"
-msgstr ""
+msgstr "عرض «مدعوم من Flavor»"
 
 #: flavor/inc/class-customizer.php:778
 msgid "نمایش بخش درباره ما"
-msgstr ""
+msgstr "عرض قسم «من نحن»"
 
 #: flavor/inc/class-customizer.php:704
 msgid "نمایش بخش معرفی"
-msgstr ""
+msgstr "عرض قسم التعريف"
 
 #: flavor/inc/class-customizer.php:859
 msgid "نمایش بخش نظرات"
-msgstr ""
+msgstr "عرض قسم الآراء"
 
 #: flavor/inc/class-customizer.php:743
 msgid "نمایش بنر تخفیف ویژه"
-msgstr ""
+msgstr "عرض بانر العرض الخاص"
 
 #: flavor/inc/class-customizer.php:758
 msgid "نمایش بنر رزرو میز"
-msgstr ""
+msgstr "عرض بانر حجز الطاولة"
 
 #: flavor/elementor/widgets/class-branch-info-widget.php:62
 msgid "نمایش تلفن"
@@ -4220,23 +4220,23 @@ msgstr "عرض الهاتف"
 
 #: flavor/inc/class-chrome-builder.php:249
 msgid "نمایش خط کپی‌رایت"
-msgstr ""
+msgstr "عرض سطر حقوق النشر"
 
 #: flavor/inc/class-premium-customizer.php:86
 msgid "نمایش دکمهٔ تغییر حالت برای بازدیدکننده"
-msgstr ""
+msgstr "عرض زر تبديل الوضع للزائر"
 
 #: flavor/inc/class-premium-customizer.php:219
 msgid "نمایش دکمه‌های شناور"
-msgstr ""
+msgstr "عرض الأزرار العائمة"
 
 #: flavor/inc/class-customizer.php:895
 msgid "نمایش ساعات کاری و آدرس"
-msgstr ""
+msgstr "عرض ساعات العمل والعنوان"
 
 #: flavor/inc/class-chrome-builder.php:1947
 msgid "نمایش شعار کوتاه کنار نام سایت"
-msgstr ""
+msgstr "عرض الشعار القصير بجانب اسم الموقع"
 
 #: flavor/elementor/widgets/class-branch-info-widget.php:72
 msgid "نمایش شهر"
@@ -4244,7 +4244,7 @@ msgstr "عرض المدينة"
 
 #: flavor/page-templates/template-menu.php:22
 msgid "نمایش فهرستی"
-msgstr ""
+msgstr "العرض القائمي"
 
 #: flavor/elementor/widgets/class-menu-widget.php:82
 msgid "نمایش قیمت"
@@ -4260,103 +4260,103 @@ msgstr "عرض العنوان"
 
 #: flavor/inc/class-premium-customizer.php:138
 msgid "نمایش نشان‌ها زیر دکمهٔ خرید محصول"
-msgstr ""
+msgstr "عرض الشارات أسفل زر شراء المنتج"
 
 #: flavor/inc/class-premium-customizer.php:137
 msgid "نمایش نشان‌های اعتماد"
-msgstr ""
+msgstr "عرض شارات الثقة"
 
 #: flavor/inc/class-premium-customizer.php:240
 msgid "نمایش نقشهٔ جاسازی‌شده در صفحهٔ شعبه"
-msgstr ""
+msgstr "عرض الخريطة المضمّنة في صفحة الفرع"
 
 #: flavor/inc/class-premium-customizer.php:201
 msgid "نمایش نوار رضایت کوکی"
-msgstr ""
+msgstr "عرض شريط موافقة ملفات تعريف الارتباط"
 
 #: flavor/inc/class-customizer.php:778
 msgid "نمایشِ بخشِ «دربارهٔ ما»."
-msgstr ""
+msgstr "عرض قسم «عنا»."
 
 #: flavor/inc/class-customizer.php:704
 msgid "نمایشِ بخشِ معرفی در صفحهٔ اصلی. غیرفعال‌کردن محتوا را پاک نمی‌کند."
-msgstr ""
+msgstr "عرض قسم التعريف في الصفحة الرئيسية. إيقاف القسم لا يحذف المحتوى."
 
 #: flavor/inc/class-customizer.php:859
 msgid "نمایشِ بخشِ نظراتِ مشتریان. آیتم‌ها را در بخشِ مربوط ویرایش کنید."
-msgstr ""
+msgstr "عرض قسم آراء العملاء. عدّلوا العناصر في القسم المخصص."
 
 #: flavor/inc/class-customizer.php:743
 msgid "نمایشِ بنرِ تخفیف. آفر در صفحهٔ اصلی دیده می‌شود؛ تعریفِ خودِ تخفیف در ووکامرس انجام می‌شود."
-msgstr ""
+msgstr "عرض بانر الخصم. يظهر العرض في الصفحة الرئيسية، أما تعريف الخصم نفسه فيتم في WooCommerce."
 
 #: flavor/inc/class-customizer.php:758
 msgid "نمایشِ بنرِ دعوت به رزرو. مقصدِ دکمه صفحهٔ رزرو است؛ اگر هسته فعال نباشد، بنر نمایش داده نمی‌شود."
-msgstr ""
+msgstr "عرض بانر دعوة الحجز. وجهة الزر هي صفحة الحجز؛ وإذا لم تكن النواة مفعّلة فلا يُعرض البانر."
 
 #: flavor/inc/class-customizer.php:895
 msgid "نمایشِ ساعاتِ کاری و نشانی. ساعاتِ هر شعبه در هسته تنظیم می‌شود."
-msgstr ""
+msgstr "عرض ساعات العمل والعنوان. تُضبط ساعات كل فرع في النواة."
 
 #: flavor/inc/class-customizer.php:717
 msgid "نمایشِ پیشنهادهای ویژه. آیتم‌ها از محصولاتِ برگزیدهٔ ووکامرس خوانده می‌شوند."
-msgstr ""
+msgstr "عرض العروض الخاصة. تُقرأ العناصر من منتجات WooCommerce المختارة."
 
 #: flavor/inc/class-customizer.php:730
 msgid "نمایشِ کارت‌های دسته‌بندیِ منو."
-msgstr ""
+msgstr "عرض بطاقات تصنيفات القائمة."
 
 #: flavor/inc/class-customizer.php:808
 msgid "نمایشِ گالری. اگر تصویری در بستهٔ دمو نباشد، این بخش خودبه‌خود پنهان می‌شود."
-msgstr ""
+msgstr "عرض المعرض. إن لم تكن هناك صور في حزمة العرض التجريبي يُخفى هذا القسم تلقائياً."
 
 #: flavor/inc/class-customizer.php:717
 msgid "نمایش پیشنهادهای ویژه"
-msgstr ""
+msgstr "عرض العروض الخاصة"
 
 #: flavor/page-templates/template-menu.php:22
 msgid "نمایش کارتی"
-msgstr ""
+msgstr "العرض البطاقي"
 
 #: flavor/inc/class-customizer.php:730
 msgid "نمایش کارت‌های دسته‌بندی"
-msgstr ""
+msgstr "عرض بطاقات التصنيفات"
 
 #: flavor/inc/class-customer-ui.php:107
 msgid "نمایش کد"
-msgstr ""
+msgstr "عرض الرمز"
 
 #: flavor/inc/class-customizer.php:808
 msgid "نمایش گالری تصاویر"
-msgstr ""
+msgstr "عرض معرض الصور"
 
 #: flavor/inc/class-ui.php:25
 msgid "نمای پیش‌فرض منو"
-msgstr ""
+msgstr "العرض الافتراضي للقائمة"
 
 #: flavor/inc/class-contrast-control.php:59
 msgid "نمونه"
-msgstr ""
+msgstr "عيّنة"
 
 #: flavor/inc/class-ui.php:29
 msgid "نوار دسترسی موبایل"
-msgstr ""
+msgstr "شريط الوصول على الجوال"
 
 #: flavor/inc/class-customizer.php:624
 msgid "نوار پیام بالای هدر (Announcement Bar)"
-msgstr ""
+msgstr "شريط الرسائل أعلى الترويسة (Announcement Bar)"
 
 #: flavor/inc/class-premium-customizer.php:131
 msgid "نوار چسبان «افزودن به سبد» در صفحهٔ محصول"
-msgstr ""
+msgstr "شريط «الإضافة إلى السلة» الثابت في صفحة المنتج"
 
 #: flavor/inc/class-contrast.php:87
 msgid "نوشتهٔ دکمهٔ اصلی"
-msgstr ""
+msgstr "نص الزر الأساسي"
 
 #: flavor/inc/class-block-patterns.php:216
 msgid "نوشیدنی و دسر"
-msgstr ""
+msgstr "المشروبات والحلويات"
 
 #: flavor/elementor/widgets/class-price-list-widget.php:45
 msgid "نوشیدنی‌ها"
@@ -4376,7 +4376,7 @@ msgstr "لمحة عن الأجواء الجميلة وتنسيق الطاولا�
 
 #: flavor/page-templates/template-contact.php:17
 msgid "نیاز غذایی و حساسیت را پیش از ثبت سفارش هماهنگ کنید."
-msgstr ""
+msgstr "نسّقوا الاحتياجات الغذائية والحساسية قبل تقديم الطلب."
 
 #: flavor/template-parts/demos/catering.php:82
 msgid "نیاز غذایی یا توضیح تکمیلی"
@@ -4384,7 +4384,7 @@ msgstr "احتياج غذائي أو إيضاح إضافي"
 
 #: flavor/inc/class-launch-center.php:313
 msgid "نیازمند اقدام"
-msgstr ""
+msgstr "يحتاج إلى إجراء"
 
 #: flavor/template-parts/reservation/reservation-form.php:15
 msgid "نیاز یا توضیح تکمیلی"
@@ -4392,43 +4392,43 @@ msgstr "احتياج أو إيضاح إضافي"
 
 #: flavor/inc/class-customizer.php:476 flavor/inc/class-customizer.php:516
 msgid "نیمه‌درشت (600)"
-msgstr ""
+msgstr "شبه عريض (600)"
 
 #: flavor/inc/class-customizer.php:475
 msgid "نیمه‌ضخیم (500)"
-msgstr ""
+msgstr "شبه سميك (500)"
 
 #: flavor/inc/class-customizer.php:526
 msgid "نیمه‌فشرده (1.6)"
-msgstr ""
+msgstr "شبه مضغوط (1.6)"
 
 #: flavor/inc/class-customizer.php:488
 msgid "نیمه‌فشرده (1.15)"
-msgstr ""
+msgstr "شبه مضغوط (1.15)"
 
 #: flavor/inc/class-page-options.php:59
 msgid "هدر روی تصویرِ بالای صفحه می‌نشیند. صفحه باید تصویر شاخص داشته باشد."
-msgstr ""
+msgstr "تستقر الترويسة فوق صورة أعلى الصفحة. يجب أن تكون للصفحة صورة بارزة."
 
 #: flavor/inc/class-page-options.php:57
 msgid "هدر شفاف روی این صفحه"
-msgstr ""
+msgstr "ترويسة شفافة في هذه الصفحة"
 
 #: flavor/inc/class-customizer.php:581
 msgid "هدر شیشه‌ای شفاف روی تصویر هیرو"
-msgstr ""
+msgstr "ترويسة زجاجية شفافة فوق صورة الواجهة"
 
 #: flavor/inc/class-customizer.php:564
 msgid "هدر و ناوبری سایت"
-msgstr ""
+msgstr "الترويسة والتنقل في الموقع"
 
 #: flavor/inc/class-chrome-builder.php:1928
 msgid "هدر چسبان در موبایل"
-msgstr ""
+msgstr "ترويسة ثابتة على الجوال"
 
 #: flavor/inc/class-customizer.php:613
 msgid "هدر چسبان هنگام اسکرول (Sticky Header)"
-msgstr ""
+msgstr "ترويسة ثابتة عند التمرير (Sticky Header)"
 
 #: flavor/template-parts/reservation/reservation-form.php:13
 msgid "هر بخشِ دارای ظرفیت"
@@ -4436,23 +4436,23 @@ msgstr "كل قسم متاحة فيه السعة"
 
 #: flavor/inc/class-customizer.php:878
 msgid "هر تعداد نظر که دارید بیفزایید. اگر خالی بماند، نمونه‌های پیش‌فرض نمایش داده می‌شود."
-msgstr ""
+msgstr "أضيفوا أي عدد من الآراء. إن بقي فارغاً تُعرض العيّنات الافتراضية."
 
 #: flavor/inc/class-premium-customizer.php:143
 msgid "هر خط یک نشان: آیکون|متن"
-msgstr ""
+msgstr "كل سطر شارة واحدة: أيقونة|نص"
 
 #: flavor/inc/class-block-patterns.php:182
 msgid "هر روز با مواد تازه آماده می‌شود."
-msgstr ""
+msgstr "يُجهَّز يومياً بمكونات طازجة."
 
 #: flavor/inc/class-chrome-builder.php:236
 msgid "هر ستون جایگاه ویجت خودش را دارد؛ در نمایش ← ویجت‌ها پرشان کنید."
-msgstr ""
+msgstr "لكل عمود موضع أداة خاص به؛ املأوه من المظهر ← الأدوات."
 
 #: flavor/inc/class-chrome-builder.php:1103 flavor/inc/class-chrome-builder.php:2096
 msgid "هر هفته یک ایمیل: منوی جدید، تخفیف‌های مناسبتی و ساعت ویژه."
-msgstr ""
+msgstr "بريد واحد كل أسبوع: قائمة جديدة وخصومات المناسبات وساعات خاصة."
 
 #: flavor/template-parts/demos/coverage.php:12
 msgid "هزینهٔ ارسال"
@@ -4464,23 +4464,23 @@ msgstr "تكلفة التوصيل في المنطقة"
 
 #: flavor/inc/class-block-patterns.php:370
 msgid "هزینهٔ ارسال چگونه محاسبه می‌شود؟"
-msgstr ""
+msgstr "كيف تُحسب رسوم التوصيل؟"
 
 #: flavor/inc/class-launch-center.php:313
 msgid "هشدار"
-msgstr ""
+msgstr "تنبيه"
 
 #: flavor/inc/class-customizer.php:507
 msgid "هشدار: در خط فارسی حروف به هم می‌چسبند. هر مقدارِ غیرصفر پیوستگیِ کلمات را می‌شکند و متن را نازیبا می‌کند؛ فقط برای تیترهای لاتین استفاده کنید."
-msgstr ""
+msgstr "تنبيه: في الخط الفارسي تتصل الحروف ببعضها. أي قيمة غير صفرية تكسر اتصال الكلمات وتجعل النص غير جميل؛ استخدموها للعناوين اللاتينية فقط."
 
 #: flavor/inc/class-chrome-builder.php:1948
 msgid "همان «شرح کوتاه سایت» در تنظیمات عمومی وردپرس. وقتی لوگوی اختصاصی بگذارید، این گزینه اثری ندارد."
-msgstr ""
+msgstr "هو «الشعار النصي للموقع» في الإعدادات العامة لووردبريس. وعند وضع شعار مخصص لا يكون لهذا الخيار أثر."
 
 #: flavor/inc/class-chrome-builder.php:231
 msgid "همان فرم خبرنامهٔ افزونه؛ ایمیل‌ها در فهرست محلی Flavor ذخیره می‌شوند."
-msgstr ""
+msgstr "نموذج النشرة نفسه من الإضافة؛ تُحفظ البريد الإلكترونية في قائمة Flavor المحلية."
 
 #: flavor/template-parts/ui/mobile-nav.php:18
 msgid "هماهنگی"
@@ -4492,7 +4492,7 @@ msgstr "تنسيق هاتفي"
 
 #: flavor/page-templates/template-about.php:15
 msgid "هماهنگی و تماس"
-msgstr ""
+msgstr "التنسيق والاتصال"
 
 #: flavor/template-parts/demos/dark-luxe.php:16
 msgid "هماهنگی یک مناسبت خاص"
@@ -4504,23 +4504,23 @@ msgstr "الكل"
 
 #: flavor/inc/class-chrome-builder.php:1209
 msgid "همه در ابتدا (راست در فارسی)"
-msgstr ""
+msgstr "الكل في البداية (يمين في الفارسية)"
 
 #: flavor/inc/class-chrome-builder.php:1211
 msgid "همه در انتها (چپ در فارسی)"
-msgstr ""
+msgstr "الكل في النهاية (يسار في الفارسية)"
 
 #: flavor/inc/class-chrome-builder.php:1210
 msgid "همه وسط"
-msgstr ""
+msgstr "الكل في المنتصف"
 
 #: flavor/inc/class-contrast-control.php:85
 msgid "همهٔ ترکیب‌ها از حداقل استاندارد WCAG AA بالاترند."
-msgstr ""
+msgstr "جميع التركيبات أعلى من الحد الأدنى لمعيار WCAG AA."
 
 #: flavor/inc/class-customer-ui.php:84
 msgid "همهٔ سفارش‌ها"
-msgstr ""
+msgstr "جميع الطلبات"
 
 #: flavor/template-parts/branch/branch-selector.php:11
 msgid "همهٔ شهرها"
@@ -4528,11 +4528,11 @@ msgstr "جميع المدن"
 
 #: flavor/inc/class-onboarding.php:300
 msgid "همه چیز آماده راه‌اندازی است!"
-msgstr ""
+msgstr "كل شيء جاهز للإطلاق!"
 
 #: flavor/inc/class-builder.php:156
 msgid "همین حالا سفارش دهید"
-msgstr ""
+msgstr "اطلب الآن"
 
 #: flavor/template-parts/marketing/hours.php:24
 msgid "هم‌اکنون باز است"
@@ -4540,11 +4540,11 @@ msgstr "مفتوح الآن"
 
 #: flavor/inc/class-builder.php:217
 msgid "هنوز آیتمی در منو منتشر نشده است."
-msgstr ""
+msgstr "لم يُنشر أي عنصر في القائمة بعد."
 
 #: flavor/inc/class-customer-ui.php:85
 msgid "هنوز سفارشی به این حساب متصل نیست."
-msgstr ""
+msgstr "لم يُرتبط أي طلب بهذا الحساب بعد."
 
 #: flavor/template-parts/branch/branch-selector.php:10
 msgid "هنوز شعبه‌ای منتشر نشده است."
@@ -4556,11 +4556,11 @@ msgstr "لم يُضف أي عضو بعد."
 
 #: flavor/inc/class-wishlist.php:181
 msgid "هنوز غذایی را ذخیره نکرده‌اید."
-msgstr ""
+msgstr "لم تحفظوا أي طعام بعد."
 
 #: flavor/inc/class-wishlist.php:204
 msgid "هنوز غذایی را ذخیره نکرده‌اید. با زدن قلب روی هر غذا، اینجا نگه‌داری می‌شود."
-msgstr ""
+msgstr "لم تحفظوا أي طعام بعد. عند النقر على القلب في أي طبق يُحفظ هنا."
 
 #: flavor/template-parts/menu/item-card.php:17
 msgid "هنوز محصولی برای نمایش منتشر نشده است. برای اطلاع از منو با مجموعه تماس بگیرید."
@@ -4568,15 +4568,15 @@ msgstr "لم يُنشر أي منتج للعرض بعد. للاستعلام عن
 
 #: flavor/inc/class-repeater-control.php:188
 msgid "هنوز موردی نیست."
-msgstr ""
+msgstr "لا يوجد شيء بعد."
 
 #: flavor/inc/class-update-channel.php:407
 msgid "هنوز پشتیبانی ساخته نشده است. پیش از هر به‌روزرسانی خودکار یک نسخه گرفته می‌شود."
-msgstr ""
+msgstr "لم يُنشأ أي نسخة احتياطية بعد. تُؤخذ نسخة قبل كل تحديث تلقائي."
 
 #: flavor/inc/class-premium-customizer.php:191
 msgid "هنگام قصد خروج (دسکتاپ) — در موبایل با تأخیر"
-msgstr ""
+msgstr "عند قصد المغادرة (سطح المكتب) — على الجوال مع تأخير"
 
 #: flavor/elementor/widgets/class-hero-widget.php:22
 msgid "هیرو رستوران"
@@ -4584,7 +4584,7 @@ msgstr "واجهة المطعم"
 
 #: flavor/inc/class-block-patterns.php:66
 msgid "هیروی رستوران"
-msgstr ""
+msgstr "واجهة المطعم"
 
 #: flavor/elementor/widgets/class-hours-widget.php:122
 msgid "هیچ ساعتی ثبت نشده است."
@@ -4596,19 +4596,19 @@ msgstr "لم يُعرَّف أي فرع. أنشئ فرعاً أولاً في إ�
 
 #: flavor/inc/template-tags.php:217
 msgid "واتس‌اپ"
-msgstr ""
+msgstr "واتساب"
 
 #: flavor/inc/class-launch-center.php:174
 msgid "واحد نمایش را در تنظیمات رستوران روی تومان بگذارید."
-msgstr ""
+msgstr "اضبطوا وحدة العرض على التومان في إعدادات المطعم."
 
 #: flavor/inc/class-launch-center.php:172
 msgid "واحد نمایش روی تومان است"
-msgstr ""
+msgstr "وحدة العرض هي التومان"
 
 #: flavor/inc/class-transfer.php:75
 msgid "وارد کردن تنظیمات"
-msgstr ""
+msgstr "استيراد الإعدادات"
 
 #: flavor/template-parts/ui/login.php:15
 msgid "ورود با رمز عبور نیز در فرم اصلی ووکامرس، پایین این بخش، در دسترس است."
@@ -4624,7 +4624,7 @@ msgstr "الدخول برمز لمرة واحدة"
 
 #: flavor/page.php:16
 msgid "ورود به حساب"
-msgstr ""
+msgstr "تسجيل الدخول إلى الحساب"
 
 #: flavor/template-parts/ui/login.php:6
 msgid "ورود ساده، ادامهٔ راحت‌تر."
@@ -4636,35 +4636,35 @@ msgstr "الدخول بالرسائل النصية يحتاج JavaScript. است
 
 #: flavor/inc/class-chrome-builder.php:851
 msgid "ورود یا ثبت‌نام"
-msgstr ""
+msgstr "تسجيل الدخول أو إنشاء حساب"
 
 #: flavor/inc/class-customizer.php:472
 msgid "وزن تیترها"
-msgstr ""
+msgstr "وزن العناوين"
 
 #: flavor/inc/class-customizer.php:510
 msgid "وزن متن بدنه"
-msgstr ""
+msgstr "وزن نص المحتوى"
 
 #: flavor/inc/class-ui-customizer.php:74
 msgid "وزیرمتن"
-msgstr ""
+msgstr "وزير متن (Vazirmatn)"
 
 #: flavor/inc/class-builder.php:71 flavor/inc/class-builder.php:99
 msgid "وسط"
-msgstr ""
+msgstr "الوسط"
 
 #: flavor/inc/class-ui-customizer.php:62
 msgid "وسط‌چین در دسکتاپ اعمال می‌شود؛ در موبایل چینش خوانا و دکمهٔ منو حفظ می‌شود. هدر شیشه‌ای روی متن صفحه قرار نمی‌گیرد."
-msgstr ""
+msgstr "يُطبَّق التوسيط على سطح المكتب؛ وعلى الجوال يُحافظ على تخطيط واضح وزر القائمة. لا تُوضع الترويسة الزجاجية فوق نص الصفحة."
 
 #: flavor/inc/class-launch-center.php:278 flavor/inc/class-update-channel.php:368
 msgid "وضعیت"
-msgstr ""
+msgstr "الحالة"
 
 #: flavor/inc/class-customer-ui.php:116
 msgid "وضعیت ثبت‌شده در آشپزخانه"
-msgstr ""
+msgstr "الحالة المسجّلة في المطبخ"
 
 #: flavor/template-parts/reservation/reservation-form.php:17
 msgid "وضعیت رزرو از پاسخ سرور اعلام می‌شود؛ زمان و ظرفیت تضمین نمایشی نیستند."
@@ -4672,23 +4672,23 @@ msgstr "يُعلن عن حالة الحجز من ردّ الخادم؛ والو�
 
 #: flavor/inc/class-demo-importer.php:100
 msgid "وضعیت قبلی"
-msgstr ""
+msgstr "الحالة السابقة"
 
 #: flavor/page-templates/template-order-tracking.php:17
 msgid "وضعیت واقعی، نه تخمین نمایشی."
-msgstr ""
+msgstr "الحالة الفعلية، لا تقدير عرضي."
 
 #: flavor/page-templates/template-order-tracking.php:17
 msgid "وضعیت پرداخت از سفارش و مراحل آماده‌سازی فقط از رکورد موجود آشپزخانه خوانده می‌شوند. زمان رسیدن تضمین‌شده و نقشهٔ زندهٔ پیک ارائه نمی‌شود."
-msgstr ""
+msgstr "تُقرأ حالة الدفع ومراحل التجهيز من سجل المطبخ الموجود فقط. لا يُقدَّم وقت وصول مضمون ولا خريطة مباشرة للمندوب."
 
 #: flavor/inc/class-demo-importer.php:67
 msgid "وضعیت پیش از آخرین درون‌ریزی بازگردانی شد."
-msgstr ""
+msgstr "استُعيدت الحالة السابقة لآخر استيراد."
 
 #: flavor/inc/class-chrome-builder.php:1753
 msgid "وقتی ستونی در سازندهٔ پاورقی روی «ویجت‌های همان ستون» باشد، اینجا پر می‌شود."
-msgstr ""
+msgstr "عند ضبط عمود في منشئ التذييل على «أدوات العمود نفسه»، يُملأ هنا."
 
 #: flavor/template-parts/menu/filters.php:20
 msgid "وگان"
@@ -4696,15 +4696,15 @@ msgstr "نباتي صرف"
 
 #: flavor/inc/class-chrome-builder.php:234
 msgid "ویجت‌های همان ستون"
-msgstr ""
+msgstr "أدوات العمود نفسه"
 
 #: flavor/inc/class-chrome-builder.php:1751
 msgid "ویجت‌های پاورقی %d"
-msgstr ""
+msgstr "أدوات التذييل %d"
 
 #: flavor/inc/class-launch-center.php:130
 msgid "ویرایش شعبه"
-msgstr ""
+msgstr "تعديل الفرع"
 
 #: flavor/elementor/widgets/class-features-widget.php:52
 msgid "ویژگی‌ها"
@@ -4712,11 +4712,11 @@ msgstr "المميزات"
 
 #: flavor/inc/class-builder.php:167
 msgid "ویژگی‌ها (هر خط: عنوان | توضیح)"
-msgstr ""
+msgstr "المميزات (كل سطر: العنوان | الوصف)"
 
 #: flavor/inc/class-premium-customizer.php:45
 msgid "ویژگی‌های پیشرفته Flavor"
-msgstr ""
+msgstr "ميزات Flavor المتقدمة"
 
 #: flavor/elementor/widgets/class-faq-widget.php:50
 msgid "پاسخ"
@@ -4724,15 +4724,15 @@ msgstr "الجواب"
 
 #: flavor/inc/class-customizer.php:288
 msgid "پالت رنگ اختصاصی"
-msgstr ""
+msgstr "لوحة ألوان مخصصة"
 
 #: flavor/inc/class-theme-setup.php:126
 msgid "پاورقی"
-msgstr ""
+msgstr "التذييل"
 
 #: flavor/inc/class-customizer.php:907
 msgid "پاورقی و شبکه‌های اجتماعی"
-msgstr ""
+msgstr "التذييل وشبكات التواصل الاجتماعي"
 
 #: flavor/template-parts/menu/smart-search.php:40
 msgid "پاک کردن جست‌وجو"
@@ -4740,11 +4740,11 @@ msgstr "مسح البحث"
 
 #: flavor/inc/class-wishlist.php:209
 msgid "پاک کردن فهرست"
-msgstr ""
+msgstr "مسح القائمة"
 
 #: flavor/inc/class-preset-control.php:130
 msgid "پاک‌کردنِ رنگ‌های دستی و پیروی از پوسته"
-msgstr ""
+msgstr "حذف الألوان اليدوية والاتباع للقالب"
 
 #: flavor/inc/class-engagement.php:124
 msgid "پایان پیشنهاد: %s"
@@ -4756,11 +4756,11 @@ msgstr "ينتهي العرض في:"
 
 #: flavor/inc/class-premium-customizer.php:177
 msgid "پایان پیشنهاد ویژه (۱۴۰۵-۰۸-۳۰ ۲۳:۵۹ یا 2026-11-21 23:59)"
-msgstr ""
+msgstr "نهاية العرض الخاص (1405-08-30 23:59 أو 2026-11-21 23:59)"
 
 #: flavor/inc/class-builder.php:596
 msgid "پایین"
-msgstr ""
+msgstr "أسفل"
 
 #: flavor/template-parts/marketing/intro.php:37
 msgid "پخت آنی پس از ثبت سفارش"
@@ -4776,19 +4776,19 @@ msgstr "ضيافة مخصّصة"
 
 #: flavor/inc/class-chrome-builder.php:1071
 msgid "پذیرش پیوسته"
-msgstr ""
+msgstr "استقبال مستمر"
 
 #: flavor/inc/class-enqueue.php:296
 msgid "پرجست‌وجوها"
-msgstr ""
+msgstr "الأكثر بحثاً"
 
 #: flavor/inc/class-block-patterns.php:408
 msgid "پرداخت آنلاین یا در محل، همراه با پیگیری لحظه‌ای."
-msgstr ""
+msgstr "دفع إلكتروني أو عند المكان، مع متابعة فورية."
 
 #: flavor/inc/class-block-patterns.php:408
 msgid "پرداخت و پیگیری"
-msgstr ""
+msgstr "الدفع والمتابعة"
 
 #: flavor/elementor/widgets/class-faq-widget.php:49
 msgid "پرسش"
@@ -4804,15 +4804,15 @@ msgstr "الأسئلة الشائعة"
 
 #: flavor/inc/class-block-patterns.php:102 flavor/inc/class-block-patterns.php:360
 msgid "پرسش‌های پرتکرار"
-msgstr ""
+msgstr "الأسئلة المتكررة"
 
 #: flavor/header.php:32 flavor/template-parts/demos/header.php:26
 msgid "پرش به محتوای اصلی"
-msgstr ""
+msgstr "التخطي إلى المحتوى الرئيسي"
 
 #: flavor/inc/class-builder.php:211
 msgid "پرفروش‌ترین‌ها"
-msgstr ""
+msgstr "الأكثر مبيعاً"
 
 #: flavor/template-parts/menu/filters.php:50
 msgid "پرهیز از:"
@@ -4824,31 +4824,31 @@ msgstr "تجنّب مسبّبات الحساسية"
 
 #: flavor/inc/class-design.php:33
 msgid "پس‌زمینه تیره اشرافی با المان‌های طلایی و شامپاینی"
-msgstr ""
+msgstr "خلفية داكنة أرستقراطية بعناصر ذهبية وشامبانيا"
 
 #: flavor/inc/class-customizer.php:297
 msgid "پس‌زمینه سایت (Background)"
-msgstr ""
+msgstr "خلفية الموقع (Background)"
 
 #: flavor/inc/class-chrome-builder.php:1473
 msgid "پس‌زمینهٔ نوار اطلاعیه"
-msgstr ""
+msgstr "خلفية شريط الإعلانات"
 
 #: flavor/inc/class-chrome-builder.php:1455
 msgid "پس‌زمینهٔ هدر"
-msgstr ""
+msgstr "خلفية الترويسة"
 
 #: flavor/inc/class-chrome-builder.php:1485
 msgid "پس‌زمینهٔ پاورقی"
-msgstr ""
+msgstr "خلفية التذييل"
 
 #: flavor/page-templates/template-about.php:12
 msgid "پشت هر انتخاب، یک داستان."
-msgstr ""
+msgstr "خلف كل اختيار قصة."
 
 #: flavor/inc/class-launch-center.php:275 flavor/inc/class-transfer.php:38
 msgid "پشتیبان تنظیمات"
-msgstr ""
+msgstr "نسخة إعدادات احتياطية"
 
 #: flavor/template-parts/marketing/reservation-cta.php:44
 msgid "پشتیبانی و امکان هماهنگی پیش‌غذا"
@@ -4856,31 +4856,31 @@ msgstr "دعم وإمكانية ترتيب المقبّلات"
 
 #: flavor/inc/class-chrome-builder.php:1070 flavor/template-parts/marketing/hours.php:36
 msgid "پنج‌شنبه و جمعه:"
-msgstr ""
+msgstr "الخميس والجمعة:"
 
 #: flavor/inc/class-bespoke-demos.php:195
 msgid "پنهان"
-msgstr ""
+msgstr "مخفي"
 
 #: flavor/inc/class-page-options.php:52
 msgid "پنهان‌کردن عنوان صفحه"
-msgstr ""
+msgstr "إخفاء عنوان الصفحة"
 
 #: flavor/inc/class-transfer.php:65
 msgid "پوسته، رنگ‌ها، تایپوگرافی، چیدمان، تنظیمات هیرو، شبکه‌های اجتماعی و تنظیمات غیرحساس Flavor Core منتقل می‌شوند. سفارش‌ها، مشتریان، محصولات، رسانه‌ها، کاربران و کلیدهای API هرگز داخل این فایل قرار نمی‌گیرند."
-msgstr ""
+msgstr "تُنقل القالب والألوان والخطوط والتخطيط وإعدادات الواجهة وشبكات التواصل والإعدادات غير الحساسة في Flavor Core. لا تُدرج الطلبات والعملاء والمنتجات والوسائط والمستخدمون ومفاتيح API في هذا الملف أبداً."
 
 #: flavor/inc/class-launch-center.php:52
 msgid "پوستهٔ Flavor فعال است"
-msgstr ""
+msgstr "قالب Flavor مفعّل"
 
 #: flavor/inc/class-customizer.php:241
 msgid "پوسته‌های آماده (Presets)"
-msgstr ""
+msgstr "القوالب الجاهزة (Presets)"
 
 #: flavor/inc/class-customizer.php:232
 msgid "پوسته‌های آماده، پالت رنگ، تایپوگرافی و ساختار ظاهری سایت"
-msgstr ""
+msgstr "القوالب الجاهزة ولوحة الألوان والخطوط والبنية المرئية للموقع"
 
 #: flavor/template-parts/demos/cloud-kitchen.php:7
 msgid "پکِ تو، به روش تو"
@@ -4888,15 +4888,15 @@ msgstr "وجبتك، على طريقتك"
 
 #: flavor/inc/class-chrome-builder.php:685
 msgid "پیام ویژه"
-msgstr ""
+msgstr "رسالة خاصة"
 
 #: flavor/inc/class-launch-center.php:214
 msgid "پیامک واقعی پیکربندی شده است"
-msgstr ""
+msgstr "رسائل SMS الفعلية مُعدّة"
 
 #: flavor/inc/class-design.php:48
 msgid "پیتزا و رستوران ایتالیایی"
-msgstr ""
+msgstr "بيتزا ومطعم إيطالي"
 
 #: flavor/template-parts/reservation/reservation-form.php:17
 msgid "پیش از انتخاب زمان"
@@ -4904,15 +4904,15 @@ msgstr "قبل اختيار الوقت"
 
 #: flavor/inc/class-demo-importer.php:79
 msgid "پیش از تغییر، تنظیمات، پوسته و محتوای دموی قبلی در یک آرشیو قابل بازگشت ذخیره می‌شود. محتوای خارج از مالکیت دموی Flavor دست‌نخورده می‌ماند."
-msgstr ""
+msgstr "قبل التغيير تُحفظ الإعدادات والقالب والمحتوى التجريبي السابق في أرشيف قابل للاسترجاع. يبقى المحتوى الذي لا يخص العرض التجريبي لـ Flavor دون مساس."
 
 #: flavor/page-templates/template-contact.php:21
 msgid "پیش از مراجعه"
-msgstr ""
+msgstr "قبل الزيارة"
 
 #: flavor/inc/class-chrome-builder.php:159
 msgid "پیش از ۱۲۰۰ پیکسل خودش مخفی می‌شود تا هدر شلوغ نشود."
-msgstr ""
+msgstr "يختفي تحت 1200 بكسل كي لا تزدحم الترويسة."
 
 #: flavor/inc/class-shopping-extras.php:193
 msgid "پیشرفت تا ارسال رایگان"
@@ -4920,7 +4920,7 @@ msgstr "التقدّم نحو الشحن المجاني"
 
 #: flavor/inc/class-customizer.php:665
 msgid "پیشنهاد: دست‌کم ۱۶۰۰×۹۰۰ پیکسل و افقی. تصویر با نسبت ثابت و ریسپانسیو برش داده می‌شود و نسخهٔ سبک‌تر آن برای موبایل فرستاده می‌شود."
-msgstr ""
+msgstr "المقترح: 1600×900 بكسل على الأقل وأفقية. تُقص الصورة بنسبة ثابتة ومتجاوبة، وتُرسل نسخة أخف منها إلى الجوال."
 
 #: flavor/template-parts/marketing/special-offers.php:27
 msgid "پیشنهاد طلایی این ماه"
@@ -4940,60 +4940,60 @@ msgstr "العرض الخاص حتى نهاية:"
 
 #: flavor/inc/class-block-patterns.php:202
 msgid "پیش‌غذا و سالاد"
-msgstr ""
+msgstr "المقبلات والسلطات"
 
 #: flavor/inc/class-customizer.php:502
 msgid "پیش‌فرض (0) — پیشنهادی برای فارسی"
-msgstr ""
+msgstr "الافتراضي (0) — مقترح للفارسية"
 
 #: flavor/inc/class-ui.php:28
 msgid "پیش‌فرض از پوسته می‌آید؛ این گزینه چیدمان مستقل صفحهٔ اصلی دمو را عوض نمی‌کند."
-msgstr ""
+msgstr "الافتراضي يأتي من القالب؛ هذا الخيار لا يغيّر تخطيط الصفحة الرئيسية المستقل للعرض التجريبي."
 
 #: flavor/inc/class-chrome-builder.php:115
 msgid "پیش‌فرض بازگردانده شد."
-msgstr ""
+msgstr "استُعيد الافتراضي."
 
 #: flavor/inc/class-page-options.php:65
 msgid "پیش‌فرض قالب"
-msgstr ""
+msgstr "الافتراضي للقالب"
 
 #: flavor/inc/class-chrome-builder.php:1207 flavor/inc/class-customizer.php:366 flavor/inc/class-customizer.php:384 flavor/inc/class-ui-customizer.php:74 flavor/inc/class-ui-customizer.php:78 flavor/inc/class-ui-customizer.php:79 flavor/inc/class-ui-customizer.php:100 flavor/inc/class-ui.php:28
 msgid "پیش‌فرض پوسته"
-msgstr ""
+msgstr "الافتراضي للقالب"
 
 #: flavor/inc/class-chrome-builder.php:1293
 msgid "پیش‌فرض پوسته (خط باریک)"
-msgstr ""
+msgstr "الافتراضي للقالب (خط رفيع)"
 
 #: flavor/inc/class-demo-importer.php:83
 msgid "پیش‌نمایش بستهٔ «%s»"
-msgstr ""
+msgstr "معاينة الحزمة «%s»"
 
 #: flavor/inc/class-demo-importer.php:127
 #. count */ __( '%d آیتم منو', 'flavor' ), count( $demo['items'] ) ) ); ?></p>
 msgid "پیش‌نمایش در سفارشی‌ساز (بدون ذخیره)"
-msgstr ""
+msgstr "معاينة في أداة التخصيص (دون حفظ)"
 
 #: flavor/inc/class-ui-preview-control.php:12
 msgid "پیش‌نمایش صفحهٔ نخست"
-msgstr ""
+msgstr "معاينة الصفحة الأولى"
 
 #: flavor/inc/class-ui-preview-control.php:12
 msgid "پیش‌نمایش منو"
-msgstr ""
+msgstr "معاينة القائمة"
 
 #: flavor/inc/class-builder.php:98
 msgid "پیوند"
-msgstr ""
+msgstr "رابط"
 
 #: flavor/inc/class-builder.php:154
 msgid "پیوند دکمه"
-msgstr ""
+msgstr "رابط الزر"
 
 #: flavor/inc/class-launch-center.php:82
 msgid "پیوندهای یکتا تنظیم شده‌اند"
-msgstr ""
+msgstr "الروابط الدائمة مُعدّة"
 
 #: flavor/template-parts/marketing/intro.php:46
 msgid "پیک‌های مجهز به باکس حرارتی جهت تحویل غذا در سریع‌ترین زمان و با دمای ایده‌آل."
@@ -5001,15 +5001,15 @@ msgstr "مندوبون مزوّدون بصناديق حرارية لتوصيل �
 
 #: flavor/page-templates/template-order-tracking.php:16
 msgid "پیگیری اصلی ووکامرس با ایمیل صورتحساب"
-msgstr ""
+msgstr "المتابعة الأساسية في WooCommerce بالبريد الإلكتروني للفواتير"
 
 #: flavor/page-templates/template-order-tracking.php:15
 msgid "پیگیری سریع فعلاً فعال نیست. از رسید سفارش یا حساب مشتری استفاده کنید."
-msgstr ""
+msgstr "المتابعة السريعة غير مفعّلة حالياً. استخدموا إيصال الطلب أو حساب العميل."
 
 #: flavor/inc/class-onboarding.php:811 flavor/page-templates/template-order-tracking.php:9
 msgid "پیگیری سفارش"
-msgstr ""
+msgstr "متابعة الطلب"
 
 #: flavor/elementor/widgets/class-price-list-widget.php:62
 msgid "چای ماسالا"
@@ -5021,7 +5021,7 @@ msgstr "لماذا مطعمنا؟"
 
 #: flavor/inc/class-builder.php:169
 msgid "چرا ما؟"
-msgstr ""
+msgstr "لماذا نحن؟"
 
 #: flavor/elementor/widgets/class-features-widget.php:22
 msgid "چرا ما؟ (ویژگی‌ها)"
@@ -5029,7 +5029,7 @@ msgstr "لماذا نحن؟ (المميزات)"
 
 #: flavor/inc/class-customizer.php:705 flavor/template-parts/marketing/intro.php:14
 msgid "چرا مهمان‌ها ما را انتخاب می‌کنند؟"
-msgstr ""
+msgstr "لماذا يختارنا الضيوف؟"
 
 #: flavor/template-parts/menu/cart-drawer.php:18
 msgid "چطور دریافت می‌کنید؟"
@@ -5045,19 +5045,19 @@ msgstr "كيف تطلب؟"
 
 #: flavor/inc/class-chrome-builder.php:370
 msgid "چند گزینهٔ ناشناخته از چینش حذف و بقیهٔ موارد به ترتیب استاندارد اضافه شدند."
-msgstr ""
+msgstr "أُزيلت بعض الخيارات غير المعروفة من التخطيط، وأُضيفت بقية العناصر بالترتيب القياسي."
 
 #: flavor/inc/class-transfer.php:64
 msgid "چه چیزی منتقل می‌شود؟"
-msgstr ""
+msgstr "ماذا يُنقل؟"
 
 #: flavor/inc/class-builder.php:71 flavor/inc/class-builder.php:99
 msgid "چپ"
-msgstr ""
+msgstr "يسار"
 
 #: flavor/inc/class-builder.php:126 flavor/inc/class-builder.php:136
 msgid "چیدمان"
-msgstr ""
+msgstr "التخطيط"
 
 #: flavor/template-parts/menu/filters.php:34
 msgid "چیدمان پیشنهادی"
@@ -5065,63 +5065,63 @@ msgstr "التنسيق المقترح"
 
 #: flavor/search.php:6
 msgid "چیزی با این عبارت پیدا نشد."
-msgstr ""
+msgstr "لم يُعثر على شيء بهذه العبارة."
 
 #: flavor/inc/class-enqueue.php:297
 msgid "چیزی پیدا نشد."
-msgstr ""
+msgstr "لم يُعثر على شيء."
 
 #: flavor/inc/class-chrome-builder.php:1886
 msgid "چینش عناصر هدر"
-msgstr ""
+msgstr "ترتيب عناصر الترويسة"
 
 #: flavor/inc/class-chrome-control.php:127
 msgid "چینش و تیک‌ها را به پیش‌فرض پوسته برمی‌گرداند. تا «انتشار» برای هیچ‌کس اعمال نمی‌شود."
-msgstr ""
+msgstr "يعيد التخطيط وعلامات الاختيار إلى افتراضي القالب. لا يُطبَّق على أحد حتى «النشر»."
 
 #: flavor/inc/class-chrome-builder.php:114
 msgid "چینش و تیک‌های این بخش به پیش‌فرض پوسته برمی‌گردد. ادامه می‌دهید؟"
-msgstr ""
+msgstr "يعود تخطيط وعلامات هذا القسم إلى افتراضي القالب. هل تريدون المتابعة؟"
 
 #: flavor/inc/class-customizer.php:574
 msgid "چینشِ هدر: لوگو در میان، لوگو در راست با منو در چپ، یا منو در زیرِ لوگو."
-msgstr ""
+msgstr "تخطيط الترويسة: الشعار في الوسط، أو الشعار يميناً والقائمة يساراً، أو القائمة أسفل الشعار."
 
 #: flavor/inc/class-ui.php:25
 msgid "کارتی"
-msgstr ""
+msgstr "بطاقي"
 
 #: flavor/inc/class-ui.php:25
 msgid "کارتی یا فهرستی؛ مشتری همچنان می‌تواند نمای همین صفحه را عوض کند."
-msgstr ""
+msgstr "بطاقي أو قائمي؛ ويستطيع العميل تغيير عرض هذه الصفحة نفسها."
 
 #: flavor/inc/class-design.php:40
 msgid "کافه و بیسترو"
-msgstr ""
+msgstr "مقهى وبيسترو"
 
 #: flavor/inc/class-enqueue.php:302 flavor/template-parts/marketing/featured.php:92
 msgid "کالری"
-msgstr ""
+msgstr "السعرات الحرارية"
 
 #: flavor/inc/class-customizer.php:370
 msgid "کاملاً گرد و حبابی (24px)"
-msgstr ""
+msgstr "دائري تماماً وفقاعي (24px)"
 
 #: flavor/inc/class-ui.php:29
 msgid "کامل با خانه، یا کوتاه بدون خانه؛ حساب/تماس/رزرو همچنان از امکانات واقعی صفحه انتخاب می‌شوند."
-msgstr ""
+msgstr "كامل مع الرئيسية، أو مختصر بدونها؛ وتُختار الحساب والاتصال والحجز من الإمكانات الفعلية للصفحة."
 
 #: flavor/inc/class-ui.php:29
 msgid "کامل و متناسب با صفحه"
-msgstr ""
+msgstr "كامل ومتناسب مع الصفحة"
 
 #: flavor/inc/class-onboarding.php:271
 msgid "کانال تلگرام"
-msgstr ""
+msgstr "قناة تيليغرام"
 
 #: flavor/inc/class-update-channel.php:373
 msgid "کانال فعال و پیکربندی شده است."
-msgstr ""
+msgstr "القناة مفعّلة ومُعدّة."
 
 #: flavor/template-parts/menu/item-modal.php:14
 msgid "کاهش تعداد"
@@ -5129,15 +5129,15 @@ msgstr "تقليل الكمية"
 
 #: flavor/inc/class-block-patterns.php:192
 msgid "کباب، خورشت و غذاهای گریل‌شده با برنج ایرانی."
-msgstr ""
+msgstr "كباب وخورشت وأطعمة مشوية مع الأرز الإيراني."
 
 #: flavor/inc/class-design.php:69
 msgid "کبالتی و لیمویی با تمرکز بر سفارش آنلاین و بررسی محدودهٔ ارسال"
-msgstr ""
+msgstr "أزرق كوبالتي وليموني مع التركيز على الطلب الإلكتروني ومراجعة نطاق التوصيل"
 
 #: flavor/inc/class-design.php:72
 msgid "کترینگ و تشریفات سازمانی"
-msgstr ""
+msgstr "التموين والمراسم المؤسسية"
 
 #: flavor/template-parts/menu/cart-drawer.php:24
 msgid "کد تأیید پیامکی"
@@ -5153,7 +5153,7 @@ msgstr "كود الخصم:"
 
 #: flavor/inc/class-premium-customizer.php:198
 msgid "کد تخفیف تشکر (اختیاری)"
-msgstr ""
+msgstr "رمز خصم الشكر (اختياري)"
 
 #: flavor/template-parts/menu/cart-drawer.php:19
 msgid "کد تخفیف دارید؟"
@@ -5169,11 +5169,11 @@ msgstr "كود الخصم الخاص بك:"
 
 #: flavor/inc/class-customer-ui.php:107
 msgid "کد خصوصی پیگیری"
-msgstr ""
+msgstr "رمز المتابعة الخاص"
 
 #: flavor/inc/class-customer-ui.php:107
 msgid "کد خصوصی پیگیری سفارش مهمان"
-msgstr ""
+msgstr "رمز المتابعة الخاص بطلب الضيف"
 
 #: flavor/template-parts/ui/login.php:11
 msgid "کد دریافتی"
@@ -5181,11 +5181,11 @@ msgstr "الرمز المستلَم"
 
 #: flavor/page-templates/template-order-tracking.php:13
 msgid "کد پیگیری مهمان"
-msgstr ""
+msgstr "رمز متابعة الضيف"
 
 #: flavor/inc/class-customizer.php:747
 msgid "کدی که مشتری در سبد وارد می‌کند. خودِ تخفیف باید در ووکامرس تعریف شود؛ اینجا فقط نمایش است."
-msgstr ""
+msgstr "الرمز الذي يُدخله العميل في السلة. يجب تعريف الخصم نفسه في WooCommerce؛ وهنا للعرض فقط."
 
 #: flavor/template-parts/ui/login.php:11
 msgid "کد یک‌بارمصرف"
@@ -5197,27 +5197,27 @@ msgstr "اكتشف القائمة"
 
 #: flavor/inc/class-customizer.php:578
 msgid "کلاسیک (لوگو راست / منو چپ)"
-msgstr ""
+msgstr "كلاسيكي (الشعار يميناً / القائمة يساراً)"
 
 #: flavor/inc/class-chrome-builder.php:162
 msgid "کلید حالت شب و روز"
-msgstr ""
+msgstr "زر الوضع الليلي والنهاري"
 
 #: flavor/inc/class-update-channel.php:436
 msgid "کلید عمومی امضا (base64)"
-msgstr ""
+msgstr "المفتاح العام للتوقيع (base64)"
 
 #: flavor/inc/class-chrome-builder.php:1217
 msgid "کمترین ارتفاع هدر (دسکتاپ)"
-msgstr ""
+msgstr "أقل ارتفاع للترويسة (سطح المكتب)"
 
 #: flavor/inc/class-chrome-builder.php:1232
 msgid "کمترین ارتفاع هدر (موبایل)"
-msgstr ""
+msgstr "أقل ارتفاع للترويسة (الجوال)"
 
 #: flavor/inc/class-customizer.php:503
 msgid "کمی باز (0.01em)"
-msgstr ""
+msgstr "مفتوح قليلاً (0.01em)"
 
 #: flavor/inc/class-engagement.php:333
 msgid "کمی بعد دوباره تلاش کنید."
@@ -5225,7 +5225,7 @@ msgstr "أعد المحاولة بعد قليل."
 
 #: flavor/inc/class-customizer.php:501
 msgid "کمی فشرده (0.01em-)"
-msgstr ""
+msgstr "مضغوط قليلاً (0.01em-)"
 
 #: flavor/template-parts/menu/filters.php:37
 msgid "کم‌کالری‌ترین"
@@ -5233,11 +5233,11 @@ msgstr "الأقل سعرات"
 
 #: flavor/inc/class-ui.php:29
 msgid "کوتاه و سه‌گزینه‌ای"
-msgstr ""
+msgstr "قصير وثلاثي الخيارات"
 
 #: flavor/inc/class-ui-customizer.php:79
 msgid "کپسولی"
-msgstr ""
+msgstr "كبسولي"
 
 #: flavor/template-parts/demos/catering.php:91
 msgid "کپی خلاصه"
@@ -5249,23 +5249,23 @@ msgstr "تم النسخ!"
 
 #: flavor/inc/class-branch-map.php:139
 msgid "کپی نشانی"
-msgstr ""
+msgstr "نسخ العنوان"
 
 #: flavor/inc/class-customer-ui.php:107 flavor/template-parts/marketing/special-offers.php:39
 msgid "کپی کد"
-msgstr ""
+msgstr "نسخ الرمز"
 
 #: flavor/inc/class-repeater.php:286
 msgid "کیان رضایی"
-msgstr ""
+msgstr "كيان رضائي"
 
 #: flavor/inc/class-block-patterns.php:328
 msgid "کیفیت غذا عالی بود و زودتر از زمان اعلام‌شده رسید."
-msgstr ""
+msgstr "كانت جودة الطعام ممتازة ووصل قبل الموعد المعلن."
 
 #: flavor/inc/class-repeater.php:283
 msgid "کیفیت غذاها بی‌نظیر بود، سفارش با بسته‌بندی کاملاً گرم و به موقع تحویل داده شد. به شدت کوبیده مخصوص را پیشنهاد می‌کنم."
-msgstr ""
+msgstr "كانت جودة الأطعمة لا مثيل لها، ووصل الطلب بتغليف دافئ تماماً وفي الوقت المناسب. أنصح بشدة بالكوبيدة الخاصة."
 
 #: flavor/template-parts/marketing/gallery.php:35
 msgid "گالری تصاویر"
@@ -5281,43 +5281,43 @@ msgstr "معرض الطعام"
 
 #: flavor/inc/class-onboarding.php:323
 msgid "گام بعدی →"
-msgstr ""
+msgstr "الخطوة التالية →"
 
 #: flavor/inc/class-onboarding.php:164
 msgid "گام ۱: نام و شعار رستوران"
-msgstr ""
+msgstr "الخطوة 1: اسم المطعم وشعاره"
 
 #: flavor/inc/class-onboarding.php:177
 msgid "گام ۲: نشان و لوگوی رستوران"
-msgstr ""
+msgstr "الخطوة 2: علامة المطعم وشعاره"
 
 #: flavor/inc/class-onboarding.php:190
 msgid "گام ۳: تصویر اصلی هیرو (کاور)"
-msgstr ""
+msgstr "الخطوة 3: الصورة الرئيسية للواجهة (الغلاف)"
 
 #: flavor/inc/class-onboarding.php:203
 msgid "گام ۴: رنگ‌های سازمانی برند"
-msgstr ""
+msgstr "الخطوة 4: ألوان العلامة المؤسسية"
 
 #: flavor/inc/class-onboarding.php:218
 msgid "گام ۵: انتخاب سبک و پوسته طراحی"
-msgstr ""
+msgstr "الخطوة 5: اختيار النمط والقالب التصميمي"
 
 #: flavor/inc/class-onboarding.php:232
 msgid "گام ۶: ساعات کاری و حالت‌های سفارش"
-msgstr ""
+msgstr "الخطوة 6: ساعات العمل وأوضاع الطلب"
 
 #: flavor/inc/class-onboarding.php:247
 msgid "گام ۷: نشانی و موقعیت جغرافیایی"
-msgstr ""
+msgstr "الخطوة 7: العنوان والموقع الجغرافي"
 
 #: flavor/inc/class-onboarding.php:260
 msgid "گام ۸: تلفن و شبکه‌های اجتماعی"
-msgstr ""
+msgstr "الخطوة 8: الهاتف وشبكات التواصل الاجتماعي"
 
 #: flavor/inc/class-onboarding.php:279
 msgid "گام ۹: افزودن اولین آیتم منوی غذا"
-msgstr ""
+msgstr "الخطوة 9: إضافة أول عنصر في قائمة الطعام"
 
 #: flavor/elementor/widgets/class-menu-widget.php:73 flavor/template-parts/menu/filters.php:36
 msgid "گران‌ترین"
@@ -5325,7 +5325,7 @@ msgstr "الأعلى سعراً"
 
 #: flavor/inc/class-customizer.php:361
 msgid "گردی گوشه کارت‌ها"
-msgstr ""
+msgstr "استدارة زوايا البطاقات"
 
 #: flavor/elementor/widgets/class-price-list-widget.php:64
 msgid "گرم، با دارچین"
@@ -5341,15 +5341,15 @@ msgstr "تحدّث إلينا"
 
 #: flavor/page-templates/template-contact.php:17
 msgid "گفت‌وگو با مجموعه"
-msgstr ""
+msgstr "المحادثة مع المجموعة"
 
 #: flavor/inc/class-floating-dock.php:112
 msgid "گفت‌وگو در واتس‌اپ"
-msgstr ""
+msgstr "المحادثة عبر واتساب"
 
 #: flavor/inc/class-ui.php:28
 msgid "گوشهٔ کارت و پنل غذا"
-msgstr ""
+msgstr "زاوية البطاقة ولوحة الطعام"
 
 #: flavor/template-parts/marketing/gallery.php:38
 msgid "گوشه‌هایی از فضا و طعم‌ها"
@@ -5365,29 +5365,29 @@ msgstr "ملاحظة"
 
 #: flavor/search.php:6
 msgid "یک انتخاب دیگر پیدا کنیم"
-msgstr ""
+msgstr "نجد اختياراً آخر"
 
 #: flavor/inc/class-contrast.php:191
 msgid "یک ترکیب رنگ خوانایی کافی ندارد:"
 msgid_plural "چند ترکیب رنگ خوانایی کافی ندارند:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "لا يوجد تركيب ألوان واضح بما يكفي:"
+msgstr[1] "تركيب لون واحد لا يتمتع بوضوح كافٍ:"
+msgstr[2] "تركيبان من الألوان لا يتمتعان بوضوح كافٍ:"
+msgstr[3] "تركيبات ألوان لا تتمتع بوضوح كافٍ:"
+msgstr[4] "تركيبة لون لا تتمتع بوضوح كافٍ:"
+msgstr[5] "تركيبة لون لا تتمتع بوضوح كافٍ:"
 
 #: flavor/inc/class-builder.php:73
 msgid "یک تیتر جدید"
-msgstr ""
+msgstr "عنوان جديد"
 
 #: flavor/inc/class-launch-center.php:161
 msgid "یک دمو درون‌ریزی کنید یا اولین آیتم غذا را در ویزارد بسازید."
-msgstr ""
+msgstr "استوردوا عرضاً تجريبياً أو أنشئوا أول طبق من المعالج."
 
 #: flavor/inc/class-launch-center.php:96
 msgid "یک دمو درون‌ریزی کنید یا صفحهٔ خانه را در تنظیمات خواندن انتخاب کنید."
-msgstr ""
+msgstr "استوردوا عرضاً تجريبياً أو اختاروا الصفحة الرئيسية في إعدادات القراءة."
 
 #: flavor/template-parts/menu/cart-drawer.php:10
 msgid "یک سفارش خوش‌طعم."
@@ -5395,23 +5395,23 @@ msgstr "طلب شهيّ."
 
 #: flavor/404.php:6
 msgid "یک مسیر دیگر انتخاب کنیم"
-msgstr ""
+msgstr "نختار مساراً آخر"
 
 #: flavor/page-templates/template-about.php:15
 msgid "یک مسیر روشن برای انتخاب"
-msgstr ""
+msgstr "مسار واضح للاختيار"
 
 #: flavor/inc/class-customizer.php:675
 msgid "یک یا دو جمله زیرِ عنوان. اگر طولانی شود، در موبایل دکمه‌ها را به پایینِ صفحه می‌راند."
-msgstr ""
+msgstr "جملة أو جملتان تحت العنوان. إن طالت دفعت الأزرار على الجوال إلى أسفل الصفحة."
 
 #: flavor/inc/class-ui-customizer.php:126
 msgid "یکی از گزینه‌های همین کنترل را انتخاب کنید."
-msgstr ""
+msgstr "اختاروا أحد خيارات هذا العنصر."
 
 #: flavor/inc/class-customizer.php:699
 msgid "۱. معرفی و ویژگی‌های شاخص"
-msgstr ""
+msgstr "1. التعريف والمميزات البارزة"
 
 #: flavor/template-parts/demos/catering.php:79
 msgid "۱ تا ۱۰۰۰ نفر در برنامه‌ریز؛ ظرفیت باید تلفنی تأیید شود."
@@ -5419,11 +5419,11 @@ msgstr "من 1 إلى 1000 شخص في المخطّط؛ يجب تأكيد الس
 
 #: flavor/inc/class-chrome-builder.php:1069 flavor/template-parts/marketing/hours.php:33
 msgid "۱۱:۳۰ الی ۲۳:۳۰"
-msgstr ""
+msgstr "من 11:30 حتى 23:30"
 
 #: flavor/inc/class-chrome-builder.php:1070 flavor/template-parts/marketing/hours.php:37
 msgid "۱۱:۳۰ الی ۲۴:۰۰"
-msgstr ""
+msgstr "من 11:30 حتى 24:00"
 
 #: flavor/elementor/widgets/class-hours-widget.php:66 flavor/elementor/widgets/class-hours-widget.php:89 flavor/inc/class-block-patterns.php:262
 msgid "۱۱:۳۰ تا ۲۳:۴۵"
@@ -5439,35 +5439,35 @@ msgstr "خصم 15٪ على أول طلب عبر الإنترنت"
 
 #: flavor/inc/class-customizer.php:712
 msgid "۲. پیشنهادهای ویژه سرآشپز"
-msgstr ""
+msgstr "2. عروض الشيف الخاصة"
 
 #: flavor/inc/class-customizer.php:725
 msgid "۳. دسته‌بندی‌های منو"
-msgstr ""
+msgstr "3. تصنيفات القائمة"
 
 #: flavor/inc/class-customizer.php:738
 msgid "۴. تخفیف‌ها و پیشنهادهای طلایی"
-msgstr ""
+msgstr "4. الخصومات والعروض الذهبية"
 
 #: flavor/inc/class-customizer.php:753
 msgid "۵. دعوت به رزرو آنلاین میز"
-msgstr ""
+msgstr "5. دعوة إلى حجز الطاولة عبر الإنترنت"
 
 #: flavor/inc/class-customizer.php:773
 msgid "۶. داستان و درباره ما"
-msgstr ""
+msgstr "6. القصة وعنا"
 
 #: flavor/inc/class-customizer.php:803
 msgid "۷. گالری تصاویر رستوران"
-msgstr ""
+msgstr "7. معرض صور المطعم"
 
 #: flavor/inc/class-customizer.php:854
 msgid "۸. نظرات مهمان‌ها"
-msgstr ""
+msgstr "8. آراء الضيوف"
 
 #: flavor/inc/class-customizer.php:890
 msgid "۹. ساعات کاری و موقعیت روی نقشه"
-msgstr ""
+msgstr "9. ساعات العمل والموقع على الخريطة"
 
 #: flavor/template-parts/marketing/hours.php:25
 msgid "— سفارش آنلاین و پذیرش سالن فعال است"
@@ -5475,16 +5475,16 @@ msgstr "— الطلب عبر الإنترنت واستقبال الصالة م�
 
 #: flavor/inc/class-onboarding.php:320
 msgid "← گام قبلی"
-msgstr ""
+msgstr "← الخطوة السابقة"
 
 #: flavor/inc/class-launch-center.php:36
 msgid "✅ آمادگی انتشار"
-msgstr ""
+msgstr "✅ جاهزية النشر"
 
 #: flavor/inc/class-onboarding.php:312
 msgid "🚀 انتشار و مشاهده وبسایت رستوران"
-msgstr ""
+msgstr "🚀 نشر الموقع ومشاهدته"
 
 #: flavor/inc/class-onboarding.php:40
 msgid "🚀 راه‌اندازی سریع Flavor"
-msgstr ""
+msgstr "🚀 الإعداد السريع لـ Flavor"
