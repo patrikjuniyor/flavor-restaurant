@@ -279,6 +279,34 @@ check(
 	'the Customizer calls it through Design, not self'
 );
 
+echo "\n--- The update channel is off on a fresh install and its page renders ---\n";
+
+// M-04: the channel must make no request and schedule nothing until the owner
+// configures it. The page itself is exercised as an administrator, because a
+// fatal in a settings screen is only visible on a real request.
+check( ! \Flavor\Update_Channel::enabled(), 'the update channel is off on a fresh install' );
+check( null === \Flavor\Update_Channel::check(), 'an off channel returns without any network call' );
+check( false === wp_next_scheduled( \Flavor\Update_Channel::CRON_HOOK ), 'no update check is scheduled while the channel is off' );
+check( false !== has_filter( 'upgrader_pre_download', array( 'Flavor\\Update_Channel', 'pre_download' ) ), 'the package verifier is hooked into upgrader_pre_download' );
+check( false !== has_filter( 'upgrader_pre_install', array( 'Flavor\\Update_Channel', 'pre_install' ) ), 'the pre-update backup is hooked into upgrader_pre_install' );
+
+require_once ABSPATH . 'wp-admin/includes/template.php';
+$admins = get_users( array( 'role' => 'administrator', 'number' => 1, 'fields' => 'ID' ) );
+wp_set_current_user( ! empty( $admins ) ? (int) $admins[0] : 1 );
+ob_start();
+try {
+	\Flavor\Update_Channel::render();
+	$settings_html = (string) ob_get_clean();
+	$settings_ok   = true;
+} catch ( \Throwable $e ) {
+	ob_end_clean();
+	$settings_html = '';
+	$settings_ok   = false;
+}
+check( $settings_ok, 'the update settings page renders as an administrator without fataling' );
+check( false !== strpos( $settings_html, 'flavor_updates_save' ), 'the settings form carries its nonce action' );
+check( false !== strpos( $settings_html, 'flavor_updates_rollback' ) || false !== strpos( $settings_html, 'تنظیمات کانال' ), 'the page shows the channel settings and rollback section' );
+
 echo "\n--- Translation actually loads ---\n";
 
 $loaded = is_textdomain_loaded( 'flavor' ) || is_file( get_template_directory() . '/languages/flavor-ar.mo' );

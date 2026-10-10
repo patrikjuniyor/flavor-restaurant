@@ -7,6 +7,28 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added — کانال به‌روزرسانی امضاشده و بازگردانی (M-04)
+
+- کانال به‌روزرسانی در `flavor/inc/updates/` و `flavor/inc/class-update-channel.php`. **پیش‌فرض خاموش** است و بدون نشانی `https://` و کلید عمومی هیچ درخواست شبکه‌ای نمی‌فرستد.
+- امضای مانیفست با Ed25519 (libsodium). بدون libsodium کانال بسته می‌ماند. امضا قبل از خواندن مانیفست بررسی می‌شود.
+- رد می‌شوند: downgrade، مانیفست منقضی، نشانی غیر `https`، و عدم تطابق sha256 یا اندازهٔ بسته. ریشهٔ زیپ باید `flavor/` باشد.
+- پشتیبان پیش از هر نصب در `wp-content/flavor-backups` (سه نسخه نگه داشته می‌شود). اگر پشتیبان‌گیری شکست بخورد، به‌روزرسانی متوقف می‌شود. بازگردانی با جایگزینی اتمیک و برگشت خودکار در صورت خطا.
+- کلید عمومی از ثابت `FLAVOR_UPDATE_PUBLIC_KEY` (توصیه‌شده) یا گزینهٔ `flavor_updates_public_key` خوانده می‌شود.
+- ابزار انتشار `dev-tools/release/build-release.php` با دو زیردستور `keygen` و `sign`. `sign` پیش از امضا ساختار زیپ را بررسی می‌کند.
+- آزمون `tests/theme/test-update-channel.php` (۶۴ بررسی) و گام CI. در آزمون وردپرس واقعی، صفحهٔ تنظیمات و زمان‌بندی بررسی می‌شوند.
+- **هنوز تصمیم مالک:** سرور انتشار و کلید عمومی. راهنما: `docs/fa/10-kanal-be-roozrasani.md`.
+
+### Added — راهنمای شخصی‌سازی و استوری‌بورد ویدیو (M-05)
+
+- `docs/fa/08-shakhsi-sazi.md`: راهنمای فارسی کامل شخصی‌سازی.
+- `docs/fa/08-jadval-kontrol-ha.md`: جدول کنترل‌ها که از خود وردپرس خوانده می‌شود (`dev-tools/docs/export-customizer-reference.php`). **۱۴۴ کنترل Flavor؛ ۵۴ بدون توضیح.**
+- CI این جدول را دوباره می‌سازد و اگر با کد هم‌خوان نباشد، شکست می‌خورد.
+- `docs/fa/09-storyboard-shakhsi-sazi.md`: متن و صحنه‌های ویدیو. **ویدیوی ضبط‌شده هنوز ساخته نشده است.**
+
+### Fixed — ترجمه
+
+- کاتالوگ فارسی/عربی با رشته‌های جدید بازسازی شد (`flavor.pot`، `flavor-core.pot`، `flavor-ar.po` و `.mo`). `check-i18n` سبز شد.
+
 ### Fixed — CI: the motion-layer guard was red on `main`
 
 - `flavor/assets/css/customizer-presets.css` (از N-05، `e713c3e`) چهار بار `11px` داشت، در حالی که کف خوانایی پروژه `12px` است.

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flavor\n"
 "Report-Msgid-Bugs-To: https://github.com/patrikjuniyor/flavor-restaurant/issues\n"
-"PO-Revision-Date: 2026-10-10 05:08+0000\n"
+"PO-Revision-Date: 2026-10-10 05:53+0000\n"
 "Last-Translator: Flavor Translations\n"
 "Language-Team: Flavor Translations\n"
 "Language: ar\n"
@@ -85,6 +85,10 @@ msgstr ""
 
 #: flavor/inc/class-design.php:56
 msgid "آبمیوه، اسموتی و بار سلامت"
+msgstr ""
+
+#: flavor/inc/class-update-channel.php:378
+msgid "آخرین بررسی موفق: %s"
 msgstr ""
 
 #: flavor/inc/class-customer-ui.php:84
@@ -219,6 +223,10 @@ msgstr ""
 #: flavor/template-parts/marketing/hero.php:94
 msgid "ارسال گرم با بسته‌بندی عایق"
 msgstr "توصيل ساخن بعبوات عازلة"
+
+#: flavor/inc/class-update-channel.php:436
+msgid "از wp-config تعیین شده است"
+msgstr ""
 
 #: flavor/page-templates/template-about.php:15
 msgid "از آشنایی تا سفارش."
@@ -613,7 +621,7 @@ msgstr ""
 msgid "این غذا"
 msgstr ""
 
-#: flavor/inc/class-changelog.php:170
+#: flavor/inc/class-changelog.php:171
 msgid "این فهرست مستقیماً از readme.txtِ قالب خوانده می‌شود، بنابراین با همان فایلی که مارکت‌پلیس می‌خواند همگام است."
 msgstr ""
 
@@ -677,6 +685,10 @@ msgstr ""
 msgid "باز کردن منو"
 msgstr ""
 
+#: flavor/inc/class-update-channel.php:421
+msgid "بازگردانی"
+msgstr ""
+
 #: flavor/inc/class-demo-importer.php:194
 msgid "بازگردانی آرشیو"
 msgstr ""
@@ -691,6 +703,10 @@ msgstr ""
 
 #: flavor/inc/class-demo-importer.php:564
 msgid "بازگردانی محتوا و رسانه"
+msgstr ""
+
+#: flavor/inc/class-update-channel.php:405
+msgid "بازگردانی نسخهٔ قبلی"
 msgstr ""
 
 #: flavor/inc/class-chrome-builder.php:1892
@@ -765,7 +781,7 @@ msgstr "القسم الرئيسي"
 msgid "بخش هیرو (بنر اصلی صفحه نخست)"
 msgstr ""
 
-#: flavor/inc/class-changelog.php:179
+#: flavor/inc/class-changelog.php:180
 msgid "بخشِ Changelog در readme.txt خالی است."
 msgstr ""
 
@@ -842,7 +858,7 @@ msgstr ""
 msgid "برای این مجموعه شعبهٔ رزروپذیر با میز فعال معرفی نشده است. از منو یا راه‌های تماس استفاده کنید."
 msgstr "لم يُحدَّد لهذا المطعم فرعٌ قابل للحجز بطاولات مفعّلة. استخدم القائمة أو وسائل الاتصال."
 
-#: flavor/inc/class-changelog.php:213
+#: flavor/inc/class-changelog.php:214
 msgid "برای این نسخه یادداشتی ثبت نشده است."
 msgstr ""
 
@@ -942,7 +958,7 @@ msgstr ""
 msgid "بررسی تغییرات درون‌ریزی"
 msgstr ""
 
-#: flavor/inc/class-launch-center.php:313
+#: flavor/inc/class-launch-center.php:313 flavor/inc/class-update-channel.php:398
 msgid "بررسی دستی"
 msgstr ""
 
@@ -961,6 +977,10 @@ msgstr ""
 #: flavor/template-parts/demos/coverage.php:14
 msgid "بررسی محله"
 msgstr "التحقّق من الحي"
+
+#: flavor/inc/class-update-channel.php:402
+msgid "بررسی نسخهٔ جدید"
+msgstr ""
 
 #: flavor/page-templates/template-order-tracking.php:13
 msgid "بررسی وضعیت واقعی"
@@ -1050,6 +1070,14 @@ msgstr ""
 msgid "به پلتفرم رستوران مستقیم Flavor خوش آمدید!"
 msgstr ""
 
+#: flavor/inc/class-update-channel.php:271
+msgid "به‌روزرسانی"
+msgstr ""
+
+#: flavor/inc/class-update-channel.php:270 flavor/inc/class-update-channel.php:363
+msgid "به‌روزرسانی Flavor"
+msgstr ""
+
 #: flavor/elementor/widgets/class-order-cta-widget.php:89 flavor/inc/class-ui.php:132 flavor/template-parts/menu/cart-drawer.php:18
 msgid "بیرون‌بر"
 msgstr "طلب خارجي"
@@ -1068,6 +1096,11 @@ msgstr "تأكيد ودخول"
 
 #: flavor/inc/class-chrome-builder.php:226
 msgid "تا این بلوک جدا نشده باشد، لینک‌ها زیر معرفی کوتاه می‌آیند (مثل قبل)."
+msgstr ""
+
+#: flavor/inc/class-update-channel.php:388
+#. %s: version */ __( 'نسخهٔ %s', 'flavor' ), $offer['version'] ) ); ?></h2>
+msgid "تاریخ انتشار: %s"
 msgstr ""
 
 #: flavor/inc/class-preset-control.php:131
@@ -1254,11 +1287,11 @@ msgstr ""
 msgid "تعهد به بالاترین استانداردهای بهداشت، مواد تازه و طبخ اصیل با عشق و احترام به ذائقه شما"
 msgstr "التزام بأعلى معايير النظافة والمكوّنات الطازجة والطبخ الأصيل، بحبّ واحترام لذائقتكم"
 
-#: flavor/inc/class-changelog.php:45
+#: flavor/inc/class-changelog.php:46
 msgid "تغییرات"
 msgstr ""
 
-#: flavor/inc/class-changelog.php:44 flavor/inc/class-changelog.php:167
+#: flavor/inc/class-changelog.php:45 flavor/inc/class-changelog.php:168
 msgid "تغییرات Flavor"
 msgstr ""
 
@@ -1376,6 +1409,10 @@ msgstr ""
 
 #: flavor/inc/class-launch-center.php:85
 msgid "تنظیمات پیوند یکتا"
+msgstr ""
+
+#: flavor/inc/class-update-channel.php:430
+msgid "تنظیمات کانال"
 msgstr ""
 
 #: flavor/inc/class-preset-control.php:120
@@ -1892,7 +1929,7 @@ msgstr ""
 msgid "دسترسی سریع موبایل"
 msgstr "وصول سريع من الهاتف"
 
-#: flavor/inc/class-demo-importer.php:51 flavor/inc/class-demo-importer.php:149 flavor/inc/class-demo-importer.php:184 flavor/inc/class-launch-center.php:251 flavor/inc/class-onboarding.php:80 flavor/inc/class-onboarding.php:487 flavor/inc/class-onboarding.php:511 flavor/inc/class-transfer.php:50 flavor/inc/class-transfer.php:243
+#: flavor/inc/class-demo-importer.php:51 flavor/inc/class-demo-importer.php:149 flavor/inc/class-demo-importer.php:184 flavor/inc/class-launch-center.php:251 flavor/inc/class-onboarding.php:80 flavor/inc/class-onboarding.php:487 flavor/inc/class-onboarding.php:511 flavor/inc/class-transfer.php:50 flavor/inc/class-transfer.php:243 flavor/inc/class-update-channel.php:525
 msgid "دسترسی ندارید."
 msgstr ""
 
@@ -2022,6 +2059,10 @@ msgstr ""
 
 #: flavor/inc/class-wishlist.php:119
 msgid "ذخیره در علاقه‌مندی‌ها"
+msgstr ""
+
+#: flavor/inc/class-update-channel.php:437
+msgid "ذخیرهٔ تنظیمات"
 msgstr ""
 
 #: flavor/inc/class-ui.php:26
@@ -2314,6 +2355,10 @@ msgstr "وقت التوصيل المتوقّع تقدير حسب المنطقة�
 
 #: flavor/inc/class-premium-customizer.php:188
 msgid "زمان نمایش فرم عضویت"
+msgstr ""
+
+#: flavor/inc/class-update-channel.php:410
+msgid "زمان پشتیبان"
 msgstr ""
 
 #: flavor/template-parts/reservation/reservation-form.php:9
@@ -2732,7 +2777,7 @@ msgstr "الفروع وطرق الوصول"
 msgid "شعبه‌ها و ساعات کاری"
 msgstr ""
 
-#: flavor/inc/class-changelog.php:158
+#: flavor/inc/class-changelog.php:159
 msgid "شما اجازهٔ دسترسی به این صفحه را ندارید."
 msgstr ""
 
@@ -3028,7 +3073,7 @@ msgstr ""
 msgid "فاصله‌گذاری کارت غذا"
 msgstr ""
 
-#: flavor/inc/class-changelog.php:175
+#: flavor/inc/class-changelog.php:176
 msgid "فایل readme.txt در پوشهٔ قالب یافت نشد. فهرستِ تغییرات در دسترس نیست، ولی قالب سالم است."
 msgstr ""
 
@@ -3106,6 +3151,10 @@ msgstr ""
 
 #: flavor/inc/class-builder.php:512
 msgid "فعال‌سازی صفحه‌ساز برای این صفحه"
+msgstr ""
+
+#: flavor/inc/class-update-channel.php:434
+msgid "فعال‌سازی کانال به‌روزرسانی (بررسی روزانه و درخواست به سرور)"
 msgstr ""
 
 #: flavor/inc/class-customizer.php:469
@@ -3190,6 +3239,10 @@ msgstr ""
 
 #: flavor/inc/class-launch-center.php:54
 msgid "قالب فعال، تنظیمات ظاهری و صفحهٔ اصلی را در اختیار دارد."
+msgstr ""
+
+#: flavor/inc/class-update-channel.php:417
+msgid "قالب فعلی با این نسخه جایگزین شود؟"
 msgstr ""
 
 #: flavor/inc/class-customizer.php:647
@@ -3861,17 +3914,25 @@ msgstr ""
 msgid "نسبت ۴:۳، دست‌کم ۸۰۰×۶۰۰ پیکسل. اگر خالی بماند تصویر دموی پوستهٔ فعال نمایش داده می‌شود."
 msgstr ""
 
-#: flavor/inc/class-changelog.php:201
+#: flavor/inc/class-update-channel.php:410
+msgid "نسخه"
+msgstr ""
+
+#: flavor/inc/class-changelog.php:202 flavor/inc/class-update-channel.php:386
 msgid "نسخهٔ %s"
 msgstr ""
 
-#: flavor/inc/class-changelog.php:188
+#: flavor/inc/class-changelog.php:189 flavor/inc/class-update-channel.php:369
 msgid "نسخهٔ نصب‌شده: %s"
 msgstr ""
 
 #: flavor/elementor/widgets/class-branch-info-widget.php:133 flavor/template-parts/demos/visit.php:13
 msgid "نشانی"
 msgstr "العنوان"
+
+#: flavor/inc/class-update-channel.php:435
+msgid "نشانی manifest.json (https)"
+msgstr ""
 
 #: flavor/inc/class-builder.php:112
 msgid "نشانی تصویر"
@@ -3937,7 +3998,7 @@ msgstr ""
 msgid "نشست منقضی شده است؛ صفحه را دوباره باز کنید."
 msgstr "انتهت الجلسة؛ أعد فتح الصفحة."
 
-#: flavor/inc/class-changelog.php:207
+#: flavor/inc/class-changelog.php:208
 msgid "نصب‌شده"
 msgstr ""
 
@@ -4377,6 +4438,10 @@ msgstr "لم يُنشر أي منتج للعرض بعد. للاستعلام عن
 msgid "هنوز موردی نیست."
 msgstr ""
 
+#: flavor/inc/class-update-channel.php:407
+msgid "هنوز پشتیبانی ساخته نشده است. پیش از هر به‌روزرسانی خودکار یک نسخه گرفته می‌شود."
+msgstr ""
+
 #: flavor/inc/class-premium-customizer.php:191
 msgid "هنگام قصد خروج (دسکتاپ) — در موبایل با تأخیر"
 msgstr ""
@@ -4461,7 +4526,7 @@ msgstr ""
 msgid "وسط‌چین در دسکتاپ اعمال می‌شود؛ در موبایل چینش خوانا و دکمهٔ منو حفظ می‌شود. هدر شیشه‌ای روی متن صفحه قرار نمی‌گیرد."
 msgstr ""
 
-#: flavor/inc/class-launch-center.php:278
+#: flavor/inc/class-launch-center.php:278 flavor/inc/class-update-channel.php:368
 msgid "وضعیت"
 msgstr ""
 
@@ -4882,6 +4947,10 @@ msgstr ""
 msgid "کانال تلگرام"
 msgstr ""
 
+#: flavor/inc/class-update-channel.php:373
+msgid "کانال فعال و پیکربندی شده است."
+msgstr ""
+
 #: flavor/template-parts/menu/item-modal.php:14
 msgid "کاهش تعداد"
 msgstr "تقليل الكمية"
@@ -4960,6 +5029,10 @@ msgstr ""
 
 #: flavor/inc/class-chrome-builder.php:162
 msgid "کلید حالت شب و روز"
+msgstr ""
+
+#: flavor/inc/class-update-channel.php:436
+msgid "کلید عمومی امضا (base64)"
 msgstr ""
 
 #: flavor/inc/class-chrome-builder.php:1217

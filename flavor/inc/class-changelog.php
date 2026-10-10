@@ -2,10 +2,11 @@
 /**
  * In-panel changelog (the server-free half of N-10).
  *
- * A full update channel needs a release server and signed packages, which
- * is an infrastructure decision rather than a code one. What does not need
- * a server is the part an owner actually looks for after updating: "what
- * changed, and is anything I rely on gone?"
+ * The signed update channel (class-update-channel.php) is built but off by
+ * default. It needs an owner-chosen release server and public key, which is
+ * an infrastructure decision rather than a code one. This panel needs neither:
+ * it is the part an owner actually looks for after updating, "what changed,
+ * and is anything I rely on gone?"
  *
  * The answer is read from readme.txt rather than duplicated here, so the
  * panel can never drift from the file a marketplace reads. If readme.txt is

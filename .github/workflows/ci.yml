@@ -22,7 +22,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: mbstring, sqlite3, pdo_sqlite, curl, json, openssl
+          extensions: mbstring, sqlite3, pdo_sqlite, curl, json, openssl, sodium, zip
           coverage: none
 
       - name: PHP Syntax Check (Lint)
@@ -100,6 +100,12 @@ jobs:
       - name: Run Cart & Checkout Asset Tests (page state drives enqueued sheets)
         run: |
           php tests/theme/test-cart-checkout-assets.php
+
+      # M-04: the signed update channel. Verifies signatures, manifest rules,
+      # zip-slip checks, backup/rollback, and the release tool round trip.
+      - name: Run Update Channel Tests (signatures, manifest, package, rollback)
+        run: |
+          php tests/theme/test-update-channel.php
 
       - name: Run Pure Logic Regression Suite (Jalali, tokens, RTL text)
         run: |
@@ -363,6 +369,14 @@ jobs:
       - name: Dispatch a request at every registered REST route
         run: |
           php tests/integration/real-rest-smoke.php --wp="$RUNNER_TEMP/wordpress"
+
+      # The Customizer reference is generated from the live registration,
+      # so it is only trustworthy while it matches the code. A control added
+      # without regenerating the table fails here, not in a reader's head.
+      - name: The Customizer reference matches the registered controls
+        run: |
+          wp eval-file dev-tools/docs/export-customizer-reference.php --path="$RUNNER_TEMP/wordpress" --allow-root
+          git diff --exit-code -- docs/fa/08-jadval-kontrol-ha.md
 
       - name: Confirm no fatal was logged in either state
         run: |
