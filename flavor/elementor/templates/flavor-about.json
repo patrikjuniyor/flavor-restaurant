@@ -1,0 +1,145 @@
+{
+  "version": "0.4",
+  "title": "درباره ما",
+  "type": "page",
+  "page_settings": [],
+  "content": [
+    {
+      "id": "dc8354f",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "f984625",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "19eeb48",
+              "elType": "widget",
+              "widgetType": "flavor_about",
+              "settings": {
+                "title": "داستان ما",
+                "text": "از یک آشپزخانهٔ کوچک آغاز شد و امروز با همان وسواس پخت می‌شود."
+              },
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "f59575b",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "42e5113",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "c6348e9",
+              "elType": "widget",
+              "widgetType": "flavor_process",
+              "settings": {
+                "title": "چطور سفارش دهید؟"
+              },
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "c464abf",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "194bd92",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "bc2c555",
+              "elType": "widget",
+              "widgetType": "flavor_stats",
+              "settings": {},
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "cbf364e",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "b836936",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "60c7162",
+              "elType": "widget",
+              "widgetType": "flavor_chefs",
+              "settings": {
+                "title": "آشپزهای ما"
+              },
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "f7ac0a5",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "32be598",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "7eecd1a",
+              "elType": "widget",
+              "widgetType": "flavor_gallery",
+              "settings": {},
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    }
+  ]
+}

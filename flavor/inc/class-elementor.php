@@ -45,6 +45,11 @@ class Elementor {
 			'class-offers-widget.php',
 			'class-chefs-widget.php',
 			'class-cart-widget.php',
+			'class-features-widget.php',
+			'class-stats-widget.php',
+			'class-process-widget.php',
+			'class-faq-widget.php',
+			'class-price-list-widget.php',
 		);
 	}
 
@@ -67,6 +72,11 @@ class Elementor {
 			'Offers_Widget',
 			'Chefs_Widget',
 			'Cart_Widget',
+			'Features_Widget',
+			'Stats_Widget',
+			'Process_Widget',
+			'Faq_Widget',
+			'Price_List_Widget',
 		);
 	}
 

@@ -1,0 +1,176 @@
+{
+  "version": "0.4",
+  "title": "صفحهٔ نخست",
+  "type": "page",
+  "page_settings": [],
+  "content": [
+    {
+      "id": "8338b3f",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "9243acf",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "85fd926",
+              "elType": "widget",
+              "widgetType": "flavor_hero",
+              "settings": {
+                "title": "طعم اصیل، در هر وعده",
+                "text": "مواد تازه، دستور پخت خانگی و میزبانی گرم؛ برای هر روز و هر مناسبت.",
+                "cta": "مشاهده منو"
+              },
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "6876690",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "d18ef8a",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "cb42b3b",
+              "elType": "widget",
+              "widgetType": "flavor_features",
+              "settings": {
+                "title": "چرا رستوران ما؟"
+              },
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "b0955f2",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "b33486f",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "fd494b3",
+              "elType": "widget",
+              "widgetType": "flavor_stats",
+              "settings": {},
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "5f280db",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "3700be5",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "0eb582e",
+              "elType": "widget",
+              "widgetType": "flavor_menu",
+              "settings": {
+                "title": "منوی امروز",
+                "count": 6,
+                "show_price": "yes"
+              },
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "8d54489",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "2991ae0",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "3ed4dc0",
+              "elType": "widget",
+              "widgetType": "flavor_testimonials",
+              "settings": {},
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "6801a8b",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "3b37ddf",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "1de6005",
+              "elType": "widget",
+              "widgetType": "flavor_order_cta",
+              "settings": {
+                "title": "همین حالا سفارش دهید"
+              },
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    }
+  ]
+}

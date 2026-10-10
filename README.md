@@ -32,6 +32,7 @@
 - [جدول کنترل‌های شخصی‌سازی (تولیدشده)](docs/fa/08-jadval-kontrol-ha.md)
 - [استوری‌بورد ویدیوی شخصی‌سازی](docs/fa/09-storyboard-shakhsi-sazi.md)
 - [کانال به‌روزرسانی امضاشده و بازگردانی](docs/fa/10-kanal-be-roozrasani.md)
+- [Elementor: ویجت‌ها و قالب‌های آماده](docs/fa/11-elementor.md)
 - [توسعه‌دهنده](docs/fa/05-toshe-dahande.md)
 - [جست‌وجوگر هوشمند منو](docs/fa/06-jostojoo-hooshmand.md)
 - [امضای CSS اختصاصی دوازده دمو](docs/fa/07-demo-css.md)

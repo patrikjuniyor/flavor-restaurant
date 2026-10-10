@@ -1,0 +1,125 @@
+{
+  "version": "0.4",
+  "title": "صفحهٔ منو",
+  "type": "page",
+  "page_settings": [],
+  "content": [
+    {
+      "id": "d7262bc",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "137e4d4",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "c494a0d",
+              "elType": "widget",
+              "widgetType": "flavor_menu",
+              "settings": {
+                "title": "منوی غذا",
+                "count": 12,
+                "orderby": "menu_order",
+                "show_price": "yes"
+              },
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "2b76860",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "7e27e87",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "40f2fc2",
+              "elType": "widget",
+              "widgetType": "flavor_price_list",
+              "settings": {
+                "title": "نوشیدنی‌ها"
+              },
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "fcda7cf",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "534511c",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "b268cf0",
+              "elType": "widget",
+              "widgetType": "flavor_offers",
+              "settings": {
+                "title": "پیشنهاد ویژه",
+                "text": "تا پایان هفته، با کد زیر تخفیف بگیرید.",
+                "button_text": "سفارش"
+              },
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    },
+    {
+      "id": "af08bd4",
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "id": "cc9b433",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "_inline_size": null
+          },
+          "elements": [
+            {
+              "id": "c359601",
+              "elType": "widget",
+              "widgetType": "flavor_faq",
+              "settings": {
+                "title": "پرسش‌های متداول"
+              },
+              "elements": []
+            }
+          ],
+          "isInner": false
+        }
+      ],
+      "isInner": false
+    }
+  ]
+}

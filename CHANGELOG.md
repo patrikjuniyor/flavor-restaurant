@@ -7,6 +7,17 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added — ویجت‌های Elementor و قالب‌های صفحه
+
+- پنج ویجت رستورانی تازه: ویژگی‌ها (`flavor_features`)، آمار (`flavor_stats`)، مراحل سفارش یا رزرو (`flavor_process`)، پرسش‌های متداول با `<details>` (`flavor_faq`) و فهرست قیمت چاپی (`flavor_price_list`). مجموع به ۱۷ ویجت رسید.
+- `Widget_Base::rows()` برای خواندن امن ردیف‌های Repeater.
+- سه قالب آمادهٔ صفحه در `flavor/elementor/templates/` (نخست، درباره ما، منو) با تولیدکنندهٔ `dev-tools/elementor/build-templates.py`. تست بررسی می‌کند هر `widgetType` و هر کلید تنظیمات واقعاً وجود داشته باشد.
+- تست: هر ویجت جدید در بررسی تزریق کد (payload خصمانه) هم هست.
+
+### Fixed — کنترل‌های سفارشی Customizer خالی بودند
+
+- انتخاب پوسته (`flavor_skin`)، گزارش کنتراست و دو تکرارکنندهٔ گالری و نظرات در Customizer هیچ محتوایی نشان نمی‌دادند: قالب JS خالی بود و JS زودتر از embed به DOM دست می‌زد. اکنون HTML سمت سرور به قالب داده می‌شود و JS پس از `control.deferred.embedded` متصل می‌شود.
+
 ### Added — کانال به‌روزرسانی امضاشده و بازگردانی (M-04)
 
 - کانال به‌روزرسانی در `flavor/inc/updates/` و `flavor/inc/class-update-channel.php`. **پیش‌فرض خاموش** است و بدون نشانی `https://` و کلید عمومی هیچ درخواست شبکه‌ای نمی‌فرستد.

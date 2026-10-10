@@ -34,6 +34,11 @@ require_once FLAVOR_DIR . '/elementor/widgets/class-order-cta-widget.php';
 require_once FLAVOR_DIR . '/elementor/widgets/class-offers-widget.php';
 require_once FLAVOR_DIR . '/elementor/widgets/class-chefs-widget.php';
 require_once FLAVOR_DIR . '/elementor/widgets/class-cart-widget.php';
+require_once FLAVOR_DIR . '/elementor/widgets/class-features-widget.php';
+require_once FLAVOR_DIR . '/elementor/widgets/class-stats-widget.php';
+require_once FLAVOR_DIR . '/elementor/widgets/class-process-widget.php';
+require_once FLAVOR_DIR . '/elementor/widgets/class-faq-widget.php';
+require_once FLAVOR_DIR . '/elementor/widgets/class-price-list-widget.php';
 
 use Flavor\Elementor\Widget_Base;
 
@@ -114,7 +119,7 @@ $classes = \Flavor\Elementor::widget_classes();
 echo "--- 1. Registration lists agree with the files on disk ---\n";
 
 check( count( $files ) === count( $classes ), 'widget_files() and widget_classes() have the same length (' . count( $files ) . ')' );
-check( count( $files ) >= 12, 'at least twelve widgets are registered (' . count( $files ) . ')' );
+check( count( $files ) >= 17, 'at least seventeen widgets are registered (' . count( $files ) . ')' );
 
 foreach ( $files as $file ) {
 	check( is_file( FLAVOR_DIR . '/elementor/widgets/' . $file ), "{$file} exists" );
@@ -197,6 +202,11 @@ $cases = array(
 	'Cart_Widget'           => array( 'title' => $payload, 'empty_text' => $payload ),
 	'Hero_Widget'           => array( 'title' => $payload, 'text' => $payload, 'cta' => $payload ),
 	'Testimonials_Widget'   => array( 'name' => $payload ),
+	'Features_Widget'       => array( 'title' => $payload, 'items' => array( array( 'title' => $payload, 'text' => $payload ) ) ),
+	'Stats_Widget'          => array( 'items' => array( array( 'figure' => $payload, 'label' => $payload ) ) ),
+	'Process_Widget'        => array( 'title' => $payload, 'steps' => array( array( 'title' => $payload, 'text' => $payload ) ) ),
+	'Faq_Widget'            => array( 'title' => $payload, 'items' => array( array( 'question' => $payload, 'answer' => $payload ) ) ),
+	'Price_List_Widget'     => array( 'title' => $payload, 'items' => array( array( 'name' => $payload, 'price' => $payload, 'note' => $payload ) ) ),
 );
 
 foreach ( $cases as $class => $settings ) {
@@ -243,6 +253,86 @@ check(
 	(bool) preg_match( '/prefers-reduced-motion/', (string) file_get_contents( FLAVOR_DIR . '/assets/css/elementor-widgets.css' ) ),
 	'widget stylesheet respects prefers-reduced-motion'
 );
+
+echo "\n--- 8. Page templates reference real widgets and real controls ---\n";
+
+$by_name = array();
+foreach ( $widgets as $widget ) {
+	$by_name[ (string) $widget->get_name() ] = $widget;
+}
+
+$template_files = glob( FLAVOR_DIR . '/elementor/templates/*.json' ) ?: array();
+check( count( $template_files ) >= 3, 'at least three page templates ship (' . count( $template_files ) . ')' );
+
+foreach ( $template_files as $file ) {
+	$label = basename( $file );
+	$data  = json_decode( (string) file_get_contents( $file ), true );
+
+	check( is_array( $data ) && isset( $data['content'] ) && is_array( $data['content'] ), "{$label} is valid JSON with a content tree" );
+
+	if ( ! is_array( $data ) || ! isset( $data['content'] ) ) {
+		continue;
+	}
+
+	$ids      = array();
+	$problems = array();
+
+	$walk = function ( array $nodes ) use ( &$walk, &$ids, &$problems, $by_name ) {
+		foreach ( $nodes as $node ) {
+			if ( ! is_array( $node ) ) {
+				$problems[] = 'a node is not an object';
+				continue;
+			}
+
+			$id = (string) ( $node['id'] ?? '' );
+			if ( '' === $id || isset( $ids[ $id ] ) ) {
+				$problems[] = "missing or duplicate id '{$id}'";
+			}
+			$ids[ $id ] = true;
+
+			if ( 'widget' === ( $node['elType'] ?? '' ) ) {
+				$type = (string) ( $node['widgetType'] ?? '' );
+
+				if ( ! isset( $by_name[ $type ] ) ) {
+					$problems[] = "unknown widgetType '{$type}'";
+					continue;
+				}
+
+				$controls = $by_name[ $type ]->test_controls;
+
+				foreach ( (array) ( $node['settings'] ?? array() ) as $key => $value ) {
+					if ( ! isset( $controls[ $key ] ) ) {
+						$problems[] = "{$type} has no control '{$key}'";
+						continue;
+					}
+
+					// Repeater rows may only use fields the repeater declares.
+					if ( 'repeater' === ( $controls[ $key ]['type'] ?? '' ) && is_array( $value ) ) {
+						$fields = (array) ( $controls[ $key ]['fields'] ?? array() );
+						foreach ( $value as $row ) {
+							foreach ( array_keys( (array) $row ) as $field ) {
+								if ( ! isset( $fields[ $field ] ) ) {
+									$problems[] = "{$type} repeater '{$key}' has no field '{$field}'";
+								}
+							}
+						}
+					}
+				}
+			}
+
+			if ( ! empty( $node['elements'] ) && is_array( $node['elements'] ) ) {
+				$walk( $node['elements'] );
+			}
+		}
+	};
+
+	$walk( $data['content'] );
+
+	check(
+		array() === $problems,
+		"{$label} only uses real widgets, controls and ids" . ( $problems ? ' — ' . implode( '; ', array_slice( $problems, 0, 3 ) ) : '' )
+	);
+}
 
 echo "\n=======================================================\n";
 echo "Results: {$passed} Passed, {$failed} Failed\n";

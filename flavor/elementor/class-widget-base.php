@@ -165,4 +165,24 @@ abstract class Widget_Base extends \Elementor\Widget_Base {
 
 		return '' === $value ? $fallback : $value;
 	}
+
+	/**
+	 * Rows of a REPEATER control, as a clean list of arrays.
+	 *
+	 * Elementor hands back whatever was saved; anything that is not an
+	 * array row is dropped rather than rendered.
+	 *
+	 * @param array<string, mixed> $settings Settings array.
+	 * @param string               $key      Repeater control name.
+	 * @return array<int, array<string, mixed>>
+	 */
+	protected static function rows( array $settings, string $key ): array {
+		$rows = $settings[ $key ] ?? array();
+
+		if ( ! is_array( $rows ) ) {
+			return array();
+		}
+
+		return array_values( array_filter( $rows, 'is_array' ) );
+	}
 }

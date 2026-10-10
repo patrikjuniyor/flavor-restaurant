@@ -38,7 +38,7 @@ are set per breakpoint.
 
 = Editing =
 
-* Elementor: twelve widgets in a branded `flavor` category.
+* Elementor: seventeen widgets in a branded `flavor` category, and three ready page templates (home, about, menu).
 * Block editor: eight core-block-only patterns, registered under «رستوران مستقیم»,
   plus a `theme.json` wired to the same `--flavor-*` tokens the Customizer writes.
 * Per-page options: hide the title, transparent header, content width and a
@@ -117,7 +117,8 @@ images fall back to a bundled placeholder instead of emitting broken URLs.
 * Demo photography moved to a separate pack; the theme itself is now 1.3 MB
   instead of 16 MB, and renders correctly with the pack absent.
 * Verified against a real WordPress 7.1.3 with WooCommerce 11.0.1 in CI.
-* Twelve Elementor widgets in a branded `flavor` category, up from five.
+* Seventeen Elementor widgets in a branded `flavor` category, up from five; five new restaurant widgets (features, stats, process, FAQ, printed price list) and three page templates.
+* Customizer: the preset picker, contrast report and both repeaters now render (they were empty).
 * Responsive type scale with per-breakpoint weight, line height and letter spacing.
 * Per-page options: hide title, transparent header, content width, background.
 * Live preview for every Customizer setting that can support it, with the
