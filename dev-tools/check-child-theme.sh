@@ -34,11 +34,21 @@ done
 
 shot="$root/flavor-child/screenshot.png"
 if [ -f "$shot" ]; then
-  read -r width height < <(python3 -c "
-from PIL import Image
-im = Image.open('$shot')
-print(im.size[0], im.size[1])
-" 2>/dev/null || echo "0 0")
+  # Read the PNG header with the standard library only. Pillow is not on the
+  # CI runner, and a missing import used to read as "0 0" and fail the build
+  # with a misleading size message. The IHDR chunk holds width and height at
+  # bytes 16-23; anything that is not a PNG is reported as 0 0 on purpose.
+  dims="$(python3 - "$shot" <<'PY' 2>/dev/null
+import struct, sys
+with open(sys.argv[1], 'rb') as fh:
+    head = fh.read(24)
+if head[:8] != b'\x89PNG\r\n\x1a\n':
+    raise SystemExit(1)
+w, h = struct.unpack('>II', head[16:24])
+print(w, h)
+PY
+)" || dims="0 0"
+  read -r width height <<< "${dims:-0 0}"
   if [ "$width" != "1200" ] || [ "$height" != "900" ]; then
     printf 'اسکرین‌شاتِ چایلدتم باید ۱۲۰۰×۹۰۰ باشد، ولی %s×%s است.\n' "$width" "$height"
     fail=1
