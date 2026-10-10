@@ -122,13 +122,18 @@
   }
  }
 
- api.control('flavor_gallery_items', function (control) {
-  var root = (control.container[0] || control.container).querySelector('.flavor-repeater');
-  if (root) bind(root, control.setting);
- });
+ // Markup is written when the section is embedded, after the control is
+ // registered, so each list is bound from its embedded promise.
+ function wire(id) {
+  api.control(id, function (control) {
+   if (!control || !control.deferred || !control.deferred.embedded) return;
+   control.deferred.embedded.done(function () {
+    var root = (control.container[0] || control.container).querySelector('.flavor-repeater');
+    if (root) bind(root, control.setting);
+   });
+  });
+ }
 
- api.control('flavor_testimonials_items', function (control) {
-  var root = (control.container[0] || control.container).querySelector('.flavor-repeater');
-  if (root) bind(root, control.setting);
- });
+ wire('flavor_gallery_items');
+ wire('flavor_testimonials_items');
 })(wp.customize, jQuery);

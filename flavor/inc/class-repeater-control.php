@@ -197,4 +197,30 @@ class Repeater_Control extends \WP_Customize_Control {
 
 		echo '</div>';
 	}
+
+	/**
+	 * Hand the server-rendered markup to the Customizer.
+	 *
+	 * Customizer builds custom controls from a JS template, not from
+	 * render_content(). Without this the template is empty and the control
+	 * renders nothing.
+	 *
+	 * @return void
+	 */
+	public function to_json(): void {
+		parent::to_json();
+
+		ob_start();
+		$this->render_content();
+		$this->json['html'] = (string) ob_get_clean();
+	}
+
+	/**
+	 * The JS template: the markup computed in to_json().
+	 *
+	 * @return void
+	 */
+	protected function content_template() {
+		echo '{{{ data.html }}}';
+	}
 }

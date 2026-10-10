@@ -32,9 +32,13 @@
   });
  }
 
- api.control('flavor_skin', function (control) {
-  if (!control || !control.container) return;
+ // The control's markup is written when its section is embedded, which comes
+// after this callback runs. Binding here would find an empty container, so
+// wire up only once the markup exists.
+api.control('flavor_skin', function (control) {
+ if (!control || !control.deferred || !control.deferred.embedded) return;
 
+ control.deferred.embedded.done(function () {
   var container = control.container[0] || control.container;
   if (!container || !container.querySelector) return;
 
@@ -65,5 +69,6 @@
     if (notice) notice.remove();
    });
   }
+ });
  });
 })(wp.customize);

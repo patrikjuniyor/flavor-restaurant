@@ -102,8 +102,13 @@
   if (ok) ok.hidden = anyFail;
  }
 
- api.bind('ready', function () {
-  var wrap = document.querySelector('[data-contrast]');
+ // The report is written when its section is embedded. At 'ready' the
+// container is still empty, so bind from the control's embedded promise.
+api.control('flavor_contrast_report', function (control) {
+ if (!control || !control.deferred || !control.deferred.embedded) return;
+
+ control.deferred.embedded.done(function () {
+  var wrap = (control.container[0] || control.container).querySelector('[data-contrast]');
   if (!wrap) return;
 
   render(wrap, collect());
@@ -116,5 +121,6 @@
   // A preset switch changes every token at once.
   var skin = api('flavor_skin');
   if (skin) skin.bind(function () { render(wrap, collect()); });
+ });
  });
 })(wp.customize);
