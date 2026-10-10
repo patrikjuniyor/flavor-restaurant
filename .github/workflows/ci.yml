@@ -297,6 +297,11 @@ jobs:
           tar -xzf /tmp/wp.tar.gz -C /tmp
           mv /tmp/wordpress "$RUNNER_TEMP/wordpress"
 
+      - name: Install WP-CLI
+        run: |
+          curl -sS -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x /usr/local/bin/wp
+
       - name: Configure WordPress
         run: |
           cd "$RUNNER_TEMP/wordpress"
@@ -307,11 +312,6 @@ jobs:
           define( 'WP_DEBUG_DISPLAY', false );
           define( 'WP_DEBUG_LOG', true );
           PHP
-
-      - name: Install WP-CLI
-        run: |
-          curl -sS -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-          chmod +x /usr/local/bin/wp
 
       - name: Install WordPress core
         run: |
