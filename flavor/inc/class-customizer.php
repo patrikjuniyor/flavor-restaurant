@@ -84,7 +84,11 @@ class Customizer {
 			true
 		);
 
-		$tokens = self::typography_tokens();
+		// The tokens live on Design, not here: self:: would be
+		// Customizer::typography_tokens(), which has never existed. This
+		// only fired inside the Customizer preview frame, so loading the
+		// front page never reached it.
+		$tokens = Design::typography_tokens();
 
 		wp_add_inline_script(
 			'flavor-customizer-live-preview',

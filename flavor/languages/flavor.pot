@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-09 23:15+00:00\n"
+"POT-Creation-Date: 2026-10-10 05:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
@@ -172,15 +172,15 @@ msgstr ""
 msgid "ارتفاع (پیکسل)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:480
+#: flavor/inc/class-customizer.php:484
 msgid "ارتفاع خط تیترها"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:518
+#: flavor/inc/class-customizer.php:522
 msgid "ارتفاع خط متن بدنه"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:593
+#: flavor/inc/class-customizer.php:597
 msgid "ارتفاع لوگو در هدر (پیکسل)"
 msgstr ""
 
@@ -237,19 +237,19 @@ msgstr ""
 msgid "از ۹۹۲ پیکسل بالا در هدر است؛ در موبایل داخل کشوی منو نمایش داده می‌شود."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:413 flavor/inc/class-customizer.php:414 flavor/inc/class-customizer.php:415 flavor/inc/class-ui-customizer.php:94 flavor/inc/class-ui-customizer.php:95 flavor/inc/class-ui-customizer.php:96
+#: flavor/inc/class-customizer.php:417 flavor/inc/class-customizer.php:418 flavor/inc/class-customizer.php:419 flavor/inc/class-ui-customizer.php:94 flavor/inc/class-ui-customizer.php:95 flavor/inc/class-ui-customizer.php:96
 msgid "استاندارد"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:523
+#: flavor/inc/class-customizer.php:527
 msgid "استاندارد (1.7) — پیش‌فرض"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:486
+#: flavor/inc/class-customizer.php:490
 msgid "استاندارد (1.25) — پیش‌فرض"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:398
+#: flavor/inc/class-customizer.php:402
 msgid "استاندارد (1240px)"
 msgstr ""
 
@@ -257,15 +257,15 @@ msgstr ""
 msgid "استاندارد قالب"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:460
+#: flavor/inc/class-customizer.php:464
 msgid "استاندارد — ۱.۲۵ (پیش‌فرض)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:642
+#: flavor/inc/class-customizer.php:646
 msgid "استایل بخش هیرو"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:375
+#: flavor/inc/class-customizer.php:379
 msgid "استایل دکمه‌ها"
 msgstr ""
 
@@ -273,7 +273,7 @@ msgstr ""
 msgid "استایل شیک و مینیمال با رنگ‌های گرم قهوه‌ای و بژ"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:569
+#: flavor/inc/class-customizer.php:573
 msgid "استایل و چینش هدر"
 msgstr ""
 
@@ -453,7 +453,7 @@ msgstr ""
 msgid "انتخاب ویژه"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:259 flavor/inc/class-customizer.php:271
+#: flavor/inc/class-customizer.php:263 flavor/inc/class-customizer.php:275
 msgid "انتخاب پوسته رستوران"
 msgstr ""
 
@@ -490,11 +490,11 @@ msgstr ""
 msgid "انتقال به پایین"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:365
+#: flavor/inc/class-customizer.php:369
 msgid "انحنای استاندارد مدرن (16px)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:364
+#: flavor/inc/class-customizer.php:368
 msgid "انحنای ملایم (8px)"
 msgstr ""
 
@@ -514,11 +514,11 @@ msgstr ""
 msgid "اندازهٔ لینک‌های پاورقی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:412
+#: flavor/inc/class-customizer.php:416
 msgid "اندازهٔ متن پایه"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:448
+#: flavor/inc/class-customizer.php:452
 msgid "اندازهٔ پایه و مقیاس تیتر اصلی در بخش «تایپوگرافی و گوشه‌ها» تنظیم می‌شوند؛ اینجا سلسله‌مراتب títuloها و وزن و فاصلهٔ خطوط را تعیین می‌کنید."
 msgstr ""
 
@@ -618,7 +618,7 @@ msgstr ""
 msgid "این مقدار برای این گزینه مجاز نیست."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:432
+#: flavor/inc/class-customizer.php:436
 msgid "این مقدار فقط برای همین اندازهٔ صفحه اعمال می‌شود؛ تغییرِ موبایل دسکتاپ را عوض نمی‌کند."
 msgstr ""
 
@@ -642,7 +642,7 @@ msgstr ""
 msgid "با تأیید شمارهٔ موبایل وارد حساب شوید. اگر حسابی ندارید، پس از تأیید شماره یک حساب مشتری ساخته می‌شود."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:260 flavor/inc/class-customizer.php:272
+#: flavor/inc/class-customizer.php:264 flavor/inc/class-customizer.php:276
 msgid "با تغییر پوسته، رنگ‌بندی، فونت و استایل کلی رستوران هماهنگ می‌شود."
 msgstr ""
 
@@ -654,11 +654,11 @@ msgstr ""
 msgid "باریک (متن‌محور)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:500
+#: flavor/inc/class-customizer.php:504
 msgid "باز (0.02em)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:487
+#: flavor/inc/class-customizer.php:491
 msgid "باز (1.3)"
 msgstr ""
 
@@ -722,7 +722,7 @@ msgstr ""
 msgid "بازگشت کامل نشد"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:610
+#: flavor/inc/class-customizer.php:614
 msgid "با فعال‌بودن، هدر هنگامِ اسکرول بالای صفحه می‌ماند. روی موبایل برای صرفه‌جویی در فضا غیرفعال می‌شود."
 msgstr ""
 
@@ -750,7 +750,7 @@ msgstr ""
 msgid "با کلیک روی دکمه زیر، اطلاعات ذخیره شده، صفحات اصلی، شعبه و اولین آیتم منو آماده می‌شوند. پس از آن مرکز آمادگی انتشار مواردی مثل درگاه و سفارش آزمایشی را بررسی می‌کند."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:665
+#: flavor/inc/class-customizer.php:669
 msgid "بج بالای عنوان هیرو"
 msgstr ""
 
@@ -758,7 +758,7 @@ msgstr ""
 msgid "بخش اصلی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:633
+#: flavor/inc/class-customizer.php:637
 msgid "بخش هیرو (بنر اصلی صفحه نخست)"
 msgstr ""
 
@@ -774,7 +774,7 @@ msgstr ""
 msgid "بخش‌ها"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:685
+#: flavor/inc/class-customizer.php:689
 msgid "بخش‌های صفحه نخست (Homepage Sections)"
 msgstr ""
 
@@ -895,7 +895,7 @@ msgstr ""
 msgid "برای ظرفیت زنده، JavaScript لازم است."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:528
+#: flavor/inc/class-customizer.php:532
 msgid "برای متن فارسی، مقادیر بازتر خوانایی را به‌طور محسوسی بهتر می‌کنند."
 msgstr ""
 
@@ -919,7 +919,7 @@ msgstr ""
 msgid "برای یک شب خوب، جا نگه دار."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:461
+#: flavor/inc/class-customizer.php:465
 msgid "برجسته — ۱.۳۳۳ (چهارم درست)"
 msgstr ""
 
@@ -1011,7 +1011,7 @@ msgstr ""
 msgid "بستن نمای سریع"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:463
+#: flavor/inc/class-customizer.php:467
 msgid "بسیار درشت — ۱.۵ (پنجم درست)"
 msgstr ""
 
@@ -1071,7 +1071,7 @@ msgstr ""
 msgid "تا وقتی تغییرات را منتشر نکنید، چیزی در سایت تغییر نمی‌کند و با لغوِ تغییرات همه‌چیز برمی‌گردد."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:348
+#: flavor/inc/class-customizer.php:352
 msgid "تایپوگرافی و گوشه‌ها"
 msgstr ""
 
@@ -1139,15 +1139,15 @@ msgstr ""
 msgid "تصویر"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:781
+#: flavor/inc/class-customizer.php:785
 msgid "تصویر بخش درباره ما"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:660
+#: flavor/inc/class-customizer.php:664
 msgid "تصویر بخش هیرو"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:761
+#: flavor/inc/class-customizer.php:765
 msgid "تصویر بنر رزرو"
 msgstr ""
 
@@ -1163,11 +1163,11 @@ msgstr ""
 msgid "تصویر رستوران"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:791
+#: flavor/inc/class-customizer.php:795
 msgid "تصویر صفحهٔ «دربارهٔ مجموعه»"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:792
+#: flavor/inc/class-customizer.php:796
 msgid "تصویر عمودی (نسبت ۴:۵) مناسب‌تر است. در دموهای اختصاصی برای بخش داستان برند هم استفاده می‌شود."
 msgstr ""
 
@@ -1175,7 +1175,7 @@ msgstr ""
 msgid "تصویر معرفی مجموعه"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:837
+#: flavor/inc/class-customizer.php:841
 msgid "تصویرهای گالری"
 msgstr ""
 
@@ -1187,7 +1187,7 @@ msgstr ""
 msgid "تصویر گالری"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:813
+#: flavor/inc/class-customizer.php:817
 msgid "تصویر گالری %d"
 msgstr ""
 
@@ -1207,7 +1207,7 @@ msgstr ""
 msgid "تعداد آیتم‌ها"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:838
+#: flavor/inc/class-customizer.php:842
 msgid "تعداد دلخواه تصویر بیفزایید و با فلش‌ها جابه‌جا کنید. متن جایگزین برای هر تصویر را پر کنید — این متن را صفحه‌خوان‌ها می‌خوانند."
 msgstr ""
 
@@ -1331,7 +1331,7 @@ msgstr ""
 msgid "تماس مستقیم"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:400
+#: flavor/inc/class-customizer.php:404
 msgid "تمام صفحه لوکس (1440px)"
 msgstr ""
 
@@ -1339,7 +1339,7 @@ msgstr ""
 msgid "تمامی حقوق محفوظ است."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:647
+#: flavor/inc/class-customizer.php:651
 msgid "تمام‌صفحه با تصویر پس‌زمینه و پوشش تاریک"
 msgstr ""
 
@@ -1401,7 +1401,7 @@ msgstr ""
 msgid "توضیح"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:671
+#: flavor/inc/class-customizer.php:675
 msgid "توضیحات کوتاه هیرو"
 msgstr ""
 
@@ -1469,7 +1469,7 @@ msgstr ""
 msgid "تیتر پیشنهاد اختصاصی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:363
+#: flavor/inc/class-customizer.php:367
 msgid "تیز و بدون انحنا (0px)"
 msgstr ""
 
@@ -1569,27 +1569,27 @@ msgstr ""
 msgid "جمعه"
 msgstr ""
 
-#: flavor/inc/class-chrome-builder.php:1322 flavor/inc/class-customizer.php:413 flavor/inc/class-customizer.php:414 flavor/inc/class-customizer.php:415 flavor/inc/class-ui-customizer.php:94 flavor/inc/class-ui-customizer.php:95 flavor/inc/class-ui-customizer.php:96 flavor/inc/class-ui.php:26
+#: flavor/inc/class-chrome-builder.php:1322 flavor/inc/class-customizer.php:417 flavor/inc/class-customizer.php:418 flavor/inc/class-customizer.php:419 flavor/inc/class-ui-customizer.php:94 flavor/inc/class-ui-customizer.php:95 flavor/inc/class-ui-customizer.php:96 flavor/inc/class-ui.php:26
 msgid "جمع‌وجور"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:397
+#: flavor/inc/class-customizer.php:401
 msgid "جمع‌وجور (1140px)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:457
+#: flavor/inc/class-customizer.php:461
 msgid "جمع‌وجور — ۱.۱۲۵ (نهم بزرگ)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:410
+#: flavor/inc/class-customizer.php:414
 msgid "حاشیهٔ افقی تبلت"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:411
+#: flavor/inc/class-customizer.php:415
 msgid "حاشیهٔ افقی دسکتاپ"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:409
+#: flavor/inc/class-customizer.php:413
 msgid "حاشیهٔ افقی موبایل"
 msgstr ""
 
@@ -1645,15 +1645,15 @@ msgstr ""
 msgid "حداکثر %d مورد قابل ذخیره است."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:526
+#: flavor/inc/class-customizer.php:530
 msgid "حداکثر خوانایی (2)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:392
+#: flavor/inc/class-customizer.php:396
 msgid "حداکثر عرض محتوا"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:393
+#: flavor/inc/class-customizer.php:397
 msgid "حداکثرِ عرضِ محتوا به پیکسل. روی صفحه‌های عریض، محتوا از این مقدار فراتر نمی‌رود."
 msgstr ""
 
@@ -1709,11 +1709,11 @@ msgstr ""
 msgid "خلاصهٔ شما آماده است؛ هنوز ارسال نشده."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:524
+#: flavor/inc/class-customizer.php:528
 msgid "خوانا (1.8)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:336
+#: flavor/inc/class-customizer.php:340
 msgid "خوانایی رنگ‌ها"
 msgstr ""
 
@@ -1729,19 +1729,19 @@ msgstr ""
 msgid "خوشحال می‌شویم ببینیمت"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:501
+#: flavor/inc/class-customizer.php:505
 msgid "خیلی باز (0.04em)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:488
+#: flavor/inc/class-customizer.php:492
 msgid "خیلی باز (1.4)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:525
+#: flavor/inc/class-customizer.php:529
 msgid "خیلی خوانا (1.9)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:474
+#: flavor/inc/class-customizer.php:478
 msgid "خیلی درشت (800)"
 msgstr ""
 
@@ -1765,7 +1765,7 @@ msgstr ""
 msgid "در ارتباط باشیم."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:462
+#: flavor/inc/class-customizer.php:466
 msgid "دراماتیک — ۱.۴۱۴"
 msgstr ""
 
@@ -1813,15 +1813,15 @@ msgstr ""
 msgid "در رسید اصلی بررسی کنید"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:413 flavor/inc/class-customizer.php:414 flavor/inc/class-customizer.php:415 flavor/inc/class-ui-customizer.php:94 flavor/inc/class-ui-customizer.php:95 flavor/inc/class-ui-customizer.php:96
+#: flavor/inc/class-customizer.php:417 flavor/inc/class-customizer.php:418 flavor/inc/class-customizer.php:419 flavor/inc/class-ui-customizer.php:94 flavor/inc/class-ui-customizer.php:95 flavor/inc/class-ui-customizer.php:96
 msgid "درشت"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:513
+#: flavor/inc/class-customizer.php:517
 msgid "درشت (700)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:473
+#: flavor/inc/class-customizer.php:477
 msgid "درشت (700) — پیش‌فرض"
 msgstr ""
 
@@ -1949,7 +1949,7 @@ msgstr ""
 msgid "دو ستونه: ساعات کاری در یک ستون و نشانی و تلفن در ستون دیگر."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:648
+#: flavor/inc/class-customizer.php:652
 msgid "دوطرفه (متن در راست / تصویر شاخص در چپ)"
 msgstr ""
 
@@ -1961,11 +1961,11 @@ msgstr ""
 msgid "دکمه"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:382
+#: flavor/inc/class-customizer.php:386
 msgid "دکمه مدرن گرد (12px)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:381
+#: flavor/inc/class-customizer.php:385
 msgid "دکمه مربعی ملایم (6px)"
 msgstr ""
 
@@ -1989,7 +1989,7 @@ msgstr ""
 msgid "دکمهٔ واتس‌اپ (از شمارهٔ تماس ساخته می‌شود)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:383
+#: flavor/inc/class-customizer.php:387
 msgid "دکمه کپسولی کامل (Pill 9999px)"
 msgstr ""
 
@@ -2081,7 +2081,7 @@ msgstr ""
 msgid "رزرو سالن"
 msgstr ""
 
-#: flavor/elementor/widgets/class-reservation-widget.php:63 flavor/elementor/widgets/class-reservation-widget.php:93 flavor/inc/class-block-patterns.php:167 flavor/inc/class-block-patterns.php:245 flavor/inc/class-builder.php:260 flavor/inc/class-builder.php:268 flavor/inc/class-customizer.php:676 flavor/inc/class-onboarding.php:800 flavor/inc/template-tags.php:184 flavor/template-parts/ui/mobile-nav.php:8
+#: flavor/elementor/widgets/class-reservation-widget.php:63 flavor/elementor/widgets/class-reservation-widget.php:93 flavor/inc/class-block-patterns.php:167 flavor/inc/class-block-patterns.php:245 flavor/inc/class-builder.php:260 flavor/inc/class-builder.php:268 flavor/inc/class-customizer.php:680 flavor/inc/class-onboarding.php:800 flavor/inc/template-tags.php:184 flavor/template-parts/ui/mobile-nav.php:8
 msgid "رزرو میز"
 msgstr ""
 
@@ -2145,7 +2145,7 @@ msgstr ""
 msgid "رنگ اصلی برند"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:290
+#: flavor/inc/class-customizer.php:294
 msgid "رنگ اصلی برند (Primary)"
 msgstr ""
 
@@ -2153,11 +2153,11 @@ msgstr ""
 msgid "رنگ تأکید"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:292
+#: flavor/inc/class-customizer.php:296
 msgid "رنگ تاکید و بج‌ها (Accent)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:291
+#: flavor/inc/class-customizer.php:295
 msgid "رنگ ثانویه (Secondary)"
 msgstr ""
 
@@ -2169,7 +2169,7 @@ msgstr ""
 msgid "رنگ خطوط"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:298
+#: flavor/inc/class-customizer.php:302
 msgid "رنگ خطوط و کادرها (Border Line)"
 msgstr ""
 
@@ -2181,7 +2181,7 @@ msgstr ""
 msgid "رنگ دوم"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:310
+#: flavor/inc/class-customizer.php:314
 msgid "رنگ را خالی بگذارید تا مقدارِ پوستهٔ انتخابی به کار برود؛ پرکردنش آن را برای این رنگ لغو می‌کند."
 msgstr ""
 
@@ -2197,11 +2197,11 @@ msgstr ""
 msgid "رنگ متن"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:296
+#: flavor/inc/class-customizer.php:300
 msgid "رنگ متن اصلی (Text Color)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:297
+#: flavor/inc/class-customizer.php:301
 msgid "رنگ متن فرعی (Muted Text)"
 msgstr ""
 
@@ -2521,11 +2521,11 @@ msgstr ""
 msgid "سطح"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:295
+#: flavor/inc/class-customizer.php:299
 msgid "سطح متناوب (Alternate Surface)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:294
+#: flavor/inc/class-customizer.php:298
 msgid "سطح کارت‌ها (Card Surface)"
 msgstr ""
 
@@ -2653,7 +2653,7 @@ msgstr ""
 msgid "سیاست حریم خصوصی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:475
+#: flavor/inc/class-customizer.php:479
 msgid "سیاه (900)"
 msgstr ""
 
@@ -2689,7 +2689,7 @@ msgstr ""
 msgid "شعار یا زمینه فعالیت"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:358
+#: flavor/inc/class-customizer.php:362
 msgid "شعاعِ گوشهٔ کارت‌ها به پیکسل. عددِ بزرگ‌تر حسِ نرم‌تر و دوستانه‌تر می‌دهد."
 msgstr ""
 
@@ -2733,7 +2733,7 @@ msgstr ""
 msgid "شمارش معکوس، خبرنامه و کوکی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:893
+#: flavor/inc/class-customizer.php:897
 msgid "شماره تلفن تماس / سفارش"
 msgstr ""
 
@@ -2749,7 +2749,7 @@ msgstr ""
 msgid "شمارهٔ موبایل"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:893
+#: flavor/inc/class-customizer.php:897
 msgid "شماره‌ای که در هدر و دکمه‌های تماس استفاده می‌شود؛ برای دکمهٔ تماس به‌صورت خودکار به پیوندِ tel تبدیل می‌شود."
 msgstr ""
 
@@ -2781,7 +2781,7 @@ msgstr ""
 msgid "شهر و محل برنامه"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:376
+#: flavor/inc/class-customizer.php:380
 msgid "شکلِ دکمه‌ها، از گوشه‌دار تا کاملاً گرد."
 msgstr ""
 
@@ -2837,7 +2837,7 @@ msgstr ""
 msgid "طراحی مدرن تیره با کنتراست فوق‌العاده بالا و نورپردازی نرم"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:227
+#: flavor/inc/class-customizer.php:231
 msgid "طراحی و استایل رستوران"
 msgstr ""
 
@@ -2845,7 +2845,7 @@ msgstr ""
 msgid "طرح اصیل زرشکی، طلایی و لاجوردی با حس نوستالژیک"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:664 flavor/template-parts/marketing/hero.php:12
+#: flavor/inc/class-customizer.php:668 flavor/template-parts/marketing/hero.php:12
 msgid "طعم اصیل و ماندگار"
 msgstr ""
 
@@ -2877,7 +2877,7 @@ msgstr ""
 msgid "عرض محتوا"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:399
+#: flavor/inc/class-customizer.php:403
 msgid "عریض مدرن (1360px)"
 msgstr ""
 
@@ -2913,15 +2913,15 @@ msgstr ""
 msgid "عنوان"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:741
+#: flavor/inc/class-customizer.php:745
 msgid "عنوان آفر"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:668
+#: flavor/inc/class-customizer.php:672
 msgid "عنوان اصلی هیرو"
 msgstr ""
 
-#: flavor/elementor/widgets/class-menu-widget.php:45 flavor/inc/class-builder.php:166 flavor/inc/class-builder.php:189 flavor/inc/class-builder.php:208 flavor/inc/class-builder.php:239 flavor/inc/class-customizer.php:702 flavor/inc/class-customizer.php:715
+#: flavor/elementor/widgets/class-menu-widget.php:45 flavor/inc/class-builder.php:166 flavor/inc/class-builder.php:189 flavor/inc/class-builder.php:208 flavor/inc/class-builder.php:239 flavor/inc/class-customizer.php:706 flavor/inc/class-customizer.php:719
 msgid "عنوان بخش"
 msgstr ""
 
@@ -2929,11 +2929,11 @@ msgstr ""
 msgid "عنوان بلوک خبرنامه"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:756
+#: flavor/inc/class-customizer.php:760
 msgid "عنوان بنر رزرو"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:728
+#: flavor/inc/class-customizer.php:732
 msgid "عنوان دسته‌ها"
 msgstr ""
 
@@ -2941,27 +2941,27 @@ msgstr ""
 msgid "عنوان فرم عضویت"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:728
+#: flavor/inc/class-customizer.php:732
 msgid "عنوانِ بخشِ دسته‌بندی‌ها."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:702
+#: flavor/inc/class-customizer.php:706
 msgid "عنوانِ بخشِ معرفی. این عنوان در تیترِ بخش و در نشانه‌گذاریِ ساختاریافتهٔ صفحه به کار می‌رود."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:715
+#: flavor/inc/class-customizer.php:719
 msgid "عنوانِ بخشِ پیشنهادهای ویژه."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:741
+#: flavor/inc/class-customizer.php:745
 msgid "عنوانِ روی بنرِ تخفیف. کدِ تخفیف را در فیلدِ بعدی وارد کنید تا مشتری بتواند کپی‌اش کند."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:756
+#: flavor/inc/class-customizer.php:760
 msgid "عنوانِ روی بنرِ رزرو. کوتاه بنویسید؛ متنِ بلند در موبایل دکمه را به خطِ بعد می‌راند."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:668
+#: flavor/inc/class-customizer.php:672
 msgid "عنوانی که بازدیدکننده در نگاهِ اول می‌بیند. کوتاه‌تر از این، نرخِ تبدیل بهتر است."
 msgstr ""
 
@@ -2997,19 +2997,19 @@ msgstr ""
 msgid "فاصلهٔ بین عناصر هدر"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:493
+#: flavor/inc/class-customizer.php:497
 msgid "فاصلهٔ حروف تیترها"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:417
+#: flavor/inc/class-customizer.php:421
 msgid "فاصلهٔ سکشن تبلت"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:418
+#: flavor/inc/class-customizer.php:422
 msgid "فاصلهٔ سکشن دسکتاپ"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:416
+#: flavor/inc/class-customizer.php:420
 msgid "فاصلهٔ سکشن موبایل"
 msgstr ""
 
@@ -3045,15 +3045,15 @@ msgstr ""
 msgid "فست‌فود و برگر بار"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:483
+#: flavor/inc/class-customizer.php:487
 msgid "فشرده (1.1)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:521
+#: flavor/inc/class-customizer.php:525
 msgid "فشرده (1.5)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:496
+#: flavor/inc/class-customizer.php:500
 msgid "فشرده‌تر (0.02em-)"
 msgstr ""
 
@@ -3101,7 +3101,7 @@ msgstr ""
 msgid "فعال‌سازی صفحه‌ساز برای این صفحه"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:465
+#: flavor/inc/class-customizer.php:469
 msgid "فقط títuloهای h2 تا h6 را تغییر می‌دهد. título اصلی (h1) از مقیاس ریسپانسیو پیروی می‌کند تا روی موبایل نشکند."
 msgstr ""
 
@@ -3185,7 +3185,7 @@ msgstr ""
 msgid "قالب فعال، تنظیمات ظاهری و صفحهٔ اصلی را در اختیار دارد."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:643
+#: flavor/inc/class-customizer.php:647
 msgid "قالبِ بخشِ اصلی: تمام‌صفحه، دوستونه با تصویر در کنار، یا مینیمال بدونِ تصویرِ بزرگ."
 msgstr ""
 
@@ -3221,15 +3221,15 @@ msgstr ""
 msgid "قیمت‌ها منصفانه است و برخورد پرسنل عالی."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:755
+#: flavor/inc/class-customizer.php:759
 msgid "لحظات ماندگار خود را پیشاپیش رزرو کنید"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:594
+#: flavor/inc/class-customizer.php:598
 msgid "لوگو با حفظ نسبت ابعاد تا این ارتفاع کوچک می‌شود و در موبایل خودکار کوچک‌تر می‌شود. فایل لوگو با هر ابعادی آپلود شود، هدر به هم نمی‌ریزد."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:575
+#: flavor/inc/class-customizer.php:579
 msgid "لوگو وسط‌چین / منو دوطرفه"
 msgstr ""
 
@@ -3257,11 +3257,11 @@ msgstr ""
 msgid "لینک «دیدن نقشهٔ شعب» در ستون تماس"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:909
+#: flavor/inc/class-customizer.php:913
 msgid "لینک اینستاگرام"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:912
+#: flavor/inc/class-customizer.php:916
 msgid "لینک تلگرام"
 msgstr ""
 
@@ -3269,7 +3269,7 @@ msgstr ""
 msgid "لینک نوار اطلاعیه (اختیاری)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:915
+#: flavor/inc/class-customizer.php:919
 msgid "لینک واتس‌اپ"
 msgstr ""
 
@@ -3313,7 +3313,7 @@ msgstr ""
 msgid "مبلغ فعلی سبد"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:459
+#: flavor/inc/class-customizer.php:463
 msgid "متعادل — ۱.۲ (سوم کوچک)"
 msgstr ""
 
@@ -3357,7 +3357,7 @@ msgstr ""
 msgid "متن خود را اینجا بنویسید…"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:776
+#: flavor/inc/class-customizer.php:780
 msgid "متن داستان رستوران"
 msgstr ""
 
@@ -3369,11 +3369,11 @@ msgstr ""
 msgid "متن دکمه اصلی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:674
+#: flavor/inc/class-customizer.php:678
 msgid "متن دکمه اول (سفارش)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:677
+#: flavor/inc/class-customizer.php:681
 msgid "متن دکمه دوم (رزرو)"
 msgstr ""
 
@@ -3389,15 +3389,15 @@ msgstr ""
 msgid "متن نوار کوکی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:776
+#: flavor/inc/class-customizer.php:780
 msgid "متنِ داستانِ رستوران. این متن در نشانه‌گذاریِ ساختاریافتهٔ صفحه هم به کار می‌رود."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:674
+#: flavor/inc/class-customizer.php:678
 msgid "متنِ دکمهٔ اصلی. مقصدِ این دکمه را هسته تعیین می‌کند؛ بدونِ آن، به صفحهٔ منو می‌رود."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:677
+#: flavor/inc/class-customizer.php:681
 msgid "متنِ دکمهٔ دوم. برای پنهان‌کردن، خالی بگذارید."
 msgstr ""
 
@@ -3405,27 +3405,27 @@ msgstr ""
 msgid "متنِ سبد خالی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:918
+#: flavor/inc/class-customizer.php:922
 msgid "متنِ کپی‌رایتِ پانوشت. خالی بگذارید تا متنِ پیش‌فرضِ قالب استفاده شود."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:665
+#: flavor/inc/class-customizer.php:669
 msgid "متن کوتاهِ بالای عنوان؛ مثلاً «تازه‌ترین منو». بیش از دو سه واژه نشود چون در موبایل دورِ عنوان می‌پیچد."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:918
+#: flavor/inc/class-customizer.php:922
 msgid "متن کپی‌رایت اختصاصی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:485
+#: flavor/inc/class-customizer.php:489
 msgid "متوسط (1.2)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:511
+#: flavor/inc/class-customizer.php:515
 msgid "متوسط (500)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:621
+#: flavor/inc/class-customizer.php:625
 msgid "مثال: ارسال رایگان سفارش‌های بالای ۳۰۰ هزار تومان در سراسر منطقه"
 msgstr ""
 
@@ -3445,7 +3445,7 @@ msgstr ""
 msgid "مثل دسکتاپ"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:410 flavor/inc/class-customizer.php:414 flavor/inc/class-customizer.php:417 flavor/inc/class-ui-customizer.php:91 flavor/inc/class-ui-customizer.php:95 flavor/inc/class-ui-customizer.php:98
+#: flavor/inc/class-customizer.php:414 flavor/inc/class-customizer.php:418 flavor/inc/class-customizer.php:421 flavor/inc/class-ui-customizer.php:91 flavor/inc/class-ui-customizer.php:95 flavor/inc/class-ui-customizer.php:98
 msgid "مثل موبایل"
 msgstr ""
 
@@ -3453,7 +3453,7 @@ msgstr ""
 msgid "محبوب‌ترین"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:714
+#: flavor/inc/class-customizer.php:718
 msgid "محبوب‌ترین و لذیذترین‌های این هفته"
 msgstr ""
 
@@ -3481,7 +3481,7 @@ msgstr ""
 msgid "مدیریت نشانی و اطلاعات دریافت"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:686
+#: flavor/inc/class-customizer.php:690
 msgid "مدیریت و فعال‌سازی ۱۵ سکشن کاربردی صفحه اصلی"
 msgstr ""
 
@@ -3537,7 +3537,7 @@ msgstr ""
 msgid "مشاهده منو"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:673 flavor/template-parts/marketing/hero.php:15
+#: flavor/inc/class-customizer.php:677 flavor/template-parts/marketing/hero.php:15
 msgid "مشاهده منو و سفارش آنلاین"
 msgstr ""
 
@@ -3589,27 +3589,27 @@ msgstr ""
 msgid "معرفی دسته‌های منو"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:510
+#: flavor/inc/class-customizer.php:514
 msgid "معمولی (400) — پیش‌فرض"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:446
+#: flavor/inc/class-customizer.php:450
 msgid "مقیاس تایپوگرافی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:414
+#: flavor/inc/class-customizer.php:418
 msgid "مقیاس تیتر تبلت"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:415
+#: flavor/inc/class-customizer.php:419
 msgid "مقیاس تیتر دسکتاپ"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:413
+#: flavor/inc/class-customizer.php:417
 msgid "مقیاس تیتر موبایل"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:458
+#: flavor/inc/class-customizer.php:462
 msgid "ملایم — ۱.۱۵"
 msgstr ""
 
@@ -3681,7 +3681,7 @@ msgstr ""
 msgid "منوی غذا"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:727
+#: flavor/inc/class-customizer.php:731
 msgid "منوی غذا و نوشیدنی"
 msgstr ""
 
@@ -3769,7 +3769,7 @@ msgstr ""
 msgid "میز شما آماده است"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:576
+#: flavor/inc/class-customizer.php:580
 msgid "مینیمال باریک"
 msgstr ""
 
@@ -3777,7 +3777,7 @@ msgstr ""
 msgid "مینیمال و باریک"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:649
+#: flavor/inc/class-customizer.php:653
 msgid "مینیمال وسط‌چین بدون شلوغی"
 msgstr ""
 
@@ -3785,7 +3785,7 @@ msgstr ""
 msgid "مینیمال و معاصر"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:509
+#: flavor/inc/class-customizer.php:513
 msgid "نازک (300)"
 msgstr ""
 
@@ -3837,20 +3837,20 @@ msgstr ""
 msgid "نرم و گرد"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:454
+#: flavor/inc/class-customizer.php:458
 msgid "نسبت مقیاس تیترها"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:337
+#: flavor/inc/class-customizer.php:341
 msgid "نسبت کنتراست هر ترکیب با استاندارد WCAG AA سنجیده می‌شود. این فقط گزارش است و مانع ذخیره نمی‌شود."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:814
+#: flavor/inc/class-customizer.php:818
 #. %d: gallery slot number. */
 msgid "نسبت ۴:۳. هر جای خالی با تصویر دموی قالب پر می‌شود."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:762 flavor/inc/class-customizer.php:782
+#: flavor/inc/class-customizer.php:766 flavor/inc/class-customizer.php:786
 msgid "نسبت ۴:۳، دست‌کم ۸۰۰×۶۰۰ پیکسل. اگر خالی بماند تصویر دموی پوستهٔ فعال نمایش داده می‌شود."
 msgstr ""
 
@@ -3886,7 +3886,7 @@ msgstr ""
 msgid "نشانی روی نقشه"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:895
+#: flavor/inc/class-customizer.php:899
 msgid "نشانی شعبه اصلی"
 msgstr ""
 
@@ -3910,7 +3910,7 @@ msgstr ""
 msgid "نشانی و راه‌های ارتباطی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:895
+#: flavor/inc/class-customizer.php:899
 msgid "نشانیِ شعبهٔ اصلی؛ در پانوشت و در نشانه‌گذاریِ ساختاریافتهٔ محلِ کسب نمایش داده می‌شود."
 msgstr ""
 
@@ -3918,11 +3918,11 @@ msgstr ""
 msgid "نشانی کامل"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:909 flavor/inc/class-customizer.php:912
+#: flavor/inc/class-customizer.php:913 flavor/inc/class-customizer.php:916
 msgid "نشانی کامل با https://. خالی بگذارید تا این آیکون در پانوشت نمایش داده نشود."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:915
+#: flavor/inc/class-customizer.php:919
 msgid "نشانی کاملِ واتس‌اپ. خالی بگذارید تا این آیکون در پانوشت نمایش داده نشود."
 msgstr ""
 
@@ -3958,7 +3958,7 @@ msgstr ""
 msgid "نظر مهمان"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:873
+#: flavor/inc/class-customizer.php:877
 msgid "نظر مهمان‌ها"
 msgstr ""
 
@@ -4002,23 +4002,23 @@ msgstr ""
 msgid "نمایش «قدرت گرفته از Flavor»"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:774
+#: flavor/inc/class-customizer.php:778
 msgid "نمایش بخش درباره ما"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:700
+#: flavor/inc/class-customizer.php:704
 msgid "نمایش بخش معرفی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:855
+#: flavor/inc/class-customizer.php:859
 msgid "نمایش بخش نظرات"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:739
+#: flavor/inc/class-customizer.php:743
 msgid "نمایش بنر تخفیف ویژه"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:754
+#: flavor/inc/class-customizer.php:758
 msgid "نمایش بنر رزرو میز"
 msgstr ""
 
@@ -4038,7 +4038,7 @@ msgstr ""
 msgid "نمایش دکمه‌های شناور"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:891
+#: flavor/inc/class-customizer.php:895
 msgid "نمایش ساعات کاری و آدرس"
 msgstr ""
 
@@ -4082,43 +4082,43 @@ msgstr ""
 msgid "نمایش نوار رضایت کوکی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:774
+#: flavor/inc/class-customizer.php:778
 msgid "نمایشِ بخشِ «دربارهٔ ما»."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:700
+#: flavor/inc/class-customizer.php:704
 msgid "نمایشِ بخشِ معرفی در صفحهٔ اصلی. غیرفعال‌کردن محتوا را پاک نمی‌کند."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:855
+#: flavor/inc/class-customizer.php:859
 msgid "نمایشِ بخشِ نظراتِ مشتریان. آیتم‌ها را در بخشِ مربوط ویرایش کنید."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:739
+#: flavor/inc/class-customizer.php:743
 msgid "نمایشِ بنرِ تخفیف. آفر در صفحهٔ اصلی دیده می‌شود؛ تعریفِ خودِ تخفیف در ووکامرس انجام می‌شود."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:754
+#: flavor/inc/class-customizer.php:758
 msgid "نمایشِ بنرِ دعوت به رزرو. مقصدِ دکمه صفحهٔ رزرو است؛ اگر هسته فعال نباشد، بنر نمایش داده نمی‌شود."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:891
+#: flavor/inc/class-customizer.php:895
 msgid "نمایشِ ساعاتِ کاری و نشانی. ساعاتِ هر شعبه در هسته تنظیم می‌شود."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:713
+#: flavor/inc/class-customizer.php:717
 msgid "نمایشِ پیشنهادهای ویژه. آیتم‌ها از محصولاتِ برگزیدهٔ ووکامرس خوانده می‌شوند."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:726
+#: flavor/inc/class-customizer.php:730
 msgid "نمایشِ کارت‌های دسته‌بندیِ منو."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:804
+#: flavor/inc/class-customizer.php:808
 msgid "نمایشِ گالری. اگر تصویری در بستهٔ دمو نباشد، این بخش خودبه‌خود پنهان می‌شود."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:713
+#: flavor/inc/class-customizer.php:717
 msgid "نمایش پیشنهادهای ویژه"
 msgstr ""
 
@@ -4126,7 +4126,7 @@ msgstr ""
 msgid "نمایش کارتی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:726
+#: flavor/inc/class-customizer.php:730
 msgid "نمایش کارت‌های دسته‌بندی"
 msgstr ""
 
@@ -4134,7 +4134,7 @@ msgstr ""
 msgid "نمایش کد"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:804
+#: flavor/inc/class-customizer.php:808
 msgid "نمایش گالری تصاویر"
 msgstr ""
 
@@ -4150,7 +4150,7 @@ msgstr ""
 msgid "نوار دسترسی موبایل"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:620
+#: flavor/inc/class-customizer.php:624
 msgid "نوار پیام بالای هدر (Announcement Bar)"
 msgstr ""
 
@@ -4190,19 +4190,19 @@ msgstr ""
 msgid "نیاز یا توضیح تکمیلی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:472 flavor/inc/class-customizer.php:512
+#: flavor/inc/class-customizer.php:476 flavor/inc/class-customizer.php:516
 msgid "نیمه‌درشت (600)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:471
+#: flavor/inc/class-customizer.php:475
 msgid "نیمه‌ضخیم (500)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:522
+#: flavor/inc/class-customizer.php:526
 msgid "نیمه‌فشرده (1.6)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:484
+#: flavor/inc/class-customizer.php:488
 msgid "نیمه‌فشرده (1.15)"
 msgstr ""
 
@@ -4214,11 +4214,11 @@ msgstr ""
 msgid "هدر شفاف روی این صفحه"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:577
+#: flavor/inc/class-customizer.php:581
 msgid "هدر شیشه‌ای شفاف روی تصویر هیرو"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:560
+#: flavor/inc/class-customizer.php:564
 msgid "هدر و ناوبری سایت"
 msgstr ""
 
@@ -4226,7 +4226,7 @@ msgstr ""
 msgid "هدر چسبان در موبایل"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:609
+#: flavor/inc/class-customizer.php:613
 msgid "هدر چسبان هنگام اسکرول (Sticky Header)"
 msgstr ""
 
@@ -4234,7 +4234,7 @@ msgstr ""
 msgid "هر بخشِ دارای ظرفیت"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:874
+#: flavor/inc/class-customizer.php:878
 msgid "هر تعداد نظر که دارید بیفزایید. اگر خالی بماند، نمونه‌های پیش‌فرض نمایش داده می‌شود."
 msgstr ""
 
@@ -4270,7 +4270,7 @@ msgstr ""
 msgid "هشدار"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:503
+#: flavor/inc/class-customizer.php:507
 msgid "هشدار: در خط فارسی حروف به هم می‌چسبند. هر مقدارِ غیرصفر پیوستگیِ کلمات را می‌شکند و متن را نازیبا می‌کند؛ فقط برای تیترهای لاتین استفاده کنید."
 msgstr ""
 
@@ -4434,11 +4434,11 @@ msgstr ""
 msgid "ورود یا ثبت‌نام"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:468
+#: flavor/inc/class-customizer.php:472
 msgid "وزن تیترها"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:506
+#: flavor/inc/class-customizer.php:510
 msgid "وزن متن بدنه"
 msgstr ""
 
@@ -4510,7 +4510,7 @@ msgstr ""
 msgid "ویژگی‌های پیشرفته Flavor"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:284
+#: flavor/inc/class-customizer.php:288
 msgid "پالت رنگ اختصاصی"
 msgstr ""
 
@@ -4518,7 +4518,7 @@ msgstr ""
 msgid "پاورقی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:903
+#: flavor/inc/class-customizer.php:907
 msgid "پاورقی و شبکه‌های اجتماعی"
 msgstr ""
 
@@ -4598,7 +4598,7 @@ msgstr ""
 msgid "پس‌زمینه تیره اشرافی با المان‌های طلایی و شامپاینی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:293
+#: flavor/inc/class-customizer.php:297
 msgid "پس‌زمینه سایت (Background)"
 msgstr ""
 
@@ -4646,11 +4646,11 @@ msgstr ""
 msgid "پوستهٔ Flavor فعال است"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:237
+#: flavor/inc/class-customizer.php:241
 msgid "پوسته‌های آماده (Presets)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:228
+#: flavor/inc/class-customizer.php:232
 msgid "پوسته‌های آماده، پالت رنگ، تایپوگرافی و ساختار ظاهری سایت"
 msgstr ""
 
@@ -4690,7 +4690,7 @@ msgstr ""
 msgid "پیشرفت تا ارسال رایگان"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:661
+#: flavor/inc/class-customizer.php:665
 msgid "پیشنهاد: دست‌کم ۱۶۰۰×۹۰۰ پیکسل و افقی. تصویر با نسبت ثابت و ریسپانسیو برش داده می‌شود و نسخهٔ سبک‌تر آن برای موبایل فرستاده می‌شود."
 msgstr ""
 
@@ -4714,7 +4714,7 @@ msgstr ""
 msgid "پیش‌غذا و سالاد"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:498
+#: flavor/inc/class-customizer.php:502
 msgid "پیش‌فرض (0) — پیشنهادی برای فارسی"
 msgstr ""
 
@@ -4730,7 +4730,7 @@ msgstr ""
 msgid "پیش‌فرض قالب"
 msgstr ""
 
-#: flavor/inc/class-chrome-builder.php:1207 flavor/inc/class-customizer.php:362 flavor/inc/class-customizer.php:380 flavor/inc/class-ui-customizer.php:74 flavor/inc/class-ui-customizer.php:78 flavor/inc/class-ui-customizer.php:79 flavor/inc/class-ui-customizer.php:100 flavor/inc/class-ui.php:28
+#: flavor/inc/class-chrome-builder.php:1207 flavor/inc/class-customizer.php:366 flavor/inc/class-customizer.php:384 flavor/inc/class-ui-customizer.php:74 flavor/inc/class-ui-customizer.php:78 flavor/inc/class-ui-customizer.php:79 flavor/inc/class-ui-customizer.php:100 flavor/inc/class-ui.php:28
 msgid "پیش‌فرض پوسته"
 msgstr ""
 
@@ -4787,7 +4787,7 @@ msgstr ""
 msgid "چرا ما؟"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:701 flavor/template-parts/marketing/intro.php:14
+#: flavor/inc/class-customizer.php:705 flavor/template-parts/marketing/intro.php:14
 msgid "چرا مهمان‌ها ما را انتخاب می‌کنند؟"
 msgstr ""
 
@@ -4839,7 +4839,7 @@ msgstr ""
 msgid "چینش و تیک‌های این بخش به پیش‌فرض پوسته برمی‌گردد. ادامه می‌دهید؟"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:570
+#: flavor/inc/class-customizer.php:574
 msgid "چینشِ هدر: لوگو در میان، لوگو در راست با منو در چپ، یا منو در زیرِ لوگو."
 msgstr ""
 
@@ -4859,7 +4859,7 @@ msgstr ""
 msgid "کالری"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:366
+#: flavor/inc/class-customizer.php:370
 msgid "کاملاً گرد و حبابی (24px)"
 msgstr ""
 
@@ -4895,7 +4895,7 @@ msgstr ""
 msgid "کد تأیید پیامکی"
 msgstr ""
 
-#: flavor/elementor/widgets/class-offers-widget.php:60 flavor/inc/class-customizer.php:743 flavor/template-parts/menu/cart-drawer.php:19
+#: flavor/elementor/widgets/class-offers-widget.php:60 flavor/inc/class-customizer.php:747 flavor/template-parts/menu/cart-drawer.php:19
 msgid "کد تخفیف"
 msgstr ""
 
@@ -4935,7 +4935,7 @@ msgstr ""
 msgid "کد پیگیری مهمان"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:743
+#: flavor/inc/class-customizer.php:747
 msgid "کدی که مشتری در سبد وارد می‌کند. خودِ تخفیف باید در ووکامرس تعریف شود؛ اینجا فقط نمایش است."
 msgstr ""
 
@@ -4947,7 +4947,7 @@ msgstr ""
 msgid "کشف منو"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:574
+#: flavor/inc/class-customizer.php:578
 msgid "کلاسیک (لوگو راست / منو چپ)"
 msgstr ""
 
@@ -4963,7 +4963,7 @@ msgstr ""
 msgid "کمترین ارتفاع هدر (موبایل)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:499
+#: flavor/inc/class-customizer.php:503
 msgid "کمی باز (0.01em)"
 msgstr ""
 
@@ -4971,7 +4971,7 @@ msgstr ""
 msgid "کمی بعد دوباره تلاش کنید."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:497
+#: flavor/inc/class-customizer.php:501
 msgid "کمی فشرده (0.01em-)"
 msgstr ""
 
@@ -5071,7 +5071,7 @@ msgstr ""
 msgid "گران‌ترین"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:357
+#: flavor/inc/class-customizer.php:361
 msgid "گردی گوشه کارت‌ها"
 msgstr ""
 
@@ -5141,7 +5141,7 @@ msgstr ""
 msgid "یک مسیر روشن برای انتخاب"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:671
+#: flavor/inc/class-customizer.php:675
 msgid "یک یا دو جمله زیرِ عنوان. اگر طولانی شود، در موبایل دکمه‌ها را به پایینِ صفحه می‌راند."
 msgstr ""
 
@@ -5149,7 +5149,7 @@ msgstr ""
 msgid "یکی از گزینه‌های همین کنترل را انتخاب کنید."
 msgstr ""
 
-#: flavor/inc/class-customizer.php:695
+#: flavor/inc/class-customizer.php:699
 msgid "۱. معرفی و ویژگی‌های شاخص"
 msgstr ""
 
@@ -5173,39 +5173,39 @@ msgstr ""
 msgid "۱۳:۰۰ تا ۲۳:۴۵"
 msgstr ""
 
-#: flavor/elementor/widgets/class-offers-widget.php:44 flavor/inc/class-customizer.php:740 flavor/template-parts/marketing/special-offers.php:14
+#: flavor/elementor/widgets/class-offers-widget.php:44 flavor/inc/class-customizer.php:744 flavor/template-parts/marketing/special-offers.php:14
 msgid "۱۵٪ تخفیف برای اولین سفارش آنلاین"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:708
+#: flavor/inc/class-customizer.php:712
 msgid "۲. پیشنهادهای ویژه سرآشپز"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:721
+#: flavor/inc/class-customizer.php:725
 msgid "۳. دسته‌بندی‌های منو"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:734
+#: flavor/inc/class-customizer.php:738
 msgid "۴. تخفیف‌ها و پیشنهادهای طلایی"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:749
+#: flavor/inc/class-customizer.php:753
 msgid "۵. دعوت به رزرو آنلاین میز"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:769
+#: flavor/inc/class-customizer.php:773
 msgid "۶. داستان و درباره ما"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:799
+#: flavor/inc/class-customizer.php:803
 msgid "۷. گالری تصاویر رستوران"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:850
+#: flavor/inc/class-customizer.php:854
 msgid "۸. نظرات مهمان‌ها"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:886
+#: flavor/inc/class-customizer.php:890
 msgid "۹. ساعات کاری و موقعیت روی نقشه"
 msgstr ""
 

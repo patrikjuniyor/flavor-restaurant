@@ -213,6 +213,72 @@ if ( ! empty( $releases ) ) {
 	check( $releases[0]['version'] === $installed, 'the newest changelog entry matches the installed version' );
 }
 
+echo "\n--- The Customizer boots, in both its paths ---\n";
+
+// The Customizer has two entry points and neither is exercised by loading
+// a page, which is why both have shipped broken:
+//
+//   customize_register   the pane      (N-08: control classes extending a
+//                                       parent that did not exist yet)
+//   customize_preview_init  the frame  (this: Customizer::typography_tokens(),
+//                                       a method that never existed, called
+//                                       with self:: when it lives on Design)
+//
+// A theme can render a perfect front page and still be unusable, because
+// the Customizer is the first thing an owner opens.
+require_once ABSPATH . 'wp-includes/class-wp-customize-manager.php';
+
+$customizer_ok = true;
+$customizer_error = '';
+
+try {
+	$manager = new WP_Customize_Manager();
+
+	// Path 1: the pane. Registers every setting, section and control.
+	do_action( 'customize_register', $manager );
+} catch ( \Throwable $e ) {
+	$customizer_ok = false;
+	$customizer_error = 'customize_register: ' . $e->getMessage();
+}
+
+check( $customizer_ok, 'the Customizer pane registers without fataling' . ( $customizer_error ? ' — ' . $customizer_error : '' ) );
+check( class_exists( 'Flavor\\Preset_Control' ), 'the control classes load inside the Customizer, where their parent exists' );
+
+$preview_ok = true;
+$preview_error = '';
+
+try {
+	// Path 2: the preview frame. This only fires while previewing, which is
+	// exactly why it escaped every previous test.
+	$preview = new WP_Customize_Manager();
+	$preview->start_previewing_theme();
+	$preview->wp_loaded();
+} catch ( \Throwable $e ) {
+	$preview_ok = false;
+	$preview_error = $e->getMessage();
+}
+
+check(
+	$preview_ok,
+	'the Customizer preview frame initialises without fataling'
+	. ( $preview_error ? ' — ' . $preview_error : '' )
+);
+
+// The method that broke is on Design, and it is worth asserting directly:
+// a typo in a static call cannot be caught by static analysis of one file.
+check(
+	is_callable( array( 'Flavor\\Design', 'typography_tokens' ) ),
+	'Design::typography_tokens() exists'
+);
+check(
+	! is_callable( array( 'Flavor\\Customizer', 'typography_tokens' ) ),
+	'typography_tokens() is NOT on Customizer, so self:: would never work there'
+);
+check(
+	false !== strpos( (string) @file_get_contents( FLAVOR_DIR . '/inc/class-customizer.php' ), 'Design::typography_tokens()' ),
+	'the Customizer calls it through Design, not self'
+);
+
 echo "\n--- Translation actually loads ---\n";
 
 $loaded = is_textdomain_loaded( 'flavor' ) || is_file( get_template_directory() . '/languages/flavor-ar.mo' );
