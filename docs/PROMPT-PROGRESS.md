@@ -19,23 +19,23 @@
 
 | پرامپت | وضعیت | خلاصه | یادداشت / کامیت |
 |---:|---|---|---|
-| 1 | ✅ انجام شد | PHP 8.3 (یا 8.2) را با اکستنشن‌های mbstring, sqlite3, pdo_sqlite, curl, json, | PHP 8.4 + mbstring/sqlite3/pdo_sqlite/curl/json/openssl/sodium/zip، composer install، run-pure-tests: 23/23 |
-| 2 | ✅ انجام شد | Node.js 20+ و npm را نصب کن. سپس `node tests/ui/motion.mjs` را اجرا کن تا | Node 20.20 + npm ci در tests/ui و tests/demos؛ motion.mjs: 11/11 سبز |
-| 3 | ✅ انجام شد | ابزار gettext (msgfmt, msgattrib, msgcat) و Python 3 را نصب کن. | gettext 0.23.1 + Python 3.13؛ check-i18n سبز؛ کاتالوگ عربی 1380/1380 (100%)؛ test-translation 84/84 |
-| 4 | ✅ انجام شد | Flutter SDK (پایدار، 3.22 یا جدیدتر) را نصب کن. در پوشهٔ mobile دستورات | Flutter 3.24.5 (همان pin که CI استفاده می‌کند): pub get OK، analyze بدون هشدار، test 43/43. با SDK جدیدتر (3.35) resolver روی محدودیت intl ^0.19.0 می‌شکند |
-| 5 | ✅ انجام شد | اسکریپت `./dev-tools/run-theme-tests.sh` را اجرا کن. همهٔ مجموعه‌های تست قالب | run-theme-tests.sh سبز (1831 بررسی در 22 فایل) + اسکریپت dev-tools/run-baseline.sh و فایل baseline-tests.txt در ریشه |
-| 6 | ✅ انجام شد | `php dev-tools/check-versions.php` و `php dev-tools/check-class-wiring.php` و | check-versions، check-class-wiring، check-child-theme هر سه سبز؛ نسخه قالب 1.6.2 / هسته 1.5.1 یکدست است |
+| 1 | ✅ انجام شد | PHP 8.3 (یا 8.2) را با اکستنشن‌های mbstring, sqlite3, pdo_sqlite, curl, json, | PHP 8.4 + mbstring/sqlite3/pdo_sqlite/curl/json/openssl/sodium/zip، composer install، run-pure-tests: 23/23 — `commit e2655f9` |
+| 2 | ✅ انجام شد | Node.js 20+ و npm را نصب کن. سپس `node tests/ui/motion.mjs` را اجرا کن تا | Node 20.20 + npm ci در tests/ui و tests/demos؛ motion.mjs: 11/11 سبز — `commit e2655f9` |
+| 3 | ✅ انجام شد | ابزار gettext (msgfmt, msgattrib, msgcat) و Python 3 را نصب کن. | gettext 0.23.1 + Python 3.13؛ check-i18n سبز؛ کاتالوگ عربی 1380/1380 (100%)؛ test-translation 84/84 — `commit e2655f9` |
+| 4 | ✅ انجام شد | Flutter SDK (پایدار، 3.22 یا جدیدتر) را نصب کن. در پوشهٔ mobile دستورات | Flutter 3.24.5 (همان pin که CI استفاده می‌کند): pub get OK، analyze بدون هشدار، test 43/43. با SDK جدیدتر (3.35) resolver روی محدودیت intl ^0.19.0 می‌شکند — `commit e2655f9` |
+| 5 | ✅ انجام شد | اسکریپت `./dev-tools/run-theme-tests.sh` را اجرا کن. همهٔ مجموعه‌های تست قالب | run-theme-tests.sh سبز (1831 بررسی در 22 فایل) + اسکریپت dev-tools/run-baseline.sh و فایل baseline-tests.txt در ریشه — `commit e2655f9` |
+| 6 | ✅ انجام شد | `php dev-tools/check-versions.php` و `php dev-tools/check-class-wiring.php` و | check-versions، check-class-wiring، check-child-theme هر سه سبز؛ نسخه قالب 1.6.2 / هسته 1.5.1 یکدست است — `commit e2655f9` |
 
 ## فاز 1 — اصلاح رشته‌های منبع معیوب (پیش از هر بازسازی کاتالوگ)
 
 | پرامپت | وضعیت | خلاصه | یادداشت / کامیت |
 |---:|---|---|---|
-| 7 | ✅ انجام شد | در فایل flavor/inc/class-customizer.php خط حدود ۴۵۲، متن توضیح حاوی واژهٔ | «títuloها» → «تیترها» در class-customizer.php:452 |
-| 8 | ✅ انجام شد | در همان فایل flavor/inc/class-customizer.php خط حدود ۴۶۹، رشتهٔ «فقط | «títuloهای h2 تا h6»/«título اصلی» → «تیترهای…»/«تیتر اصلی» در class-customizer.php:469 |
-| 9 | ✅ انجام شد | در فایل flavor/inc/class-ui-customizer.php خط حدود ۵۸، رشتهٔ «استعداد و | توضیح فونت به «فونت‌های استعداد (Estedad) و وزیرمتن (Vazirmatn) …» تغییر کرد |
-| 10 | ✅ انجام شد | در فایل dev-tools/i18n/ar-part5.py سه کلید ترجمهٔ قدیمی مربوط به پرامپت‌های | سه کلید در dev-tools/i18n/ar-part5.py جایگزین شد؛ ترجمه عربی توضیح فونت نیز اصلاح شد (خط وزير متن → وزيرمتن/Estedad) |
-| 11 | ✅ انجام شد | کاتالوگ‌های ترجمه را بازسازی کن: ابتدا `php dev-tools/build-pot.php` (یا | pot/po بازسازی و mo کامپایل شد؛ تعداد msgid unchanged (1380); check-i18n/test-translation/test-update-channel/run-theme-tests سبز |
-| 12 | ✅ انجام شد | یک گشت کامل غلط‌های تایپی و املایی روی متن‌های فارسی منبع بزن: در همهٔ | اسکنر dev-tools/i18n/scan-persian-typos.py اضافه شد (۷ طبقه)؛ «اوليه»→«اولیه»، فاصلهٔ قبل از «،» در CacheHints؛ گام CI جدید در i18n-guard؛ خروجی اسکن = ۰ |
+| 7 | ✅ انجام شد | در فایل flavor/inc/class-customizer.php خط حدود ۴۵۲، متن توضیح حاوی واژهٔ | «títuloها» → «تیترها» در class-customizer.php:452 — `commit 89a88b4` |
+| 8 | ✅ انجام شد | در همان فایل flavor/inc/class-customizer.php خط حدود ۴۶۹، رشتهٔ «فقط | «títuloهای h2 تا h6»/«título اصلی» → «تیترهای…»/«تیتر اصلی» در class-customizer.php:469 — `commit 89a88b4` |
+| 9 | ✅ انجام شد | در فایل flavor/inc/class-ui-customizer.php خط حدود ۵۸، رشتهٔ «استعداد و | توضیح فونت به «فونت‌های استعداد (Estedad) و وزیرمتن (Vazirmatn) …» تغییر کرد — `commit 89a88b4` |
+| 10 | ✅ انجام شد | در فایل dev-tools/i18n/ar-part5.py سه کلید ترجمهٔ قدیمی مربوط به پرامپت‌های | سه کلید در dev-tools/i18n/ar-part5.py جایگزین شد؛ ترجمه عربی توضیح فونت نیز اصلاح شد (خط وزير متن → وزيرمتن/Estedad) — `commit 89a88b4` |
+| 11 | ✅ انجام شد | کاتالوگ‌های ترجمه را بازسازی کن: ابتدا `php dev-tools/build-pot.php` (یا | pot/po بازسازی و mo کامپایل شد؛ تعداد msgid unchanged (1380); check-i18n/test-translation/test-update-channel/run-theme-tests سبز — `commit 89a88b4` |
+| 12 | ✅ انجام شد | یک گشت کامل غلط‌های تایپی و املایی روی متن‌های فارسی منبع بزن: در همهٔ | اسکنر dev-tools/i18n/scan-persian-typos.py اضافه شد (۷ طبقه)؛ «اوليه»→«اولیه»، فاصلهٔ قبل از «،» در CacheHints؛ گام CI جدید در i18n-guard؛ خروجی اسکن = ۰ — `commit 89a88b4` |
 
 ## فاز 2 — نواقص قطعی کد (یافته‌های بازبینی ۱۴۰۵/۰۷/۲۰)
 

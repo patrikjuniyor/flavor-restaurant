@@ -1,17 +1,21 @@
 {
   "1": {
+    "commit": "e2655f9",
     "note": "PHP 8.4 + mbstring/sqlite3/pdo_sqlite/curl/json/openssl/sodium/zip، composer install، run-pure-tests: 23/23",
     "state": "done"
   },
   "10": {
+    "commit": "89a88b4",
     "note": "سه کلید در dev-tools/i18n/ar-part5.py جایگزین شد؛ ترجمه عربی توضیح فونت نیز اصلاح شد (خط وزير متن → وزيرمتن/Estedad)",
     "state": "done"
   },
   "11": {
+    "commit": "89a88b4",
     "note": "pot/po بازسازی و mo کامپایل شد؛ تعداد msgid unchanged (1380); check-i18n/test-translation/test-update-channel/run-theme-tests سبز",
     "state": "done"
   },
   "12": {
+    "commit": "89a88b4",
     "note": "اسکنر dev-tools/i18n/scan-persian-typos.py اضافه شد (۷ طبقه)؛ «اوليه»→«اولیه»، فاصلهٔ قبل از «،» در CacheHints؛ گام CI جدید در i18n-guard؛ خروجی اسکن = ۰",
     "state": "done"
   },
@@ -51,34 +55,42 @@
     "state": "done"
   },
   "2": {
+    "commit": "e2655f9",
     "note": "Node 20.20 + npm ci در tests/ui و tests/demos؛ motion.mjs: 11/11 سبز",
     "state": "done"
   },
   "3": {
+    "commit": "e2655f9",
     "note": "gettext 0.23.1 + Python 3.13؛ check-i18n سبز؛ کاتالوگ عربی 1380/1380 (100%)؛ test-translation 84/84",
     "state": "done"
   },
   "4": {
+    "commit": "e2655f9",
     "note": "Flutter 3.24.5 (همان pin که CI استفاده می‌کند): pub get OK، analyze بدون هشدار، test 43/43. با SDK جدیدتر (3.35) resolver روی محدودیت intl ^0.19.0 می‌شکند",
     "state": "done"
   },
   "5": {
+    "commit": "e2655f9",
     "note": "run-theme-tests.sh سبز (1831 بررسی در 22 فایل) + اسکریپت dev-tools/run-baseline.sh و فایل baseline-tests.txt در ریشه",
     "state": "done"
   },
   "6": {
+    "commit": "e2655f9",
     "note": "check-versions، check-class-wiring، check-child-theme هر سه سبز؛ نسخه قالب 1.6.2 / هسته 1.5.1 یکدست است",
     "state": "done"
   },
   "7": {
+    "commit": "89a88b4",
     "note": "«títuloها» → «تیترها» در class-customizer.php:452",
     "state": "done"
   },
   "8": {
+    "commit": "89a88b4",
     "note": "«títuloهای h2 تا h6»/«título اصلی» → «تیترهای…»/«تیتر اصلی» در class-customizer.php:469",
     "state": "done"
   },
   "9": {
+    "commit": "89a88b4",
     "note": "توضیح فونت به «فونت‌های استعداد (Estedad) و وزیرمتن (Vazirmatn) …» تغییر کرد",
     "state": "done"
   },
