@@ -1,3 +1,29 @@
+/// The app version, in one place.
+///
+/// `mobile/pubspec.yaml` (`version: 1.0.0+1`) is the version of record: it is
+/// what the store listing, the artefact name and the update check have to
+/// agree on. CI reads it and mirrors it into the binary with
+/// `--dart-define=FLAVOR_APP_VERSION=…` (see .github/workflows/build-mobile.yml);
+/// a plain `flutter run` or a test falls back to [fallback].
+///
+/// Before this, three places disagreed: the HTTP header carried its own
+/// literal, pubspec carried the release number, and a generated iOS file that
+/// nobody was supposed to commit had frozen whatever version the machine that
+/// last ran `flutter pub get` happened to build.
+abstract final class AppVersion {
+  const AppVersion._();
+
+  /// Name of the `--dart-define` key CI sets.
+  static const String defineName = 'FLAVOR_APP_VERSION';
+
+  /// What pubspec.yaml declares, kept here so a checkout builds standalone.
+  static const String fallback = '1.0.0';
+
+  /// The version to send and compare.
+  static const String value =
+      String.fromEnvironment(defineName, defaultValue: fallback);
+}
+
 /// Environment Flavor definitions and dynamic restaurant tenant configuration.
 enum FlavorEnvironment {
   dev,

@@ -82,7 +82,7 @@ class ApiClient {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'X-App-Platform': Platform.isIOS ? 'ios' : 'android',
-      'X-App-Version': '1.1.0',
+      'X-App-Version': AppVersion.value,
     };
 
     // Inject Guest Cart Token

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../config/app_config.dart';
 import 'branch_model.dart';
 
 /// App Bootstrap Configuration domain model from /settings/app-bootstrap.
@@ -21,7 +23,7 @@ class AppBrandInfo {
     this.instagram = '',
     this.maintenanceMode = false,
     this.minAppVersion = '1.0.0',
-    this.currentVersion = '1.1.0',
+    this.currentVersion = AppVersion.value,
   });
 
   factory AppBrandInfo.fromJson(Map<String, dynamic>? json) {
@@ -36,7 +38,7 @@ class AppBrandInfo {
       instagram: json['instagram']?.toString() ?? '',
       maintenanceMode: json['maintenance_mode'] == true,
       minAppVersion: json['min_app_version']?.toString() ?? '1.0.0',
-      currentVersion: json['current_version']?.toString() ?? '1.1.0',
+      currentVersion: json['current_version']?.toString() ?? AppVersion.value,
     );
   }
 }

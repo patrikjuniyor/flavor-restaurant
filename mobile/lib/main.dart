@@ -92,7 +92,7 @@ Future<void> _initializePushNotifications() async {
   await service.init();
 
   // Provisioning-provided application version (set via --dart-define in CI).
-  const appVersion = String.fromEnvironment('FLAVOR_APP_VERSION', defaultValue: '1.0.0');
+  const appVersion = AppVersion.value;
   await service.syncTokenRegistration(
     platform: Platform.isIOS ? 'ios' : 'android',
     appVersion: appVersion,

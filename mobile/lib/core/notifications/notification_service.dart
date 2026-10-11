@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import '../../config/app_config.dart';
 import '../navigation/deep_link_service.dart';
 
 /// ---------------------------------------------------------------------------
@@ -155,7 +156,7 @@ class NotificationService {
   /// login: the device becomes bound to the authenticated account.
   Future<void> syncTokenRegistration({
     String platform = 'android',
-    String appVersion = '1.0.0',
+    String appVersion = AppVersion.value,
   }) async {
     try {
       // On iOS the APNs token must exist before FCM can issue a token.

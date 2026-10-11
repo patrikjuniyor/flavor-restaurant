@@ -13,6 +13,13 @@ when they are missing.
   pins `pubspec.yaml` and Gradle `versionCode`/`versionName` from the same
   canonical config — `flavor-mobile-branding@1`).
 - [ ] iOS build number derived from the same `version_code` (via pubspec).
+- [ ] Nothing else carries a version: the Dart side reads `AppVersion.value`
+  (`mobile/lib/config/app_config.dart`), which CI fills from pubspec. A literal
+  `X-App-Version` in `api_client.dart` is how a 1.1.0 header got shipped by a
+  1.0.0+1 build once.
+- [ ] No generated Flutter artefact is committed (`flutter_export_environment.sh`,
+  `Generated.xcconfig`, `GeneratedPluginRegistrant`) — they freeze the version
+  and the machine paths of whoever last ran `flutter pub get`.
 
 ## 2. Package ID (Android) / Bundle ID (iOS)
 

@@ -217,7 +217,10 @@ dart not found in PATH
   - آدرس API: `https://shandiz.restaurant.ir/wp-json/flavor/v2`
 - **رستوران ب (نایب):**
   - شناسه پکیج: `com.nayeb.zafaraniyeh`
-  - نسخه: `1.8.4+18`
+  - نسخه: `2.0.0+12` (نسخهٔ همان برند از config برند؛ نسخهٔ مرجع خود اپ
+    `mobile/pubspec.yaml` است — `1.0.0+1`. عددی که پیش‌تر اینجا ثبت شده بود از
+    فایل تولیدی `mobile/ios/Flutter/flutter_export_environment.sh` برداشته شده
+    بود؛ آن فایل حالا از مخزن حذف و در .gitignore قرار گرفته است)
   - رنگ اصلی: `#1B5E20` (سبز یشمی نایب)
   - نام نمایشی: `چلوکبابی نایب زعفرانیه`
   - آدرس API: `https://nayeb.restaurant.ir/wp-json/flavor/v2`
