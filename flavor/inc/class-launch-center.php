@@ -20,11 +20,27 @@ class Launch_Center {
 
 	public const PAGE = 'flavor-launch';
 
+	/** Nonce action for the manual Elementor kit sync. */
+	public const KIT_NONCE = 'flavor_kit_sync';
+
+	/** Field name of that nonce. */
+	public const KIT_FIELD = 'flavor_kit_nonce';
+
+	/**
+	 * Where the last manual sync ran from.
+	 *
+	 * A redirect cannot carry a report, and the report is worth keeping anyway:
+	 * the page says when the button was last pressed and what it did. It is one
+	 * site-wide option because the Elementor kit itself is site-wide.
+	 */
+	public const KIT_OPTION = 'flavor_kit_sync_report';
+
 	/**
 	 * Register the admin page.
 	 */
 	public static function init(): void {
 		add_action( 'admin_menu', array( self::class, 'menu' ), 6 );
+		add_action( 'admin_post_flavor_kit_sync', array( self::class, 'handle_kit_sync' ) );
 	}
 
 	/**
@@ -240,7 +256,262 @@ class Launch_Center {
 			true
 		);
 
+		$report = self::kit_sync_report( self::kit_sync_result() );
+		$checks[] = self::check(
+			'elementor_kit',
+			self::kit_labels()['row_label'],
+			! $report['needs_attention'],
+			$report['summary'],
+			self::kit_labels()['row_action'],
+			'#flavor-kit-sync',
+			false,
+			true
+		);
+
 		return $checks;
+	}
+
+	/**
+	 * Wording of the Elementor kit section, in one map.
+	 *
+	 * Same reason as UI::modifier_labels(): the admin text and the report are
+	 * one vocabulary, and the Arabic catalogue is generated from this map
+	 * (dev-tools/i18n/build-ar-part.py --map '\Flavor\Launch_Center::kit_labels').
+	 *
+	 * @return array<string,string>
+	 */
+	public static function kit_labels(): array {
+		return array(
+			'row_label'      => __( 'رنگ و فونت با کیت Elementor هماهنگ است', 'flavor' ),
+			'row_action'     => __( 'همگام‌سازی دستی کیت', 'flavor' ),
+			'section_title'  => __( 'همگام‌سازی کیت Elementor', 'flavor' ),
+			'help'           => __( 'کیتِ فعالِ المنتور از توکن‌های همین قالب نوشته می‌شود. اگر کلیدی را دستی در المنتور عوض کرده باشید، Flavor آن را بازنویسی نمی‌کند و در گزارش «حفظ‌شده» می‌آید.', 'flavor' ),
+			'button'         => __( 'همگام‌سازی با Elementor', 'flavor' ),
+			'force'          => __( 'بازنویسی اجباری؛ انتخاب‌های دستیِ المنتور هم بازنویسی می‌شود', 'flavor' ),
+			'unavailable'    => __( 'Elementor فعال نیست، پس کیتی برای همگام‌سازی وجود ندارد. بقیهٔ سایت بدون المنتور هم درست کار می‌کند.', 'flavor' ),
+			'written'        => __( 'کلیدهایی که نوشته شد', 'flavor' ),
+			'skipped'        => __( 'کلیدهایی که حفظ شد', 'flavor' ),
+			'group_colors'   => __( 'رنگ‌های سیستمی', 'flavor' ),
+			'group_custom'   => __( 'رنگ‌های Flavor', 'flavor' ),
+			'group_fonts'    => __( 'فونت‌ها', 'flavor' ),
+			'group_other'    => __( 'موارد دیگر', 'flavor' ),
+			'state_none'     => __( 'هنوز دستی اجرا نشده است؛ بعد از هر ذخیرهٔ Customizer خودش اجرا می‌شود.', 'flavor' ),
+			'state_ok'       => __( '%1$d کلید نوشته شد و %2$d کلید دست‌نخورده ماند.', 'flavor' ),
+			'state_current'  => __( 'چیزی برای نوشتن نبود؛ کیت از پیش با توکن‌های قالب هماهنگ بود.', 'flavor' ),
+			'state_inactive' => __( 'Elementor فعال نیست؛ چیزی نوشته نشد.', 'flavor' ),
+			'state_no_kit'   => __( 'کیت فعالی در المنتور پیدا نشد؛ ابتدا یک Kit در تنظیمات سایت بسازید.', 'flavor' ),
+			'state_failed'   => __( 'ذخیرهٔ کیت مجاز نبود؛ تنظیمات قالب دست‌نخورده ماند.', 'flavor' ),
+			'last_run'       => __( 'آخرین اجرای دستی: %1$s — %2$s', 'flavor' ),
+		);
+	}
+
+	/**
+	 * The stored result of the last manual run, or an empty array.
+	 *
+	 * @return array<string,mixed>
+	 */
+	public static function kit_sync_result(): array {
+		$stored = get_option( self::KIT_OPTION, array() );
+		if ( ! is_array( $stored ) ) {
+			return array();
+		}
+
+		$result = isset( $stored['result'] ) && is_array( $stored['result'] ) ? $stored['result'] : array();
+		$result['at'] = isset( $stored['at'] ) ? (int) $stored['at'] : 0;
+
+		return $result;
+	}
+
+	/**
+	 * Turn a Kit_Sync result into the strings the page shows.
+	 *
+	 * Pure on purpose: sync() writes to a third-party document and cannot run in
+	 * the offline suite, so the reporting half is split out and tested directly.
+	 *
+	 * @param array<string,mixed> $result Result of Kit_Sync::sync(), or a stored echo of it.
+	 * @return array<string,mixed>
+	 */
+	public static function kit_sync_report( array $result ): array {
+		$labels  = self::kit_labels();
+		$known    = array( 'ok', 'no_kit', 'save_failed', 'elementor_inactive' );
+		$status   = (string) ( $result['status'] ?? '' );
+		$recorded = ! empty( $result['at'] );
+		if ( ! in_array( $status, $known, true ) ) {
+			// A report written by another version is not claimed as a result.
+			$status = '';
+		}
+
+		$written = array_values( array_filter( array_map( 'strval', (array) ( $result['written'] ?? array() ) ) ) );
+		$skipped = array_values( array_filter( array_map( 'strval', (array) ( $result['skipped'] ?? array() ) ) ) );
+
+		$report = array(
+			'status'          => $status,
+			'tone'            => 'info',
+			'message'         => '',
+			'summary'         => '',
+			'written'         => $written,
+			'skipped'         => $skipped,
+			'needs_attention' => false,
+		);
+
+		if ( '' === $status ) {
+			$report['summary'] = (string) $labels['state_none'];
+			return $report;
+		}
+
+		$message = array(
+			'ok'                 => $written || $skipped
+				? sprintf( $labels['state_ok'], count( $written ), count( $skipped ) )
+				: $labels['state_current'],
+			'no_kit'             => $labels['state_no_kit'],
+			'save_failed'        => $labels['state_failed'],
+			'elementor_inactive' => $labels['state_inactive'],
+		);
+
+		$report['message'] = (string) $message[ $status ];
+		$report['tone']    = 'ok' === $status ? ( $written ? 'success' : 'info' ) : ( 'elementor_inactive' === $status ? 'info' : 'warning' );
+		// Only a blocked write is worth flagging on the launch checklist: a site
+		// without Elementor has nothing to fix here, and a run that wrote nothing
+		// means the kit already agreed with the tokens.
+		$report['needs_attention'] = in_array( $status, array( 'save_failed', 'no_kit' ), true );
+		$report['summary']        = $report['message'];
+
+		if ( $recorded ) {
+			$when = function_exists( 'wp_date' ) ? wp_date( get_option( 'date_format', 'Y-m-d' ) . ' ' . get_option( 'time_format', 'H:i' ), (int) $result['at'] ) : gmdate( 'Y-m-d H:i', (int) $result['at'] );
+			$report['when']    = (string) $when;
+			$report['summary'] = (string) sprintf( $labels['last_run'], (string) $when, $report['message'] );
+		}
+
+		return $report;
+	}
+
+	/**
+	 * Group reported token keys by what kind of token they are.
+	 *
+	 * `system_colors.primary.color` is what the kit stores; the owner reads
+	 * «رنگ‌های سیستمی: primary».
+	 *
+	 * @param array<int,string> $keys Keys from sync().
+	 * @return array<string,array<int,string>>
+	 */
+	public static function kit_group( array $keys ): array {
+		$labels = self::kit_labels();
+		$names  = array(
+			'system_colors'   => $labels['group_colors'],
+			'custom_colors'   => $labels['group_custom'],
+			'system_typography' => $labels['group_fonts'],
+		);
+		$out = array();
+
+		foreach ( $keys as $key ) {
+			$parts = explode( '.', (string) $key );
+			$head  = count( $parts ) > 1 ? $parts[0] : '';
+			$group = (string) ( $names[ $head ] ?? $labels['group_other'] );
+			$item  = count( $parts ) > 1 ? $parts[1] : (string) $key;
+			if ( '' === $item ) {
+				continue;
+			}
+			$out[ $group ][] = $item;
+		}
+
+		ksort( $out );
+
+		return $out;
+	}
+
+	/**
+	 * Run the sync from the launch page.
+	 *
+	 * Capability first, then the nonce: an unauthenticated POST must not even
+	 * reach the check, and the capability is what the action would need anyway.
+	 *
+	 * @return void
+	 */
+	public static function handle_kit_sync(): void {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'دسترسی ندارید.', 'flavor' ), 403 );
+		}
+		check_admin_referer( self::KIT_NONCE, self::KIT_FIELD );
+
+		$force  = ! empty( $_POST['force'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified above.
+		$result = class_exists( '\\Flavor\\Elementor\\Kit_Sync' )
+			? \Flavor\Elementor\Kit_Sync::sync( $force )
+			: array( 'status' => 'elementor_inactive' );
+
+		self::store_kit_report( $result, $force );
+
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page' => self::PAGE,
+					'kit'  => rawurlencode( (string) ( $result['status'] ?? 'elementor_inactive' ) ),
+				),
+				admin_url( 'themes.php' )
+			)
+		);
+		exit;
+	}
+
+	/**
+	 * Keep the outcome of a manual run for the page to read after the redirect.
+	 *
+	 * @param array<string,mixed> $result What Kit_Sync::sync() returned.
+	 * @param bool                $force  Whether it ran in forced mode.
+	 * @return array<string,mixed> The stored payload.
+	 */
+	public static function store_kit_report( array $result, bool $force = false ): array {
+		$payload = array(
+			'at'     => time(),
+			'force'  => $force,
+			'result' => $result,
+		);
+
+		update_option( self::KIT_OPTION, $payload, false );
+
+		return $payload;
+	}
+
+	/**
+	 * The section on the page: state, form, and the report of the last run.
+	 *
+	 * @return void
+	 */
+	public static function kit_section(): void {
+		$labels = self::kit_labels();
+		$report = self::kit_sync_report( self::kit_sync_result() );
+		$live   = class_exists( '\\Flavor\\Elementor\\Kit_Sync' ) && \Flavor\Elementor\Kit_Sync::available();
+		$notice = isset( $_GET['kit'] ) && is_scalar( $_GET['kit'] ) ? sanitize_key( wp_unslash( (string) $_GET['kit'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- a report key, read-only.
+		$fresh  = '' !== $notice && $notice === $report['status'];
+		?>
+		<section class="flavor-kit-sync" id="flavor-kit-sync">
+			<h2><?php echo esc_html( $labels['section_title'] ); ?></h2>
+			<?php if ( $fresh ) : ?>
+				<div class="notice notice-<?php echo esc_attr( $report['tone'] ); ?> is-dismissible inline"><p><?php echo esc_html( $report['message'] ); ?></p></div>
+			<?php endif; ?>
+			<p class="flavor-kit-sync__help"><?php echo esc_html( $live ? $labels['help'] : $labels['unavailable'] ); ?></p>
+			<?php if ( '' !== $report['summary'] && ! $fresh ) : ?>
+				<p class="flavor-kit-sync__last"><?php echo esc_html( $report['summary'] ); ?></p>
+			<?php endif; ?>
+			<?php foreach ( array( 'written' => $labels['written'], 'skipped' => $labels['skipped'] ) as $side => $heading ) : ?>
+				<?php if ( $fresh && $report[ $side ] ) : ?>
+					<ul class="flavor-kit-sync__list">
+						<li class="flavor-kit-sync__list-title"><?php echo esc_html( $heading ); ?></li>
+						<?php foreach ( self::kit_group( $report[ $side ] ) as $group => $items ) : ?>
+							<li><strong><?php echo esc_html( $group ); ?>:</strong> <?php echo esc_html( implode( '، ', $items ) ); ?></li>
+						<?php endforeach; ?>
+					</ul>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			<?php if ( $live ) : ?>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<?php wp_nonce_field( self::KIT_NONCE, self::KIT_FIELD ); ?>
+					<input type="hidden" name="action" value="flavor_kit_sync" />
+					<button type="submit" class="button button-primary"><?php echo esc_html( $labels['button'] ); ?></button>
+					<label class="flavor-kit-sync__force"><input type="checkbox" name="force" value="1" /> <?php echo esc_html( $labels['force'] ); ?></label>
+				</form>
+			<?php endif; ?>
+		</section>
+		<?php
 	}
 
 	/**
@@ -258,7 +529,7 @@ class Launch_Center {
 		?>
 		<div class="wrap flavor-launch-center" dir="rtl">
 			<style>
-				.flavor-launch-center{max-width:1060px}.flavor-launch-hero{display:flex;justify-content:space-between;gap:24px;align-items:center;margin:24px 0;padding:28px;border-radius:18px;background:linear-gradient(135deg,#253e55,#8a5a2b);color:#fff}.flavor-launch-hero h1{margin:0 0 8px;color:#fff}.flavor-launch-hero p{margin:0;opacity:.88}.flavor-launch-score{min-width:120px;text-align:center}.flavor-launch-score strong{display:block;font-size:38px;line-height:1}.flavor-launch-actions{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.flavor-launch-actions a{background:#fff!important;color:#253e55!important;border-color:#fff!important}.flavor-launch-table{background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden}.flavor-launch-table td,.flavor-launch-table th{padding:14px 16px;vertical-align:top}.flavor-launch-table tr+tr td{border-top:1px solid #edf0f4}.flavor-launch-status{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;white-space:nowrap}.flavor-launch-status--pass{background:#dcfce7;color:#166534}.flavor-launch-status--warning{background:#fef3c7;color:#92400e}.flavor-launch-status--fail{background:#fee2e2;color:#991b1b}.flavor-launch-status--info{background:#e0f2fe;color:#075985}.flavor-launch-description{color:#5f6b78}.flavor-launch-action{white-space:nowrap}.flavor-launch-bar{height:8px;background:rgba(255,255,255,.22);border-radius:999px;margin-top:16px;overflow:hidden}.flavor-launch-bar span{display:block;height:100%;background:#fff;border-radius:inherit;width:<?php echo esc_attr( (string) $percent ); ?>%}@media(max-width:760px){.flavor-launch-hero{display:block}.flavor-launch-score{text-align:right;margin-top:20px}.flavor-launch-table th:nth-child(2),.flavor-launch-table td:nth-child(2){display:none}}
+				.flavor-launch-center{max-width:1060px}.flavor-launch-hero{display:flex;justify-content:space-between;gap:24px;align-items:center;margin:24px 0;padding:28px;border-radius:18px;background:linear-gradient(135deg,#253e55,#8a5a2b);color:#fff}.flavor-launch-hero h1{margin:0 0 8px;color:#fff}.flavor-launch-hero p{margin:0;opacity:.88}.flavor-launch-score{min-width:120px;text-align:center}.flavor-launch-score strong{display:block;font-size:38px;line-height:1}.flavor-launch-actions{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.flavor-launch-actions a{background:#fff!important;color:#253e55!important;border-color:#fff!important}.flavor-launch-table{background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden}.flavor-launch-table td,.flavor-launch-table th{padding:14px 16px;vertical-align:top}.flavor-launch-table tr+tr td{border-top:1px solid #edf0f4}.flavor-launch-status{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;white-space:nowrap}.flavor-launch-status--pass{background:#dcfce7;color:#166534}.flavor-launch-status--warning{background:#fef3c7;color:#92400e}.flavor-launch-status--fail{background:#fee2e2;color:#991b1b}.flavor-launch-status--info{background:#e0f2fe;color:#075985}.flavor-launch-description{color:#5f6b78}.flavor-launch-action{white-space:nowrap}.flavor-launch-bar{height:8px;background:rgba(255,255,255,.22);border-radius:999px;margin-top:16px;overflow:hidden}.flavor-launch-bar span{display:block;height:100%;background:#fff;border-radius:inherit;width:<?php echo esc_attr( (string) $percent ); ?>%}.flavor-kit-sync{margin:0 0 18px;padding:18px 20px;background:#fff;border:1px solid #e2e8f0;border-radius:14px}.flavor-kit-sync h2{margin:0 0 6px;font-size:15px}.flavor-kit-sync__help,.flavor-kit-sync__last{margin:0 0 12px;color:#5f6b78;font-size:13px;line-height:1.9}.flavor-kit-sync__list{margin:0 0 12px;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px 18px}.flavor-kit-sync__list-title{font-weight:700}.flavor-kit-sync__force{margin-inline-start:12px;color:#5f6b78}@media(max-width:760px){.flavor-launch-hero{display:block}.flavor-launch-score{text-align:right;margin-top:20px}.flavor-launch-table th:nth-child(2),.flavor-launch-table td:nth-child(2){display:none}}
 			</style>
 			<div class="flavor-launch-hero">
 				<div>
@@ -274,6 +545,7 @@ class Launch_Center {
 				<a class="button" href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>"><?php esc_html_e( 'سفارشی‌سازی ظاهر', 'flavor' ); ?></a>
 				<a class="button" href="<?php echo esc_url( admin_url( 'themes.php?page=flavor-transfer' ) ); ?>"><?php esc_html_e( 'پشتیبان تنظیمات', 'flavor' ); ?></a>
 			</div>
+			<?php self::kit_section(); ?>
 			<table class="widefat flavor-launch-table">
 				<thead><tr><th><?php esc_html_e( 'بررسی', 'flavor' ); ?></th><th><?php esc_html_e( 'وضعیت', 'flavor' ); ?></th><th><?php esc_html_e( 'توضیح', 'flavor' ); ?></th><th><?php esc_html_e( 'اقدام', 'flavor' ); ?></th></tr></thead>
 				<tbody>

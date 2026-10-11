@@ -5,7 +5,20 @@ All notable changes to **رستوران مستقیم** (Flavor theme + Flavor Co
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]### Added — صفحهٔ تک‌محصول و انتخاب‌های غذا، بدون Elementor Pro (پرامپت ۲۴ / R3-01 گزینهٔ «ب»)
+## [Unreleased]
+
+### Added — دکمهٔ «همگام‌سازی با Elementor» در مرکز آمادگی انتشار (پرامپت ۲۵ / R3-10)
+
+- همگام‌سازی کیت المنتور تا پیش از این فقط یک رویداد بود: بعد از ذخیرهٔ Customizer اجرا می‌شد، و اگر کسی می‌خواست انتخابِ دستیِ خودش در المنتور را با توکن‌های قالب بازنویسی کند، راهی جز حذفِ دستیِ گزینهٔ `flavor_elementor_kit_sync_state` نداشت. حالا در **نمایش ← مرکز آمادگی انتشار** دکمهٔ «همگام‌سازی با Elementor» هست، با تیکِ جدا برای «بازنویسی اجباری».
+- گزارش به تفکیک توکن است: دو فهرست «کلیدهایی که نوشته شد» و «کلیدهایی که حفظ شد»، زیر سرِ‌گروه‌های رنگ‌های سیستمی / رنگ‌های Flavor / فونت‌ها. کلیدهایی که حفظ می‌شوند همان‌هایی‌اند که خودِ کاربر در المنتور عوض کرده است.
+- چهار وضعیتی که قبلاً بی‌صدا بودند حالا جمله دارند: کیتِ از‌پیش‌هماهنگ، نبودِ کیتِ فعال، رد‌شدنِ ذخیره (برخی اجازهٔ ویرایش کیت را ندارد)، و المنتورِ غیرفعال. فقط دو موردِ آخر روی چک‌لیست علامت می‌گیرند؛ ردیف عمداً `required=false` و «بررسی دستی» است تا سایتی که المنتور ندارد «آمادهٔ انتشار نیست» نخورد.
+- نتیجه در گزینهٔ `flavor_kit_sync_report` می‌ماند، پس صفحه بعد از رفرش هم «آخرین اجرای دستی: …» را نشان می‌دهد؛ این گزینه متنِ گزارش است، نه تنظیمات سایت.
+- اقدام از `admin_post_flavor_kit_sync` می‌آید و `manage_options` را **پیش از** `check_admin_referer` می‌سنجد (همان ترتیبِ خودِ صفحهٔ به‌روزرسانی‌ها)، با جفتِ nonceِ `flavor_kit_sync` / `flavor_kit_nonce`.
+- متن‌ها همه از یک نقشه خوانده می‌شوند (`Launch_Center::kit_labels()`؛ ۲۰ رشته، POT ۲۰۵۵) و عربی‌شان نوشته شد: عربی ۱۵۰۹/۱۵۰۹ = ۱۰۰٪.
+- `tests/theme/test-kit-sync-action.php` (۷۹ بررسی، در `run-theme-tests.sh`): نیمی‌اش رفتاری است — بخش را با فیکسچرِ ادمین واقعاً رندر می‌کند و ثابت می‌کند بدونِ المنتور هیچ فرمی نیست و باِ المنتور دقیقاً همان nonce/اکشن/تیکِ force ساخته می‌شود؛ گزارشِ ذخیره‌شده را می‌نویسد و دوباره می‌خواند؛ و هر پنج وضعیتِ ممکن را لنگ می‌زند. هفت منفی‌آزمایی: حذفِ capability → ۲ شکست؛ nonce با فیلد دیگر → ۱؛ فرمِ بی‌گاردها → ۲؛ شمارشِ غلطِ پیام → ۱؛ `needs_attention` همیشگی → ۲؛ درجِ یک `__()` داخل بخش → ۱؛ required کردنِ ردیف → ۱.
+- `docs/fa/11-elementor.md` بخش «همگام‌سازی دستی از پیشخوان (R3-10)» گرفت.
+
+### Added — صفحهٔ تک‌محصول و انتخاب‌های غذا، بدون Elementor Pro (پرامپت ۲۴ / R3-01 گزینهٔ «ب»)
 
 - تصمیم R3-01 اجرایی شد: هدر، فوتر و صفحهٔ تک‌محصول را خودِ Flavor می‌سازد و Elementor Pro — یا هر افزونهٔ پولیِ صفحه‌ساز — برای هیچ‌کدام لازم نیست. `docs/fa/11-elementor.md` بخش «تصمیم Theme Builder (R3-01 — گزینهٔ (ب))» را گرفت: چه چیزی ساخته می‌شود، با چه فایلی، و اگر المنتور نصب نباشد چه می‌شود.
 - `Flavor\Product_Page` (جدید): انتخاب‌گر گروه‌های مدیفایر را روی `woocommerce_before_add_to_cart_button` داخل **همان فرمِ افزودن به سبدِ ووکامرس** رندر می‌کند — نه با کپی‌کردنِ قالبِ ووکامرس. `flavor/assets/css/ui-product.css` هم فقط روی صفحهٔ محصول لود می‌شود (پس‌زمینه و گردی از توکن‌های UI، هیچ رنگی hardcode نشده، همهٔ افست‌ها logical).
@@ -17,7 +30,6 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - ابزارِ `dev-tools/i18n/build-ar-part.py` اشتقاقِ نامِ فایلِ کلاس را اصلاح کرد: قاعدهٔ قبلی `UI` را به `class-u-i.php` (و `Customer_UI` را هم) تبدیل می‌کرد و هر `--map` روی کلاس‌های همه‌بزرگ را می‌شکست.
 - یک رشتهٔ جدید به کاتالوگ اضافه شد (POT ۲۰۳۵) و عربی‌اش هم نوشته شد: عربی ۱۴۸۹/۱۴۸۹ = ۱۰۰٪.
 
-
 ### Fixed — ساعت سفارش‌ها از منطقهٔ زمانیِ سایت خوانده می‌شود (پرامپت ۲۳)
 
 - سه زمانِ مرحلهٔ سفارش در `OrderController::track_order` (پذیرش، آماده، تکمیل) با `date( 'H:i', strtotime( … ) )` ساخته می‌شد. آن جفت برای مقدارِ بی‌منطقه (ستون `DATETIME` که `current_time('mysql')` می‌نویسد) درست از آب درمی‌آمد — و همین پنهانش کرده بود — ولی به‌محض اینکه مقدار offset داشت (زمان ISO که اپلیکیشن موبایل یا کیوسک می‌فرستد) ساعتِ **سرور** را چاپ می‌کرد: روی هاستِ UTC و سایتِ تهران، «۱۷:۰۰» کنارِ «۲۰:۳۰»ِ خودِ سفارش، یعنی آشپزخانه ۳٫۵ ساعت *قبل از ثبت* سفارش قبولش کرده بود.
@@ -26,7 +38,6 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - `maths`ی توکن‌ها (`TokenService`، `OtpAuth`) هم عمداً بیرون از این تغییرند: مقدارِ naive را با naive مقایسه می‌کنند و اختلاف ساعت در رفت‌وبرگشت خنثی می‌شود؛ بردنشان به `Clock` رفتار را عوض می‌کرد بی‌آنکه باگی را درست کند.
 - `tests/theme/test-order-clock.php` (۳۴ بررسی، در `run-theme-tests.sh`): با سایتِ تهران روی سرورِ UTC/LA/Sydney، (۱) ۲۰:۳۰ی که در دیتابیس است ۲۰:۳۰ می‌ماند، (۲) `2026-10-11T17:00:00+00:00` به ۲۰:۳۰ تبدیل می‌شود و تست *اثبات* می‌کند که روشِ قدیم همان‌جا ۱۷:۰۰ می‌داد، (۳) خروجی با `wp_date()` هم‌فریم است و خطِ ژالیکیِ رسید همان دقیقه‌ها را با رقمِ فارسی نشان می‌دهد، (۴) ساعتِ صفرِ date-only «همین حالا» نمی‌شود، (۵) هیچ `date( 'H:i' )` خامی در controller/رسید/SMS نمانده (فقط فراخوانِ متدِ WC مجاز است). منفی‌آزمایی: برگرداندن کنترلر به `strtotime` → ۳ شکست؛ ساختن Clock با ساعتِ سرور → «۱۷:۰۰» به‌جای «۲۰:۳۰» در ۱۲ بررسی.
 - `docs/fa/03-bahrebardari.md`: بخش «ساعت در ردیابی سفارش» برای خریدار.
-
 
 ### Added — یکدست‌سازی ارقام (پرامپت ۲۲)
 
@@ -47,7 +58,6 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - همان کار برای `flavor/assets/js/premium.js` (پرامپت ۲۱، فایل یکم): سی رشته — بیست‌ودو `t(key, 'متن')` که fallback‌شان عملاً برندهٔ ترجمه بود و هشت رشتهٔ سفت‌کدشده، از جمله برچسب «حذف»ِ ردیف علاقه‌مندی که اصلاً در کاتالوگ نبود — به `Premium_Assets::strings()` و `Wishlist::strings()` منتقل شد. برای نوار ارسال رایگان اول مقدارِ فروشگاه (`cfg.freeShip.i18n`) خوانده می‌شود و نقشهٔ قالب فقط fallback است.
 - `dev-tools/i18n/build-ar-part.py`: فایل ترجمهٔ عربی از روی نقشهٔ زندهٔ PHP تولید می‌شود (کلید = msgid واقعی، و تطبیق placeholder همان‌جا)، پس رشتهٔ تغییرنام‌یافته در تولید می‌شکند نه در `.po`.
 - `tests/theme/test-js-i18n.php`: برابری دوسویهٔ کلیدهای JS↔PHP، بررسی زندهٔ placeholderها (%s / %1$s) با شکل فراخوان، ممنوعیت فاصلهٔ اول/آخر در رشته‌های کاتالوگ، و فهرست ثابتِ اسکریپت‌هایی که هنوز متنِ خودشان را نگه داشته‌اند.
-
 
 ### Added — ویجت‌های Elementor و قالب‌های صفحه
 
@@ -191,7 +201,6 @@ refresh و postMessage می‌نشیند.
 چیدمان هدر در حالت «مگا‌منوی کامل» همان ترتیب را نگه می‌دارد ولی عرض ستون‌ها را
 دستی تنظیم می‌کند؛ و آزمون‌ها روی mock محیط وردپرس اجرا می‌شوند، نه یک نصب زنده —
 بررسی بصری در Customizer واقعی هنوز روی دستگاه توسعه‌دهنده لازم است.
-
 
 ### Added — Motion layer for all twelve demos / 2026-10-08
 
@@ -429,7 +438,6 @@ A responsiveness audit of the whole marketing front end: seven page templates re
 - **Confirmed unchanged.** The container still caps at 1240px on 1440/1920/2560px displays, the 768/834/1024px tablet range was already clean on all seven templates across all twelve skins, the off-canvas drawer is correctly implemented and the five bespoke landing demos are on par with the seven classic skins.
 - **Regression guard.** `tests/ui/responsive.mjs` serves the real stylesheets against markup copied verbatim from the rendered templates, across all twelve skins at nine widths, and fails on horizontal overflow, text under 12px, tap targets under 24×24 or a container that stretches past 1240px. It reports all four categories per view rather than stopping at the first, precisely because these faults masked one another once already. A static sweep of every shipped stylesheet catches a sub-12px rule even in files the fixture never paints. It needs no WordPress install. 108/108 pass after the fix; the same suite reports 0/108 against the previous stylesheets.
 
-
 ### Fixed — homepage section images could not be set, and the about photo had no display box / 2026-10-02
 
 Follow-up audit of the logo/hero fix below, covering every image the homepage paints. Measured with `tests/ui/section-images.mjs` across all twelve skins.
@@ -472,13 +480,11 @@ Follow-up audit of the logo/hero fix below, covering every image the homepage pa
 - Reservation presents only genuinely eligible branches and real table sections; capacity/date/time selection remains server-backed and booking requires explicit submission. No made-up open status or geographic pin.
 - Fixed numeric storefront branch query/CPT query-var collision on page URLs, preserving existing branch-selector and actual branch permalinks. Page/layout/accessibility and real calendar/slot checks added without a booking submission.
 
-
 ### Shared storefront UI — stage 4 / 2026-10-02
 
 - Core-backed phone sign-in with explicit request/verify, feedback, resend cooldown, cookie-session nonce refresh and no persisted Bearer/refresh credentials; native Woo login/account forms remain available.
 - Customer dashboard, actual order/loyalty counts, history and guarded receipts; guest receipt codes are masked and explicitly copied, never put into tracking URLs. Read-only tracking clears private results on denial and shows kitchen progress only when a genuine ticket exists, not a hard-coded courier ETA.
 - Additive known-kitchen flag and order-currency-correct display fields; existing endpoints/fields remain. Real seeded-cookie verification, own/foreign/guest access and desktop/mobile accessibility checked using disposable fixtures, with SMS requests intercepted.
-
 
 ### Shared storefront UI — stage 3 / 2026-10-02
 
@@ -486,20 +492,17 @@ Follow-up audit of the logo/hero fix below, covering every image the homepage pa
 - Accessible shared mobile drawer with inert background, focus trapping/restoration, Escape/viewport close and readable reduced-motion feedback.
 - Validate published branch and active branch-owned QR table for display/preselection; reject invalid QR, pickup-only table claims and draft branch context. Guarded local context regression added.
 
-
 ### Shared storefront UI — stage 2 / 2026-10-02
 
 - Image-led, accessible two-step cart/checkout drawer; explicit quantity/remove, server subtotal/discount/tax/fees, mode-specific fields and payment options, delivery eligibility and a separately labeled delivery quote. Failed submission preserves the cart and customer fields; double submission is blocked while pending. Native WooCommerce forms inherit the skin without gateway-template replacement.
 - Additive cart amount/display fields retain the legacy API keys. Fixed a verified pre-existing modifier-compounding bug by recalculating from a fresh catalog price, with a guarded real-WP repeated-calculation regression. No new price, stock, payment or delivery rules are introduced.
 - Live browser checks cover cart/checkout/mobile/empty states, quantity and authoritative amounts; checkout failure is intercepted in the browser so no real order/payment occurs.
 
-
 ### Shared storefront UI — stage 1 / 2026-10-02
 
 - Skin-inheriting shared UI tokens with readable action/secondary text, consistent controls and inner-page typography; landing compositions remain unchanged.
 - Responsive card/list menu, sticky real category counts, server-rendered no-JS product fallback, image-led dish detail, grouped modifiers, final quantity price, keyboard/inert/focus restoration and explicit add only. Product deep links now work across every skin. Search selection opens dish details instead of unexpectedly leaving the ordering menu.
 - Added real-browser UI tests and standalone 12-skin token/enum tests; see `docs/UI-REDESIGN.md`.
-
 
 ### Catering completion and currency verification — 2026-10-02
 
