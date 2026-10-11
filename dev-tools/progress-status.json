@@ -59,6 +59,11 @@
     "note": "Node 20.20 + npm ci در tests/ui و tests/demos؛ motion.mjs: 11/11 سبز",
     "state": "done"
   },
+  "20": {
+    "commit": "53cee48",
+    "note": "۷۴ رشته از menu.js به Enqueue::menu_strings() و flavorData.i18n.menu منتقل شد؛ برچسب رژیم غذایی به UI::dietary_labels() (تک‌نسخه، فیلترها هم از همان می‌خوانند)؛ فاصلهٔ اول/آخر رشته‌ها به markup رفت چون xgettext msgid را trim می‌کند؛ ar-part6.py هر ۶۵ msgid تازه را عربی کرد (کاتالوگ ۱۴۴۵/۱۴۴۵)؛ تست جدید tests/theme/test-js-i18n.php با parity دوسویه، بررسی placeholder، فهرست بدهی ۱۳ فایل، و دو آزمون منفی",
+    "state": "done"
+  },
   "3": {
     "commit": "e2655f9",
     "note": "gettext 0.23.1 + Python 3.13؛ check-i18n سبز؛ کاتالوگ عربی 1380/1380 (100%)؛ test-translation 84/84",
