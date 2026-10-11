@@ -246,6 +246,22 @@ jobs:
       - name: Assert version headers agree with each other
         run: php dev-tools/check-versions.php
 
+      # Completion is promised in three places at once: the status file, the
+      # generated checklist, and the stamps written into the prompt collection
+      # itself (its owner reads progress there, not in chat). A phase that was
+      # finished but never reported is how a 108-item list drifts back into
+      # "we think most of it is done", so the three must agree on every push.
+      - name: Prompt progress is reported where it is read
+        run: |
+          python3 dev-tools/build-progress.py \
+            --prompts docs/prompts/flavor-restaurant-fix-prompts.txt \
+            --status dev-tools/progress-status.json
+          python3 dev-tools/annotate-prompts.py \
+            --prompts docs/prompts/flavor-restaurant-fix-prompts.txt \
+            --status dev-tools/progress-status.json \
+            --check
+          git diff --exit-code -- docs/PROMPT-PROGRESS.md docs/prompts/flavor-restaurant-fix-prompts.txt
+
   coding-standards:
     name: WordPress Coding Standards (report)
     runs-on: ubuntu-latest

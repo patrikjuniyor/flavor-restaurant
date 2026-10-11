@@ -1,50 +1,89 @@
 {
- "1": {
-  "state": "done",
-  "note": "PHP 8.4 + mbstring/sqlite3/pdo_sqlite/curl/json/openssl/sodium/zip، composer install، run-pure-tests: 23/23"
- },
- "2": {
-  "state": "done",
-  "note": "Node 20.20 + npm ci در tests/ui و tests/demos؛ motion.mjs: 11/11 سبز"
- },
- "3": {
-  "state": "done",
-  "note": "gettext 0.23.1 + Python 3.13؛ check-i18n سبز؛ کاتالوگ عربی 1380/1380 (100%)؛ test-translation 84/84"
- },
- "4": {
-  "state": "done",
-  "note": "Flutter 3.24.5 (همان pin که CI استفاده می‌کند): pub get OK، analyze بدون هشدار، test 43/43. با SDK جدیدتر (3.35) resolver روی محدودیت intl ^0.19.0 می‌شکند"
- },
- "5": {
-  "state": "done",
-  "note": "run-theme-tests.sh سبز (1831 بررسی در 22 فایل) + اسکریپت dev-tools/run-baseline.sh و فایل baseline-tests.txt در ریشه"
- },
- "6": {
-  "state": "done",
-  "note": "check-versions، check-class-wiring، check-child-theme هر سه سبز؛ نسخه قالب 1.6.2 / هسته 1.5.1 یکدست است"
- },
- "7": {
-  "state": "done",
-  "note": "«títuloها» → «تیترها» در class-customizer.php:452"
- },
- "8": {
-  "state": "done",
-  "note": "«títuloهای h2 تا h6»/«título اصلی» → «تیترهای…»/«تیتر اصلی» در class-customizer.php:469"
- },
- "9": {
-  "state": "done",
-  "note": "توضیح فونت به «فونت‌های استعداد (Estedad) و وزیرمتن (Vazirmatn) …» تغییر کرد"
- },
- "10": {
-  "state": "done",
-  "note": "سه کلید در dev-tools/i18n/ar-part5.py جایگزین شد؛ ترجمه عربی توضیح فونت نیز اصلاح شد (خط وزير متن → وزيرمتن/Estedad)"
- },
- "11": {
-  "state": "done",
-  "note": "pot/po بازسازی و mo کامپایل شد؛ تعداد msgid unchanged (1380); check-i18n/test-translation/test-update-channel/run-theme-tests سبز"
- },
- "12": {
-  "state": "done",
-  "note": "اسکنر dev-tools/i18n/scan-persian-typos.py اضافه شد (۷ طبقه)؛ «اوليه»→«اولیه»، فاصلهٔ قبل از «،» در CacheHints؛ گام CI جدید در i18n-guard؛ خروجی اسکن = ۰"
- }
+  "1": {
+    "note": "PHP 8.4 + mbstring/sqlite3/pdo_sqlite/curl/json/openssl/sodium/zip، composer install، run-pure-tests: 23/23",
+    "state": "done"
+  },
+  "10": {
+    "note": "سه کلید در dev-tools/i18n/ar-part5.py جایگزین شد؛ ترجمه عربی توضیح فونت نیز اصلاح شد (خط وزير متن → وزيرمتن/Estedad)",
+    "state": "done"
+  },
+  "11": {
+    "note": "pot/po بازسازی و mo کامپایل شد؛ تعداد msgid unchanged (1380); check-i18n/test-translation/test-update-channel/run-theme-tests سبز",
+    "state": "done"
+  },
+  "12": {
+    "note": "اسکنر dev-tools/i18n/scan-persian-typos.py اضافه شد (۷ طبقه)؛ «اوليه»→«اولیه»، فاصلهٔ قبل از «،» در CacheHints؛ گام CI جدید در i18n-guard؛ خروجی اسکن = ۰",
+    "state": "done"
+  },
+  "13": {
+    "commit": "05d0b32",
+    "note": "هر دو هدر فقط language_attributes() چاپ می‌کنند؛ direction/text-align از main.css بیرون رفت، آفست‌ها به inset-inline-*، drawer/انیمیشن‌ها نسخهٔ LTR گرفتند. تست جدید tests/theme/test-rtl-ltr-parity.php (۲۵ بررسی) + بازنویسی شواهد RTL در test-distribution.php",
+    "state": "done"
+  },
+  "14": {
+    "commit": "d558a6e",
+    "note": "RateLimit::guard('ord_create',10,600,$cart_token) در create_order + scope اختیاری در RateLimit؛ پاسخ ۴۲۹ rate_limit_exceeded. سناریوهای e2e با reset جدا می‌شوند؛ افراز ۱۰×۲01 و ۴۲۹ در یازدهمی و تست جدا بودن سطل‌ها اضافه شد → run-e2e-integration.php ۸۱/۸۱",
+    "state": "done"
+  },
+  "15": {
+    "commit": "16faad6",
+    "note": "mobile/ios/Flutter/flutter_export_environment.sh از git بیرون رفت (مولّد، با مسیرهای /opt/flutter و build ۱۸) و .gitignore چهار قانون گرفت: همین فایل، GeneratedPluginRegistrant اندروید، ios/Pods/، ios/Podfile.lock. تنها فایل Generated که هنوز ترک شده brand_tokens.g.dart عمدی است",
+    "state": "done"
+  },
+  "16": {
+    "commit": "a688c80",
+    "note": "AppVersion در mobile/lib/config/app_config.dart منبع یکتای نسخه (define FLAVOR_APP_VERSION، fallback 1.0.0)؛ هدر API، main.dart، AppBrandInfo و syncTokenRegistration از آن می‌خوانند و هیچ نسخهٔ سفت‌کدشده‌ای در lib نمانده. build-mobile.yml یک‌بار از pubspec می‌خواند و به apk/appbundle/ipa پاس می‌دهد؛ MOBILE.md، چک‌لیست و PHASE-2-VERIFICATION هم‌راستا شدند",
+    "state": "done"
+  },
+  "17": {
+    "commit": "cb188da",
+    "note": "چهار پوشهٔ یتیم flavor/demos حذف شد و وابستگی پنهان Repeater::fallback('gallery') به آن‌ها رفع شد (فهرست از اسلاگ معتبر ساخته می‌شود تا همیشه شش کاشی). کاتالوگِ تست حالا هر پوشهٔ یتیم را رد می‌کند؛ build-distribution.sh سبز",
+    "state": "done"
+  },
+  "18": {
+    "commit": "95483ea",
+    "note": "چهار تصویر دسته‌بندی هم‌سبک hero.jpg (۱۲۰۰×۹۰۰، ≤۲۵۰KB) برای persian-traditional + کلید category_images در کاتالوگ. تست کاتالوگ دو بررسی گرفت: دسته بدون تصویر اختصاصی، و تصویر با ضلع کوچک‌تر از ۶۰۰px",
+    "state": "done"
+  },
+  "19": {
+    "commit": "b3bc786",
+    "note": "listing.md: «هشت دمو»/«۸ دمو» → فهرست واقعی ۱۲ دمو + چک‌لیست ارسال با وضعیت واقعی هر بند (flavor-core.zip، LICENSE داخل بسته‌ها، ویدیو = انجام‌نشده با اشاره به بندهای ۵۳/۱۰۰/۹۴)؛ README هم اصلاح شد و تست کاتالوگ هر ادعای «N دمو» را با کاتالوگ می‌سنجد",
+    "state": "done"
+  },
+  "2": {
+    "note": "Node 20.20 + npm ci در tests/ui و tests/demos؛ motion.mjs: 11/11 سبز",
+    "state": "done"
+  },
+  "3": {
+    "note": "gettext 0.23.1 + Python 3.13؛ check-i18n سبز؛ کاتالوگ عربی 1380/1380 (100%)؛ test-translation 84/84",
+    "state": "done"
+  },
+  "4": {
+    "note": "Flutter 3.24.5 (همان pin که CI استفاده می‌کند): pub get OK، analyze بدون هشدار، test 43/43. با SDK جدیدتر (3.35) resolver روی محدودیت intl ^0.19.0 می‌شکند",
+    "state": "done"
+  },
+  "5": {
+    "note": "run-theme-tests.sh سبز (1831 بررسی در 22 فایل) + اسکریپت dev-tools/run-baseline.sh و فایل baseline-tests.txt در ریشه",
+    "state": "done"
+  },
+  "6": {
+    "note": "check-versions، check-class-wiring، check-child-theme هر سه سبز؛ نسخه قالب 1.6.2 / هسته 1.5.1 یکدست است",
+    "state": "done"
+  },
+  "7": {
+    "note": "«títuloها» → «تیترها» در class-customizer.php:452",
+    "state": "done"
+  },
+  "8": {
+    "note": "«títuloهای h2 تا h6»/«título اصلی» → «تیترهای…»/«تیتر اصلی» در class-customizer.php:469",
+    "state": "done"
+  },
+  "9": {
+    "note": "توضیح فونت به «فونت‌های استعداد (Estedad) و وزیرمتن (Vazirmatn) …» تغییر کرد",
+    "state": "done"
+  },
+  "_meta": {
+    "source": "dev-tools/annotate-prompts.py writes the stamps in docs/prompts/flavor-restaurant-fix-prompts.txt",
+    "updated": "2026-10-11"
+  }
 }

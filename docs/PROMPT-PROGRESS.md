@@ -4,13 +4,13 @@
 
 | وضعیت | تعداد |
 |---|---:|
-| ✅ انجام‌شده | 12 |
+| ✅ انجام‌شده | 19 |
 | 🟨 بخشی انجام‌شده | 0 |
 | ⛔ مسدود (نیاز به محیط/تصمیم مالک) | 0 |
-| ⬜ انجام‌نشده | 96 |
+| ⬜ انجام‌نشده | 89 |
 | **مجموع** | **108** |
 
-درصد پیشرفت کامل: **11%** (12/108)
+درصد پیشرفت کامل: **18%** (19/108)
 
 این فایل با `python3 dev-tools/build-progress.py` از روی `progress-status.json` بازتولید می‌شود؛ ویرایش دستی را از دست می‌دهد.
 
@@ -41,13 +41,13 @@
 
 | پرامپت | وضعیت | خلاصه | یادداشت / کامیت |
 |---:|---|---|---|
-| 13 | ⬜ انجام‌نشده | در فایل flavor/header.php خط ۲۳ صفت dir="rtl" هاردکد شده است |  |
-| 14 | ⬜ انجام‌نشده | به OrderController در flavor-core/includes/API/OrderController.php متد |  |
-| 15 | ⬜ انجام‌نشده | فایل mobile/ios/Flutter/flutter_export_environment.sh در مخزن کامیت شده |  |
-| 16 | ⬜ انجام‌نشده | نسخهٔ اپ موبایل را یکدست کن: mobile/pubspec.yaml می‌گوید version: 1.0.0+1 |  |
-| 17 | ⬜ انجام‌نشده | چهار پوشهٔ یتیم demos را پاک‌سازی کن: flavor/demos/fine-dining ، |  |
-| 18 | ⬜ انجام‌نشده | دموی persian-traditional (پرچم‌دار بازار ایران) ناقص است: پوشهٔ |  |
-| 19 | ⬜ انجام‌نشده | فایل docs/raastichin/listing.md ادعا می‌کند «هشت دمو» در حالی که محصول |  |
+| 13 | ✅ انجام شد | در فایل flavor/header.php خط ۲۳ صفت dir="rtl" هاردکد شده است | هر دو هدر فقط language_attributes() چاپ می‌کنند؛ direction/text-align از main.css بیرون رفت، آفست‌ها به inset-inline-*، drawer/انیمیشن‌ها نسخهٔ LTR گرفتند. تست جدید tests/theme/test-rtl-ltr-parity.php (۲۵ بررسی) + بازنویسی شواهد RTL در test-distribution.php — `commit 05d0b32` |
+| 14 | ✅ انجام شد | به OrderController در flavor-core/includes/API/OrderController.php متد | RateLimit::guard('ord_create',10,600,$cart_token) در create_order + scope اختیاری در RateLimit؛ پاسخ ۴۲۹ rate_limit_exceeded. سناریوهای e2e با reset جدا می‌شوند؛ افراز ۱۰×۲01 و ۴۲۹ در یازدهمی و تست جدا بودن سطل‌ها اضافه شد → run-e2e-integration.php ۸۱/۸۱ — `commit d558a6e` |
+| 15 | ✅ انجام شد | فایل mobile/ios/Flutter/flutter_export_environment.sh در مخزن کامیت شده | mobile/ios/Flutter/flutter_export_environment.sh از git بیرون رفت (مولّد، با مسیرهای /opt/flutter و build ۱۸) و .gitignore چهار قانون گرفت: همین فایل، GeneratedPluginRegistrant اندروید، ios/Pods/، ios/Podfile.lock. تنها فایل Generated که هنوز ترک شده brand_tokens.g.dart عمدی است — `commit 16faad6` |
+| 16 | ✅ انجام شد | نسخهٔ اپ موبایل را یکدست کن: mobile/pubspec.yaml می‌گوید version: 1.0.0+1 | AppVersion در mobile/lib/config/app_config.dart منبع یکتای نسخه (define FLAVOR_APP_VERSION، fallback 1.0.0)؛ هدر API، main.dart، AppBrandInfo و syncTokenRegistration از آن می‌خوانند و هیچ نسخهٔ سفت‌کدشده‌ای در lib نمانده. build-mobile.yml یک‌بار از pubspec می‌خواند و به apk/appbundle/ipa پاس می‌دهد؛ MOBILE.md، چک‌لیست و PHASE-2-VERIFICATION هم‌راستا شدند — `commit a688c80` |
+| 17 | ✅ انجام شد | چهار پوشهٔ یتیم demos را پاک‌سازی کن: flavor/demos/fine-dining ، | چهار پوشهٔ یتیم flavor/demos حذف شد و وابستگی پنهان Repeater::fallback('gallery') به آن‌ها رفع شد (فهرست از اسلاگ معتبر ساخته می‌شود تا همیشه شش کاشی). کاتالوگِ تست حالا هر پوشهٔ یتیم را رد می‌کند؛ build-distribution.sh سبز — `commit cb188da` |
+| 18 | ✅ انجام شد | دموی persian-traditional (پرچم‌دار بازار ایران) ناقص است: پوشهٔ | چهار تصویر دسته‌بندی هم‌سبک hero.jpg (۱۲۰۰×۹۰۰، ≤۲۵۰KB) برای persian-traditional + کلید category_images در کاتالوگ. تست کاتالوگ دو بررسی گرفت: دسته بدون تصویر اختصاصی، و تصویر با ضلع کوچک‌تر از ۶۰۰px — `commit 95483ea` |
+| 19 | ✅ انجام شد | فایل docs/raastichin/listing.md ادعا می‌کند «هشت دمو» در حالی که محصول | listing.md: «هشت دمو»/«۸ دمو» → فهرست واقعی ۱۲ دمو + چک‌لیست ارسال با وضعیت واقعی هر بند (flavor-core.zip، LICENSE داخل بسته‌ها، ویدیو = انجام‌نشده با اشاره به بندهای ۵۳/۱۰۰/۹۴)؛ README هم اصلاح شد و تست کاتالوگ هر ادعای «N دمو» را با کاتالوگ می‌سنجد — `commit b3bc786` |
 | 20 | ⬜ انجام‌نشده | رشته‌های فارسی هاردکد در جاوااسکریپت سمت مشتری را قابل ترجمه کن. فایل |  |
 | 21 | ⬜ انجام‌نشده | همان کار پرامپت ۲۰ را برای این فایل‌ها انجام بده (هر فایل در یک نوبت |  |
 | 22 | ⬜ انجام‌نشده | در فایل flavor/assets/js/menu.js تابع fa() اعداد را فارسی می‌کند و |  |
