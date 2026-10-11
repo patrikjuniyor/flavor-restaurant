@@ -113,8 +113,10 @@ def stamp_lines(phase, statuses, today):
         verdict = "؛ ".join(bits)
 
     lines = [STAMP + " " + verdict]
-    commits = [statuses[n][1] for n in done if statuses[n][1]]
+    commits = list(dict.fromkeys(statuses[n][1] for n in done if statuses[n][1]))
     if commits:
+        # One hash per commit, not per prompt: a phase done in a single commit
+        # should read as one commit.
         lines.append(MARKER + "کامیت‌های این فاز: " + " ".join(commits))
     lines.append(MARKER + "تاریخ به‌روزرسانی: %s — مرجع شمارش: dev-tools/progress-status.json" % today)
     return lines
