@@ -47,6 +47,7 @@ use FlavorCore\Reservation\ReservationRepository;
 use FlavorCore\Reservation\ReservationService;
 use FlavorCore\Support\GuestToken;
 use FlavorCore\Support\Iran;
+use FlavorCore\Support\RateLimit;
 use FlavorCore\Support\Roles;
 use FlavorCore\WooCommerce\CartSession;
 use FlavorCore\WooCommerce\CartTokenService;
@@ -446,6 +447,7 @@ run_test( 'Place Guest Delivery Order -> receives order ID & secure guest_token'
 		'notes'          => 'تحویل بدون تماس درب واحد',
 	) );
 
+	RateLimit::reset( 'ord_create' ); // this scenario is its own client
 	$res = $order_ctrl->create_order( $req );
 	$data = $res->get_data();
 
@@ -470,6 +472,7 @@ run_test( 'Place Authenticated Customer A Order -> associated with user_id', fun
 		'payment_method' => 'flavor_pay_at_counter',
 	) );
 
+	RateLimit::reset( 'ord_create' ); // this scenario is its own client
 	$res = $order_ctrl->create_order( $req );
 	$data = $res->get_data();
 	$user_a_order_id = (int) ( $data['data']['order_id'] ?? 0 );
@@ -490,6 +493,7 @@ run_test( 'Place Authenticated Customer B Order for Branch 2', function () use (
 		'payment_method' => 'flavor_pay_at_counter',
 	) );
 
+	RateLimit::reset( 'ord_create' ); // this scenario is its own client
 	$res = $order_ctrl->create_order( $req );
 	$data = $res->get_data();
 	$user_b_order_id = (int) ( $data['data']['order_id'] ?? 0 );
@@ -984,12 +988,14 @@ run_test( 'Idempotency: duplicate explicit idempotency_key never creates a secon
 	$before    = count( $GLOBALS['_mock_wc_orders'] );
 	$req       = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
 	$req->set_json_params( $payload );
+	RateLimit::reset( 'ord_create' ); // this scenario is its own client
 	$res_first  = $order_ctrl->create_order( $req );
 	$first_data = $res_first->get_data();
 	$first_id   = (int) ( $first_data['data']['order_id'] ?? 0 );
 
 	$req2       = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
 	$req2->set_json_params( $payload );
+	RateLimit::reset( 'ord_create' ); // this scenario is its own client
 	$res_second  = $order_ctrl->create_order( $req2 );
 	$second_data = $res_second->get_data();
 
@@ -1021,11 +1027,13 @@ run_test( 'Idempotency: rapid double-submit without key is auto-deduplicated', f
 	$before    = count( $GLOBALS['_mock_wc_orders'] );
 	$req       = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
 	$req->set_json_params( $payload );
+	RateLimit::reset( 'ord_create' ); // this scenario is its own client
 	$res_first  = $order_ctrl->create_order( $req );
 	$first_id   = (int) ( $res_first->get_data()['data']['order_id'] ?? 0 );
 
 	$req2       = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
 	$req2->set_json_params( $payload );
+	RateLimit::reset( 'ord_create' ); // this scenario is its own client
 	$res_second = $order_ctrl->create_order( $req2 );
 	$data2      = $res_second->get_data();
 
@@ -1076,6 +1084,7 @@ run_test( 'Failed gateway payment: cart token preserved, recoverable error, retr
 			'idempotency_key' => 'e2e-fail-0001',
 		)
 	);
+	RateLimit::reset( 'ord_create' ); // this scenario is its own client
 	$res  = $order_ctrl->create_order( $req );
 	$data = $res->get_data();
 
@@ -1142,6 +1151,7 @@ run_test( 'Missing gateway is rejected before any order row is created', functio
 			'payment_method' => 'ghost_gateway_404',
 		)
 	);
+	RateLimit::reset( 'ord_create' ); // this scenario is its own client
 	$res = $order_ctrl->create_order( $req );
 	$data = $res->get_data();
 
@@ -1171,6 +1181,7 @@ run_test( 'Invalid branch: nonexistent or unpublished branch is rejected with no
 				'payment_method' => 'flavor_pay_at_counter',
 			)
 		);
+		RateLimit::reset( 'ord_create' ); // this scenario is its own client
 		$res       = $order_ctrl->create_order( $req );
 		$results[] = 400 === $res->get_status()
 			&& 'flavor_branch' === (string) ( $res->get_data()['errors'][0]['code'] ?? '' )
@@ -1209,6 +1220,7 @@ run_test( 'Invalid table: arbitrary number, other-branch table, inactive table a
 		);
 		$req = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
 		$req->set_json_params( $payload );
+		RateLimit::reset( 'ord_create' ); // this scenario is its own client
 		$res       = $order_ctrl->create_order( $req );
 		$results[] = 400 === $res->get_status()
 			&& 'flavor_table' === (string) ( $res->get_data()['errors'][0]['code'] ?? '' )
@@ -1236,6 +1248,7 @@ run_test( 'Unavailable product is revalidated at checkout; cart stays intact and
 			'payment_method' => 'flavor_pay_at_counter',
 		)
 	);
+	RateLimit::reset( 'ord_create' ); // this scenario is its own client
 	$res        = $order_ctrl->create_order( $req );
 	$cart_items = WC()->cart->get_cart_contents_count();
 
@@ -1278,6 +1291,7 @@ run_test( 'Offline payment creates the kitchen ticket with full flavor metadata'
 			'notes'          => 'بدون پیاز',
 		)
 	);
+	RateLimit::reset( 'ord_create' ); // this scenario is its own client
 	$res      = $order_ctrl->create_order( $req );
 	$order_id = (int) ( $res->get_data()['data']['order_id'] ?? 0 );
 	$order    = $order_id ? wc_get_order( $order_id ) : null;
@@ -1319,6 +1333,7 @@ run_test( 'Online payment: redirect returned, ticket deferred until payment_comp
 			'payment_method' => 'flavor_zarinpal_mock',
 		)
 	);
+	RateLimit::reset( 'ord_create' ); // this scenario is its own client
 	$res      = $order_ctrl->create_order( $req );
 	$res_data = $res->get_data();
 	$order_id = (int) ( $res_data['data']['order_id'] ?? 0 );
@@ -1379,6 +1394,7 @@ run_test( 'Idempotency replay is bound to the original cart token (no cross-cart
 			'idempotency_key' => 'e2e-bind-0001',
 		)
 	);
+	RateLimit::reset( 'ord_create' ); // this scenario is its own client
 	$res      = $order_ctrl->create_order( $req );
 	$first_id = (int) ( $res->get_data()['data']['order_id'] ?? 0 );
 
@@ -1419,6 +1435,60 @@ run_test( 'Idempotency replay is bound to the original cart token (no cross-cart
 		&& 409 === $res2->get_status()
 		&& 'flavor_idempotency_conflict' === (string) ( $res2->get_data()['errors'][0]['code'] ?? '' )
 		&& ( count( $GLOBALS['_mock_wc_orders'] ) - $before ) === 1;
+} );
+
+run_test( 'Rate limit: POST /orders caps one client at 10 per window, answers 429, and leaves the next session alone', function () use ( $order_ctrl ) {
+	wp_set_current_user( 0 );
+	WC()->cart->empty_cart();
+	WC()->cart->add_to_cart( 1, 1 );
+	OrderModes::set( array() );
+
+	// Every other public write in this API is capped; /orders is the one that
+	// mints a row, an email and a kitchen ticket. The bucket is the client's
+	// IP (RateLimit hashes that in itself) plus the cart token, so a shared
+	// connection is not one crowd — but rotating the token past the cap is
+	// what the second half of this assertion checks.
+	RateLimit::reset( 'ord_create', 'rl-token-a' );
+	RateLimit::reset( 'ord_create', 'rl-token-b' );
+
+	$fire = function ( string $token, int $n ) use ( $order_ctrl ) {
+		$req = new \WP_REST_Request( 'POST', '/flavor/v2/orders' );
+		$req->set_header( 'X-Cart-Token', $token );
+		$req->set_json_params(
+			array(
+				'order_mode'      => 'dine_in',
+				'branch_id'       => 1,
+				'table_number'    => 'T-01',
+				'mobile'          => '09351112233',
+				'payment_method'  => 'flavor_pay_at_counter',
+				'idempotency_key' => 'e2e-rl-' . $token . '-' . $n,
+			)
+		);
+		return $order_ctrl->create_order( $req );
+	};
+
+	$statuses = array();
+	for ( $i = 1; $i <= 11; $i++ ) {
+		$statuses[ $i ] = $fire( 'rl-token-a', $i )->get_status();
+	}
+
+	$blocked     = $fire( 'rl-token-a', 12 );
+	$blocked_data = (array) $blocked->get_data();
+	$other       = $fire( 'rl-token-b', 1 );
+
+	RateLimit::reset( 'ord_create', 'rl-token-a' );
+	RateLimit::reset( 'ord_create', 'rl-token-b' );
+
+	$first_ten_ok = true;
+	for ( $i = 1; $i <= 10; $i++ ) {
+		$first_ten_ok = $first_ten_ok && 201 === $statuses[ $i ];
+	}
+
+	return $first_ten_ok
+		&& 429 === $statuses[11]
+		&& 429 === $blocked->get_status()
+		&& 'rate_limit_exceeded' === (string) ( $blocked_data['errors'][0]['code'] ?? '' )
+		&& 201 === $other->get_status();
 } );
 
 // ===========================================================================

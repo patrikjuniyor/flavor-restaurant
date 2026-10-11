@@ -14,6 +14,7 @@ use FlavorCore\Order\KitchenTicketRepository;
 use FlavorCore\Support\GuestToken;
 use FlavorCore\Support\Iran;
 use FlavorCore\Support\Jalali;
+use FlavorCore\Support\RateLimit;
 use FlavorCore\Support\Roles;
 use FlavorCore\WooCommerce\CartSession;
 use FlavorCore\WooCommerce\CartTokenService;
@@ -110,11 +111,23 @@ class OrderController extends BaseApiController {
 	 * @return \WP_REST_Response
 	 */
 	public function create_order( \WP_REST_Request $request ): \WP_REST_Response {
+		// Every other public write in this API is capped — OTP, reservations,
+		// reviews, search — while POST /orders is the one that actually mints
+		// rows, mails and kitchen tickets, and its permission callback is
+		// __return_true. Same shape as ReservationController::book_table():
+		// ten orders per ten minutes, keyed per client, where a client is the
+		// IP the bucket already hashes together with the cart token of the
+		// session (so one shared connection is not one crowd).
+		$cart_token = CartTokenService::extract_token( $request );
+		$rate       = RateLimit::guard( 'ord_create', 10, 10 * MINUTE_IN_SECONDS, (string) $cart_token );
+		if ( is_wp_error( $rate ) ) {
+			return $this->respond_error( 'rate_limit_exceeded', $rate->get_error_message(), 429 );
+		}
+
 		$user = $this->resolve_user( $request );
 		$body = $request->get_json_params() ?: array();
 
 		// Attach Cart Token if provided
-		$cart_token = CartTokenService::extract_token( $request );
 		if ( ! empty( $cart_token ) && empty( $body['cart_token'] ) ) {
 			$body['cart_token'] = $cart_token;
 		}

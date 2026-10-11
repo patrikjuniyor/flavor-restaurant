@@ -43,10 +43,10 @@ Legend: **public** = `__return_true` (input is still sanitized + rate-limited); 
 | `POST /cart/items`, `PUT/DELETE /cart/items/{key}` | v1, v2 | public | Guest carts via `X-Cart-Token`/session. |
 | `DELETE /cart`, `POST /cart/coupon`, `DELETE /cart/coupon` | v1, v2 | public | |
 | `POST /cart/loyalty` | v1, v2 | bearer | Loyalty points are user-scoped. |
-| `POST /orders` | v1, v2 | public | Guests need a valid `cart_token`; server revalidates branch/table/zone/products; idempotency key supported. |
+| `POST /orders` | v1, v2 | public | Guests need a valid `cart_token`; server revalidates branch/table/zone/products; idempotency key supported. Rate-limited in the handler: 10 orders per 10 min per IP **and** cart token (bucket `ord_create`), then `429 rate_limit_exceeded`. |
 | `POST /orders/{id}/cancel` | v1, v2 | public* | *Ownership enforced: bearer owner or order `guest_token` (IDOR guard in handler). |
 | `POST /orders/{id}/reorder` | v1, v2 | public* | Same ownership rule. |
-| `POST /reservations` | v1, v2 | public | Guest token issued for follow-up operations. |
+| `POST /reservations` | v1, v2 | public | Guest token issued for follow-up operations. Rate-limited in the handler: 8 bookings per 10 min per IP (bucket `res_book`). |
 | `POST /reservations/{id}/cancel` | v1, v2 | public* | *Ownership: bearer or reservation `guest_token`. |
 | `POST /dishes/{id}/reviews` | v1, v2 | public | Rate-limited, content sanitized. |
 | `POST /mobile/config`, `POST /mobile/builds/trigger` | v1, v2 | cap `manage_options` | Admin only. |
