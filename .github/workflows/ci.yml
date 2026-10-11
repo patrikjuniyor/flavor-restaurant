@@ -221,6 +221,14 @@ jobs:
         run: |
           php tests/theme/test-translation.php
 
+      # The translation key IS the Persian source text, so a typo in a source
+      # string is a typo in the catalogue key too and no amount of translating
+      # fixes it. This blocks the classes that were actually found in review:
+      # Arabic ي/ك inside Persian copy, a stray «título», a space before «،».
+      - name: Persian string hygiene (source text the catalogue keys derive from)
+        run: |
+          python3 dev-tools/i18n/scan-persian-typos.py
+
   release-hygiene:
     name: Version & Compatibility Headers
     runs-on: ubuntu-latest

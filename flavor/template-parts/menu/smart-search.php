@@ -43,7 +43,7 @@ defined( 'ABSPATH' ) || exit;
 		</div>
 
 		<p class="flavor-search__hint" id="flavor-search-hint">
-			<?php esc_html_e( 'غلط املایی، «ي» و «ك» عربی و اعداد فارسی هم پشتیبانی می‌شود.', 'flavor' ); ?>
+			<?php esc_html_e( 'غلط املایی، «ي» و «ك» عربی و اعداد فارسی هم پشتیبانی می‌شود.', 'flavor' ); // i18n-scan:ignore — the Arabic letters are named on purpose. ?>
 		</p>
 
 		<div class="flavor-search__chips" id="flavor-search-chips" hidden></div>

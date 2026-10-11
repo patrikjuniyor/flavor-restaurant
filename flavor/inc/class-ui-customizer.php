@@ -55,7 +55,7 @@ class UI_Customizer {
 			$manager->add_control( 'flavor_font_' . $key, array(
 				'label' => $label, 'type' => 'select', 'section' => 'flavor_section_layout',
 				'choices' => self::design_choices()[ 'flavor_font_' . $key ],
-				'description' => __( 'استعداد و وزیرمتن همراه قالب و به‌صورت محلی بارگذاری می‌شوند. پیش‌فرض، فونت خود پوسته را نگه می‌دارد.', 'flavor' ),
+				'description' => __( 'فونت‌های استعداد (Estedad) و وزیرمتن (Vazirmatn) همراه قالب و به‌صورت محلی بارگذاری می‌شوند. پیش‌فرض، فونت خود پوسته را نگه می‌دارد.', 'flavor' ),
 			) );
 		}
 		$header = $manager->get_control( 'flavor_header_layout' );

@@ -64,7 +64,7 @@ class CacheHints {
 			return;
 		}
 		echo '<div class="notice notice-info"><p>';
-		echo esc_html__( 'اگر افزونه کش دارید، این مسیرها را از کش تمام‌صفحه خارج کنید: /kitchen-dashboard/ ، /kitchen-receipt/ ، /wp-json/flavor/ ، کوکی flavor_ctx', 'flavor-core' );
+		echo esc_html__( 'اگر افزونه کش دارید، این مسیرها را از کش تمام‌صفحه خارج کنید: /kitchen-dashboard/، /kitchen-receipt/، /wp-json/flavor/، کوکی flavor_ctx', 'flavor-core' );
 		echo '</p></div>';
 	}
 }

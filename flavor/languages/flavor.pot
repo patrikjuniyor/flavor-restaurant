@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-11 08:18+00:00\n"
+"POT-Creation-Date: 2026-10-11 15:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
@@ -325,10 +325,6 @@ msgstr ""
 msgid "استعداد"
 msgstr ""
 
-#: flavor/inc/class-ui-customizer.php:58
-msgid "استعداد و وزیرمتن همراه قالب و به‌صورت محلی بارگذاری می‌شوند. پیش‌فرض، فونت خود پوسته را نگه می‌دارد."
-msgstr ""
-
 #: flavor/inc/class-onboarding.php:147
 msgid "اطلاعات اولیه رستوران را تکمیل کنید تا سایت و سیستم سفارش آنلاین شما آماده بهره‌برداری شود. پیشرفت فرم به‌صورت خودکار ذخیره می‌شود."
 msgstr ""
@@ -567,7 +563,7 @@ msgid "اندازهٔ متن پایه"
 msgstr ""
 
 #: flavor/inc/class-customizer.php:452
-msgid "اندازهٔ پایه و مقیاس تیتر اصلی در بخش «تایپوگرافی و گوشه‌ها» تنظیم می‌شوند؛ اینجا سلسله‌مراتب títuloها و وزن و فاصلهٔ خطوط را تعیین می‌کنید."
+msgid "اندازهٔ پایه و مقیاس تیتر اصلی در بخش «تایپوگرافی و گوشه‌ها» تنظیم می‌شوند؛ اینجا سلسله‌مراتب تیترها و وزن و فاصلهٔ خطوط را تعیین می‌کنید."
 msgstr ""
 
 #: flavor/inc/class-engagement.php:210 flavor/inc/class-premium-customizer.php:196
@@ -2995,7 +2991,7 @@ msgid "صفحهٔ کامل محصول"
 msgstr ""
 
 #: flavor/template-parts/marketing/hero.php:98
-msgid "ضمانت ۱۰۰٪ تازگی مواد اوليه"
+msgid "ضمانت ۱۰۰٪ تازگی مواد اولیه"
 msgstr ""
 
 #: flavor/inc/class-design.php:61
@@ -3291,7 +3287,7 @@ msgid "فعال‌سازی کانال به‌روزرسانی (بررسی روز
 msgstr ""
 
 #: flavor/inc/class-customizer.php:469
-msgid "فقط títuloهای h2 تا h6 را تغییر می‌دهد. título اصلی (h1) از مقیاس ریسپانسیو پیروی می‌کند تا روی موبایل نشکند."
+msgid "فقط تیترهای h2 تا h6 را تغییر می‌دهد. تیتر اصلی (h1) از مقیاس ریسپانسیو پیروی می‌کند تا روی موبایل نشکند."
 msgstr ""
 
 #: flavor/inc/class-engagement.php:175
@@ -3344,6 +3340,10 @@ msgstr ""
 
 #: flavor/inc/class-ui-customizer.php:54
 msgid "فونت متن و فرم‌ها"
+msgstr ""
+
+#: flavor/inc/class-ui-customizer.php:58
+msgid "فونت‌های استعداد (Estedad) و وزیرمتن (Vazirmatn) همراه قالب و به‌صورت محلی بارگذاری می‌شوند. پیش‌فرض، فونت خود پوسته را نگه می‌دارد."
 msgstr ""
 
 #: flavor/template-parts/demos/menu.php:21
