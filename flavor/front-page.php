@@ -53,7 +53,8 @@ if ( have_posts() ) {
 		the_post();
 		$has_post_content      = '' !== trim( (string) get_the_content() );
 		$has_elementor_content = \Flavor\Elementor::has_builder_content( get_the_ID() );
-		if ( $has_post_content || $has_elementor_content ) {
+		$has_flavor_builder    = ! empty( get_post_meta( get_the_ID(), \Flavor\Builder::META, true ) );
+		if ( $has_post_content || $has_elementor_content || $has_flavor_builder ) {
 			echo '<div class="flavor-container flavor-custom-page-content" style="padding-block: 40px;">';
 			the_content();
 			echo '</div>';
