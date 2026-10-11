@@ -26,7 +26,9 @@ import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-PLACEHOLDER = re.compile(r"%\d*\$?s")
+# Same token class build-po.py compares, so "%1$d" cannot be answered with
+# "%s" here and only be caught later by the catalogue build.
+PLACEHOLDER = re.compile(r"%(?:\d+\$)?[sdfo]")
 
 
 def dump_map(method):
