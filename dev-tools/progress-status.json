@@ -84,6 +84,11 @@
     "note": "تصمیم R3-01 با گزینهٔ (ب) اجرا شد: Flavor\\Product_Page انتخاب‌گر مدیفایر را روی woocommerce_before_add_to_cart_button رندر می‌کند (هیچ قالب ووکامرس کپی نمی‌شود)، برچسب‌ها از UI::modifier_labels()، ui-product.css فقط روی صفحهٔ محصول. R3-11 هم بسته شد: README/readme.txt/listing.md بدون ادعای Theme Builder و با تعریف دقیق. تست tests/theme/test-product-page.php ۷۵/۰ با پنج منفی‌آزمایی؛ build-ar-part.py هم برای کلاس‌های همه‌بزرگ (UI) اصلاح شد.",
     "state": "done"
   },
+  "25": {
+    "commit": "950ab8e",
+    "note": "R3-10 اجرا شد: بخش «همگام‌سازی کیت Elementor» در مرکز آمادگی انتشار (Launch_Center) با دکمهٔ دستی، تیکِ بازنویسی اجباری، گزارشِ written/skipped به تفکیک توکن، و ماندنِ نتیجه در flavor_kit_sync_report. چهار وضعیتِ بی‌صدای قبلاً پیام دارند و ردیفِ چک‌لیست required=false ماند تا سایتِ بدونِ المنتور جریمه نشود. تست tests/theme/test-kit-sync-action.php ۷۹/۰ با فیکسچرِ رندر ادمین و هفت منفی‌آزمایی.",
+    "state": "done"
+  },
   "3": {
     "commit": "e2655f9",
     "note": "gettext 0.23.1 + Python 3.13؛ check-i18n سبز؛ کاتالوگ عربی 1380/1380 (100%)؛ test-translation 84/84",
