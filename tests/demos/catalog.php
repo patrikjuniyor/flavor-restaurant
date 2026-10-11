@@ -70,4 +70,26 @@ foreach ( glob( FLAVOR_DIR . '/demos/*', GLOB_ONLYDIR ) as $dir ) {
 	demo_check( in_array( $dir_slug, $known, true ) || in_array( $dir_slug, $skins, true ), 'Demo art no pack uses: demos/' . $dir_slug );
 }
 
+// The marketing copy has to agree with the catalog. Listing docs used to sell
+// "هشت دمو" while the product shipped twelve — a buyer notices on first install.
+$repo_root = dirname( __DIR__, 2 );
+foreach ( array( 'docs/raastichin/listing.md', 'README.md' ) as $doc ) {
+	$path = $repo_root . '/' . $doc;
+	if ( ! is_file( $path ) ) {
+		continue;
+	}
+	$text = (string) file_get_contents( $path );
+	// Persian digits or Latin ones, any "N دمو" claim is checked.
+	if ( preg_match_all( '/([0-9۰-۹٠-٩]+)\s*دمو/u', $text, $found ) ) {
+		foreach ( $found[1] as $claimed ) {
+			$latin = strtr( $claimed, array( '۰'=>'0','۱'=>'1','۲'=>'2','۳'=>'3','۴'=>'4','۵'=>'5','۶'=>'6','۷'=>'7','۸'=>'8','۹'=>'9','٠'=>'0','١'=>'1','٢'=>'2','٣'=>'3','٤'=>'4','٥'=>'5','٦'=>'6','٧'=>'7','٨'=>'8','٩'=>'9' ) );
+			demo_check( (int) $latin === count( $catalog ), $doc . ' advertises ' . $claimed . ' دمو but the catalog has ' . count( $catalog ) );
+		}
+	}
+}
+foreach ( glob( $repo_root . '/docs/raastichin/*.md' ) as $md ) {
+	$body = (string) file_get_contents( $md );
+	demo_check( ! preg_match( '/هشت\s+دمو/u', $body ), basename( $md ) . ' still says "هشت دمو"' );
+}
+
 echo count( $catalog ) . ' complete importable packs; 12 defined skins.' . PHP_EOL;
