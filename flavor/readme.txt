@@ -39,6 +39,9 @@ are set per breakpoint.
 = Editing =
 
 * Elementor: seventeen widgets in a branded `flavor` category, and three ready page templates (home, about, menu).
+* Header and footer: Flavor's own chrome builder and the Customizer. No paid
+  page-builder add-on is required, and deactivating Elementor leaves the layout —
+  and the product page — standing.
 * Block editor: eight core-block-only patterns, registered under «رستوران مستقیم»,
   plus a `theme.json` wired to the same `--flavor-*` tokens the Customizer writes.
 * Per-page options: hide the title, transparent header, content width and a
@@ -48,7 +51,12 @@ are set per breakpoint.
 
 WooCommerce-compatible. Product cards, the menu grid, the cart widget and the
 quick view all read prices, stock and totals from WooCommerce on the server.
-Nothing about money is computed in the browser.
+Nothing about money is computed in the browser. The single-product page is
+Flavor's own too: the gallery, price, the dish's modifier groups and the order
+button are composed on WooCommerce's documented hooks — no WooCommerce template
+is copied, so an update to the shop cannot silently orphan the layout — and the
+extras a customer picks are priced by WooCommerce when the line lands in the
+cart, not by a script in the page.
 
 == Installation ==
 

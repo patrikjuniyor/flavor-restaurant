@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flavor\n"
 "Report-Msgid-Bugs-To: https://github.com/patrikjuniyor/flavor-restaurant/issues\n"
-"PO-Revision-Date: 2026-10-11 16:48+0000\n"
+"PO-Revision-Date: 2026-10-11 17:04+0000\n"
 "Last-Translator: Flavor Translations\n"
 "Language-Team: Flavor Translations\n"
 "Language: ar\n"
@@ -95,11 +95,11 @@ msgstr "%s طبق"
 msgid "%s کالری"
 msgstr "%s سعرة حرارية"
 
-#: flavor/inc/class-enqueue.php:450 flavor/template-parts/demos/catering.php:82 flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/reservation/reservation-form.php:15
+#: flavor/inc/class-enqueue.php:450 flavor/inc/class-ui.php:240 flavor/template-parts/demos/catering.php:82 flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/reservation/reservation-form.php:15
 msgid "(اختیاری)"
 msgstr "(اختياري)"
 
-#: flavor/inc/class-enqueue.php:445
+#: flavor/inc/class-enqueue.php:445 flavor/inc/class-ui.php:236
 msgid "(انتخاب ضروری)"
 msgstr "(اختيار إلزامي)"
 
@@ -279,7 +279,7 @@ msgstr "ارتفاع الشعار في الترويسة (بكسل)"
 msgid "ارزان‌ترین"
 msgstr "الأقل سعراً"
 
-#: flavor/inc/class-ui.php:219 flavor/template-parts/menu/cart-drawer.php:18
+#: flavor/inc/class-ui.php:251 flavor/template-parts/menu/cart-drawer.php:18
 msgid "ارسال"
 msgstr "الشحن"
 
@@ -476,7 +476,7 @@ msgstr "إضافة منتج"
 msgid "افزودن همه به سبد"
 msgstr "إضافة الكل إلى السلة"
 
-#: flavor/inc/class-enqueue.php:437
+#: flavor/inc/class-enqueue.php:437 flavor/inc/class-ui.php:232
 msgid "افزودنی‌ها"
 msgstr "الإضافات"
 
@@ -584,7 +584,7 @@ msgstr "اختيار قالب المطعم"
 msgid "انتخاب یا آپلود لوگو از رسانه"
 msgstr "اختيار الشعار أو رفعه من الوسائط"
 
-#: flavor/inc/class-enqueue.php:440
+#: flavor/inc/class-enqueue.php:440 flavor/inc/class-ui.php:235
 msgid "انتخاب‌ها"
 msgstr "الاختيارات"
 
@@ -629,7 +629,7 @@ msgstr "انحناء قياسي حديث (16px)"
 msgid "انحنای ملایم (8px)"
 msgstr "انحناء لطيف (8px)"
 
-#: flavor/inc/class-enqueue.php:436
+#: flavor/inc/class-enqueue.php:436 flavor/inc/class-ui.php:231
 msgid "اندازه و پرس"
 msgstr "الحجم والتقديم"
 
@@ -957,7 +957,7 @@ msgstr "بدون بيض"
 msgid "بدون تصویر"
 msgstr "بدون صورة"
 
-#: flavor/inc/class-enqueue.php:446
+#: flavor/inc/class-enqueue.php:446 flavor/inc/class-ui.php:237
 msgid "بدون تغییر در این گروه"
 msgstr "بدون تغيير في هذه المجموعة"
 
@@ -977,7 +977,7 @@ msgstr "بدون منتجات الألبان"
 msgid "بدون مغزها"
 msgstr "بدون مكسّرات"
 
-#: flavor/inc/class-enqueue.php:447
+#: flavor/inc/class-enqueue.php:447 flavor/inc/class-ui.php:238
 msgid "بدون هزینهٔ اضافه"
 msgstr "بدون تكلفة إضافية"
 
@@ -1262,7 +1262,7 @@ msgstr "تحديث"
 msgid "به‌روزرسانی Flavor"
 msgstr "تحديث Flavor"
 
-#: flavor/elementor/widgets/class-order-cta-widget.php:90 flavor/inc/class-ui.php:219 flavor/template-parts/menu/cart-drawer.php:18
+#: flavor/elementor/widgets/class-order-cta-widget.php:90 flavor/inc/class-ui.php:251 flavor/template-parts/menu/cart-drawer.php:18
 msgid "بیرون‌بر"
 msgstr "طلب خارجي"
 
@@ -1953,7 +1953,7 @@ msgstr "حذف هذا العنصر"
 msgid "حذف فقط محتوای دموی مالکیت‌شده"
 msgstr "حذف المحتوى التجريبي المملوك فقط"
 
-#: flavor/inc/class-enqueue.php:439
+#: flavor/inc/class-enqueue.php:439 flavor/inc/class-ui.php:234
 msgid "حذف مخلفات"
 msgstr "حذف المكونات"
 
@@ -1973,7 +1973,7 @@ msgstr "حسابي"
 msgid "حساب کاربری"
 msgstr "الحساب"
 
-#: flavor/inc/class-enqueue.php:452
+#: flavor/inc/class-enqueue.php:452 flavor/inc/class-ui.php:242
 msgid "حساسیت غذایی دارید؟ پیش از ثبت سفارش دربارهٔ امکان آماده‌سازی و آلودگی متقاطع هماهنگ کنید."
 msgstr "لديك حساسية غذائية؟ نسّق حول إمكانية التحضير والتلوث المتقاطع قبل تأكيد الطلب."
 
@@ -2101,7 +2101,7 @@ msgstr "حول فلسفتنا"
 msgid "دربارهٔ ما"
 msgstr "عنا"
 
-#: flavor/inc/class-enqueue.php:438
+#: flavor/inc/class-enqueue.php:438 flavor/inc/class-ui.php:233
 msgid "درجهٔ پخت"
 msgstr "درجة الاستواء"
 
@@ -2861,7 +2861,7 @@ msgstr "سنوات من الخبرة"
 msgid "سال تجربه و افتخار میزبانی"
 msgstr "عاماً من الخبرة وشرف الضيافة"
 
-#: flavor/inc/class-ui.php:219 flavor/template-parts/menu/cart-drawer.php:18
+#: flavor/inc/class-ui.php:251 flavor/template-parts/menu/cart-drawer.php:18
 msgid "سالن"
 msgstr "القاعة"
 
@@ -3965,7 +3965,7 @@ msgstr "مثال: توصيل مجاني للطلبات فوق 300 ألف توم�
 msgid "مثال: طعم اصیل کباب و نان داغ در محیطی آرام"
 msgstr "مثال: نكهة أصيلة من الكباب والخبز الساخن في أجواء هادئة"
 
-#: flavor/inc/class-enqueue.php:451
+#: flavor/inc/class-enqueue.php:451 flavor/inc/class-ui.php:241
 msgid "مثلاً سس جداگانه یا کم‌نمک"
 msgstr "مثلاً الصلصة منفصلة أو أقل ملحاً"
 
@@ -4865,6 +4865,10 @@ msgstr "تكلفة التوصيل في المنطقة"
 #: flavor/inc/class-block-patterns.php:370
 msgid "هزینهٔ ارسال چگونه محاسبه می‌شود؟"
 msgstr "كيف تُحسب رسوم التوصيل؟"
+
+#: flavor/inc/class-ui.php:246
+msgid "هزینهٔ انتخاب‌های اضافه در سبد خرید به فاکتور افزوده می‌شود."
+msgstr "تُضاف كلفة الاختيارات الإضافية إلى الفاتورة داخل سلة التسوّق."
 
 #: flavor/inc/class-enqueue.php:487
 msgid "هزینهٔ منطقه جداگانه نمایش داده شده و در مبلغ فعلی سبد منظور نشده است؛ سرور مبلغ نهایی را هنگام ثبت بررسی می‌کند."
@@ -5859,7 +5863,7 @@ msgstr "ملاحظة"
 msgid "یادداشت: %s"
 msgstr "ملاحظة: %s"
 
-#: flavor/inc/class-enqueue.php:449
+#: flavor/inc/class-enqueue.php:449 flavor/inc/class-ui.php:239
 msgid "یادداشت برای آشپزخانه"
 msgstr "ملاحظة للمطبخ"
 

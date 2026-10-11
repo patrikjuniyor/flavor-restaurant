@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-11 16:48+00:00\n"
+"POT-Creation-Date: 2026-10-11 17:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
@@ -92,11 +92,11 @@ msgstr ""
 msgid "%s کالری"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:450 flavor/template-parts/demos/catering.php:82 flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/reservation/reservation-form.php:15
+#: flavor/inc/class-enqueue.php:450 flavor/inc/class-ui.php:240 flavor/template-parts/demos/catering.php:82 flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/reservation/reservation-form.php:15
 msgid "(اختیاری)"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:445
+#: flavor/inc/class-enqueue.php:445 flavor/inc/class-ui.php:236
 msgid "(انتخاب ضروری)"
 msgstr ""
 
@@ -276,7 +276,7 @@ msgstr ""
 msgid "ارزان‌ترین"
 msgstr ""
 
-#: flavor/inc/class-ui.php:219 flavor/template-parts/menu/cart-drawer.php:18
+#: flavor/inc/class-ui.php:251 flavor/template-parts/menu/cart-drawer.php:18
 msgid "ارسال"
 msgstr ""
 
@@ -473,7 +473,7 @@ msgstr ""
 msgid "افزودن همه به سبد"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:437
+#: flavor/inc/class-enqueue.php:437 flavor/inc/class-ui.php:232
 msgid "افزودنی‌ها"
 msgstr ""
 
@@ -581,7 +581,7 @@ msgstr ""
 msgid "انتخاب یا آپلود لوگو از رسانه"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:440
+#: flavor/inc/class-enqueue.php:440 flavor/inc/class-ui.php:235
 msgid "انتخاب‌ها"
 msgstr ""
 
@@ -626,7 +626,7 @@ msgstr ""
 msgid "انحنای ملایم (8px)"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:436
+#: flavor/inc/class-enqueue.php:436 flavor/inc/class-ui.php:231
 msgid "اندازه و پرس"
 msgstr ""
 
@@ -954,7 +954,7 @@ msgstr ""
 msgid "بدون تصویر"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:446
+#: flavor/inc/class-enqueue.php:446 flavor/inc/class-ui.php:237
 msgid "بدون تغییر در این گروه"
 msgstr ""
 
@@ -974,7 +974,7 @@ msgstr ""
 msgid "بدون مغزها"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:447
+#: flavor/inc/class-enqueue.php:447 flavor/inc/class-ui.php:238
 msgid "بدون هزینهٔ اضافه"
 msgstr ""
 
@@ -1259,7 +1259,7 @@ msgstr ""
 msgid "به‌روزرسانی Flavor"
 msgstr ""
 
-#: flavor/elementor/widgets/class-order-cta-widget.php:90 flavor/inc/class-ui.php:219 flavor/template-parts/menu/cart-drawer.php:18
+#: flavor/elementor/widgets/class-order-cta-widget.php:90 flavor/inc/class-ui.php:251 flavor/template-parts/menu/cart-drawer.php:18
 msgid "بیرون‌بر"
 msgstr ""
 
@@ -1946,7 +1946,7 @@ msgstr ""
 msgid "حذف فقط محتوای دموی مالکیت‌شده"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:439
+#: flavor/inc/class-enqueue.php:439 flavor/inc/class-ui.php:234
 msgid "حذف مخلفات"
 msgstr ""
 
@@ -1966,7 +1966,7 @@ msgstr ""
 msgid "حساب کاربری"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:452
+#: flavor/inc/class-enqueue.php:452 flavor/inc/class-ui.php:242
 msgid "حساسیت غذایی دارید؟ پیش از ثبت سفارش دربارهٔ امکان آماده‌سازی و آلودگی متقاطع هماهنگ کنید."
 msgstr ""
 
@@ -2094,7 +2094,7 @@ msgstr ""
 msgid "دربارهٔ ما"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:438
+#: flavor/inc/class-enqueue.php:438 flavor/inc/class-ui.php:233
 msgid "درجهٔ پخت"
 msgstr ""
 
@@ -2854,7 +2854,7 @@ msgstr ""
 msgid "سال تجربه و افتخار میزبانی"
 msgstr ""
 
-#: flavor/inc/class-ui.php:219 flavor/template-parts/menu/cart-drawer.php:18
+#: flavor/inc/class-ui.php:251 flavor/template-parts/menu/cart-drawer.php:18
 msgid "سالن"
 msgstr ""
 
@@ -3958,7 +3958,7 @@ msgstr ""
 msgid "مثال: طعم اصیل کباب و نان داغ در محیطی آرام"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:451
+#: flavor/inc/class-enqueue.php:451 flavor/inc/class-ui.php:241
 msgid "مثلاً سس جداگانه یا کم‌نمک"
 msgstr ""
 
@@ -4857,6 +4857,10 @@ msgstr ""
 
 #: flavor/inc/class-block-patterns.php:370
 msgid "هزینهٔ ارسال چگونه محاسبه می‌شود؟"
+msgstr ""
+
+#: flavor/inc/class-ui.php:246
+msgid "هزینهٔ انتخاب‌های اضافه در سبد خرید به فاکتور افزوده می‌شود."
 msgstr ""
 
 #: flavor/inc/class-enqueue.php:487
@@ -5852,7 +5856,7 @@ msgstr ""
 msgid "یادداشت: %s"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:449
+#: flavor/inc/class-enqueue.php:449 flavor/inc/class-ui.php:239
 msgid "یادداشت برای آشپزخانه"
 msgstr ""
 

@@ -36,7 +36,14 @@ def dump_map(method):
 	# list of files here — and loading only that one avoids classes whose file
 	# extends WP_Customize_Control and fatals outside the Customizer.
 	klass = method.split("::")[0].lstrip("\\").split("\\")[-1]
-	file = os.path.join(ROOT, "flavor/inc/class-%s.php" % re.sub(r"[^a-z0-9]+", "-", re.sub(r"(?<!^)(?=[A-Z])", "-", klass).lower()).strip("-"))
+	# Snake_Case / CamelCase -> the conventional kebab-case file name. A dash goes
+	# only where a lowercase letter or digit meets an uppercase one, so an all-caps
+	# run stays one word: "UI" -> class-ui.php and "Customer_UI" ->
+	# class-customer-ui.php, both of which the previous rule mangled.
+	name = re.sub( r"_", "-", klass )
+	name = re.sub( r"(?<=[a-z0-9])(?=[A-Z])", "-", name )
+	name = re.sub( r"(?<=[A-Z])(?=[A-Z][a-z])", "-", name )
+	file = os.path.join(ROOT, "flavor/inc/class-%s.php" % name.lower())
 	if not os.path.isfile(file):
 		raise SystemExit("no class file for %s (looked in %s)" % (klass, file))
 	script = (

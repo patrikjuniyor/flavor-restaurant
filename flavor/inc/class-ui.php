@@ -215,6 +215,38 @@ class UI {
 		);
 	}
 
+	/**
+	 * Modifier wording, shared by the menu sheet and the product page.
+	 *
+	 * The sheet in menu.js reads these through the localized payload built in
+	 * Enqueue::front(); the single-product picker (R3-01, decision «ب») renders
+	 * them in PHP. One map for both, with the same msgids, so a wording change
+	 * stays one edit and one catalogue rebuild —
+	 * tests/theme/test-product-page.php fails if the two surfaces drift.
+	 *
+	 * @return array<string,string>
+	 */
+	public static function modifier_labels(): array {
+		return array(
+			'group_size'       => __( 'اندازه و پرس', 'flavor' ),
+			'group_topping'    => __( 'افزودنی‌ها', 'flavor' ),
+			'group_cook'       => __( 'درجهٔ پخت', 'flavor' ),
+			'group_removal'    => __( 'حذف مخلفات', 'flavor' ),
+			'group_choices'    => __( 'انتخاب‌ها', 'flavor' ),
+			'required_suffix'  => __( '(انتخاب ضروری)', 'flavor' ),
+			'no_change'        => __( 'بدون تغییر در این گروه', 'flavor' ),
+			'no_fee'           => __( 'بدون هزینهٔ اضافه', 'flavor' ),
+			'kitchen_note'     => __( 'یادداشت برای آشپزخانه', 'flavor' ),
+			'optional'         => __( '(اختیاری)', 'flavor' ),
+			'note_placeholder' => __( 'مثلاً سس جداگانه یا کم‌نمک', 'flavor' ),
+			'note_help'        => __( 'حساسیت غذایی دارید؟ پیش از ثبت سفارش دربارهٔ امکان آماده‌سازی و آلودگی متقاطع هماهنگ کنید.', 'flavor' ),
+			// The picker never recomputes the price: WooCommerce adds the extras
+			// when the line lands in the cart, and saying so beats a total that
+			// is right until the customer touches the quantity stepper.
+			'price_note'       => __( 'هزینهٔ انتخاب‌های اضافه در سبد خرید به فاکتور افزوده می‌شود.', 'flavor' ),
+		);
+	}
+
 	public static function mode_labels(): array {
 		return array( 'dine_in' => __( 'سالن', 'flavor' ), 'takeaway' => __( 'بیرون‌بر', 'flavor' ), 'delivery' => __( 'ارسال', 'flavor' ) );
 	}
