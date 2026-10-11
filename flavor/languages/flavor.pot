@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-11 15:12+00:00\n"
+"POT-Creation-Date: 2026-10-11 15:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
@@ -955,7 +955,7 @@ msgstr ""
 msgid "برای متن فارسی، مقادیر بازتر خوانایی را به‌طور محسوسی بهتر می‌کنند."
 msgstr ""
 
-#: flavor/inc/class-repeater.php:295
+#: flavor/inc/class-repeater.php:309
 msgid "برای مهمانی خانوادگی سفارش دادیم؛ همه مهمان‌ها از طعم اصیل و تازگی سالادها و پیش‌غذاها تعریف کردند. ممنون از تیم حرفه‌ای‌تان."
 msgstr ""
 
@@ -1252,7 +1252,7 @@ msgstr ""
 msgid "تصویر در کنار متن برای روایت داستان رستوران یا معرفی سرآشپز."
 msgstr ""
 
-#: flavor/inc/class-repeater.php:54 flavor/inc/class-repeater.php:237 flavor/inc/class-repeater.php:268 flavor/inc/class-repeater.php:328
+#: flavor/inc/class-repeater.php:54 flavor/inc/class-repeater.php:237 flavor/inc/class-repeater.php:282 flavor/inc/class-repeater.php:342
 msgid "تصویر رستوران"
 msgstr ""
 
@@ -2490,7 +2490,7 @@ msgstr ""
 msgid "ساخته‌شده با"
 msgstr ""
 
-#: flavor/inc/class-repeater.php:280
+#: flavor/inc/class-repeater.php:294
 msgid "سارا محمدی"
 msgstr ""
 
@@ -2698,7 +2698,7 @@ msgstr ""
 msgid "سفارش آزمایشی ثبت شده است"
 msgstr ""
 
-#: flavor/elementor/widgets/class-offers-widget.php:72 flavor/elementor/widgets/class-offers-widget.php:94 flavor/inc/class-block-patterns.php:163 flavor/inc/class-chrome-builder.php:792 flavor/inc/class-repeater.php:293
+#: flavor/elementor/widgets/class-offers-widget.php:72 flavor/elementor/widgets/class-offers-widget.php:94 flavor/inc/class-block-patterns.php:163 flavor/inc/class-chrome-builder.php:792 flavor/inc/class-repeater.php:307
 msgid "سفارش آنلاین"
 msgstr ""
 
@@ -3246,7 +3246,7 @@ msgstr ""
 msgid "فضای برند و مواد اولیه تازه"
 msgstr ""
 
-#: flavor/inc/class-repeater.php:289
+#: flavor/inc/class-repeater.php:303
 msgid "فضای سالن فوق‌العاده آرام و دلنشین است. برخورد پرسنل عالی و سرعت آماده‌سازی سفارش با QR کد سر میز بسیار راحت و مدرن بود."
 msgstr ""
 
@@ -3726,7 +3726,7 @@ msgstr ""
 msgid "مریم احمدی"
 msgstr ""
 
-#: flavor/inc/class-repeater.php:292
+#: flavor/inc/class-repeater.php:306
 msgid "مریم شفیعی"
 msgstr ""
 
@@ -3802,7 +3802,7 @@ msgstr ""
 msgid "مشتری راضی"
 msgstr ""
 
-#: flavor/inc/class-repeater.php:281
+#: flavor/inc/class-repeater.php:295
 msgid "مشتری وفادار"
 msgstr ""
 
@@ -3934,7 +3934,7 @@ msgstr ""
 msgid "مهمان رستوران"
 msgstr ""
 
-#: flavor/inc/class-repeater.php:287
+#: flavor/inc/class-repeater.php:301
 msgid "مهمان سالن"
 msgstr ""
 
@@ -5316,7 +5316,7 @@ msgstr ""
 msgid "کپی کد"
 msgstr ""
 
-#: flavor/inc/class-repeater.php:286
+#: flavor/inc/class-repeater.php:300
 msgid "کیان رضایی"
 msgstr ""
 
@@ -5324,7 +5324,7 @@ msgstr ""
 msgid "کیفیت غذا عالی بود و زودتر از زمان اعلام‌شده رسید."
 msgstr ""
 
-#: flavor/inc/class-repeater.php:283
+#: flavor/inc/class-repeater.php:297
 msgid "کیفیت غذاها بی‌نظیر بود، سفارش با بسته‌بندی کاملاً گرم و به موقع تحویل داده شد. به شدت کوبیده مخصوص را پیشنهاد می‌کنم."
 msgstr ""
 
