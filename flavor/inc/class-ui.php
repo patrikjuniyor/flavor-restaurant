@@ -128,6 +128,26 @@ class UI {
 		return function_exists( 'wc_get_page_id' ) && wc_get_page_id( 'myaccount' ) > 0 && 'publish' === get_post_status( wc_get_page_id( 'myaccount' ) );
 	}
 
+	/**
+	 * Dietary flags as the buyer reads them.
+	 *
+	 * The card grid and the filter chips both label the same keys, and the grid
+	 * is rendered in JavaScript, which cannot include a template part. Keeping
+	 * the map here means one list of strings to translate instead of two that
+	 * drift.
+	 *
+	 * @return array<string,string>
+	 */
+	public static function dietary_labels(): array {
+		return array(
+			'vegetarian'  => __( 'گیاهی', 'flavor' ),
+			'vegan'       => __( 'وگان', 'flavor' ),
+			'gluten_free' => __( 'بدون گلوتن', 'flavor' ),
+			'spicy'       => __( 'تند', 'flavor' ),
+			'dairy_free'  => __( 'بدون لبنیات', 'flavor' ),
+		);
+	}
+
 	public static function mode_labels(): array {
 		return array( 'dine_in' => __( 'سالن', 'flavor' ), 'takeaway' => __( 'بیرون‌بر', 'flavor' ), 'delivery' => __( 'ارسال', 'flavor' ) );
 	}

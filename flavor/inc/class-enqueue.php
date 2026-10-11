@@ -183,6 +183,9 @@ class Enqueue {
 				'loading' => __( 'در حال بارگذاری منو…', 'flavor' ),
 				'empty'   => __( 'آیتمی پیدا نشد.', 'flavor' ),
 				'offline' => __( 'افزونه Flavor Core فعال نیست. منو از ووکامرس خوانده نمی‌شود.', 'flavor' ),
+				// Everything menu.js renders, so the script holds no copy of
+				// its own. See menu_strings().
+				'menu'    => self::menu_strings(),
 			),
 		);
 
@@ -193,6 +196,10 @@ class Enqueue {
 				'label'   => \FlavorCore\WooCommerce\Currency::display_label(),
 			);
 		}
+
+		// Card chips label the same dietary flags the filter bar does; the map is
+		// PHP's so both stay in the same catalogue.
+		$payload['dietaryLabels'] = UI::dietary_labels();
 
 		$payload['ajax']     = esc_url_raw( admin_url( 'admin-ajax.php' ) );
 		$payload['branchId'] = self::current_branch_id();
@@ -324,6 +331,116 @@ class Enqueue {
 	/**
 	 * Branch id from the Flavor Core order context, when available.
 	 */
+	/**
+	 * Every piece of copy the customer-facing scripts render.
+	 *
+	 * menu.js used to hold its own Persian literals, which meant the front-end
+	 * text could not be translated at all: an English or Arabic site showed
+	 * Persian buttons on an otherwise translated page. The script now reads this
+	 * map from flavorData.i18n.menu and carries no UI text of its own, so the
+	 * catalogue is the only place a string exists. tests/theme/test-js-i18n.php
+	 * fails if a script asks for a key that is not here — a missing entry should
+	 * be a broken build, not a shopper staring at "add_to_cart".
+	 *
+	 * Placeholder tokens are positional (%s, %1$s, %2$s) because the script
+	 * substitutes already-escaped values into them; a translator may move a token
+	 * inside the sentence but not drop it.
+	 *
+	 * @return array<string,string>
+	 */
+	public static function menu_strings(): array {
+		return array(
+			// Menu cards and the category bar.
+			'currency'          => __( 'تومان', 'flavor' ),
+			'no_image'          => __( 'بدون تصویر', 'flavor' ),
+			'prep_time'         => __( '%s دقیقه آماده‌سازی', 'flavor' ),
+			'calories'          => __( '%s کالری', 'flavor' ),
+			'details'           => __( 'جزئیات %s', 'flavor' ),
+			'unavailable'       => __( 'فعلاً ناموجود', 'flavor' ),
+			'choose'            => __( 'انتخاب %s', 'flavor' ),
+			'choose_dish'       => __( 'انتخاب غذا', 'flavor' ),
+			'all_menu'          => __( 'همهٔ منو', 'flavor' ),
+			'shown_count'       => __( '%s انتخاب نمایش داده می‌شود.', 'flavor' ),
+			'menu_count'        => __( '%s انتخاب در منو', 'flavor' ),
+			'load_failed'       => __( 'بارگذاری موجودی زنده ناموفق بود؛ جزئیات منتشرشده را ببینید یا دوباره تلاش کنید.', 'flavor' ),
+
+			// The modifier sheet.
+			'saving'            => __( 'در حال ذخیرهٔ انتخاب‌ها…', 'flavor' ),
+			'choice_unavailable' => __( 'این انتخاب فعلاً ناموجود است', 'flavor' ),
+			'save_changes'      => __( 'ذخیرهٔ تغییرات', 'flavor' ),
+			'add_to_cart'       => __( 'افزودن به سبد', 'flavor' ),
+			'unit_count'        => __( '%s عدد', 'flavor' ),
+			'max_qty'           => __( 'حداکثر ۲۰ واحد از یک انتخاب؛ تعداد را کم کنید.', 'flavor' ),
+			'need_required'     => __( 'برای ادامه، انتخاب‌های ضروری این غذا را مشخص کنید.', 'flavor' ),
+			'no_sheet'          => __( 'پنل جزئیات در دسترس نیست. صفحه را دوباره باز کنید.', 'flavor' ),
+			'prep_note'         => __( 'زمان آماده‌سازی برآورد است، نه زمان تضمین‌شدهٔ رسیدن سفارش.', 'flavor' ),
+			'edit_note'         => __( 'انتخاب فعلی این ردیف را ویرایش می‌کنید؛ تا زدن «ذخیرهٔ تغییرات» چیزی در سبد عوض نمی‌شود.', 'flavor' ),
+			'group_size'        => __( 'اندازه و پرس', 'flavor' ),
+			'group_topping'     => __( 'افزودنی‌ها', 'flavor' ),
+			'group_cook'        => __( 'درجهٔ پخت', 'flavor' ),
+			'group_removal'     => __( 'حذف مخلفات', 'flavor' ),
+			'group_choices'     => __( 'انتخاب‌ها', 'flavor' ),
+			// No leading space in the msgid: a catalogue key with whitespace around
+			// it is stripped at build time, and the stripped key is what gettext then
+			// looks up — a padded msgid would silently never translate. The space is
+			// markup, so it belongs in the template.
+			'required_suffix'   => __( '(انتخاب ضروری)', 'flavor' ),
+			'no_change'         => __( 'بدون تغییر در این گروه', 'flavor' ),
+			'no_fee'            => __( 'بدون هزینهٔ اضافه', 'flavor' ),
+			'per_unit'          => __( '%s برای هر واحد', 'flavor' ),
+			'kitchen_note'      => __( 'یادداشت برای آشپزخانه', 'flavor' ),
+			'optional'          => __( '(اختیاری)', 'flavor' ),
+			'note_placeholder'  => __( 'مثلاً سس جداگانه یا کم‌نمک', 'flavor' ),
+			'note_help'         => __( 'حساسیت غذایی دارید؟ پیش از ثبت سفارش دربارهٔ امکان آماده‌سازی و آلودگی متقاطع هماهنگ کنید.', 'flavor' ),
+			'added_to_cart'     => __( '«%s» به سبد خرید اضافه شد.', 'flavor' ),
+			'dish_added'        => __( 'غذا به سبد اضافه شد.', 'flavor' ),
+			'choices_saved'     => __( 'انتخاب‌های این غذا در سبد ذخیره شد.', 'flavor' ),
+			'choice_gone'       => __( 'این انتخاب در حال حاضر موجود نیست.', 'flavor' ),
+
+			// Cart drawer.
+			'cart_empty'        => __( 'هنوز انتخابی ندارید', 'flavor' ),
+			// Trailing space stripped for the same reason; the joiner adds it.
+			'mod_separator'     => __( '،', 'flavor' ),
+			'line_note'         => __( 'یادداشت: %s', 'flavor' ),
+			'edit_line'         => __( 'ویرایش انتخاب‌ها', 'flavor' ),
+			'edit_line_aria'    => __( 'ویرایش انتخاب‌ها و یادداشت %s', 'flavor' ),
+			'quantity_aria'     => __( 'تعداد %s', 'flavor' ),
+			'decrease_aria'     => __( 'کاهش تعداد %s', 'flavor' ),
+			'increase_aria'     => __( 'افزایش تعداد %s', 'flavor' ),
+			'remove'            => __( 'حذف', 'flavor' ),
+			'remove_aria'       => __( 'حذف %s', 'flavor' ),
+			'shipping_row'      => __( 'ارسال ثبت‌شده در سبد', 'flavor' ),
+			'remove_coupon'     => __( 'حذف کد %s ×', 'flavor' ),
+			'cart_updated'      => __( 'سبد به‌روزرسانی شد؛ %s انتخاب.', 'flavor' ),
+			'total_note'        => __( 'مبالغ از سرور خوانده می‌شوند؛ هزینه‌های تأییدنشده به جمع سبد اضافه نمی‌شوند.', 'flavor' ),
+			'cart_fetch_failed' => __( 'دریافت سبد ناموفق بود؛ صفحه را دوباره باز کنید. %s', 'flavor' ),
+
+			// Order mode, payment and delivery zone.
+			'no_mode'           => __( 'برای این شعبه روش سفارش فعالی تنظیم نشده است؛ با مجموعه تماس بگیرید.', 'flavor' ),
+			'pay_methods'       => __( 'روش پرداخت', 'flavor' ),
+			'pay_loading'       => __( 'در حال دریافت روش‌های مجاز…', 'flavor' ),
+			'pay_none'          => __( 'برای این روش دریافت، پرداخت فعالی تنظیم نشده است. با مجموعه تماس بگیرید.', 'flavor' ),
+			'pay_failed'        => __( 'دریافت روش‌های پرداخت ناموفق بود.', 'flavor' ),
+			'table_pick'        => __( 'میز را انتخاب کنید', 'flavor' ),
+			'table_number'      => __( 'میز %s', 'flavor' ),
+			'zone_checking'     => __( 'در حال بررسی محدودهٔ ارسال…', 'flavor' ),
+			'zone_ok'           => __( 'محدوده تأیید شد · هزینهٔ ارسال: %1$s · برآورد منطقه: حدود %2$s دقیقه؛ زمان تضمین‌شده نیست.', 'flavor' ),
+			'zone_out'          => __( 'نشانی خارج از محدودهٔ ارسال است.', 'flavor' ),
+			'zone_note'         => __( 'هزینهٔ منطقه جداگانه نمایش داده شده و در مبلغ فعلی سبد منظور نشده است؛ سرور مبلغ نهایی را هنگام ثبت بررسی می‌کند.', 'flavor' ),
+			'coupon_empty'      => __( 'کد تخفیف را وارد کنید.', 'flavor' ),
+			'coupon_applied'    => __( 'کد تخفیف اعمال شد.', 'flavor' ),
+
+			// Placing the order.
+			'mobile_invalid'    => __( 'شمارهٔ موبایل معتبر مانند ۰۹۱۲۱۲۳۴۵۶۷ وارد کنید.', 'flavor' ),
+			'zone_unconfirmed'  => __( 'محدودهٔ ارسال هنوز تأیید نشده است؛ شهر و محله را بررسی کنید.', 'flavor' ),
+			'pay_required'      => __( 'یک روش پرداخت فعال را انتخاب کنید.', 'flavor' ),
+			'placing'           => __( 'در حال بررسی و ثبت…', 'flavor' ),
+			'bad_redirect'      => __( 'نشانی ادامهٔ پرداخت معتبر نیست؛ با مجموعه تماس بگیرید.', 'flavor' ),
+			'order_placed'      => __( 'سفارش %s ثبت شد.', 'flavor' ),
+			'place_order'       => __( 'ثبت سفارش و ادامهٔ پرداخت', 'flavor' ),
+		);
+	}
+
 	public static function current_branch_id(): int {
 		if ( class_exists( \FlavorCore\Order\OrderModes::class ) ) {
 			$ctx = \FlavorCore\Order\OrderModes::get();

@@ -150,14 +150,29 @@ foreach ( $samples as $persian => $arabic ) {
 	);
 }
 
-// Guard against the laziest possible translation: an echo of the source.
-$echoes = 0;
+// Guard against the laziest possible translation: an echo of the source. Two
+// kinds of echo are not laziness and are excluded on purpose: punctuation,
+// which Arabic writes with the same mark (the Persian and Arabic comma are the
+// same codepoint U+060C), and a currency name whose Arabic spelling is the
+// Persian one. An entry that copies a whole word is still a failure.
+$legitimate = array( 'تومان' );
+$echoes     = array();
 foreach ( $strings as $msgid => $msgstr ) {
-	if ( '' !== $msgstr && $msgstr === $msgid ) {
-		++$echoes;
+	if ( '' === $msgstr || $msgstr !== $msgid ) {
+		continue;
 	}
+	if ( ! preg_match( '/[\x{0621}-\x{064A}]/u', $msgid ) ) {
+		continue;
+	}
+	if ( in_array( $msgid, $legitimate, true ) ) {
+		continue;
+	}
+	$echoes[] = $msgid;
 }
-check( 0 === $echoes, 'no entry merely echoes its Persian source (' . $echoes . ')' );
+check(
+	0 === count( $echoes ),
+	'no entry merely echoes its Persian source (' . count( $echoes ) . ')' . ( $echoes ? ': ' . implode( ' | ', array_slice( $echoes, 0, 4 ) ) : '' )
+);
 
 $translated = 0;
 foreach ( $strings as $msgstr ) {

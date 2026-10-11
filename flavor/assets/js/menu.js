@@ -47,6 +47,20 @@
 			.replace(/"/g, '&quot;');
 	}
 
+	// All copy comes from flavorData.i18n.menu (Enqueue::menu_strings()). The
+	// script holds no UI text of its own: Persian literals here would be copy no
+	// site can translate, which is exactly what this file used to ship. A key
+	// missing from the map surfaces as the key itself, and
+	// tests/theme/test-js-i18n.php fails on that before a shopper can.
+	var STR = (cfg.i18n && cfg.i18n.menu) || {};
+	function t(key) {
+		return typeof STR[key] === 'string' && STR[key] !== '' ? STR[key] : key;
+	}
+	// Substitution is positional and the caller escapes what it puts in when the
+	// result lands inside markup; flavourToast/announce/textContent take plain text.
+	function fill(key, value) { return t(key).replace('%s', value); }
+	function fill2(key, first, second) { return t(key).replace('%1$s', first).replace('%2$s', second); }
+
 	function headers(json) {
 		var h = { 'X-WP-Nonce': cfg.nonce || '' };
 		if (json) h['Content-Type'] = 'application/json';
@@ -111,14 +125,15 @@
 	function safeImage(value) { try { var url = new URL(value, document.baseURI); return ['https:', 'http:'].includes(url.protocol) ? url.href : ''; } catch (ignore) { return ''; } }
 	function plain(value) { var el = document.createElement('textarea'); el.innerHTML = String(value || '').replace(/<[^>]*>/g, ''); return el.value; }
 	function smallIcon(name) { var path = name === 'clock' ? '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/>' : '<path d="M12 5v14M5 12h14"/>'; return '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">' + path + '</svg>'; }
-	var dietLabels = { vegetarian: 'گیاهی', vegan: 'وگان', gluten_free: 'بدون گلوتن', spicy: 'تند', dairy_free: 'بدون لبنیات' };
+	// Same map the filter chips use, localized in PHP (UI::dietary_labels()).
+	var dietLabels = cfg.dietaryLabels || {};
 	function card(item) {
 		var disabled = item.available === false;
 		var image = safeImage(item.image);
 		var cat = item.categories && item.categories[0];
 		var name = esc(item.name);
-		var media = image ? '<img src="' + esc(image) + '" alt="' + name + '" width="600" height="400" loading="lazy" decoding="async" />' : '<span class="flavor-food-card__placeholder">بدون تصویر</span>';
-		var metadata = (item.prep_time ? '<span class="flavor-food-card__meta-item">' + smallIcon('clock') + fa(item.prep_time) + ' دقیقه آماده‌سازی</span>' : '');
+		var media = image ? '<img src="' + esc(image) + '" alt="' + name + '" width="600" height="400" loading="lazy" decoding="async" />' : '<span class="flavor-food-card__placeholder">' + esc(t('no_image')) + '</span>';
+		var metadata = (item.prep_time ? '<span class="flavor-food-card__meta-item">' + smallIcon('clock') + fill('prep_time', fa(item.prep_time)) + '</span>' : '');
 		(item.dietary || []).slice(0, 1).forEach(function (flag) { if (dietLabels[flag]) metadata += '<span class="flavor-food-card__meta-item">' + esc(dietLabels[flag]) + '</span>'; });
 		// The filter/sort layer and the wishlist metadata ride on the card itself,
 		// so no second request is needed to answer "which of these is vegan?".
@@ -129,14 +144,14 @@
 			+ ' data-price="' + esc(item.storagePrice || item.price || 0) + '"'
 			+ ' data-url="' + esc(item.permalink || '') + '"';
 		return '<article class="flavor-card flavor-food-card' + (disabled ? ' is-unavailable' : '') + '" id="item-' + esc(item.id) + '" data-id="' + esc(item.id) + '" data-name="' + name + '" data-cats="' + esc((item.categories || []).map(function (c) { return c.id; }).join(',')) + '"' + extra + '>' +
-			'<div class="flavor-food-card__media"><button type="button" data-detail="' + esc(item.id) + '" aria-label="جزئیات ' + name + '">' + media + '</button>' + (cat ? '<span class="flavor-food-card__cat-badge">' + esc(cat.name) + '</span>' : '') + '</div>' +
-			'<div class="flavor-food-card__body"><h2 class="flavor-food-card__title"><button type="button" data-detail="' + esc(item.id) + '">' + name + '</button>' + (disabled ? '<span class="flavor-food-card__unavailable">فعلاً ناموجود</span>' : '') + '</h2><p class="flavor-food-card__desc">' + esc(item.short) + '</p>' +
-			'<div class="flavor-food-card__meta">' + metadata + '</div><div class="flavor-food-card__footer"><strong class="flavor-food-card__price">' + esc(plain(item.price_html)) + '</strong><button type="button" class="flavor-btn flavor-btn--primary flavor-btn--sm" data-add="' + esc(item.id) + '" aria-label="انتخاب ' + name + '"' + (disabled ? ' disabled' : '') + '>' + smallIcon('plus') + 'انتخاب غذا</button></div></div></article>';
+			'<div class="flavor-food-card__media"><button type="button" data-detail="' + esc(item.id) + '" aria-label="' + esc(fill('details', item.name)) + '">' + media + '</button>' + (cat ? '<span class="flavor-food-card__cat-badge">' + esc(cat.name) + '</span>' : '') + '</div>' +
+			'<div class="flavor-food-card__body"><h2 class="flavor-food-card__title"><button type="button" data-detail="' + esc(item.id) + '">' + name + '</button>' + (disabled ? '<span class="flavor-food-card__unavailable">' + esc(t('unavailable')) + '</span>' : '') + '</h2><p class="flavor-food-card__desc">' + esc(item.short) + '</p>' +
+			'<div class="flavor-food-card__meta">' + metadata + '</div><div class="flavor-food-card__footer"><strong class="flavor-food-card__price">' + esc(plain(item.price_html)) + '</strong><button type="button" class="flavor-btn flavor-btn--primary flavor-btn--sm" data-add="' + esc(item.id) + '" aria-label="' + esc(fill('choose', item.name)) + '"' + (disabled ? ' disabled' : '') + '>' + smallIcon('plus') + esc(t('choose_dish')) + '</button></div></div></article>';
 	}
 
 	function renderCats(cats) {
 		if (!catsEl) return;
-		var html = '<button type="button" class="is-active" data-cat="0" aria-pressed="true" aria-controls="flavor-menu-grid">همهٔ منو <span class="flavor-cats__count">' + fa(catalog.length) + '</span></button>';
+		var html = '<button type="button" class="is-active" data-cat="0" aria-pressed="true" aria-controls="flavor-menu-grid">' + esc(t('all_menu')) + ' <span class="flavor-cats__count">' + fa(catalog.length) + '</span></button>';
 		(cats || []).forEach(function (c) {
 			var count = catalog.filter(function (dish) { return (dish.categories || []).some(function (category) { return Number(category.id) === Number(c.id); }); }).length;
 			if (count) html += '<button type="button" data-cat="' + esc(c.id) + '" aria-pressed="false" aria-controls="flavor-menu-grid">' + esc(c.name) + '<span class="flavor-cats__count">' + fa(count) + '</span></button>';
@@ -148,7 +163,7 @@
 		var count = 0;
 		grid.querySelectorAll('.flavor-card').forEach(function (el) { var visible = !id || id === '0' || (el.getAttribute('data-cats') || '').split(',').includes(String(id)); el.hidden = !visible; if (visible && !el.classList.contains('is-search-hidden')) count++; });
 		if (catsEl) catsEl.querySelectorAll('button').forEach(function (button) { var selected = String(button.dataset.cat) === String(id || 0); button.classList.toggle('is-active', selected); button.setAttribute('aria-pressed', String(selected)); });
-		if (statusEl) statusEl.textContent = fa(count) + ' انتخاب نمایش داده می‌شود.';
+		if (statusEl) statusEl.textContent = fill('shown_count', fa(count));
 	}
 
 	function groupModifiers(mods) {
@@ -177,46 +192,46 @@
 	function paintSheetPrice() {
 		if (!sheetAdd || !current) return;
 		var n = livePrice();
-		var label = Number(n).toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || 'تومان');
+		var label = Number(n).toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || t('currency'));
 		var price = document.getElementById('flavor-sheet-price'); if (price) price.textContent = label;
 		var quantity = document.getElementById('flavor-qty'); if (quantity) quantity.textContent = fa(qty);
 		var busy = sheetMutating || cartMutating;
 		if (sheet) sheet.querySelectorAll('[data-q]').forEach(function (button) { button.disabled = busy || (button.dataset.q === '-1' && qty <= 1) || (button.dataset.q === '1' && qty >= 20); });
 		sheetBody.querySelectorAll('input,textarea').forEach(function (field) { field.disabled = busy; });
 		sheetAdd.disabled = busy || current.available === false || !sheetSelectionValid();
-		sheetAdd.textContent = busy ? 'در حال ذخیرهٔ انتخاب‌ها…' : current.available === false ? 'این انتخاب فعلاً ناموجود است' : (editing ? 'ذخیرهٔ تغییرات' : 'افزودن به سبد') + ' · ' + fa(qty) + ' عدد';
-		if (!sheetSelectionValid()) setSheetError(qty > 20 ? 'حداکثر ۲۰ واحد از یک انتخاب؛ تعداد را کم کنید.' : 'برای ادامه، انتخاب‌های ضروری این غذا را مشخص کنید.');
+		sheetAdd.textContent = busy ? t('saving') : current.available === false ? t('choice_unavailable') : (editing ? t('save_changes') : t('add_to_cart')) + ' · ' + fill('unit_count', fa(qty));
+		if (!sheetSelectionValid()) setSheetError(qty > 20 ? t('max_qty') : t('need_required'));
 	}
 	function openSheet(item, trigger, line) {
-		if (!sheet || !sheetBody || !sheetTitle) { showError(new Error('پنل جزئیات در دسترس نیست. صفحه را دوباره باز کنید.')); return; }
+		if (!sheet || !sheetBody || !sheetTitle) { showError(new Error(t('no_sheet'))); return; }
 		sheet.classList.toggle('flavor-sheet--cart-edit', !!line);
 		current = item; editing = line || null; qty = line ? Math.max(1, Number(line.quantity) || 1) : 1;
 		var existingIds = line ? (line.modifiers || []).map(function (option) { return String(option.id); }) : [];
 		sheetTitle.textContent = item.name;
 		var visual = document.getElementById('flavor-sheet-visual');
 		var image = safeImage(item.image);
-		if (visual) visual.innerHTML = (image ? '<img src="' + esc(image) + '" alt="' + esc(item.name) + '" width="700" height="700" />' : '') + '<p>' + smallIcon('clock') + 'زمان آماده‌سازی برآورد است، نه زمان تضمین‌شدهٔ رسیدن سفارش.</p>';
-		var html = (editing ? '<p class="flavor-ui-note">انتخاب فعلی این ردیف را ویرایش می‌کنید؛ تا زدن «ذخیرهٔ تغییرات» چیزی در سبد عوض نمی‌شود.</p>' : '') + '<p class="flavor-sheet__description">' + esc(plain(item.description || item.short)) + '</p><div class="flavor-sheet__metadata">' + (item.prep_time ? '<span class="flavor-ui-tag">' + smallIcon('clock') + fa(item.prep_time) + ' دقیقه آماده‌سازی</span>' : '') + (item.calories ? '<span class="flavor-ui-tag">' + fa(item.calories) + ' کالری</span>' : '');
+		if (visual) visual.innerHTML = (image ? '<img src="' + esc(image) + '" alt="' + esc(item.name) + '" width="700" height="700" />' : '') + '<p>' + smallIcon('clock') + esc(t('prep_note')) + '</p>';
+		var html = (editing ? '<p class="flavor-ui-note">' + esc(t('edit_note')) + '</p>' : '') + '<p class="flavor-sheet__description">' + esc(plain(item.description || item.short)) + '</p><div class="flavor-sheet__metadata">' + (item.prep_time ? '<span class="flavor-ui-tag">' + smallIcon('clock') + fill('prep_time', fa(item.prep_time)) + '</span>' : '') + (item.calories ? '<span class="flavor-ui-tag">' + esc(fill('calories', fa(item.calories))) + '</span>' : '');
 		(item.dietary || []).forEach(function (flag) { if (dietLabels[flag]) html += '<span class="flavor-ui-tag">' + esc(dietLabels[flag]) + '</span>'; });
 		html += '</div>';
-		var labels = { size: 'اندازه و پرس', topping: 'افزودنی‌ها', cook: 'درجهٔ پخت', removal: 'حذف مخلفات' };
+		var labels = { size: t('group_size'), topping: t('group_topping'), cook: t('group_cook'), removal: t('group_removal') };
 		var groups = item.groups;
 		if (!groups) { var g = groupModifiers(item.modifiers); groups = Object.keys(g).map(function (type) { return { type: type, multi: type === 'topping' || type === 'removal', required: type === 'size', options: g[type] }; }); }
 		groups.forEach(function (group) {
 			var list = group.options || []; if (!list.length) return;
 			var firstDefault = list.findIndex(function (option) { return option.is_default; }); if (firstDefault < 0 && !group.multi && group.required) firstDefault = 0;
-			html += '<fieldset class="flavor-sheet__fieldset" data-required="' + (!!group.required) + '"><legend>' + esc(labels[group.type] || group.title || 'انتخاب‌ها') + (group.required ? '<span class="flavor-ui-required"> (انتخاب ضروری)</span>' : '') + '</legend><div class="flavor-sheet__options">';
+			html += '<fieldset class="flavor-sheet__fieldset" data-required="' + (!!group.required) + '"><legend>' + esc(labels[group.type] || group.title || t('group_choices')) + (group.required ? '<span class="flavor-ui-required"> ' + esc(t('required_suffix')) + '</span>' : '') + '</legend><div class="flavor-sheet__options">';
 			if (!group.required && !group.multi) {
 				var unchanged = line ? !list.some(function (option) { return existingIds.includes(String(option.id)); }) : firstDefault < 0;
-				html += '<label class="flavor-sheet__option"><input type="radio" name="mod-' + esc(group.type) + '" value="" data-price="0" data-storage-price="0"' + (unchanged ? ' checked' : '') + ' /><span>بدون تغییر در این گروه</span><span class="flavor-sheet__option-price">بدون هزینهٔ اضافه</span></label>';
+				html += '<label class="flavor-sheet__option"><input type="radio" name="mod-' + esc(group.type) + '" value="" data-price="0" data-storage-price="0"' + (unchanged ? ' checked' : '') + ' /><span>' + esc(t('no_change')) + '</span><span class="flavor-sheet__option-price">' + esc(t('no_fee')) + '</span></label>';
 			}
 			list.forEach(function (option, index) {
 				var checked = line ? existingIds.includes(String(option.id)) : group.multi ? !!option.is_default : index === firstDefault;
-				html += '<label class="flavor-sheet__option"><input type="' + (group.multi ? 'checkbox' : 'radio') + '" name="mod-' + esc(group.type) + '" value="' + esc(option.id) + '" data-price="' + esc(option.price || 0) + '" data-storage-price="' + esc(option.storagePrice == null ? option.price || 0 : option.storagePrice) + '"' + (checked ? ' checked' : '') + ' /><span>' + esc(option.name) + '</span><span class="flavor-sheet__option-price">' + (option.price ? '+' + Number(option.price).toLocaleString('fa-IR') + ' ' + esc((cfg.currency && cfg.currency.label) || 'تومان') : 'بدون هزینهٔ اضافه') + '</span></label>';
+				html += '<label class="flavor-sheet__option"><input type="' + (group.multi ? 'checkbox' : 'radio') + '" name="mod-' + esc(group.type) + '" value="' + esc(option.id) + '" data-price="' + esc(option.price || 0) + '" data-storage-price="' + esc(option.storagePrice == null ? option.price || 0 : option.storagePrice) + '"' + (checked ? ' checked' : '') + ' /><span>' + esc(option.name) + '</span><span class="flavor-sheet__option-price">' + (option.price ? '+' + Number(option.price).toLocaleString('fa-IR') + ' ' + esc((cfg.currency && cfg.currency.label) || t('currency')) : esc(t('no_fee'))) + '</span></label>';
 			});
 			html += '</div></fieldset>';
 		});
-		html += '<div class="flavor-ui-field"><label for="flavor-instr">یادداشت برای آشپزخانه <span class="flavor-ui-required">(اختیاری)</span></label><textarea id="flavor-instr" maxlength="200" rows="2" placeholder="مثلاً سس جداگانه یا کم‌نمک" aria-describedby="flavor-instr-help"></textarea><small id="flavor-instr-help">حساسیت غذایی دارید؟ پیش از ثبت سفارش دربارهٔ امکان آماده‌سازی و آلودگی متقاطع هماهنگ کنید.</small></div><p id="flavor-sheet-error" class="flavor-ui-error" role="alert" tabindex="-1" hidden></p>';
+		html += '<div class="flavor-ui-field"><label for="flavor-instr">' + esc(t('kitchen_note')) + ' <span class="flavor-ui-required">' + esc(t('optional')) + '</span></label><textarea id="flavor-instr" maxlength="200" rows="2" placeholder="' + esc(t('note_placeholder')) + '" aria-describedby="flavor-instr-help"></textarea><small id="flavor-instr-help">' + esc(t('note_help')) + '</small></div><p id="flavor-sheet-error" class="flavor-ui-error" role="alert" tabindex="-1" hidden></p>';
 		sheetBody.innerHTML = html;
 		if (line) document.getElementById('flavor-instr').value = line.instructions || '';
 		paintSheetPrice();
@@ -246,7 +261,7 @@
 		}).then(function (cart) {
 			drawCart(cart);
 			if (window.flavorToast) {
-				window.flavorToast('«' + item.name + '» به سبد خرید اضافه شد.', 'success');
+				window.flavorToast(fill('added_to_cart', item.name), 'success');
 			}
 			return cart;
 		});
@@ -277,17 +292,17 @@
 		if (cartCount) cartCount.textContent = String(cart.count || 0); // Legacy machine-readable count.
 		if (mobileCartCount) mobileCartCount.textContent = fa(cart.count || 0);
 		document.querySelectorAll('[data-ui-cart-count]').forEach(function (element) { element.textContent = fa(cart.count || 0); });
-		document.querySelectorAll('[data-ui-cart-total]').forEach(function (element) { element.textContent = cart.count ? plain(cart.total_html) : 'هنوز انتخابی ندارید'; });
+		document.querySelectorAll('[data-ui-cart-total]').forEach(function (element) { element.textContent = cart.count ? plain(cart.total_html) : t('cart_empty'); });
 		var loading = document.getElementById('flavor-cart-loading'); if (loading) loading.hidden = true;
 		var empty = document.getElementById('flavor-cart-empty'); if (empty) empty.hidden = !!cart.count;
 		var filled = document.getElementById('flavor-cart-filled'); if (filled) filled.hidden = !cart.count;
 		var actions = document.getElementById('flavor-cart-actions'); if (actions) actions.hidden = !cart.count;
 		if (cartLines) {
 			cartLines.innerHTML = (cart.items || []).map(function (item) {
-				var mods = (Array.isArray(item.modifiers) ? item.modifiers : []).map(function (m) { return m.name + (Number(m.price) ? ' (+' + displayAmount(m.price).toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || 'تومان') + ' برای هر واحد)' : ' (بدون هزینهٔ اضافه)'); }).join('، ');
+				var mods = (Array.isArray(item.modifiers) ? item.modifiers : []).map(function (m) { return m.name + (Number(m.price) ? ' (' + fill('per_unit', '+' + displayAmount(m.price).toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || t('currency'))) + ')' : ' (' + t('no_fee') + ')'); }).join(t('mod_separator') + ' ');
 				var image = safeImage(item.image);
-				var edit = cart.supports_item_edit ? '<button type="button" class="flavor-cart-line__edit" data-ui-cart-edit aria-haspopup="dialog" aria-controls="flavor-sheet" aria-label="ویرایش انتخاب‌ها و یادداشت ' + esc(item.name) + '">ویرایش انتخاب‌ها</button>' : '';
-				return '<article class="flavor-cart-line" data-key="' + esc(item.key) + '">' + (image ? '<img class="flavor-cart-line__image" src="' + esc(image) + '" alt="" width="68" height="76" />' : '<span class="flavor-cart-line__image" aria-hidden="true"></span>') + '<div><h3>' + esc(item.name) + '</h3>' + (mods ? '<p>' + esc(mods) + '</p>' : '') + (item.instructions ? '<p>یادداشت: ' + esc(item.instructions) + '</p>' : '') + edit + '<div class="flavor-cart-line__bottom"><div class="flavor-qty" role="group" aria-label="تعداد ' + esc(item.name) + '"><button type="button" data-ui-cart-qty="-1" aria-label="کاهش تعداد ' + esc(item.name) + '"' + (item.quantity <= 1 ? ' disabled' : '') + '>−</button><output>' + fa(item.quantity) + '</output><button type="button" data-ui-cart-qty="1" aria-label="افزایش تعداد ' + esc(item.name) + '"' + (item.quantity >= 20 ? ' disabled' : '') + '>+</button></div><button type="button" class="flavor-cart-line__remove" data-rm="' + esc(item.key) + '" aria-label="حذف ' + esc(item.name) + '">حذف</button><strong class="flavor-cart-line__price">' + esc(plain(item.line_total_html || item.line_html)) + '</strong></div></div></article>';
+				var edit = cart.supports_item_edit ? '<button type="button" class="flavor-cart-line__edit" data-ui-cart-edit aria-haspopup="dialog" aria-controls="flavor-sheet" aria-label="' + esc(fill('edit_line_aria', item.name)) + '">' + esc(t('edit_line')) + '</button>' : '';
+				return '<article class="flavor-cart-line" data-key="' + esc(item.key) + '">' + (image ? '<img class="flavor-cart-line__image" src="' + esc(image) + '" alt="" width="68" height="76" />' : '<span class="flavor-cart-line__image" aria-hidden="true"></span>') + '<div><h3>' + esc(item.name) + '</h3>' + (mods ? '<p>' + esc(mods) + '</p>' : '') + (item.instructions ? '<p>' + esc(fill('line_note', item.instructions)) + '</p>' : '') + edit + '<div class="flavor-cart-line__bottom"><div class="flavor-qty" role="group" aria-label="' + esc(fill('quantity_aria', item.name)) + '"><button type="button" data-ui-cart-qty="-1" aria-label="' + esc(fill('decrease_aria', item.name)) + '"' + (item.quantity <= 1 ? ' disabled' : '') + '>−</button><output>' + fa(item.quantity) + '</output><button type="button" data-ui-cart-qty="1" aria-label="' + esc(fill('increase_aria', item.name)) + '"' + (item.quantity >= 20 ? ' disabled' : '') + '>+</button></div><button type="button" class="flavor-cart-line__remove" data-rm="' + esc(item.key) + '" aria-label="' + esc(fill('remove_aria', item.name)) + '">' + esc(t('remove')) + '</button><strong class="flavor-cart-line__price">' + esc(plain(item.line_total_html || item.line_html)) + '</strong></div></div></article>';
 			}).join('');
 		}
 		var sub = document.getElementById('flavor-cart-subtotal'); if (sub) sub.textContent = plain(cart.subtotal_html);
@@ -296,8 +311,8 @@
 			var row = document.getElementById('flavor-cart-' + entry[0] + '-row'); var value = document.getElementById('flavor-cart-' + entry[0]);
 			if (row) row.hidden = !entry[1]; if (value) value.textContent = plain(entry[2]);
 		});
-		var fees = document.getElementById('flavor-cart-fees'); if (fees) fees.innerHTML = (cart.fees || []).map(function (fee) { return '<div><dt>' + esc(fee.name) + '</dt><dd>' + esc(plain(fee.amount_html || fee.html)) + '</dd></div>'; }).join('') + (cart.shipping_total ? '<div><dt>ارسال ثبت‌شده در سبد</dt><dd>' + esc(plain(cart.shipping_html)) + '</dd></div>' : '');
-		var coupons = document.getElementById('flavor-coupon-applied'); if (coupons) coupons.innerHTML = (cart.coupons || []).map(function (code) { return '<button type="button" class="flavor-cart__coupon-remove" data-ui-remove-coupon>حذف کد ' + esc(code) + ' ×</button>'; }).join('');
+		var fees = document.getElementById('flavor-cart-fees'); if (fees) fees.innerHTML = (cart.fees || []).map(function (fee) { return '<div><dt>' + esc(fee.name) + '</dt><dd>' + esc(plain(fee.amount_html || fee.html)) + '</dd></div>'; }).join('') + (cart.shipping_total ? '<div><dt>' + esc(t('shipping_row')) + '</dt><dd>' + esc(plain(cart.shipping_html)) + '</dd></div>' : '');
+		var coupons = document.getElementById('flavor-coupon-applied'); if (coupons) coupons.innerHTML = (cart.coupons || []).map(function (code) { return '<button type="button" class="flavor-cart__coupon-remove" data-ui-remove-coupon>' + esc(fill('remove_coupon', code)) + '</button>'; }).join('');
 		if (!cart.count) step('review');
 		readyCheckout();
 		// `subtotal` stays in storage units: the free-delivery bar compares it
@@ -319,7 +334,7 @@
 		var focused = document.activeElement; var focusedRow = focused && focused.closest('[data-key]'); var focusedKey = focusedRow && focusedRow.dataset.key; var direction = focused && focused.dataset.uiCartQty;
 		cartMutating = true; setCartError(''); readyCheckout();
 		if (cartLines) { cartLines.setAttribute('aria-busy', 'true'); cartLines.querySelectorAll('button').forEach(function (button) { button.disabled = true; }); }
-		return api(route, options).then(function (cart) { drawCart(cart); if (ui) ui.announce('سبد به‌روزرسانی شد؛ ' + fa(cart.count) + ' انتخاب.'); return cart; }).catch(function (error) { setCartError(error.message); }).finally(function () { cartMutating = false; if (cartLines) cartLines.removeAttribute('aria-busy'); if (cartState) drawCart(cartState); readyCheckout(); if (focusedKey && cartPanel && !cartPanel.hidden) { var row = Array.from(cartLines.querySelectorAll('[data-key]')).find(function (entry) { return entry.dataset.key === focusedKey; }); var target = row && (direction ? row.querySelector('[data-ui-cart-qty="' + direction + '"]:not([disabled])') : row.querySelector('[data-rm]')); if (!target) target = document.getElementById('flavor-cart-close'); if (target) target.focus({ preventScroll:true }); } });
+		return api(route, options).then(function (cart) { drawCart(cart); if (ui) ui.announce(fill('cart_updated', fa(cart.count))); return cart; }).catch(function (error) { setCartError(error.message); }).finally(function () { cartMutating = false; if (cartLines) cartLines.removeAttribute('aria-busy'); if (cartState) drawCart(cartState); readyCheckout(); if (focusedKey && cartPanel && !cartPanel.hidden) { var row = Array.from(cartLines.querySelectorAll('[data-key]')).find(function (entry) { return entry.dataset.key === focusedKey; }); var target = row && (direction ? row.querySelector('[data-ui-cart-qty="' + direction + '"]:not([disabled])') : row.querySelector('[data-rm]')); if (!target) target = document.getElementById('flavor-cart-close'); if (target) target.focus({ preventScroll:true }); } });
 	}
 	function setMode(next) {
 		var allowed = Array.isArray(cfg.orderModes) ? cfg.orderModes : ['dine_in','takeaway','delivery'];
@@ -331,8 +346,8 @@
 		var table = document.getElementById('flavor-table'); if (table) table.required = mode === 'dine_in';
 		zoneState = 'unknown'; ++zoneRequest;
 		var row = document.getElementById('flavor-cart-zone-row'); if (row) row.hidden = true;
-		var totalNote = document.getElementById('flavor-cart-total-note'); if (totalNote) totalNote.textContent = 'مبالغ از سرور خوانده می‌شوند؛ هزینه‌های تأییدنشده به جمع سبد اضافه نمی‌شوند.';
-		if (!mode) { setCartError('برای این شعبه روش سفارش فعالی تنظیم نشده است؛ با مجموعه تماس بگیرید.'); return; }
+		var totalNote = document.getElementById('flavor-cart-total-note'); if (totalNote) totalNote.textContent = t('total_note');
+		if (!mode) { setCartError(t('no_mode')); return; }
 		api('context', { method:'POST', headers:headers(true), body:JSON.stringify({ order_mode:mode, branch_id:ctx.branch_id || cfg.branchId || 0 }) }).catch(function (error) { setCartError(error.message); });
 		loadPay(); if (mode === 'dine_in') loadTables();
 		if (mode === 'delivery' && document.getElementById('flavor-hood').value) checkZone();
@@ -341,18 +356,18 @@
 	function loadPay() {
 		var requestId = ++payRequest; var requestedMode = mode;
 		payReady = false; readyCheckout();
-		var box = document.getElementById('flavor-pay-box'); if (box) box.innerHTML = '<legend>روش پرداخت</legend><p class="flavor-ui-note">در حال دریافت روش‌های مجاز…</p>';
+		var box = document.getElementById('flavor-pay-box'); if (box) box.innerHTML = '<legend>' + esc(t('pay_methods')) + '</legend><p class="flavor-ui-note">' + esc(t('pay_loading')) + '</p>';
 		api('checkout/options?mode=' + encodeURIComponent(mode) + '&branch_id=' + encodeURIComponent(ctx.branch_id || cfg.branchId || 0)).then(function (data) {
 			if (requestId !== payRequest || requestedMode !== mode) return;
 			payReady = !!(data.methods && data.methods.length);
-			if (box) box.innerHTML = '<legend>روش پرداخت</legend>' + (data.methods || []).map(function (method, i) { return '<label class="flavor-pay-option"><input type="radio" name="pay" value="' + esc(method.id) + '"' + (i === 0 ? ' checked' : '') + ' /><span>' + esc(method.title) + '</span></label>'; }).join('') + (payReady ? '' : '<p class="flavor-ui-note">برای این روش دریافت، پرداخت فعالی تنظیم نشده است. با مجموعه تماس بگیرید.</p>');
+			if (box) box.innerHTML = '<legend>' + esc(t('pay_methods')) + '</legend>' + (data.methods || []).map(function (method, i) { return '<label class="flavor-pay-option"><input type="radio" name="pay" value="' + esc(method.id) + '"' + (i === 0 ? ' checked' : '') + ' /><span>' + esc(method.title) + '</span></label>'; }).join('') + (payReady ? '' : '<p class="flavor-ui-note">' + esc(t('pay_none')) + '</p>');
 			readyCheckout();
-		}).catch(function (error) { if (requestId !== payRequest) return; payReady = false; if (box) box.innerHTML = '<legend>روش پرداخت</legend><p class="flavor-ui-note">دریافت روش‌های پرداخت ناموفق بود.</p>'; setCartError(error.message); readyCheckout(); });
+		}).catch(function (error) { if (requestId !== payRequest) return; payReady = false; if (box) box.innerHTML = '<legend>' + esc(t('pay_methods')) + '</legend><p class="flavor-ui-note">' + esc(t('pay_failed')) + '</p>'; setCartError(error.message); readyCheckout(); });
 	}
 	function loadTables() {
 		api('branches/' + encodeURIComponent(ctx.branch_id || cfg.branchId || 0) + '/tables').then(function (rows) {
 			var select = document.getElementById('flavor-table'); if (!select) return;
-			select.innerHTML = '<option value="">میز را انتخاب کنید</option>' + (rows || []).map(function (table) { return '<option value="' + esc(table.id) + '" data-num="' + esc(table.table_number) + '"' + (String(table.id) === String(ctx.table_id || cfg.tableId || '') ? ' selected' : '') + '>میز ' + fa(table.table_number) + '</option>'; }).join('');
+			select.innerHTML = '<option value="">' + esc(t('table_pick')) + '</option>' + (rows || []).map(function (table) { return '<option value="' + esc(table.id) + '" data-num="' + esc(table.table_number) + '"' + (String(table.id) === String(ctx.table_id || cfg.tableId || '') ? ' selected' : '') + '>' + esc(fill('table_number', fa(table.table_number))) + '</option>'; }).join('');
 		}).catch(function (error) { setCartError(error.message); });
 	}
 
@@ -371,7 +386,7 @@
 		var item = catalog.find(function (dish) { return dish.id === id; });
 		var detail = item ? dishDetail(item) : api('dishes/' + id).then(function (dish) { return normalizeDish(dish, true); });
 		detail.then(function (dish) {
-			if (dish.available === false) throw new Error('این انتخاب در حال حاضر موجود نیست.');
+			if (dish.available === false) throw new Error(t('choice_gone'));
 			var target = document.getElementById('item-' + id);
 			if (target) { target.scrollIntoView({ block: 'center' }); var button = target.querySelector('[data-add]'); if (button) button.focus({ preventScroll: true }); }
 			openSheet(dish, target && target.querySelector('[data-add]'));
@@ -390,7 +405,7 @@
 			if (statusEl) statusEl.textContent = catalog.length ? '' : (cfg.i18n && cfg.i18n.empty) || '';
 			grid.innerHTML = catalog.map(card).join('');
 			grid.removeAttribute('aria-busy');
-			if (statusEl) statusEl.textContent = fa(catalog.length) + ' انتخاب در منو';
+			if (statusEl) statusEl.textContent = fill('menu_count', fa(catalog.length));
 			document.dispatchEvent(new CustomEvent('flavor:menu-ready'));
 			var cats = canonical ? api('categories').then(function (rows) { return rows.filter(function (cat) { return cat.count > 0; }); }) : Promise.resolve(data.categories || []);
 			cats.then(function (rows) {
@@ -401,7 +416,7 @@
 			openFragment();
 		}).catch(function (error) {
 			grid.removeAttribute('aria-busy'); if (retry) retry.hidden = false;
-			if (statusEl) statusEl.textContent = 'بارگذاری موجودی زنده ناموفق بود؛ جزئیات منتشرشده را ببینید یا دوباره تلاش کنید.';
+			if (statusEl) statusEl.textContent = t('load_failed');
 			showError(error);
 		});
 	}
@@ -448,7 +463,7 @@
 					var row = Array.from(cartLines.querySelectorAll('[data-key]')).find(function (entry) { return entry.dataset.key === (cart.last_key || line.key); });
 					var focus = row && row.querySelector('[data-ui-cart-edit]'); if (focus) focus.focus({ preventScroll:true });
 				}
-				if (ui) ui.announce(line ? 'انتخاب‌های این غذا در سبد ذخیره شد.' : 'غذا به سبد اضافه شد.');
+				if (ui) ui.announce(line ? t('choices_saved') : t('dish_added'));
 			}).catch(function (error) {
 				if (current === target && editing === line) { setSheetError(error.message); var feedback = document.getElementById('flavor-sheet-error'); if (feedback) feedback.focus({ preventScroll:true }); }
 				else showError(error);
@@ -498,23 +513,23 @@
 		if (mode !== 'delivery') return;
 		var msg = document.getElementById('flavor-zone-msg');
 		var requestId = ++zoneRequest;
-		zoneState = 'pending'; if (msg) { msg.textContent = 'در حال بررسی محدودهٔ ارسال…'; msg.dataset.available = 'pending'; }
+		zoneState = 'pending'; if (msg) { msg.textContent = t('zone_checking'); msg.dataset.available = 'pending'; }
 		api('zones/check', { method:'POST', headers:headers(true), body:JSON.stringify({ branch_id:ctx.branch_id || cfg.branchId || 0, neighborhood:hood ? hood.value.trim() : '', city:city ? city.value.trim() : '' }) }).then(function (zone) {
 			if (requestId !== zoneRequest || mode !== 'delivery') return;
 			zoneState = zone.ok ? 'yes' : 'no';
-			if (msg) { msg.dataset.available = zoneState; msg.textContent = zone.ok ? 'محدوده تأیید شد · هزینهٔ ارسال: ' + plain(zone.delivery_fee_html) + ' · برآورد منطقه: حدود ' + fa(zone.estimated_minutes) + ' دقیقه؛ زمان تضمین‌شده نیست.' : zone.message || 'نشانی خارج از محدودهٔ ارسال است.'; }
+			if (msg) { msg.dataset.available = zoneState; msg.textContent = zone.ok ? fill2('zone_ok', plain(zone.delivery_fee_html), fa(zone.estimated_minutes)) : (zone.message || t('zone_out')); }
 			var row = document.getElementById('flavor-cart-zone-row'); if (row) row.hidden = !zone.ok;
 			var amount = document.getElementById('flavor-cart-zone'); if (amount) amount.textContent = plain(zone.delivery_fee_html);
-			var note = document.getElementById('flavor-cart-total-note'); if (note) note.textContent = 'هزینهٔ منطقه جداگانه نمایش داده شده و در مبلغ فعلی سبد منظور نشده است؛ سرور مبلغ نهایی را هنگام ثبت بررسی می‌کند.';
+			var note = document.getElementById('flavor-cart-total-note'); if (note) note.textContent = t('zone_note');
 		}).catch(function (error) { if (requestId !== zoneRequest) return; zoneState = 'error'; if (msg) { msg.dataset.available = 'error'; msg.textContent = error.message; } });
 	}
 	[hood,city].forEach(function (field) { if (!field) return; field.addEventListener('input', function () { invalidateZone(); window.clearTimeout(zoneTimer); zoneTimer = window.setTimeout(checkZone, 450); }); field.addEventListener('change', function () { window.clearTimeout(zoneTimer); checkZone(); }); });
 	var couponButton = document.getElementById('flavor-coupon-btn');
 	if (couponButton) couponButton.addEventListener('click', function () {
 		var field = document.getElementById('flavor-coupon'); var status = document.getElementById('flavor-coupon-status');
-		if (!field || !field.value.trim()) { if (status) status.textContent = 'کد تخفیف را وارد کنید.'; return; }
+		if (!field || !field.value.trim()) { if (status) status.textContent = t('coupon_empty'); return; }
 		couponButton.disabled = true;
-		api('cart/coupon', { method:'POST', headers:headers(true), body:JSON.stringify({ code:field.value.trim() }) }).then(function (cart) { drawCart(cart); if (status) status.textContent = 'کد تخفیف اعمال شد.'; }).catch(function (error) { if (status) status.textContent = error.message; }).finally(function () { couponButton.disabled = false; });
+		api('cart/coupon', { method:'POST', headers:headers(true), body:JSON.stringify({ code:field.value.trim() }) }).then(function (cart) { drawCart(cart); if (status) status.textContent = t('coupon_applied'); }).catch(function (error) { if (status) status.textContent = error.message; }).finally(function () { couponButton.disabled = false; });
 	});
 	var applied = document.getElementById('flavor-coupon-applied'); if (applied) applied.addEventListener('click', function (event) { if (event.target.closest('[data-ui-remove-coupon]')) mutateCart('cart/coupon', { method:'DELETE' }); });
 
@@ -525,18 +540,18 @@
 		function failure(message) { if (err) { err.hidden = false; err.textContent = message; err.focus({ preventScroll:true }); err.scrollIntoView({ block:'nearest' }); } }
 		if (err) { err.hidden = true; err.textContent = ''; }
 		var mobile = document.getElementById('flavor-mobile');
-		if (mobile && !/^09\d{9}$/.test(ui ? ui.latin(mobile.value.trim()) : mobile.value.trim())) { failure('شمارهٔ موبایل معتبر مانند ۰۹۱۲۱۲۳۴۵۶۷ وارد کنید.'); mobile.focus(); return; }
-		if (mode === 'delivery' && zoneState !== 'yes') { failure('محدودهٔ ارسال هنوز تأیید نشده است؛ شهر و محله را بررسی کنید.'); checkZone(); return; }
-		var pay = form.querySelector('input[name="pay"]:checked'); if (!pay) { failure('یک روش پرداخت فعال را انتخاب کنید.'); return; }
+		if (mobile && !/^09\d{9}$/.test(ui ? ui.latin(mobile.value.trim()) : mobile.value.trim())) { failure(t('mobile_invalid')); mobile.focus(); return; }
+		if (mode === 'delivery' && zoneState !== 'yes') { failure(t('zone_unconfirmed')); checkZone(); return; }
+		var pay = form.querySelector('input[name="pay"]:checked'); if (!pay) { failure(t('pay_required')); return; }
 		var table = document.getElementById('flavor-table'); var option = table && table.options[table.selectedIndex];
 		placing = true; form.setAttribute('aria-busy','true'); readyCheckout();
-		var button = document.getElementById('flavor-place'); if (button) button.textContent = 'در حال بررسی و ثبت…';
+		var button = document.getElementById('flavor-place'); if (button) button.textContent = t('placing');
 		var token = ''; try { token = sessionStorage.getItem('flavorCartToken') || ''; } catch (ignore) {}
 		api('checkout', { method:'POST', headers:headers(true), body:JSON.stringify({ order_mode:mode, branch_id:ctx.branch_id || cfg.branchId || 0, name:document.getElementById('flavor-name').value || '', mobile:ui ? ui.latin(mobile.value.trim()) : mobile.value, payment_method:pay.value, table_id:mode === 'dine_in' && table ? Number(table.value) : 0, table_number:mode === 'dine_in' && option ? option.dataset.num || '' : '', cart_token:token, address:{ city:city ? city.value.trim() : '', neighborhood:hood ? hood.value.trim() : '', line:document.getElementById('flavor-line').value.trim() } }) }).then(function (result) {
-			if (result.redirect) { var url; try { url = new URL(result.redirect, location.href); } catch (ignore) {} if (!url || !['https:','http:'].includes(url.protocol)) throw new Error('نشانی ادامهٔ پرداخت معتبر نیست؛ با مجموعه تماس بگیرید.'); window.location.href = url.href; return; }
-			if (window.flavorToast) window.flavorToast('سفارش ' + (result.order_number || result.order_id) + ' ثبت شد.', 'success');
+			if (result.redirect) { var url; try { url = new URL(result.redirect, location.href); } catch (ignore) {} if (!url || !['https:','http:'].includes(url.protocol)) throw new Error(t('bad_redirect')); window.location.href = url.href; return; }
+			if (window.flavorToast) window.flavorToast(fill('order_placed', result.order_number || result.order_id || ''), 'success');
 			drawCart({ items:[],count:0,total_html:'' });
-		}).catch(function (error) { failure(error.message); /* Keep the cart and customer fields for recovery. */ }).finally(function () { placing = false; form.removeAttribute('aria-busy'); if (button) button.textContent = 'ثبت سفارش و ادامهٔ پرداخت'; readyCheckout(); });
+		}).catch(function (error) { failure(error.message); /* Keep the cart and customer fields for recovery. */ }).finally(function () { placing = false; form.removeAttribute('aria-busy'); if (button) button.textContent = t('place_order'); readyCheckout(); });
 	});
 
 	Promise.all([api('context'), api('cart'), api('me')])
@@ -557,7 +572,7 @@
 		})
 		.catch(function (error) {
 			var loading = document.getElementById('flavor-cart-loading'); if (loading) loading.hidden = true;
-			setCartError('دریافت سبد ناموفق بود؛ صفحه را دوباره باز کنید. ' + error.message);
+			setCartError(fill('cart_fetch_failed', error.message));
 			setMode(mode);
 		});
 

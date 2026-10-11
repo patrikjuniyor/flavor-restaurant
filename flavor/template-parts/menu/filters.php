@@ -15,13 +15,9 @@ if ( 'no' === get_theme_mod( 'flavor_menu_filters_enable', 'yes' ) ) {
 	return;
 }
 
-$flavor_diets = array(
-	'vegetarian'  => __( 'گیاهی', 'flavor' ),
-	'vegan'       => __( 'وگان', 'flavor' ),
-	'gluten_free' => __( 'بدون گلوتن', 'flavor' ),
-	'spicy'       => __( 'تند', 'flavor' ),
-	'dairy_free'  => __( 'بدون لبنیات', 'flavor' ),
-);
+// One source of truth: the menu grid labels the same flags in JavaScript and
+// cannot include this template part, so both read UI::dietary_labels().
+$flavor_diets = \Flavor\UI::dietary_labels();
 
 $flavor_avoid = array(
 	'gluten' => __( 'بدون گلوتن', 'flavor' ),
