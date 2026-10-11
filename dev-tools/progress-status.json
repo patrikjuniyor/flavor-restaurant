@@ -79,6 +79,11 @@
     "note": "FlavorCore\\Support\\Clock (جدید): لنگر کردن رشتهٔ naive در منطقهٔ زمانیِ سایت + قالب با wp_date(). سه زمانِ مرحله در OrderController::track_order به آن وصل شد؛ get_date_created()->date() و Jalali عمداً دست‌نخورده‌اند (کامنت دارد) و TokenService/OtpAuth هم چون رفت‌وبرگشتِ naive خنثی است. mock-wp-environment سه تابع wp_timezone/wp_date/current_datetime گرفت. تست: tests/theme/test-order-clock.php ۳۴/۰ با دو منفی‌آزمایی (۳ شکست و ۱۲ شکست).",
     "state": "done"
   },
+  "24": {
+    "commit": "dae74ca",
+    "note": "تصمیم R3-01 با گزینهٔ (ب) اجرا شد: Flavor\\Product_Page انتخاب‌گر مدیفایر را روی woocommerce_before_add_to_cart_button رندر می‌کند (هیچ قالب ووکامرس کپی نمی‌شود)، برچسب‌ها از UI::modifier_labels()، ui-product.css فقط روی صفحهٔ محصول. R3-11 هم بسته شد: README/readme.txt/listing.md بدون ادعای Theme Builder و با تعریف دقیق. تست tests/theme/test-product-page.php ۷۵/۰ با پنج منفی‌آزمایی؛ build-ar-part.py هم برای کلاس‌های همه‌بزرگ (UI) اصلاح شد.",
+    "state": "done"
+  },
   "3": {
     "commit": "e2655f9",
     "note": "gettext 0.23.1 + Python 3.13؛ check-i18n سبز؛ کاتالوگ عربی 1380/1380 (100%)؛ test-translation 84/84",
