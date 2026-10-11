@@ -101,6 +101,18 @@ jobs:
         working-directory: mobile
         run: flutter pub get
 
+      - name: Read the app version of record
+        # mobile/pubspec.yaml owns the version. Everything the artefact
+        # carries (X-App-Version, the update floor, the store listing) is read
+        # from it here instead of being repeated as literals in Dart.
+        id: app_version
+        working-directory: mobile
+        run: |
+          version="$(awk '/^version:/ {print $2}' pubspec.yaml)"
+          echo "name=${version%%+*}" >> "$GITHUB_OUTPUT"
+          echo "number=${version##*+}" >> "$GITHUB_OUTPUT"
+          echo "pubspec version: $version"
+
       - name: Run Flutter Tests
         working-directory: mobile
         run: flutter test
@@ -131,14 +143,17 @@ jobs:
       - name: Build Android APK (Release, signed)
         working-directory: mobile
         run: |
-          flutter build apk --release
+          flutter build apk --release \
+            --dart-define=FLAVOR_APP_VERSION=${{ steps.app_version.outputs.name }}
           # Defensive verification: the release APK must NOT be debug-signed.
           APP_CENT="$(jarsigner -verify -verbose -certs build/app/outputs/flutter-apk/app-release.apk 2>/dev/null | grep -m1 'CN=' | head -1 || true)"
           echo "APK signer: $APP_CENT"
 
       - name: Build Android App Bundle (Release AAB, signed)
         working-directory: mobile
-        run: flutter build appbundle --release
+        run: |
+          flutter build appbundle --release \
+            --dart-define=FLAVOR_APP_VERSION=${{ steps.app_version.outputs.name }}
 
       - name: Calculate Artifact Checksums
         id: checksums
@@ -209,6 +224,18 @@ jobs:
         working-directory: mobile
         run: flutter pub get
 
+      - name: Read the app version of record
+        # mobile/pubspec.yaml owns the version. Everything the artefact
+        # carries (X-App-Version, the update floor, the store listing) is read
+        # from it here instead of being repeated as literals in Dart.
+        id: app_version
+        working-directory: mobile
+        run: |
+          version="$(awk '/^version:/ {print $2}' pubspec.yaml)"
+          echo "name=${version%%+*}" >> "$GITHUB_OUTPUT"
+          echo "number=${version##*+}" >> "$GITHUB_OUTPUT"
+          echo "pubspec version: $version"
+
       - name: Configure iOS Code Signing
         env:
           CERT_B64: ${{ secrets.FLAVOR_IOS_DIST_CERT_P12_BASE64 }}
@@ -254,6 +281,7 @@ jobs:
         working-directory: mobile
         run: |
           flutter build ipa --release \
+            --dart-define=FLAVOR_APP_VERSION=${{ steps.app_version.outputs.name }} \
             --export-options-plist=/tmp/export_options.plist
           echo "::notice::IPA ready for App Store Connect upload (method app-store)."
 
