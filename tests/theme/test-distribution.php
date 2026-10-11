@@ -217,9 +217,15 @@ foreach ( glob( FLAVOR_DIR . '/inc/*.php' ) as $inc ) {
 }
 
 $evidence = array(
-	// RTL is declared in the markup, not in setup: the html element
-	// carries dir="rtl" and the stylesheet is direction-aware.
-	'rtl-language-support' => false !== strpos( (string) @file_get_contents( FLAVOR_DIR . '/header.php' ), 'dir="rtl"' ),
+	// RTL used to be "header.php prints dir=\"rtl\"", which is how the tag got
+	// a right-to-left page for an LTR locale. Real RTL support is the locale
+	// driving the document (language_attributes() prints dir), a direction
+	// aware sheet loaded only when is_rtl(), and logical properties in CSS —
+	// test-rtl-ltr-parity.php checks each half of that in detail.
+	'rtl-language-support' => false !== strpos( (string) @file_get_contents( FLAVOR_DIR . '/header.php' ), 'language_attributes()' )
+		&& is_readable( FLAVOR_DIR . '/assets/css/rtl.css' )
+		&& false !== strpos( (string) @file_get_contents( FLAVOR_DIR . '/inc/class-enqueue.php' ), 'is_rtl()' )
+		&& ! preg_match( '/^\s*direction\s*:/m', (string) @file_get_contents( FLAVOR_DIR . '/assets/css/main.css' ) ),
 	'custom-logo'         => false !== strpos( $theme_setup, 'custom-logo' ),
 	'custom-menu'         => false !== strpos( $theme_setup, 'register_nav_menus' ),
 	'featured-images'     => false !== strpos( $theme_setup, 'post-thumbnails' ),

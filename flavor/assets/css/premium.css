@@ -181,6 +181,15 @@
 	to { transform: translateX(0); opacity: 1; }
 }
 
+@keyframes flavor-wish-in-ltr {
+	from { transform: translateX(24px); opacity: 0.4; }
+	to { transform: translateX(0); opacity: 1; }
+}
+
+html[dir="ltr"] .flavor-wish {
+	animation-name: flavor-wish-in-ltr;
+}
+
 .flavor-wish__header {
 	display: flex;
 	align-items: center;

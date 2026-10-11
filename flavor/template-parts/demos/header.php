@@ -15,7 +15,7 @@ $demo   = \Flavor\Bespoke_Demos::demo();
 $drawer = \Flavor\Chrome_Builder::has_mobile_nav();
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo esc_attr( get_bloginfo( 'language' ) ); ?>" dir="rtl">
+<html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />

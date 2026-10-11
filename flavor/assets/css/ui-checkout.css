@@ -113,6 +113,10 @@
 @keyframes flavor-cart-in{from{opacity:0;transform:translateX(46px)}to{opacity:1;transform:none}}
 @keyframes flavor-cart-backdrop-in{from{opacity:0}to{opacity:1}}
 .flavor-ui .flavor-cart__dialog{animation:flavor-cart-in .42s var(--flavor-ease)}
+/* The dialog is anchored to the inline-end edge, so its entrance has to come
+   from the other side when the document direction flips. */
+@keyframes flavor-cart-in-ltr{from{opacity:0;transform:translateX(-46px)}to{opacity:1;transform:none}}
+html[dir="ltr"] .flavor-ui .flavor-cart__dialog{animation-name:flavor-cart-in-ltr}
 .flavor-ui .flavor-cart__backdrop{animation:flavor-cart-backdrop-in .3s var(--flavor-ease)}
 /* Order-mode cards breathe on hover before selection. */
 .flavor-ui .flavor-modes button{transition:border-color var(--flavor-transition-fast),background-color var(--flavor-transition-fast),color var(--flavor-transition-fast),transform var(--flavor-transition-fast),box-shadow var(--flavor-transition-fast)}

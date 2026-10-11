@@ -68,8 +68,6 @@ body.flavor-theme {
 	font-family: var(--flavor-font-body);
 	font-size: 15px;
 	line-height: 1.75;
-	direction: rtl;
-	text-align: right;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	overflow-x: hidden;
@@ -110,7 +108,7 @@ a:hover {
 .flavor-skip {
 	position: absolute;
 	top: -9999px;
-	right: 16px;
+	inset-inline-end: 16px;
 	background: var(--flavor-primary);
 	color: #fff;
 	padding: 10px 18px;
@@ -291,7 +289,7 @@ body.flavor-header-minimal .flavor-brand .custom-logo {
 	content: '';
 	position: absolute;
 	bottom: 0;
-	right: 0;
+	inset-inline-end: 0;
 	width: 0;
 	height: 2px;
 	background: var(--flavor-primary);
@@ -390,7 +388,7 @@ body.flavor-header-minimal .flavor-brand .custom-logo {
 	position: fixed;
 	top: 0;
 	bottom: 0;
-	right: 0;
+	inset-inline-end: 0;
 	width: min(340px, 85vw);
 	background: var(--flavor-surface);
 	z-index: 999;
@@ -401,8 +399,22 @@ body.flavor-header-minimal .flavor-brand .custom-logo {
 	box-shadow: var(--flavor-shadow-xl);
 }
 
+/* translateX is physical, so the parked position has to be mirrored: in LTR the
+   inline-end edge is the left one and 100% would slide the drawer across the
+   page instead of off it. rtl.css repeats the RTL value on purpose so a child
+   theme that only loads one of the two sheets still gets a working drawer. */
+html[dir="ltr"] .flavor-drawer {
+	transform: translateX(-100%);
+}
+
 .flavor-drawer.is-active {
 	transform: translateX(0);
+}
+
+/* Breadcrumb separator: LTR advances to the right, rtl.css flips the arrow. */
+.flavor-breadcrumbs span::after {
+	content: "→";
+	margin: 0 8px;
 }
 
 .flavor-drawer__header {
@@ -586,7 +598,7 @@ body.flavor-header-minimal .flavor-brand .custom-logo {
 .flavor-food-card__cat-badge {
 	position: absolute;
 	top: 12px;
-	right: 12px;
+	inset-inline-end: 12px;
 	background: rgba(0, 0, 0, 0.7);
 	backdrop-filter: blur(6px);
 	color: #fff;
@@ -666,8 +678,8 @@ body.flavor-header-minimal .flavor-brand .custom-logo {
 .flavor-mobile-bar {
 	position: fixed;
 	bottom: 0;
-	left: 0;
-	right: 0;
+	inset-inline-start: 0;
+	inset-inline-end: 0;
 	background: var(--flavor-surface);
 	border-top: 1px solid var(--flavor-line);
 	display: flex;
@@ -710,7 +722,7 @@ body.flavor-header-minimal .flavor-brand .custom-logo {
 .flavor-cart-badge {
 	position: absolute;
 	top: -4px;
-	right: -8px;
+	inset-inline-end: -8px;
 	background: var(--flavor-accent);
 	color: #fff;
 	font-size: 12px;

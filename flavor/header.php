@@ -20,7 +20,7 @@ $layout = get_theme_mod( 'flavor_header_layout', 'default' );
 $layout = in_array( $layout, array( 'default', 'centered', 'minimal', 'transparent' ), true ) ? $layout : 'default'
 ?>
 <!DOCTYPE html>
-<html <?php language_attributes(); ?> dir="rtl">
+<html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
