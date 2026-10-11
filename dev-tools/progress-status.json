@@ -74,6 +74,11 @@
     "note": "یک شکل‌دهندهٔ عدد: digits.js (جدید) + UI::digits_config() روی flavorData.digits {zero, arabicZero, thousands, mode}. هشت فایل (ui, menu, navigation, pages, bespoke-demos, catering, search, motion, demo-animations) از toLocaleString/جدولِ دست‌نویس به FlavorDigits وصل شدند؛ flavor-main-js وابسته به flavor-digits. جداکننده از number_format_i18n خوانده می‌شود، mode از تنظیمِ digitsِ کور، و fallbackِ آفلاین با مقدارِ سرور برابری سنجیده‌شده است. تست‌ها: tests/theme/test-digit-parity.php (۲۷/۰) + tests/ui/digits.mjs (۳۰/۰، در npm run test:digits و CI). docs/fa/02 بخش «ارقام و قیمت» گرفت. منفی‌آزماییِ هر چهار قانون.",
     "state": "done"
   },
+  "23": {
+    "commit": "7542c24",
+    "note": "FlavorCore\\Support\\Clock (جدید): لنگر کردن رشتهٔ naive در منطقهٔ زمانیِ سایت + قالب با wp_date(). سه زمانِ مرحله در OrderController::track_order به آن وصل شد؛ get_date_created()->date() و Jalali عمداً دست‌نخورده‌اند (کامنت دارد) و TokenService/OtpAuth هم چون رفت‌وبرگشتِ naive خنثی است. mock-wp-environment سه تابع wp_timezone/wp_date/current_datetime گرفت. تست: tests/theme/test-order-clock.php ۳۴/۰ با دو منفی‌آزمایی (۳ شکست و ۱۲ شکست).",
+    "state": "done"
+  },
   "3": {
     "commit": "e2655f9",
     "note": "gettext 0.23.1 + Python 3.13؛ check-i18n سبز؛ کاتالوگ عربی 1380/1380 (100%)؛ test-translation 84/84",
