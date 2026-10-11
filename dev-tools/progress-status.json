@@ -69,6 +69,11 @@
     "note": "هر هفت فایل منتقل شد: premium.js (۳۰ رشته → Premium_Assets::strings/Wishlist::strings)، customer/auth/pages/navigation (خانوادهٔ flavor-ui-js → UI::strings روی flavorData.i18n.ui)، catering/bespoke-demos (→ Enqueue::catering_strings و Bespoke_Demos::strings). فهرست بدهیِ JS از ۱۳ فایل به ۴ رسید (reservation/search/tracking/ui؛ motion.js و demo-animations.js فقط جدول رقم داشتند — پرامپت ۲۲). تست قرارداد: جدول arity + بررسی شکلِ helperها + سیم‌کشیِ payload؛ ۱۰۴/۰. کاتالوگ عربی ۱۴۸۸/۱۴۸۸.",
     "state": "done"
   },
+  "22": {
+    "commit": "7b21e2b",
+    "note": "یک شکل‌دهندهٔ عدد: digits.js (جدید) + UI::digits_config() روی flavorData.digits {zero, arabicZero, thousands, mode}. هشت فایل (ui, menu, navigation, pages, bespoke-demos, catering, search, motion, demo-animations) از toLocaleString/جدولِ دست‌نویس به FlavorDigits وصل شدند؛ flavor-main-js وابسته به flavor-digits. جداکننده از number_format_i18n خوانده می‌شود، mode از تنظیمِ digitsِ کور، و fallbackِ آفلاین با مقدارِ سرور برابری سنجیده‌شده است. تست‌ها: tests/theme/test-digit-parity.php (۲۷/۰) + tests/ui/digits.mjs (۳۰/۰، در npm run test:digits و CI). docs/fa/02 بخش «ارقام و قیمت» گرفت. منفی‌آزماییِ هر چهار قانون.",
+    "state": "done"
+  },
   "3": {
     "commit": "e2655f9",
     "note": "gettext 0.23.1 + Python 3.13؛ check-i18n سبز؛ کاتالوگ عربی 1380/1380 (100%)؛ test-translation 84/84",

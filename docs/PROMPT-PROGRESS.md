@@ -4,13 +4,13 @@
 
 | وضعیت | تعداد |
 |---|---:|
-| ✅ انجام‌شده | 21 |
+| ✅ انجام‌شده | 22 |
 | 🟨 بخشی انجام‌شده | 0 |
 | ⛔ مسدود (نیاز به محیط/تصمیم مالک) | 0 |
-| ⬜ انجام‌نشده | 87 |
+| ⬜ انجام‌نشده | 86 |
 | **مجموع** | **108** |
 
-درصد پیشرفت کامل: **19%** (21/108)
+درصد پیشرفت کامل: **20%** (22/108)
 
 این فایل با `python3 dev-tools/build-progress.py` از روی `progress-status.json` بازتولید می‌شود؛ ویرایش دستی را از دست می‌دهد.
 
@@ -50,7 +50,7 @@
 | 19 | ✅ انجام شد | فایل docs/raastichin/listing.md ادعا می‌کند «هشت دمو» در حالی که محصول | listing.md: «هشت دمو»/«۸ دمو» → فهرست واقعی ۱۲ دمو + چک‌لیست ارسال با وضعیت واقعی هر بند (flavor-core.zip، LICENSE داخل بسته‌ها، ویدیو = انجام‌نشده با اشاره به بندهای ۵۳/۱۰۰/۹۴)؛ README هم اصلاح شد و تست کاتالوگ هر ادعای «N دمو» را با کاتالوگ می‌سنجد — `commit b3bc786` |
 | 20 | ✅ انجام شد | رشته‌های فارسی هاردکد در جاوااسکریپت سمت مشتری را قابل ترجمه کن. فایل | ۷۴ رشته از menu.js به Enqueue::menu_strings() و flavorData.i18n.menu منتقل شد؛ برچسب رژیم غذایی به UI::dietary_labels() (تک‌نسخه، فیلترها هم از همان می‌خوانند)؛ فاصلهٔ اول/آخر رشته‌ها به markup رفت چون xgettext msgid را trim می‌کند؛ ar-part6.py هر ۶۵ msgid تازه را عربی کرد (کاتالوگ ۱۴۴۵/۱۴۴۵)؛ تست جدید tests/theme/test-js-i18n.php با parity دوسویه، بررسی placeholder، فهرست بدهی ۱۳ فایل، و دو آزمون منفی — `commit 53cee48` |
 | 21 | ✅ انجام شد | همان کار پرامپت ۲۰ را برای این فایل‌ها انجام بده (هر فایل در یک نوبت | هر هفت فایل منتقل شد: premium.js (۳۰ رشته → Premium_Assets::strings/Wishlist::strings)، customer/auth/pages/navigation (خانوادهٔ flavor-ui-js → UI::strings روی flavorData.i18n.ui)، catering/bespoke-demos (→ Enqueue::catering_strings و Bespoke_Demos::strings). فهرست بدهیِ JS از ۱۳ فایل به ۴ رسید (reservation/search/tracking/ui؛ motion.js و demo-animations.js فقط جدول رقم داشتند — پرامپت ۲۲). تست قرارداد: جدول arity + بررسی شکلِ helperها + سیم‌کشیِ payload؛ ۱۰۴/۰. کاتالوگ عربی ۱۴۸۸/۱۴۸۸. — `commit 9bf00a9` |
-| 22 | ⬜ انجام‌نشده | در فایل flavor/assets/js/menu.js تابع fa() اعداد را فارسی می‌کند و |  |
+| 22 | ✅ انجام شد | در فایل flavor/assets/js/menu.js تابع fa() اعداد را فارسی می‌کند و | یک شکل‌دهندهٔ عدد: digits.js (جدید) + UI::digits_config() روی flavorData.digits {zero, arabicZero, thousands, mode}. هشت فایل (ui, menu, navigation, pages, bespoke-demos, catering, search, motion, demo-animations) از toLocaleString/جدولِ دست‌نویس به FlavorDigits وصل شدند؛ flavor-main-js وابسته به flavor-digits. جداکننده از number_format_i18n خوانده می‌شود، mode از تنظیمِ digitsِ کور، و fallbackِ آفلاین با مقدارِ سرور برابری سنجیده‌شده است. تست‌ها: tests/theme/test-digit-parity.php (۲۷/۰) + tests/ui/digits.mjs (۳۰/۰، در npm run test:digits و CI). docs/fa/02 بخش «ارقام و قیمت» گرفت. منفی‌آزماییِ هر چهار قانون. — `commit 7b21e2b` |
 | 23 | ⬜ انجام‌نشده | تابع date() در flavor-core/includes/API/OrderController.php (چند جا در |  |
 
 ## فاز 3 — مأموریت‌های باز اسناد پروژه (R3) با ترتیب وابستگی
