@@ -83,6 +83,49 @@ class Premium_Assets {
 	}
 
 	/**
+	 * Every label the premium script renders.
+	 *
+	 * Same rule as Enqueue::menu_strings(): the script holds no copy of its own,
+	 * so a Persian literal in premium.js is a bug the parity test fails on. Keys
+	 * are the JavaScript names, and tests/theme/test-js-i18n.php checks the
+	 * placeholders against the call that fills them.
+	 *
+	 * @return array<string,string>
+	 */
+	public static function strings(): array {
+		return array(
+			'loading'            => __( 'در حال دریافت اطلاعات…', 'flavor' ),
+			'error'              => __( 'دریافت اطلاعات ناموفق بود. صفحهٔ محصول را باز کنید.', 'flavor' ),
+			'open'               => __( 'صفحهٔ کامل محصول', 'flavor' ),
+			'qty'                => __( 'تعداد', 'flavor' ),
+			'ended'              => __( 'این پیشنهاد به پایان رسید.', 'flavor' ),
+			'saved'              => __( 'ثبت شد. ممنون!', 'flavor' ),
+			'failed'             => __( 'ثبت نشد؛ بعداً تلاش کنید.', 'flavor' ),
+			'close'              => __( 'بستن', 'flavor' ),
+			'email_invalid'      => __( 'ایمیل معتبر وارد کنید.', 'flavor' ),
+			'scheme_night'       => __( 'حالت شب فعال شد.', 'flavor' ),
+			'scheme_day'         => __( 'حالت روز فعال شد.', 'flavor' ),
+			'choose_combo'       => __( 'برای این غذا ابتدا ترکیبات را انتخاب کنید.', 'flavor' ),
+			'wish_aria'          => __( 'افزودن %s به علاقه‌مندی‌ها', 'flavor' ),
+			'free_ship_remaining' => __( '%s دیگر تا ارسال رایگان', 'flavor' ),
+			'free_ship_done'     => __( 'ارسال این سفارش رایگان است.', 'flavor' ),
+			'unit_day'           => __( 'روز', 'flavor' ),
+			'unit_hour'          => __( 'ساعت', 'flavor' ),
+			'unit_minute'        => __( 'دقیقه', 'flavor' ),
+			'unit_second'        => __( 'ثانیه', 'flavor' ),
+			'consent_all'        => __( 'انتخاب شما ثبت شد.', 'flavor' ),
+			'consent_required'   => __( 'فقط کوکی ضروری فعال است.', 'flavor' ),
+			'count_all'          => __( '%s غذا', 'flavor' ),
+			'count_of'           => __( '%1$s از %2$s غذا', 'flavor' ),
+			'shown_suffix'       => __( 'نمایش داده می‌شود.', 'flavor' ),
+			'copied'             => __( 'کپی شد', 'flavor' ),
+			'copy_failed'        => __( 'کپی نشد', 'flavor' ),
+			'address_copied'     => __( 'نشانی کپی شد.', 'flavor' ),
+			'address_copy_hint'  => __( 'کپی نشد؛ دستی انتخاب کنید.', 'flavor' ),
+		);
+	}
+
+	/**
 	 * Script configuration.
 	 *
 	 * @return array<string, mixed>
@@ -103,16 +146,7 @@ class Premium_Assets {
 			),
 			'consent'   => array( 'key' => 'flavorConsent' ),
 			'popup'     => array( 'key' => 'flavorPopupSeen' ),
-			'i18n'      => array(
-				'loading' => __( 'در حال دریافت اطلاعات…', 'flavor' ),
-				'error'   => __( 'دریافت اطلاعات ناموفق بود. صفحهٔ محصول را باز کنید.', 'flavor' ),
-				'open'    => __( 'صفحهٔ کامل محصول', 'flavor' ),
-				'qty'     => __( 'تعداد', 'flavor' ),
-				'ended'   => __( 'این پیشنهاد به پایان رسید.', 'flavor' ),
-				'saved'   => __( 'ثبت شد. ممنون!', 'flavor' ),
-				'failed'  => __( 'ثبت نشد؛ بعداً تلاش کنید.', 'flavor' ),
-				'close'   => __( 'بستن', 'flavor' ),
-			),
+			'i18n'      => self::strings(),
 		);
 	}
 }

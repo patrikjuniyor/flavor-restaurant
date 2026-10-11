@@ -13,10 +13,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-11 16:06+00:00\n"
+"POT-Creation-Date: 2026-10-11 16:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
+
+#: flavor/inc/class-premium-assets.php:119
+msgid "%1$s از %2$s غذا"
+msgstr ""
 
 #: flavor/inc/class-contrast.php:202
 msgid "%1$s — %2$s به ۱ (حداقل %3$s به ۱)"
@@ -64,12 +68,16 @@ msgstr ""
 msgid "%s دقیقه آماده‌سازی"
 msgstr ""
 
-#: flavor/inc/class-shopping-extras.php:133 flavor/inc/class-shopping-extras.php:187
+#: flavor/inc/class-premium-assets.php:110 flavor/inc/class-shopping-extras.php:133 flavor/inc/class-shopping-extras.php:187
 msgid "%s دیگر تا ارسال رایگان"
 msgstr ""
 
 #: flavor/inc/class-enqueue.php:372
 msgid "%s عدد"
+msgstr ""
+
+#: flavor/inc/class-premium-assets.php:118
+msgid "%s غذا"
 msgstr ""
 
 #: flavor/inc/class-enqueue.php:357
@@ -268,7 +276,7 @@ msgstr ""
 msgid "ارسال ایمیل اطلاع به مدیر برای هر عضو جدید"
 msgstr ""
 
-#: flavor/inc/class-shopping-extras.php:134 flavor/inc/class-shopping-extras.php:188
+#: flavor/inc/class-premium-assets.php:111 flavor/inc/class-shopping-extras.php:134 flavor/inc/class-shopping-extras.php:188
 #. %s: formatted amount. */
 msgid "ارسال این سفارش رایگان است."
 msgstr ""
@@ -305,7 +313,7 @@ msgstr ""
 msgid "از سال ۱۳۹۵ با یک هدف ساده شروع کردیم: غذای خانگی با مواد تازه و قیمت منصفانه. امروز هر روز صبح مواد اولیه را خودمان از بازار می‌خریم."
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:180
+#: flavor/inc/class-wishlist.php:182
 msgid "از علاقه‌مندی‌ها حذف شد."
 msgstr ""
 
@@ -437,15 +445,15 @@ msgstr ""
 msgid "افزودن %s"
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:114
+#: flavor/inc/class-premium-assets.php:109 flavor/inc/class-wishlist.php:114
 msgid "افزودن %s به علاقه‌مندی‌ها"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:371 flavor/inc/class-shopping-extras.php:356 flavor/inc/class-wishlist.php:186 flavor/template-parts/menu/item-modal.php:16
+#: flavor/inc/class-enqueue.php:371 flavor/inc/class-shopping-extras.php:356 flavor/inc/class-wishlist.php:188 flavor/template-parts/menu/item-modal.php:16
 msgid "افزودن به سبد"
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:189
+#: flavor/inc/class-wishlist.php:191
 msgid "افزودن به سبد در این صفحه ممکن نیست؛ صفحهٔ غذا را باز کنید."
 msgstr ""
 
@@ -453,7 +461,7 @@ msgstr ""
 msgid "افزودن محصول"
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:187 flavor/inc/class-wishlist.php:208
+#: flavor/inc/class-wishlist.php:189 flavor/inc/class-wishlist.php:223
 msgid "افزودن همه به سبد"
 msgstr ""
 
@@ -533,6 +541,10 @@ msgstr ""
 msgid "انتخاب بخش سالن یا فضای باز"
 msgstr ""
 
+#: flavor/inc/class-premium-assets.php:116
+msgid "انتخاب شما ثبت شد."
+msgstr ""
+
 #: flavor/elementor/widgets/class-process-widget.php:57 flavor/inc/class-enqueue.php:361
 msgid "انتخاب غذا"
 msgstr ""
@@ -569,7 +581,7 @@ msgstr ""
 msgid "انتخاب‌های این غذا در سبد ذخیره شد."
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:199
+#: flavor/inc/class-wishlist.php:214
 msgid "انتخاب‌های ذخیره‌شده"
 msgstr ""
 
@@ -686,7 +698,7 @@ msgstr ""
 msgid "ایمیل مدیر معتبر است"
 msgstr ""
 
-#: flavor/inc/class-engagement.php:326
+#: flavor/inc/class-engagement.php:326 flavor/inc/class-premium-assets.php:105
 msgid "ایمیل معتبر وارد کنید."
 msgstr ""
 
@@ -750,7 +762,7 @@ msgstr ""
 msgid "این پوسته را رنگ‌های دستی شما پوشانده است."
 msgstr ""
 
-#: flavor/inc/class-premium-assets.php:111
+#: flavor/inc/class-premium-assets.php:101
 msgid "این پیشنهاد به پایان رسید."
 msgstr ""
 
@@ -990,7 +1002,11 @@ msgstr ""
 msgid "برای این شعبه روش سفارش فعالی تنظیم نشده است؛ با مجموعه تماس بگیرید."
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:185
+#: flavor/inc/class-premium-assets.php:108
+msgid "برای این غذا ابتدا ترکیبات را انتخاب کنید."
+msgstr ""
+
+#: flavor/inc/class-wishlist.php:187
 #. %d: number. */ __( 'حداکثر %d مورد قابل ذخیره است.', 'flavor' ), self::MAX_ITEMS ),
 msgid "برای این غذا باید ترکیبات را انتخاب کنید."
 msgstr ""
@@ -1003,7 +1019,7 @@ msgstr ""
 msgid "برای این نسخه یادداشتی ثبت نشده است."
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:188
+#: flavor/inc/class-wishlist.php:190
 msgid "برای بعضی موارد انتخاب ترکیبات لازم است؛ آن‌ها را از فهرست باز کنید."
 msgstr ""
 
@@ -1155,7 +1171,7 @@ msgstr ""
 msgid "برگشت به منو"
 msgstr ""
 
-#: flavor/inc/class-engagement.php:222 flavor/inc/class-premium-assets.php:114
+#: flavor/inc/class-engagement.php:222 flavor/inc/class-premium-assets.php:104
 msgid "بستن"
 msgstr ""
 
@@ -1167,7 +1183,7 @@ msgstr ""
 msgid "بستن سبد"
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:202
+#: flavor/inc/class-wishlist.php:217
 msgid "بستن علاقه‌مندی‌ها"
 msgstr ""
 
@@ -1211,7 +1227,7 @@ msgstr ""
 msgid "به صفحهٔ شعبه‌ها لینک می‌دهد؛ اگر آن صفحه را نساخته‌اید، لینک به همان نشانی می‌رود که هدر و فوتر استفاده می‌کنند."
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:179
+#: flavor/inc/class-wishlist.php:181
 msgid "به علاقه‌مندی‌ها اضافه شد."
 msgstr ""
 
@@ -1392,7 +1408,7 @@ msgstr ""
 msgid "تضمین‌های خرید"
 msgstr ""
 
-#: flavor/inc/class-premium-assets.php:110
+#: flavor/inc/class-premium-assets.php:100
 msgid "تعداد"
 msgstr ""
 
@@ -1686,7 +1702,7 @@ msgstr ""
 msgid "تیم ما"
 msgstr ""
 
-#: flavor/inc/class-engagement.php:117
+#: flavor/inc/class-engagement.php:117 flavor/inc/class-premium-assets.php:115
 msgid "ثانیه"
 msgstr ""
 
@@ -1702,11 +1718,11 @@ msgstr ""
 msgid "ثبت شد. اولین خبر را به‌زودی می‌فرستیم."
 msgstr ""
 
-#: flavor/inc/class-premium-assets.php:112
+#: flavor/inc/class-premium-assets.php:102
 msgid "ثبت شد. ممنون!"
 msgstr ""
 
-#: flavor/inc/class-premium-assets.php:113
+#: flavor/inc/class-premium-assets.php:103
 msgid "ثبت نشد؛ بعداً تلاش کنید."
 msgstr ""
 
@@ -1814,8 +1830,16 @@ msgstr ""
 msgid "حالت توسعه فعال است؛ OTP در لاگ محلی ثبت می‌شود و پیامک واقعی ارسال نمی‌شود."
 msgstr ""
 
+#: flavor/inc/class-premium-assets.php:107
+msgid "حالت روز فعال شد."
+msgstr ""
+
 #: flavor/inc/class-premium-customizer.php:46
 msgid "حالت شب، مگامنو، ابزارهای فروش، شمارش معکوس، عضویت خبرنامه و رضایت کوکی."
+msgstr ""
+
+#: flavor/inc/class-premium-assets.php:106
+msgid "حالت شب فعال شد."
 msgstr ""
 
 #: flavor/inc/class-premium-customizer.php:68
@@ -1858,7 +1882,7 @@ msgstr ""
 msgid "حداقل یک روش پرداخت فعال است"
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:183
+#: flavor/inc/class-wishlist.php:185
 msgid "حداکثر %d مورد قابل ذخیره است."
 msgstr ""
 
@@ -1878,7 +1902,7 @@ msgstr ""
 msgid "حداکثر ۲۰ واحد از یک انتخاب؛ تعداد را کم کنید."
 msgstr ""
 
-#: flavor/inc/class-builder.php:597 flavor/inc/class-enqueue.php:410 flavor/inc/class-repeater-control.php:131
+#: flavor/inc/class-builder.php:597 flavor/inc/class-enqueue.php:410 flavor/inc/class-repeater-control.php:131 flavor/inc/class-wishlist.php:193
 msgid "حذف"
 msgstr ""
 
@@ -2034,7 +2058,7 @@ msgstr ""
 msgid "درجهٔ پخت"
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:184
+#: flavor/inc/class-wishlist.php:186
 msgid "در حال افزودن به سبد…"
 msgstr ""
 
@@ -2054,7 +2078,7 @@ msgstr ""
 msgid "در حال دریافت اطلاعات غذا…"
 msgstr ""
 
-#: flavor/inc/class-premium-assets.php:107
+#: flavor/inc/class-premium-assets.php:97
 msgid "در حال دریافت اطلاعات…"
 msgstr ""
 
@@ -2126,7 +2150,7 @@ msgstr ""
 msgid "درگاه بانکی یا روش پرداخت محلی را در WooCommerce فعال کنید."
 msgstr ""
 
-#: flavor/inc/class-premium-assets.php:108
+#: flavor/inc/class-premium-assets.php:98
 msgid "دریافت اطلاعات ناموفق بود. صفحهٔ محصول را باز کنید."
 msgstr ""
 
@@ -2186,7 +2210,7 @@ msgstr ""
 msgid "دعوت به سفارش"
 msgstr ""
 
-#: flavor/inc/class-engagement.php:117 flavor/inc/class-enqueue.php:308 flavor/template-parts/marketing/featured.php:86
+#: flavor/inc/class-engagement.php:117 flavor/inc/class-enqueue.php:308 flavor/inc/class-premium-assets.php:114 flavor/template-parts/marketing/featured.php:86
 msgid "دقیقه"
 msgstr ""
 
@@ -2546,7 +2570,7 @@ msgstr ""
 msgid "رنگ‌هایی که وارد کنید اینجا سنجیده می‌شوند."
 msgstr ""
 
-#: flavor/elementor/widgets/class-hours-widget.php:55 flavor/inc/class-engagement.php:117
+#: flavor/elementor/widgets/class-hours-widget.php:55 flavor/inc/class-engagement.php:117 flavor/inc/class-premium-assets.php:112
 msgid "روز"
 msgstr ""
 
@@ -2722,7 +2746,7 @@ msgstr ""
 msgid "ساعات کاری و نشانی"
 msgstr ""
 
-#: flavor/elementor/widgets/class-hours-widget.php:64 flavor/inc/class-engagement.php:117
+#: flavor/elementor/widgets/class-hours-widget.php:64 flavor/inc/class-engagement.php:117 flavor/inc/class-premium-assets.php:113
 msgid "ساعت"
 msgstr ""
 
@@ -3150,7 +3174,7 @@ msgstr ""
 msgid "صفحهٔ اصلی برای بازدیدکننده قابل مشاهده است."
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:190
+#: flavor/inc/class-wishlist.php:192
 msgid "صفحهٔ غذا"
 msgstr ""
 
@@ -3166,7 +3190,7 @@ msgstr ""
 msgid "صفحهٔ نخست منتشر شده است"
 msgstr ""
 
-#: flavor/inc/class-premium-assets.php:109
+#: flavor/inc/class-premium-assets.php:99
 msgid "صفحهٔ کامل محصول"
 msgstr ""
 
@@ -3246,7 +3270,7 @@ msgstr ""
 msgid "علاقه‌مندی‌ها"
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:200
+#: flavor/inc/class-wishlist.php:215
 msgid "علاقه‌مندی‌های من"
 msgstr ""
 
@@ -3490,6 +3514,10 @@ msgstr ""
 msgid "فقط وقتی نمایش داده می‌شود که حالت شب روشن باشد."
 msgstr ""
 
+#: flavor/inc/class-premium-assets.php:117
+msgid "فقط کوکی ضروری فعال است."
+msgstr ""
+
 #: flavor/inc/class-live-preview.php:186
 msgid "فقط گزارش است؛ خروجی‌ای در صفحه ندارد."
 msgstr ""
@@ -3502,7 +3530,7 @@ msgstr ""
 msgid "فهرست اعضا تکمیل است؛ با ما تماس بگیرید."
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:182
+#: flavor/inc/class-wishlist.php:184
 msgid "فهرست علاقه‌مندی‌ها پر است؛ ابتدا چند مورد را حذف کنید."
 msgstr ""
 
@@ -4371,6 +4399,10 @@ msgstr ""
 msgid "نشانی کاملِ واتس‌اپ. خالی بگذارید تا این آیکون در پانوشت نمایش داده نشود."
 msgstr ""
 
+#: flavor/inc/class-premium-assets.php:123
+msgid "نشانی کپی شد."
+msgstr ""
+
 #: flavor/inc/class-engagement.php:320
 msgid "نشست منقضی شده است؛ صفحه را دوباره باز کنید."
 msgstr ""
@@ -4473,6 +4505,10 @@ msgstr ""
 
 #: flavor/inc/class-chrome-builder.php:249
 msgid "نمایش خط کپی‌رایت"
+msgstr ""
+
+#: flavor/inc/class-premium-assets.php:120
+msgid "نمایش داده می‌شود."
 msgstr ""
 
 #: flavor/inc/class-premium-customizer.php:86
@@ -4823,11 +4859,11 @@ msgstr ""
 msgid "هنوز عضوی اضافه نشده است."
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:181
+#: flavor/inc/class-wishlist.php:183
 msgid "هنوز غذایی را ذخیره نکرده‌اید."
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:204
+#: flavor/inc/class-wishlist.php:219
 msgid "هنوز غذایی را ذخیره نکرده‌اید. با زدن قلب روی هر غذا، اینجا نگه‌داری می‌شود."
 msgstr ""
 
@@ -5015,7 +5051,7 @@ msgstr ""
 msgid "پاک کردن جست‌وجو"
 msgstr ""
 
-#: flavor/inc/class-wishlist.php:209
+#: flavor/inc/class-wishlist.php:224
 msgid "پاک کردن فهرست"
 msgstr ""
 
@@ -5552,12 +5588,24 @@ msgstr ""
 msgid "کپی خلاصه"
 msgstr ""
 
+#: flavor/inc/class-premium-assets.php:121
+msgid "کپی شد"
+msgstr ""
+
 #: flavor/template-parts/marketing/special-offers.php:38
 msgid "کپی شد!"
 msgstr ""
 
 #: flavor/inc/class-branch-map.php:139
 msgid "کپی نشانی"
+msgstr ""
+
+#: flavor/inc/class-premium-assets.php:122
+msgid "کپی نشد"
+msgstr ""
+
+#: flavor/inc/class-premium-assets.php:124
+msgid "کپی نشد؛ دستی انتخاب کنید."
 msgstr ""
 
 #: flavor/inc/class-customer-ui.php:107 flavor/template-parts/marketing/special-offers.php:39

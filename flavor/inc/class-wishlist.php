@@ -166,6 +166,34 @@ class Wishlist {
 	 * Slide-in list. Rendered in the footer on every page, including pages
 	 * where WooCommerce is absent (the list keeps working from the snapshot).
 	 */
+	/**
+	 * Labels the wishlist panel and its buttons show.
+	 *
+	 * Extracted from panel() so the script's keys can be checked against one
+	 * list: premium.js reads this map through the panel's JSON config and used
+	 * to repeat the strings as JavaScript fallbacks, which no site could
+	 * translate. 'remove' was missing there entirely.
+	 *
+	 * @return array<string,string>
+	 */
+	public static function strings(): array {
+		return array(
+			'added'    => __( 'به علاقه‌مندی‌ها اضافه شد.', 'flavor' ),
+			'removed'  => __( 'از علاقه‌مندی‌ها حذف شد.', 'flavor' ),
+			'empty'    => __( 'هنوز غذایی را ذخیره نکرده‌اید.', 'flavor' ),
+			'full'     => __( 'فهرست علاقه‌مندی‌ها پر است؛ ابتدا چند مورد را حذف کنید.', 'flavor' ),
+			'limit'    => sprintf( /* translators: %d: number. */ __( 'حداکثر %d مورد قابل ذخیره است.', 'flavor' ), self::MAX_ITEMS ),
+			'adding'   => __( 'در حال افزودن به سبد…', 'flavor' ),
+			'choose'   => __( 'برای این غذا باید ترکیبات را انتخاب کنید.', 'flavor' ),
+			'addOne'   => __( 'افزودن به سبد', 'flavor' ),
+			'addAll'   => __( 'افزودن همه به سبد', 'flavor' ),
+			'partial'  => __( 'برای بعضی موارد انتخاب ترکیبات لازم است؛ آن‌ها را از فهرست باز کنید.', 'flavor' ),
+			'offline'  => __( 'افزودن به سبد در این صفحه ممکن نیست؛ صفحهٔ غذا را باز کنید.', 'flavor' ),
+			'openPage' => __( 'صفحهٔ غذا', 'flavor' ),
+			'remove'   => __( 'حذف', 'flavor' ),
+		);
+	}
+
 	public static function panel(): void {
 		if ( ! self::enabled() || is_admin() ) {
 			return;
@@ -175,20 +203,7 @@ class Wishlist {
 			'key'      => self::STORAGE_KEY,
 			'max'      => self::MAX_ITEMS,
 			'canAdd'   => function_exists( 'wc_get_product' ),
-			'i18n'     => array(
-				'added'    => __( 'به علاقه‌مندی‌ها اضافه شد.', 'flavor' ),
-				'removed'  => __( 'از علاقه‌مندی‌ها حذف شد.', 'flavor' ),
-				'empty'    => __( 'هنوز غذایی را ذخیره نکرده‌اید.', 'flavor' ),
-				'full'     => __( 'فهرست علاقه‌مندی‌ها پر است؛ ابتدا چند مورد را حذف کنید.', 'flavor' ),
-				'limit'    => sprintf( /* translators: %d: number. */ __( 'حداکثر %d مورد قابل ذخیره است.', 'flavor' ), self::MAX_ITEMS ),
-				'adding'   => __( 'در حال افزودن به سبد…', 'flavor' ),
-				'choose'   => __( 'برای این غذا باید ترکیبات را انتخاب کنید.', 'flavor' ),
-				'addOne'   => __( 'افزودن به سبد', 'flavor' ),
-				'addAll'   => __( 'افزودن همه به سبد', 'flavor' ),
-				'partial'  => __( 'برای بعضی موارد انتخاب ترکیبات لازم است؛ آن‌ها را از فهرست باز کنید.', 'flavor' ),
-				'offline'  => __( 'افزودن به سبد در این صفحه ممکن نیست؛ صفحهٔ غذا را باز کنید.', 'flavor' ),
-				'openPage' => __( 'صفحهٔ غذا', 'flavor' ),
-			),
+			'i18n'     => self::strings(),
 		);
 		?>
 		<div class="flavor-wish" id="flavor-wishlist" hidden data-flavor-wishlist="<?php echo esc_attr( (string) wp_json_encode( $config ) ); ?>">

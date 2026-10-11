@@ -21,7 +21,17 @@
 	function digits(value) { return ui ? ui.digits(value) : String(value); }
 	function money(amount) { return ui ? ui.money(amount) : String(amount); }
 	function announce(message) { if (ui) { ui.announce(message); } }
-	function t(key, fallback) { return (cfg.i18n && cfg.i18n[key]) || fallback; }
+	/* flavor-i18n-map: flavorPremium.i18n */
+	// Every label comes from Premium_Assets::strings(). A fallback here used to
+	// be Persian, which is copy no site could translate and no test could see
+	// go missing; a key absent from the map now surfaces as the key itself and
+	// fails tests/theme/test-js-i18n.php.
+	var STR = cfg.i18n || {};
+	function t(key) {
+		return typeof STR[key] === "string" && STR[key] !== "" ? STR[key] : key;
+	}
+	function fmt(key, value) { return t(key).replace("%s", value); }
+	function fmt2(key, first, second) { return t(key).replace("%1$s", first).replace("%2$s", second); }
 
 	function store(key, value) {
 		try {
@@ -61,7 +71,7 @@
 			}
 
 			if (!email || email.indexOf('@') < 1) {
-				say('ایمیل معتبر وارد کنید.', true);
+				say(t('email_invalid'), true);
 				if (field) { field.focus(); }
 				return;
 			}
@@ -71,13 +81,13 @@
 			data.append('nonce', cfg.nonce || '');
 			data.append('email', email);
 
-			say(t('loading', '…'));
+			say(t('loading'));
 
 			fetch(cfg.ajax, { method: 'POST', credentials: 'same-origin', body: data })
 				.then(function (response) { return response.json(); })
 				.then(function (payload) {
 					var ok = !!(payload && payload.success);
-					var message = (payload && payload.data && payload.data.message) || (ok ? t('saved', 'ثبت شد.') : t('failed', 'ثبت نشد.'));
+					var message = (payload && payload.data && payload.data.message) || (ok ? t('saved') : t('failed'));
 
 					say(message, !ok);
 
@@ -87,7 +97,7 @@
 					if (field) { field.value = ''; }
 					if (onSuccess) { onSuccess(); }
 				})
-				.catch(function () { say(t('failed', 'ثبت نشد؛ بعداً تلاش کنید.'), true); });
+				.catch(function () { say(t('failed'), true); });
 		});
 	}
 
@@ -159,7 +169,7 @@
 			root.setAttribute('data-flavor-scheme', next);
 			store('flavorScheme', next);
 			paint();
-			announce(next === 'dark' ? 'حالت شب فعال شد.' : 'حالت روز فعال شد.');
+			announce(next === 'dark' ? t('scheme_night') : t('scheme_day'));
 		});
 
 		if (window.matchMedia) {
@@ -188,6 +198,11 @@
 		var key = config.key || 'flavorWishlist';
 		var max = Number(config.max || 60);
 		var i18n = config.i18n || {};
+		/* flavor-i18n-map: wishlist.i18n */
+		// Wishlist::strings() renders this config; the same rule as t() above.
+		function wt(key) {
+			return typeof i18n[key] === "string" && i18n[key] !== "" ? i18n[key] : key;
+		}
 		var lastTrigger = null;
 
 		function items() {
@@ -237,8 +252,8 @@
 					+ '<span class="flavor-wish__item-price">' + esc(entry.price) + '</span>'
 					+ '</div>'
 					+ '<div class="flavor-wish__item-actions">'
-					+ '<button type="button" data-wishlist-add="' + esc(entry.id) + '">' + esc(i18n.addOne || 'افزودن به سبد') + '</button>'
-					+ '<button type="button" data-wishlist-remove="' + esc(entry.id) + '">' + esc(i18n.remove || 'حذف') + '</button>'
+					+ '<button type="button" data-wishlist-add="' + esc(entry.id) + '">' + esc(wt('addOne')) + '</button>'
+					+ '<button type="button" data-wishlist-remove="' + esc(entry.id) + '">' + esc(wt('remove')) + '</button>'
 					+ '</div></li>';
 			}).join('');
 		}
@@ -249,19 +264,19 @@
 
 			if (has(item.id)) {
 				save(items().filter(function (entry) { return String(entry.id) !== item.id; }));
-				announce(i18n.removed || 'حذف شد.');
+				announce(wt('removed'));
 				return;
 			}
 
 			if (items().length >= max) {
-				announce(i18n.full || '');
+				announce(wt('full'));
 				return;
 			}
 
 			var next = items();
 			next.push(item);
 			save(next);
-			announce(i18n.added || 'اضافه شد.');
+			announce(wt('added'));
 		}
 
 		doc.addEventListener('click', function (event) {
@@ -290,13 +305,13 @@
 			var removeButton = event.target.closest('[data-wishlist-remove]');
 			if (removeButton) {
 				save(items().filter(function (entry) { return String(entry.id) !== removeButton.getAttribute('data-wishlist-remove'); }));
-				announce(i18n.removed || 'حذف شد.');
+				announce(wt('removed'));
 				return;
 			}
 
 			if (event.target.closest('#flavor-wish-clear')) {
 				save([]);
-				announce(i18n.removed || 'حذف شد.');
+				announce(wt('removed'));
 				return;
 			}
 
@@ -314,14 +329,14 @@
 
 			if (direct) {
 				direct.click();
-				announce(i18n.added || '');
+				announce(wt('added'));
 				return 'added';
 			}
 
 			var detail = doc.querySelector('[data-detail="' + id + '"]');
 			if (detail) {
 				detail.click();
-				announce(i18n.choose || '');
+				announce(wt('choose'));
 				return 'choose';
 			}
 
@@ -330,7 +345,7 @@
 				return 'redirected';
 			}
 
-			announce(i18n.offline || '');
+			announce(wt('offline'));
 			return 'offline';
 		}
 
@@ -344,7 +359,7 @@
 			});
 
 			if (!added) {
-				if (needsChoice && addOne(pending[0].id)) { announce(i18n.partial || ''); }
+				if (needsChoice && addOne(pending[0].id)) { announce(wt('partial')); }
 				return;
 			}
 
@@ -354,7 +369,7 @@
 				}
 			});
 
-			announce((i18n.added || '') + (needsChoice ? ' ' + (i18n.partial || '') : ''));
+			announce(wt('added') + (needsChoice ? ' ' + wt('partial') : ''));
 		}
 
 		if (status) { status.textContent = ''; }
@@ -380,7 +395,7 @@
 				button.setAttribute('data-wish-image', (image && image.getAttribute('src')) || '');
 				button.setAttribute('data-wish-url', card.getAttribute('data-url') || '');
 				button.setAttribute('aria-pressed', 'false');
-				button.setAttribute('aria-label', 'افزودن ' + ((title && title.textContent || '').trim()) + ' به علاقه‌مندی‌ها');
+				button.setAttribute('aria-label', fmt('wish_aria', (title && title.textContent || '').trim()));
 				button.innerHTML = '<svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-9.4A4.1 4.1 0 0 1 12 7.6a4.1 4.1 0 0 1 7 2.9c0 5-7 9.5-7 9.5Z"/></svg>';
 
 				media.appendChild(button);
@@ -470,7 +485,7 @@
 
 			if (needsChoice) {
 				form.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' });
-				announce('برای این غذا ابتدا ترکیبات را انتخاب کنید.');
+				announce(t('choose_combo'));
 				return;
 			}
 
@@ -501,13 +516,13 @@
 				+ (price !== null ? '<span class="flavor-qv__price">' + esc(money(Math.round(price))) + '</span>' : '')
 				+ '<div class="flavor-qv__desc">' + description.replace(/<[^>]*>/g, '') + '</div>'
 				+ '<div class="flavor-qv__actions">'
-				+ '<a class="flavor-btn flavor-btn--primary" href="' + esc(product.permalink) + '">' + esc(t('open', 'صفحهٔ کامل محصول')) + '</a>'
+				+ '<a class="flavor-btn flavor-btn--primary" href="' + esc(product.permalink) + '">' + esc(t('open')) + '</a>'
 				+ '</div></div></div>';
 		}
 
 		function load(id, trigger) {
 			if (cache[id]) { render(cache[id]); return; }
-			body.innerHTML = '<p class="flavor-qv__loading" role="status">' + esc(t('loading', 'در حال دریافت…')) + '</p>';
+			body.innerHTML = '<p class="flavor-qv__loading" role="status">' + esc(t('loading')) + '</p>';
 
 			var url = cfg.quickView.store + encodeURIComponent(id);
 			fetch(url, { credentials: 'same-origin', headers: { Accept: 'application/json' } })
@@ -523,8 +538,8 @@
 					// No Store API (old WooCommerce) — fall back to the page.
 					var card = trigger && trigger.closest('li') ? trigger.closest('li') : null;
 					var link = card ? $('a.woocommerce-LoopProduct-link, a', card) : null;
-					body.innerHTML = '<p class="flavor-qv__loading">' + esc(t('error', 'دریافت اطلاعات ناموفق بود.')) + '</p>'
-						+ (link ? '<p class="flavor-qv__actions"><a class="flavor-btn flavor-btn--primary" href="' + esc(link.href) + '">' + esc(t('open', 'صفحهٔ کامل محصول')) + '</a></p>' : '');
+					body.innerHTML = '<p class="flavor-qv__loading">' + esc(t('error')) + '</p>'
+						+ (link ? '<p class="flavor-qv__actions"><a class="flavor-btn flavor-btn--primary" href="' + esc(link.href) + '">' + esc(t('open')) + '</a></p>' : '');
 				});
 		}
 
@@ -581,8 +596,8 @@
 
 			if (text) {
 				text.textContent = remaining > 0
-					? (cfg.freeShip.i18n && cfg.freeShip.i18n.remaining ? cfg.freeShip.i18n.remaining.replace('%s', money(display)) : money(display) + ' دیگر تا ارسال رایگان')
-					: ((cfg.freeShip.i18n && cfg.freeShip.i18n.done) || 'ارسال این سفارش رایگان است.');
+					? (cfg.freeShip.i18n && cfg.freeShip.i18n.remaining ? cfg.freeShip.i18n.remaining.replace('%s', money(display)) : fmt('free_ship_remaining', money(display)))
+					: ((cfg.freeShip.i18n && cfg.freeShip.i18n.done) || t('free_ship_done'));
 			}
 		}
 
@@ -601,7 +616,7 @@
 		var timers = $$('[data-flavor-countdown]');
 		if (!timers.length) { return; }
 
-		var units = { day: 'روز', hour: 'ساعت', minute: 'دقیقه', second: 'ثانیه' };
+		var units = { day: t('unit_day'), hour: t('unit_hour'), minute: t('unit_minute'), second: t('unit_second') };
 
 		function pad(value) { return String(value).padStart(2, '0'); }
 
@@ -681,7 +696,7 @@
 			if (value === 'all') { activateGated(); }
 
 			doc.dispatchEvent(new CustomEvent('flavor:consent', { detail: { choice: value } }));
-			announce(value === 'all' ? 'انتخاب شما ثبت شد.' : 'فقط کوکی ضروری فعال است.');
+			announce(value === 'all' ? t('consent_all') : t('consent_required'));
 		});
 	})();
 
@@ -793,11 +808,11 @@
 
 			if (count) {
 				count.textContent = visible === cards().length
-					? digits(String(visible)) + ' غذا'
-					: digits(String(visible)) + ' از ' + digits(String(cards().length)) + ' غذا';
+					? fmt('count_all', digits(String(visible)))
+					: fmt2('count_of', digits(String(visible)), digits(String(cards().length)));
 			}
 
-			announce((count ? count.textContent : '') + ' نمایش داده می‌شود.');
+			announce((count ? count.textContent : '') + ' ' + t('shown_suffix'));
 		}
 
 		function sortCards() {
@@ -884,10 +899,10 @@
 			function done(ok) {
 				if (label) {
 					var original = label.textContent;
-					label.textContent = ok ? 'کپی شد' : 'کپی نشد';
+					label.textContent = ok ? t('copied') : t('copy_failed');
 					window.setTimeout(function () { label.textContent = original; }, 2200);
 				}
-				announce(ok ? 'نشانی کپی شد.' : 'کپی نشد؛ دستی انتخاب کنید.');
+				announce(ok ? t('address_copied') : t('address_copy_hint'));
 			}
 
 			if (navigator.clipboard && navigator.clipboard.writeText) {

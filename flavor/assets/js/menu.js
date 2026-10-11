@@ -47,6 +47,7 @@
 			.replace(/"/g, '&quot;');
 	}
 
+	/* flavor-i18n-map: flavorData.i18n.menu */
 	// All copy comes from flavorData.i18n.menu (Enqueue::menu_strings()). The
 	// script holds no UI text of its own: Persian literals here would be copy no
 	// site can translate, which is exactly what this file used to ship. A key
