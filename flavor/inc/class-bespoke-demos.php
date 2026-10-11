@@ -19,6 +19,22 @@ class Bespoke_Demos {
 		add_action( 'customize_register', array( self::class, 'customizer' ) );
 	}
 
+
+	/**
+	 * Copy bespoke-demos.js prints (the filter counter and the delivery-zone
+	 * checker). Same rule as the other maps: the script holds no text of its own
+	 * so that every label is translatable, and tests/theme/test-js-i18n.php
+	 * checks the two sides against each other.
+	 */
+	public static function strings(): array {
+		return array(
+			'selection_shown' => __( '%s انتخاب نمایش داده می‌شود.', 'flavor' ),
+			'zone_checking'   => __( 'در حال بررسی محله…', 'flavor' ),
+			'zone_failed'     => __( 'بررسی محله ناموفق بود. دوباره تلاش کن یا تماس بگیر.', 'flavor' ),
+			'zone_summary'    => __( '%1$s · هزینهٔ ارسال: %2$s · زمان برآوردی منطقه: حدود %3$s دقیقه؛ زمان تضمین‌شده نیست.', 'flavor' ),
+			'zone_out'        => __( 'خارج از محدودهٔ ارسال؛ دریافت بیرون‌بر را بررسی کن.', 'flavor' ),
+		);
+	}
 	public static function active(): bool {
 		return in_array( Design::current_skin(), self::SLUGS, true );
 	}

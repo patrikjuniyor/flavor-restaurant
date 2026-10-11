@@ -31,14 +31,19 @@ PLACEHOLDER = re.compile(r"%\d*\$?s")
 
 def dump_map(method):
 	"""Run the PHP map method under the theme's mock environment and return it."""
+	# The class file is named after the class (\Flavor\Premium_Assets ->
+	# inc/class-premium-assets.php), so any map can be dumped without keeping a
+	# list of files here — and loading only that one avoids classes whose file
+	# extends WP_Customize_Control and fatals outside the Customizer.
+	klass = method.split("::")[0].lstrip("\\").split("\\")[-1]
+	file = os.path.join(ROOT, "flavor/inc/class-%s.php" % re.sub(r"[^a-z0-9]+", "-", re.sub(r"(?<!^)(?=[A-Z])", "-", klass).lower()).strip("-"))
+	if not os.path.isfile(file):
+		raise SystemExit("no class file for %s (looked in %s)" % (klass, file))
 	script = (
 		"require %s;"
-		"require_once FLAVOR_DIR . '/inc/class-enqueue.php';"
-		"require_once FLAVOR_DIR . '/inc/class-premium-assets.php';"
-		"require_once FLAVOR_DIR . '/inc/class-wishlist.php';"
-		"require_once FLAVOR_DIR . '/inc/class-ui.php';"
+		"require_once %s;"
 		"echo json_encode(%s(), JSON_UNESCAPED_UNICODE);"
-	) % (json.dumps(os.path.join(ROOT, "tests/theme/bootstrap.php")), method)
+	) % (json.dumps(os.path.join(ROOT, "tests/theme/bootstrap.php")), json.dumps(file), method)
 	proc = subprocess.run(["php", "-r", script], cwd=ROOT, capture_output=True, text=True)
 	if proc.returncode != 0:
 		raise SystemExit("php failed: " + (proc.stderr.strip()[-500:] or "no stderr"))

@@ -42,6 +42,7 @@ require_once FLAVOR_DIR . '/inc/class-enqueue.php';
 require_once FLAVOR_DIR . '/inc/class-premium-assets.php';
 require_once FLAVOR_DIR . '/inc/class-wishlist.php';
 require_once FLAVOR_DIR . '/inc/class-ui.php';
+require_once FLAVOR_DIR . '/inc/class-bespoke-demos.php';
 
 $passed = 0;
 $failed = 0;
@@ -130,8 +131,7 @@ $contracts = array(
 		'file'   => 'menu.js',
 		'marker' => 'flavor-i18n-map: flavorData.i18n.menu',
 		'calls'  => array( 't', 'fill', 'fill2' ),
-		'one'    => 'fill',
-		'two'    => 'fill2',
+		'arity'  => array( 't' => 0, 'fill' => 1, 'fill2' => 2 ),
 		'map'    => '\Flavor\Enqueue::menu_strings',
 		'strict' => true, // the map exists only for this script: no dead entries
 		'wire'   => array( 'inc/class-enqueue.php', 'menu.\s*=>\s*self::menu_strings\(\)' ),
@@ -140,8 +140,7 @@ $contracts = array(
 		'file'   => 'premium.js',
 		'marker' => 'flavor-i18n-map: flavorPremium.i18n',
 		'calls'  => array( 't', 'fmt', 'fmt2' ),
-		'one'    => 'fmt',
-		'two'    => 'fmt2',
+		'arity'  => array( 't' => 0, 'fmt' => 1, 'fmt2' => 2 ),
 		'map'    => '\Flavor\Premium_Assets::strings',
 		'strict' => false,
 		'wire'   => array( 'inc/class-premium-assets.php', 'i18n.\s*=>\s*self::strings\(\)' ),
@@ -150,8 +149,7 @@ $contracts = array(
 		'file'   => 'premium.js',
 		'marker' => 'flavor-i18n-map: wishlist.i18n',
 		'calls'  => array( 'wt' ),
-		'one'    => '',
-		'two'    => '',
+		'arity'  => array( 'wt' => 0 ),
 		'map'    => '\Flavor\Wishlist::strings',
 		'strict' => false,
 		'wire'   => array( 'inc/class-wishlist.php', 'i18n.\s*=>\s*self::strings\(\)' ),
@@ -166,8 +164,7 @@ $contracts = array(
 		'file'   => 'customer.js',
 		'marker' => 'flavor-i18n-map: flavorData.i18n.ui',
 		'calls'  => array( 't', 'fmt' ),
-		'one'    => 'fmt',
-		'two'    => '',
+		'arity'  => array( 't' => 0, 'fmt' => 1 ),
 		'map'    => '\Flavor\UI::strings',
 		'strict' => false,
 		'min'    => 4,
@@ -177,8 +174,7 @@ $contracts = array(
 		'file'   => 'auth.js',
 		'marker' => 'flavor-i18n-map: flavorData.i18n.ui',
 		'calls'  => array( 't', 'fmt' ),
-		'one'    => 'fmt',
-		'two'    => '',
+		'arity'  => array( 't' => 0, 'fmt' => 1 ),
 		'map'    => '\Flavor\UI::strings',
 		'strict' => false,
 		'min'    => 10,
@@ -188,8 +184,7 @@ $contracts = array(
 		'file'   => 'pages.js',
 		'marker' => 'flavor-i18n-map: flavorData.i18n.ui',
 		'calls'  => array( 't', 'fmt' ),
-		'one'    => 'fmt',
-		'two'    => '',
+		'arity'  => array( 't' => 0, 'fmt' => 1 ),
 		'map'    => '\Flavor\UI::strings',
 		'strict' => false,
 		'min'    => 1,
@@ -199,12 +194,31 @@ $contracts = array(
 		'file'   => 'navigation.js',
 		'marker' => 'flavor-i18n-map: flavorData.i18n.ui',
 		'calls'  => array( 't', 'fmt' ),
-		'one'    => 'fmt',
-		'two'    => '',
+		'arity'  => array( 't' => 0, 'fmt' => 1 ),
 		'map'    => '\Flavor\UI::strings',
 		'strict' => false,
 		'min'    => 1,
 		'wire'   => array( 'inc/class-enqueue.php', 'ui.\s*=>\s*UI::strings\(\)' ),
+	),
+	array(
+		'file'   => 'catering.js',
+		'marker' => 'flavor-i18n-map: flavorData.i18n.catering',
+		'calls'  => array( 't', 'fmt' ),
+		'arity'  => array( 't' => 0, 'fmt' => 1 ),
+		'map'    => '\Flavor\Enqueue::catering_strings',
+		'strict' => false,
+		'min'    => 11,
+		'wire'   => array( 'inc/class-enqueue.php', 'catering.\s*=>\s*self::catering_strings\(\)' ),
+	),
+	array(
+		'file'   => 'bespoke-demos.js',
+		'marker' => 'flavor-i18n-map: flavorData.i18n.bespoke',
+		'calls'  => array( 't', 'fmt', 'fmt3' ),
+		'arity'  => array( 't' => 0, 'fmt' => 1, 'fmt3' => 3 ),
+		'map'    => '\Flavor\Bespoke_Demos::strings',
+		'strict' => false,
+		'min'    => 5,
+		'wire'   => array( 'inc/class-enqueue.php', 'bespoke.\s*=>\s*Bespoke_Demos::strings\(\)' ),
 	),
 );
 
@@ -304,10 +318,17 @@ foreach ( $shared as $callable => $names ) {
 
 echo "\n--- 3. Placeholders survive the handoff ---\n";
 
+/*
+ * Each lookup function declares how many values it substitutes. A message read
+ * through a plain t() must carry no placeholder at all, a one-value call exactly
+ * one %s, and a multi-value call the positional %1$s..%Ns — otherwise the browser
+ * prints a bare "%s" (or shifts every value one label to the left, which is how a
+ * price ends up where a quantity was).
+ */
 foreach ( $contracts as $name => $contract ) {
-	$map    = $maps[ $name ];
-	$bad    = array();
-	$calls  = implode( '|', array_map( 'preg_quote', $contract['calls'] ) );
+	$map   = $maps[ $name ];
+	$bad   = array();
+	$calls = implode( '|', array_map( 'preg_quote', $contract['calls'] ) );
 	preg_match_all( '/\b(' . $calls . ')\(\s*\'([A-Za-z_0-9]+)\'/', $sources[ $name ], $matches, PREG_SET_ORDER );
 	foreach ( $matches as $match ) {
 		$call = $match[1];
@@ -316,19 +337,55 @@ foreach ( $contracts as $name => $contract ) {
 			continue;
 		}
 		$value      = (string) $map[ $key ];
-		$positional = (bool) preg_match( '/%\d+\$s/', $value );
+		$want       = isset( $contract['arity'][ $call ] ) ? (int) $contract['arity'][ $call ] : 0;
 		$bare       = substr_count( $value, '%s' );
-		if ( $call === $contract['one'] && ( $positional || 1 !== $bare ) ) {
-			$bad[] = "{$key}: a single-value call needs exactly one %s (found {$bare})";
-		} elseif ( $call === $contract['two'] && ( ! $positional || false === strpos( $value, '%1$s' ) || false === strpos( $value, '%2$s' ) ) ) {
-			$bad[] = "{$key}: a two-value call needs %1\$s and %2\$s";
-		} elseif ( ! in_array( $call, array( $contract['one'], $contract['two'] ), true ) && ( $positional || $bare > 0 ) ) {
+		$positional = (bool) preg_match( '/%\d+\$s/', $value );
+		if ( 0 === $want && ( $positional || $bare ) ) {
 			$bad[] = "{$key}: looked up plain but the string carries placeholders";
+		} elseif ( 1 === $want && ( $positional || 1 !== $bare ) ) {
+			$bad[] = "{$key}: a single-value call needs exactly one %s (found {$bare})";
+		} elseif ( $want > 1 ) {
+			preg_match_all( '/%(\d+)\$s/', $value, $nums );
+			$seen = array_map( 'intval', $nums[1] );
+			sort( $seen );
+			if ( $bare || $seen !== range( 1, $want ) ) {
+				$bad[] = "{$key}: a {$want}-value call needs %1\$s through %{$want}\$s (found " . implode( ',', $seen ) . ')';
+			}
 		}
 	}
 	check(
 		! $bad,
 		$contract['file'] . ': every placeholder matches the call that fills it' . ( $bad ? ': ' . implode( '; ', array_unique( $bad ) ) : '' )
+	);
+
+	// The helper itself, not only its callers: a fmt3() whose body was gutted to
+	// one replace() would leave a literal "%1$s" on the page while every key
+	// check above stayed green. Each declared filler must take key + N values and
+	// substitute exactly the N tokens its arity promises.
+	$broken = array();
+	foreach ( $contract['arity'] as $call => $want ) {
+		if ( $want < 1 ) {
+			continue;
+		}
+		if ( ! preg_match( '/function\s+' . preg_quote( $call, '/' ) . '\s*\([^)]*\)\s*\{[^\n]*/', $sources[ $name ], $dm ) ) {
+			$broken[] = $call . '(): no helper of that name';
+			continue;
+		}
+		preg_match( '/\(([^)]*)\)/', $dm[0], $am );
+		$args = array_filter( array_map( 'trim', explode( ',', $am[1] ) ) );
+		if ( count( $args ) !== $want + 1 ) {
+			$broken[] = $call . '(): takes ' . count( $args ) . ' arguments, its callers pass ' . ( $want + 1 );
+		}
+		for ( $i = 1; $i <= $want; $i++ ) {
+			$token = ( 1 === $want ) ? '%s' : '%' . $i . '$s';
+			if ( 1 !== substr_count( $dm[0], $token ) ) {
+				$broken[] = $call . '(): ' . $token . ' is substituted ' . substr_count( $dm[0], $token ) . ' times, expected once';
+			}
+		}
+	}
+	check(
+		! $broken,
+		$contract['file'] . ': its filler helpers do what their arity claims' . ( $broken ? ': ' . implode( '; ', $broken ) : '' )
 	);
 }
 
@@ -354,9 +411,6 @@ echo "\n--- 5. The remaining translation debt is a fixed list ---\n";
 // file fails until the list says so. Admin/Customizer chrome is out of scope
 // (prompt 21 leaves it a second priority).
 $expected_debt = array(
-	// The two files prompt 21 has left to do.
-	'bespoke-demos.js',
-	'catering.js',
 	// Copy debt beyond prompt 21's seven files; each needs a PHP map of its own.
 	'reservation.js',
 	'search.js',

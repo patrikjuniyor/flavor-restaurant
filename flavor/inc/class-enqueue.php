@@ -191,6 +191,10 @@ class Enqueue {
 				// its own handle because navigation.js loads on shells where
 				// flavor-ui-js is not registered. See UI::strings().
 				'ui'      => UI::strings(),
+				// The two demo-page scripts (prompt 21): catering.js and
+				// bespoke-demos.js read their copy from here too.
+				'catering' => self::catering_strings(),
+				'bespoke'  => Bespoke_Demos::strings(),
 			),
 		);
 
@@ -353,7 +357,30 @@ class Enqueue {
 	 *
 	 * @return array<string,string>
 	 */
-	public static function menu_strings(): array {
+	/**
+	 * Copy catering.js prints on the catering homepage. The script keeps none of
+	 * its own (prompt 21) — the summary it builds is assembled from these lines,
+	 * so an untranslated release would hand a Persian text file to a customer
+	 * who reads Arabic.
+	 */
+	public static function catering_strings(): array {
+		return array(
+			'guests_range'     => __( 'تعداد پیشنهادی را بین ۱ تا ۱۰۰۰ وارد کنید؛ برای تعداد بیشتر تماس بگیرید.', 'flavor' ),
+			'field_required'   => __( 'لطفاً این بخش را تکمیل کنید.', 'flavor' ),
+			'summary_title'    => __( 'خلاصه برای هماهنگی پذیرایی', 'flavor' ),
+			'service_line'     => __( 'نوع پذیرایی: %s', 'flavor' ),
+			'guests_line'      => __( 'تعداد پیشنهادی: %s نفر', 'flavor' ),
+			'date_line'        => __( 'روز و ساعت پیشنهادی: %s', 'flavor' ),
+			'location_line'    => __( 'شهر و محل: %s', 'flavor' ),
+			'notes_line'       => __( 'توضیحات و نیاز غذایی: %s', 'flavor' ),
+			'notes_none'       => __( 'در گفت‌وگو مشخص می‌شود.', 'flavor' ),
+			'summary_notice'   => __( 'این خلاصه ارسال نشده است؛ ظرفیت، هزینه و شرایط اجرا به تأیید جداگانه نیاز دارند.', 'flavor' ),
+			'summary_copied'   => __( 'خلاصه کپی شد؛ برای هماهنگی در اختیار تیم بگذارید. هنوز هیچ درخواستی ارسال نشده.', 'flavor' ),
+			'copy_manual'      => __( 'کپی خودکار در این مرورگر ممکن نیست. متن انتخاب شده است؛ آن را دستی کپی کنید. هیچ درخواستی ارسال نشده.', 'flavor' ),
+		);
+	}
+
+		public static function menu_strings(): array {
 		return array(
 			// Menu cards and the category bar.
 			'currency'          => __( 'تومان', 'flavor' ),
