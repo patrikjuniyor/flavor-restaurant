@@ -123,6 +123,13 @@
 	}
 
 	function fa(value) { return ui ? ui.digits(value) : String(value); }
+	/* Grouping, digits and the currency word all come from the one spec the
+	   server formats with (prompt 22) — see digits.js. t('currency') stays the
+	   fallback so the price never loses its unit when the payload is thin. */
+	function price(value) {
+		var unit = (cfg.currency && cfg.currency.label) || t('currency');
+		return window.FlavorDigits ? FlavorDigits.money(value, unit) : fa(String(value)) + ' ' + unit;
+	}
 	function safeImage(value) { try { var url = new URL(value, document.baseURI); return ['https:', 'http:'].includes(url.protocol) ? url.href : ''; } catch (ignore) { return ''; } }
 	function plain(value) { var el = document.createElement('textarea'); el.innerHTML = String(value || '').replace(/<[^>]*>/g, ''); return el.value; }
 	function smallIcon(name) { var path = name === 'clock' ? '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/>' : '<path d="M12 5v14M5 12h14"/>'; return '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">' + path + '</svg>'; }
@@ -193,7 +200,7 @@
 	function paintSheetPrice() {
 		if (!sheetAdd || !current) return;
 		var n = livePrice();
-		var label = Number(n).toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || t('currency'));
+		var label = price(n);
 		var price = document.getElementById('flavor-sheet-price'); if (price) price.textContent = label;
 		var quantity = document.getElementById('flavor-qty'); if (quantity) quantity.textContent = fa(qty);
 		var busy = sheetMutating || cartMutating;
@@ -228,7 +235,7 @@
 			}
 			list.forEach(function (option, index) {
 				var checked = line ? existingIds.includes(String(option.id)) : group.multi ? !!option.is_default : index === firstDefault;
-				html += '<label class="flavor-sheet__option"><input type="' + (group.multi ? 'checkbox' : 'radio') + '" name="mod-' + esc(group.type) + '" value="' + esc(option.id) + '" data-price="' + esc(option.price || 0) + '" data-storage-price="' + esc(option.storagePrice == null ? option.price || 0 : option.storagePrice) + '"' + (checked ? ' checked' : '') + ' /><span>' + esc(option.name) + '</span><span class="flavor-sheet__option-price">' + (option.price ? '+' + Number(option.price).toLocaleString('fa-IR') + ' ' + esc((cfg.currency && cfg.currency.label) || t('currency')) : esc(t('no_fee'))) + '</span></label>';
+				html += '<label class="flavor-sheet__option"><input type="' + (group.multi ? 'checkbox' : 'radio') + '" name="mod-' + esc(group.type) + '" value="' + esc(option.id) + '" data-price="' + esc(option.price || 0) + '" data-storage-price="' + esc(option.storagePrice == null ? option.price || 0 : option.storagePrice) + '"' + (checked ? ' checked' : '') + ' /><span>' + esc(option.name) + '</span><span class="flavor-sheet__option-price">' + (option.price ? esc('+' + price(option.price)) : esc(t('no_fee'))) + '</span></label>';
 			});
 			html += '</div></fieldset>';
 		});
@@ -300,7 +307,7 @@
 		var actions = document.getElementById('flavor-cart-actions'); if (actions) actions.hidden = !cart.count;
 		if (cartLines) {
 			cartLines.innerHTML = (cart.items || []).map(function (item) {
-				var mods = (Array.isArray(item.modifiers) ? item.modifiers : []).map(function (m) { return m.name + (Number(m.price) ? ' (' + fill('per_unit', '+' + displayAmount(m.price).toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || t('currency'))) + ')' : ' (' + t('no_fee') + ')'); }).join(t('mod_separator') + ' ');
+				var mods = (Array.isArray(item.modifiers) ? item.modifiers : []).map(function (m) { return m.name + (Number(m.price) ? ' (' + fill('per_unit', '+' + price(displayAmount(m.price))) + ')' : ' (' + t('no_fee') + ')'); }).join(t('mod_separator') + ' ');
 				var image = safeImage(item.image);
 				var edit = cart.supports_item_edit ? '<button type="button" class="flavor-cart-line__edit" data-ui-cart-edit aria-haspopup="dialog" aria-controls="flavor-sheet" aria-label="' + esc(fill('edit_line_aria', item.name)) + '">' + esc(t('edit_line')) + '</button>' : '';
 				return '<article class="flavor-cart-line" data-key="' + esc(item.key) + '">' + (image ? '<img class="flavor-cart-line__image" src="' + esc(image) + '" alt="" width="68" height="76" />' : '<span class="flavor-cart-line__image" aria-hidden="true"></span>') + '<div><h3>' + esc(item.name) + '</h3>' + (mods ? '<p>' + esc(mods) + '</p>' : '') + (item.instructions ? '<p>' + esc(fill('line_note', item.instructions)) + '</p>' : '') + edit + '<div class="flavor-cart-line__bottom"><div class="flavor-qty" role="group" aria-label="' + esc(fill('quantity_aria', item.name)) + '"><button type="button" data-ui-cart-qty="-1" aria-label="' + esc(fill('decrease_aria', item.name)) + '"' + (item.quantity <= 1 ? ' disabled' : '') + '>−</button><output>' + fa(item.quantity) + '</output><button type="button" data-ui-cart-qty="1" aria-label="' + esc(fill('increase_aria', item.name)) + '"' + (item.quantity >= 20 ? ' disabled' : '') + '>+</button></div><button type="button" class="flavor-cart-line__remove" data-rm="' + esc(item.key) + '" aria-label="' + esc(fill('remove_aria', item.name)) + '">' + esc(t('remove')) + '</button><strong class="flavor-cart-line__price">' + esc(plain(item.line_total_html || item.line_html)) + '</strong></div></div></article>';

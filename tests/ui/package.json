@@ -6,6 +6,7 @@
     "test": "node browser.mjs",
     "test:logo-box": "node logo-box.mjs",
     "test:motion": "node motion.mjs",
+    "test:digits": "node digits.mjs",
     "test:responsive": "node responsive.mjs",
     "test:preview": "node preview.mjs"
   },

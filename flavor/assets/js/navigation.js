@@ -2,6 +2,7 @@
 (function () {
  'use strict';
  var cfg=window.flavorData||{};
+	var FD=window.FlavorDigits; /* digits come from the one spec (prompt 22) */
  // The copy in this file comes from UI::strings(), served as
  // flavorData.i18n.ui; nothing here carries Persian text of its own.
  /* flavor-i18n-map: flavorData.i18n.ui */
@@ -12,7 +13,7 @@
  if(!nav)return;
  nav.querySelectorAll('[data-ui-nav-cart]').forEach(function(button){button.hidden=false;});
  function paint(count,total){
-  nav.querySelectorAll('[data-ui-nav-count]').forEach(function(badge){badge.hidden=!(Number(count)>0);badge.textContent=String(count||0).replace(/\d/g,function(n){return '۰۱۲۳۴۵۶۷۸۹'[n];});});
+  nav.querySelectorAll('[data-ui-nav-count]').forEach(function(badge){badge.hidden=!(Number(count)>0);badge.textContent=FD?FD.digits(count||0):String(count||0);});
   var plain=document.createElement('textarea');plain.innerHTML=String(total||'').replace(/<[^>]*>/g,'');
   nav.querySelectorAll('[data-ui-nav-total]').forEach(function(amount){amount.hidden=!(Number(count)>0&&plain.value);amount.textContent=plain.value;amount.setAttribute('aria-label',fmt('cart_total_aria',plain.value));amount.title=fmt('cart_total_aria',plain.value);});
  }

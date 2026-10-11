@@ -2,11 +2,19 @@
 (function () {
 	'use strict';
 	var cfg = window.flavorData || {};
+	/* Number formatting belongs to FlavorDigits (prompt 22): one spec from PHP,
+	   so a count in this script cannot be shaped differently from the price the
+	   server rendered next to it. */
+	var FD = window.FlavorDigits;
 	var stack = [];
 	function esc(value) { return String(value == null ? '' : value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
-	function digits(value) { return String(value).replace(/\d/g, function (n) { return '۰۱۲۳۴۵۶۷۸۹'[n]; }); }
-	function latin(value) { return String(value).replace(/[۰-۹]/g, function (n) { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(n); }).replace(/[٠-٩]/g, function (n) { return '٠١٢٣٤٥٦٧٨٩'.indexOf(n); }); }
-	function money(amount) { return Number(amount || 0).toLocaleString('fa-IR') + ' ' + ((cfg.currency && cfg.currency.label) || 'تومان'); }
+	function digits(value) { return FD ? FD.digits(value) : String(value == null ? '' : value); }
+	function latin(value) { return FD ? FD.latin(value) : String(value == null ? '' : value); }
+	function group(value, decimals) { return FD ? FD.group(value, decimals) : String(value == null ? '' : value); }
+	/* The currency word comes from the payload (Currency::display_label()); the
+	   hand-written 'تومان' used to be a second source of truth, and a Persian one
+	   in a script that is supposed to follow the shop's language. */
+	function money(amount) { return FD ? FD.money(amount) : String(Number(amount || 0)); }
 	function announce(message) {
 		var status = document.getElementById('flavor-ui-announcement');
 		if (!status) { status = document.createElement('p'); status.id = 'flavor-ui-announcement'; status.className = 'screen-reader-text'; status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite'); document.body.appendChild(status); }
@@ -116,5 +124,5 @@
 		views.hidden = false;
 	}
 
-	window.FlavorUI = { esc: esc, digits: digits, latin: latin, money: money, announce: announce, request: request, headers: headers, refreshNonce: refreshNonce, openDialog: openDialog, closeDialog: closeDialog };
+	window.FlavorUI = { esc: esc, digits: digits, latin: latin, group: group, money: money, announce: announce, request: request, headers: headers, refreshNonce: refreshNonce, openDialog: openDialog, closeDialog: closeDialog };
 })();

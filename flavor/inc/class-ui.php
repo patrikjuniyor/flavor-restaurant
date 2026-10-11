@@ -71,7 +71,6 @@ class UI {
 		wp_enqueue_script( 'flavor-ui-js', FLAVOR_URI . '/assets/js/ui.js', array( 'flavor-main-js' ), (string) filemtime( FLAVOR_DIR . '/assets/js/ui.js' ), array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	}
 
-	/** Relative luminance/contrast, used for readable controls in all 12 skins. */
 	/**
 	 * Every string the `flavor-ui-js` script family prints: customer.js, auth.js,
 	 * pages.js and navigation.js all read this map (localized as
@@ -101,6 +100,45 @@ class UI {
 		);
 	}
 
+	/**
+	 * The number spec the browser formats with (prompt 22).
+	 *
+	 * digits.js maps digits by codepoint offset and groups thousands with the
+	 * character below, so the storefront cannot drift from what PHP writes: the
+	 * separator is read back out of number_format_i18n() — the very call
+	 * Currency::format() uses — instead of being assumed to be a comma, which is
+	 * why toLocaleString('fa-IR') (a locale-database answer) disagreed with the
+	 * server on some hosts. mode follows the shop's own digits setting when
+	 * Flavor Core is active, so a store that chose latin digits gets latin digits
+	 * from JS too rather than a half-Persian price.
+	 */
+	public static function digits_config(): array {
+		$sample = (string) number_format_i18n( 1234567 );
+		// Drop every digit, in any script, and keep the first character left over:
+		// that is the separator this install actually groups with. PCRE rather than
+		// the mbstring substring helper: test-template-tags.php keeps those calls
+		// out of the theme, because a shared host may not have mbstring compiled in.
+		$rest  = preg_replace( '/\p{N}+/u', '', $sample );
+		$group = '';
+		if ( is_string( $rest ) && preg_match( '/^\P{N}/u', $rest, $match ) ) {
+			$group = $match[0];
+		}
+		$persian = true;
+		if ( class_exists( '\FlavorCore\Support\Settings' ) ) {
+			$persian = 'persian' === (string) \FlavorCore\Support\Settings::get( 'digits', 'persian' );
+		}
+		return array(
+			// First codepoint of each digit block; JS adds the digit to it. The
+			// parity test asserts these are U+06F0 and U+0660 and that PHP's own
+			// strtr() mapping produces exactly these ten characters.
+			'zero'       => '۰',
+			'arabicZero' => '٠',
+			'thousands'  => $group,
+			'mode'       => $persian ? 'persian' : 'latin',
+		);
+	}
+
+	/** Relative luminance/contrast, used for readable controls in all 12 skins. */
 	public static function luminance( string $hex ): float {
 		$hex = ltrim( $hex, '#' );
 		if ( 3 === strlen( $hex ) ) { $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2]; }

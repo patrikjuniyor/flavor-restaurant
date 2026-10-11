@@ -28,7 +28,7 @@
 				card.hidden = !visible;
 				if (visible) count++;
 			});
-			if (status) status.textContent = fmt('selection_shown', String(count).replace(/\d/g, function (n) { return '۰۱۲۳۴۵۶۷۸۹'[n]; }));
+			if (status) status.textContent = fmt('selection_shown', (window.FlavorDigits ? FlavorDigits.digits(count) : String(count)));
 		});
 		filters.hidden = false;
 	});

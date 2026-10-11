@@ -210,6 +210,14 @@ class Enqueue {
 		// PHP's so both stay in the same catalogue.
 		$payload['dietaryLabels'] = UI::dietary_labels();
 
+		/*
+		 * Number formatting spec (prompt 22), top level rather than inside i18n:
+		 * it is a formatting rule, not a translatable string. digits.js and
+		 * Currency::format() read the same zero character and the same thousands
+		 * separator — tests/ui/digits.mjs proves that by running both sides.
+		 */
+		$payload['digits'] = UI::digits_config();
+
 		$payload['ajax']     = esc_url_raw( admin_url( 'admin-ajax.php' ) );
 		$payload['branchId'] = self::current_branch_id();
 		$presentation = UI::context();
@@ -231,11 +239,29 @@ class Enqueue {
 			}
 		}
 
+		/*
+		 * The number formatter loads first and everywhere: flavor-main-js depends on
+		 * it, so every storefront script that already depends on main (ui.js,
+		 * menu.js, premium.js, the catering and demo scripts) can assume
+		 * window.FlavorDigits is there. It needs no payload to be useful — see the
+		 * header of the file.
+		 */
+		wp_enqueue_script(
+			'flavor-digits',
+			FLAVOR_URI . '/assets/js/digits.js',
+			array(),
+			(string) filemtime( FLAVOR_DIR . '/assets/js/digits.js' ),
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
+		);
+
 		// Enqueue global theme script
 		wp_enqueue_script(
 			'flavor-main-js',
 			FLAVOR_URI . '/assets/js/main.js',
-			array(),
+			array( 'flavor-digits' ),
 			(string) filemtime( FLAVOR_DIR . '/assets/js/main.js' ),
 			array(
 				'in_footer' => true,

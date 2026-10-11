@@ -7,6 +7,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added — یکدست‌سازی ارقام (پرامپت ۲۲)
+
+- هشت فایل، عدد را خودشان تبدیل می‌کردند: `ui.js` و `menu.js` با `toLocaleString('fa-IR')` (جوابِ ICU مرورگر — روی بعضی میزبان‌ها `1,234`) و `navigation.js`، `pages.js`، `bespoke-demos.js`، `catering.js`، `search.js`، `motion.js`، `demo-animations.js` با جدول `۰۱۲۳۴۵۶۷۸۹` و بدون جداکنندهٔ هزارگان. همه به `FlavorDigits` وصل شدند؛ `flavor-main-js` حالا به `flavor-digits` وابسته است.
+- فاصلهٔ هزارگان از `number_format_i18n()` خوانده می‌شود (نه فرضِ ویرگول)، و `mode` از تنظیم `digits`ِ فلاور کور — مغازه‌ای که «لاتین» را انتخاب کرده در JS هم لاتین می‌گیرد. برچسب واحد پول هم یک منبع دارد: `flavorData.currency.label`؛ fallbackِ دست‌نویس «تومان» از `ui.js` حذف شد.
+- `tests/theme/test-digit-parity.php` (۲۷ بررسی): شکلِ spec، پاریتی جدول با `Currency::to_persian_digits()`، برابری fallbackِ آفلاین با مقدارِ سرور، و بایگانیِ «هیچ اسکریپتی بیرون از digits.js عدد را شکل نمی‌دهد» که از روی پوشه ساخته می‌شود (فایل جدید = خودکار زیرِ قانون). `tests/ui/digits.mjs` (۳۰ بررسی) همان ده مبلغ را واقعاً در دو زبان اجرا و مقایسه می‌کند و در `npm run test:digits` و CI ثبت شده است.
+- `docs/fa/02-peykar-bandi.md`: بخش «ارقام و قیمت» — تنظیم کجاست و اگر عددی لاتین ماند چه بررسی شود.
+- یافته (بدون تغییر): `flavor-core/tests/test-price-calculator.php:21` از `Currency::to_persian_digits('25,000')` انتظار `۲۵٬۰۰۰` دارد ولی کد ویرگول را دست‌نخورده می‌گذارد؛ آن فایل PHPUnit زیر CI نیست (dev-tools/run-baseline.sh:104). در وردپرسِ واقعی `number_format_i18n` با locale جداکننده را می‌دهد و اختلافی دیده نمی‌شود — تصمیمِ تغییرِ رفتارِ core به پرامپت هسته‌ای خودش سپرده شد.
+
 ### Added — متنِ جاوااسکریپتِ سمت مشتری ترجمه‌پذیر شد (پرامپت ۲۰)
 
 - ۷۴ رشته از `flavor/assets/js/menu.js` بیرون کشیده شد و به `Enqueue::menu_strings()` رفت؛ اسکریپت دیگر هیچ متنِ خودش را ندارد و همه را از `flavorData.i18n.menu` می‌خواند. تا پیش از این، منو، پنلِ انتخاب‌ها، سبد و تسویه روی سایتِ انگلیسی یا عربی همواره فارسی می‌ماندند.

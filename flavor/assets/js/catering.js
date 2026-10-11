@@ -19,13 +19,11 @@
 	var section = document.getElementById('proposal');
 	if (!result || !summary || !copyButton || !copyStatus || !section) return;
 
-	function latinDigits(text) {
-		return text.replace(/[۰-۹]/g, function (digit) { return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)); })
-			.replace(/[٠-٩]/g, function (digit) { return String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)); });
-	}
-	function persianDigits(text) {
-		return String(text).replace(/\d/g, function (digit) { return '۰۱۲۳۴۵۶۷۸۹'[digit]; });
-	}
+	/* Both directions of the digit mapping live in digits.js now, next to the
+	   server's own strtr() table, so the summary a visitor copies out of this form
+	   is written the same way as every other price in the shop (prompt 22). */
+	function latinDigits(text) { return window.FlavorDigits ? FlavorDigits.latin(text) : String(text); }
+	function persianDigits(text) { return window.FlavorDigits ? FlavorDigits.digits(text) : String(text); }
 	function clearResult() {
 		result.hidden = true;
 		summary.value = '';

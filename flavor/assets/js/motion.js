@@ -106,9 +106,10 @@
 		return (context || doc).querySelector(selector);
 	}
 
+	/* One mapping, in digits.js, shared with the server (prompt 22): a counter
+	   that shaped its own digits used to disagree with the number beside it. */
 	function persianDigits(value) {
-		var map = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-		return String(value).replace(/[0-9]/g, function (d) { return map[Number(d)]; });
+		return window.FlavorDigits ? FlavorDigits.digits(value) : String(value);
 	}
 
 	/* The site is RTL and Persian, so any number this script writes into the
@@ -331,9 +332,10 @@
 				return parseFloat(el.getAttribute('data-flavor-count'));
 			}
 			/* "۱۲" or "12+" or "+۱۲" — keep any affix, animate the number. */
-			var match = String(el.textContent).replace(/[۰-۹]/g, function (d) {
-				return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
-			}).match(/-?\d+(?:\.\d+)?/);
+			/* The counter animates a number read out of the page, so it has to undo
+			   whatever digits the shop displays — digits.js owns that mapping
+			   (prompt 22) and this script no longer keeps a second table. */
+			var match = (window.FlavorDigits ? FlavorDigits.latin(el.textContent) : String(el.textContent)).match(/-?\d+(?:\.\d+)?/);
 			return match ? parseFloat(match[0]) : NaN;
 		}
 

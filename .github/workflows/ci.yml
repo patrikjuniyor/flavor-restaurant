@@ -135,6 +135,7 @@ jobs:
       - name: Verify Motion Layer (skins, keyframes, reduced motion, gating, enqueue)
         run: |
           node tests/ui/motion.mjs
+          node tests/ui/digits.mjs
 
   flutter-mobile-ci:
     name: Mobile Quality & Flutter Tests

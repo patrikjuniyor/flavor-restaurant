@@ -339,7 +339,7 @@
 	}
 
 	function toPersianDigits(str) {
-		return str.replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; });
+		return window.FlavorDigits ? FlavorDigits.digits(str) : String(str);
 	}
 
 	/* ------------------------------------------------------------------ */

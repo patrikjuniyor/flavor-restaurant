@@ -62,9 +62,7 @@
 	}
 
 	function faDigits(value) {
-		return String(value).replace(/[0-9]/g, function (d) {
-			return '۰۱۲۳۴۵۶۷۸۹'[d];
-		});
+		return window.FlavorDigits ? FlavorDigits.digits(value) : String(value);
 	}
 
 	/* ---------------------------------------------------------- transport */
