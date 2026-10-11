@@ -33,6 +33,7 @@ class Hero_Widget extends Widget_Base {
 		$this->add_control( 'cta', array( 'label' => __( 'دکمه', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => __( 'مشاهده منو', 'flavor' ) ) );
 		$this->add_control( 'image', array( 'label' => __( 'تصویر', 'flavor' ), 'type' => \Elementor\Controls_Manager::MEDIA ) );
 		$this->end_controls_section();
+		$this->register_flavor_style_controls();
 	}
 
 	protected function render() {

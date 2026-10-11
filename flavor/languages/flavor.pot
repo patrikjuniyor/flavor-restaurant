@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-10 19:39+00:00\n"
+"POT-Creation-Date: 2026-10-11 08:18+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "%d آیتم"
 msgstr ""
 
-#: flavor/elementor/widgets/class-cart-widget.php:104
+#: flavor/elementor/widgets/class-cart-widget.php:105
 msgid "%d آیتم در سبد"
 msgid_plural "%d آیتم در سبد"
 msgstr[0] ""
@@ -120,6 +120,10 @@ msgstr ""
 msgid "آشپزخانهٔ باز"
 msgstr ""
 
+#: flavor/elementor/class-widget-base.php:324
+msgid "آغاز"
+msgstr ""
+
 #: flavor/inc/class-launch-center.php:313
 msgid "آماده"
 msgstr ""
@@ -136,7 +140,7 @@ msgstr ""
 msgid "آماده‌کردن خلاصهٔ هماهنگی"
 msgstr ""
 
-#: flavor/elementor/widgets/class-stats-widget.php:87
+#: flavor/elementor/widgets/class-stats-widget.php:88
 msgid "آمار"
 msgstr ""
 
@@ -233,7 +237,7 @@ msgstr ""
 msgid "ارسال این سفارش رایگان است."
 msgstr ""
 
-#: flavor/elementor/widgets/class-order-cta-widget.php:90
+#: flavor/elementor/widgets/class-order-cta-widget.php:91
 msgid "ارسال با پیک"
 msgstr ""
 
@@ -341,7 +345,7 @@ msgstr ""
 msgid "اطلاعات دریافت سفارش"
 msgstr ""
 
-#: flavor/elementor/widgets/class-branch-info-widget.php:22 flavor/elementor/widgets/class-branch-info-widget.php:117
+#: flavor/elementor/widgets/class-branch-info-widget.php:22 flavor/elementor/widgets/class-branch-info-widget.php:118
 msgid "اطلاعات شعبه"
 msgstr ""
 
@@ -417,7 +421,7 @@ msgstr ""
 msgid "افزونه Flavor Core فعال نیست. منو از ووکامرس خوانده نمی‌شود."
 msgstr ""
 
-#: flavor/elementor/widgets/class-branch-info-widget.php:114
+#: flavor/elementor/widgets/class-branch-info-widget.php:115
 msgid "افزونهٔ Flavor Core برای نمایش اطلاعات شعبه لازم است."
 msgstr ""
 
@@ -814,6 +818,10 @@ msgstr ""
 msgid "بخش هیرو (بنر اصلی صفحه نخست)"
 msgstr ""
 
+#: flavor/elementor/class-widget-base.php:245
+msgid "بخش و چیدمان"
+msgstr ""
+
 #: flavor/inc/class-changelog.php:180
 msgid "بخشِ Changelog در readme.txt خالی است."
 msgstr ""
@@ -955,7 +963,7 @@ msgstr ""
 msgid "برای مهمانی خانوادگی سفارش دادیم؛ همه مهمان‌ها از طعم اصیل و تازگی سالادها و پیش‌غذاها تعریف کردند. ممنون از تیم حرفه‌ای‌تان."
 msgstr ""
 
-#: flavor/elementor/widgets/class-cart-widget.php:84
+#: flavor/elementor/widgets/class-cart-widget.php:85
 msgid "برای نمایش سبد، ووکامرس باید فعال باشد."
 msgstr ""
 
@@ -1119,7 +1127,7 @@ msgstr ""
 msgid "به‌روزرسانی Flavor"
 msgstr ""
 
-#: flavor/elementor/widgets/class-order-cta-widget.php:89 flavor/inc/class-ui.php:132 flavor/template-parts/menu/cart-drawer.php:18
+#: flavor/elementor/widgets/class-order-cta-widget.php:90 flavor/inc/class-ui.php:132 flavor/template-parts/menu/cart-drawer.php:18
 msgid "بیرون‌بر"
 msgstr ""
 
@@ -1146,6 +1154,14 @@ msgstr ""
 
 #: flavor/inc/class-preset-control.php:131
 msgid "تا وقتی تغییرات را منتشر نکنید، چیزی در سایت تغییر نمی‌کند و با لغوِ تغییرات همه‌چیز برمی‌گردد."
+msgstr ""
+
+#: flavor/elementor/class-widget-base.php:357
+msgid "تایپوگرافی عنوان"
+msgstr ""
+
+#: flavor/elementor/class-widget-base.php:366
+msgid "تایپوگرافی متن"
 msgstr ""
 
 #: flavor/inc/class-customizer.php:352
@@ -1304,7 +1320,7 @@ msgstr ""
 msgid "تعداد ستون در موبایل"
 msgstr ""
 
-#: flavor/inc/class-premium-customizer.php:110
+#: flavor/elementor/class-widget-base.php:301 flavor/inc/class-premium-customizer.php:110
 msgid "تعداد ستون‌ها"
 msgstr ""
 
@@ -1320,7 +1336,7 @@ msgstr ""
 msgid "تعداد مهمان پیشنهادی"
 msgstr ""
 
-#: flavor/elementor/widgets/class-hours-widget.php:73 flavor/elementor/widgets/class-hours-widget.php:135 flavor/inc/class-ui-pages.php:62
+#: flavor/elementor/widgets/class-hours-widget.php:73 flavor/elementor/widgets/class-hours-widget.php:136 flavor/inc/class-ui-pages.php:62
 msgid "تعطیل"
 msgstr ""
 
@@ -1364,7 +1380,7 @@ msgstr ""
 msgid "تلاش دوباره"
 msgstr ""
 
-#: flavor/elementor/widgets/class-branch-info-widget.php:148
+#: flavor/elementor/widgets/class-branch-info-widget.php:149
 msgid "تلفن"
 msgstr ""
 
@@ -1526,7 +1542,7 @@ msgstr ""
 msgid "تکرار این مورد"
 msgstr ""
 
-#: flavor/elementor/widgets/class-cart-widget.php:56 flavor/elementor/widgets/class-cart-widget.php:76
+#: flavor/elementor/widgets/class-cart-widget.php:56 flavor/elementor/widgets/class-cart-widget.php:77
 msgid "تکمیل سفارش"
 msgstr ""
 
@@ -1562,7 +1578,7 @@ msgstr ""
 msgid "تیز و بدون انحنا (0px)"
 msgstr ""
 
-#: flavor/elementor/widgets/class-chefs-widget.php:44 flavor/elementor/widgets/class-chefs-widget.php:120
+#: flavor/elementor/widgets/class-chefs-widget.php:44 flavor/elementor/widgets/class-chefs-widget.php:121
 msgid "تیم ما"
 msgstr ""
 
@@ -1614,7 +1630,7 @@ msgstr ""
 msgid "جدیدترین"
 msgstr ""
 
-#: flavor/elementor/widgets/class-menu-widget.php:155
+#: flavor/elementor/widgets/class-menu-widget.php:156
 msgid "جزئیات"
 msgstr ""
 
@@ -1742,7 +1758,7 @@ msgstr ""
 msgid "حداکثر خوانایی (2)"
 msgstr ""
 
-#: flavor/inc/class-customizer.php:396
+#: flavor/elementor/class-widget-base.php:277 flavor/inc/class-customizer.php:396
 msgid "حداکثر عرض محتوا"
 msgstr ""
 
@@ -1812,6 +1828,10 @@ msgstr ""
 
 #: flavor/inc/class-chrome-builder.php:1352 flavor/inc/class-chrome-builder.php:1367 flavor/inc/class-chrome-builder.php:1381
 msgid "خودکار"
+msgstr ""
+
+#: flavor/elementor/class-widget-base.php:304
+msgid "خودکار (پوسته)"
 msgstr ""
 
 #: flavor/inc/class-premium-customizer.php:81
@@ -2186,7 +2206,7 @@ msgstr ""
 msgid "رزرو سالن"
 msgstr ""
 
-#: flavor/elementor/widgets/class-reservation-widget.php:63 flavor/elementor/widgets/class-reservation-widget.php:93 flavor/inc/class-block-patterns.php:167 flavor/inc/class-block-patterns.php:245 flavor/inc/class-builder.php:260 flavor/inc/class-builder.php:268 flavor/inc/class-customizer.php:680 flavor/inc/class-onboarding.php:800 flavor/inc/template-tags.php:184 flavor/template-parts/ui/mobile-nav.php:8
+#: flavor/elementor/widgets/class-reservation-widget.php:63 flavor/elementor/widgets/class-reservation-widget.php:94 flavor/inc/class-block-patterns.php:167 flavor/inc/class-block-patterns.php:245 flavor/inc/class-builder.php:260 flavor/inc/class-builder.php:268 flavor/inc/class-customizer.php:680 flavor/inc/class-onboarding.php:800 flavor/inc/template-tags.php:184 flavor/template-parts/ui/mobile-nav.php:8
 msgid "رزرو میز"
 msgstr ""
 
@@ -2242,7 +2262,7 @@ msgstr ""
 msgid "رفتن به منو"
 msgstr ""
 
-#: flavor/inc/class-design.php:334
+#: flavor/elementor/class-widget-base.php:221 flavor/inc/class-design.php:334
 msgid "رنگ اصلی"
 msgstr ""
 
@@ -2254,7 +2274,7 @@ msgstr ""
 msgid "رنگ اصلی برند (Primary)"
 msgstr ""
 
-#: flavor/inc/class-design.php:336
+#: flavor/elementor/class-widget-base.php:222 flavor/inc/class-design.php:336
 msgid "رنگ تأکید"
 msgstr ""
 
@@ -2270,7 +2290,11 @@ msgstr ""
 msgid "رنگ ثانویه / تاکیدی"
 msgstr ""
 
-#: flavor/inc/class-design.php:342
+#: flavor/elementor/class-widget-base.php:394
+msgid "رنگ حاشیهٔ کارت"
+msgstr ""
+
+#: flavor/elementor/class-widget-base.php:226 flavor/inc/class-design.php:342
 msgid "رنگ خطوط"
 msgstr ""
 
@@ -2290,7 +2314,7 @@ msgstr ""
 msgid "رنگ را خالی بگذارید تا مقدارِ پوستهٔ انتخابی به کار برود؛ پرکردنش آن را برای این رنگ لغو می‌کند."
 msgstr ""
 
-#: flavor/inc/class-design.php:338
+#: flavor/elementor/class-widget-base.php:225 flavor/inc/class-design.php:338
 msgid "رنگ سطح"
 msgstr ""
 
@@ -2298,12 +2322,20 @@ msgstr ""
 msgid "رنگ سطح دوم"
 msgstr ""
 
-#: flavor/inc/class-design.php:340
+#: flavor/elementor/class-widget-base.php:345
+msgid "رنگ عنوان"
+msgstr ""
+
+#: flavor/elementor/class-widget-base.php:223 flavor/inc/class-design.php:340
 msgid "رنگ متن"
 msgstr ""
 
 #: flavor/inc/class-customizer.php:300
 msgid "رنگ متن اصلی (Text Color)"
+msgstr ""
+
+#: flavor/elementor/class-widget-base.php:439
+msgid "رنگ متن دکمهٔ اصلی"
 msgstr ""
 
 #: flavor/inc/class-customizer.php:301
@@ -2322,7 +2354,7 @@ msgstr ""
 msgid "رنگ متن پاورقی"
 msgstr ""
 
-#: flavor/inc/class-design.php:341
+#: flavor/elementor/class-widget-base.php:224 flavor/inc/class-design.php:341
 msgid "رنگ متن کم‌رنگ"
 msgstr ""
 
@@ -2330,8 +2362,16 @@ msgstr ""
 msgid "رنگ پس‌زمینه"
 msgstr ""
 
+#: flavor/elementor/class-widget-base.php:254
+msgid "رنگ پس‌زمینهٔ بخش"
+msgstr ""
+
 #: flavor/inc/class-page-options.php:71
 msgid "رنگ پس‌زمینهٔ صفحه"
+msgstr ""
+
+#: flavor/elementor/class-widget-base.php:215
+msgid "رنگ‌های برند"
 msgstr ""
 
 #: flavor/inc/class-design.php:45
@@ -2498,7 +2538,7 @@ msgstr ""
 msgid "ساعات پذیرایی و ارسال"
 msgstr ""
 
-#: flavor/elementor/widgets/class-hours-widget.php:22 flavor/elementor/widgets/class-hours-widget.php:44 flavor/elementor/widgets/class-hours-widget.php:116 flavor/inc/class-block-patterns.php:258
+#: flavor/elementor/widgets/class-hours-widget.php:22 flavor/elementor/widgets/class-hours-widget.php:44 flavor/elementor/widgets/class-hours-widget.php:117 flavor/inc/class-block-patterns.php:258
 msgid "ساعات کاری"
 msgstr ""
 
@@ -2578,11 +2618,11 @@ msgstr ""
 msgid "سبد سفارش"
 msgstr ""
 
-#: flavor/elementor/widgets/class-cart-widget.php:47 flavor/elementor/widgets/class-cart-widget.php:75 flavor/template-parts/menu/cart-drawer.php:6
+#: flavor/elementor/widgets/class-cart-widget.php:47 flavor/elementor/widgets/class-cart-widget.php:76 flavor/template-parts/menu/cart-drawer.php:6
 msgid "سبد شما"
 msgstr ""
 
-#: flavor/elementor/widgets/class-cart-widget.php:65 flavor/elementor/widgets/class-cart-widget.php:77
+#: flavor/elementor/widgets/class-cart-widget.php:65 flavor/elementor/widgets/class-cart-widget.php:78
 msgid "سبد شما خالی است."
 msgstr ""
 
@@ -2662,7 +2702,7 @@ msgstr ""
 msgid "سفارش آزمایشی ثبت شده است"
 msgstr ""
 
-#: flavor/elementor/widgets/class-offers-widget.php:72 flavor/elementor/widgets/class-offers-widget.php:93 flavor/inc/class-block-patterns.php:163 flavor/inc/class-chrome-builder.php:792 flavor/inc/class-repeater.php:293
+#: flavor/elementor/widgets/class-offers-widget.php:72 flavor/elementor/widgets/class-offers-widget.php:94 flavor/inc/class-block-patterns.php:163 flavor/inc/class-chrome-builder.php:792 flavor/inc/class-repeater.php:293
 msgid "سفارش آنلاین"
 msgstr ""
 
@@ -2702,7 +2742,7 @@ msgstr ""
 msgid "سفارش را با پرداخت آنلاین یا در محل ثبت کنید."
 msgstr ""
 
-#: flavor/elementor/widgets/class-order-cta-widget.php:88
+#: flavor/elementor/widgets/class-order-cta-widget.php:89
 msgid "سفارش سالن (QR)"
 msgstr ""
 
@@ -2898,7 +2938,7 @@ msgstr ""
 msgid "شنبه تا چهارشنبه:"
 msgstr ""
 
-#: flavor/elementor/widgets/class-branch-info-widget.php:140 flavor/inc/class-onboarding.php:249 flavor/template-parts/menu/cart-drawer.php:26
+#: flavor/elementor/widgets/class-branch-info-widget.php:141 flavor/inc/class-onboarding.php:249 flavor/template-parts/menu/cart-drawer.php:26
 msgid "شهر"
 msgstr ""
 
@@ -2984,6 +3024,10 @@ msgstr ""
 
 #: flavor/inc/class-ui-customizer.php:16
 msgid "ظاهر منو و ناوبری را پیش از انتشار ببینید. این تنظیمات قیمت، موجودی، روش دریافت، ظرفیت رزرو یا درگاه پرداخت را تغییر نمی‌دهند."
+msgstr ""
+
+#: flavor/elementor/class-widget-base.php:207
+msgid "ظاهر و سبک Flavor"
 msgstr ""
 
 #: flavor/template-parts/demos/dark-luxe.php:16
@@ -3138,6 +3182,10 @@ msgstr ""
 msgid "فاصلهٔ حروف تیترها"
 msgstr ""
 
+#: flavor/elementor/class-widget-base.php:265
+msgid "فاصلهٔ داخلی بخش"
+msgstr ""
+
 #: flavor/inc/class-customizer.php:421
 msgid "فاصلهٔ سکشن تبلت"
 msgstr ""
@@ -3274,7 +3322,7 @@ msgstr ""
 msgid "فهرست علاقه‌مندی‌ها پر است؛ ابتدا چند مورد را حذف کنید."
 msgstr ""
 
-#: flavor/elementor/widgets/class-price-list-widget.php:80
+#: flavor/elementor/widgets/class-price-list-widget.php:81
 msgid "فهرست قیمت"
 msgstr ""
 
@@ -3630,7 +3678,7 @@ msgstr ""
 msgid "محصول و سبد خرید در دسترس است."
 msgstr ""
 
-#: flavor/elementor/widgets/class-menu-widget.php:117
+#: flavor/elementor/widgets/class-menu-widget.php:118
 msgid "محصولی برای نمایش پیدا نشد. ووکامرس را نصب و دستهٔ محصولات را پر کنید."
 msgstr ""
 
@@ -3722,11 +3770,11 @@ msgstr ""
 msgid "مشاهدهٔ سایت"
 msgstr ""
 
-#: flavor/elementor/widgets/class-branch-info-widget.php:159
+#: flavor/elementor/widgets/class-branch-info-widget.php:160
 msgid "مشاهدهٔ شعبه"
 msgstr ""
 
-#: flavor/elementor/widgets/class-cart-widget.php:94 flavor/inc/class-builder.php:101 flavor/template-parts/ui/mobile-nav.php:22
+#: flavor/elementor/widgets/class-cart-widget.php:95 flavor/inc/class-builder.php:101 flavor/template-parts/ui/mobile-nav.php:22
 msgid "مشاهدهٔ منو"
 msgstr ""
 
@@ -3862,7 +3910,7 @@ msgstr ""
 msgid "منوی فصل، پیشنهادهای ویژه و تخفیف‌های مناسبتی را یک هفته زودتر دریافت کنید. هر وقت خواستید لغو کنید."
 msgstr ""
 
-#: flavor/elementor/widgets/class-menu-widget.php:47 flavor/elementor/widgets/class-menu-widget.php:95
+#: flavor/elementor/widgets/class-menu-widget.php:47 flavor/elementor/widgets/class-menu-widget.php:96
 msgid "منوی ما"
 msgstr ""
 
@@ -3934,7 +3982,7 @@ msgstr ""
 msgid "میز خود را در محیطی دنج و آرام رزرو کنید"
 msgstr ""
 
-#: flavor/elementor/widgets/class-reservation-widget.php:44 flavor/elementor/widgets/class-reservation-widget.php:45 flavor/elementor/widgets/class-reservation-widget.php:91 flavor/inc/class-builder.php:268
+#: flavor/elementor/widgets/class-reservation-widget.php:44 flavor/elementor/widgets/class-reservation-widget.php:45 flavor/elementor/widgets/class-reservation-widget.php:92 flavor/inc/class-builder.php:268
 msgid "میز خود را رزرو کنید"
 msgstr ""
 
@@ -4043,7 +4091,7 @@ msgstr ""
 msgid "نسخهٔ نصب‌شده: %s"
 msgstr ""
 
-#: flavor/elementor/widgets/class-branch-info-widget.php:133 flavor/template-parts/demos/visit.php:13
+#: flavor/elementor/widgets/class-branch-info-widget.php:134 flavor/template-parts/demos/visit.php:13
 msgid "نشانی"
 msgstr ""
 
@@ -4531,6 +4579,10 @@ msgstr ""
 msgid "هم‌اکنون باز است"
 msgstr ""
 
+#: flavor/elementor/class-widget-base.php:320
+msgid "هم‌ترازی متن"
+msgstr ""
+
 #: flavor/inc/class-builder.php:217
 msgid "هنوز آیتمی در منو منتشر نشده است."
 msgstr ""
@@ -4543,7 +4595,7 @@ msgstr ""
 msgid "هنوز شعبه‌ای منتشر نشده است."
 msgstr ""
 
-#: flavor/elementor/widgets/class-chefs-widget.php:125
+#: flavor/elementor/widgets/class-chefs-widget.php:126
 msgid "هنوز عضوی اضافه نشده است."
 msgstr ""
 
@@ -4579,11 +4631,11 @@ msgstr ""
 msgid "هیروی رستوران"
 msgstr ""
 
-#: flavor/elementor/widgets/class-hours-widget.php:122
+#: flavor/elementor/widgets/class-hours-widget.php:123
 msgid "هیچ ساعتی ثبت نشده است."
 msgstr ""
 
-#: flavor/elementor/widgets/class-branch-info-widget.php:113
+#: flavor/elementor/widgets/class-branch-info-widget.php:114
 msgid "هیچ شعبه‌ای تعریف نشده است. ابتدا یک شعبه در افزونهٔ Flavor Core بسازید."
 msgstr ""
 
@@ -4643,7 +4695,7 @@ msgstr ""
 msgid "وزیرمتن"
 msgstr ""
 
-#: flavor/inc/class-builder.php:71 flavor/inc/class-builder.php:99
+#: flavor/elementor/class-widget-base.php:328 flavor/inc/class-builder.php:71 flavor/inc/class-builder.php:99
 msgid "وسط"
 msgstr ""
 
@@ -4739,6 +4791,10 @@ msgstr ""
 msgid "پاک‌کردنِ رنگ‌های دستی و پیروی از پوسته"
 msgstr ""
 
+#: flavor/elementor/class-widget-base.php:332
+msgid "پایان"
+msgstr ""
+
 #: flavor/inc/class-engagement.php:124
 msgid "پایان پیشنهاد: %s"
 msgstr ""
@@ -4791,7 +4847,7 @@ msgstr ""
 msgid "پرسش و پاسخ"
 msgstr ""
 
-#: flavor/elementor/widgets/class-faq-widget.php:25 flavor/elementor/widgets/class-faq-widget.php:44 flavor/elementor/widgets/class-faq-widget.php:76
+#: flavor/elementor/widgets/class-faq-widget.php:25 flavor/elementor/widgets/class-faq-widget.php:44 flavor/elementor/widgets/class-faq-widget.php:77
 msgid "پرسش‌های متداول"
 msgstr ""
 
@@ -4823,6 +4879,10 @@ msgstr ""
 msgid "پس‌زمینه سایت (Background)"
 msgstr ""
 
+#: flavor/elementor/class-widget-base.php:428
+msgid "پس‌زمینهٔ دکمهٔ اصلی"
+msgstr ""
+
 #: flavor/inc/class-chrome-builder.php:1473
 msgid "پس‌زمینهٔ نوار اطلاعیه"
 msgstr ""
@@ -4833,6 +4893,10 @@ msgstr ""
 
 #: flavor/inc/class-chrome-builder.php:1485
 msgid "پس‌زمینهٔ پاورقی"
+msgstr ""
+
+#: flavor/elementor/class-widget-base.php:383
+msgid "پس‌زمینهٔ کارت"
 msgstr ""
 
 #: flavor/page-templates/template-about.php:12
@@ -5008,7 +5072,7 @@ msgstr ""
 msgid "چای ماسالا"
 msgstr ""
 
-#: flavor/elementor/widgets/class-features-widget.php:41 flavor/elementor/widgets/class-features-widget.php:77
+#: flavor/elementor/widgets/class-features-widget.php:41 flavor/elementor/widgets/class-features-widget.php:78
 msgid "چرا رستوران ما؟"
 msgstr ""
 
@@ -5028,11 +5092,11 @@ msgstr ""
 msgid "چطور دریافت می‌کنید؟"
 msgstr ""
 
-#: flavor/elementor/widgets/class-process-widget.php:41 flavor/elementor/widgets/class-process-widget.php:77
+#: flavor/elementor/widgets/class-process-widget.php:41 flavor/elementor/widgets/class-process-widget.php:78
 msgid "چطور سفارش دهید؟"
 msgstr ""
 
-#: flavor/elementor/widgets/class-order-cta-widget.php:44 flavor/elementor/widgets/class-order-cta-widget.php:97
+#: flavor/elementor/widgets/class-order-cta-widget.php:44 flavor/elementor/widgets/class-order-cta-widget.php:98
 msgid "چطور سفارش می‌دهید؟"
 msgstr ""
 
@@ -5086,6 +5150,10 @@ msgstr ""
 
 #: flavor/inc/class-ui.php:25
 msgid "کارتی یا فهرستی؛ مشتری همچنان می‌تواند نمای همین صفحه را عوض کند."
+msgstr ""
+
+#: flavor/elementor/class-widget-base.php:374
+msgid "کارت‌ها و دکمه‌ها"
 msgstr ""
 
 #: flavor/inc/class-design.php:40
@@ -5314,6 +5382,10 @@ msgstr ""
 
 #: flavor/elementor/widgets/class-menu-widget.php:73 flavor/template-parts/menu/filters.php:36
 msgid "گران‌ترین"
+msgstr ""
+
+#: flavor/elementor/class-widget-base.php:405
+msgid "گردی گوشهٔ کارت"
 msgstr ""
 
 #: flavor/inc/class-customizer.php:361

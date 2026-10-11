@@ -31,6 +31,7 @@ class About_Widget extends Widget_Base {
 		$this->add_control( 'title', array( 'label' => __( 'عنوان', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => __( 'داستان ما', 'flavor' ) ) );
 		$this->add_control( 'text', array( 'label' => __( 'متن', 'flavor' ), 'type' => \Elementor\Controls_Manager::WYSIWYG ) );
 		$this->end_controls_section();
+		$this->register_flavor_style_controls();
 	}
 
 	protected function render() {

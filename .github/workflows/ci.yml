@@ -270,13 +270,12 @@ jobs:
           if-no-files-found: ignore
 
   real-wordpress:
-    name: Real WordPress 7.1 + WooCommerce 11
+    name: Real WordPress 7.1 + WooCommerce 11 + Elementor 4.3.4
     runs-on: ubuntu-latest
-    # The claim "Tested up to 7.1 / WC 11.0" is only true while this job is
-    # green. It installs the versions the stylesheet advertises and loads the
-    # theme against them, which is the only way to catch a class used before
-    # its file is required or a control extending a parent core loads lazily
-    # — both of which shipped and neither of which a unit test can see.
+    # The WordPress/WooCommerce compatibility claim and the Elementor control
+    # contract are only true while this job is green. This installs the versions
+    # the theme advertises plus the pinned Elementor release, which catches both
+    # theme boot errors and controls that an offline stand-in cannot validate.
     services:
       mysql:
         image: mysql:8.4
@@ -338,10 +337,17 @@ jobs:
           cp -r flavor "$RUNNER_TEMP/wordpress/wp-content/themes/flavor"
           cp -r flavor-core "$RUNNER_TEMP/wordpress/wp-content/plugins/flavor-core"
 
-      - name: Install WooCommerce
+      - name: Install WooCommerce 11.0.1
         run: |
           cd "$RUNNER_TEMP/wordpress"
-          wp plugin install woocommerce --version=11.0.1 --activate --allow-root
+          curl -sS -L --fail -o "$RUNNER_TEMP/woocommerce-11.0.1.zip" https://downloads.wordpress.org/plugin/woocommerce.11.0.1.zip
+          wp plugin install "$RUNNER_TEMP/woocommerce-11.0.1.zip" --activate --allow-root
+
+      - name: Install Elementor 4.3.4
+        run: |
+          cd "$RUNNER_TEMP/wordpress"
+          curl -sS -L --fail -o "$RUNNER_TEMP/elementor-4.3.4.zip" https://downloads.wordpress.org/plugin/elementor.4.3.4.zip
+          wp plugin install "$RUNNER_TEMP/elementor-4.3.4.zip" --activate --allow-root
 
       - name: Activate the theme and Flavor Core
         run: |
@@ -354,10 +360,18 @@ jobs:
           cd "$RUNNER_TEMP/wordpress"
           wp core version --allow-root
           wp plugin get woocommerce --field=version --allow-root
+          wp plugin get elementor --field=version --allow-root
 
       - name: Run the real WordPress smoke test (demo pack installed)
         run: |
           php tests/integration/real-wp-smoke.php --wp="$RUNNER_TEMP/wordpress"
+
+      # Stub controls cannot validate Elementor's real control stack or CSS
+      # compiler. Exercise registration, responsive Style controls, the three
+      # shipped templates, and all seventeen widgets on real Elementor instead.
+      - name: Run the real Elementor widgets and template smoke test
+        run: |
+          php tests/integration/real-elementor-smoke.php --wp="$RUNNER_TEMP/wordpress"
 
       # The sellable theme ships without the 12 MB demo pack. That state
       # has to boot too, and it is the one customers actually get, so it

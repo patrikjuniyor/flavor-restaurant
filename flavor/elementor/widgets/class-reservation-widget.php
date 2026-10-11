@@ -83,6 +83,7 @@ class Reservation_Widget extends Widget_Base {
 		);
 
 		$this->end_controls_section();
+		$this->register_flavor_style_controls();
 	}
 
 	protected function render() {

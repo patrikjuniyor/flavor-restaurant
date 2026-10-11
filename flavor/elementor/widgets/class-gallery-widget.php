@@ -30,6 +30,7 @@ class Gallery_Widget extends Widget_Base {
 		$this->start_controls_section( 'content', array( 'label' => __( 'تصاویر', 'flavor' ) ) );
 		$this->add_control( 'gallery', array( 'type' => \Elementor\Controls_Manager::GALLERY ) );
 		$this->end_controls_section();
+		$this->register_flavor_style_controls();
 	}
 
 	protected function render() {

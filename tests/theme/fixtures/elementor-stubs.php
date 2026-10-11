@@ -61,16 +61,31 @@ namespace Elementor {
 	 * Control type constants.
 	 */
 	class Controls_Manager {
-		const TEXT     = 'text';
-		const TEXTAREA = 'textarea';
-		const NUMBER   = 'number';
-		const SELECT   = 'select';
-		const SWITCHER = 'switcher';
-		const MEDIA    = 'media';
-		const URL      = 'url';
-		const REPEATER = 'repeater';
-		const WYSIWYG  = 'wysiwyg';
-		const GALLERY  = 'gallery';
+		const TEXT      = 'text';
+		const TEXTAREA  = 'textarea';
+		const NUMBER    = 'number';
+		const SELECT    = 'select';
+		const SWITCHER  = 'switcher';
+		const MEDIA     = 'media';
+		const URL       = 'url';
+		const REPEATER  = 'repeater';
+		const WYSIWYG   = 'wysiwyg';
+		const GALLERY   = 'gallery';
+		const COLOR     = 'color';
+		const HEADING   = 'heading';
+		const DIMENSIONS = 'dimensions';
+		const SLIDER    = 'slider';
+		const CHOOSE    = 'choose';
+		const TAB_STYLE = 'style';
+	}
+
+	/**
+	 * Typography group control.
+	 */
+	class Group_Control_Typography {
+		public static function get_type(): string {
+			return 'typography';
+		}
 	}
 
 	/**
@@ -142,6 +157,18 @@ namespace Elementor {
 		}
 
 		protected function add_control( string $id, array $args = array() ): void {
+			$this->test_controls[ $id ] = $args;
+		}
+
+		protected function add_responsive_control( string $id, array $args = array() ): void {
+			$args['responsive'] = true;
+			$this->test_controls[ $id ] = $args;
+		}
+
+		protected function add_group_control( string $type, array $args = array() ): void {
+			$id = (string) ( $args['name'] ?? $type );
+			$args['type'] = $type;
+			$args['group_control'] = true;
 			$this->test_controls[ $id ] = $args;
 		}
 

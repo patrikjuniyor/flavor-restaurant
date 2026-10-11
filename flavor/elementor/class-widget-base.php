@@ -185,4 +185,265 @@ abstract class Widget_Base extends \Elementor\Widget_Base {
 
 		return array_values( array_filter( $rows, 'is_array' ) );
 	}
+
+	/**
+	 * Premium-grade, token-aware styling shared by every Flavor widget.
+	 *
+	 * Elementor's Advanced tab styles the outer widget container. These
+	 * controls deliberately reach the Flavor markup inside it, while leaving
+	 * unset values alone so the active skin and dark-mode palette remain the
+	 * defaults. All sizing controls are responsive and use Elementor's native
+	 * CSS compiler; no inline style attributes or front-end JavaScript are
+	 * needed.
+	 */
+	protected function register_flavor_style_controls(): void {
+		$section_selector = '{{WRAPPER}} .flavor-section, {{WRAPPER}} .flavor-hero, {{WRAPPER}} .flavor-gallery';
+		$heading_selector = '{{WRAPPER}} .flavor-section__title, {{WRAPPER}} .flavor-section-header__title, {{WRAPPER}} .flavor-about__title, {{WRAPPER}} .flavor-hero__title, {{WRAPPER}} .flavor-offer-banner__title, {{WRAPPER}} .flavor-res-banner__title';
+		$grid_selector    = '{{WRAPPER}} .flavor-menu__grid, {{WRAPPER}} .flavor-features__grid, {{WRAPPER}} .flavor-chefs, {{WRAPPER}} .flavor-stats, {{WRAPPER}} .flavor-process, {{WRAPPER}} .flavor-order-cta__modes, {{WRAPPER}} .flavor-gallery__grid, {{WRAPPER}} .flavor-testimonials__grid';
+
+		$this->start_controls_section(
+			'flavor_visual_style',
+			array(
+				'label' => __( 'ظاهر و سبک Flavor', 'flavor' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+			)
+		);
+
+		$this->add_control(
+			'flavor_style_brand_heading',
+			array(
+				'label' => __( 'رنگ‌های برند', 'flavor' ),
+				'type'  => \Elementor\Controls_Manager::HEADING,
+			)
+		);
+
+		$brand_colors = array(
+			'flavor_style_primary_color' => array( __( 'رنگ اصلی', 'flavor' ), '--flavor-primary' ),
+			'flavor_style_accent_color'  => array( __( 'رنگ تأکید', 'flavor' ), '--flavor-accent' ),
+			'flavor_style_text_color'    => array( __( 'رنگ متن', 'flavor' ), '--flavor-ink' ),
+			'flavor_style_muted_color'   => array( __( 'رنگ متن کم‌رنگ', 'flavor' ), '--flavor-muted' ),
+			'flavor_style_surface_color' => array( __( 'رنگ سطح', 'flavor' ), '--flavor-surface' ),
+			'flavor_style_line_color'    => array( __( 'رنگ خطوط', 'flavor' ), '--flavor-line' ),
+		);
+
+		foreach ( $brand_colors as $id => $settings ) {
+			$this->add_control(
+				$id,
+				array(
+					'label'     => $settings[0],
+					'type'      => \Elementor\Controls_Manager::COLOR,
+					'selectors' => array(
+						'{{WRAPPER}}' => $settings[1] . ': {{VALUE}};',
+					),
+				)
+			);
+		}
+
+		$this->add_control(
+			'flavor_style_section_heading',
+			array(
+				'label'     => __( 'بخش و چیدمان', 'flavor' ),
+				'type'      => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			)
+		);
+
+		$this->add_control(
+			'flavor_style_section_background',
+			array(
+				'label'     => __( 'رنگ پس‌زمینهٔ بخش', 'flavor' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					$section_selector => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'flavor_style_section_padding',
+			array(
+				'label'      => __( 'فاصلهٔ داخلی بخش', 'flavor' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em', '%' ),
+				'selectors'  => array(
+					$section_selector => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'flavor_style_content_width',
+			array(
+				'label'      => __( 'حداکثر عرض محتوا', 'flavor' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', '%' ),
+				'range'      => array(
+					'px' => array(
+						'min'  => 320,
+						'max'  => 1600,
+						'step' => 10,
+					),
+					'%'  => array(
+						'min'  => 25,
+						'max'  => 100,
+						'step' => 1,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .flavor-container' => 'max-width: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'flavor_style_grid_columns',
+			array(
+				'label'     => __( 'تعداد ستون‌ها', 'flavor' ),
+				'type'      => \Elementor\Controls_Manager::SELECT,
+				'options'   => array(
+					''  => __( 'خودکار (پوسته)', 'flavor' ),
+					'1' => '۱',
+					'2' => '۲',
+					'3' => '۳',
+					'4' => '۴',
+				),
+				'default'   => '',
+				'selectors' => array(
+					$grid_selector => 'grid-template-columns: repeat({{VALUE}}, minmax(0, 1fr));',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'flavor_style_alignment',
+			array(
+				'label'        => __( 'هم‌ترازی متن', 'flavor' ),
+				'type'         => \Elementor\Controls_Manager::CHOOSE,
+				'options'      => array(
+					'start'  => array(
+						'title' => __( 'آغاز', 'flavor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'وسط', 'flavor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'end'    => array(
+						'title' => __( 'پایان', 'flavor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .flavor-section, {{WRAPPER}} .flavor-hero, {{WRAPPER}} .flavor-gallery' => 'text-align: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'flavor_style_heading_color',
+			array(
+				'label'     => __( 'رنگ عنوان', 'flavor' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					$heading_selector => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'flavor_style_heading_typography',
+				'label'    => __( 'تایپوگرافی عنوان', 'flavor' ),
+				'selector' => $heading_selector,
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'flavor_style_body_typography',
+				'label'    => __( 'تایپوگرافی متن', 'flavor' ),
+				'selector' => '{{WRAPPER}} .flavor-section p, {{WRAPPER}} .flavor-hero__text, {{WRAPPER}} .flavor-about__text, {{WRAPPER}} .flavor-offer-banner__text, {{WRAPPER}} .flavor-res-banner__text, {{WRAPPER}} .flavor-feature__text, {{WRAPPER}} .flavor-process__text, {{WRAPPER}} .flavor-faq__answer, {{WRAPPER}} .flavor-order-cta__text',
+			)
+		);
+
+		$this->add_control(
+			'flavor_style_card_heading',
+			array(
+				'label'     => __( 'کارت‌ها و دکمه‌ها', 'flavor' ),
+				'type'      => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			)
+		);
+
+		$this->add_control(
+			'flavor_style_card_background',
+			array(
+				'label'     => __( 'پس‌زمینهٔ کارت', 'flavor' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .flavor-card, {{WRAPPER}} .flavor-feature, {{WRAPPER}} .flavor-chef, {{WRAPPER}} .flavor-faq__item, {{WRAPPER}} .flavor-order-cta__mode, {{WRAPPER}} .flavor-hours-list, {{WRAPPER}} .flavor-price-list__item' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'flavor_style_card_border',
+			array(
+				'label'     => __( 'رنگ حاشیهٔ کارت', 'flavor' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .flavor-card, {{WRAPPER}} .flavor-feature, {{WRAPPER}} .flavor-chef, {{WRAPPER}} .flavor-faq__item, {{WRAPPER}} .flavor-order-cta__mode, {{WRAPPER}} .flavor-hours-list, {{WRAPPER}} .flavor-price-list__item' => 'border-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'flavor_style_card_radius',
+			array(
+				'label'      => __( 'گردی گوشهٔ کارت', 'flavor' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+					'max' => 48,
+				),
+					'em' => array(
+						'min'  => 0,
+						'max'  => 3,
+						'step' => 0.1,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .flavor-card, {{WRAPPER}} .flavor-feature, {{WRAPPER}} .flavor-chef, {{WRAPPER}} .flavor-faq__item, {{WRAPPER}} .flavor-order-cta__mode, {{WRAPPER}} .flavor-hours-list, {{WRAPPER}} .flavor-price-list__item' => 'border-radius: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'flavor_style_button_background',
+			array(
+				'label'     => __( 'پس‌زمینهٔ دکمهٔ اصلی', 'flavor' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .flavor-btn--primary' => 'background-color: {{VALUE}}; border-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'flavor_style_button_text',
+			array(
+				'label'     => __( 'رنگ متن دکمهٔ اصلی', 'flavor' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .flavor-btn--primary' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+	}
 }

@@ -195,6 +195,68 @@ foreach ( $widgets as $widget ) {
 	);
 }
 
+echo "\n--- 4b. Every widget has the shared responsive Style tab ---\n";
+
+$required_style_controls = array(
+	'flavor_style_primary_color',
+	'flavor_style_accent_color',
+	'flavor_style_text_color',
+	'flavor_style_muted_color',
+	'flavor_style_surface_color',
+	'flavor_style_line_color',
+	'flavor_style_section_background',
+	'flavor_style_section_padding',
+	'flavor_style_content_width',
+	'flavor_style_grid_columns',
+	'flavor_style_alignment',
+	'flavor_style_heading_color',
+	'flavor_style_heading_typography',
+	'flavor_style_body_typography',
+	'flavor_style_card_background',
+	'flavor_style_card_border',
+	'flavor_style_card_radius',
+	'flavor_style_button_background',
+	'flavor_style_button_text',
+);
+
+foreach ( $widgets as $widget ) {
+	$name = (string) $widget->get_name();
+	check(
+		isset( $widget->test_sections['flavor_visual_style']['tab'] ) && 'style' === $widget->test_sections['flavor_visual_style']['tab'],
+		"{$name} exposes a dedicated Style tab"
+	);
+
+	$missing_controls = array_values( array_diff( $required_style_controls, array_keys( $widget->test_controls ) ) );
+	check(
+		empty( $missing_controls ),
+		"{$name} exposes all shared design controls" . ( $missing_controls ? ' — missing ' . implode( ', ', $missing_controls ) : '' )
+	);
+
+	$columns = $widget->test_controls['flavor_style_grid_columns'] ?? array();
+	check(
+		! empty( $columns['responsive'] ) && '' === ( $columns['default'] ?? null ),
+		"{$name} keeps the skin's automatic grid until a responsive column count is chosen"
+	);
+
+	$content_width = $widget->test_controls['flavor_style_content_width'] ?? array();
+	check(
+		! empty( $content_width['responsive'] ) && 25 === ( $content_width['range']['%']['min'] ?? null ) && 100 === ( $content_width['range']['%']['max'] ?? null ),
+		"{$name} exposes a usable responsive percentage width range"
+	);
+
+	$card_radius = $widget->test_controls['flavor_style_card_radius'] ?? array();
+	check(
+		! empty( $card_radius['responsive'] ) && 0.1 === ( $card_radius['range']['em']['step'] ?? null ),
+		"{$name} exposes a usable responsive em-based card radius"
+	);
+
+	$primary = $widget->test_controls['flavor_style_primary_color'] ?? array();
+	check(
+		isset( $primary['selectors']['{{WRAPPER}}'] ) && false !== strpos( $primary['selectors']['{{WRAPPER}}'], '--flavor-primary' ),
+		"{$name} overrides the inherited theme token only when explicitly set"
+	);
+}
+
 echo "\n--- 5. Hostile settings are escaped, not executed ---\n";
 
 $payload = '"><script>alert(1)</script>';
