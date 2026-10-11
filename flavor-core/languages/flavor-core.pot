@@ -13,12 +13,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-11 16:40+00:00\n"
+"POT-Creation-Date: 2026-10-11 16:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
 
-#: flavor-core/includes/API/OrderController.php:383
+#: flavor-core/includes/API/OrderController.php:384
 msgid "%d قلم غذا به سبد خرید افزوده شد."
 msgstr ""
 
@@ -98,7 +98,7 @@ msgstr ""
 msgid "آماده بیلد"
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:263
+#: flavor-core/includes/API/OrderController.php:264
 msgid "آماده تحویل / سرو"
 msgstr ""
 
@@ -478,7 +478,7 @@ msgstr ""
 msgid "برای مشاهده یا مدیریت این رزرو باید وارد شوید یا توکن مهمان ارسال کنید."
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:437
+#: flavor-core/includes/API/OrderController.php:438
 msgid "برای مشاهده یا پیگیری این سفارش باید وارد شوید یا توکن مهمان ارسال کنید."
 msgstr ""
 
@@ -554,11 +554,11 @@ msgstr ""
 msgid "تاپینگ"
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:263
+#: flavor-core/includes/API/OrderController.php:264
 msgid "تحویل به پیک"
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:269
+#: flavor-core/includes/API/OrderController.php:270
 msgid "تحویل داده شد"
 msgstr ""
 
@@ -870,7 +870,7 @@ msgstr ""
 msgid "در حال آماده‌سازی"
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:257
+#: flavor-core/includes/API/OrderController.php:258
 msgid "در حال آماده‌سازی در آشپزخانه"
 msgstr ""
 
@@ -914,7 +914,7 @@ msgstr ""
 msgid "در گروه‌های تک‌انتخابی فقط یک گزینه انتخاب کنید."
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:251
+#: flavor-core/includes/API/OrderController.php:252
 msgid "دریافت سفارش"
 msgstr ""
 
@@ -930,7 +930,7 @@ msgstr ""
 msgid "دسترسی به این رزرو برای شما مجاز نیست."
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:445
+#: flavor-core/includes/API/OrderController.php:446
 msgid "دسترسی به این سفارش برای شما مجاز نیست."
 msgstr ""
 
@@ -946,7 +946,7 @@ msgstr ""
 msgid "دستگاه مورد نظر یافت نشد."
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:286
+#: flavor-core/includes/API/OrderController.php:287
 msgid "دقیقه"
 msgstr ""
 
@@ -1158,7 +1158,7 @@ msgstr ""
 msgid "سفارشات"
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:157
+#: flavor-core/includes/API/OrderController.php:158
 msgid "سفارش با موفقیت ثبت شد."
 msgstr ""
 
@@ -1182,7 +1182,7 @@ msgstr ""
 msgid "سفارش جدید ثبت شد (order.created)"
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:315
+#: flavor-core/includes/API/OrderController.php:316
 msgid "سفارش در حال آماده‌سازی یا تحویل است و امکان لغو آن وجود ندارد."
 msgstr ""
 
@@ -1210,11 +1210,11 @@ msgstr ""
 msgid "سفارش لغو شد (order.cancelled)"
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:323
+#: flavor-core/includes/API/OrderController.php:324
 msgid "سفارش لغو شد."
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:214 flavor-core/includes/API/OrderController.php:237 flavor-core/includes/API/OrderController.php:305 flavor-core/includes/API/OrderController.php:337
+#: flavor-core/includes/API/OrderController.php:215 flavor-core/includes/API/OrderController.php:238 flavor-core/includes/API/OrderController.php:306 flavor-core/includes/API/OrderController.php:338
 msgid "سفارش مورد نظر یافت نشد."
 msgstr ""
 
@@ -1534,7 +1534,7 @@ msgstr ""
 msgid "لغو شده"
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:321
+#: flavor-core/includes/API/OrderController.php:322
 msgid "لغو شده توسط مشتری از طریق اپلیکیشن."
 msgstr ""
 
@@ -1898,7 +1898,7 @@ msgstr ""
 msgid "واحد نمایش"
 msgstr ""
 
-#: flavor-core/includes/API/CartController.php:367 flavor-core/includes/API/OrderController.php:172 flavor-core/includes/API/ReservationController.php:275
+#: flavor-core/includes/API/CartController.php:367 flavor-core/includes/API/OrderController.php:173 flavor-core/includes/API/ReservationController.php:275
 msgid "وارد حساب شوید."
 msgstr ""
 

@@ -14,6 +14,7 @@ use FlavorCore\Order\KitchenTicketRepository;
 use FlavorCore\Support\GuestToken;
 use FlavorCore\Support\Iran;
 use FlavorCore\Support\Jalali;
+use FlavorCore\Support\Clock;
 use FlavorCore\Support\RateLimit;
 use FlavorCore\Support\Roles;
 use FlavorCore\WooCommerce\CartSession;
@@ -250,25 +251,25 @@ class OrderController extends BaseApiController {
 				'step'      => 'received',
 				'title'     => __( 'دریافت سفارش', 'flavor-core' ),
 				'completed' => true,
-				'time'      => $order->get_date_created() ? $order->get_date_created()->date( 'H:i' ) : '',
+				'time'      => $order->get_date_created() ? $order->get_date_created()->date( 'H:i' ) : '', /* WC_DateTime already carries the store timezone, so this was never the naive path; the three ticket times beside it were (prompt 23). */
 			),
 			array(
 				'step'      => 'preparing',
 				'title'     => __( 'در حال آماده‌سازی در آشپزخانه', 'flavor-core' ),
 				'completed' => in_array( $status, array( 'preparing', 'ready', 'completed' ), true ),
-				'time'      => $ticket && ! empty( $ticket['accepted_at'] ) ? date( 'H:i', strtotime( $ticket['accepted_at'] ) ) : '',
+				'time'      => $ticket ? Clock::format( (string) ( $ticket['accepted_at'] ?? '' ) ) : '',
 			),
 			array(
 				'step'      => 'ready',
 				'title'     => 'delivery' === $order->get_meta( '_flavor_order_mode' ) ? __( 'تحویل به پیک', 'flavor-core' ) : __( 'آماده تحویل / سرو', 'flavor-core' ),
 				'completed' => in_array( $status, array( 'ready', 'completed' ), true ),
-				'time'      => $ticket && ! empty( $ticket['ready_at'] ) ? date( 'H:i', strtotime( $ticket['ready_at'] ) ) : '',
+				'time'      => $ticket ? Clock::format( (string) ( $ticket['ready_at'] ?? '' ) ) : '',
 			),
 			array(
 				'step'      => 'completed',
 				'title'     => __( 'تحویل داده شد', 'flavor-core' ),
 				'completed' => 'completed' === $status,
-				'time'      => $ticket && ! empty( $ticket['completed_at'] ) ? date( 'H:i', strtotime( $ticket['completed_at'] ) ) : '',
+				'time'      => $ticket ? Clock::format( (string) ( $ticket['completed_at'] ?? '' ) ) : '',
 			),
 		);
 

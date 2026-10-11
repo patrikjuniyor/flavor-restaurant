@@ -882,6 +882,31 @@ function sanitize_hex_color( $color ) {
 	return '';
 }
 
+function wp_timezone(): DateTimeZone {
+	// Same source as the real function, minus the option sanitising: a fixed
+	// offset keeps tests deterministic. A test may update_option() the
+	// 'timezone_string' key to a named zone (Asia/Tehran) to prove the display
+	// path follows the *site* clock and not the server's.
+	$value = get_option( 'timezone_string', '+00:00' ) ?: '+00:00';
+	try {
+		return new DateTimeZone( (string) $value );
+	} catch ( Exception $e ) {
+		return new DateTimeZone( 'UTC' );
+	}
+}
+
+function wp_date( string $format, ?int $timestamp = null ): string {
+	// The real wp_date() also applies the date-format filters; the mock keeps the
+	// part the code under test depends on: an instant is rendered in the *site*
+	// timezone, never in date_default_timezone_get().
+	$moment = new DateTimeImmutable( '@' . ( null === $timestamp ? time() : $timestamp ) );
+	return $moment->setTimezone( wp_timezone() )->format( $format );
+}
+
+function current_datetime(): DateTimeImmutable {
+	return ( new DateTimeImmutable( 'now' ) )->setTimezone( wp_timezone() );
+}
+
 function wp_timezone_string(): string {
 	// A fixed offset keeps tests deterministic; the real function reads
 	// the site's timezone option.
