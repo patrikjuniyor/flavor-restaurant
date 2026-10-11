@@ -162,7 +162,13 @@ function flavor_demo_catalog(): array {
 				'flavor_address'        => 'اصفهان، میدان نقش جهان، خیابان حافظ',
 				'flavor_featured_title' => 'گزیده سفره نقش جهان',
 			),
-			'categories'   => array( 'کباب‌های ذغالی' => 'kebab', 'چلو خورشت اصیل' => 'stew', 'پیش‌غذا و مخلفات' => 'side', 'نوشیدنی و شربتخانه' => 'drinks' ),
+			'categories'      => array( 'کباب‌های ذغالی' => 'kebab', 'چلو خورشت اصیل' => 'stew', 'پیش‌غذا و مخلفات' => 'side', 'نوشیدنی و شربتخانه' => 'drinks' ),
+			'category_images' => array(
+				'kebab'  => 'category-kebab.jpg',
+				'stew'   => 'category-stew.jpg',
+				'side'   => 'category-side.jpg',
+				'drinks' => 'category-drinks.jpg',
+			),
 			'testimonials' => array(
 				array( 'name' => 'حاج مرتضی حسینی', 'text' => 'کباب برگ و شیشلیک بی‌نظیر؛ گوشت کاملاً پنبه و بدون ذره‌ای بو.' ),
 				array( 'name' => 'مریم صادقی', 'text' => 'دیزی سنگی با نان تازه و ترشی بادمجان یاد خاطرات خانه پدری را زنده کرد.' ),

@@ -22,6 +22,12 @@ foreach ( $catalog as $slug => $pack ) {
 		demo_check( in_array( $item['category'], $categories, true ), 'Unknown product category: ' . $item['name'] );
 		demo_check( $item['price'] > 0 && $item['prep'] > 0, 'Invalid price or prep time: ' . $item['name'] );
 	}
+	// Every category needs art of its own. Without this the importer falls back
+	// to the hero, so a pack can be "complete" while showing one repeated photo
+	// four times — which is how persian-traditional shipped.
+	foreach ( $categories as $category ) {
+		demo_check( isset( $pack['category_images'][ $category ] ), 'Category without its own image: ' . $slug . '/' . $category );
+	}
 	$files = array_merge( array( 'hero.jpg' ), array_values( $pack['category_images'] ?? array() ), array_column( $pack['items'], 'image' ) );
 	if ( isset( $pack['landing'] ) ) {
 		$files[] = 'story.jpg';
@@ -42,7 +48,14 @@ foreach ( $catalog as $slug => $pack ) {
 	foreach ( array_unique( $files ) as $file ) {
 		demo_check( $file === basename( $file ), 'Unsafe asset basename: ' . $file );
 		$path = FLAVOR_DIR . '/demos/' . $slug . '/' . $file;
-		demo_check( is_file( $path ) && false !== getimagesize( $path ), 'Invalid image: ' . $path );
+		$size = is_file( $path ) ? getimagesize( $path ) : false;
+		demo_check( false !== $size, 'Invalid image: ' . $path );
+		if ( false !== $size && 0 === strpos( $file, 'category-' ) ) {
+			// Grid-cell art below this is a thumbnail blown up. 600px is under
+			// the smallest we ship (dark-luxe's 900×675 bar shot) so the floor
+			// catches a placeholder, not a deliberate crop.
+			demo_check( min( $size[0], $size[1] ) >= 600, 'Category image too small: ' . $path . ' (' . $size[0] . '×' . $size[1] . ')' );
+		}
 		demo_check( filesize( $path ) < 750000, 'Unoptimized image: ' . $path );
 	}
 	echo 'PASS ' . $slug . ' (' . count( $pack['items'] ) . ' products)' . PHP_EOL;
