@@ -65,9 +65,9 @@
     "state": "done"
   },
   "21": {
-    "commit": "7332929",
-    "note": "۷/۷ فایل در دستور کار؛ انجام‌شده: menu.js (پرامپت ۲۰) و premium.js (این کامیت: ۳۰ رشته به Premium_Assets::strings()/Wishlist::strings()، تست قرارداد عمومی شد، بدهی JS از ۱۳ به ۱۲ فایل). باقی: customer.js، auth.js، catering.js، pages.js، navigation.js، bespoke-demos.js",
-    "state": "partial"
+    "commit": "9bf00a9",
+    "note": "هر هفت فایل منتقل شد: premium.js (۳۰ رشته → Premium_Assets::strings/Wishlist::strings)، customer/auth/pages/navigation (خانوادهٔ flavor-ui-js → UI::strings روی flavorData.i18n.ui)، catering/bespoke-demos (→ Enqueue::catering_strings و Bespoke_Demos::strings). فهرست بدهیِ JS از ۱۳ فایل به ۴ رسید (reservation/search/tracking/ui؛ motion.js و demo-animations.js فقط جدول رقم داشتند — پرامپت ۲۲). تست قرارداد: جدول arity + بررسی شکلِ helperها + سیم‌کشیِ payload؛ ۱۰۴/۰. کاتالوگ عربی ۱۴۸۸/۱۴۸۸.",
+    "state": "done"
   },
   "3": {
     "commit": "e2655f9",

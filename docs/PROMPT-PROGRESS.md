@@ -4,13 +4,13 @@
 
 | وضعیت | تعداد |
 |---|---:|
-| ✅ انجام‌شده | 20 |
-| 🟨 بخشی انجام‌شده | 1 |
+| ✅ انجام‌شده | 21 |
+| 🟨 بخشی انجام‌شده | 0 |
 | ⛔ مسدود (نیاز به محیط/تصمیم مالک) | 0 |
 | ⬜ انجام‌نشده | 87 |
 | **مجموع** | **108** |
 
-درصد پیشرفت کامل: **19%** (20/108)
+درصد پیشرفت کامل: **19%** (21/108)
 
 این فایل با `python3 dev-tools/build-progress.py` از روی `progress-status.json` بازتولید می‌شود؛ ویرایش دستی را از دست می‌دهد.
 
@@ -49,7 +49,7 @@
 | 18 | ✅ انجام شد | دموی persian-traditional (پرچم‌دار بازار ایران) ناقص است: پوشهٔ | چهار تصویر دسته‌بندی هم‌سبک hero.jpg (۱۲۰۰×۹۰۰، ≤۲۵۰KB) برای persian-traditional + کلید category_images در کاتالوگ. تست کاتالوگ دو بررسی گرفت: دسته بدون تصویر اختصاصی، و تصویر با ضلع کوچک‌تر از ۶۰۰px — `commit 95483ea` |
 | 19 | ✅ انجام شد | فایل docs/raastichin/listing.md ادعا می‌کند «هشت دمو» در حالی که محصول | listing.md: «هشت دمو»/«۸ دمو» → فهرست واقعی ۱۲ دمو + چک‌لیست ارسال با وضعیت واقعی هر بند (flavor-core.zip، LICENSE داخل بسته‌ها، ویدیو = انجام‌نشده با اشاره به بندهای ۵۳/۱۰۰/۹۴)؛ README هم اصلاح شد و تست کاتالوگ هر ادعای «N دمو» را با کاتالوگ می‌سنجد — `commit b3bc786` |
 | 20 | ✅ انجام شد | رشته‌های فارسی هاردکد در جاوااسکریپت سمت مشتری را قابل ترجمه کن. فایل | ۷۴ رشته از menu.js به Enqueue::menu_strings() و flavorData.i18n.menu منتقل شد؛ برچسب رژیم غذایی به UI::dietary_labels() (تک‌نسخه، فیلترها هم از همان می‌خوانند)؛ فاصلهٔ اول/آخر رشته‌ها به markup رفت چون xgettext msgid را trim می‌کند؛ ar-part6.py هر ۶۵ msgid تازه را عربی کرد (کاتالوگ ۱۴۴۵/۱۴۴۵)؛ تست جدید tests/theme/test-js-i18n.php با parity دوسویه، بررسی placeholder، فهرست بدهی ۱۳ فایل، و دو آزمون منفی — `commit 53cee48` |
-| 21 | 🟨 بخشی | همان کار پرامپت ۲۰ را برای این فایل‌ها انجام بده (هر فایل در یک نوبت | ۷/۷ فایل در دستور کار؛ انجام‌شده: menu.js (پرامپت ۲۰) و premium.js (این کامیت: ۳۰ رشته به Premium_Assets::strings()/Wishlist::strings()، تست قرارداد عمومی شد، بدهی JS از ۱۳ به ۱۲ فایل). باقی: customer.js، auth.js، catering.js، pages.js، navigation.js، bespoke-demos.js — `commit 7332929` |
+| 21 | ✅ انجام شد | همان کار پرامپت ۲۰ را برای این فایل‌ها انجام بده (هر فایل در یک نوبت | هر هفت فایل منتقل شد: premium.js (۳۰ رشته → Premium_Assets::strings/Wishlist::strings)، customer/auth/pages/navigation (خانوادهٔ flavor-ui-js → UI::strings روی flavorData.i18n.ui)، catering/bespoke-demos (→ Enqueue::catering_strings و Bespoke_Demos::strings). فهرست بدهیِ JS از ۱۳ فایل به ۴ رسید (reservation/search/tracking/ui؛ motion.js و demo-animations.js فقط جدول رقم داشتند — پرامپت ۲۲). تست قرارداد: جدول arity + بررسی شکلِ helperها + سیم‌کشیِ payload؛ ۱۰۴/۰. کاتالوگ عربی ۱۴۸۸/۱۴۸۸. — `commit 9bf00a9` |
 | 22 | ⬜ انجام‌نشده | در فایل flavor/assets/js/menu.js تابع fa() اعداد را فارسی می‌کند و |  |
 | 23 | ⬜ انجام‌نشده | تابع date() در flavor-core/includes/API/OrderController.php (چند جا در |  |
 
