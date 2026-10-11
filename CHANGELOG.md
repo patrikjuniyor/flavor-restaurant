@@ -62,6 +62,15 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 - نقشهٔ مأموریت تازه: [`docs/PREMIUM-MISSION-LIST-2026-10-10-R2.md`](docs/PREMIUM-MISSION-LIST-2026-10-10-R2.md).
 
+## [1.6.2 / Core 1.5.1] — 2026-10-10
+
+### Fixed — نمایش و بارگذاری Elementor
+
+- **رندر صفحهٔ نخست در Elementor:** قالب `front-page.php` قبلاً فقط `get_the_content()` را بررسی می‌کرد؛ Elementor طرح صفحه را در `_elementor_data` ذخیره می‌کند و ممکن است محتوای خام خالی باشد. متد `Flavor\Elementor::has_builder_content()` اضافه شد تا دادهٔ واقعی و وضعیت ویرایشگر Elementor هم بررسی شود و `the_content()` فرصت رندر کردن طرح را داشته باشد.
+- **ترتیب ثبت دستهٔ ویجت‌ها:** قلاب `elementor/elements/categories_registered` پیش از `elementor/widgets/register` اجرا می‌شود؛ با متد `load_widget_base()` کلاس پایه به صورت تنبل و محافظت‌شده بارگذاری می‌شود تا از خطای عدم وجود کلاس جلوگیری شود.
+- **تست‌های رگرسیون:** تست‌های خودکار برای ترتیب بارگذاری هوک‌ها، ثبت ۱۷ ویجت اختصاصی و شناسایی داده‌های صفحه در `test-elementor-widgets.php` و `test-elementor-registration.php` اضافه شد.
+- مستندات پیش‌نیازها و راهنمای رفع مشکل عدم نمایش ویجت‌ها در `docs/fa/11-elementor.md` تکمیل شد.
+
 ## [1.6.1 / Core 1.5.1] — 2026-10-09
 
 ### Added — پیش‌نمایش زنده و کنترل‌های حرفه‌ایِ Customizer

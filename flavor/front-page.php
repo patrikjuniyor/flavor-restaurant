@@ -51,7 +51,9 @@ get_template_part( 'template-parts/marketing/hours' );
 if ( have_posts() ) {
 	while ( have_posts() ) {
 		the_post();
-		if ( get_the_content() ) {
+		$has_post_content      = '' !== trim( (string) get_the_content() );
+		$has_elementor_content = \Flavor\Elementor::has_builder_content( get_the_ID() );
+		if ( $has_post_content || $has_elementor_content ) {
 			echo '<div class="flavor-container flavor-custom-page-content" style="padding-block: 40px;">';
 			the_content();
 			echo '</div>';

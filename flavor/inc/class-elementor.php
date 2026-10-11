@@ -18,7 +18,10 @@ class Elementor {
 	 * Hooks.
 	 */
 	public static function init(): void {
-		add_action( 'elementor/elements/categories_registered', array( \Flavor\Elementor\Widget_Base::class, 'register_category' ) );
+		// Elementor's category hook can run before widgets/register. Load the
+		// widget base lazily in register_category() rather than invoking a class
+		// that has not been required yet.
+		add_action( 'elementor/elements/categories_registered', array( self::class, 'register_category' ) );
 		add_action( 'elementor/widgets/register', array( self::class, 'register' ) );
 
 		require_once FLAVOR_DIR . '/elementor/class-kit-sync.php';
@@ -84,13 +87,77 @@ class Elementor {
 	}
 
 	/**
+	 * Register Flavor's category before Elementor registers the widgets.
+	 *
+	 * @param \Elementor\Elements_Manager $elements Manager.
+	 */
+	public static function register_category( $elements ): void {
+		if ( ! self::load_widget_base() ) {
+			return;
+		}
+
+		\Flavor\Elementor\Widget_Base::register_category( $elements );
+	}
+
+	/**
+	 * Load the shared widget base only when Elementor is available.
+	 *
+	 * @return bool
+	 */
+	private static function load_widget_base(): bool {
+		if ( ! class_exists( '\Elementor\Widget_Base' ) ) {
+			return false;
+		}
+
+		require_once FLAVOR_DIR . '/elementor/class-widget-base.php';
+
+		return class_exists( '\Flavor\Elementor\Widget_Base' );
+	}
+
+	/**
+	 * Elementor stores page layouts in post meta, which can leave post_content empty.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return bool Whether the post contains saved Elementor elements.
+	 */
+	public static function has_builder_content( int $post_id ): bool {
+		if ( $post_id <= 0 ) {
+			return false;
+		}
+
+		if ( class_exists( '\Elementor\Plugin' ) && isset( \Elementor\Plugin::$instance ) ) {
+			if ( isset( \Elementor\Plugin::$instance->editor ) && method_exists( \Elementor\Plugin::$instance->editor, 'is_edit_mode' ) && \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
+				return true;
+			}
+			if ( isset( \Elementor\Plugin::$instance->preview ) && method_exists( \Elementor\Plugin::$instance->preview, 'is_preview_mode' ) && \Elementor\Plugin::$instance->preview->is_preview_mode( $post_id ) ) {
+				return true;
+			}
+		}
+
+		if ( 'builder' !== get_post_meta( $post_id, '_elementor_edit_mode', true ) ) {
+			return false;
+		}
+
+		$data = get_post_meta( $post_id, '_elementor_data', true );
+		if ( is_array( $data ) ) {
+			return ! empty( $data );
+		}
+
+		if ( ! is_string( $data ) || '' === trim( $data ) ) {
+			return false;
+		}
+
+		$elements = json_decode( $data, true );
+		return is_array( $elements ) && ! empty( $elements );
+	}
+
+	/**
 	 * @param \Elementor\Widgets_Manager $widgets Manager.
 	 */
 	public static function register( $widgets ): void {
-		if ( ! class_exists( '\Elementor\Widget_Base' ) ) {
+		if ( ! self::load_widget_base() ) {
 			return;
 		}
-		require_once FLAVOR_DIR . '/elementor/class-widget-base.php';
 
 		foreach ( self::widget_files() as $file ) {
 			require_once FLAVOR_DIR . '/elementor/widgets/' . $file;

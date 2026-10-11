@@ -6,7 +6,7 @@ Tested up to: 7.1
 Requires PHP: 8.0
 WC requires at least: 8.5
 WC tested up to: 11.0
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,7 +57,8 @@ Nothing about money is computed in the browser.
    display and reservations. The theme works without it, but the restaurant
    features need it.
 3. Install and activate WooCommerce 8.5+ if it is not already present.
-4. Open نمایش → سفارشی‌سازی → پوسته‌های آماده and choose a preset.
+4. Optional: install and activate Elementor Website Builder to use Flavor's Elementor widgets; the free version is enough.
+5. Open نمایش → سفارشی‌سازی → پوسته‌های آماده and choose a preset.
 
 == Frequently Asked Questions ==
 
@@ -113,6 +114,12 @@ images fall back to a bundled placeholder instead of emitting broken URLs.
 
 == Changelog ==
 
+= 1.6.2 =
+* Fixed Elementor widget category registration so the shared base is loaded before the category hook runs.
+* Fixed Elementor page rendering on the front page when raw post content is blank.
+* Added regression tests for Elementor boot order and page builder metadata.
+* Clarified that Elementor is a separate optional plugin; the free version is sufficient.
+
 = 1.6.1 =
 * Demo photography moved to a separate pack; the theme itself is now 1.3 MB
   instead of 16 MB, and renders correctly with the pack absent.
@@ -129,6 +136,9 @@ images fall back to a bundled placeholder instead of emitting broken URLs.
 * Editable, reorderable gallery and testimonials with alt text per image.
 
 == Upgrade Notice ==
+
+= 1.6.2 =
+Fixes Elementor widget loading order and front-page rendering. Install and activate Elementor separately, then edit a page with Elementor; the free plugin is enough.
 
 = 1.6.1 =
 The gallery and testimonials sections gained repeater controls. Existing

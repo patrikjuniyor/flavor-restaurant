@@ -211,4 +211,26 @@ namespace Elementor {
 			$this->categories[ $name ] = $args;
 		}
 	}
+
+	/**
+	 * Widgets manager, used to exercise the real registration hook.
+	 */
+	class Widgets_Manager {
+
+		/**
+		 * Registered widget instances.
+		 *
+		 * @var object[]
+		 */
+		public array $widgets = array();
+
+		/**
+		 * Register a widget instance.
+		 *
+		 * @param object $widget Widget.
+		 */
+		public function register( $widget ): void {
+			$this->widgets[] = $widget;
+		}
+	}
 }

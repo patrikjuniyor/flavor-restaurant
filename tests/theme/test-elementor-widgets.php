@@ -21,24 +21,6 @@ require_once __DIR__ . '/bootstrap.php';
 require_once __DIR__ . '/fixtures/elementor-stubs.php';
 
 require_once FLAVOR_DIR . '/inc/class-elementor.php';
-require_once FLAVOR_DIR . '/elementor/class-widget-base.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-hero-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-about-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-gallery-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-testimonials-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-branch-info-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-menu-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-reservation-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-hours-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-order-cta-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-offers-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-chefs-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-cart-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-features-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-stats-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-process-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-faq-widget.php';
-require_once FLAVOR_DIR . '/elementor/widgets/class-price-list-widget.php';
 
 use Flavor\Elementor\Widget_Base;
 
@@ -112,6 +94,31 @@ $markup_error = static function ( string $html ): ?string {
 };
 
 echo "=== Flavor Elementor Widget Contract Tests ===\n\n";
+
+echo "--- 0. Elementor boot order loads the category base in time ---\n";
+
+// Do not require Widget_Base in this test before firing categories_registered:
+// in production, that action can run before the widget registration hook.
+\Flavor\Elementor::init();
+$element_manager = new \Elementor\Elements_Manager();
+$category_error  = null;
+try {
+	do_action( 'elementor/elements/categories_registered', $element_manager );
+} catch ( \Throwable $error ) {
+	$category_error = $error->getMessage();
+}
+check( null === $category_error, 'category callback completes before widget registration' . ( $category_error ? ' — ' . $category_error : '' ) );
+check( isset( $element_manager->get_categories()['flavor'] ), 'Flavor category exists immediately after categories_registered' );
+
+$elementor_widgets = new \Elementor\Widgets_Manager();
+$registration_error = null;
+try {
+	do_action( 'elementor/widgets/register', $elementor_widgets );
+} catch ( \Throwable $error ) {
+	$registration_error = $error->getMessage();
+}
+check( null === $registration_error, 'widget registration hook completes' . ( $registration_error ? ' — ' . $registration_error : '' ) );
+check( count( $elementor_widgets->widgets ) === count( \Flavor\Elementor::widget_files() ), 'all widgets register through Elementor’s real hook' );
 
 $files   = \Flavor\Elementor::widget_files();
 $classes = \Flavor\Elementor::widget_classes();
