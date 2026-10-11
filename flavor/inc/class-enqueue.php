@@ -186,6 +186,11 @@ class Enqueue {
 				// Everything menu.js renders, so the script holds no copy of
 				// its own. See menu_strings().
 				'menu'    => self::menu_strings(),
+				// Copy shared by the flavor-ui-js family (customer.js, auth.js,
+				// pages.js, navigation.js). It travels on flavorData rather than on
+				// its own handle because navigation.js loads on shells where
+				// flavor-ui-js is not registered. See UI::strings().
+				'ui'      => UI::strings(),
 			),
 		);
 

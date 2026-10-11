@@ -86,6 +86,18 @@ function flavor_js_persian_literals( string $source ): array {
 				if ( ! isset( $match[ $group ] ) || '' === $match[ $group ] ) {
 					continue;
 				}
+				// Digit tables and folding alphabets are data, not sentences:
+				// '۰۱۲۳۴۵۶۷۸۹'[n] maps a number to Persian digits, motion.js spells a
+				// dozen out one character at a time, and normalize() in pages.js
+				// rewrites ك into ک. gettext is never asked for any of them and no
+				// translation can apply — prompt 22 owns the digits. The exception is
+				// deliberately the narrowest thing that covers those cases: a run of
+				// digits, or exactly one character. Copy cannot hide in there.
+				$is_data = (bool) preg_match( '/^[\x{06F0}-\x{06F9}\x{0660}-\x{0669}]+$/u', $match[ $group ] )
+					|| (bool) preg_match( '/^.$/u', $match[ $group ] );
+				if ( $is_data ) {
+					continue;
+				}
 				if ( preg_match( '/[\x{0600}-\x{06FF}\x{200C}]/u', $match[ $group ] ) ) {
 					$found[] = array(
 						'line' => $index + 1,
@@ -122,6 +134,7 @@ $contracts = array(
 		'two'    => 'fill2',
 		'map'    => '\Flavor\Enqueue::menu_strings',
 		'strict' => true, // the map exists only for this script: no dead entries
+		'wire'   => array( 'inc/class-enqueue.php', 'menu.\s*=>\s*self::menu_strings\(\)' ),
 	),
 	array(
 		'file'   => 'premium.js',
@@ -131,6 +144,7 @@ $contracts = array(
 		'two'    => 'fmt2',
 		'map'    => '\Flavor\Premium_Assets::strings',
 		'strict' => false,
+		'wire'   => array( 'inc/class-premium-assets.php', 'i18n.\s*=>\s*self::strings\(\)' ),
 	),
 	array(
 		'file'   => 'premium.js',
@@ -140,8 +154,60 @@ $contracts = array(
 		'two'    => '',
 		'map'    => '\Flavor\Wishlist::strings',
 		'strict' => false,
+		'wire'   => array( 'inc/class-wishlist.php', 'i18n.\s*=>\s*self::strings\(\)' ),
+	),
+	/*
+	 * The four scripts that hang off `flavor-ui-js` share one map, because one
+	 * string each is not worth four payloads. `strict` cannot apply per file
+	 * then (no single file asks every key), so the union of their keys is
+	 * checked for dead copy below instead.
+	 */
+	array(
+		'file'   => 'customer.js',
+		'marker' => 'flavor-i18n-map: flavorData.i18n.ui',
+		'calls'  => array( 't', 'fmt' ),
+		'one'    => 'fmt',
+		'two'    => '',
+		'map'    => '\Flavor\UI::strings',
+		'strict' => false,
+		'min'    => 4,
+		'wire'   => array( 'inc/class-enqueue.php', 'ui.\s*=>\s*UI::strings\(\)' ),
+	),
+	array(
+		'file'   => 'auth.js',
+		'marker' => 'flavor-i18n-map: flavorData.i18n.ui',
+		'calls'  => array( 't', 'fmt' ),
+		'one'    => 'fmt',
+		'two'    => '',
+		'map'    => '\Flavor\UI::strings',
+		'strict' => false,
+		'min'    => 10,
+		'wire'   => array( 'inc/class-enqueue.php', 'ui.\s*=>\s*UI::strings\(\)' ),
+	),
+	array(
+		'file'   => 'pages.js',
+		'marker' => 'flavor-i18n-map: flavorData.i18n.ui',
+		'calls'  => array( 't', 'fmt' ),
+		'one'    => 'fmt',
+		'two'    => '',
+		'map'    => '\Flavor\UI::strings',
+		'strict' => false,
+		'min'    => 1,
+		'wire'   => array( 'inc/class-enqueue.php', 'ui.\s*=>\s*UI::strings\(\)' ),
+	),
+	array(
+		'file'   => 'navigation.js',
+		'marker' => 'flavor-i18n-map: flavorData.i18n.ui',
+		'calls'  => array( 't', 'fmt' ),
+		'one'    => 'fmt',
+		'two'    => '',
+		'map'    => '\Flavor\UI::strings',
+		'strict' => false,
+		'min'    => 1,
+		'wire'   => array( 'inc/class-enqueue.php', 'ui.\s*=>\s*UI::strings\(\)' ),
 	),
 );
+
 
 echo "\n--- 1. Each declared script still declares its map ---\n";
 
@@ -152,6 +218,14 @@ foreach ( $contracts as $name => $contract ) {
 	check(
 		false !== strpos( $sources[ $name ], $contract['marker'] ),
 		$contract['file'] . ' declares ' . $contract['marker']
+	);
+	// A map that exists but is never handed to the browser is the worse
+	// failure: the scripts fall back to their own keys and nothing complains.
+	// So each contract also names the PHP line that puts the map on the wire.
+	$wire_src = (string) file_get_contents( FLAVOR_DIR . '/' . $contract['wire'][0] );
+	check(
+		(bool) preg_match( '/' . $contract['wire'][1] . ',?$/m', $wire_src ),
+		$contract['file'] . ': its map is really handed to the browser (' . $contract['wire'][0] . ' -> ' . $contract['wire'][1] . ')'
 	);
 }
 
@@ -190,7 +264,7 @@ foreach ( $contracts as $name => $contract ) {
 		$contract['file'] . ': no key is asked for that the map does not define' . ( $missing ? ': ' . implode( ', ', $missing ) : '' )
 	);
 	check(
-		count( $used ) > 5,
+		count( $used ) >= ( isset( $contract['min'] ) ? (int) $contract['min'] : 6 ),
 		$contract['file'] . ': the map is really being used, not a token few (' . count( $used ) . ' keys)'
 	);
 
@@ -202,6 +276,30 @@ foreach ( $contracts as $name => $contract ) {
 		);
 	}
 	$contracts[ $name ]['used'] = $used;
+}
+
+/*
+ * A map several scripts share cannot be audited for dead copy file by file, so
+ * it is audited once across all of them: every key of UI::strings() must be
+ * asked for by at least one of the four scripts.
+ */
+$shared = array();
+foreach ( $contracts as $name => $contract ) {
+	$shared[ (string) $contract['map'] ][] = $name;
+}
+foreach ( $shared as $callable => $names ) {
+	if ( count( $names ) < 2 ) {
+		continue;
+	}
+	$union = array();
+	foreach ( $names as $member ) {
+		$union = array_merge( $union, $contracts[ $member ]['used'] );
+	}
+	$dead = array_diff( array_keys( $maps[ $names[0] ] ), array_unique( $union ) );
+	check(
+		! $dead,
+		$callable . ': the scripts together ask every key it defines' . ( $dead ? ' — unused: ' . implode( ', ', $dead ) : '' )
+	);
 }
 
 echo "\n--- 3. Placeholders survive the handoff ---\n";
@@ -256,14 +354,10 @@ echo "\n--- 5. The remaining translation debt is a fixed list ---\n";
 // file fails until the list says so. Admin/Customizer chrome is out of scope
 // (prompt 21 leaves it a second priority).
 $expected_debt = array(
-	'auth.js',
+	// The two files prompt 21 has left to do.
 	'bespoke-demos.js',
 	'catering.js',
-	'customer.js',
-	'demo-animations.js',
-	'motion.js',
-	'navigation.js',
-	'pages.js',
+	// Copy debt beyond prompt 21's seven files; each needs a PHP map of its own.
 	'reservation.js',
 	'search.js',
 	'tracking.js',

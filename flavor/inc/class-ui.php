@@ -72,6 +72,35 @@ class UI {
 	}
 
 	/** Relative luminance/contrast, used for readable controls in all 12 skins. */
+	/**
+	 * Every string the `flavor-ui-js` script family prints: customer.js, auth.js,
+	 * pages.js and navigation.js all read this map (localized as
+	 * flavorData.i18n.ui), so none of them carries a copy of its own. tests/theme/
+	 * test-js-i18n.php checks the four against it — a key asked for by a script
+	 * but missing here fails the build, because that is how a Persian string
+	 * silently survives a "translated" release.
+	 */
+	public static function strings(): array {
+		return array(
+			'resend_aria'         => __( 'دریافت دوبارهٔ کد ورود', 'flavor' ),
+			'resend_countdown'    => __( 'دریافت دوباره · %s', 'flavor' ),
+			'resend_short'        => __( 'دریافت دوبارهٔ کد', 'flavor' ),
+			'mobile_invalid_otp'  => __( 'شمارهٔ معتبر مانند ۰۹۱۲۱۲۳۴۵۶۷ وارد کنید.', 'flavor' ),
+			'code_requesting'     => __( 'در حال درخواست کد…', 'flavor' ),
+			'phone_changed'       => __( 'شماره تغییر کرد؛ برای شمارهٔ جدید کد بخواهید.', 'flavor' ),
+			'code_requested'      => __( 'درخواست کد پذیرفته شد. کد دریافتی را وارد کنید؛ پذیرش درخواست تضمین تحویل پیامک نیست.', 'flavor' ),
+			'check_code'          => __( 'شماره و کد یک‌بارمصرف را بررسی کنید.', 'flavor' ),
+			'code_verifying'      => __( 'در حال تأیید کد…', 'flavor' ),
+			'verified'            => __( 'ورود تأیید شد؛ می‌توانید سفارش را ادامه دهید.', 'flavor' ),
+			'hide_code'           => __( 'پنهان‌کردن کد', 'flavor' ),
+			'show_code'           => __( 'نمایش کد', 'flavor' ),
+			'code_copied'         => __( 'کد پیگیری کپی شد؛ آن را در اختیار دیگران نگذارید.', 'flavor' ),
+			'copy_manual'         => __( 'کپی خودکار ممکن نیست؛ کد را دستی کپی کنید و در اختیار دیگران نگذارید.', 'flavor' ),
+			'branches_shown'      => __( '%s شعبه نمایش داده می‌شود.', 'flavor' ),
+			'cart_total_aria'     => __( 'مبلغ فعلی سبد: %s', 'flavor' ),
+		);
+	}
+
 	public static function luminance( string $hex ): float {
 		$hex = ltrim( $hex, '#' );
 		if ( 3 === strlen( $hex ) ) { $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2]; }

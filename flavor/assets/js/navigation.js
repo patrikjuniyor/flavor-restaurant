@@ -2,13 +2,19 @@
 (function () {
  'use strict';
  var cfg=window.flavorData||{};
+ // The copy in this file comes from UI::strings(), served as
+ // flavorData.i18n.ui; nothing here carries Persian text of its own.
+ /* flavor-i18n-map: flavorData.i18n.ui */
+ var STR=((window.flavorData||{}).i18n||{}).ui||{};
+ function t(key){return STR[key]||key;}
+ function fmt(key,v){return String(t(key)).replace('%s',v);}
  var nav=document.querySelector('.flavor-mobile-nav');
  if(!nav)return;
  nav.querySelectorAll('[data-ui-nav-cart]').forEach(function(button){button.hidden=false;});
  function paint(count,total){
   nav.querySelectorAll('[data-ui-nav-count]').forEach(function(badge){badge.hidden=!(Number(count)>0);badge.textContent=String(count||0).replace(/\d/g,function(n){return '۰۱۲۳۴۵۶۷۸۹'[n];});});
   var plain=document.createElement('textarea');plain.innerHTML=String(total||'').replace(/<[^>]*>/g,'');
-  nav.querySelectorAll('[data-ui-nav-total]').forEach(function(amount){amount.hidden=!(Number(count)>0&&plain.value);amount.textContent=plain.value;amount.setAttribute('aria-label','مبلغ فعلی سبد: '+plain.value);amount.title='مبلغ فعلی سبد: '+plain.value;});
+  nav.querySelectorAll('[data-ui-nav-total]').forEach(function(amount){amount.hidden=!(Number(count)>0&&plain.value);amount.textContent=plain.value;amount.setAttribute('aria-label',fmt('cart_total_aria',plain.value));amount.title=fmt('cart_total_aria',plain.value);});
  }
  document.addEventListener('flavor:cart-updated',function(event){paint(event.detail.count,event.detail.total);});
  function height(){document.body.style.setProperty('--ui-mobile-nav-height',nav.getBoundingClientRect().height+'px');}
