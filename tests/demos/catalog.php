@@ -47,4 +47,14 @@ foreach ( $catalog as $slug => $pack ) {
 	}
 	echo 'PASS ' . $slug . ' (' . count( $pack['items'] ) . ' products)' . PHP_EOL;
 }
+// Art that no pack references is dead weight in the demo zip and a trap in
+// the code: the gallery fallback used to name the alias folders, so those four
+// hero.jpg files looked load-bearing while being unreachable from any pack.
+$known = array_keys( $catalog );
+$skins  = array_keys( $skins );
+foreach ( glob( FLAVOR_DIR . '/demos/*', GLOB_ONLYDIR ) as $dir ) {
+	$dir_slug = basename( $dir );
+	demo_check( in_array( $dir_slug, $known, true ) || in_array( $dir_slug, $skins, true ), 'Demo art no pack uses: demos/' . $dir_slug );
+}
+
 echo count( $catalog ) . ' complete importable packs; 12 defined skins.' . PHP_EOL;

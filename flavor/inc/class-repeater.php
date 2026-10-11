@@ -252,8 +252,22 @@ class Repeater {
 	 */
 	public static function fallback( string $schema ): array {
 		if ( 'gallery' === $schema ) {
-			$slugs = array( Design::current_skin(), 'fast-food', 'traditional', 'fine-dining', 'pastry', 'modern-cafe' );
-			$out   = array();
+			// The active skin first, then enough neighbours to fill the old six
+			// slots. These are canonical skin slugs on purpose: 'traditional',
+			// 'fine-dining', 'pastry' and 'modern-cafe' are legacy aliases, and
+			// pointing the gallery at them means it silently depends on demo art
+			// that only exists for the aliases — four of six tiles vanish the
+			// moment the orphan folders are cleaned up.
+			$slugs = array( Design::current_skin() );
+			foreach ( array( 'fast-food', 'luxury-dining', 'bakery-pastry', 'cafe-bistro', 'persian-traditional', 'pizza-italian' ) as $extra ) {
+				if ( count( $slugs ) >= 6 ) {
+					break;
+				}
+				if ( ! in_array( $extra, $slugs, true ) ) {
+					$slugs[] = $extra;
+				}
+			}
+			$out = array();
 
 			foreach ( $slugs as $slug ) {
 				// The demo pack is a separate download, so most of these are
