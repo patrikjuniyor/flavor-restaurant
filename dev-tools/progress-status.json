@@ -167,5 +167,10 @@
   "commit": "bab039b",
   "note": "ممیزیِ nonce/capability روی ۲۱ هندلرِ admin-post/admin_init؛ تنها شکاف (capability در github-updater) بسته شد؛ گیتِ ماندگار test-nonce-coverage.php با پارسرِ token_get_all و منفی‌آزماییِ زنده",
   "state": "done"
+ },
+ "34": {
+  "commit": "98d493b",
+  "note": "گشتِ نقش/شعبه: resolve_branch_scope در API مشترک؛ سه گپِ «حذفِ branch_id = همهٔ شعبه» بسته شد (Analytics، رزروها، گزارش‌ساز ادمین+CSV)؛ تستِ IDOR نوین با گاردِ منبعی و منفی‌آزماییِ زنده؛ e2e ۸۱/۸۱",
+  "state": "done"
  }
 }

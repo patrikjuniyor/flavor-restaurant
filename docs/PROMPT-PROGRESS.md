@@ -4,13 +4,13 @@
 
 | وضعیت | تعداد |
 |---|---:|
-| ✅ انجام‌شده | 33 |
+| ✅ انجام‌شده | 34 |
 | 🟨 بخشی انجام‌شده | 0 |
 | ⛔ مسدود (نیاز به محیط/تصمیم مالک) | 0 |
-| ⬜ انجام‌نشده | 75 |
+| ⬜ انجام‌نشده | 74 |
 | **مجموع** | **108** |
 
-درصد پیشرفت کامل: **31%** (33/108)
+درصد پیشرفت کامل: **31%** (34/108)
 
 این فایل با `python3 dev-tools/build-progress.py` از روی `progress-status.json` بازتولید می‌شود؛ ویرایش دستی را از دست می‌دهد.
 
@@ -72,7 +72,7 @@
 | پرامپت | وضعیت | خلاصه | یادداشت / کامیت |
 |---:|---|---|---|
 | 33 | ✅ انجام شد | گشت nonce و CSRF روی همهٔ فرم‌های ادمین قالب و افزونه بزن: فایل‌های | ممیزیِ nonce/capability روی ۲۱ هندلرِ admin-post/admin_init؛ تنها شکاف (capability در github-updater) بسته شد؛ گیتِ ماندگار test-nonce-coverage.php با پارسرِ token_get_all و منفی‌آزماییِ زنده — `commit bab039b` |
-| 34 | ⬜ انجام‌نشده | گشت capability و نقش‌ها: فایل flavor-core/includes/Support/Roles.php و |  |
+| 34 | ✅ انجام شد | گشت capability و نقش‌ها: فایل flavor-core/includes/Support/Roles.php و | گشتِ نقش/شعبه: resolve_branch_scope در API مشترک؛ سه گپِ «حذفِ branch_id = همهٔ شعبه» بسته شد (Analytics، رزروها، گزارش‌ساز ادمین+CSV)؛ تستِ IDOR نوین با گاردِ منبعی و منفی‌آزماییِ زنده؛ e2e ۸۱/۸۱ — `commit 98d493b` |
 | 35 | ⬜ انجام‌نشده | گشت escape خروجی در قالب‌ها: همهٔ echo/print در فایل‌های PHP زیر |  |
 | 36 | ⬜ انجام‌نشده | گشت sanitize ورودی: همهٔ $_GET/$_POST/$_REQUEST و get_json_params و |  |
 | 37 | ⬜ انجام‌نشده | endpoint های عمومی REST را سخت‌تر کن: SettingsController مسیری با |  |
