@@ -204,6 +204,10 @@ final class Flavor_GitHub_Updater {
 		if ( ! isset( $_POST['flavor_action'] ) ) {
 			return;
 		}
+		// R4-1: nonce alone proves a logged-in user clicked, not that they are an admin.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( 'دسترسی ندارید.', 403 );
+		}
 		$action = sanitize_key( wp_unslash( $_POST['flavor_action'] ) );
 		$page   = menu_page_url( 'flavor-github-updater', false );
 

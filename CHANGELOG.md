@@ -7,6 +7,13 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added — پوششِ کاملِ nonce/توانایی روی هندلرهای ادمین (پرامپت ۳۳ / R4-1)
+
+- **ممیزیِ سیستماتیک:** هر ۱۹ هندلرِ `admin_post_*` و دو هندلرِ `admin_init`ِ داده‌تغییرده در `flavor/inc`، `flavor-core/includes` و `dev-tools` تک‌تک خوانده شد؛ همه از قبل یا `check_admin_referer`ِ مستقیم داشتند یا دروازهٔ مشترکِ `guard()`/`authorize()` که هم capability و هم nonce را یک‌جا بررسی می‌کند (demo-importer، update-channel، launch-center، transfer، onboarding، PhoneOrder، Table، Zone، Loyalty، Schedule، Availability، Reservation، Report، MobileApp).
+- **تنها شکافِ واقعی — `dev-tools/flavor-github-updater.php`:** هندلرِ `admin_init` برای هر دو action رمزِ nonce داشت ولی capability check نداشت؛ `current_user_can('manage_options')` + ردِ صریح پیش از هر تغییر اضافه شد (توضیحِ R4-1 در کد: nonce ثابت می‌کند یک کاربرِ واردشده کلیک کرده، نه اینکه مدیر است).
+- **گیتِ ماندگار `tests/theme/test-nonce-coverage.php` (۲۵ بررسی):** پارسرِ مبتنی بر `token_get_all` که خودِ PHP است — نه regex روی سورس — هندلرها را از `add_action`ها (شاملِ ثبتِ الحاقیِ `'admin_post_' . self::ACTION`) بیرون می‌کشد، یک لایه دروازهٔ هم‌فایلی را دنبال می‌کند و سه تخلف را می‌شکند: هندلرِ تغییردهندهٔ بدونِ nonce، بدونِ capability، و actionِ nonce که هیچ فرم/لینکی آن را صادر نمی‌کند (مجموعهٔ صدور شامل `flavor-core/admin/views` هم هست). سنجه‌های مثبت/منفیِ درونی (هندلرِ دست‌کاشتِ حفره‌دار باید گرفته شود؛ هندلرِ دروازه‌دار باید پذیرفته شود) با پرامپت خواسته شد.
+- **منفی‌آزماییِ زنده:** ۱) capabilityِ آپدیت‌کر (فایلِ واقعی) برداشته شد → پین‌های بخشِ ۶ FAIL، برگشت → سبز؛ ۲) هندلرِ شرورِ بدونِ nonce/بدونِ capability در `flavor/inc` کاشت شد → هر دو بخشِ ۲ و ۳ با نامِ فایل و متد گزارش دادند، حذف → **ALL 25**. رانرِ کاملِ `tests/theme` (۳۱ فایل) بدونِ شکست.
+
 ### Added — هشدارِ امنیتیِ توکن: سند، بازرسیِ تاریخچه و گیتِ CI (پرامپت ۳۲ / R3-12)
 
 - صدرِ `docs/PREMIUM-MISSION-LIST-2026-10-10-R3.md` و بخشِ تازهٔ «امنیت توکن و دسترسی‌ها» در `README.md`: هر توکنِ دیده‌شده در گفتگو لو‌رفته حساب می‌شود؛ مسیرِ باطل‌کردن (GitHub → Settings → Developer settings → Personal access tokens)، قاعدهٔ «توکنِ تازه فقط متغیر محیطی/Secrets» و دلیلِ ممنوعیتِ توکنِ درون‌URL (نشت در `.git/config`) صریح نوشته شد؛ نشانهٔ دو توکنِ درگردشِ این مأموریت (fine-grained فاز ۲۷، classic فازهای ۲۸–۳۱) برای باطل‌کردنِ قطعی فهرست شد.
