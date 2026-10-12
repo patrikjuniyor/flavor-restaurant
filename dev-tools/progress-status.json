@@ -187,5 +187,10 @@
   "commit": "7d683b4",
   "note": "سخت‌کردن endpointهای عمومی: منیفست ۴۳ مسیریِ __return_true پین شد (مسیرِ تازه بدونِ بازبینی → FAIL)؛ canary زنده (mock WP، توکن‌هایِ کاشت‌شده از مسیرِ تولیدی) روی app-bootstrap/mobile-config/system-health: هیچِ رازی در پاسخِ عمومی نیست؛ health برایِ ناشناس فقطِ status است و برایِ ادمین کامل (اثباتِ redaction واقعی)؛ HMACِ build-callback با hash_equals pin شد؛ صفرِ نشتِ واقعی — بازبینی تأیید کرد هر سه کنترلر از قبل درست بودند",
   "state": "done"
+ },
+ "38": {
+  "commit": "dae61f2",
+  "note": "بازبینی GuestToken/OTP: generateها CSPRNG-only شدند (fallback ضعیف uniqid+microtime حذف، fail-closed)؛ OTP از قبل clamp 4-6 + سقف 5 تلاش + hash_equals + HMAC-peppered بود (pin شد)؛ دو تست phpunit تکمیل و آیینهٔ ماشینی‌شان (۱۶ assertion تازه) در run-pure اجراشدنیِ CI نشست: ۳۹/۰",
+  "state": "done"
  }
 }

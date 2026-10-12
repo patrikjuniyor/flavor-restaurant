@@ -4,13 +4,13 @@
 
 | وضعیت | تعداد |
 |---|---:|
-| ✅ انجام‌شده | 37 |
+| ✅ انجام‌شده | 38 |
 | 🟨 بخشی انجام‌شده | 0 |
 | ⛔ مسدود (نیاز به محیط/تصمیم مالک) | 0 |
-| ⬜ انجام‌نشده | 71 |
+| ⬜ انجام‌نشده | 70 |
 | **مجموع** | **108** |
 
-درصد پیشرفت کامل: **34%** (37/108)
+درصد پیشرفت کامل: **35%** (38/108)
 
 این فایل با `python3 dev-tools/build-progress.py` از روی `progress-status.json` بازتولید می‌شود؛ ویرایش دستی را از دست می‌دهد.
 
@@ -76,7 +76,7 @@
 | 35 | ✅ انجام شد | گشت escape خروجی در قالب‌ها: همهٔ echo/print در فایل‌های PHP زیر | گشتِ escape خروجی روی ۵۳ فایل template/view با اسکنرِ token-based: صفرِ echo خام؛ هر ۱۱ phpcs:ignoreِ escape بازرسی و مؤید شد (flavor_responsive_image داخل esc_attr/esc_url می‌کند). کشفِ جانبی: ۱۳ تستِ tests/theme هیچ‌وقت در CI اجرا نمی‌شدند — گامِ globِ ایستاده (run-theme-tests.sh) به backend job اضافه شد — `commit b49d1a1` |
 | 36 | ✅ انجام شد | گشت sanitize ورودی: همهٔ $_GET/$_POST/$_REQUEST و get_json_params و | گیت sanitize ورودی: ۹۸ فایل flavor-core (API + ادمین + views) — ۲۳۰ خواندن superglobal/get_param و ۵۵ تجزیه بدنه JSON بازرسی شد؛ ۹ اصلاح واقعی (۸ فیلتر ReportAdmin با sanitize_key/text_field/absint + یک CacheHints)؛ سه ignoreِ ساختاری (آرایه modifier/qty/mod) پس از تأییدِ sanitize در sink، allowlist صریح خوردند؛ گیتِ مستقل ۹ بررسی با منفی‌آزماییِ زنده — `commit b49a12b` |
 | 37 | ✅ انجام شد | endpoint های عمومی REST را سخت‌تر کن: SettingsController مسیری با | سخت‌کردن endpointهای عمومی: منیفست ۴۳ مسیریِ __return_true پین شد (مسیرِ تازه بدونِ بازبینی → FAIL)؛ canary زنده (mock WP، توکن‌هایِ کاشت‌شده از مسیرِ تولیدی) روی app-bootstrap/mobile-config/system-health: هیچِ رازی در پاسخِ عمومی نیست؛ health برایِ ناشناس فقطِ status است و برایِ ادمین کامل (اثباتِ redaction واقعی)؛ HMACِ build-callback با hash_equals pin شد؛ صفرِ نشتِ واقعی — بازبینی تأیید کرد هر سه کنترلر از قبل درست بودند — `commit 7d683b4` |
-| 38 | ⬜ انجام‌نشده | GuestToken و OTP را بازبینی کن: (۱) GuestToken::generate باید از |  |
+| 38 | ✅ انجام شد | GuestToken و OTP را بازبینی کن: (۱) GuestToken::generate باید از | بازبینی GuestToken/OTP: generateها CSPRNG-only شدند (fallback ضعیف uniqid+microtime حذف، fail-closed)؛ OTP از قبل clamp 4-6 + سقف 5 تلاش + hash_equals + HMAC-peppered بود (pin شد)؛ دو تست phpunit تکمیل و آیینهٔ ماشینی‌شان (۱۶ assertion تازه) در run-pure اجراشدنیِ CI نشست: ۳۹/۰ — `commit dae61f2` |
 | 39 | ⬜ انجام‌نشده | هدرهای امنیتی پاسخ‌ها: در BaseApiController یا یک middleware، هدرهای |  |
 | 40 | ⬜ انجام‌نشده | وابستگی‌های شخص ثالث را audit کن: composer.json (dev)، package.json های |  |
 | 41 | ⬜ انجام‌نشده | تست نفوذ کوچک روی درون‌ریزی دمو: class-demo-importer.php فایل‌های تصویر |  |
