@@ -89,6 +89,11 @@
     "note": "R3-10 اجرا شد: بخش «همگام‌سازی کیت Elementor» در مرکز آمادگی انتشار (Launch_Center) با دکمهٔ دستی، تیکِ بازنویسی اجباری، گزارشِ written/skipped به تفکیک توکن، و ماندنِ نتیجه در flavor_kit_sync_report. چهار وضعیتِ بی‌صدای قبلاً پیام دارند و ردیفِ چک‌لیست required=false ماند تا سایتِ بدونِ المنتور جریمه نشود. تست tests/theme/test-kit-sync-action.php ۷۹/۰ با فیکسچرِ رندر ادمین و هفت منفی‌آزمایی.",
     "state": "done"
   },
+  "26": {
+    "commit": "6ccacc3",
+    "note": "۵۴ توضیح فارسی نوشته شد (۲۸ premium + ۱۷ chrome + ۳ typo + ۱ ui؛ شش اسلات گالری یک msgid موجود را مشترکاً خواندند). جدول مرجع با رندر آفلاینِ جدید (tests/theme/test-customizer-reference.php + مدیرِ ضبط‌کنندهٔ تازه) بازتولید و با جدولِ زنده هم‌سان سنجیده شد؛ گاردِ ۱۱ بررسی، منفی‌آزمایی‌شده. POT ۲۱۰۴؛ عربی ۱۵۵۸/۱۵۵۸ با ar-part13.py.",
+    "state": "done"
+  },
   "3": {
     "commit": "e2655f9",
     "note": "gettext 0.23.1 + Python 3.13؛ check-i18n سبز؛ کاتالوگ عربی 1380/1380 (100%)؛ test-translation 84/84",
