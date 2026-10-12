@@ -126,6 +126,7 @@ final class Plugin {
 		( new Support\Privacy() )->hooks();
 		( new Support\CacheHints() )->hooks();
 		( new Support\SecurityHeaders() )->hooks();
+		( new Support\ResponseEnvelope() )->hooks();
 
 		/**
 		 * Fires after Flavor Core has booted.

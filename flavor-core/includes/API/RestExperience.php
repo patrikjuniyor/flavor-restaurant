@@ -17,13 +17,18 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Legacy V1-only compatibility endpoints (experience layer).
  *
+ * Responses use the standard envelope (respond_success/respond_error) like
+ * every other controller; theme JS api() helpers unwrap `data` and the
+ * ResponseEnvelope middleware keeps permission-level refusals in the same
+ * shape on the wire.
+ *
  * @deprecated New clients must use the modular controllers registered by
  *             RestController for both namespaces. Only routes that never
  *             existed elsewhere may stay here; registering a route that a
  *             modular controller already handles is forbidden — route
  *             uniqueness is enforced by the e2e suite.
  */
-class RestExperience {
+class RestExperience extends BaseApiController {
 
 	/**
 	 * Register routes.
@@ -106,7 +111,7 @@ class RestExperience {
 				'past'      => $g < current_time( 'Y-m-d' ),
 			);
 		}
-		return rest_ensure_response(
+		return $this->respond_success(
 			array(
 				'jy'     => $jy,
 				'jm'     => $jm,
@@ -126,17 +131,15 @@ class RestExperience {
 	public function coupon( \WP_REST_Request $request ) {
 		$limited = \FlavorCore\Support\RateLimit::guard( 'coupon', 20, 10 * MINUTE_IN_SECONDS );
 		if ( is_wp_error( $limited ) ) {
-			return $limited;
+			return $this->relay_error( $limited ); // flavor_rate, 429.
 		}
 		$body = $request->get_json_params();
 		$code = is_array( $body ) ? (string) ( $body['code'] ?? '' ) : '';
 		$out  = DiscountManager::apply( $code );
 		if ( is_wp_error( $out ) ) {
-			return $out;
+			return $this->relay_error( $out );
 		}
-		$response = rest_ensure_response( $out );
-		$response->header( 'Cache-Control', 'private, no-store' );
-		return $response;
+		return $this->respond_success( $out, array(), 200, array( 'Cache-Control' => 'private, no-store' ) );
 	}
 
 	/**
@@ -147,7 +150,7 @@ class RestExperience {
 	public function customer( \WP_REST_Request $request ) {
 		$mobile = \FlavorCore\Support\Iran::normalize_mobile( (string) $request->get_param( 'mobile' ) );
 		if ( ! $mobile ) {
-			return new \WP_Error( 'flavor_mobile', __( 'شماره نامعتبر است.', 'flavor-core' ), array( 'status' => 400 ) );
+			return $this->respond_error( 'flavor_mobile', __( 'شماره نامعتبر است.', 'flavor-core' ), 400 );
 		}
 		$users = get_users(
 			array(
@@ -157,7 +160,9 @@ class RestExperience {
 			)
 		);
 		if ( empty( $users ) ) {
-			return rest_ensure_response(
+			// A completed lookup with no match is a successful request;
+			// the verdict lives in data.found.
+			return $this->respond_success(
 				array(
 					'found'  => false,
 					'mobile' => $mobile,
@@ -180,7 +185,7 @@ class RestExperience {
 				'status' => $o->get_status(),
 			);
 		}
-		return rest_ensure_response(
+		return $this->respond_success(
 			array(
 				'found'   => true,
 				'id'      => $user->ID,

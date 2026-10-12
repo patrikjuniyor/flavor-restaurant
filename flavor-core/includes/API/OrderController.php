@@ -441,7 +441,7 @@ class OrderController extends BaseApiController {
 		// If user is guest and no token provided -> 401 Unauthorized
 		if ( ! $user && empty( $req_guest_token ) ) {
 			return new \WP_Error(
-				'unauthorized',
+				'flavor_unauthorized',
 				__( 'برای مشاهده یا پیگیری این سفارش باید وارد شوید یا توکن مهمان ارسال کنید.', 'flavor-core' ),
 				array( 'status' => 401 )
 			);
@@ -449,7 +449,7 @@ class OrderController extends BaseApiController {
 
 		// Otherwise -> 403 Forbidden
 		return new \WP_Error(
-			'forbidden',
+			'flavor_forbidden',
 			__( 'دسترسی به این سفارش برای شما مجاز نیست.', 'flavor-core' ),
 			array( 'status' => 403 )
 		);

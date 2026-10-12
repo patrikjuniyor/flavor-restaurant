@@ -24,13 +24,18 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Legacy V1-only compatibility endpoints (store layer).
  *
+ * Responses use the standard envelope (respond_success/respond_error) like
+ * every other controller; the theme JS api() helpers unwrap `data` and the
+ * ResponseEnvelope middleware keeps permission-level refusals in the same
+ * shape on the wire.
+ *
  * @deprecated New clients must use the modular controllers registered by
  *             RestController for both namespaces. Only routes that never
  *             existed elsewhere may stay here; registering a route that a
  *             modular controller already handles is forbidden — route
  *             uniqueness is enforced by the e2e suite.
  */
-class RestStore {
+class RestStore extends BaseApiController {
 
 	/**
 	 * Register store routes on the shared namespace.
@@ -162,13 +167,11 @@ class RestStore {
 			)
 		);
 		if ( is_wp_error( $key ) ) {
-			return $key;
+			return $this->relay_error( $key );
 		}
 		$payload        = CartSession::payload();
 		$payload['key'] = $key;
-		$response       = rest_ensure_response( $payload );
-		$response->header( 'Cache-Control', 'private, no-store' );
-		return $response;
+		return $this->respond_success( $payload, array(), 200, array( 'Cache-Control' => 'private, no-store' ) );
 	}
 
 	/**
@@ -183,16 +186,14 @@ class RestStore {
 		$key  = sanitize_text_field( (string) ( $body['key'] ?? '' ) );
 		$qty  = (int) ( $body['quantity'] ?? 0 );
 		if ( ! $key || ! WC()->cart ) {
-			return new \WP_Error( 'flavor_cart', __( 'آیتم سبد نامعتبر است.', 'flavor-core' ), array( 'status' => 400 ) );
+			return $this->respond_error( 'flavor_cart', __( 'آیتم سبد نامعتبر است.', 'flavor-core' ), 400 );
 		}
 		if ( $qty <= 0 ) {
 			WC()->cart->remove_cart_item( $key );
 		} else {
 			WC()->cart->set_quantity( $key, min( 20, $qty ) );
 		}
-		$response = rest_ensure_response( CartSession::payload() );
-		$response->header( 'Cache-Control', 'private, no-store' );
-		return $response;
+		return $this->respond_success( CartSession::payload(), array(), 200, array( 'Cache-Control' => 'private, no-store' ) );
 	}
 
 	/**
@@ -209,7 +210,7 @@ class RestStore {
 		if ( $branch_id <= 0 ) {
 			$branch_id = (int) ( OrderModes::get()['branch_id'] ?? 0 ) ?: BranchPostType::default_id();
 		}
-		return rest_ensure_response(
+		return $this->respond_success(
 			array(
 				'mode'      => $mode,
 				'branch_id' => $branch_id,
@@ -230,11 +231,11 @@ class RestStore {
 		$body = is_array( $body ) ? $body : array();
 		$out  = CheckoutService::place( $body );
 		if ( is_wp_error( $out ) ) {
-			return $out;
+			// Carries the domain statuses as-is: 400 validation, 409
+			// flavor_idempotency_conflict, 429 rate, …
+			return $this->relay_error( $out );
 		}
-		$response = rest_ensure_response( $out );
-		$response->header( 'Cache-Control', 'private, no-store' );
-		return $response;
+		return $this->respond_success( $out, array(), 200, array( 'Cache-Control' => 'private, no-store' ) );
 	}
 
 	/**
@@ -251,14 +252,16 @@ class RestStore {
 		}
 		$zone = ZoneChecker::match( $branch_id, $body );
 		if ( ! $zone ) {
-			return rest_ensure_response(
+			// A answered coverage check is a successful request: the business
+			// verdict lives in data.ok, not in the HTTP status.
+			return $this->respond_success(
 				array(
 					'ok'      => false,
 					'message' => __( 'خارج از محدوده ارسال.', 'flavor-core' ),
 				)
 			);
 		}
-		return rest_ensure_response(
+		return $this->respond_success(
 			array(
 				'ok'                 => true,
 				'zone_id'            => (int) $zone['id'],
@@ -292,10 +295,10 @@ class RestStore {
 				'table_number' => $t['table_number'],
 				'label'        => $t['label'],
 				'capacity'     => (int) $t['capacity'],
-				'section'      => $t['section'],
+				'section'        => $t['section'],
 			);
 		}
-		return rest_ensure_response( $rows );
+		return $this->respond_success( $rows );
 	}
 
 	/**
@@ -307,10 +310,10 @@ class RestStore {
 		$ticket_id = (int) $request['id'];
 		$ticket    = KitchenTicketRepository::find( $ticket_id );
 		if ( ! $ticket ) {
-			return new \WP_Error( 'flavor_not_found', __( 'تیکت پیدا نشد.', 'flavor-core' ), array( 'status' => 404 ) );
+			return $this->respond_error( 'flavor_not_found', __( 'تیکت پیدا نشد.', 'flavor-core' ), 404 );
 		}
 		if ( ! current_user_can( 'manage_options' ) && ! Roles::can_access_branch( get_current_user_id(), (int) $ticket['branch_id'] ) ) {
-			return new \WP_Error( 'flavor_forbidden', __( 'دسترسی ندارید.', 'flavor-core' ), array( 'status' => 403 ) );
+			return $this->respond_error( 'flavor_forbidden', __( 'دسترسی ندارید.', 'flavor-core' ), 403 );
 		}
 		$body   = $request->get_json_params();
 		$item   = (int) ( $body['item_id'] ?? 0 );
@@ -319,7 +322,9 @@ class RestStore {
 			KitchenTicketRepository::set_item_status( $item, $status );
 		}
 		$fresh = KitchenTicketRepository::find( $ticket_id );
-		return rest_ensure_response( KitchenTicketRepository::to_card( $fresh ?? $ticket ) );
+		// No explicit Cache-Control: the SecurityHeaders middleware applies
+		// the default no-store policy, exactly as before the envelope move.
+		return $this->respond_success( KitchenTicketRepository::to_card( $fresh ?? $ticket ) );
 	}
 
 	/**
@@ -333,15 +338,15 @@ class RestStore {
 		$branch_id = (int) ( $body['branch_id'] ?? 0 );
 		$product   = (int) ( $body['product_id'] ?? 0 );
 		if ( ! $branch_id || ! $product ) {
-			return new \WP_Error( 'flavor_bad', __( 'شعبه و محصول لازم است.', 'flavor-core' ), array( 'status' => 400 ) );
+			return $this->respond_error( 'flavor_bad', __( 'شعبه و محصول لازم است.', 'flavor-core' ), 400 );
 		}
 		if ( ! current_user_can( 'manage_options' ) && ! Roles::can_access_branch( get_current_user_id(), $branch_id ) ) {
-			return new \WP_Error( 'flavor_forbidden', __( 'دسترسی ندارید.', 'flavor-core' ), array( 'status' => 403 ) );
+			return $this->respond_error( 'flavor_forbidden', __( 'دسترسی ندارید.', 'flavor-core' ), 403 );
 		}
 		$available = ! empty( $body['available'] );
 		$until     = ! empty( $body['until'] ) ? sanitize_text_field( (string) $body['until'] ) : null;
 		AvailabilityManager::set( $branch_id, $product, $available, $until, get_current_user_id(), sanitize_text_field( (string) ( $body['reason'] ?? '' ) ) );
-		return rest_ensure_response(
+		return $this->respond_success(
 			array(
 				'ok'           => true,
 				'available'    => $available,
@@ -355,10 +360,11 @@ class RestStore {
 	 */
 	public function me() {
 		if ( ! is_user_logged_in() ) {
-			return rest_ensure_response( array( 'logged_in' => false ) );
+			// Anonymous is a valid answer to "who am I", not an error.
+			return $this->respond_success( array( 'logged_in' => false ) );
 		}
 		$user = wp_get_current_user();
-		return rest_ensure_response(
+		return $this->respond_success(
 			array(
 				'logged_in' => true,
 				'id'        => $user->ID,

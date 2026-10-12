@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class RestSearch
  */
-class RestSearch {
+class RestSearch extends BaseApiController {
 
 	/**
 	 * Wire up REST + admin-ajax.
@@ -134,15 +134,12 @@ class RestSearch {
 	public function search( \WP_REST_Request $request ) {
 		$guard = RateLimit::guard( 'search', 90, MINUTE_IN_SECONDS );
 		if ( is_wp_error( $guard ) ) {
-			return $guard;
+			return $this->relay_error( $guard ); // flavor_rate, 429.
 		}
 
 		$payload = $this->run( $this->params_from_request( $request ) );
 
-		$response = rest_ensure_response( $payload );
-		$response->header( 'Cache-Control', 'public, max-age=30' );
-
-		return $response;
+		return $this->respond_success( $payload, array(), 200, array( 'Cache-Control' => 'public, max-age=30' ) );
 	}
 
 	/**
@@ -154,7 +151,7 @@ class RestSearch {
 	public function suggest( \WP_REST_Request $request ) {
 		$guard = RateLimit::guard( 'search_suggest', 120, MINUTE_IN_SECONDS );
 		if ( is_wp_error( $guard ) ) {
-			return $guard;
+			return $this->relay_error( $guard ); // flavor_rate, 429.
 		}
 
 		$terms = SmartSearch::suggest(
@@ -162,7 +159,7 @@ class RestSearch {
 			(int) $request->get_param( 'branch_id' )
 		);
 
-		return rest_ensure_response( array( 'terms' => $terms ) );
+		return $this->respond_success( array( 'terms' => $terms ) );
 	}
 
 	/**
@@ -171,15 +168,26 @@ class RestSearch {
 	 * @return \WP_REST_Response
 	 */
 	public function popular() {
-		return rest_ensure_response( array( 'terms' => SmartSearch::popular( 8 ) ) );
+		return $this->respond_success( array( 'terms' => SmartSearch::popular( 8 ) ) );
 	}
 
 	/**
 	 * admin-ajax fallback.
+	 *
+	 * Not a REST route: wp_send_json_* is the admin-ajax protocol and stays.
+	 * The payloads still mirror the REST envelope — success sends
+	 * {success:true, data:…} natively, and the refusal carries the same
+	 * {code, message} entry the REST error envelope would.
 	 */
 	public function ajax(): void {
 		if ( ! RateLimit::allow( 'search_ajax', 90, MINUTE_IN_SECONDS ) ) {
-			wp_send_json_error( array( 'message' => __( 'تعداد درخواست بیش از حد است.', 'flavor-core' ) ), 429 );
+			wp_send_json_error(
+				array(
+					'code'    => 'flavor_rate',
+					'message' => __( 'تعداد درخواست بیش از حد است.', 'flavor-core' ),
+				),
+				429
+			);
 		}
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- public read-only search.

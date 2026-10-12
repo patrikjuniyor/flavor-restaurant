@@ -141,7 +141,7 @@ class RestController extends BaseApiController {
 	 * GET /context
 	 */
 	public function get_context() {
-		return rest_ensure_response( OrderModes::get() );
+		return $this->respond_success( OrderModes::get() );
 	}
 
 	/**
@@ -168,7 +168,7 @@ class RestController extends BaseApiController {
 			$ctx['table_number'] = sanitize_text_field( (string) $body['table_number'] );
 		}
 		OrderModes::set( $ctx );
-		return rest_ensure_response( $ctx );
+		return $this->respond_success( $ctx );
 	}
 
 	/**
@@ -182,7 +182,7 @@ class RestController extends BaseApiController {
 			$branch_id = BranchPostType::default_id();
 		}
 		if ( ! current_user_can( 'manage_options' ) && ! Roles::can_access_branch( get_current_user_id(), $branch_id ) ) {
-			return new \WP_Error( 'flavor_forbidden', __( 'این شعبه در دسترس شما نیست.', 'flavor-core' ), array( 'status' => 403 ) );
+			return $this->respond_error( 'flavor_forbidden', __( 'این شعبه در دسترس شما نیست.', 'flavor-core' ), 403 );
 		}
 
 		$status = $request->get_param( 'status' );
@@ -194,15 +194,16 @@ class RestController extends BaseApiController {
 			$out[] = KitchenTicketRepository::to_card( $row );
 		}
 
-		$response = rest_ensure_response(
+		return $this->respond_success(
 			array(
 				'branch_id' => $branch_id,
 				'tickets'   => $out,
 				'server_ts' => time(),
-			)
+			),
+			array(),
+			200,
+			array( 'Cache-Control' => 'private, no-store' )
 		);
-		$response->header( 'Cache-Control', 'private, no-store' );
-		return $response;
 	}
 
 	/**
@@ -217,18 +218,20 @@ class RestController extends BaseApiController {
 
 		$ticket = KitchenTicketRepository::find( $id );
 		if ( ! $ticket ) {
-			return new \WP_Error( 'flavor_not_found', __( 'تیکت پیدا نشد.', 'flavor-core' ), array( 'status' => 404 ) );
+			return $this->respond_error( 'flavor_not_found', __( 'تیکت پیدا نشد.', 'flavor-core' ), 404 );
 		}
 		if ( ! current_user_can( 'manage_options' ) && ! Roles::can_access_branch( get_current_user_id(), (int) $ticket['branch_id'] ) ) {
-			return new \WP_Error( 'flavor_forbidden', __( 'دسترسی ندارید.', 'flavor-core' ), array( 'status' => 403 ) );
+			return $this->respond_error( 'flavor_forbidden', __( 'دسترسی ندارید.', 'flavor-core' ), 403 );
 		}
 
 		$ok = KitchenTicketRepository::transition( $id, $status );
 		if ( ! $ok ) {
-			return new \WP_Error( 'flavor_bad_transition', __( 'این تغییر وضعیت مجاز نیست.', 'flavor-core' ), array( 'status' => 409 ) );
+			return $this->respond_error( 'flavor_bad_transition', __( 'این تغییر وضعیت مجاز نیست.', 'flavor-core' ), 409 );
 		}
 
 		$fresh = KitchenTicketRepository::find( $id );
-		return rest_ensure_response( KitchenTicketRepository::to_card( $fresh ?? $ticket ) );
+		// No explicit Cache-Control: SecurityHeaders applies the default
+		// no-store policy, exactly as before the envelope move.
+		return $this->respond_success( KitchenTicketRepository::to_card( $fresh ?? $ticket ) );
 	}
 }

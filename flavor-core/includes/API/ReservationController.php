@@ -406,14 +406,14 @@ class ReservationController extends BaseApiController {
 
 		if ( ! $user && empty( $req_guest_token ) ) {
 			return new \WP_Error(
-				'unauthorized',
+				'flavor_unauthorized',
 				__( 'برای مشاهده یا مدیریت این رزرو باید وارد شوید یا توکن مهمان ارسال کنید.', 'flavor-core' ),
 				array( 'status' => 401 )
 			);
 		}
 
 		return new \WP_Error(
-			'forbidden',
+			'flavor_forbidden',
 			__( 'دسترسی به این رزرو برای شما مجاز نیست.', 'flavor-core' ),
 			array( 'status' => 403 )
 		);

@@ -80,6 +80,31 @@ abstract class BaseApiController {
 	}
 
 	/**
+	 * Relay a WP_Error from a domain/service layer into the standard
+	 * error envelope, preserving its HTTP status (data['status'], 400
+	 * fallback) and turning any remaining error data into details.
+	 *
+	 * Use this instead of `return $wp_error;` inside route callbacks: a raw
+	 * WP_Error leaves the callback in WordPress's native wire shape and is
+	 * only rescued later by the ResponseEnvelope middleware. Relaying at the
+	 * source keeps the envelope explicit where the decision is made.
+	 *
+	 * @param \WP_Error $error Domain error (CheckoutService, CartSession, RateLimit, …).
+	 * @return \WP_REST_Response
+	 */
+	public function relay_error( \WP_Error $error ): \WP_REST_Response {
+		$raw    = $error->get_error_data();
+		$status = is_array( $raw ) && isset( $raw['status'] ) ? (int) $raw['status'] : 400;
+
+		return $this->respond_error(
+			(string) $error->get_error_code(),
+			(string) $error->get_error_message(),
+			$status,
+			is_array( $raw ) ? array_diff_key( $raw, array( 'status' => true ) ) : array()
+		);
+	}
+
+	/**
 	 * Paginated response builder.
 	 *
 	 * @param array<int, mixed>    $items      Current page items.
