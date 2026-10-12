@@ -46,6 +46,22 @@ assert_test( GuestToken::verify( $token, $token ), "Constant-time token verifica
 assert_test( ! GuestToken::verify( $token, 'wrong_token' ), "Token verification fails on mismatched token" );
 assert_test( ! GuestToken::verify( $token, '' ), "Token verification fails on empty token" );
 
+// P38: GuestToken hardening pins.
+$gt_src = file_get_contents( __DIR__ . '/../includes/Support/GuestToken.php' );
+assert_test(
+	false !== strpos( $gt_src, "bin2hex( random_bytes( 32 ) )" )
+	&& false === strpos( $gt_src, 'uniqid( (string) wp_rand' )
+	&& false === strpos( $gt_src, 'microtime( true )' ),
+	'guest token generation is CSPRNG-only (256-bit, no time-derived fallback)'
+);
+$gt_seen = array();
+for ( $gi = 0; $gi < 500; ++$gi ) {
+	$gt_seen[ GuestToken::generate() ] = true;
+}
+assert_test( 500 === count( $gt_seen ), '500 consecutive guest tokens are all distinct' );
+assert_test( false !== strpos( $gt_src, 'hash_equals( $known, $user )' ), 'guest verify compares with hash_equals, never ==' );
+assert_test( ! GuestToken::verify( 'abc', 'abcd' ), 'guest verify rejects different-length tokens without warning' );
+
 // 2. Mobile Guest Cart Token Tests
 echo "\n--- 2. Mobile Guest Cart Token Service ---\n";
 $cart_token = CartTokenService::generate_token();
@@ -54,6 +70,20 @@ assert_test( strlen( $cart_token ) > 40, "Cart token has high entropy" );
 $hash1 = CartTokenService::hash_token( $cart_token );
 $hash2 = CartTokenService::hash_token( $cart_token );
 assert_test( $hash1 === $hash2 && strlen( $hash1 ) === 64, "SHA-256 cart token hash is idempotent and 64 chars" );
+
+// P38: CartTokenService hardening pins.
+$ct_src = file_get_contents( __DIR__ . '/../includes/WooCommerce/CartTokenService.php' );
+assert_test( preg_match( '/^fcart_[0-9a-f]{48}$/', $cart_token ) === 1, 'cart token is fcart_ + 192 bits of hex' );
+assert_test(
+	false !== strpos( $ct_src, "bin2hex( random_bytes( 24 ) )" )
+	&& false === strpos( $ct_src, 'uniqid( (string) wp_rand' ),
+	'cart token generation is CSPRNG-only (no time-derived fallback)'
+);
+$ct_seen = array();
+for ( $gi = 0; $gi < 300; ++$gi ) {
+	$ct_seen[ CartTokenService::generate_token() ] = true;
+}
+assert_test( 300 === count( $ct_seen ), '300 consecutive cart tokens are all distinct' );
 
 // 3. Mobile Normalization
 echo "\n--- 3. Iranian Mobile Phone Normalization ---\n";
@@ -117,6 +147,20 @@ assert_test(
 echo "\n--- 5. Persian Typography & Normalization ---\n";
 $persian = PersianText::normalize( 'كباب شيشليك با گوشت تازه' );
 assert_test( $persian === 'کباب شیشلیک با گوشت تازه', "Arabic Yeh/Kaf replaced with Persian equivalents" );
+
+// 6. OTP & auth-token hardening (پرامپت ۳۸)
+echo "\n--- 6. OTP & Auth-Token Hardening Pins ---\n";
+$otp_src = file_get_contents( __DIR__ . '/../includes/Customer/OtpAuth.php' );
+assert_test( false !== strpos( $otp_src, 'min( 6, max( 4, $length ) )' ), 'OTP length clamped to 4-6 digits (never raw setting)' );
+assert_test( false !== strpos( $otp_src, '(int) $row[\'attempts\'] >= 5' ), 'OTP verify caps attempts at 5 per code' );
+assert_test( false !== strpos( $otp_src, 'hash_equals( (string) $row[\'code_hash\'], self::hash_code( $mobile, $code ) )' ), 'OTP compare is constant-time hash_equals' );
+assert_test( false !== strpos( $otp_src, 'hash_hmac( \'sha256\', $mobile . \'|\' . $code, $secret )' ), 'OTP stored as AUTH_SALT-peppered HMAC, never plain' );
+assert_test( false !== strpos( $otp_src, "'otp_max_per_10min', 3" ), 'issue-side rate limit kept (max 3/10min per mobile)' );
+assert_test( false !== strpos( $otp_src, 'consumed_at IS NULL' ), 'codes are single-use' );
+$ts_src = file_get_contents( __DIR__ . '/../includes/Customer/TokenService.php' );
+assert_test( 2 === substr_count( $ts_src, 'wp_generate_password( 64, false, false )' ), 'access+refresh tokens: 62^64 (~381-bit) CSPRNG-backed generator' );
+assert_test( false !== strpos( $ts_src, "hash( 'sha256', \$access_token )" ) && false !== strpos( $ts_src, "hash( 'sha256', \$refresh_token )" ), 'auth tokens stored hashed, validated by hash lookup' );
+assert_test( false === strpos( $ts_src, '== $raw_token' ) && false === strpos( $ts_src, '$raw_token ==' ), 'no loose token comparison in TokenService' );
 
 echo "\n=======================================================\n";
 echo "Results: {$passed} Passed, {$failed} Failed\n";

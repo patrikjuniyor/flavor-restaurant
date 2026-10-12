@@ -31,11 +31,9 @@ class CartTokenService {
 	 * Generate a new random cart token.
 	 */
 	public static function generate_token(): string {
-		try {
-			return 'fcart_' . bin2hex( random_bytes( 24 ) );
-		} catch ( \Exception $e ) {
-			return 'fcart_' . hash( 'sha256', uniqid( (string) wp_rand(), true ) . microtime( true ) );
-		}
+		// 192 bits of CSPRNG entropy, no time-derived fallback (see the
+		// note in GuestToken::generate — same rule protects cart takeover).
+		return 'fcart_' . bin2hex( random_bytes( 24 ) );
 	}
 
 	/**

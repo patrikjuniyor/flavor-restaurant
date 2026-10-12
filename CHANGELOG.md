@@ -7,6 +7,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed — سخت‌سازی GuestToken/OTP و تکمیل تست‌های توکن (پرامپت ۳۸ / R4-6)
+
+- **اصلاح واقعی:** هر دو `GuestToken::generate()` و `CartTokenService::generate_token()` در حالتِ fallback (خطای CSPRNG) توکنِ مشتق‌از `uniqid(wp_rand)+microtime` می‌ساختند — آنتروپیِ قابل‌حدس (~۳۰-۵۰ بیت) برای توکنِ مالکیتِ سفارش/سبدِ مهمان. fallback حذف شد؛ تولید الان **فقط** `random_bytes(32)`/`random_bytes(24)` (۲۵۶/۱۹۲ بیت) است و اگر CSPRNG نایاب باشد سرور fail-closed می‌کند (۵۰۰) نه توکنِ قابل‌بروتفورس. ( opensslِ منسوخِ ۸.۴ هم عمداً به‌عنوانِ مسیرِ دوم اضافه نشد. )
+- **ممیزیِ OTP — از قبل درست، حالا پین‌ماشینی:** `generate_code` طولِ تنظیمی را به ۴–۶ clamp می‌کند (نه trust-setting)، verify سقفِ ۵ تلاش به‌ازایِ کد + انقضا + single-use (`consumed_at IS NULL`) دارد، مقایسه `hash_equals` روی `hash_hmac(sha256, mobile|code, AUTH_SALT)` است (کد هرگز plain ذخیره نمی‌شود) و سقفِ ارسال ۳/۱۰دقیقه حفظ شده. `TokenService` جفت‌توکن را با `wp_generate_password(64,false,false)` (~۳۸۱ بیت) می‌سازد و اعتبارسنجی lookupِ hash است — هیچ `==` روی راز نیست.
+- **تکمیلِ دو تستِ unit خواسته‌شده:** `test-guest-cart-token.php` (+۵ سناریو: یکتاییِ ۵۰تایی، فرمتِ hex، نبودِ fallback در سورس، hash_equals، ردِ طول‌مخالف) و `test-token-service.php` (+۴: آنتروپیِ جفت‌توکن، hashed-storage، پین‌هایِ OTP، تستِ clamp با Reflection). چون phpunit در CI اجرا نمی‌شود (کشفِ R4-2)، هر ۱۶ بررسیِ معادل در `flavor-core/tests/run-pure-tests.php` آیینه شد و CI‌اجراست: **۳۹/۰**.
+- **منفی‌آزماییِ زنده:** بازگرداندنِ fallbackِ ضعیف → `[FAIL] guest token generation is CSPRNG-only`؛ تغییر clamp به ۳ رقم → `[FAIL] OTP length clamped to 4-6`؛ حذف → ۳۹/۰. suiteهای دیگر تکان نخوردند: e2e 81/81، branch-scope 23/23، رانرِ تم ۳۴/۳۴.
+
+
 ### Added — سخت‌سازیِ endpointهای عمومیِ REST (پرامپت ۳۷ / R4-5)
 
 - **ممیزیِ سه‌گانه طبقِ پرامپت:** `SettingsController::/settings/app-bootstrap` (نام، ارز، طراحی، شاخه‌ها، OTP-length برای شمارندهٔ رزندِ اپ — هیچ رازی ندارد)، `MobileProvisionController::/mobile/config` (قراردادِ وایت‌لیبل فقط؛ FCM به‌صورتِ boolean `has_fcm` و کلیدها هرگز؛ مسیرِ POSTِ config و builds پشتِ `require_admin`؛ callbackِ build با `__return_true` اما HMAC-امضا) و `ObservabilityController` (health عمومی، logs ادمینی) — هر سه از قبل امن بودند؛ خروجیِ ممیزی به‌جایِ ادعایِ شفاهی، گیتِ ماشینی شد.

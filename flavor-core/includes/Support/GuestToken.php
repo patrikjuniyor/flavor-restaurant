@@ -22,11 +22,12 @@ class GuestToken {
 	 * @return string
 	 */
 	public static function generate(): string {
-		try {
-			return bin2hex( random_bytes( 32 ) );
-		} catch ( \Exception $e ) {
-			return hash( 'sha256', uniqid( (string) wp_rand(), true ) . microtime( true ) );
-		}
+		// 256 bits straight from the CSPRNG. There is deliberately no
+		// uniqid/microtime fallback: a token that indexes guest ORDER
+		// ownership must never be derivable from wall-clock time, and
+		// "CSPRNG unavailable" is a fatal server condition — failing the
+		// request (500) is correct, minting a bruteable token is not.
+		return bin2hex( random_bytes( 32 ) );
 	}
 
 	/**
