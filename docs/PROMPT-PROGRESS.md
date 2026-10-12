@@ -4,13 +4,13 @@
 
 | وضعیت | تعداد |
 |---|---:|
-| ✅ انجام‌شده | 41 |
+| ✅ انجام‌شده | 42 |
 | 🟨 بخشی انجام‌شده | 0 |
 | ⛔ مسدود (نیاز به محیط/تصمیم مالک) | 0 |
-| ⬜ انجام‌نشده | 67 |
+| ⬜ انجام‌نشده | 66 |
 | **مجموع** | **108** |
 
-درصد پیشرفت کامل: **38%** (41/108)
+درصد پیشرفت کامل: **39%** (42/108)
 
 این فایل با `python3 dev-tools/build-progress.py` از روی `progress-status.json` بازتولید می‌شود؛ ویرایش دستی را از دست می‌دهد.
 
@@ -80,7 +80,7 @@
 | 39 | ✅ انجام شد | هدرهای امنیتی پاسخ‌ها: در BaseApiController یا یک middleware، هدرهای | هدرهای امنیتی پاسخ: middleware تازهٔ Support\SecurityHeaders روی rest_post_dispatch — nosniff + Referrer-Policy برای همهٔ پاسخ‌های flavor/v1 (خطاها هم) و Cache-Control: no-store به‌صورتِ پیش‌فرضِ منع برای دادهٔ مشتری (orders/reservation/auth/cart)؛ opt-inِ صریحِ public, max-age برای menu/search حفظ شد. HTML عمومی: CSPِ Report-Only نرم (unsafe-inlineِ Elementor-ساز، بدونِ report-uri، فیلترِ flavor_csp_report_only). گیتِ تازهٔ تم ۲۶ بررسی + آیینهٔ ۸تایی در run-pure: ۴۷/۰؛ سه منفی‌آزماییِ زنده دقیقاً هر سه FAIL را داد؛ e2e 81/81 و گیت ۳۷ بدون‌تغییر سبز — `commit 325c829` |
 | 40 | ✅ انجام شد | وابستگی‌های شخص ثالث را audit کن: composer.json (dev)، package.json های | ممیزی وابستگی‌ها: composer audit=0 advisory (35 پکیج)، npm tests/ui+demos=0، OSV روی هر 105 پکیج pubspec.lock=0 (اسکریپت dev-tools/osv-pub-audit.py). دو رفع واقعی: پین platform.php=8.2.34 + downgrade instantiator 2.1.0→2.0.0 (composer install در job 8.2 می‌مرد) و حذف exclude مردهٔ WPCS3 از phpcs.xml (report همیشه تهی بود). لایسنس‌ها: vazirmatn/OFL.txt اضافه شد (estedad داشت، iransans تجاری=بدون باندل)، MIT هدر qrcode پین؛ گیت §۷ test-distribution (10 بررسی، 59/0) با منفی‌آزمایی؛ یافته‌ها در docs/CI-CD.md §۵ — `commit ac8175a` |
 | 41 | ✅ انجام شد | تست نفوذ کوچک روی درون‌ریزی دمو: class-demo-importer.php فایل‌های تصویر | تست‌نفوذ demo-importer: گیتِ نامِ تخت (basename+sanitize+regex لنگردار+ردِ دابل‌اکستنشن)، محصورسازی realpath داخل demos/ (symlink فرارکننده رد می‌شود)، وایت‌لیستِ موافقِ پرامپت jpg/png/svg (webp حذف؛ svg فقط بی‌ضرر — script/on*/ENTITY/foreignObject → reject). حفرهٔ دومِ واقعی: مقصدِ copy در rollback از آپشن می‌آمد → گاردِ basedir+ضدِ.. با ترتیبِ mkdir-پسِ-تأیید. گیتِ تازه ۳۱ بررسی با پروب‌هایِ زنده و سه منفی‌آزماییِ هدف‌دار روی کدِ پروداکشن — `commit 0354520` |
-| 42 | ⬜ انجام‌نشده | WebhookManager و WebhookController (flavor-core/includes/Webhooks و |  |
+| 42 | ✅ انجام شد | WebhookManager و WebhookController (flavor-core/includes/Webhooks و | وب‌هوک خروجی: sign_body/verify_signature با hash_equals (قالب build-mobile.yml؛ fail-closed روی رمز خالی)، https-only با opt-in صریح FLAVOR_WEBHOOK_ALLOW_HTTP (حصار SSRF تکان‌نخورده)، retry backoff نمایی ۳۰s→سقف ۱h با بودجه ۵ (بدون مهاجرت schema؛ cron روی نزدیک‌ترین بیداری) + چرخش رمز در update. گیت ۴۴ بررسی + e2e با اثبات رفتاری پنجره backoff و exhaustion (۸۱/۸۱)؛ چهار منفی‌آزماییِ هدفمند — `commit 5c3895f` |
 
 ## فاز 5 — کیفیت کد و سازگاری
 
