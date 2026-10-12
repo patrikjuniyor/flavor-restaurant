@@ -72,10 +72,10 @@ class ReportAdmin {
 
 		$request = ReportQuery::normalise(
 			array(
-				'type'   => isset( $_GET['type'] ) ? wp_unslash( $_GET['type'] ) : 'orders', // phpcs:ignore WordPress.Security.NonceVerification
-				'from'   => isset( $_GET['from'] ) ? wp_unslash( $_GET['from'] ) : '', // phpcs:ignore WordPress.Security.NonceVerification
-				'to'     => isset( $_GET['to'] ) ? wp_unslash( $_GET['to'] ) : '', // phpcs:ignore WordPress.Security.NonceVerification
-				'branch' => isset( $_GET['branch'] ) ? wp_unslash( $_GET['branch'] ) : 0, // phpcs:ignore WordPress.Security.NonceVerification
+				'type'   => isset( $_GET['type'] ) ? sanitize_key( wp_unslash( $_GET['type'] ) ) : 'orders', // phpcs:ignore WordPress.Security.NonceVerification
+				'from'   => isset( $_GET['from'] ) ? sanitize_text_field( wp_unslash( $_GET['from'] ) ) : '', // phpcs:ignore WordPress.Security.NonceVerification
+				'to'     => isset( $_GET['to'] ) ? sanitize_text_field( wp_unslash( $_GET['to'] ) ) : '', // phpcs:ignore WordPress.Security.NonceVerification
+				'branch' => isset( $_GET['branch'] ) ? absint( wp_unslash( $_GET['branch'] ) ) : 0, // phpcs:ignore WordPress.Security.NonceVerification
 			)
 		);
 
@@ -247,10 +247,10 @@ class ReportAdmin {
 
 		$request = ReportQuery::normalise(
 			array(
-				'type'   => isset( $_POST['type'] ) ? wp_unslash( $_POST['type'] ) : 'orders',
-				'from'   => isset( $_POST['from'] ) ? wp_unslash( $_POST['from'] ) : '',
-				'to'     => isset( $_POST['to'] ) ? wp_unslash( $_POST['to'] ) : '',
-				'branch' => isset( $_POST['branch'] ) ? wp_unslash( $_POST['branch'] ) : 0,
+				'type'   => isset( $_POST['type'] ) ? sanitize_key( wp_unslash( $_POST['type'] ) ) : 'orders',
+				'from'   => isset( $_POST['from'] ) ? sanitize_text_field( wp_unslash( $_POST['from'] ) ) : '',
+				'to'     => isset( $_POST['to'] ) ? sanitize_text_field( wp_unslash( $_POST['to'] ) ) : '',
+				'branch' => isset( $_POST['branch'] ) ? absint( wp_unslash( $_POST['branch'] ) ) : 0,
 			)
 		);
 

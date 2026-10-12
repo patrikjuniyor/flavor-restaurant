@@ -60,7 +60,7 @@ class CacheHints {
 		if ( 'yes' === get_option( 'flavor_core_cache_notice_dismissed' ) ) {
 			return;
 		}
-		if ( ! isset( $_GET['page'] ) || 0 !== strpos( (string) wp_unslash( $_GET['page'] ), 'flavor' ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! isset( $_GET['page'] ) || 0 !== strpos( sanitize_text_field( wp_unslash( $_GET['page'] ) ), 'flavor' ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 		echo '<div class="notice notice-info"><p>';

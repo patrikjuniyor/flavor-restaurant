@@ -7,6 +7,15 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added — گشتِ sanitize ورودی روی API و ادمین (پرامپت ۳۶ / R4-4)
+
+- **ممیزی:** هر خواندنِ `$_GET/$_POST/$_REQUEST`، `get_param()` و بدنهٔ `get_json_params()` در ۹۸ فایلِ `flavor-core/includes/**` و `flavor-core/admin/views/` — ۲۳۰ ورودیِ سوپرگلوبال/پارامتر + ۵۵ تجزیهٔ بدنهٔ JSON — با گیتِ مستقلِ تازه (`tests/theme/test-input-sanitization.php`، ۹ بررسی، اجرا در تورِ سراسری CI) بازبینی شد.
+- **اصلاحات واقعی:** فیلترهای `ReportAdmin` (تابلو و خروجی CSV) فقط `wp_unslash` می‌شدند و اسلش‌زدن جای sanitize نیست — هر ۸ خواندن (`type/from/to/branch` × GET/POST) به `sanitize_key` / `sanitize_text_field` / `absint` مهاجرت کرد؛ `CacheHints` هم برای سازگاریِ rule همان مسیر را رفت. رفتار تغییری نکرد (مصرف‌کننده‌ها از قبل کست/وایت‌لیست می‌زدند؛ حالا ورود تمیز است).
+- **allowlistِ مؤید، نه سکوت:** چهار تابع (RestStore add/checkout/zone، CartController add/update_item، RestExperience coupon، AuthController update_me، MobileProvision update_config، OrderController create_order، Webhook create/update) بدنهٔ خام را به sanitizerِ شناخته‌شده می‌دهند (`CheckoutService::place` فیلد‌به‌فیلد، `MobileConfigManager::update` فیلد‌به‌فیلد با sanitize_title/hex/absint، `ZoneChecker` فقط کست عددی و مقایسه، `WebhookManager::validate_events` فیلترِ وایت‌لیست، `DiscountManager::apply` → `wc_format_coupon_code`) — منبعِ هر sink در حینِ ممیزی خوانده و در کامنتِ تست ثبت شد؛ گیت فقط برای همین تابع‌ها بدنهٔ بدونِ sanitize را می‌پذیرد.
+- **سه `phpcs:ignore`ِ ساختاری** (آرایهٔ modifier در ProductModifiers ×۲، qty/mod در PhoneOrderAdmin) تأیید شدند: مقدارِ scalar در این خط‌ها معنا ندارد و حلقهٔ مصرف همهٔ عضوها را `sanitize_text_field`/`sanitize_key`/`(int)` می‌کند؛ هر ignore تازه‌ای رویِ این گیت → FAIL (ستونِ بازرسیِ ignore).
+- **منفی‌آزماییِ زنده:** کاشتِ `$evil = $_GET['evil_key']` در BranchController → FAIL با فایل:خط؛ حذف → ALL 9. منفی‌سنجیِ داخلیِ تست خودش: raw `$_GET` و raw `get_param` → دقیقاً ۲ flag؛ sanitized/isset-exempt → پاس. رانرِ تم: ۳۳ فایل، همه سبز؛ گیت‌های flavor-core: 23/23 + 81/81 بدونِ تغییر.
+
+
 ### Added — گشتِ escape خروجی روی قالب‌ها + تورِ سراسریِ تست در CI (پرامپت ۳۵ / R4-3)
 
 - **ممیزی:** هر `echo`/`print`/`<?=` در ۵۳ فایلِ `flavor/template-parts/**`، `flavor/page-templates/`، `flavor/*.php` (header/footer/index/single/search/404 و قالب‌های صفحه) و `flavor-core/admin/views/` با اسکنرِ token-basedِ تازه (`tests/theme/test-output-escaping.php`، ۱۳ بررسی) خوانده شد — **صفرِ خروجیِ خام**: هر متغیر یا esc شده یا cast عددی یا از allowlistِ escape-کننده‌هاست. بافتِ رگولارِ echo (per-operand، با درکِ ternary/elvisِ depth-aware و لیترال‌های الحاقی) طوری است که `<?= ?>` قانع‌کننده هم می‌گیرد.
