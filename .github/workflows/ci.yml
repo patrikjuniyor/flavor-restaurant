@@ -343,6 +343,9 @@ jobs:
       - name: Report WordPress Coding Standards violations
         run: vendor/bin/phpcs --report=summary --report-file=phpcs-report.txt || true
 
+      - name: Error-level budget gate (P43)
+        run: bash dev-tools/phpcs-error-gate.sh
+
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
