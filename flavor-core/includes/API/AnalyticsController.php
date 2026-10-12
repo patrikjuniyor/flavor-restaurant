@@ -87,13 +87,13 @@ class AnalyticsController extends BaseApiController {
 	 * GET /analytics/overview
 	 */
 	public function get_overview( \WP_REST_Request $request ): \WP_REST_Response {
-		$branch_id  = $request->get_param( 'branch_id' ) ? (int) $request->get_param( 'branch_id' ) : null;
+		$scope = $this->resolve_branch_scope( $request );
+		if ( is_wp_error( $scope ) ) {
+			return $this->respond_error( $scope->get_error_code(), $scope->get_error_message(), (int) ( $scope->get_error_data()['status'] ?? 403 ) );
+		}
+		$branch_id  = $scope;
 		$start_date = sanitize_text_field( (string) $request->get_param( 'start_date' ) );
 		$end_date   = sanitize_text_field( (string) $request->get_param( 'end_date' ) );
-
-		if ( $branch_id && ! Roles::can_access_branch( get_current_user_id(), $branch_id ) ) {
-			return $this->respond_error( 'forbidden_branch', __( 'دسترسی به اطلاعات این شعبه محدود است.', 'flavor-core' ), 403 );
-		}
 
 		$data = AnalyticsManager::get_overview( $branch_id, $start_date, $end_date );
 		return $this->respond_success( $data );
@@ -103,7 +103,11 @@ class AnalyticsController extends BaseApiController {
 	 * GET /analytics/peak-hours
 	 */
 	public function get_peak_hours( \WP_REST_Request $request ): \WP_REST_Response {
-		$branch_id  = $request->get_param( 'branch_id' ) ? (int) $request->get_param( 'branch_id' ) : null;
+		$scope = $this->resolve_branch_scope( $request );
+		if ( is_wp_error( $scope ) ) {
+			return $this->respond_error( $scope->get_error_code(), $scope->get_error_message(), (int) ( $scope->get_error_data()['status'] ?? 403 ) );
+		}
+		$branch_id  = $scope;
 		$start_date = sanitize_text_field( (string) $request->get_param( 'start_date' ) );
 		$end_date   = sanitize_text_field( (string) $request->get_param( 'end_date' ) );
 
@@ -115,7 +119,11 @@ class AnalyticsController extends BaseApiController {
 	 * GET /analytics/popular-dishes
 	 */
 	public function get_popular_dishes( \WP_REST_Request $request ): \WP_REST_Response {
-		$branch_id  = $request->get_param( 'branch_id' ) ? (int) $request->get_param( 'branch_id' ) : null;
+		$scope = $this->resolve_branch_scope( $request );
+		if ( is_wp_error( $scope ) ) {
+			return $this->respond_error( $scope->get_error_code(), $scope->get_error_message(), (int) ( $scope->get_error_data()['status'] ?? 403 ) );
+		}
+		$branch_id  = $scope;
 		$limit      = min( 50, max( 1, (int) ( $request->get_param( 'limit' ) ?: 10 ) ) );
 		$start_date = sanitize_text_field( (string) $request->get_param( 'start_date' ) );
 		$end_date   = sanitize_text_field( (string) $request->get_param( 'end_date' ) );
@@ -132,6 +140,18 @@ class AnalyticsController extends BaseApiController {
 		$end_date   = sanitize_text_field( (string) $request->get_param( 'end_date' ) );
 
 		$data = AnalyticsManager::get_branches_summary( $start_date, $end_date );
+		if ( ! current_user_can( 'manage_options' ) && ! current_user_can( 'flavor_manage_all_branches' ) ) {
+			$allowed = Roles::managed_branch_ids( get_current_user_id() );
+			$data    = array_values(
+				array_filter(
+					(array) $data,
+					static function ( $row ) use ( $allowed ) {
+						$id = (int) ( ( (array) $row )['branch_id'] ?? 0 );
+						return in_array( $id, $allowed, true );
+					}
+				)
+			);
+		}
 		return $this->respond_success( $data );
 	}
 }

@@ -79,7 +79,8 @@ class ReportAdmin {
 			)
 		);
 
-		$result = ReportQuery::run( $request['type'], $request['from'], $request['to'], $request['branch'] );
+		list( $request['branch'], $scope_err ) = self::scope_branch( (int) $request['branch'] );
+		$result     = $scope_err ? array( 'rows' => array() ) : ReportQuery::run( $request['type'], $request['from'], $request['to'], $request['branch'] );
 		$rows   = $result['rows'];
 		$head   = ReportQuery::headers( $request['type'] );
 		$pii    = ReportQuery::can_see_pii();
@@ -104,6 +105,10 @@ class ReportAdmin {
 				);
 				?>
 			</p>
+
+			<?php if ( ! empty( $scope_err ) ) : ?>
+				<div class="notice notice-error"><p><?php echo esc_html( $scope_err ); ?></p></div>
+			<?php endif; ?>
 
 			<?php if ( ! $pii ) : ?>
 				<div class="notice notice-info"><p>
@@ -210,6 +215,28 @@ class ReportAdmin {
 	}
 
 	/**
+	 * R4-2: branch-scoped staff may only run reports for their own branches.
+	 *
+	 * @param int $branch Requested branch (0 = all).
+	 * @return array{0:int,1:?string} Corrected branch and an error message (or null).
+	 */
+	private static function scope_branch( int $branch ): array {
+		if ( current_user_can( 'manage_options' ) || current_user_can( 'flavor_manage_all_branches' ) ) {
+			return array( $branch, null );
+		}
+		$managed = \FlavorCore\Support\Roles::managed_branch_ids( get_current_user_id() );
+		if ( $branch > 0 ) {
+			return in_array( $branch, $managed, true )
+				? array( $branch, null )
+				: array( $branch, __( 'دسترسی به گزارش این شعبه مجاز نیست.', 'flavor-core' ) );
+		}
+		if ( 1 === count( $managed ) ) {
+			return array( (int) $managed[0], null );
+		}
+		return array( 0, __( 'ابتدا یک شعبه را انتخاب کنید؛ گزارش سراسری مخصوص مدیر کل است.', 'flavor-core' ) );
+	}
+
+	/**
 	 * Stream the CSV.
 	 */
 	public static function download(): void {
@@ -229,6 +256,11 @@ class ReportAdmin {
 
 		if ( ! $request['ok'] ) {
 			wp_die( esc_html( implode( ' ', $request['errors'] ) ), 400 );
+		}
+
+		list( $request['branch'], $scope_err ) = self::scope_branch( (int) $request['branch'] );
+		if ( $scope_err ) {
+			wp_die( esc_html( $scope_err ), 403 );
 		}
 
 		$result = ReportQuery::run( $request['type'], $request['from'], $request['to'], $request['branch'] );

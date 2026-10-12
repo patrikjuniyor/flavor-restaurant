@@ -341,11 +341,12 @@ class ReservationController extends BaseApiController {
 		}
 
 		$branch = (int) $request->get_param( 'branch_id' );
-		if ( $branch > 0 ) {
-			$branch_perm = $this->require_branch_access( $request, $branch );
-			if ( is_wp_error( $branch_perm ) ) {
-				return $this->respond_error( $branch_perm->get_error_code(), $branch_perm->get_error_message(), 403 );
-			}
+		$scope  = $this->resolve_branch_scope( $request );
+		if ( is_wp_error( $scope ) ) {
+			return $this->respond_error( $scope->get_error_code(), $scope->get_error_message(), (int) ( $scope->get_error_data()['status'] ?? 403 ) );
+		}
+		if ( is_int( $scope ) ) {
+			$branch = $scope;
 		}
 
 		$date = sanitize_text_field( (string) $request->get_param( 'date' ) ) ?: current_time( 'Y-m-d' );

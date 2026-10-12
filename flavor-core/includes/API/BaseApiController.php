@@ -196,6 +196,43 @@ abstract class BaseApiController {
 	}
 
 	/**
+	 * Branch scope for the current user (R4-2).
+	 *
+	 * Staff must never widen a query to "all branches" by omitting
+	 * branch_id; only managers of the whole platform may see aggregate
+	 * cross-branch data.
+	 *
+	 * @param \WP_REST_Request $request Request carrying an optional branch_id.
+	 * @return int|null|\WP_Error int = forced branch, null = all allowed, error = deny.
+	 */
+	public function resolve_branch_scope( \WP_REST_Request $request ) {
+		$requested = absint( $request->get_param( 'branch_id' ) );
+		$global    = current_user_can( 'manage_options' ) || current_user_can( 'flavor_manage_all_branches' );
+		if ( $global ) {
+			return $requested > 0 ? $requested : null;
+		}
+		$managed = Roles::managed_branch_ids( get_current_user_id() );
+		if ( $requested > 0 ) {
+			if ( in_array( $requested, $managed, true ) ) {
+				return $requested;
+			}
+			return new \WP_Error(
+				'flavor_branch_forbidden',
+				__( 'دسترسی به اطلاعات این شعبه برای شما مجاز نیست.', 'flavor-core' ),
+				array( 'status' => 403 )
+			);
+		}
+		if ( 1 === count( $managed ) ) {
+			return $managed[0];
+		}
+		return new \WP_Error(
+			'flavor_branch_required',
+			__( 'حساب شما به چند شعبه دسترسی دارد؛ ارسال branch_id الزامی است.', 'flavor-core' ),
+			array( 'status' => 400 )
+		);
+	}
+
+	/**
 	 * Rate limiter guard.
 	 *
 	 * @param string $bucket Name of rate limit bucket.

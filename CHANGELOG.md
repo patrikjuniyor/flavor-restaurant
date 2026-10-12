@@ -7,6 +7,16 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Security — گشتِ capability/نقش‌ها: انحصارِ شعبه در خواندن‌های کارکنان (پرامپت ۳۴ / R4-2)
+
+- **ممیزی:** `Roles.php` + همهٔ فراخوانی‌های `current_user_can`/`user_can`/`can_access_branch` در API/ادمین مرور شد. نقش‌ها درستند (owner/global-manager/global-cap دارد، branch-manager/cashier/kitchen فقط دادهٔ شعبهٔ خود)، تغییرِ نقش از REST غیرممکن است (هیچ روت API به `set_role`/`add_cap`/`'roles'` دست نمی‌زند — در تست قفل شد). سه گپِ واقعیِ «حذفِ branch_id = دیدنِ همهٔ شعبه‌ها» بسته شد:
+  - **Analytics REST:** `get_peak_hours` و `get_popular_dishes` هیچ بررسیِ شعبه‌ای نداشتند؛ `get_overview` فقط وقتی branch داده می‌شد چک می‌کرد؛ `branches-summary` برای همه کامل برمی‌گشت. همه از-now از `resolve_branch_scope()` نوینِ `BaseApiController` عبور می‌کنند: کاربرِ global هرچه بخواهد؛ کارمندِ تک‌شعبه به همان شعبه قفل می‌شود؛ چندشعبه‌ای بدونِ `branch_id` با ۴۰۰ «مشخص‌کردنِ شعبه» رد می‌شود؛ شعبهٔ بیگانه ۴۰۳. خلاصهٔ شعبه‌ها برای کارکنان به `managed_branch_ids` فیلتر می‌شود.
+  - **رزروها (REST list):** حذفِ `branch_id` یعنی «همهٔ رزروها» → همان resolver جایگزین شد.
+  - **گزارش‌ساز ادمین (صفحه + CSV):** `branch=0` گزارشِ سراسری به branch-manager می‌داد؛ `ReportAdmin::scope_branch()` اضافه شد — تک‌شعبه خودکار قفل، چندشعبه باید شعبه را انتخاب کند (پیامِ واضح در صفحه، ۴۰۳ در دانلود)، شعبهٔ بیگانه رد.
+  - نکتهٔ طراحی: `can_access_branch(…, 0)` عمداً true است («دادهٔ عمومی بدون شعبه»؛ مثلاً ورودیِ صفر یعنی default_id در آشپزخانه) — قرارداد در تست `test_can_access_branch_zero_contract` ثبت شد تا کسی دو helper را یکی نکند؛ نشتِ «بدون پارامتر = همه‌چیز» حالا در لایهٔ resolver بسته است.
+- **تستِ IDOR نوین:** `flavor-core/tests/test-branch-scope-security.php` (WP_UnitTestCase، الگوی test-idor-security) — رفتارِ resolver (مالک/غیرمالک/تک‌شعبه/چندشعبه/admin)، ممنوعیتِ نقش‌تغییری REST روی کل دایرکتوری API، گاردِ منبعیِ هر پنج سطحِ خواندن. منفی‌آزماییِ زنده: حذفِ تمیزِ گاردِ `get_peak_hours` → «caught»؛ حینِ همین کار باگِ خودِ گارد پیدا شد (`substr` با طولِ مطلق به‌جای نسبی که منفی را مثبت نشان می‌داد) و اصلاح شد — بدونِ این اصلاح، گارد در CI چشمِ می‌بوست.
+- **بدونِ تغییرِ رفتاری برای مشتری/موبایل:** `run-e2e-integration` ۸۱/۸۱ و `run-pure-tests` ۲۳/۰ سبز؛ کیتِ آشپزخانه/موجودی که `branch_id` الزامی دارند دست‌نخورده ماندند.
+
 ### Added — پوششِ کاملِ nonce/توانایی روی هندلرهای ادمین (پرامپت ۳۳ / R4-1)
 
 - **ممیزیِ سیستماتیک:** هر ۱۹ هندلرِ `admin_post_*` و دو هندلرِ `admin_init`ِ داده‌تغییرده در `flavor/inc`، `flavor-core/includes` و `dev-tools` تک‌تک خوانده شد؛ همه از قبل یا `check_admin_referer`ِ مستقیم داشتند یا دروازهٔ مشترکِ `guard()`/`authorize()` که هم capability و هم nonce را یک‌جا بررسی می‌کند (demo-importer، update-channel، launch-center، transfer، onboarding، PhoneOrder، Table، Zone، Loyalty، Schedule، Availability، Reservation، Report، MobileApp).
