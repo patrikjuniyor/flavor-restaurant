@@ -3,11 +3,15 @@
 # This file is distributed under the GPL-2.0-or-later.
 #
 # Source strings are Persian; this catalogue is translated FROM Persian.
+# Review status: structurally audited by dev-tools/i18n/audit-ar-po.py
+# (placeholders, Persian residue, Latin runs, msgfmt). A native Arabic
+# translator has NOT yet reviewed register and stylistic choices —
+# ar-part99-review.py marks the pending items.
 msgid ""
 msgstr ""
 "Project-Id-Version: Flavor\n"
 "Report-Msgid-Bugs-To: https://github.com/patrikjuniyor/flavor-restaurant/issues\n"
-"PO-Revision-Date: 2026-10-12 07:06+0000\n"
+"PO-Revision-Date: 2026-10-12 07:39+0000\n"
 "Last-Translator: Flavor Translations\n"
 "Language-Team: Flavor Translations\n"
 "Language: ar\n"
@@ -31,7 +35,7 @@ msgstr "%1$s من %2$s من الأطباق"
 
 #: flavor/inc/class-contrast.php:202
 msgid "%1$s — %2$s به ۱ (حداقل %3$s به ۱)"
-msgstr "%1$s — %2$s إلى ۱ (الحد الأدنى %3$s إلى ۱)"
+msgstr "%1$s — %2$s إلى ١ (الحد الأدنى %3$s إلى ١)"
 
 #: flavor/template-parts/marketing/categories.php:60
 msgid "%d آیتم"
@@ -346,7 +350,7 @@ msgstr "من هذا المبلغ فأكثر تُعرض رسالة «شحن مج�
 
 #: flavor/inc/class-block-patterns.php:296
 msgid "از سال ۱۳۹۵ با یک هدف ساده شروع کردیم: غذای خانگی با مواد تازه و قیمت منصفانه. امروز هر روز صبح مواد اولیه را خودمان از بازار می‌خریم."
-msgstr "منذ عام ۱۳۹۵ ش. بدأنا بهدف بسيط: طعام منزلي بمكونات طازجة وسعر منصف. واليوم نشتري المكونات بأنفسنا من السوق كل صباح."
+msgstr "منذ عام ٢٠١٦م بدأنا بهدف بسيط: طعام بيتي بمكونات طازجة وسعر منصف. واليوم نشتري المكونات بأنفسنا من السوق كل صباح."
 
 #: flavor/inc/class-wishlist.php:182
 msgid "از علاقه‌مندی‌ها حذف شد."
@@ -362,7 +366,7 @@ msgstr "من الفاكهة إلى الكوب"
 
 #: flavor/inc/class-chrome-builder.php:182
 msgid "از ۹۹۲ پیکسل بالا در هدر است؛ در موبایل داخل کشوی منو نمایش داده می‌شود."
-msgstr "فوق ۹۹۲ بكسل يظهر في الترويسة؛ وعلى الجوال يظهر داخل درج القائمة."
+msgstr "فوق ٩٩٢ بكسل يظهر في الترويسة؛ وعلى الجوال يظهر داخل درج القائمة."
 
 #: flavor/inc/class-customizer.php:417 flavor/inc/class-customizer.php:418 flavor/inc/class-customizer.php:419 flavor/inc/class-ui-customizer.php:95 flavor/inc/class-ui-customizer.php:96 flavor/inc/class-ui-customizer.php:97
 msgid "استاندارد"
@@ -1549,7 +1553,7 @@ msgstr "العدد المقترح: %s شخص"
 
 #: flavor/inc/class-enqueue.php:394
 msgid "تعداد پیشنهادی را بین ۱ تا ۱۰۰۰ وارد کنید؛ برای تعداد بیشتر تماس بگیرید."
-msgstr "أدخل عددًا مقترحًا بين ۱ و۱۰۰۰؛ للكميات الأكبر اتصل بنا."
+msgstr "أدخل عددًا مقترحًا بين ١ و١٠٠٠؛ للكميات الأكبر اتصل بنا."
 
 #: flavor/elementor/widgets/class-hours-widget.php:73 flavor/elementor/widgets/class-hours-widget.php:136 flavor/inc/class-ui-pages.php:62
 msgid "تعطیل"
@@ -2999,7 +3003,7 @@ msgstr "الأوقات القابلة للحجز"
 
 #: flavor/inc/class-block-patterns.php:206
 msgid "سالاد فصل، ماست‌موسیر و پیش‌غذاهای خانگی."
-msgstr "سلطة الموسم، ومخلل الموسير، ومقبلات منزلية."
+msgstr "سلطة الموسم، وزبادي النعناع المجفف، ومقبلات بيتية."
 
 #: flavor/elementor/widgets/class-stats-widget.php:53
 msgid "سال تجربه"
@@ -3351,7 +3355,7 @@ msgstr "تحقّق من الرقم ورمز الاستخدام الواحد."
 
 #: flavor/inc/class-ui.php:87
 msgid "شمارهٔ معتبر مانند ۰۹۱۲۱۲۳۴۵۶۷ وارد کنید."
-msgstr "أدخل رقمًا صحيحًا مثل ۰۹۱۲۱۲۳۴۵۶۷"
+msgstr "أدخل رقمًا صحيحًا مثل ٠٩١٢١٢٣٤٥٦٧"
 
 #: flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/ui/login.php:9
 msgid "شمارهٔ موبایل"
@@ -3467,7 +3471,7 @@ msgstr "تصميم ونمط المطعم"
 
 #: flavor/inc/class-design.php:37
 msgid "طرح اصیل زرشکی، طلایی و لاجوردی با حس نوستالژیک"
-msgstr "تصميم أصيل بالأحمر الزرشكي والذهبي واللازوردي بإحساس حنيني"
+msgstr "تصميم أصيل بألوان العنابي والذهبي والأزرق اللازوردي يبعث أجواء الحنين"
 
 #: flavor/inc/class-customizer.php:668 flavor/template-parts/marketing/hero.php:12
 msgid "طعم اصیل و ماندگار"
@@ -4163,7 +4167,7 @@ msgstr "مثال: نكهة أصيلة من الكباب والخبز الساخ�
 
 #: flavor/inc/class-enqueue.php:451 flavor/inc/class-ui.php:241
 msgid "مثلاً سس جداگانه یا کم‌نمک"
-msgstr "مثلاً الصلصة منفصلة أو أقل ملحاً"
+msgstr "مثلاً الصلصة منفصلة أو طبق خفيف الملح"
 
 #: flavor/inc/class-chrome-builder.php:1925
 msgid "مثلاً نشانی صفحهٔ تخفیف‌ها. خالی بگذارید تا نوار فقط متن باشد."
@@ -6133,7 +6137,7 @@ msgstr "زاوية البطاقة ولوحة الطعام"
 
 #: flavor/template-parts/marketing/gallery.php:38
 msgid "گوشه‌هایی از فضا و طعم‌ها"
-msgstr "لمحات من المكان والنكهات"
+msgstr "لمحات من أجوائنا ونكهاتنا"
 
 #: flavor/inc/class-ui.php:210
 msgid "گیاهی"

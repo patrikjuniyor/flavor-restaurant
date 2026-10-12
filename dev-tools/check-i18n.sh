@@ -117,6 +117,19 @@ for po in flavor/languages/*.po; do
   fi
 done
 
+echo "== 5. Arabic catalogue passes the structural-linguistic audit (R3-05) =="
+if command -v python3 >/dev/null 2>&1; then
+  if audit_out="$(python3 dev-tools/i18n/audit-ar-po.py 2>&1)"; then
+    printf '[PASS] %s\n' "$(printf '%s\n' "$audit_out" | tail -1)"
+  else
+    printf '[FAIL] بازبینیِ ساختاریِ flavor-ar.po خطا داد:\n'
+    printf '%s\n' "$audit_out" | grep '^FAIL' | sed 's/^/       /' | head -10
+    fail=1
+  fi
+else
+  printf 'python3 در دسترس نیست؛ بازرسیِ flavor-ar.po رد شد\n'
+fi
+
 echo
 if [ "$fail" -ne 0 ]; then
   printf 'بررسیِ ترجمه ناموفق بود.\n'
