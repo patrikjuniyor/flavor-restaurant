@@ -48,12 +48,12 @@ echo "--- 1. the runner aggregates the pure suites ---\n";
 check( is_dir( $pure_dir ), 'flavor-core/tests/pure/ exists' );
 check(
 	false !== strpos( $runner_src, "glob( __DIR__ . '/pure/*.php' )" )
-		&& false !== strpos( $runner_src, 'count( $pure_suites ) >= 5' ),
-	'run-pure-tests.php globs pure/*.php with a floor of 5 suites (a wiped directory fails instead of shrinking coverage)'
+		&& false !== strpos( $runner_src, 'count( $pure_suites ) >= 6' ),
+	'run-pure-tests.php globs pure/*.php with a floor of 6 suites (a wiped directory fails instead of shrinking coverage)'
 );
 $suites = glob( $pure_dir . '/*.php' );
 $suites = is_array( $suites ) ? array_filter( $suites, static fn( $f ) => '_stubs.php' !== basename( $f ) ) : array();
-check( count( $suites ) >= 5, 'the pure directory holds the expected suites (' . count( $suites ) . ')' );
+check( count( $suites ) >= 6, 'the pure directory holds the expected suites (' . count( $suites ) . ')' );
 
 echo "\n--- 2. every prompt-named class is covered, money logic live ---\n";
 $corpus = '';
@@ -82,6 +82,20 @@ check(
 	'webhook signatures, retry arithmetic, allowlist and SSRF fence all run live'
 );
 
+echo "\n--- 2b. prompt 48: the Jalali/time edges are covered ---\n";
+check(
+	false !== strpos( $corpus, 'is_leap( 1407' ) && false !== strpos( $corpus, 'is_leap( 1403' ) && false !== strpos( $corpus, 'is_leap( 1408' ),
+	'the leap-year matrix pins 1403/1408 leap and the 1407 phantom-leap regression'
+);
+check(
+	false !== strpos( $corpus, '366 === $days' ) && false !== strpos( $corpus, '1461 days' ),
+	'the is_leap ⇔ conversion-agreement sweep (1380–1429) and the full 1461-day round-trip identity sweep run live'
+);
+check(
+	false !== strpos( $corpus, "minutes( '24:00' )" ) && false !== strpos( $corpus, 'today_gregorian' ) && false !== strpos( $corpus, 'iran_dow' ),
+	'the 24:00 edge, the +3:30 today fallback and the audited iran_dow strtotime site are all asserted'
+);
+
 echo "\n--- 3. the suites keep the no-WP promise ---\n";
 check(
 	false === strpos( $corpus, 'mock-wp-environment' ) && false === strpos( $runner_src, 'mock-wp-environment' ),
@@ -108,7 +122,7 @@ check( 0 === $rc, 'run-pure-tests.php exits 0' );
 $passed_count = preg_match( '/Results: (\d+) Passed, (\d+) Failed/', $out, $m ) ? (int) $m[1] : 0;
 $failed_count = isset( $m[2] ) ? (int) $m[2] : -1;
 check( 0 === $failed_count, 'the live run reports zero failures (' . $failed_count . ')' );
-check( $passed_count >= 170, 'assertion volume floor: at least 170 passing checks (now ' . $passed_count . ') — deleting suites or expectations trips this' );
+check( $passed_count >= 220, 'assertion volume floor: at least 220 passing checks (now ' . $passed_count . ') — deleting suites or expectations trips this' );
 
 echo str_repeat( '=', 55 ) . "\nResults: $pass Passed, $fail Failed\n";
 exit( $fail ? 1 : 0 );

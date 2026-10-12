@@ -228,7 +228,7 @@ $pure_suites = is_array( $pure_suites )
 	)
 	: array();
 sort( $pure_suites );
-assert_test( count( $pure_suites ) >= 5, 'pure-suite aggregation discovered the prompt-47 suites (' . count( $pure_suites ) . ' files)' );
+assert_test( count( $pure_suites ) >= 6, 'pure-suite aggregation discovered the aggregated pure suites (' . count( $pure_suites ) . ' files)' );
 foreach ( $pure_suites as $pure_suite ) {
 	require $pure_suite;
 }

@@ -177,7 +177,12 @@ check( array() === $dead, 'no unreferenced production functions/methods' . ( $de
 $bad = array();
 foreach ( glob( "$root/flavor/assets/fonts/*" ) as $dir ) {
 	if ( ! is_dir( $dir ) ) continue;
-	$has_font = (bool) glob( "$dir/*.{woff2,woff,ttf,otf}", GLOB_BRACE );
+	// No GLOB_BRACE: undefined on musl/static PHP builds; four plain globs
+	// are portable everywhere and mean exactly the same thing.
+	$has_font = false;
+	foreach ( array( 'woff2', 'woff', 'ttf', 'otf' ) as $font_ext ) {
+		if ( glob( "$dir/*.$font_ext" ) ) { $has_font = true; break; }
+	}
 	$readme   = (string) @file_get_contents( "$dir/README.md" );
 	if ( ! $has_font && ! preg_match( '/not bundled|license/i', $readme ) ) $bad[] = basename( $dir );
 	if ( ! $has_font && false === stripos( $readme, basename( $dir ) ) ) $bad[] = basename( $dir ) . '(README mismatch)';

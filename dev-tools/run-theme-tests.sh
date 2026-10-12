@@ -18,8 +18,14 @@ if ! command -v php >/dev/null 2>&1; then
 fi
 
 # The mock environment talks to SQLite through PDO for the $wpdb double.
+# The pdo_sqlite probe is functional, not just extension_loaded(): some static
+# PHP builds compile the PDO sqlite driver in without registering a module
+# under that exact name, and what the mock needs is a working PDO('sqlite:').
 for ext in pdo_sqlite mbstring json; do
 	if ! php -r "exit(extension_loaded('$ext') ? 0 : 1);"; then
+		if [ "$ext" = "pdo_sqlite" ] && php -r 'exit( class_exists( "PDO" ) && in_array( "sqlite", PDO::getAvailableDrivers(), true ) && false !== ( new PDO( "sqlite::memory:" ) )->exec( "CREATE TABLE probe(a int)" ) ? 0 : 1 );' 2>/dev/null; then
+			continue
+		fi
 		echo "خطا: افزونهٔ PHP «$ext» لازم است اما نصب نیست." >&2
 		echo "راهنما: sudo apt-get install php-mbstring php-sqlite3" >&2
 		exit 127
