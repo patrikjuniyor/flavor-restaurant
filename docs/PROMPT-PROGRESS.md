@@ -4,13 +4,13 @@
 
 | وضعیت | تعداد |
 |---|---:|
-| ✅ انجام‌شده | 46 |
+| ✅ انجام‌شده | 47 |
 | 🟨 بخشی انجام‌شده | 0 |
 | ⛔ مسدود (نیاز به محیط/تصمیم مالک) | 0 |
-| ⬜ انجام‌نشده | 62 |
+| ⬜ انجام‌نشده | 61 |
 | **مجموع** | **108** |
 
-درصد پیشرفت کامل: **43%** (46/108)
+درصد پیشرفت کامل: **44%** (47/108)
 
 این فایل با `python3 dev-tools/build-progress.py` از روی `progress-status.json` بازتولید می‌شود؛ ویرایش دستی را از دست می‌دهد.
 
@@ -90,7 +90,7 @@
 | 44 | ✅ انجام شد | سازگاری PHP 8.0 تا 8.4: با اجرای `php -l` روی همهٔ فایل‌ها (در CI هست) | سازگاری PHP 8.0–8.4: ممیزیِ ۲۲۷ فایلیِ پرامپت (interpolation/dynamic-prop/null-internal/named-args/removed-fns) صفرِ واقعی داد؛ استابِ preset-control به‌خاطرِ $jsonِ غایبِ dynamic-property 8.4 می‌زد — mirror core شد؛ گیتِ ماشینی test-php8x-compat با ۷ clause + پینِ matrix و پینِ صداقتِ Requires PHP 8.0؛ sabotage چهارالگویی → FAIL → revert — `commit 33fb00b` |
 | 45 | ✅ انجام شد | کد مرده و فایل‌های بدون استفاده را حذف کن: dev-tools/README-updater.md، | ۲۱ متد/تابعِ تک‌مرجع و CSS یتیم (fd-mobile-bar، responsive-token، cart-badge، سلکتور entry-title) حذف شد؛ ۸۱۸ کلاسِ namespace‌دار همه reachable (زنده‌بودنِ dynamic از سطرهایِ چاپِ کلاس اثبات شد)؛ سه موردِ نام‌برده درِ پرامپت با دلیل ماندند (README-updater، اسلاتِ iransans، print-receipt تا ۶۲)؛ lib/ِ vendored excludedِ مستند؛ گیتِ test-dead-code هفت‌clause + دو اثباتِ sabotage → ۷/۰ — `commit ded8bc2` |
 | 46 | ✅ انجام شد | یکدست‌سازی مدیریت خطا در REST: الگوی respond_error/respond_success در | یکدست‌سازی مدیریت خطا در REST: هر ۸۱ callback فقط از respond_success/respond_error/relay_error پاسخ می‌دهد (چهار کلاس legacy هم extends Base شدند)؛ میان‌افزار ResponseEnvelope ردِ permissionها و خطاهای هسته را فقط روی /flavor/* به پاکت {success,data,meta,errors} نرمال می‌کند؛ جدول status پین شد (۴۰۰/۴۰۱/۴۰۳/۴۰۴/۴۰۹-idempotency/۴۲۹) و کدهای بی‌پیشوند unauthorized/forbidden به flavor_* یکدست شدند؛ مصرف‌کننده‌ها (kitchen-dashboard JS، e2e ۸۱/۸۱) مهاجرت کردند؛ گیت token-based test-rest-response-contract هفت‌clause + سه اثبات sabotage → ۲۸/۰ — `commit 538eae2` |
-| 47 | ⬜ انجام‌نشده | پوشش تست هسته را بالا ببر: فایل‌های flavor-core/includes که تست واحد |  |
+| 47 | ✅ انجام شد | پوشش تست هسته را بالا ببر: فایل‌های flavor-core/includes که تست واحد | پوشش تست هسته: پنج سوئیت منطق خالص در flavor-core/tests/pure/ (تجمیع با glob در run-pure-tests + micro-stubهای exists-guarded، بدون WP و بدون mock) برای شش کلاس بی‌تست — PointsManager/Currency/DiscountManager (اولویت پول: convert floor، مرزهای estimate_points، ثابت‌های اقتصاد وفاداری)، WebhookManager (ماتریس sign/verify، backoff با cap، validate_events، حصار SSRF روی literalها)، CheckoutService helpers با reflection (idempotency sanitize/fingerprint/window ۱۲۰s) + SlotCalculator، ReceiptRenderer/KitchenTicketSync (mode_label زنده، اثبات short-circuitِ suspend بدون WC، پین‌های cancel-map و hook-drift)، PushNotificationService (بردارهای DER→raw + round-tripِ openssl_verify روی build_jwt با کلید P-256 یک‌بارمصرف)؛ run-pure-tests از ۴۷ به ۱۷۳؛ گیت test-core-test-coverage با اجرای زندهٔ runner + دو اثبات sabotage → ۱۲/۰ — `commit e9f34b0` |
 | 48 | ⬜ انجام‌نشده | Jalali و زمان: تست‌های test-jalali.php را با لبه‌های تقویمی تکمیل کن: |  |
 | 49 | ⬜ انجام‌نشده | گشت سازگاری ووکامرس ۱۱ / HPOS: مطمئن شو هیچ کوئری مستقیمی روی |  |
 | 50 | ⬜ انجام‌نشده | فایل flavor-core/tests/mock-wp-environment.php را مرور کن: mock ها نباید |  |

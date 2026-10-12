@@ -232,5 +232,10 @@
     "commit": "538eae2",
     "state": "done",
     "note": "یکدست‌سازی مدیریت خطا در REST: هر ۸۱ callback فقط از respond_success/respond_error/relay_error پاسخ می‌دهد (چهار کلاس legacy هم extends Base شدند)؛ میان‌افزار ResponseEnvelope ردِ permissionها و خطاهای هسته را فقط روی /flavor/* به پاکت {success,data,meta,errors} نرمال می‌کند؛ جدول status پین شد (۴۰۰/۴۰۱/۴۰۳/۴۰۴/۴۰۹-idempotency/۴۲۹) و کدهای بی‌پیشوند unauthorized/forbidden به flavor_* یکدست شدند؛ مصرف‌کننده‌ها (kitchen-dashboard JS، e2e ۸۱/۸۱) مهاجرت کردند؛ گیت token-based test-rest-response-contract هفت‌clause + سه اثبات sabotage → ۲۸/۰"
+  },
+  "47": {
+    "commit": "e9f34b0",
+    "state": "done",
+    "note": "پوشش تست هسته: پنج سوئیت منطق خالص در flavor-core/tests/pure/ (تجمیع با glob در run-pure-tests + micro-stubهای exists-guarded، بدون WP و بدون mock) برای شش کلاس بی‌تست — PointsManager/Currency/DiscountManager (اولویت پول: convert floor، مرزهای estimate_points، ثابت‌های اقتصاد وفاداری)، WebhookManager (ماتریس sign/verify، backoff با cap، validate_events، حصار SSRF روی literalها)، CheckoutService helpers با reflection (idempotency sanitize/fingerprint/window ۱۲۰s) + SlotCalculator، ReceiptRenderer/KitchenTicketSync (mode_label زنده، اثبات short-circuitِ suspend بدون WC، پین‌های cancel-map و hook-drift)، PushNotificationService (بردارهای DER→raw + round-tripِ openssl_verify روی build_jwt با کلید P-256 یک‌بارمصرف)؛ run-pure-tests از ۴۷ به ۱۷۳؛ گیت test-core-test-coverage با اجرای زندهٔ runner + دو اثبات sabotage → ۱۲/۰"
   }
 }
