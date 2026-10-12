@@ -7,6 +7,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed — ممیزیِ وابستگی‌ها و لایسنسِ فایل‌های باندل (پرامپت ۴۰ / R4-6)
+
+- **ممیزیِ کامل با اعداد:** composer (۳۵ پکیجِ dev، `composer audit --locked` → **۰ advisory**؛ `dealerdirect installer` abandoned نیست)؛ npm در `tests/ui` + `tests/demos` → **۰ آسیب‌پذیری** (playwright 1.63 pin — منسوخ نیست، 1.64 عمداً ارتقا نیافت چون jobِ Chromium سبز است)؛ موبایل: هر **۱۰۵** پکیجِ `pubspec.lock` روی OSV.dev → **۰ advisory** (اسکریپتِ قابل‌تکرار `dev-tools/osv-pub-audit.py` اضافه شد؛ non-vacuity: صفرِ پکیج = exit 2). یافته‌ها + دستورِ بازتولید در `docs/CI-CD.md` §۵.
+- **دو آسیبِ واقعیِ رفع‌شده در زنجیرهٔ CI:** ① `composer.lock` روی ماشینِ PHP 8.4 تولید شده بود و `doctrine/instantiator 2.1.0` (نیازمندِ `php ^8.4`) باعثِ مرگِ `composer install` در jobِ PHP 8.2 می‌شد — `config.platform.php = 8.2.34` + re-resolve به `instantiator 2.0.0`؛ حالا lock روی ۸.۱–۸.۴ installable است و jobِ WPCS برایِ اولین‌بار واقعاً phpcs را اجرا می‌کند. ② `phpcs.xml` sniffِ حذف‌شده در WPCS 3.0 (`WordPress.WhiteSpace.PrecisionAlignment`) را exclude می‌کرد → phpcs با `Referenced sniff does not exist` می‌مرد و report **همیشه تهی** بود؛ خط حذف + بازنشستش حالا گیت‌ماشینی است.
+- **لایسنس‌ها:** `vazirmatn` سه فایلِ فونت بدونِ لایسنس باندل می‌کرد → `OFL.txt` رسمیِ upstream اضافه شد؛ `estedad` داشت؛ `iransans` فونت ندارد (تجاری، README-استاب) پس مشمول نیست؛ سربرگِ MITِ `qrcode.php` + گاردِ ABSPATH تأیید و pin شد. گیتِ تازه در `test-distribution.php` §۷ (۱۰ بررسی: هر دایرکتوریِ حاویِ فونت باید لایسنس داشته باشد + بازرسیِ non-vacuousِ ۲/۲ + اسکنِ `rm -rf` اسکریپتِ بسته‌بندی برایِ اطمینان از حذف‌نشدنِ لایسنس‌ها). رانندهٔ فونتِ PHPCS هم برای صفرِ اخطار روی کدِ تازه (rename پارامتر `$namespace`) تنظیم شد.
+- **منفی‌آزماییِ زنده:** حذفِ موقتِ `vazirmatn/OFL.txt` → `[FAIL] vazirmatn ships 3 font file(s)…`؛ بازگرداندنِ exclude خط‌خورده در phpcs.xml → `[FAIL] …sniff removed in WPCS 3`؛ بازگشت → **59/0**. suites بی‌تغییر سبز: run-pure 47/0، e2e 81/81، گیت ۳۹ (۲۶)، i18n exit 0.
+
+
 ### Added — هدرهای امنیتی پاسخ‌ها: REST و HTML (پرامپت ۳۹ / R4-6)
 
 - **Middleware تازهٔ `Support\SecurityHeaders`:** روی `rest_post_dispatch` (۳ آرگومان) به تمام پاسخ‌های `flavor/v1` — حتی پاسخ‌های خطا (401/403) — دو هدرِ `X-Content-Type-Options: nosniff` و `Referrer-Policy: strict-origin-when-cross-origin` می‌نشیند و **سیاستِ پیش‌فرضِ منع**: هر پاسخی که کنترلر خودش `Cache-Control` ننوشته (orders، reservation، auth، cart، …) `no-store, must-revalidate` می‌گیرد؛ endpointهای دادهٔ عمومیِ قابل‌کش (menu/search) که صریحاً `public, max-age=30` ست می‌کنند دست‌نخورده می‌مانند — opt-in صریح، نه سراسری. کنترلرهای `RestController/RestStore/RestExperience` هم که از قبل `private, no-store` داشتند همان‌جا pin شدند.

@@ -38,7 +38,10 @@
 		<exclude name="Generic.Arrays.DisallowLongArraySyntax"/>
 		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals"/>
-		<exclude name="WordPress.WhiteSpace.PrecisionAlignment"/>
+		<!-- WordPress.WhiteSpace.PrecisionAlignment was REMOVED in WPCS 3.0
+		     (it now lives as Universal.WhiteSpace.PrecisionAlignment and is not
+		     part of the WordPress ruleset) — a reference to the old code makes
+		     phpcs abort with "Referenced sniff does not exist". -->
 		<exclude name="WordPress.Arrays.MultipleStatementAlignment"/>
 		<exclude name="Generic.Formatting.MultipleStatementAlignment"/>
 		<exclude name="WordPress.WhiteSpace.OperatorSpacing"/>

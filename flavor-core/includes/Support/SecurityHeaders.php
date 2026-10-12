@@ -49,11 +49,11 @@ class SecurityHeaders {
 	 * Pure array logic so it can be asserted offline (run-pure suite).
 	 *
 	 * @param array<string, string> $headers   Headers already set by the controller.
-	 * @param string                $namespace Route namespace, e.g. 'flavor/v1'.
+	 * @param string                $route_namespace Route namespace, e.g. 'flavor/v1'.
 	 * @return array<string, string>
 	 */
-	public static function rest_headers( array $headers, string $namespace ): array {
-		if ( 0 !== strpos( $namespace, 'flavor/' ) ) {
+	public static function rest_headers( array $headers, string $route_namespace ): array {
+		if ( 0 !== strpos( $route_namespace, 'flavor/' ) ) {
 			return $headers;
 		}
 		$headers['X-Content-Type-Options'] = 'nosniff';

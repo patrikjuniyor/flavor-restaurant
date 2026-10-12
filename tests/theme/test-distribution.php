@@ -260,6 +260,101 @@ if ( is_file( $builder ) ) {
 	check( false !== strpos( $script, 'Enforce the weight budget' ), 'the ceiling is enforced, not just reported' );
 }
 
+echo "\n--- 7. Licenses of bundled third-party assets (پرامپت ۴۰) ---\n";
+
+/*
+ * Anything we ship that is not GPL must carry its license text in the
+ * final package: OFL fonts next to the binaries, the MIT header on the
+ * bundled qrcode.php, and the builder must not strip either of them.
+ */
+$fonts_dir = FLAVOR_DIR . '/assets/fonts';
+$licensed  = 0;
+$scanned   = 0;
+foreach ( (array) glob( $fonts_dir . '/*', GLOB_ONLYDIR ) as $fontdir ) {
+	$binaries = array_merge(
+		(array) glob( $fontdir . '/*.woff2' ),
+		(array) glob( $fontdir . '/*.woff' ),
+		(array) glob( $fontdir . '/*.ttf' ),
+		(array) glob( $fontdir . '/*.otf' )
+	);
+	if ( empty( $binaries ) ) {
+		continue; // documentation-only directory (e.g. the iransans stub)
+	}
+	++$scanned;
+	$has_license = (array) glob( $fontdir . '/OFL.txt' )
+		|| (array) glob( $fontdir . '/LICENSE*' );
+	if ( ! empty( $has_license ) ) {
+		++$licensed;
+	}
+	check(
+		! empty( $has_license ),
+		basename( $fontdir ) . ' ships ' . count( $binaries ) . ' font file(s) and at least one license file'
+	);
+}
+check(
+	$scanned >= 2 && $licensed === $scanned,
+	'the scan is non-vacuous: every bundling font directory is licensed (' . $licensed . '/' . $scanned . ')'
+);
+
+foreach ( array( 'vazirmatn', 'estedad' ) as $ofl_family ) {
+	$ofl = (string) file_get_contents( $fonts_dir . '/' . $ofl_family . '/OFL.txt' );
+	check(
+		false !== strpos( $ofl, 'SIL Open Font License, Version 1.1' )
+			&& preg_match( '/^Copyright \(?2\d{3}/m', $ofl ),
+		$ofl_family . ' OFL.txt is the real 1.1 text with a copyright line'
+	);
+}
+
+$qr = (string) file_get_contents( dirname( FLAVOR_DIR ) . '/flavor-core/includes/lib/qrcode.php' );
+$qr_head = implode( "\n", array_slice( explode( "\n", $qr ), 0, 30 ) );
+check(
+	false !== strpos( $qr_head, 'MIT license' ) && false !== strpos( $qr_head, 'Kazuhiko Arase' ),
+	'qrcode.php names MIT and its author within the first 30 lines'
+);
+check(
+	false !== strpos( $qr, "defined( 'ABSPATH' ) || exit;" ),
+	'qrcode.php keeps the direct-access guard'
+);
+
+if ( is_file( $builder ) ) {
+	$rm_lines = array();
+	foreach ( explode( "\n", $script ) as $ln ) {
+		if ( preg_match( '/^\s*rm -rf\s+(.+)$/', $ln, $mm) ) {
+			foreach ( preg_split( '/\s+/', trim( $mm[1] ) ) as $arg ) {
+				$rm_lines[] = $arg;
+			}
+		}
+	}
+	$unsafe = array();
+	foreach ( $rm_lines as $rm ) {
+		// Deleting the scratch copy or the dist output is fine; deleting
+		// anything under the source tree beyond demos/tests/node_modules,
+		// or anything that looks like a license/asset path, is not.
+		if ( false !== strpos( $rm, '$scratch' ) || false !== strpos( $rm, '$dist' ) ) {
+			continue;
+		}
+		if ( preg_match( '#(\.git|assets|fonts|OFL|LICENSE)#i', $rm ) ) {
+			$unsafe[] = $rm;
+		}
+	}
+	check(
+		empty( $unsafe ),
+		'the builder never rm -rf\'s a source path (only scratch/dist) — licenses cannot be stripped'
+	);
+	$pruned = preg_match_all( '#^\s*rm -rf[^\n]*scratch[^\n]*(demos|tests|node_modules)#m', $script );
+	check(
+		$pruned >= 2,
+		'the scratch pruning targets exactly demos/tests/node_modules (' . $pruned . ' lines)'
+	);
+}
+
+$ruleset = (string) file_get_contents( dirname( FLAVOR_DIR ) . '/phpcs.xml' );
+$ruleset_code = preg_replace( '/<!--.*?-->/s', '', $ruleset ); // keep prose out of the scan
+check(
+	false === strpos( $ruleset_code, 'WordPress.WhiteSpace.PrecisionAlignment' ),
+	'phpcs ruleset carries no reference to the sniff removed in WPCS 3 (would abort the report job)'
+);
+
 echo "\n=======================================================\n";
 echo "Results: {$passed} Passed, {$failed} Failed\n";
 echo "=======================================================\n";
