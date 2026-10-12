@@ -19,6 +19,13 @@ namespace {
 			 */
 			public $id = '';
 
+		/**
+		 * JSON payload bag (mirrors core).
+		 *
+		 * @var array
+		 */
+		public $json = array();
+
 			/**
 			 * Label.
 			 *
