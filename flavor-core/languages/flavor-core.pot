@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-12 07:06+00:00\n"
+"POT-Creation-Date: 2026-10-12 09:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
@@ -130,6 +130,10 @@ msgstr ""
 msgid "آیکون برنامه (App Icon 1024x1024)"
 msgstr ""
 
+#: flavor-core/includes/Reporting/ReportAdmin.php:236
+msgid "ابتدا یک شعبه را انتخاب کنید؛ گزارش سراسری مخصوص مدیر کل است."
+msgstr ""
+
 #: flavor-core/includes/Admin/AdminMenus.php:305
 msgid "ارائه‌دهنده پیامک"
 msgstr ""
@@ -170,7 +174,7 @@ msgstr ""
 msgid "از"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:130
+#: flavor-core/includes/Reporting/ReportAdmin.php:135
 msgid "از تاریخ"
 msgstr ""
 
@@ -414,7 +418,7 @@ msgstr ""
 msgid "بازه نظرسنجی آشپزخانه (ثانیه)"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:166
+#: flavor-core/includes/Reporting/ReportAdmin.php:171
 msgid "بازهٔ انتخابی بزرگ است؛ خروجی به %s ردیف محدود شد. بازه را کوتاه‌تر کنید."
 msgstr ""
 
@@ -422,7 +426,7 @@ msgstr ""
 msgid "بازهٔ گزارش محدود شده است؛ برای دریافتِ کامل بازه را کوتاه‌تر کنید."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:143 flavor-core/includes/Admin/AdminMenus.php:144 flavor-core/includes/Loyalty/LoyaltyAdmin.php:57 flavor-core/includes/Reporting/ReportAdmin.php:91 flavor-core/includes/Reporting/ScheduledReport.php:325
+#: flavor-core/includes/Admin/AdminMenus.php:143 flavor-core/includes/Admin/AdminMenus.php:144 flavor-core/includes/Loyalty/LoyaltyAdmin.php:57 flavor-core/includes/Reporting/ReportAdmin.php:92 flavor-core/includes/Reporting/ScheduledReport.php:325
 msgid "باشگاه مشتریان"
 msgstr ""
 
@@ -474,7 +478,7 @@ msgstr ""
 msgid "برای سفارش حضوری، میز معتبر را انتخاب کنید."
 msgstr ""
 
-#: flavor-core/includes/API/ReservationController.php:403
+#: flavor-core/includes/API/ReservationController.php:404
 msgid "برای مشاهده یا مدیریت این رزرو باید وارد شوید یا توکن مهمان ارسال کنید."
 msgstr ""
 
@@ -518,7 +522,7 @@ msgstr ""
 msgid "تا"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:134
+#: flavor-core/includes/Reporting/ReportAdmin.php:139
 msgid "تا تاریخ"
 msgstr ""
 
@@ -814,6 +818,10 @@ msgstr ""
 msgid "حذف ماده"
 msgstr ""
 
+#: flavor-core/includes/API/BaseApiController.php:230
+msgid "حساب شما به چند شعبه دسترسی دارد؛ ارسال branch_id الزامی است."
+msgstr ""
+
 #: flavor-core/includes/Reservation/ReservationAdmin.php:90
 msgid "حضوری"
 msgstr ""
@@ -822,7 +830,7 @@ msgstr ""
 msgid "خارج از محدوده ارسال."
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:48 flavor-core/includes/Reporting/ReportAdmin.php:96
+#: flavor-core/includes/Reporting/ReportAdmin.php:48 flavor-core/includes/Reporting/ReportAdmin.php:97
 msgid "خروجی گزارش"
 msgstr ""
 
@@ -850,7 +858,7 @@ msgstr ""
 msgid "داشبورد آشپزخانه"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:183
+#: flavor-core/includes/Reporting/ReportAdmin.php:188
 msgid "دانلود CSV"
 msgstr ""
 
@@ -858,7 +866,7 @@ msgstr ""
 msgid "در این بازه داده‌ای ثبت نشده است. این پیام تأیید می‌کند که زمان‌بندی فعال است."
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:174
+#: flavor-core/includes/Reporting/ReportAdmin.php:179
 msgid "در این بازه داده‌ای یافت نشد."
 msgstr ""
 
@@ -918,15 +926,11 @@ msgstr ""
 msgid "دریافت سفارش"
 msgstr ""
 
-#: flavor-core/includes/API/BaseApiController.php:191
+#: flavor-core/includes/API/BaseApiController.php:191 flavor-core/includes/API/BaseApiController.php:221
 msgid "دسترسی به اطلاعات این شعبه برای شما مجاز نیست."
 msgstr ""
 
-#: flavor-core/includes/API/AnalyticsController.php:95
-msgid "دسترسی به اطلاعات این شعبه محدود است."
-msgstr ""
-
-#: flavor-core/includes/API/ReservationController.php:410
+#: flavor-core/includes/API/ReservationController.php:411
 msgid "دسترسی به این رزرو برای شما مجاز نیست."
 msgstr ""
 
@@ -936,6 +940,10 @@ msgstr ""
 
 #: flavor-core/includes/API/WebhookController.php:94
 msgid "دسترسی به مدیریت وب‌هوک‌ها محدود است."
+msgstr ""
+
+#: flavor-core/includes/Reporting/ReportAdmin.php:231
+msgid "دسترسی به گزارش این شعبه مجاز نیست."
 msgstr ""
 
 #: flavor-core/includes/Admin/AdminMenus.php:251 flavor-core/includes/API/RestController.php:223 flavor-core/includes/API/RestStore.php:313 flavor-core/includes/API/RestStore.php:339 flavor-core/includes/Delivery/ZoneAdmin.php:33 flavor-core/includes/Delivery/ZoneAdmin.php:148 flavor-core/includes/Loyalty/LoyaltyAdmin.php:33 flavor-core/includes/Loyalty/LoyaltyAdmin.php:113 flavor-core/includes/Menu/AvailabilityAdmin.php:32 flavor-core/includes/Menu/AvailabilityAdmin.php:101 flavor-core/includes/Menu/ScheduleAdmin.php:31 flavor-core/includes/Menu/ScheduleAdmin.php:96 flavor-core/includes/Order/PhoneOrderAdmin.php:64 flavor-core/includes/Order/PhoneOrderAdmin.php:203 flavor-core/includes/Reservation/ReservationAdmin.php:33 flavor-core/includes/Reservation/ReservationAdmin.php:145 flavor-core/includes/Table/TableAdmin.php:34 flavor-core/includes/Table/TableAdmin.php:317
@@ -1022,7 +1030,7 @@ msgstr ""
 msgid "رزرو میز لغو شد"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:90 flavor-core/includes/Reporting/ScheduledReport.php:324
+#: flavor-core/includes/Reporting/ReportAdmin.php:91 flavor-core/includes/Reporting/ScheduledReport.php:324
 msgid "رزروها"
 msgstr ""
 
@@ -1222,7 +1230,7 @@ msgstr ""
 msgid "سفارشی‌سازی برند رستوران، اتصال به CI/CD و ساخت خودکار خروجی‌های Android (APK/AAB) و iOS (IPA) بدون تغییر کدهای اصلی."
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:89 flavor-core/includes/Reporting/ScheduledReport.php:323
+#: flavor-core/includes/Reporting/ReportAdmin.php:90 flavor-core/includes/Reporting/ScheduledReport.php:323
 msgid "سفارش‌ها"
 msgstr ""
 
@@ -1246,7 +1254,7 @@ msgstr ""
 msgid "شعاع km"
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:63 flavor-core/includes/Delivery/ZoneAdmin.php:50 flavor-core/includes/Menu/AvailabilityAdmin.php:54 flavor-core/includes/PostTypes/BranchPostType.php:58 flavor-core/includes/Reporting/ReportAdmin.php:138 flavor-core/includes/Reservation/ReservationAdmin.php:56 flavor-core/includes/Table/TableAdmin.php:53
+#: flavor-core/admin/views/kitchen-dashboard.php:63 flavor-core/includes/Delivery/ZoneAdmin.php:50 flavor-core/includes/Menu/AvailabilityAdmin.php:54 flavor-core/includes/PostTypes/BranchPostType.php:58 flavor-core/includes/Reporting/ReportAdmin.php:143 flavor-core/includes/Reservation/ReservationAdmin.php:56 flavor-core/includes/Table/TableAdmin.php:53
 msgid "شعبه"
 msgstr ""
 
@@ -1306,7 +1314,7 @@ msgstr ""
 msgid "شما اجازه مشاهده گزارشات تحلیلی رستوران را ندارید."
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:70 flavor-core/includes/Reporting/ReportAdmin.php:217
+#: flavor-core/includes/Reporting/ReportAdmin.php:70 flavor-core/includes/Reporting/ReportAdmin.php:244
 msgid "شما اجازهٔ دسترسی به این صفحه را ندارید."
 msgstr ""
 
@@ -1346,7 +1354,7 @@ msgstr ""
 msgid "شماره نسخه نمایشی (Version Name)"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:110
+#: flavor-core/includes/Reporting/ReportAdmin.php:115
 msgid "شمارهٔ تلفنِ مشتریان در خروجی پوشانده می‌شود. دیدنِ شمارهٔ کامل نیازمندِ تواناییِ ویژه است."
 msgstr ""
 
@@ -1406,7 +1414,7 @@ msgstr ""
 msgid "صرف در سالن (Dine-in)"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:141
+#: flavor-core/includes/Reporting/ReportAdmin.php:146
 msgid "صفر یعنی همهٔ شعبه‌ها."
 msgstr ""
 
@@ -1502,7 +1510,7 @@ msgstr ""
 msgid "فقط اولین سفارش"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:204
+#: flavor-core/includes/Reporting/ReportAdmin.php:209
 msgid "فقط ۵۰ ردیفِ نخست در پیش‌نمایش نمایش داده می‌شود؛ خروجیِ CSV کامل است."
 msgstr ""
 
@@ -1826,7 +1834,7 @@ msgstr ""
 msgid "نمای داشبورد آشپزخانه پیدا نشد."
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:145
+#: flavor-core/includes/Reporting/ReportAdmin.php:150
 msgid "نمایش"
 msgstr ""
 
@@ -1838,7 +1846,7 @@ msgstr ""
 msgid "نوع"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:118
+#: flavor-core/includes/Reporting/ReportAdmin.php:123
 msgid "نوع گزارش"
 msgstr ""
 
@@ -1882,7 +1890,7 @@ msgstr ""
 msgid "همه شعبه‌ها"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:102
+#: flavor-core/includes/Reporting/ReportAdmin.php:103
 msgid "همهٔ تاریخ‌ها بر پایهٔ منطقهٔ زمانیِ سایت (%s) هستند."
 msgstr ""
 
@@ -2034,7 +2042,7 @@ msgstr ""
 msgid "پیش‌فرض ریال است تا با درگاه‌های ایرانی هماهنگ بماند."
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:154
+#: flavor-core/includes/Reporting/ReportAdmin.php:159
 msgid "پیش‌نمایش: %1$s (%2$s ردیف)"
 msgstr ""
 
