@@ -137,6 +137,43 @@ jobs:
           node tests/ui/motion.mjs
           node tests/ui/digits.mjs
 
+  elementor-visual-guard:
+    name: Elementor Template Visual Guard (3 templates x 2 schemes x 3 widths, Chromium)
+    runs-on: ubuntu-latest
+    needs: motion-layer-guard
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+
+      - name: Install Playwright and Chromium
+        run: |
+          cd tests/ui
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Render the shipped templates and measure them
+        run: node tests/ui/elementor-visual.mjs --regen
+
+      - name: Upload the screenshots when the guard fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: elementor-visual-screenshots
+          path: .cache/ui-qa/elementor/
+          if-no-files-found: ignore
+
   flutter-mobile-ci:
     name: Mobile Quality & Flutter Tests
     runs-on: ubuntu-latest

@@ -856,3 +856,31 @@ html.flavor-anim-ready .flavor-skin-fast-food .flavor-offer-banner.flavor-anim-i
 		box-shadow: 4px 4px 0 rgba(32, 22, 18, 0.85);
 	}
 }
+
+/* ---------------------------------------------------------------------------
+ * Night scheme palette. Dark_Mode::css() repaints the --flavor tokens for
+ * data-flavor-scheme=dark (and for auto under a dark OS preference), but this
+ * skin's own art-direction variables never flip on their own — headings and
+ * accent copy hard-painted with the raw light palette would sit charcoal-on-
+ * charcoal at night. In the night scheme each raw colour resolves through the
+ * already audited token instead, so the skin keeps its shape and inherits the
+ * checked contrast. Light scheme output is byte-identical.
+ * Measured on live pixels by tests/ui/elementor-visual.mjs (R3-02).
+ * --------------------------------------------------------------------------- */
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food {
+	--fast-cream: var(--flavor-bg);
+	--fast-paper: var(--flavor-surface);
+	--fast-black: var(--flavor-ink);
+	--fast-red: var(--flavor-primary);
+	--fast-red-dark: var(--flavor-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food {
+		--fast-cream: var(--flavor-bg);
+		--fast-paper: var(--flavor-surface);
+		--fast-black: var(--flavor-ink);
+		--fast-red: var(--flavor-primary);
+		--fast-red-dark: var(--flavor-primary);
+	}
+}

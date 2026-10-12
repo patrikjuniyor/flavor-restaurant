@@ -641,3 +641,29 @@ html.flavor-anim-ready .flavor-skin-bakery-pastry .flavor-section.flavor-anim-in
 		display: none !important;
 	}
 }
+
+/* ---------------------------------------------------------------------------
+ * Night scheme palette. Dark_Mode::css() repaints the --flavor tokens for
+ * data-flavor-scheme=dark (and for auto under a dark OS preference), but this
+ * skin's own art-direction variables never flip on their own — headings and
+ * accent copy hard-painted with the raw light palette would sit charcoal-on-
+ * charcoal at night. In the night scheme each raw colour resolves through the
+ * already audited token instead, so the skin keeps its shape and inherits the
+ * checked contrast. Light scheme output is byte-identical.
+ * Measured on live pixels by tests/ui/elementor-visual.mjs (R3-02).
+ * --------------------------------------------------------------------------- */
+html[data-flavor-scheme="dark"] body.flavor-skin-bakery-pastry {
+	--pastry-ivory: var(--flavor-bg);
+	--pastry-paper: var(--flavor-surface);
+	--pastry-ink: var(--flavor-ink);
+	--pastry-berry: var(--flavor-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] body.flavor-skin-bakery-pastry {
+		--pastry-ivory: var(--flavor-bg);
+		--pastry-paper: var(--flavor-surface);
+		--pastry-ink: var(--flavor-ink);
+		--pastry-berry: var(--flavor-primary);
+	}
+}

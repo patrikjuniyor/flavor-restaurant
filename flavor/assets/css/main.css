@@ -496,7 +496,9 @@ html[dir="ltr"] .flavor-drawer {
 
 .flavor-btn--primary {
 	background: var(--flavor-primary);
-	color: #ffffff;
+	/* Ink is the scheme-audited choice against the live primary (light: white,
+	   night: black); a flat #ffffff turned 2.6:1 when the night palette lightens the brand colour. */
+	color: var(--ui-action-ink, #ffffff);
 }
 
 .flavor-btn--primary:hover {

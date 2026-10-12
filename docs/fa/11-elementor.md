@@ -158,3 +158,18 @@ php tests/integration/real-elementor-smoke.php --wp=/path/to/wordpress
 ```
 
 تست آفلاینِ قرارداد ویجت‌ها نیز با `php tests/theme/test-elementor-widgets.php` اجرا می‌شود.
+
+## گارد تصویریِ قالب‌های المنتور (R3-02)
+
+سه قالبِ عرضه‌شده (`flavor-home`، `flavor-about`، `flavor-menu`) باید در هر دو حالتِ روز/شب و در عرض‌های واقعی موبایل/تبلت/دسکتور (۴۳۰/۹۶۰/۱۴۴۰) تمیز رندر شوند — و این چیزی نیست که با ایستگاه‌های PHPِ قراردادِ ویجت قابل دیدن باشد. برای همین `tests/ui/elementor-visual.mjs` pages را واقعاً در Chromium رندر و اندازه می‌گیرد:
+
+```bash
+# یک‌بار: npm ci && npx playwright install chromium (داخل tests/ui)
+node tests/ui/elementor-visual.mjs --regen     # ساخت فیچر + ۱۸ بررسی + اسکرین‌شات‌ها
+```
+
+- `tests/ui/elementor-pages.php` هر سه قالب JSON را آفلاین با همان استندهای `tests/theme/fixtures/elementor-stubs.php` رندر می‌کند — اما با دو تفاوتِ مهم: `tests/ui/fixtures/real-template-parts.php` جلویِ استندِ `get_template_part` را می‌گیرد تا ویجت‌های قدیمی (hero/about/gallery/testimonials/branch-info) خودِ فایل‌های `template-parts/marketing/*` واقعی را include کنند، و `FLAVOR_URI` روی مسیرِ نسبیِ `/themes/flavor` می‌نشیند تا تصویرهای دموی قالب هم از همان سرورِ گارد لود شوند. CSS همان فایل‌های واقعی تم است (fonts → main → marketing → dark-mode → premium → ui* → rtl → skin → motion → elementor-widgets) به‌علاوهٔ خروجیِ زندهٔ `Design::css_variables()` و `Dark_Mode::css()`؛ اسکریپتِ تم لازم نیست چون حالتِ شبِ فیچر با `data-flavor-scheme` قفل می‌شود.
+- سه اندازه‌گیری روی هر (قالب × حالت × عرض): تقاطعِ دونفرهٔ `getBoundingClientRect` بخش‌ها (همهٔ بخش‌ها `.elementor-top-section` هستند و هیچ‌کدام نباید روی دیگری بیفتد)، نسبتِ کنتراستِ هر تکّه‌متنِ دیدنی با همان فرمولِ `Flavor\Contrast` (luminance استانداردِ WCAG؛ حداقل ۴.۵:۱، و ۳.۰:۱ برای متنِ بزرگ ≥۲۴px یا ≥۱۸.۶۶pxِ bold)، و سرریزِ افقی — چون `body` روی `overflow-x:hidden` است، مستقیماً لبهٔ elementها با viewport سنجیده می‌شود نه scrollWidth تنها. اسکرین‌شاتِ تمام‌صفحه برای بازبینیِ انسانی در `.cache/ui-qa/elementor/screenshots/` می‌نشیند و `report.json` همان‌جا عددِ هر بررسی را نگه می‌دارد.
+- گارد در CI شغلِ `elementor-visual-guard` است (بلافاصله بعد از `motion-layer-guard`)؛ در صورتِ شکست، اسکرین‌شات‌ها به‌عنوان artifact آپلود می‌شوند.
+
+همین گارد در اولین اجرای واقعی‌اش سه عیبِ Production پیدا و برطرف کرد: (۱) شش اسکینِ کلاسیک بومِ صفحه و رنگِ تیترها را با متغیرهای خامِ خودشان (`--modern-cream`، `--cafe-espresso`، …) hard-paint می‌کردند که در حالتِ شب برنمی‌گشتند — حالا در `html[data-flavor-scheme]` هر متغیرِ خام به توکنِ حساب‌شده‌اش نگاشت می‌شود؛ (۲) `--ui-action-ink` که Design برای جوهرِ رویِ رنگِ اصلی می‌سازد هیچ‌جا مصرف نمی‌شد و دکمهٔ primary/بنرِ پیشنهاد رویِ رنگِ روشن‌شدهٔ شب ۲.۶:۱ می‌داد؛ (۳) تیترِ بنرِ پیشنهاد `#fff` ثابت داشت که حالا `inherit` است. جزئیات در CHANGELOG.
