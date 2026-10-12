@@ -4,13 +4,13 @@
 
 | وضعیت | تعداد |
 |---|---:|
-| ✅ انجام‌شده | 39 |
+| ✅ انجام‌شده | 40 |
 | 🟨 بخشی انجام‌شده | 0 |
 | ⛔ مسدود (نیاز به محیط/تصمیم مالک) | 0 |
-| ⬜ انجام‌نشده | 69 |
+| ⬜ انجام‌نشده | 68 |
 | **مجموع** | **108** |
 
-درصد پیشرفت کامل: **36%** (39/108)
+درصد پیشرفت کامل: **37%** (40/108)
 
 این فایل با `python3 dev-tools/build-progress.py` از روی `progress-status.json` بازتولید می‌شود؛ ویرایش دستی را از دست می‌دهد.
 
@@ -78,7 +78,7 @@
 | 37 | ✅ انجام شد | endpoint های عمومی REST را سخت‌تر کن: SettingsController مسیری با | سخت‌کردن endpointهای عمومی: منیفست ۴۳ مسیریِ __return_true پین شد (مسیرِ تازه بدونِ بازبینی → FAIL)؛ canary زنده (mock WP، توکن‌هایِ کاشت‌شده از مسیرِ تولیدی) روی app-bootstrap/mobile-config/system-health: هیچِ رازی در پاسخِ عمومی نیست؛ health برایِ ناشناس فقطِ status است و برایِ ادمین کامل (اثباتِ redaction واقعی)؛ HMACِ build-callback با hash_equals pin شد؛ صفرِ نشتِ واقعی — بازبینی تأیید کرد هر سه کنترلر از قبل درست بودند — `commit 7d683b4` |
 | 38 | ✅ انجام شد | GuestToken و OTP را بازبینی کن: (۱) GuestToken::generate باید از | بازبینی GuestToken/OTP: generateها CSPRNG-only شدند (fallback ضعیف uniqid+microtime حذف، fail-closed)؛ OTP از قبل clamp 4-6 + سقف 5 تلاش + hash_equals + HMAC-peppered بود (pin شد)؛ دو تست phpunit تکمیل و آیینهٔ ماشینی‌شان (۱۶ assertion تازه) در run-pure اجراشدنیِ CI نشست: ۳۹/۰ — `commit dae61f2` |
 | 39 | ✅ انجام شد | هدرهای امنیتی پاسخ‌ها: در BaseApiController یا یک middleware، هدرهای | هدرهای امنیتی پاسخ: middleware تازهٔ Support\SecurityHeaders روی rest_post_dispatch — nosniff + Referrer-Policy برای همهٔ پاسخ‌های flavor/v1 (خطاها هم) و Cache-Control: no-store به‌صورتِ پیش‌فرضِ منع برای دادهٔ مشتری (orders/reservation/auth/cart)؛ opt-inِ صریحِ public, max-age برای menu/search حفظ شد. HTML عمومی: CSPِ Report-Only نرم (unsafe-inlineِ Elementor-ساز، بدونِ report-uri، فیلترِ flavor_csp_report_only). گیتِ تازهٔ تم ۲۶ بررسی + آیینهٔ ۸تایی در run-pure: ۴۷/۰؛ سه منفی‌آزماییِ زنده دقیقاً هر سه FAIL را داد؛ e2e 81/81 و گیت ۳۷ بدون‌تغییر سبز — `commit 325c829` |
-| 40 | ⬜ انجام‌نشده | وابستگی‌های شخص ثالث را audit کن: composer.json (dev)، package.json های |  |
+| 40 | ✅ انجام شد | وابستگی‌های شخص ثالث را audit کن: composer.json (dev)، package.json های | ممیزی وابستگی‌ها: composer audit=0 advisory (35 پکیج)، npm tests/ui+demos=0، OSV روی هر 105 پکیج pubspec.lock=0 (اسکریپت dev-tools/osv-pub-audit.py). دو رفع واقعی: پین platform.php=8.2.34 + downgrade instantiator 2.1.0→2.0.0 (composer install در job 8.2 می‌مرد) و حذف exclude مردهٔ WPCS3 از phpcs.xml (report همیشه تهی بود). لایسنس‌ها: vazirmatn/OFL.txt اضافه شد (estedad داشت، iransans تجاری=بدون باندل)، MIT هدر qrcode پین؛ گیت §۷ test-distribution (10 بررسی، 59/0) با منفی‌آزمایی؛ یافته‌ها در docs/CI-CD.md §۵ — `commit ac8175a` |
 | 41 | ⬜ انجام‌نشده | تست نفوذ کوچک روی درون‌ریزی دمو: class-demo-importer.php فایل‌های تصویر |  |
 | 42 | ⬜ انجام‌نشده | WebhookManager و WebhookController (flavor-core/includes/Webhooks و |  |
 

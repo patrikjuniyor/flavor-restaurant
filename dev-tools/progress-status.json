@@ -195,6 +195,10 @@
  "39": {
   "commit": "325c829",
   "note": "هدرهای امنیتی پاسخ: middleware تازهٔ Support\\SecurityHeaders روی rest_post_dispatch — nosniff + Referrer-Policy برای همهٔ پاسخ‌های flavor/v1 (خطاها هم) و Cache-Control: no-store به‌صورتِ پیش‌فرضِ منع برای دادهٔ مشتری (orders/reservation/auth/cart)؛ opt-inِ صریحِ public, max-age برای menu/search حفظ شد. HTML عمومی: CSPِ Report-Only نرم (unsafe-inlineِ Elementor-ساز، بدونِ report-uri، فیلترِ flavor_csp_report_only). گیتِ تازهٔ تم ۲۶ بررسی + آیینهٔ ۸تایی در run-pure: ۴۷/۰؛ سه منفی‌آزماییِ زنده دقیقاً هر سه FAIL را داد؛ e2e 81/81 و گیت ۳۷ بدون‌تغییر سبز",
-  "state": "done"
+  "state": "done" },
+ "40": {
+  "commit": "ac8175a",
+  "state": "done",
+  "note": "ممیزی وابستگی‌ها: composer audit=0 advisory (35 پکیج)، npm tests/ui+demos=0، OSV روی هر 105 پکیج pubspec.lock=0 (اسکریپت dev-tools/osv-pub-audit.py). دو رفع واقعی: پین platform.php=8.2.34 + downgrade instantiator 2.1.0→2.0.0 (composer install در job 8.2 می‌مرد) و حذف exclude مردهٔ WPCS3 از phpcs.xml (report همیشه تهی بود). لایسنس‌ها: vazirmatn/OFL.txt اضافه شد (estedad داشت، iransans تجاری=بدون باندل)، MIT هدر qrcode پین؛ گیت §۷ test-distribution (10 بررسی، 59/0) با منفی‌آزمایی؛ یافته‌ها در docs/CI-CD.md §۵"
  }
 }
