@@ -95,6 +95,13 @@ php tests/theme/test-premium-features.php     # حالت شب، مگامنو، �
 
 GPL-2.0-or-later. Vazirmatn با SIL OFL 1.1. IRANSans باندل نشده است.
 
+## امنیت توکن و دسترسی‌ها (R3-12)
+
+- **هیچ توکنی در مخزن نیست و نباید باشد.** تاریخچهٔ کامل با `git log -p | grep -iE "ghp_|github_pat_|AKIA|webhook_secret"` بازرسی شد (۲۰۲۶-۱۰-۱۲): صفرِ رمزِ واقعی؛ تنها زدن‌ها مثالِ جای‌گدازِ `dev-tools/README-updater.md` و نام‌هایِ شناسه‌اند.
+- هر توکنی که در چت/ایمیل/تیکت دیده شده، **لو‌رفته فرض می‌شود**: GitHub → Settings → Developer settings → Personal access tokens → باطلش کنید؛ انقضای کوتاه‌مدت بگذارید و توکنِ جایگزین را فقط در **متغیر محیطی** (ماشین انتشار) یا **Actions Secrets** بگذارید — هرگز در گفتگو نفرستید.
+- برای push رباتیک، توکن را از متغیر محیطی به helper بدهید (`GIT_ASKPASS` یا credential helper که `$FLAVOR_PUSH_TOKEN` را می‌خواند) و remote را هرگز با توکنِ درون‌URL تعریف نکنید — توکن در URL، داخل `.git/config` می‌نشیند و همان نشت است. اگر مجبور به یک‌بار‌push دستی شدید، URLِ حاوی متغیرِ env را فقط به‌صورت آرگومانِ همان فرمان بدهید (`git push "https://user:${FLAVOR_PUSH_TOKEN}@…"` با `HISTFILE=/dev/null` یا فضای history پاک‌شده) و بعدش توکن را باطل کنید؛ این تنها شکلِ قابل‌تحملِ موقت است.
+- یادداشتِ کاملِ R3-12 در صدرِ [`docs/PREMIUM-MISSION-LIST-2026-10-10-R3.md`](docs/PREMIUM-MISSION-LIST-2026-10-10-R3.md) است؛ سنجهٔ به‌روزرسانی‌های امضاشده: `docs/fa/10-kanal-be-roozrasani.md`.
+
 ## فهرست ادعاها (هم‌سنج با `docs/raastichin/listing.md` — R3-11)
 
 این تنها ادعاهای مجاز متون فروش‌اند؛ `tests/theme/test-claims.php` عددها را با درخت زنده می‌خواند:

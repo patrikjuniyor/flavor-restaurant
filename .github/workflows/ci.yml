@@ -228,6 +228,18 @@ jobs:
         run: |
           php flavor-core/tests/run-e2e-integration.php
 
+      - name: Refuse live credential patterns in full history (R3-12)
+        run: |
+          set -eu
+          git fetch --no-rebase --unshallow origin main >/dev/null 2>&1 || true
+          hits=$(git log -p --all | grep -iE 'ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{60,}|AKIA[0-9A-Z]{16}' | grep -viE 'xxx+' || true)
+          if [ -n "$hits" ]; then
+            echo "Credential-shaped strings found in history; see below. Revoke them, then clean or amend:" >&2
+            printf '%s\n' "$hits" | head -10 >&2
+            exit 1
+          fi
+          echo "history is clean of credential patterns (docs placeholders like ghp_xxxx are exempt)"
+
   i18n-guard:
     name: Translation catalogues
     runs-on: ubuntu-latest

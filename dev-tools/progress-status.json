@@ -157,5 +157,10 @@
   "commit": "d547349",
   "note": "گشت ادعا-در-برابر-واقعیت: اصلاح README (اپ بومی داخل مخزن است، چندزبانه دقیق)، listing (حذف زرین‌پال، علامت تصمیم مالک، جدول نهایی ادعاها با پشتوانه)، mobile/README (پرداخت=ثبت روش، QR=deeplink بدون اسکنر)؛ گیتِ ماندگار tests/theme/test-claims.php با ۲۵ بررسی عددخوانی‌شده از درخت زنده؛ منفی‌آزمایی ۱۷→۲۰",
   "state": "done"
+ },
+ "32": {
+  "commit": "PENDING",
+  "note": "یادداشتِ امنیتیِ R3-12 در صدرِ سند R3 و بخشِ تازهٔ README؛ بازرسیِ کاملِ تاریخچه (صفرِ رمز واقعی؛ فقط placeholderِ README-updater)؛ گیتِ تازه در شغلِ security-scan برای credential-in-history",
+  "state": "done"
  }
 }
