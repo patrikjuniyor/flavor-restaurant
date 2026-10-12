@@ -159,7 +159,7 @@
   "state": "done"
  },
  "32": {
-  "commit": "PENDING",
+  "commit": "c31c5b8",
   "note": "یادداشتِ امنیتیِ R3-12 در صدرِ سند R3 و بخشِ تازهٔ README؛ بازرسیِ کاملِ تاریخچه (صفرِ رمز واقعی؛ فقط placeholderِ README-updater)؛ گیتِ تازه در شغلِ security-scan برای credential-in-history",
   "state": "done"
  }
