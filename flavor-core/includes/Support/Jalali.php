@@ -141,7 +141,7 @@ class Jalali {
 	public static function parse_gregorian( string $ymd ): array {
 		$p = array_map( 'intval', explode( '-', $ymd ) );
 		if ( count( $p ) < 3 ) {
-			$p = array( (int) gmdate( 'Y' ), (int) gmdate( 'n' ), (int) gmdate( 'j' ) );
+			$p = array_map( 'intval', explode( '-', self::today_gregorian() ) );
 		}
 		list( $jy, $jm, $jd ) = self::from_gregorian( $p[0], $p[1], $p[2] );
 		return array(
@@ -159,10 +159,27 @@ class Jalali {
 	public static function jalali_iso_to_gregorian( string $iso ): string {
 		$p = array_map( 'intval', preg_split( '/[\/\-.]/', $iso ) ?: array() );
 		if ( count( $p ) < 3 ) {
-			return gmdate( 'Y-m-d' );
+			return self::today_gregorian();
 		}
 		list( $gy, $gm, $gd ) = self::to_gregorian( $p[0], $p[1], $p[2] );
 		return sprintf( '%04d-%02d-%02d', $gy, $gm, $gd );
+	}
+
+	/**
+	 * Gregorian Y-m-d for "today" in the site's own timezone.
+	 *
+	 * Prompt 48 (+3:30): the store lives in Asia/Tehran. Between 00:00 and
+	 * 03:30 local time gmdate() still answers with the *previous* UTC day, so
+	 * every fallback that printed "today" showed yesterday's Jalali date on
+	 * late-night receipts and dashboards. current_time() honours the WP
+	 * timezone string; the gmdate() fallback keeps pure CLI/test contexts
+	 * (no WordPress loaded) deterministic.
+	 */
+	public static function today_gregorian(): string {
+		if ( function_exists( 'current_time' ) ) {
+			return substr( (string) current_time( 'mysql' ), 0, 10 );
+		}
+		return gmdate( 'Y-m-d' );
 	}
 
 	/**
@@ -179,13 +196,23 @@ class Jalali {
 	}
 
 	/**
-	 * Jalali leap year.
+	 * Jalali leap year — faithful port of jalaali-js `isLeapJalaliYear()`
+	 * (`jalCal().leap === 0`), the reference named in this file's header.
+	 *
+	 * Prompt 48 regression: the previous body ended in a march-parity
+	 * heuristic, `((leap_j + 20) - leap_g) % 2 === 0`, which is NOT the
+	 * reference algorithm and called 1407, 1411, 1415, 1419, 1423 and 1427
+	 * leap. month_length() then returned 30 for Esfand of those years while
+	 * this class's own from_gregorian()/to_gregorian() day arithmetic says
+	 * they have 365 days — the reservation validators (RestExperience,
+	 * ReservationController) would have accepted a non-existent 30 Esfand
+	 * 1407 (from March 2028) and mapped it onto Nowruz 1408. The pure suite
+	 * pins both the official leap set and is_leap ⇔ 366-day-year agreement
+	 * with the conversions for 1380–1429.
 	 */
 	public static function is_leap( int $jy ): bool {
 		$breaks = array( -61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210, 1635, 2060, 2097, 2192, 2262, 2324, 2394, 2456, 3178 );
 		$bl     = count( $breaks );
-		$gy     = $jy + 621;
-		$leap_j = -14;
 		$jp     = $breaks[0];
 		$jump   = 0;
 		for ( $i = 1; $i < $bl; $i++ ) {
@@ -194,18 +221,19 @@ class Jalali {
 			if ( $jy < $jm ) {
 				break;
 			}
-			$leap_j = $leap_j + self::div( $jump, 33 ) * 8 + self::div( ( $jump % 33 ), 4 );
-			$jp     = $jm;
+			$jp = $jm;
 		}
 		$n = $jy - $jp;
-		if ( $n < $jump ) {
-			$leap_j = $leap_j + self::div( $n, 33 ) * 8 + self::div( ( $n % 33 ) + 3, 4 );
-			if ( ( $jump % 33 ) === 4 && ( $jump - $n ) === 4 ) {
-				++$leap_j;
-			}
+		// Fold years close to the next break back into the 33-year cycle,
+		// exactly as jalCal() does, so the modulo below sees the same n.
+		if ( $jump - $n < 6 ) {
+			$n = $n - $jump + self::div( $jump + 4, 33 ) * 33;
 		}
-		$leap_g = self::div( $gy, 4 ) - self::div( ( self::div( $gy, 100 ) + 1 ) * 3, 4 ) - 150;
-		return ( ( ( $leap_j + 20 ) - $leap_g ) % 2 ) === 0; // phpcs:ignore WordPress.PHP.YodaConditions
+		$leap = ( ( ( $n + 1 ) % 33 ) - 1 ) % 4;
+		if ( -1 === $leap ) {
+			$leap = 4;
+		}
+		return 0 === $leap;
 	}
 
 	/**

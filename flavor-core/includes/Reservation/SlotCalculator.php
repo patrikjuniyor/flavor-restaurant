@@ -57,7 +57,13 @@ class SlotCalculator {
 			$hh  = str_pad( (string) intdiv( $tod, 60 ), 2, '0', STR_PAD_LEFT );
 			$mm  = str_pad( (string) ( $tod % 60 ), 2, '0', STR_PAD_LEFT );
 			$iso = $hh . ':' . $mm . ':00';
-			$ts  = strtotime( $date . ' ' . $iso );
+			// Prompt 48 (24:00 edge): an after-midnight slot of an overnight
+			// window (close <= open, e.g. 18:00→02:00) belongs to the NEXT
+			// calendar day. Without advancing the date, the past-check below
+			// reads the slot 24 h early and tonight's 00:30 is silently
+			// unbookable. Noon anchor keeps the +1-day arithmetic DST-proof.
+			$slot_date = $t >= 24 * 60 ? gmdate( 'Y-m-d', (int) strtotime( $date . ' 12:00:00' ) + DAY_IN_SECONDS ) : $date;
+			$ts        = strtotime( $slot_date . ' ' . $iso );
 			if ( $ts && $ts < $now + ( 30 * MINUTE_IN_SECONDS ) ) {
 				continue;
 			}

@@ -311,7 +311,11 @@ class KitchenTicketRepository {
 	 */
 	public static function to_card( array $ticket ): array {
 		$placed = strtotime( (string) $ticket['placed_at'] );
-		$age    = $placed ? max( 0, time() - $placed ) : 0;
+		// Prompt 48: placed_at is a site-local naive string (WC store
+		// datetime / current_time) — age it against the localized epoch.
+		// Raw time() shaved the site's UTC offset (3:30 in Tehran) off every
+		// ticket age and max(0, …) then pinned fresh tickets at zero.
+		$age    = $placed ? max( 0, current_time( 'timestamp' ) - $placed ) : 0;
 
 		return array(
 			'id'              => (int) $ticket['id'],

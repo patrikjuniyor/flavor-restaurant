@@ -35,7 +35,11 @@ class AvailabilityManager {
 		if ( (int) $row['is_available'] ) {
 			return true;
 		}
-		if ( ! empty( $row['unavailable_until'] ) && strtotime( (string) $row['unavailable_until'] ) < time() ) {
+		// Prompt 48: unavailable_until is a site-local naive string (same
+		// convention as updated_at in set()) — comparing it with raw time()
+		// let the outage window outlive itself by the site's UTC offset
+		// (3.5 h in Tehran). current_time( 'timestamp' ) is the local pair.
+		if ( ! empty( $row['unavailable_until'] ) && strtotime( (string) $row['unavailable_until'] ) < current_time( 'timestamp' ) ) {
 			self::set( $branch_id, $product_id, true, null, 0 );
 			return true;
 		}

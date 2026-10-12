@@ -170,7 +170,13 @@ class ReservationRepository {
 			ARRAY_A
 		);
 		$out = array();
-		$now = time();
+		// Prompt 48: reservation_date/reservation_time are site-local naive
+		// strings; strtotime() reads them against the (UTC-forced) PHP zone,
+		// so the correct partner is current_time( 'timestamp' ) — the
+		// localized epoch — not raw time(). On an Asia/Tehran store the raw
+		// pairing shifted the 90–150 min reminder window by +3:30, firing
+		// reminders AFTER the reservation had already started.
+		$now = current_time( 'timestamp' );
 		foreach ( is_array( $rows ) ? $rows : array() as $row ) {
 			$ts = strtotime( $row['reservation_date'] . ' ' . $row['reservation_time'] );
 			if ( ! $ts ) {
