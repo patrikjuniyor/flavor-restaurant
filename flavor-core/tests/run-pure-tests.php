@@ -207,6 +207,32 @@ assert_test(
 	'SecurityHeaders middleware is wired into Plugin boot'
 );
 
+/*
+ * Prompt 47 — aggregated pure-logic suites (flavor-core/tests/pure/*.php).
+ * Each suite continues this runner's assert_test protocol and requires only
+ * the classes it exercises plus the guarded micro-shims in _stubs.php, so
+ * the whole surface runs with no WordPress present. The floor below keeps
+ * the glob honest: a wiped or renamed pure/ directory fails the suite
+ * instead of silently shrinking coverage.
+ */
+require_once __DIR__ . '/pure/_stubs.php';
+$pure_suites = glob( __DIR__ . '/pure/*.php' );
+$pure_suites = is_array( $pure_suites )
+	? array_values(
+		array_filter(
+			$pure_suites,
+			static function ( $f ) {
+				return '_stubs.php' !== basename( $f );
+			}
+		)
+	)
+	: array();
+sort( $pure_suites );
+assert_test( count( $pure_suites ) >= 5, 'pure-suite aggregation discovered the prompt-47 suites (' . count( $pure_suites ) . ' files)' );
+foreach ( $pure_suites as $pure_suite ) {
+	require $pure_suite;
+}
+
 echo "\n=======================================================\n";
 echo "Results: {$passed} Passed, {$failed} Failed\n";
 echo "=======================================================\n";
