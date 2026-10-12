@@ -213,7 +213,7 @@
   "state": "done",
   "note": "بک‌لاگ phpcs: ۱۸۷۴ خطای Error → صفر (پاسِ بازسازی‌شده پس از wipe سندباکس؛ درخت از origin@P42 + رانِ مجدد کل فیکس‌ها)؛ گیتِ ماشینی dev-tools/phpcs-error-gate.sh در jobِ WPCSِ CI بلوکه‌کننده شد؛ DirectDatabaseQuery از اول صفر؛ سه sniffِ سلیقه‌ای با دلیل exclude؛ POT/PO دوباره‌سازی (۱۰۰٪ عربی) و پین‌هایِ همهٔ گیت‌ها زنده" },
  "44": {
-  "commit": "PENDING",
+  "commit": "33fb00b",
   "state": "done",
   "note": "سازگاری PHP 8.0–8.4: ممیزیِ ۲۲۷ فایلیِ پرامپت (interpolation/dynamic-prop/null-internal/named-args/removed-fns) صفرِ واقعی داد؛ استابِ preset-control به‌خاطرِ $jsonِ غایبِ dynamic-property 8.4 می‌زد — mirror core شد؛ گیتِ ماشینی test-php8x-compat با ۷ clause + پینِ matrix و پینِ صداقتِ Requires PHP 8.0؛ sabotage چهارالگویی → FAIL → revert"
  }
