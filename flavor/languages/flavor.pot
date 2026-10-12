@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-12 12:00+00:00\n"
+"POT-Creation-Date: 2026-10-12 13:01+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
@@ -878,7 +878,7 @@ msgstr ""
 msgid "بازگردانی آرشیو"
 msgstr ""
 
-#: flavor/inc/class-demo-importer.php:664
+#: flavor/inc/class-demo-importer.php:670
 msgid "بازگردانی تنظیمات اصلی"
 msgstr ""
 
@@ -2138,7 +2138,7 @@ msgstr ""
 msgid "داستان سرآشپز"
 msgstr ""
 
-#: flavor/elementor/widgets/class-about-widget.php:31 flavor/inc/class-block-patterns.php:292 flavor/inc/class-demo-importer.php:776
+#: flavor/elementor/widgets/class-about-widget.php:31 flavor/inc/class-block-patterns.php:292 flavor/inc/class-demo-importer.php:894
 msgid "داستان ما"
 msgstr ""
 
@@ -4278,7 +4278,7 @@ msgstr ""
 msgid "مشاهده تمام شعبه‌ها"
 msgstr ""
 
-#: flavor/elementor/widgets/class-hero-widget.php:33 flavor/inc/class-chrome-builder.php:781 flavor/inc/class-demo-importer.php:256 flavor/inc/class-demo-importer.php:775
+#: flavor/elementor/widgets/class-hero-widget.php:33 flavor/inc/class-chrome-builder.php:781 flavor/inc/class-demo-importer.php:256 flavor/inc/class-demo-importer.php:893
 msgid "مشاهده منو"
 msgstr ""
 

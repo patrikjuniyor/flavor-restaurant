@@ -595,6 +595,12 @@ class Demo_Importer {
 				wp_set_object_terms( (int) $post_id, wp_list_pluck( $terms, 'slug' ), $taxonomy, false );
 			}
 			foreach ( (array) ( $entry['files'] ?? array() ) as $original => $backup ) {
+				// R4-6 / پرامپت ۴۱: archive rows are option data — never let a
+				// poisoned entry steer the restore outside wp-content/uploads.
+				$uploads_dir = wp_upload_dir();
+				if ( ! self::restore_target_allowed( (string) $original, (string) ( $uploads_dir['basedir'] ?? '' ) ) ) {
+					continue;
+				}
 				if ( is_readable( $backup ) ) {
 					wp_mkdir_p( dirname( $original ) );
 					copy( $backup, $original );
@@ -717,20 +723,132 @@ class Demo_Importer {
 	}
 
 	/**
+	 * Is this slug/filename pair a safe reference to a bundled asset?
+	 *
+	 * Pure string gate (R4-6 / پرامپت ۴۱): the name must survive
+	 * sanitize_file_name unchanged, sit inside one pack directory, and
+	 * carry one of the extension whitelist — jpg/jpeg/png/svg, matching
+	 * what the catalogue actually ships. Double-extension tricks
+	 * (shell.php.jpg) and any path segment (.., encoded or not) die here
+	 * before the filesystem is ever consulted.
+	 *
+	 * @param string $slug     Demo slug.
+	 * @param string $filename Candidate basename.
+	 * @return bool
+	 */
+	public static function is_safe_asset_name( string $slug, string $filename ): bool {
+		if ( ! preg_match( '/^[a-z0-9][a-z0-9_-]{0,63}$/', $slug ) ) {
+			return false;
+		}
+		$filename = self::normalize_asset_name( (string) $filename );
+		if ( '' === $filename || ! preg_match( '/^[a-z0-9][a-z0-9._-]{0,127}\.(?:jpe?g|png|svg)$/', $filename ) ) {
+			return false;
+		}
+		// Executable segments smuggled before the final extension.
+		if ( preg_match( '/\.(?:php[3-6s]?|phtml|phar|phps|htaccess|exe|com|bat|sh|py|pl|cgi|jsp)\./', $filename ) ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Canonical form of a candidate asset name: basename, WP-safe chars, lower case.
+	 *
+	 * @param string $filename Candidate filename.
+	 * @return string
+	 */
+	public static function normalize_asset_name( string $filename ): string {
+		$filename = basename( $filename );
+		if ( function_exists( 'sanitize_file_name' ) ) {
+			$filename = sanitize_file_name( $filename );
+		}
+		return strtolower( $filename );
+	}
+
+	/**
+	 * Should this SVG payload be refused as an asset? (پرامپت ۴۱)
+	 *
+	 * A bundled .svg is static art by contract; anything script-bearing is
+	 * rejected outright rather than rewritten, because it would land in
+	 * the media library and render inline for every visitor.
+	 *
+	 * @param string $content File contents.
+	 * @return bool True when inert.
+	 */
+	public static function svg_is_inert( string $content ): bool {
+		if ( '' === $content ) {
+			return false;
+		}
+		if ( preg_match( '/<script\b|\son[a-z]+\s*=|javascript\s*:|<foreignObject\b|<!ENTITY/is', $content ) ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * May a rollback restore write to this absolute path? (پرامپت ۴۱)
+	 *
+	 * Archive rows are option data; a poisoned option must not turn the
+	 * restore loop into an arbitrary file write. Targets must live under
+	 * the uploads basedir with no traversal segments.
+	 *
+	 * @param string $target  Absolute restore destination.
+	 * @param string $basedir uploads basedir.
+	 * @return bool
+	 */
+	public static function restore_target_allowed( string $target, string $basedir ): bool {
+		$target  = str_replace( '\\', '/', $target );
+		$basedir = rtrim( str_replace( '\\', '/', $basedir ), '/' );
+		if ( '' === $target || '' === $basedir ) {
+			return false;
+		}
+		if ( preg_match( '#(?:^|/)\.\.(?:/|$)#', $target ) ) {
+			return false;
+		}
+		if ( 0 !== strpos( $target, $basedir . '/' ) ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Resolve a bundled asset or return ''.
+	 *
+	 * @param string $slug     Demo slug.
+	 * @param string $filename Basename inside the demo directory.
+	 * @return string Absolute readable path, or '' when rejected.
+	 */
+	private static function pack_asset_path( string $slug, string $filename ): string {
+		if ( ! self::is_safe_asset_name( $slug, $filename ) ) {
+			return '';
+		}
+		$slug     = sanitize_key( $slug );
+		$filename = self::normalize_asset_name( (string) $filename );
+		$root     = realpath( FLAVOR_DIR . '/demos' );
+		$path     = $root ? $root . '/' . $slug . '/' . $filename : '';
+		if ( '' === $path || ! is_readable( $path ) ) {
+			return '';
+		}
+		$real = realpath( $path );
+		if ( false === $real || 0 !== strpos( $real, $root . '/' ) ) {
+			return '';
+		}
+		return $real;
+	}
+
+	/**
 	 * Import a bundled image from a demo pack into the media library.
 	 *
 	 * @param string $slug     Demo slug.
 	 * @param string $filename Basename inside the demo directory.
 	 */
 	private static function sideload_demo_asset( string $slug, string $filename ): int {
-		$slug     = sanitize_key( $slug );
-		$filename = sanitize_file_name( basename( $filename ) );
-		if ( ! preg_match( '/\.(?:jpe?g|png|webp)$/i', $filename ) ) {
+		$slug = sanitize_key( $slug );
+		$path = self::pack_asset_path( $slug, $filename );
+		if ( '' === $path ) {
 			return 0;
 		}
-
-		$path = FLAVOR_DIR . '/demos/' . $slug . '/' . $filename;
-		if ( ! is_readable( $path ) ) {
+		if ( 'svg' === strtolower( pathinfo( $path, PATHINFO_EXTENSION ) ) && ! self::svg_is_inert( (string) file_get_contents( $path ) ) ) {
 			return 0;
 		}
 

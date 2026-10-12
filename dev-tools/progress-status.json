@@ -199,6 +199,10 @@
  "40": {
   "commit": "ac8175a",
   "state": "done",
-  "note": "ممیزی وابستگی‌ها: composer audit=0 advisory (35 پکیج)، npm tests/ui+demos=0، OSV روی هر 105 پکیج pubspec.lock=0 (اسکریپت dev-tools/osv-pub-audit.py). دو رفع واقعی: پین platform.php=8.2.34 + downgrade instantiator 2.1.0→2.0.0 (composer install در job 8.2 می‌مرد) و حذف exclude مردهٔ WPCS3 از phpcs.xml (report همیشه تهی بود). لایسنس‌ها: vazirmatn/OFL.txt اضافه شد (estedad داشت، iransans تجاری=بدون باندل)، MIT هدر qrcode پین؛ گیت §۷ test-distribution (10 بررسی، 59/0) با منفی‌آزمایی؛ یافته‌ها در docs/CI-CD.md §۵"
+  "note": "ممیزی وابستگی‌ها: composer audit=0 advisory (35 پکیج)، npm tests/ui+demos=0، OSV روی هر 105 پکیج pubspec.lock=0 (اسکریپت dev-tools/osv-pub-audit.py). دو رفع واقعی: پین platform.php=8.2.34 + downgrade instantiator 2.1.0→2.0.0 (composer install در job 8.2 می‌مرد) و حذف exclude مردهٔ WPCS3 از phpcs.xml (report همیشه تهی بود). لایسنس‌ها: vazirmatn/OFL.txt اضافه شد (estedad داشت، iransans تجاری=بدون باندل)، MIT هدر qrcode پین؛ گیت §۷ test-distribution (10 بررسی، 59/0) با منفی‌آزمایی؛ یافته‌ها در docs/CI-CD.md §۵" },
+ "41": {
+  "commit": "PENDING",
+  "state": "done",
+  "note": "تست‌نفوذ demo-importer: گیتِ نامِ تخت (basename+sanitize+regex لنگردار+ردِ دابل‌اکستنشن)، محصورسازی realpath داخل demos/ (symlink فرارکننده رد می‌شود)، وایت‌لیستِ موافقِ پرامپت jpg/png/svg (webp حذف؛ svg فقط بی‌ضرر — script/on*/ENTITY/foreignObject → reject). حفرهٔ دومِ واقعی: مقصدِ copy در rollback از آپشن می‌آمد → گاردِ basedir+ضدِ.. با ترتیبِ mkdir-پسِ-تأیید. گیتِ تازه ۳۱ بررسی با پروب‌هایِ زنده و سه منفی‌آزماییِ هدف‌دار روی کدِ پروداکشن"
  }
 }

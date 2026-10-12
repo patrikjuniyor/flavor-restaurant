@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flavor\n"
 "Report-Msgid-Bugs-To: https://github.com/patrikjuniyor/flavor-restaurant/issues\n"
-"PO-Revision-Date: 2026-10-12 07:39+0000\n"
+"PO-Revision-Date: 2026-10-12 13:01+0000\n"
 "Last-Translator: Flavor Translations\n"
 "Language-Team: Flavor Translations\n"
 "Language: ar\n"
@@ -885,7 +885,7 @@ msgstr "استعادة"
 msgid "بازگردانی آرشیو"
 msgstr "استعادة الأرشيف"
 
-#: flavor/inc/class-demo-importer.php:664
+#: flavor/inc/class-demo-importer.php:670
 msgid "بازگردانی تنظیمات اصلی"
 msgstr "استعادة الإعدادات الأصلية"
 
@@ -2149,7 +2149,7 @@ msgstr "عريض جداً (800)"
 msgid "داستان سرآشپز"
 msgstr "قصة الشيف"
 
-#: flavor/elementor/widgets/class-about-widget.php:31 flavor/inc/class-block-patterns.php:292 flavor/inc/class-demo-importer.php:776
+#: flavor/elementor/widgets/class-about-widget.php:31 flavor/inc/class-block-patterns.php:292 flavor/inc/class-demo-importer.php:894
 msgid "داستان ما"
 msgstr "قصّتنا"
 
@@ -4289,7 +4289,7 @@ msgstr "عرض التقويم وحجز طاولة"
 msgid "مشاهده تمام شعبه‌ها"
 msgstr "عرض جميع الفروع"
 
-#: flavor/elementor/widgets/class-hero-widget.php:33 flavor/inc/class-chrome-builder.php:781 flavor/inc/class-demo-importer.php:256 flavor/inc/class-demo-importer.php:775
+#: flavor/elementor/widgets/class-hero-widget.php:33 flavor/inc/class-chrome-builder.php:781 flavor/inc/class-demo-importer.php:256 flavor/inc/class-demo-importer.php:893
 msgid "مشاهده منو"
 msgstr "عرض القائمة"
 
