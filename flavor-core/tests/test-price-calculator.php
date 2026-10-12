@@ -9,7 +9,7 @@ class Flavor_Price_Calculator_Test extends WP_UnitTestCase {
 
 	public function test_rial_to_toman_floors() {
 		$this->assertSame( 250000, \FlavorCore\WooCommerce\Currency::convert( 2500000, 'irr', 'irt' ) );
-		$this->assertSame( 2500001, \FlavorCore\WooCommerce\Currency::convert( 250000, 'irt', 'irr' ) / 10 * 10 + 1 - 1 );
+		$this->assertSame( 250000, \FlavorCore\WooCommerce\Currency::convert( 2500001, 'irr', 'irt' ) );
 		$this->assertSame( 2500000, \FlavorCore\WooCommerce\Currency::convert( 250000, 'irt', 'irr' ) );
 	}
 
@@ -18,8 +18,12 @@ class Flavor_Price_Calculator_Test extends WP_UnitTestCase {
 	}
 
 	public function test_persian_digits() {
-		$this->assertSame( '۲۵٬۰۰۰', \FlavorCore\WooCommerce\Currency::to_persian_digits( '25,000' ) );
+		// Digit-only contract: the Persian thousands separator (٬) comes from
+		// number_format_i18n() at display time (Currency::format), never from this
+		// converter — punctuation must survive the round trip unchanged.
+		$this->assertSame( '۲۵,۰۰۰', \FlavorCore\WooCommerce\Currency::to_persian_digits( '25,000' ) );
 		$this->assertSame( '25000', \FlavorCore\WooCommerce\Currency::to_latin_digits( '۲۵۰۰۰' ) );
+		$this->assertSame( '25,000', \FlavorCore\WooCommerce\Currency::to_latin_digits( \FlavorCore\WooCommerce\Currency::to_persian_digits( '25,000' ) ) );
 	}
 
 	public function test_mobile_normalize() {
