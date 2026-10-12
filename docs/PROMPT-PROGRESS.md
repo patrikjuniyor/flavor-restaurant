@@ -4,13 +4,13 @@
 
 | وضعیت | تعداد |
 |---|---:|
-| ✅ انجام‌شده | 36 |
+| ✅ انجام‌شده | 37 |
 | 🟨 بخشی انجام‌شده | 0 |
 | ⛔ مسدود (نیاز به محیط/تصمیم مالک) | 0 |
-| ⬜ انجام‌نشده | 72 |
+| ⬜ انجام‌نشده | 71 |
 | **مجموع** | **108** |
 
-درصد پیشرفت کامل: **33%** (36/108)
+درصد پیشرفت کامل: **34%** (37/108)
 
 این فایل با `python3 dev-tools/build-progress.py` از روی `progress-status.json` بازتولید می‌شود؛ ویرایش دستی را از دست می‌دهد.
 
@@ -75,7 +75,7 @@
 | 34 | ✅ انجام شد | گشت capability و نقش‌ها: فایل flavor-core/includes/Support/Roles.php و | گشتِ نقش/شعبه: resolve_branch_scope در API مشترک؛ سه گپِ «حذفِ branch_id = همهٔ شعبه» بسته شد (Analytics، رزروها، گزارش‌ساز ادمین+CSV)؛ تست IDOR (phpunit) + رانرِ مستقل run-branch-scope-guards.php به گامِ Securityِ CI وصل شد (۲۳ بررسی، منفی‌آزماییِ زنده سبز)؛ e2e ۸۱/۸۱ — `commit 98d493b` |
 | 35 | ✅ انجام شد | گشت escape خروجی در قالب‌ها: همهٔ echo/print در فایل‌های PHP زیر | گشتِ escape خروجی روی ۵۳ فایل template/view با اسکنرِ token-based: صفرِ echo خام؛ هر ۱۱ phpcs:ignoreِ escape بازرسی و مؤید شد (flavor_responsive_image داخل esc_attr/esc_url می‌کند). کشفِ جانبی: ۱۳ تستِ tests/theme هیچ‌وقت در CI اجرا نمی‌شدند — گامِ globِ ایستاده (run-theme-tests.sh) به backend job اضافه شد — `commit b49d1a1` |
 | 36 | ✅ انجام شد | گشت sanitize ورودی: همهٔ $_GET/$_POST/$_REQUEST و get_json_params و | گیت sanitize ورودی: ۹۸ فایل flavor-core (API + ادمین + views) — ۲۳۰ خواندن superglobal/get_param و ۵۵ تجزیه بدنه JSON بازرسی شد؛ ۹ اصلاح واقعی (۸ فیلتر ReportAdmin با sanitize_key/text_field/absint + یک CacheHints)؛ سه ignoreِ ساختاری (آرایه modifier/qty/mod) پس از تأییدِ sanitize در sink، allowlist صریح خوردند؛ گیتِ مستقل ۹ بررسی با منفی‌آزماییِ زنده — `commit b49a12b` |
-| 37 | ⬜ انجام‌نشده | endpoint های عمومی REST را سخت‌تر کن: SettingsController مسیری با |  |
+| 37 | ✅ انجام شد | endpoint های عمومی REST را سخت‌تر کن: SettingsController مسیری با | سخت‌کردن endpointهای عمومی: منیفست ۴۳ مسیریِ __return_true پین شد (مسیرِ تازه بدونِ بازبینی → FAIL)؛ canary زنده (mock WP، توکن‌هایِ کاشت‌شده از مسیرِ تولیدی) روی app-bootstrap/mobile-config/system-health: هیچِ رازی در پاسخِ عمومی نیست؛ health برایِ ناشناس فقطِ status است و برایِ ادمین کامل (اثباتِ redaction واقعی)؛ HMACِ build-callback با hash_equals pin شد؛ صفرِ نشتِ واقعی — بازبینی تأیید کرد هر سه کنترلر از قبل درست بودند — `commit 7d683b4` |
 | 38 | ⬜ انجام‌نشده | GuestToken و OTP را بازبینی کن: (۱) GuestToken::generate باید از |  |
 | 39 | ⬜ انجام‌نشده | هدرهای امنیتی پاسخ‌ها: در BaseApiController یا یک middleware، هدرهای |  |
 | 40 | ⬜ انجام‌نشده | وابستگی‌های شخص ثالث را audit کن: composer.json (dev)، package.json های |  |
