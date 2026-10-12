@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-12 14:59+00:00\n"
+"POT-Creation-Date: 2026-10-12 15:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
@@ -478,7 +478,7 @@ msgstr ""
 msgid "برای سفارش حضوری، میز معتبر را انتخاب کنید."
 msgstr ""
 
-#: flavor-core/includes/API/ReservationController.php:409
+#: flavor-core/includes/API/ReservationController.php:410
 msgid "برای مشاهده یا مدیریت این رزرو باید وارد شوید یا توکن مهمان ارسال کنید."
 msgstr ""
 
@@ -818,6 +818,10 @@ msgstr ""
 msgid "حذف ماده"
 msgstr ""
 
+#: flavor-core/includes/API/BaseApiController.php:230
+msgid "حساب شما به چند شعبه دسترسی دارد؛ ارسال branch_id الزامی است."
+msgstr ""
+
 #: flavor-core/includes/Reservation/ReservationAdmin.php:90
 msgid "حضوری"
 msgstr ""
@@ -922,15 +926,11 @@ msgstr ""
 msgid "دریافت سفارش"
 msgstr ""
 
-#: flavor-core/includes/API/BaseApiController.php:191
+#: flavor-core/includes/API/BaseApiController.php:191 flavor-core/includes/API/BaseApiController.php:221
 msgid "دسترسی به اطلاعات این شعبه برای شما مجاز نیست."
 msgstr ""
 
-#: flavor-core/includes/API/AnalyticsController.php:95
-msgid "دسترسی به اطلاعات این شعبه محدود است."
-msgstr ""
-
-#: flavor-core/includes/API/ReservationController.php:416
+#: flavor-core/includes/API/ReservationController.php:417
 msgid "دسترسی به این رزرو برای شما مجاز نیست."
 msgstr ""
 
