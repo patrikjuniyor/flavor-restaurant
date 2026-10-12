@@ -138,6 +138,19 @@ set_error_handler(
 		$fatal_levels = E_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR | E_RECOVERABLE_ERROR;
 		if ( 0 !== ( $severity & $fatal_levels ) ) {
 			$runtime_errors[] = trim( $message ) . ' in ' . basename( $file ) . ':' . $line;
+			return false;
+		}
+		// R3-03: a widget that only warns while rendering an empty state still
+		// ships a fatal on a customer site with WP_DEBUG off. Capture any
+		// diagnostic raised inside the theme's own render path; plugin and
+		// core noise stays outside our contract.
+		$in_theme = preg_match(
+			'#/themes/flavor/(elementor/widgets|template-parts|inc)/#',
+			str_replace( '\\', '/', $file )
+		);
+		$levels   = E_WARNING | E_NOTICE | E_USER_WARNING | E_USER_NOTICE | E_DEPRECATED | E_USER_DEPRECATED;
+		if ( $in_theme && 0 !== ( $severity & $levels ) ) {
+			$runtime_errors[] = 'PHP diagnostic: ' . trim( $message ) . ' in ' . basename( $file ) . ':' . $line;
 		}
 		return false;
 	}
@@ -358,6 +371,7 @@ if ( is_wp_error( $all_page_id ) ) {
 	$threw    = 0 === strpos( $all_html, '__THROWN__:' );
 	elementor_smoke_check( ! $threw, 'all seventeen widgets render together without a PHP exception' . ( $threw ? ' — ' . substr( $all_html, 11 ) : '' ) );
 	elementor_smoke_check( strlen( $all_html ) > 1500, 'the all-widget page produces substantial markup (' . strlen( $all_html ) . ' bytes)' );
+elementor_smoke_check( false !== strpos( $all_html, 'flavor-widget-note' ), 'the all-widget page shows the empty gallery note, not a hole' );
 	elementor_smoke_check( false !== strpos( $all_html, 'Flavor CI Features' ), 'the all-widget page renders the custom feature content' );
 	elementor_smoke_check( false !== strpos( $all_html, 'Flavor Elementor CI Dish' ), 'the all-widget page renders the WooCommerce-backed menu product' );
 	$compiled_css = strtolower( preg_replace( '/\s+/', '', $all_html ) );
@@ -366,6 +380,53 @@ if ( is_wp_error( $all_page_id ) ) {
 	elementor_smoke_check( false !== strpos( $compiled_css, 'padding:32px24px32px24px' ), 'the responsive section-spacing control compiles to page CSS' );
 	elementor_smoke_check( false === strpos( $all_html, 'Elementor widget error' ), 'the all-widget page has no Elementor error placeholder' );
 }
+
+echo "\n--- Data-backed widgets: filled and empty states (R3-03) ---";
+
+$demo_uri   = get_template_directory_uri() . '/demos/modern-restaurant/category-main.jpg';
+$filled_html = elementor_smoke_render_page(
+	(int) elementor_smoke_create_page(
+		'Flavor Elementor CI — data states filled',
+		array(
+			elementor_smoke_section( 'flavor_gallery', array( 'gallery' => array( array( 'url' => $demo_uri ) ) ), 'data:gallery-filled' ),
+			elementor_smoke_section(
+				'flavor_offers',
+				array(
+					'title' => 'Flavor CI Offer',
+					'text'  => 'Filled banner copy rendered by real Elementor.',
+					'code'  => 'CI15',
+				),
+				'data:offers-filled'
+			),
+		)
+	)
+);
+elementor_smoke_check( false === strpos( $filled_html, '__THROWN__:' ), 'filled gallery/offers page renders' . ( 0 === strpos( $filled_html, '__THROWN__:' ) ? ' — ' . substr( $filled_html, 11 ) : '' ) );
+elementor_smoke_check( false !== strpos( $filled_html, 'flavor-gallery__item' ), 'a filled gallery renders real tiles, not a note' );
+elementor_smoke_check( false !== strpos( $filled_html, 'Flavor CI Offer' ) && false !== strpos( $filled_html, 'flavor-offer-banner' ), 'filled offers renders the banner with its content' );
+elementor_smoke_check( false === strpos( $filled_html, 'flavor-widget-note' ), 'filled states contain no empty-state notes' );
+
+if ( $product_id > 0 ) {
+	wp_delete_post( $product_id, true );
+}
+$empty_html = elementor_smoke_render_page(
+	(int) elementor_smoke_create_page(
+		'Flavor Elementor CI — data states empty',
+		array(
+			elementor_smoke_section( 'flavor_menu', array( 'title' => 'Flavor CI Empty Menu' ), 'data:menu-empty' ),
+			elementor_smoke_section( 'flavor_gallery', array( 'gallery' => array() ), 'data:gallery-empty' ),
+			elementor_smoke_section( 'flavor_offers', array( 'title' => '', 'text' => '', 'code' => '' ), 'data:offers-empty' ),
+		)
+	)
+);
+elementor_smoke_check( false === strpos( $empty_html, '__THROWN__:' ), 'empty-state page renders without an exception' );
+$note_count = substr_count( $empty_html, 'flavor-widget-note' );
+elementor_smoke_check( 3 === $note_count, 'menu, gallery and offers each answer an empty state with a Persian note (' . $note_count . '/3)' );
+elementor_smoke_check( false === strpos( $empty_html, 'Flavor Elementor CI Dish' ), 'the deleted product is gone from the menu widget' );
+elementor_smoke_check(
+	false === strpos( $empty_html, 'flavor-gallery__grid' ) && false === strpos( $empty_html, 'flavor-offer-banner' ) && false === strpos( $empty_html, 'flavor-menu__grid' ),
+	'empty states paint no grids and no banner shells'
+);
 
 // Keep repeatable local runs isolated and never leave test pages/products behind.
 foreach ( array_reverse( $smoke_created_posts ) as $smoke_post_id ) {

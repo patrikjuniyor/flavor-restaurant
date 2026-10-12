@@ -39,6 +39,7 @@ require_once FLAVOR_DIR . '/inc/template-tags.php';
 require_once FLAVOR_DIR . '/inc/class-dark-mode.php';
 require_once FLAVOR_DIR . '/inc/class-elementor.php';
 
+require_once FLAVOR_DIR . '/inc/class-repeater.php';
 require_once FLAVOR_DIR . '/elementor/class-widget-base.php';
 foreach ( \Flavor\Elementor::widget_files() as $widget_file ) {
 	require_once FLAVOR_DIR . '/elementor/widgets/' . $widget_file;
@@ -139,7 +140,8 @@ function esc_attr( string $value ): string {
  * padding. If a template ever starts overriding these, this fixture must grow
  * with it (the guard fails on unknown section settings below).
  */
-$shim = <<<'CSS'
+function page_shim(): string {
+return <<<'CSS'
 .elementor .elementor-section { width: 100%; }
 .elementor .elementor-container { display: flex; flex-wrap: wrap; margin-left: auto; margin-right: auto; align-items: stretch; max-width: 1140px; }
 .elementor .elementor-section > .elementor-container > .elementor-column { display: flex; }
@@ -156,13 +158,57 @@ $shim = <<<'CSS'
   .elementor .elementor-section:not(:last-child) { padding-bottom: 45px; }
 }
 CSS;
+}
 
 /*
  * The templates use no per-section layout settings; if that changes, the
  * shim above is no longer a faithful stand-in and this fixture must grow.
  */
-$unsupported = 0;
-$tokens      = \Flavor\Design::css_variables();
+/**
+ * Page assembly shared by the template pages and the data-state pages.
+ *
+ * @param string $slug   Page slug.
+ * @param string $scheme light|dark.
+ * @param string $body   Rendered Elementor structure.
+ * @return string Full HTML document.
+ */
+function assemble_page( string $slug, string $scheme, string $body ): string {
+	/*
+	 * The mock environment advertises one absolute sample image for every
+	 * product card. Pointed at its host it never loads here, and a broken <img>
+	 * measures as layout overflow — so the fixture swaps it for a demo image
+	 * the guard actually serves. Links (hrefs) stay as the mock emits them.
+	 */
+	$body = str_replace(
+		'https://restaurant.example.com/assets/images/sample-dish.jpg',
+		'/themes/flavor/demos/modern-restaurant/category-burger.jpg',
+		$body
+	);
+	$tokens = \Flavor\Design::css_variables();
+	$dark   = 'dark' === $scheme ? "\n<style id=\"flavor-dark-mode\">\n" . \Flavor\Dark_Mode::css() . "\n</style>\n" : '';
+	return "<!DOCTYPE html>\n<html lang=\"fa\" dir=\"rtl\" data-flavor-scheme=\"{$scheme}\">\n<head>\n"
+		. "<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n"
+		. "<title>flavor-" . $slug . " — {$scheme}</title>\n"
+		. '<link rel="stylesheet" href="/assets/css/fonts.css" />' . "\n"
+		. '<link rel="stylesheet" href="/assets/css/main.css" />' . "\n"
+		. '<link rel="stylesheet" href="/assets/css/marketing.css" />' . "\n"
+		. '<link rel="stylesheet" href="/assets/css/dark-mode.css" />' . "\n"
+		. '<link rel="stylesheet" href="/assets/css/premium.css" />' . "\n"
+		. '<link rel="stylesheet" href="/assets/css/ui.css" />' . "\n"
+		. '<link rel="stylesheet" href="/assets/css/ui-navigation.css" />' . "\n"
+		. '<link rel="stylesheet" href="/assets/css/ui-pages.css" />' . "\n"
+		. '<link rel="stylesheet" href="/assets/css/ui-menu.css" />' . "\n"
+		. '<link rel="stylesheet" href="/assets/css/rtl.css" />' . "\n"
+		. '<link rel="stylesheet" href="/assets/css/skins/modern-restaurant.css" />' . "\n"
+		. '<link rel="stylesheet" href="/assets/css/motion.css" />' . "\n"
+		. '<link rel="stylesheet" href="/assets/css/elementor-widgets.css" />' . "\n"
+		. "<style id=\"flavor-tokens\">\n{$tokens}\n</style>\n{$dark}"
+		. "<style id=\"elementor-layout-shim\">\n" . page_shim() . "\n</style>\n"
+		. "</head>\n<body class=\"flavor-theme flavor-skin-modern-restaurant elementor-page\">\n"
+		. "<div class=\"elementor elementor-frontend\" data-elementor-type=\"wp-page\">\n{$body}\n</div>\n"
+		. "</body>\n</html>\n";
+}
+
 foreach ( array( 'home', 'about', 'menu' ) as $slug ) {
 	$file = FLAVOR_DIR . '/elementor/templates/flavor-' . $slug . '.json';
 	$data = json_decode( (string) file_get_contents( $file ), true );
@@ -170,6 +216,7 @@ foreach ( array( 'home', 'about', 'menu' ) as $slug ) {
 		fwrite( STDERR, "unreadable template: {$file}\n" );
 		exit( 1 );
 	}
+	$unsupported = 0;
 	foreach ( (array) ( $data['content'] ?? array() ) as $section ) {
 		if ( (array) ( $section['settings'] ?? array() ) !== array() ) {
 			++$unsupported;
@@ -188,34 +235,83 @@ foreach ( array( 'home', 'about', 'menu' ) as $slug ) {
 		fwrite( STDERR, "flavor-{$slug}.json carries section/column layout settings the shim does not emulate ({$unsupported}); extend tests/ui/elementor-pages.php deliberately.\n" );
 		exit( 1 );
 	}
-
 	$body = render_content( (array) $data['content'], $by_name );
 	foreach ( array( 'light', 'dark' ) as $scheme ) {
-		$dark_css = 'dark' === $scheme ? "\n<style id=\"flavor-dark-mode\">\n" . \Flavor\Dark_Mode::css() . "\n</style>\n" : '';
-		$html     = "<!DOCTYPE html>\n<html lang=\"fa\" dir=\"rtl\" data-flavor-scheme=\"{$scheme}\">\n<head>\n"
-			. "<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n"
-			. "<title>flavor-{$slug} — {$scheme}</title>\n"
-			. '<link rel="stylesheet" href="/assets/css/fonts.css" />' . "\n"
-			. '<link rel="stylesheet" href="/assets/css/main.css" />' . "\n"
-			. '<link rel="stylesheet" href="/assets/css/marketing.css" />' . "\n"
-			. '<link rel="stylesheet" href="/assets/css/dark-mode.css" />' . "\n"
-			. '<link rel="stylesheet" href="/assets/css/premium.css" />' . "\n"
-			. '<link rel="stylesheet" href="/assets/css/ui.css" />' . "\n"
-			. '<link rel="stylesheet" href="/assets/css/ui-navigation.css" />' . "\n"
-			. '<link rel="stylesheet" href="/assets/css/ui-pages.css" />' . "\n"
-			. '<link rel="stylesheet" href="/assets/css/ui-menu.css" />' . "\n"
-			. '<link rel="stylesheet" href="/assets/css/rtl.css" />' . "\n"
-			. '<link rel="stylesheet" href="/assets/css/skins/modern-restaurant.css" />' . "\n"
-			. '<link rel="stylesheet" href="/assets/css/motion.css" />' . "\n"
-			. '<link rel="stylesheet" href="/assets/css/elementor-widgets.css" />' . "\n"
-			. "<style id=\"flavor-tokens\">\n{$tokens}\n</style>\n{$dark_css}"
-			. "<style id=\"elementor-layout-shim\">\n{$shim}\n</style>\n"
-			. "</head>\n<body class=\"flavor-theme flavor-skin-modern-restaurant elementor-page\">\n"
-			. "<div class=\"elementor elementor-frontend\" data-elementor-type=\"wp-page\">\n{$body}\n</div>\n"
-			. "</body>\n</html>\n";
-		$path = $outdir . "/flavor-{$slug}-{$scheme}.html";
-		file_put_contents( $path, $html );
-		echo "wrote {$path}\n";
+		$path = $outdir . '/flavor-' . $slug . '-' . $scheme . '.html';
+		file_put_contents( $path, assemble_page( $slug, $scheme, $body ) );
+		echo 'wrote ' . $path . "\n";
 	}
 }
-echo "6 pages in {$outdir}\n";
+
+/*
+ * R3-03: the data-backed widgets rendered in both of their states.
+ *
+ * flavor_menu answers an actual product query; flavor_offers and
+ * flavor_gallery answer their settings. Each can therefore render "filled"
+ * or "empty", and both branches must produce a real section — a readable
+ * Persian message where there is no data, never a bare hole. The guard
+ * asserts these states structurally and runs the same overlap/contrast/
+ * overflow checks and screenshots over both pages.
+ */
+$state_contents = array(
+	'filled' => array(
+		'flavor_menu'    => array( 'title' => 'منوی گارد', 'count' => 6, 'orderby' => 'date', 'show_price' => 'yes' ),
+		'flavor_offers'  => array(
+			'title'       => 'پیشنهادِ ویژهٔ گارد',
+			'text'        => 'تا پایان هفته، با کد زیر روی سفارش آنلاین تخفیف بگیرید.',
+			'code'        => 'GUARD15',
+			'button_text' => 'سفارش',
+		),
+		'flavor_gallery' => array(
+			'gallery' => array(
+				array( 'url' => '/themes/flavor/demos/modern-restaurant/category-main.jpg' ),
+				array( 'url' => '/themes/flavor/demos/modern-restaurant/category-pasta.jpg' ),
+			),
+		),
+	),
+	'empty'  => array(
+		'flavor_menu'    => array( 'title' => 'منوی گارد' ),
+		'flavor_offers'  => array( 'title' => '', 'text' => '', 'code' => '' ),
+		'flavor_gallery' => array( 'gallery' => array() ),
+	),
+);
+
+$state_index = 0;
+foreach ( $state_contents as $state => $widgets ) {
+	$content = array();
+	foreach ( $widgets as $type => $widget_settings ) {
+		++$state_index;
+		$content[] = array(
+			'id'       => 'uif' . $state_index,
+			'elType'   => 'section',
+			'settings' => array(),
+			'elements' => array(
+				array(
+					'id'       => 'uifc' . $state_index,
+					'elType'   => 'column',
+					'settings' => array( '_column_size' => 100 ),
+					'elements' => array(
+						array(
+							'id'         => 'uifw' . $state_index,
+							'elType'     => 'widget',
+							'widgetType' => $type,
+							'settings'   => $widget_settings,
+						),
+					),
+				),
+			),
+		);
+	}
+	$products_backup = $GLOBALS['_mock_wc_products'] ?? array();
+	if ( 'empty' === $state ) {
+		$GLOBALS['_mock_wc_products'] = array();
+	}
+	$body = render_content( $content, $by_name );
+	$GLOBALS['_mock_wc_products'] = $products_backup;
+	foreach ( array( 'light', 'dark' ) as $scheme ) {
+		$path = $outdir . '/flavor-states-' . $state . '-' . $scheme . '.html';
+		file_put_contents( $path, assemble_page( 'states-' . $state, $scheme, $body ) );
+		echo 'wrote ' . $path . "\n";
+	}
+}
+echo '10 pages in ' . $outdir . "\n";

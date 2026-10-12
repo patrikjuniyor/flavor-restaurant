@@ -96,6 +96,17 @@ class Offers_Widget extends Widget_Base {
 		$page     = get_page_by_path( 'menu' );
 		$fallback = $page ? get_permalink( $page ) : home_url( '/menu/' );
 
+		if ( '' === $title && '' === $text && '' === $code ) {
+			// A banner with no promise to make is a painted empty box. Say so
+			// instead of shipping a hole in the page (R3-03).
+			echo self::section( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from escaped parts.
+				__( 'پیشنهاد ویژه', 'flavor' ),
+				'<p class="flavor-widget-note">' . esc_html__( 'هیچ متنی برای این بنر تنظیم نشده است؛ عنوان، توضیح یا کد تخفیف را در تنظیماتِ ویجت وارد کنید.', 'flavor' ) . '</p>',
+				'flavor-section--offers'
+			);
+			return;
+		}
+
 		$inner = '<div class="flavor-offer-banner">';
 		$inner .= '<div class="flavor-offer-banner__content">';
 

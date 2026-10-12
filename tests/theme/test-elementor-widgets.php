@@ -275,6 +275,7 @@ $cases = array(
 	'Stats_Widget'          => array( 'items' => array( array( 'figure' => $payload, 'label' => $payload ) ) ),
 	'Process_Widget'        => array( 'title' => $payload, 'steps' => array( array( 'title' => $payload, 'text' => $payload ) ) ),
 	'Faq_Widget'            => array( 'title' => $payload, 'items' => array( array( 'question' => $payload, 'answer' => $payload ) ) ),
+	'Gallery_Widget'        => array( 'gallery' => array( array( 'url' => $payload, 'id' => 1 ) ) ),
 	'Price_List_Widget'     => array( 'title' => $payload, 'items' => array( array( 'name' => $payload, 'price' => $payload, 'note' => $payload ) ) ),
 );
 
@@ -310,6 +311,30 @@ $cart->set_test_settings( array( 'title' => 'سبد' ) );
 $out = $cart->test_render();
 check( false !== strpos( $out, 'flavor-section' ), 'Cart widget still renders its section shell' );
 check( null === $markup_error( $out ), 'Cart widget output is well formed without WooCommerce' );
+
+// R3-03: every data-backed widget owns its empty state in the builder context —
+// a note inside a real section, never a silent hole and never a painted box.
+$gallery = new \Flavor\Elementor\Gallery_Widget();
+$gallery->set_test_settings( array( 'gallery' => array() ) );
+$out = $gallery->test_render();
+check( false !== strpos( $out, 'flavor-widget-note' ), 'Gallery widget answers an empty gallery with a message' );
+check( false === strpos( $out, 'flavor-gallery__grid' ), 'Gallery widget empty state renders no grid' );
+check( null === $markup_error( $out ), 'Gallery widget empty state is well formed' );
+
+$offers = new \Flavor\Elementor\Offers_Widget();
+$offers->set_test_settings( array( 'title' => '', 'text' => '', 'code' => '' ) );
+$out = $offers->test_render();
+check( false !== strpos( $out, 'flavor-widget-note' ), 'Offers widget refuses to paint an empty banner' );
+check( false === strpos( $out, 'flavor-offer-banner' ), 'Offers widget empty state renders no banner markup' );
+check( null === $markup_error( $out ), 'Offers widget empty state is well formed' );
+
+$filled = new \Flavor\Elementor\Offers_Widget();
+$filled->set_test_settings( array( 'title' => 'پیشنهاد گارد', 'code' => 'GUARD15', 'text' => 'متن بنر' ) );
+$out = $filled->test_render();
+check(
+	false !== strpos( $out, 'flavor-offer-banner' ) && false !== strpos( $out, 'GUARD15' ) && false === strpos( $out, 'flavor-widget-note' ),
+	'Offers widget filled state renders the banner without the note'
+);
 
 echo "\n--- 7. The stylesheet the widgets depend on exists ---\n";
 

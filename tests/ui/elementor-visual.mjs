@@ -37,17 +37,26 @@ const outdir = process.env.QA_OUTPUT_DIR
   ? path.join(process.env.QA_OUTPUT_DIR, 'elementor')
   : path.join(root, '.cache', 'ui-qa', 'elementor');
 
-const slugs = ['home', 'about', 'menu'];
+const slugs = ['home', 'about', 'menu', 'states-filled', 'states-empty'];
 const schemes = ['light', 'dark'];
 const widths = [430, 960, 1440];
 
-if (process.argv.includes('--regen') || !fs.existsSync(path.join(outdir, 'flavor-home-light.html'))) {
+{
+  // The builder runs on every guard execution, not just --regen: its stderr is
+  // part of the test (R3-03 — a widget must not warn or notice in any state).
   const built = spawnSync('php', [path.join(here, 'elementor-pages.php'), outdir], { encoding: 'utf8' });
-  process.stdout.write(built.stdout || '');
   if (built.status !== 0) {
-    console.error(built.stderr || 'fixture builder failed');
+    process.stderr.write(built.stderr || 'fixture builder failed');
     process.exit(1);
   }
+  const noise = /Fatal error|Warning:|Notice:|Deprecated:|Undefined (index|variable|array key)/;
+  const output = `${built.stdout || ''}\n${built.stderr || ''}`;
+  if (noise.test(output)) {
+    console.error('✗ the fixture build emitted PHP diagnostics:');
+    for (const line of output.split('\n').filter((l) => noise.test(l)).slice(0, 5)) console.error('  ' + line.trim());
+    process.exit(1);
+  }
+  if (process.argv.includes('--regen')) process.stdout.write((built.stdout || '').replace(/^/gm, '  '));
 }
 
 fs.mkdirSync(path.join(outdir, 'screenshots'), { recursive: true });
@@ -173,6 +182,26 @@ for (const slug of slugs) {
       const result = await page.evaluate(checks);
       pages.push({ page: `flavor-${slug}-${scheme}`, width, ...result });
       const tag = `${slug}-${scheme}@${width}`;
+      if (slug.startsWith('states-') && width === 1440) {
+        const shape = await page.evaluate(`(() => ({
+          cards: document.querySelectorAll('.flavor-food-card').length,
+          notes: document.querySelectorAll('.flavor-widget-note').length,
+          banner: document.querySelectorAll('.flavor-offer-banner').length,
+          gallery: document.querySelectorAll('.flavor-gallery__item').length,
+          text: document.body.textContent,
+        }))()`);
+        const want = slug === 'states-filled'
+          ? { cards: 3, notes: 0, banner: 1, gallery: 2 }
+          : { cards: 0, notes: 3, banner: 0, gallery: 0 };
+        for (const key of Object.keys(want)) {
+          if (shape[key] !== want[key]) violations.push(`${tag}: data-state shape ${key}=${shape[key]}, expected ${want[key]}`);
+        }
+        if (slug === 'states-filled') {
+          for (const needle of ['GUARD15', 'چلو کباب کوبیده']) {
+            if (!shape.text.includes(needle)) violations.push(`${tag}: filled page missing "${needle}"`);
+          }
+        }
+      }
       if (!result.sections) violations.push(`${tag}: no top-level sections rendered`);
       for (const o of result.overlap) violations.push(`${tag}: sections ${o.a}/${o.b} overlap ${o.x}x${o.y}px`);
       for (const c of result.contrast) violations.push(`${tag}: contrast ${c.ratio}:1 < ${c.min} on "${c.text}" (${c.el})`);

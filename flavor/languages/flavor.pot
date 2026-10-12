@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-12 06:20+00:00\n"
+"POT-Creation-Date: 2026-10-12 07:06+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
@@ -5187,6 +5187,10 @@ msgstr ""
 msgid "هنوز انتخابی ندارید"
 msgstr ""
 
+#: flavor/elementor/widgets/class-gallery-widget.php:51
+msgid "هنوز تصویری برای این گالری انتخاب نشده است؛ در تنظیماتِ ویجت چند تصویر از رسانه انتخاب کنید."
+msgstr ""
+
 #: flavor/inc/class-launch-center.php:298
 msgid "هنوز دستی اجرا نشده است؛ بعد از هر ذخیرهٔ Customizer خودش اجرا می‌شود."
 msgstr ""
@@ -5245,6 +5249,10 @@ msgstr ""
 
 #: flavor/elementor/widgets/class-branch-info-widget.php:114
 msgid "هیچ شعبه‌ای تعریف نشده است. ابتدا یک شعبه در افزونهٔ Flavor Core بسازید."
+msgstr ""
+
+#: flavor/elementor/widgets/class-offers-widget.php:104
+msgid "هیچ متنی برای این بنر تنظیم نشده است؛ عنوان، توضیح یا کد تخفیف را در تنظیماتِ ویجت وارد کنید."
 msgstr ""
 
 #: flavor/inc/template-tags.php:217
@@ -5619,7 +5627,7 @@ msgstr ""
 msgid "پیشنهادهای ویژه سرآشپز"
 msgstr ""
 
-#: flavor/elementor/widgets/class-offers-widget.php:22
+#: flavor/elementor/widgets/class-offers-widget.php:22 flavor/elementor/widgets/class-offers-widget.php:103
 msgid "پیشنهاد ویژه"
 msgstr ""
 
@@ -6028,7 +6036,7 @@ msgstr ""
 msgid "کیفیت غذاها بی‌نظیر بود، سفارش با بسته‌بندی کاملاً گرم و به موقع تحویل داده شد. به شدت کوبیده مخصوص را پیشنهاد می‌کنم."
 msgstr ""
 
-#: flavor/template-parts/marketing/gallery.php:35
+#: flavor/elementor/widgets/class-gallery-widget.php:50 flavor/template-parts/marketing/gallery.php:35
 msgid "گالری تصاویر"
 msgstr ""
 

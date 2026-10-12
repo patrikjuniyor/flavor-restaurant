@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flavor\n"
 "Report-Msgid-Bugs-To: https://github.com/patrikjuniyor/flavor-restaurant/issues\n"
-"PO-Revision-Date: 2026-10-12 06:22+0000\n"
+"PO-Revision-Date: 2026-10-12 07:06+0000\n"
 "Last-Translator: Flavor Translations\n"
 "Language-Team: Flavor Translations\n"
 "Language: ar\n"
@@ -5194,6 +5194,10 @@ msgstr "لم يُنشر أي عنصر في القائمة بعد."
 msgid "هنوز انتخابی ندارید"
 msgstr "لم تختر شيئاً بعد"
 
+#: flavor/elementor/widgets/class-gallery-widget.php:51
+msgid "هنوز تصویری برای این گالری انتخاب نشده است؛ در تنظیماتِ ویجت چند تصویر از رسانه انتخاب کنید."
+msgstr "لم يُختَر أي صورة لهذا المعرض بعد؛ اختر بضع صور من الوسائط داخل إعدادات الأداة."
+
 #: flavor/inc/class-launch-center.php:298
 msgid "هنوز دستی اجرا نشده است؛ بعد از هر ذخیرهٔ Customizer خودش اجرا می‌شود."
 msgstr "لم تُجرَ أي مزامنة يدوية بعد؛ تُنفَّذ تلقائيًا بعد كل حفظ من شاشة «تخصيص»."
@@ -5253,6 +5257,10 @@ msgstr "لم يُسجَّل أي وقت."
 #: flavor/elementor/widgets/class-branch-info-widget.php:114
 msgid "هیچ شعبه‌ای تعریف نشده است. ابتدا یک شعبه در افزونهٔ Flavor Core بسازید."
 msgstr "لم يُعرَّف أي فرع. أنشئ فرعاً أولاً في إضافة Flavor Core."
+
+#: flavor/elementor/widgets/class-offers-widget.php:104
+msgid "هیچ متنی برای این بنر تنظیم نشده است؛ عنوان، توضیح یا کد تخفیف را در تنظیماتِ ویجت وارد کنید."
+msgstr "لم يُضبط أي نص لهذا الشريط؛ أدخل العنوان أو الوصف أو رمز الخصم في إعدادات الأداة."
 
 #: flavor/inc/template-tags.php:217
 msgid "واتس‌اپ"
@@ -5626,7 +5634,7 @@ msgstr "عرض هذا الشهر الذهبي"
 msgid "پیشنهادهای ویژه سرآشپز"
 msgstr "عروض الشيف الخاصة"
 
-#: flavor/elementor/widgets/class-offers-widget.php:22
+#: flavor/elementor/widgets/class-offers-widget.php:22 flavor/elementor/widgets/class-offers-widget.php:103
 msgid "پیشنهاد ویژه"
 msgstr "عرض خاص"
 
@@ -6035,7 +6043,7 @@ msgstr "كانت جودة الطعام ممتازة ووصل قبل الموعد
 msgid "کیفیت غذاها بی‌نظیر بود، سفارش با بسته‌بندی کاملاً گرم و به موقع تحویل داده شد. به شدت کوبیده مخصوص را پیشنهاد می‌کنم."
 msgstr "كانت جودة الأطعمة لا مثيل لها، ووصل الطلب بتغليف دافئ تماماً وفي الوقت المناسب. أنصح بشدة بالكوبيدة الخاصة."
 
-#: flavor/template-parts/marketing/gallery.php:35
+#: flavor/elementor/widgets/class-gallery-widget.php:50 flavor/template-parts/marketing/gallery.php:35
 msgid "گالری تصاویر"
 msgstr "معرض الصور"
 
