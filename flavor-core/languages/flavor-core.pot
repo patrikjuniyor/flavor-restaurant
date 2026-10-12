@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-12 15:10+00:00\n"
+"POT-Creation-Date: 2026-10-12 15:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
@@ -30,11 +30,11 @@ msgstr ""
 msgid "AOV"
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:668
+#: flavor-core/includes/Notification/PushNotificationService.php:614
 msgid "APNs configuration missing: FLAVOR_APNS_KEY_ID / FLAVOR_APNS_TEAM_ID / FLAVOR_APNS_BUNDLE_ID / FLAVOR_APNS_AUTH_KEY_PATH."
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:458
+#: flavor-core/includes/Notification/PushNotificationService.php:404
 msgid "FCM service account is not configured (FLAVOR_FCM_SERVICE_ACCOUNT_JSON / FLAVOR_FCM_SERVICE_ACCOUNT_PATH)."
 msgstr ""
 
@@ -200,10 +200,6 @@ msgstr ""
 
 #: flavor-core/includes/PostTypes/BranchPostType.php:99
 msgid "اطلاعات شعبه"
-msgstr ""
-
-#: flavor-core/includes/Notification/PushNotificationService.php:309
-msgid "اطلاعیه رزرو میز"
 msgstr ""
 
 #: flavor-core/includes/Loyalty/LoyaltyAdmin.php:99
@@ -730,7 +726,7 @@ msgstr ""
 msgid "ثبت رزرو"
 msgstr ""
 
-#: flavor-core/includes/Reservation/ReservationRepository.php:133
+#: flavor-core/includes/Reservation/ReservationRepository.php:112
 msgid "ثبت رزرو انجام نشد."
 msgstr ""
 
@@ -818,7 +814,7 @@ msgstr ""
 msgid "حذف ماده"
 msgstr ""
 
-#: flavor-core/includes/API/BaseApiController.php:230
+#: flavor-core/includes/API/BaseApiController.php:206
 msgid "حساب شما به چند شعبه دسترسی دارد؛ ارسال branch_id الزامی است."
 msgstr ""
 
@@ -926,7 +922,7 @@ msgstr ""
 msgid "دریافت سفارش"
 msgstr ""
 
-#: flavor-core/includes/API/BaseApiController.php:191 flavor-core/includes/API/BaseApiController.php:221
+#: flavor-core/includes/API/BaseApiController.php:197
 msgid "دسترسی به اطلاعات این شعبه برای شما مجاز نیست."
 msgstr ""
 
@@ -1012,22 +1008,6 @@ msgstr ""
 
 #: flavor-core/includes/Webhooks/WebhookManager.php:77
 msgid "رزرو میز جدید ثبت شد (reservation.created)"
-msgstr ""
-
-#: flavor-core/includes/Notification/PushNotificationService.php:295
-msgid "رزرو میز شما تایید شد"
-msgstr ""
-
-#: flavor-core/includes/Notification/PushNotificationService.php:302
-msgid "رزرو میز شما در %1$s برای تاریخ %2$s ساعت %3$s با موفقیت تایید شد."
-msgstr ""
-
-#: flavor-core/includes/Notification/PushNotificationService.php:306
-msgid "رزرو میز شماره #%1$d در %2$s لغو شد."
-msgstr ""
-
-#: flavor-core/includes/Notification/PushNotificationService.php:297
-msgid "رزرو میز لغو شد"
 msgstr ""
 
 #: flavor-core/includes/Reporting/ReportAdmin.php:91 flavor-core/includes/Reporting/ScheduledReport.php:337
@@ -1950,10 +1930,6 @@ msgstr ""
 msgid "وضعیت بیلد ارسال‌شده معتبر نیست."
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:311
-msgid "وضعیت رزرو #%d تغییر کرد."
-msgstr ""
-
 #: flavor-core/includes/Webhooks/WebhookManager.php:78
 msgid "وضعیت رزرو به‌روز شد (reservation.updated)"
 msgstr ""
@@ -2184,14 +2160,6 @@ msgstr ""
 
 #: flavor-core/includes/SMS/Templates.php:31
 msgid "یادآوری: رزرو شما دو ساعت دیگر در {branch} است."
-msgstr ""
-
-#: flavor-core/includes/Notification/PushNotificationService.php:304
-msgid "یادآوری: رزرو میز شما در %1$s تا ۲ ساعت آینده (ساعت %2$s) می‌باشد."
-msgstr ""
-
-#: flavor-core/includes/Notification/PushNotificationService.php:296
-msgid "یادآوری رزرو میز"
 msgstr ""
 
 #: flavor-core/includes/WooCommerce/CheckoutService.php:444

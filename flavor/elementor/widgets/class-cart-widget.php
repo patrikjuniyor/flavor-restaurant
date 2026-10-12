@@ -29,10 +29,6 @@ class Cart_Widget extends Widget_Base {
 		return 'eicon-cart';
 	}
 
-	public function get_keywords() {
-		return array( 'cart', 'سبد', 'خرید', 'basket', 'checkout' );
-	}
-
 	protected function register_controls() {
 		$this->start_controls_section(
 			'content',

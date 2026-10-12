@@ -26,10 +26,6 @@ class Chefs_Widget extends Widget_Base {
 		return 'eicon-person';
 	}
 
-	public function get_keywords() {
-		return array( 'chef', 'سرآشپز', 'تیم', 'team', 'staff' );
-	}
-
 	protected function register_controls() {
 		$this->start_controls_section(
 			'content',

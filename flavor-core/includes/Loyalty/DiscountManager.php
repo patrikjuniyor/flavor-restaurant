@@ -149,25 +149,4 @@ class DiscountManager {
 		}
 		return \FlavorCore\WooCommerce\CartSession::payload();
 	}
-
-	/**
-	 * If customer birthday (Jalali mm-dd) is today, return a suggested coupon code.
-	 */
-	public static function birthday_code( int $user_id ): string {
-		$b = (string) get_user_meta( $user_id, '_flavor_birthday', true );
-		if ( ! $b ) {
-			return '';
-		}
-		$today = Jalali::parse_gregorian( current_time( 'Y-m-d' ) );
-		$p     = array_map( 'intval', preg_split( '/[\/\-.]/', $b ) ?: array() );
-		if ( count( $p ) < 2 ) {
-			return '';
-		}
-		$jm = $p[ count( $p ) > 2 ? 1 : 0 ];
-		$jd = $p[ count( $p ) > 2 ? 2 : 1 ];
-		if ( (int) $today['m'] === $jm && (int) $today['d'] === $jd ) {
-			return (string) get_option( 'flavor_core_birthday_coupon', '' );
-		}
-		return '';
-	}
 }

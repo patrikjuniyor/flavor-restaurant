@@ -26,10 +26,6 @@ class Features_Widget extends Widget_Base {
 		return 'eicon-gallery-grid';
 	}
 
-	public function get_keywords() {
-		return array( 'features', 'ویژگی', 'چرا', 'مزایا', 'restaurant' );
-	}
-
 	protected function register_controls() {
 		$this->start_controls_section( 'content', array( 'label' => __( 'محتوا', 'flavor' ) ) );
 

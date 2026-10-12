@@ -26,10 +26,6 @@ class Menu_Widget extends Widget_Base {
 		return 'eicon-menu-card';
 	}
 
-	public function get_keywords() {
-		return array( 'menu', 'منو', 'غذا', 'food', 'restaurant' );
-	}
-
 	protected function register_controls() {
 		$text  = \Elementor\Controls_Manager::TEXT;
 		$number = \Elementor\Controls_Manager::NUMBER;

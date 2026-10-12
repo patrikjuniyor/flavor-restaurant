@@ -26,10 +26,6 @@ class Reservation_Widget extends Widget_Base {
 		return 'eicon-calendar';
 	}
 
-	public function get_keywords() {
-		return array( 'reservation', 'رزرو', 'میز', 'booking', 'table' );
-	}
-
 	protected function register_controls() {
 		$this->start_controls_section(
 			'content',

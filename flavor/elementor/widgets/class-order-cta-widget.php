@@ -26,10 +26,6 @@ class Order_CTA_Widget extends Widget_Base {
 		return 'eicon-cart-medium';
 	}
 
-	public function get_keywords() {
-		return array( 'order', 'سفارش', 'ارسال', 'بیرون‌بر', 'delivery', 'cta' );
-	}
-
 	protected function register_controls() {
 		$this->start_controls_section(
 			'content',

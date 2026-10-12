@@ -277,60 +277,6 @@ class PushNotificationService {
 	}
 
 	/**
-	 * Dispatch reservation status change notification.
-	 *
-	 * @param int    $reservation_id Reservation ID.
-	 * @param string $status         confirmed|reminder|cancelled.
-	 * @param int    $user_id        Customer User ID.
-	 * @param string $mobile         Customer Phone.
-	 * @param array  $extra_info     Branch and time details.
-	 * @return array<string, mixed>
-	 */
-	public static function dispatch_reservation_status( int $reservation_id, string $status, int $user_id = 0, string $mobile = '', array $extra_info = array() ): array {
-		$date   = $extra_info['date'] ?? '';
-		$time   = $extra_info['time'] ?? '';
-		$branch = $extra_info['branch'] ?? get_bloginfo( 'name' );
-
-		$titles = array(
-			'confirmed' => __( 'رزرو میز شما تایید شد', 'flavor-core' ),
-			'reminder'  => __( 'یادآوری رزرو میز', 'flavor-core' ),
-			'cancelled' => __( 'رزرو میز لغو شد', 'flavor-core' ),
-		);
-
-		$bodies = array(
-			/* translators: %1$s, %2$s, %3$s — replaced at runtime. */
-			'confirmed' => sprintf( __( 'رزرو میز شما در %1$s برای تاریخ %2$s ساعت %3$s با موفقیت تایید شد.', 'flavor-core' ), $branch, $date, $time ),
-			/* translators: %1$s, %2$s, %1$d — replaced at runtime. */
-			'reminder'  => sprintf( __( 'یادآوری: رزرو میز شما در %1$s تا ۲ ساعت آینده (ساعت %2$s) می‌باشد.', 'flavor-core' ), $branch, $time ),
-			/* translators: %1$d, %2$s — replaced at runtime. */
-			'cancelled' => sprintf( __( 'رزرو میز شماره #%1$d در %2$s لغو شد.', 'flavor-core' ), $reservation_id, $branch ),
-		);
-
-		$title = $titles[ $status ] ?? __( 'اطلاعیه رزرو میز', 'flavor-core' );
-		/* translators: %d — replaced at runtime. */
-		$body  = $bodies[ $status ] ?? sprintf( __( 'وضعیت رزرو #%d تغییر کرد.', 'flavor-core' ), $reservation_id );
-
-		$data = array(
-			'type'           => 'reservation_status',
-			'reservation_id' => (string) $reservation_id,
-			'status'         => $status,
-			'click_action'   => 'flavor://reservation',
-		);
-
-		return NotificationHub::send(
-			array(
-				'event'             => 'reservation_' . $status,
-				'recipient_user_id' => $user_id > 0 ? $user_id : null,
-				'recipient_mobile'  => $mobile ?: null,
-				'title'             => $title,
-				'body'              => $body,
-				'channels'          => array( 'push', 'sms', 'in_app' ),
-				'meta'              => $data,
-			)
-		);
-	}
-
-	/**
 	 * Send Firebase Cloud Messaging via the current HTTP v1 API.
 	 *
 	 * Credentials (service account) are resolved SECURELY, in order:

@@ -30,10 +30,6 @@ class Price_List_Widget extends Widget_Base {
 		return 'eicon-price-list';
 	}
 
-	public function get_keywords() {
-		return array( 'price', 'list', 'قیمت', 'فهرست', 'منو', 'menu' );
-	}
-
 	protected function register_controls() {
 		$this->start_controls_section( 'content', array( 'label' => __( 'محتوا', 'flavor' ) ) );
 

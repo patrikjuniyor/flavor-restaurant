@@ -179,24 +179,4 @@ class SmsManager {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$wpdb->insert( Schema::table( 'flavor_sms_log' ), $row );
 	}
-
-	/**
-	 * Latest SMS for a mobile (dev OTP preview).
-	 *
-	 * @param string $mobile Mobile.
-	 * @return array<string, mixed>|null
-	 */
-	public static function last_for( string $mobile ): ?array {
-		global $wpdb;
-		$table = Schema::table( 'flavor_sms_log' );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		$row = $wpdb->get_row(
-			$wpdb->prepare(
-				"SELECT * FROM {$table} WHERE recipient = %s ORDER BY id DESC LIMIT 1", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				$mobile
-			),
-			ARRAY_A
-		);
-		return $row ?: null;
-	}
 }

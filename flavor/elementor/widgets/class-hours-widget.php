@@ -26,10 +26,6 @@ class Hours_Widget extends Widget_Base {
 		return 'eicon-clock-o';
 	}
 
-	public function get_keywords() {
-		return array( 'hours', 'ساعات', 'زمان', 'opening', 'کاری' );
-	}
-
 	protected function register_controls() {
 		$this->start_controls_section(
 			'content',

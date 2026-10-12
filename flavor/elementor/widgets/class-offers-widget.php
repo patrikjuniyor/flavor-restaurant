@@ -26,10 +26,6 @@ class Offers_Widget extends Widget_Base {
 		return 'eicon-percent';
 	}
 
-	public function get_keywords() {
-		return array( 'offer', 'تخفیف', 'پیشنهاد', 'promo', 'coupon' );
-	}
-
 	protected function register_controls() {
 		$this->start_controls_section(
 			'content',

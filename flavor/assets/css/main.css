@@ -721,22 +721,6 @@ html[dir="ltr"] .flavor-drawer {
 	position: relative;
 }
 
-.flavor-cart-badge {
-	position: absolute;
-	top: -4px;
-	inset-inline-end: -8px;
-	background: var(--flavor-accent);
-	color: #fff;
-	font-size: 12px;
-	font-weight: 800;
-	width: 18px;
-	height: 18px;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
 /* -------------------------------------------------------------
  * 8.5 Premium polish — selection, scrollbar, header depth,
  *     button press feedback.
@@ -820,7 +804,6 @@ body.flavor-page-scoped {
 }
 
 body.flavor-page-scoped .flavor-article__title,
-body.flavor-page-scoped .flavor-entry-title,
 body.flavor-page-scoped .entry-title {
 	display: var(--flavor-page-title-display, block);
 }

@@ -29,15 +29,6 @@ class Iran {
 	}
 
 	/**
-	 * Province names.
-	 *
-	 * @return string[]
-	 */
-	public static function province_names(): array {
-		return array_keys( self::provinces() );
-	}
-
-	/**
 	 * Normalize an Iranian mobile number to 09xxxxxxxxx or empty string.
 	 * Converts Persian/Arabic digits, strips non-digits, and handles +98/0098 prefixes.
 	 *

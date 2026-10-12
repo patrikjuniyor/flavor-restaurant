@@ -26,10 +26,6 @@ class Branch_Info_Widget extends Widget_Base {
 		return 'eicon-map-pin';
 	}
 
-	public function get_keywords() {
-		return array( 'branch', 'شعبه', 'آدرس', 'location', 'تماس' );
-	}
-
 	protected function register_controls() {
 		$this->start_controls_section(
 			'content',

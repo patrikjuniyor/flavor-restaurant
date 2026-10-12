@@ -79,27 +79,6 @@ class ReservationRepository {
 	}
 
 	/**
-	 * Range query for the admin calendar.
-	 *
-	 * @return array<int, array<string, mixed>>
-	 */
-	public static function in_range( int $branch_id, string $from, string $to ): array {
-		global $wpdb;
-		$table = self::table();
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		$rows = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM {$table} WHERE branch_id = %d AND reservation_date BETWEEN %s AND %s ORDER BY reservation_date ASC, reservation_time ASC", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				$branch_id,
-				$from,
-				$to
-			),
-			ARRAY_A
-		);
-		return array_map( array( self::class, 'hydrate' ), is_array( $rows ) ? $rows : array() );
-	}
-
-	/**
 	 * Insert.
 	 *
 	 * @param array<string, mixed> $data Data.

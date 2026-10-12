@@ -172,30 +172,6 @@ abstract class BaseApiController {
 	}
 
 	/**
-	 * Permission check: Branch access isolation.
-	 *
-	 * @param \WP_REST_Request $request   Request.
-	 * @param int              $branch_id Branch post ID.
-	 * @return true|\WP_Error
-	 */
-	public function require_branch_access( \WP_REST_Request $request, int $branch_id ) {
-		$auth = $this->require_authenticated( $request );
-		if ( is_wp_error( $auth ) ) {
-			return $auth;
-		}
-
-		$uid = get_current_user_id();
-		if ( ! current_user_can( 'manage_options' ) && ! Roles::can_access_branch( $uid, $branch_id ) ) {
-			return new \WP_Error(
-				'flavor_branch_forbidden',
-				__( 'دسترسی به اطلاعات این شعبه برای شما مجاز نیست.', 'flavor-core' ),
-				array( 'status' => 403 )
-			);
-		}
-		return true;
-	}
-
-	/**
 	 * Branch scope for the current user (R4-2).
 	 *
 	 * Staff must never widen a query to "all branches" by omitting
@@ -230,35 +206,5 @@ abstract class BaseApiController {
 			__( 'حساب شما به چند شعبه دسترسی دارد؛ ارسال branch_id الزامی است.', 'flavor-core' ),
 			array( 'status' => 400 )
 		);
-	}
-
-	/**
-	 * Rate limiter guard.
-	 *
-	 * @param string $bucket Name of rate limit bucket.
-	 * @param int    $max    Max allowed requests.
-	 * @param int    $window Time window in seconds.
-	 * @return true|\WP_Error
-	 */
-	public function guard_rate_limit( string $bucket, int $max = 60, int $window = 60 ) {
-		return RateLimit::guard( $bucket, $max, $window );
-	}
-
-	/**
-	 * Extract Cart Token from header or query param.
-	 *
-	 * @param \WP_REST_Request $request Request.
-	 * @return string
-	 */
-	public function get_cart_token( \WP_REST_Request $request ): string {
-		$header = $request->get_header( 'X-Cart-Token' );
-		if ( $header ) {
-			return sanitize_text_field( $header );
-		}
-		$param = $request->get_param( 'cart_token' );
-		if ( $param ) {
-			return sanitize_text_field( (string) $param );
-		}
-		return '';
 	}
 }

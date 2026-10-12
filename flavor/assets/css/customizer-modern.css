@@ -918,18 +918,6 @@ html[dir="rtl"] {
 	50%      { box-shadow: 0 0 0 6px rgba(217,119,6,0); }
 }
 
-/* Responsive helper: label responsive groups with a subtle badge. */
-.flavor-responsive-token {
-	display: inline-block;
-	margin-inline-start: 6px;
-	padding: 1px 6px;
-	border-radius: 6px;
-	font-size: 10px;
-	background: rgba(167,78,44,0.1);
-	color: var(--fv-skin-accent, #a74e2c);
-	vertical-align: middle;
-}
-
 /* Reduced-motion: don't pulse. */
 @media (prefers-reduced-motion: reduce) {
 	.flavor-unsaved-badge { animation: none; }

@@ -29,10 +29,6 @@ class Faq_Widget extends Widget_Base {
 		return 'eicon-help-o';
 	}
 
-	public function get_keywords() {
-		return array( 'faq', 'پرسش', 'سوال', 'متداول', 'question', 'answer' );
-	}
-
 	protected function register_controls() {
 		$this->start_controls_section( 'content', array( 'label' => __( 'محتوا', 'flavor' ) ) );
 

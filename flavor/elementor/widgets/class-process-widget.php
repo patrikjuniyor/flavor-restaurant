@@ -26,10 +26,6 @@ class Process_Widget extends Widget_Base {
 		return 'eicon-steps';
 	}
 
-	public function get_keywords() {
-		return array( 'steps', 'process', 'مراحل', 'سفارش', 'رزرو', 'restaurant' );
-	}
-
 	protected function register_controls() {
 		$this->start_controls_section( 'content', array( 'label' => __( 'محتوا', 'flavor' ) ) );
 
