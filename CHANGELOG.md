@@ -7,6 +7,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added — گشتِ escape خروجی روی قالب‌ها + تورِ سراسریِ تست در CI (پرامپت ۳۵ / R4-3)
+
+- **ممیزی:** هر `echo`/`print`/`<?=` در ۵۳ فایلِ `flavor/template-parts/**`، `flavor/page-templates/`، `flavor/*.php` (header/footer/index/single/search/404 و قالب‌های صفحه) و `flavor-core/admin/views/` با اسکنرِ token-basedِ تازه (`tests/theme/test-output-escaping.php`، ۱۳ بررسی) خوانده شد — **صفرِ خروجیِ خام**: هر متغیر یا esc شده یا cast عددی یا از allowlistِ escape-کننده‌هاست. بافتِ رگولارِ echo (per-operand، با درکِ ternary/elvisِ depth-aware و لیترال‌های الحاقی) طوری است که `<?= ?>` قانع‌کننده هم می‌گیرد.
+- **بازرسیِ `phpcs:ignore`:** طبقِ خواستِ پرامپت، هر ۱۱ کامنتِ escape-related بازرسی شد و همه **مؤید** افتادند — چون خروجیِ بیِ ignore یا ثابتِ محض است یا از `flavor_responsive_image()`/`UI::icon()` عبور می‌کند که خودشان `esc_attr`/`esc_url`/`absint` می‌زنند (منبعِ تابع در تست بازبینی و در CHANGELOG ثبت شد). یک ignoreِ نامؤید یا coverکنندهٔ متغیرِ خام → FAIL با فایل:خط.
+- **کشفِ جانبیِ مهم:** مشخص شد ۱۳ فایلِ تستِ `tests/theme` (شاملِ two گیت‌های نوینِ claims و nonce-coverage) هیچ‌وقت در CI اجرا **نمی‌شدند** — شغلِ Backend فقط فهرستِ دستیِ explicit داشت. گامِ ایستادهٔ «Run the whole theme suite (standing net for every test file)» با `dev-tools/run-theme-tests.sh` اضافه شد؛ از این پس هر فایلِ تستِ نوین خودکار در CI می‌چرخد و کم‌شدنِ شمارشِ تست‌ها پنهان نمی‌ماند.
+- **منفی‌آزماییِ زنده:** کاشتِ `echo get_query_var('s')` در `flavor/search.php` → FAIL با `flavor/search.php:5 get_query_var('s')`؛ حذف → **ALL 13**. منفی‌سنجیِ داخلیِ تست هم `<?= $bad ?>` خام را از esc_html/absint/ternary-ثابت جدا می‌کند. رانرِ کامل: ۳۲ فایل، همه سبز.
+
+
 ### Security — گشتِ capability/نقش‌ها: انحصارِ شعبه در خواندن‌های کارکنان (پرامپت ۳۴ / R4-2)
 
 - **ممیزی:** `Roles.php` + همهٔ فراخوانی‌های `current_user_can`/`user_can`/`can_access_branch` در API/ادمین مرور شد. نقش‌ها درستند (owner/global-manager/global-cap دارد، branch-manager/cashier/kitchen فقط دادهٔ شعبهٔ خود)، تغییرِ نقش از REST غیرممکن است (هیچ روت API به `set_role`/`add_cap`/`'roles'` دست نمی‌زند — در تست قفل شد). سه گپِ واقعیِ «حذفِ branch_id = دیدنِ همهٔ شعبه‌ها» بسته شد:

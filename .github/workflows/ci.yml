@@ -75,6 +75,13 @@ jobs:
       - name: Every readme tag is backed by code that exists
         run: php tests/theme/test-distribution.php
 
+      # The explicit steps above are historical; the last phases proved some
+      # suites (claims, nonce-coverage, …) never got an explicit step and thus
+      # never ran here. This glob is the standing net: no tests/theme file may
+      # be absent from CI. New suites are picked up automatically.
+      - name: Run the whole theme suite (standing net for every test file)
+        run: ./dev-tools/run-theme-tests.sh
+
       - name: Check every theme class is loaded before it is used
         run: |
           php dev-tools/check-class-wiring.php
