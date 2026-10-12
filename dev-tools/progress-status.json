@@ -177,5 +177,10 @@
   "commit": "b49d1a1",
   "note": "گشتِ escape خروجی روی ۵۳ فایل template/view با اسکنرِ token-based: صفرِ echo خام؛ هر ۱۱ phpcs:ignoreِ escape بازرسی و مؤید شد (flavor_responsive_image داخل esc_attr/esc_url می‌کند). کشفِ جانبی: ۱۳ تستِ tests/theme هیچ‌وقت در CI اجرا نمی‌شدند — گامِ globِ ایستاده (run-theme-tests.sh) به backend job اضافه شد",
   "state": "done"
+ },
+ "36": {
+  "commit": "b49a12b",
+  "note": "گیت sanitize ورودی: ۹۸ فایل flavor-core (API + ادمین + views) — ۲۳۰ خواندن superglobal/get_param و ۵۵ تجزیه بدنه JSON بازرسی شد؛ ۹ اصلاح واقعی (۸ فیلتر ReportAdmin با sanitize_key/text_field/absint + یک CacheHints)؛ سه ignoreِ ساختاری (آرایه modifier/qty/mod) پس از تأییدِ sanitize در sink، allowlist صریح خوردند؛ گیتِ مستقل ۹ بررسی با منفی‌آزماییِ زنده",
+  "state": "done"
  }
 }
