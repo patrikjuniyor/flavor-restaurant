@@ -4,13 +4,13 @@
 
 | وضعیت | تعداد |
 |---|---:|
-| ✅ انجام‌شده | 34 |
+| ✅ انجام‌شده | 35 |
 | 🟨 بخشی انجام‌شده | 0 |
 | ⛔ مسدود (نیاز به محیط/تصمیم مالک) | 0 |
-| ⬜ انجام‌نشده | 74 |
+| ⬜ انجام‌نشده | 73 |
 | **مجموع** | **108** |
 
-درصد پیشرفت کامل: **31%** (34/108)
+درصد پیشرفت کامل: **32%** (35/108)
 
 این فایل با `python3 dev-tools/build-progress.py` از روی `progress-status.json` بازتولید می‌شود؛ ویرایش دستی را از دست می‌دهد.
 
@@ -73,7 +73,7 @@
 |---:|---|---|---|
 | 33 | ✅ انجام شد | گشت nonce و CSRF روی همهٔ فرم‌های ادمین قالب و افزونه بزن: فایل‌های | ممیزیِ nonce/capability روی ۲۱ هندلرِ admin-post/admin_init؛ تنها شکاف (capability در github-updater) بسته شد؛ گیتِ ماندگار test-nonce-coverage.php با پارسرِ token_get_all و منفی‌آزماییِ زنده — `commit bab039b` |
 | 34 | ✅ انجام شد | گشت capability و نقش‌ها: فایل flavor-core/includes/Support/Roles.php و | گشتِ نقش/شعبه: resolve_branch_scope در API مشترک؛ سه گپِ «حذفِ branch_id = همهٔ شعبه» بسته شد (Analytics، رزروها، گزارش‌ساز ادمین+CSV)؛ تست IDOR (phpunit) + رانرِ مستقل run-branch-scope-guards.php به گامِ Securityِ CI وصل شد (۲۳ بررسی، منفی‌آزماییِ زنده سبز)؛ e2e ۸۱/۸۱ — `commit 98d493b` |
-| 35 | ⬜ انجام‌نشده | گشت escape خروجی در قالب‌ها: همهٔ echo/print در فایل‌های PHP زیر |  |
+| 35 | ✅ انجام شد | گشت escape خروجی در قالب‌ها: همهٔ echo/print در فایل‌های PHP زیر | گشتِ escape خروجی روی ۵۳ فایل template/view با اسکنرِ token-based: صفرِ echo خام؛ هر ۱۱ phpcs:ignoreِ escape بازرسی و مؤید شد (flavor_responsive_image داخل esc_attr/esc_url می‌کند). کشفِ جانبی: ۱۳ تستِ tests/theme هیچ‌وقت در CI اجرا نمی‌شدند — گامِ globِ ایستاده (run-theme-tests.sh) به backend job اضافه شد — `commit b49d1a1` |
 | 36 | ⬜ انجام‌نشده | گشت sanitize ورودی: همهٔ $_GET/$_POST/$_REQUEST و get_json_params و |  |
 | 37 | ⬜ انجام‌نشده | endpoint های عمومی REST را سخت‌تر کن: SettingsController مسیری با |  |
 | 38 | ⬜ انجام‌نشده | GuestToken و OTP را بازبینی کن: (۱) GuestToken::generate باید از |  |
