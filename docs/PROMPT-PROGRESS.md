@@ -4,13 +4,13 @@
 
 | وضعیت | تعداد |
 |---|---:|
-| ✅ انجام‌شده | 48 |
+| ✅ انجام‌شده | 49 |
 | 🟨 بخشی انجام‌شده | 0 |
 | ⛔ مسدود (نیاز به محیط/تصمیم مالک) | 0 |
-| ⬜ انجام‌نشده | 60 |
+| ⬜ انجام‌نشده | 59 |
 | **مجموع** | **108** |
 
-درصد پیشرفت کامل: **44%** (48/108)
+درصد پیشرفت کامل: **45%** (49/108)
 
 این فایل با `python3 dev-tools/build-progress.py` از روی `progress-status.json` بازتولید می‌شود؛ ویرایش دستی را از دست می‌دهد.
 
@@ -92,7 +92,7 @@
 | 46 | ✅ انجام شد | یکدست‌سازی مدیریت خطا در REST: الگوی respond_error/respond_success در | یکدست‌سازی مدیریت خطا در REST: هر ۸۱ callback فقط از respond_success/respond_error/relay_error پاسخ می‌دهد (چهار کلاس legacy هم extends Base شدند)؛ میان‌افزار ResponseEnvelope ردِ permissionها و خطاهای هسته را فقط روی /flavor/* به پاکت {success,data,meta,errors} نرمال می‌کند؛ جدول status پین شد (۴۰۰/۴۰۱/۴۰۳/۴۰۴/۴۰۹-idempotency/۴۲۹) و کدهای بی‌پیشوند unauthorized/forbidden به flavor_* یکدست شدند؛ مصرف‌کننده‌ها (kitchen-dashboard JS، e2e ۸۱/۸۱) مهاجرت کردند؛ گیت token-based test-rest-response-contract هفت‌clause + سه اثبات sabotage → ۲۸/۰ — `commit 538eae2` |
 | 47 | ✅ انجام شد | پوشش تست هسته را بالا ببر: فایل‌های flavor-core/includes که تست واحد | پوشش تست هسته: پنج سوئیت منطق خالص در flavor-core/tests/pure/ (تجمیع با glob در run-pure-tests + micro-stubهای exists-guarded، بدون WP و بدون mock) برای شش کلاس بی‌تست — PointsManager/Currency/DiscountManager (اولویت پول: convert floor، مرزهای estimate_points، ثابت‌های اقتصاد وفاداری)، WebhookManager (ماتریس sign/verify، backoff با cap، validate_events، حصار SSRF روی literalها)، CheckoutService helpers با reflection (idempotency sanitize/fingerprint/window ۱۲۰s) + SlotCalculator، ReceiptRenderer/KitchenTicketSync (mode_label زنده، اثبات short-circuitِ suspend بدون WC، پین‌های cancel-map و hook-drift)، PushNotificationService (بردارهای DER→raw + round-tripِ openssl_verify روی build_jwt با کلید P-256 یک‌بارمصرف)؛ run-pure-tests از ۴۷ به ۱۷۳؛ گیت test-core-test-coverage با اجرای زندهٔ runner + دو اثبات sabotage → ۱۲/۰ — `commit e9f34b0` |
 | 48 | ✅ انجام شد | Jalali و زمان: تست‌های test-jalali.php را با لبه‌های تقویمی تکمیل کن: | تقویم جلالی و زمان: اصلاح is_leap به پورت وفادار jalaali-js (رجرشن کبیسه شبح ۱۴۰۷/۱۴۱۱/۱۴۱۵/۱۴۱۹/۱۴۲۳/۱۴۲۷ — اسفند ۳۰ روزه ناموجود که اعتبارسنج رزرو از مارس ۲۰۲۸ می‌پذیرفت)، سه جفت‌سازی epoch بومی (یادآور رزرو ۳:۳۰ ساعت دیر، پنجره ناموجودی ۳:۳۰ ساعت اضافه، سن تیکت آشپزخانه چسبیده به صفر)، لبه ۲۴:۰۰ سانس‌های بعداز‌نیمه‌شب پنجره شبانه، و fallback امروز جلالی با current_time؛ جاروب‌های راستی‌آزمایی: صفر واگرایی با jalaali-js (۱۳۸۰–۱۴۳۰) و is_leap⇔۳۶۶روز (۱۳۸۰–۱۴۲۹)؛ سوئیت pure/jalali-time (۵۳ assertion: ماتریس کبیسه، مرز ماه‌ها، لنگرهای رسمی، round-trip ۱۴۶۱ روزه، iran_dow، پین‌های سیاست +۳:۳۰، جاروب صفر-mktime) + پنج متد PHPUnit در test-jalali.php؛ گیت ۱۲→۱۵ با دو اثبات sabotage؛ run-pure-tests ۲۲۶/۰ — `commit 126d262` |
-| 49 | ⬜ انجام‌نشده | گشت سازگاری ووکامرس ۱۱ / HPOS: مطمئن شو هیچ کوئری مستقیمی روی |  |
+| 49 | ✅ انجام شد | گشت سازگاری ووکامرس ۱۱ / HPOS: مطمئن شو هیچ کوئری مستقیمی روی | گشت سازگاری WooCommerce 11/HPOS: ۱۶۸ فایل تولیدی، صفر تخلف — صفر کوئری مستقیم wp_posts برای سفارش‌ها (همه‌جا wc_get_orders/wc_get_order/CRUD)، declare_compatibilityها (custom_order_tables + cart_checkout_blocks با گارد FeaturesUtil در before_woocommerce_init) تأیید و پین شد، GatewayRegistrar با رشتهٔ نام کلاس و پشت کلید Settings ثبت می‌کند (بدنهٔ register صفر new/WC — بدون فراخوانی کلاس منسوخ) و گیتوی‌ها \WC_Payment_Gateway جاری را با گارد class_exists ارث می‌برند؛ حکم‌های صریح گشت: post_meta روی کوپن (DiscountManager) و محصول (KitchenTicketRepository) زیر HPOS مشروع است — فقط shop_order/refund مهاجرت می‌کنند. یافتهٔ واقعی: دو assertion شکستهٔ هرگز‌اجرا‌نشده در test-price-calculator (float بی‌معنای ۲۵۰۰۰۰۱ و انتظارِ U+066C از مبدل digits-only) اصلاح شد. گیت tests/theme/test-hpos-compat.php (۲۹ assertion، globِ CI) با اجرای زندهٔ هر دو تستِ نام‌بردهٔ پرامپت: price-calculator با شیم WP_UnitTestCase (۵ متد/۱۱ assert) و run-e2e-integration (۸۱/۸۱، کفِ ≥۸۱) + ۴ اثبات منفی زنده. — `commit 826192f` |
 | 50 | ⬜ انجام‌نشده | فایل flavor-core/tests/mock-wp-environment.php را مرور کن: mock ها نباید |  |
 
 ## فاز 6 — دسترس‌پذیری (WCAG 2.1 AA)

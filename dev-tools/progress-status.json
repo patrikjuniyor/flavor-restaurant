@@ -136,7 +136,7 @@
   },
   "_meta": {
     "source": "dev-tools/annotate-prompts.py writes the stamps in docs/prompts/flavor-restaurant-fix-prompts.txt",
-    "updated": "2026-10-11"
+    "updated": "2026-10-13"
   },
   "28": {
     "commit": "864f7f0",
@@ -242,5 +242,10 @@
     "commit": "126d262",
     "state": "done",
     "note": "تقویم جلالی و زمان: اصلاح is_leap به پورت وفادار jalaali-js (رجرشن کبیسه شبح ۱۴۰۷/۱۴۱۱/۱۴۱۵/۱۴۱۹/۱۴۲۳/۱۴۲۷ — اسفند ۳۰ روزه ناموجود که اعتبارسنج رزرو از مارس ۲۰۲۸ می‌پذیرفت)، سه جفت‌سازی epoch بومی (یادآور رزرو ۳:۳۰ ساعت دیر، پنجره ناموجودی ۳:۳۰ ساعت اضافه، سن تیکت آشپزخانه چسبیده به صفر)، لبه ۲۴:۰۰ سانس‌های بعداز‌نیمه‌شب پنجره شبانه، و fallback امروز جلالی با current_time؛ جاروب‌های راستی‌آزمایی: صفر واگرایی با jalaali-js (۱۳۸۰–۱۴۳۰) و is_leap⇔۳۶۶روز (۱۳۸۰–۱۴۲۹)؛ سوئیت pure/jalali-time (۵۳ assertion: ماتریس کبیسه، مرز ماه‌ها، لنگرهای رسمی، round-trip ۱۴۶۱ روزه، iran_dow، پین‌های سیاست +۳:۳۰، جاروب صفر-mktime) + پنج متد PHPUnit در test-jalali.php؛ گیت ۱۲→۱۵ با دو اثبات sabotage؛ run-pure-tests ۲۲۶/۰"
+  },
+  "49": {
+    "commit": "826192f",
+    "state": "done",
+    "note": "گشت سازگاری WooCommerce 11/HPOS: ۱۶۸ فایل تولیدی، صفر تخلف — صفر کوئری مستقیم wp_posts برای سفارش‌ها (همه‌جا wc_get_orders/wc_get_order/CRUD)، declare_compatibilityها (custom_order_tables + cart_checkout_blocks با گارد FeaturesUtil در before_woocommerce_init) تأیید و پین شد، GatewayRegistrar با رشتهٔ نام کلاس و پشت کلید Settings ثبت می‌کند (بدنهٔ register صفر new/WC — بدون فراخوانی کلاس منسوخ) و گیتوی‌ها \\WC_Payment_Gateway جاری را با گارد class_exists ارث می‌برند؛ حکم‌های صریح گشت: post_meta روی کوپن (DiscountManager) و محصول (KitchenTicketRepository) زیر HPOS مشروع است — فقط shop_order/refund مهاجرت می‌کنند. یافتهٔ واقعی: دو assertion شکستهٔ هرگز‌اجرا‌نشده در test-price-calculator (float بی‌معنای ۲۵۰۰۰۰۱ و انتظارِ U+066C از مبدل digits-only) اصلاح شد. گیت tests/theme/test-hpos-compat.php (۲۹ assertion، globِ CI) با اجرای زندهٔ هر دو تستِ نام‌بردهٔ پرامپت: price-calculator با شیم WP_UnitTestCase (۵ متد/۱۱ assert) و run-e2e-integration (۸۱/۸۱، کفِ ≥۸۱) + ۴ اثبات منفی زنده."
   }
 }
