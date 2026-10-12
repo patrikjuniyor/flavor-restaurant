@@ -159,6 +159,10 @@ class WP_User {
 	}
 
 	public function has_cap( string $cap ): bool {
+		$caps = $GLOBALS['_mock_user_caps'][ $this->ID ] ?? array();
+		if ( isset( $caps[ $cap ] ) ) {
+			return (bool) $caps[ $cap ];
+		}
 		if ( in_array( 'administrator', $this->roles, true ) ) return true;
 		if ( $cap === 'manage_options' && in_array( 'administrator', $this->roles, true ) ) return true;
 		if ( $cap === 'flavor_manage_kitchen' && in_array( 'flavor_kitchen', $this->roles, true ) ) return true;

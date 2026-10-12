@@ -227,6 +227,7 @@ jobs:
       - name: Run Security IDOR Isolation Tests
         run: |
           php flavor-core/tests/run-e2e-integration.php
+          php flavor-core/tests/run-branch-scope-guards.php
 
       - name: Refuse live credential patterns in full history (R3-12)
         run: |

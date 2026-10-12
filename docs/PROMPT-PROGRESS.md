@@ -72,7 +72,7 @@
 | پرامپت | وضعیت | خلاصه | یادداشت / کامیت |
 |---:|---|---|---|
 | 33 | ✅ انجام شد | گشت nonce و CSRF روی همهٔ فرم‌های ادمین قالب و افزونه بزن: فایل‌های | ممیزیِ nonce/capability روی ۲۱ هندلرِ admin-post/admin_init؛ تنها شکاف (capability در github-updater) بسته شد؛ گیتِ ماندگار test-nonce-coverage.php با پارسرِ token_get_all و منفی‌آزماییِ زنده — `commit bab039b` |
-| 34 | ✅ انجام شد | گشت capability و نقش‌ها: فایل flavor-core/includes/Support/Roles.php و | گشتِ نقش/شعبه: resolve_branch_scope در API مشترک؛ سه گپِ «حذفِ branch_id = همهٔ شعبه» بسته شد (Analytics، رزروها، گزارش‌ساز ادمین+CSV)؛ تستِ IDOR نوین با گاردِ منبعی و منفی‌آزماییِ زنده؛ e2e ۸۱/۸۱ — `commit 98d493b` |
+| 34 | ✅ انجام شد | گشت capability و نقش‌ها: فایل flavor-core/includes/Support/Roles.php و | گشتِ نقش/شعبه: resolve_branch_scope در API مشترک؛ سه گپِ «حذفِ branch_id = همهٔ شعبه» بسته شد (Analytics، رزروها، گزارش‌ساز ادمین+CSV)؛ تست IDOR (phpunit) + رانرِ مستقل run-branch-scope-guards.php به گامِ Securityِ CI وصل شد (۲۳ بررسی، منفی‌آزماییِ زنده سبز)؛ e2e ۸۱/۸۱ — `commit 98d493b` |
 | 35 | ⬜ انجام‌نشده | گشت escape خروجی در قالب‌ها: همهٔ echo/print در فایل‌های PHP زیر |  |
 | 36 | ⬜ انجام‌نشده | گشت sanitize ورودی: همهٔ $_GET/$_POST/$_REQUEST و get_json_params و |  |
 | 37 | ⬜ انجام‌نشده | endpoint های عمومی REST را سخت‌تر کن: SettingsController مسیری با |  |
