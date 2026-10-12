@@ -162,5 +162,10 @@
   "commit": "c31c5b8",
   "note": "یادداشتِ امنیتیِ R3-12 در صدرِ سند R3 و بخشِ تازهٔ README؛ بازرسیِ کاملِ تاریخچه (صفرِ رمز واقعی؛ فقط placeholderِ README-updater)؛ گیتِ تازه در شغلِ security-scan برای credential-in-history",
   "state": "done"
+ },
+ "33": {
+  "commit": "bab039b",
+  "note": "ممیزیِ nonce/capability روی ۲۱ هندلرِ admin-post/admin_init؛ تنها شکاف (capability در github-updater) بسته شد؛ گیتِ ماندگار test-nonce-coverage.php با پارسرِ token_get_all و منفی‌آزماییِ زنده",
+  "state": "done"
  }
 }
