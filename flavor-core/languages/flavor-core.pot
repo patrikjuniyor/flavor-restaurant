@@ -13,28 +13,28 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-12 13:37+00:00\n"
+"POT-Creation-Date: 2026-10-12 14:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
 
-#: flavor-core/includes/API/OrderController.php:384
+#: flavor-core/admin/views/executive-dashboard.php:106
+msgid "%1$d مشتری وفادار از %2$d کل"
+msgstr ""
+
+#: flavor-core/includes/API/OrderController.php:391
 msgid "%d قلم غذا به سبد خرید افزوده شد."
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:99
-msgid "%d مشتری وفادار از %d کل"
-msgstr ""
-
-#: flavor-core/admin/views/executive-dashboard.php:221
+#: flavor-core/admin/views/executive-dashboard.php:230
 msgid "AOV"
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:640
+#: flavor-core/includes/Notification/PushNotificationService.php:668
 msgid "APNs configuration missing: FLAVOR_APNS_KEY_ID / FLAVOR_APNS_TEAM_ID / FLAVOR_APNS_BUNDLE_ID / FLAVOR_APNS_AUTH_KEY_PATH."
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:444
+#: flavor-core/includes/Notification/PushNotificationService.php:458
 msgid "FCM service account is not configured (FLAVOR_FCM_SERVICE_ACCOUNT_JSON / FLAVOR_FCM_SERVICE_ACCOUNT_PATH)."
 msgstr ""
 
@@ -42,7 +42,7 @@ msgstr ""
 msgid "QR"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:65
+#: flavor-core/admin/views/mobile-app-dashboard.php:71
 msgid "REST API فعال v1"
 msgstr ""
 
@@ -66,11 +66,11 @@ msgstr ""
 msgid "«%s» دیگر قابل سفارش نیست."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:215
+#: flavor-core/admin/views/mobile-app-dashboard.php:221
 msgid "آدرس شرایط و قوانین"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:208
+#: flavor-core/admin/views/mobile-app-dashboard.php:214
 msgid "آدرس صفحه حریم خصوصی"
 msgstr ""
 
@@ -78,23 +78,23 @@ msgstr ""
 msgid "آدرس مقصد وب‌هوک امن نیست (SSRF)."
 msgstr ""
 
-#: flavor-core/includes/API/WebhookController.php:142 flavor-core/includes/API/WebhookController.php:221
+#: flavor-core/includes/API/WebhookController.php:143 flavor-core/includes/API/WebhookController.php:223
 msgid "آدرس مقصد وب‌هوک مجاز نیست؛ فقط https عمومی پذیرفته می‌شود."
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:61 flavor-core/includes/Admin/AdminMenus.php:98 flavor-core/includes/Admin/AdminMenus.php:99
+#: flavor-core/admin/views/kitchen-dashboard.php:62 flavor-core/includes/Admin/AdminMenus.php:98 flavor-core/includes/Admin/AdminMenus.php:99
 msgid "آشپزخانه"
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:232
+#: flavor-core/includes/Notification/PushNotificationService.php:237
 msgid "آشپزخانه رستوران سفارش #%d را تایید کرد و در حال پخت است."
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:90
+#: flavor-core/admin/views/kitchen-dashboard.php:91
 msgid "آماده"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:44
+#: flavor-core/admin/views/mobile-app-dashboard.php:48
 msgid "آماده بیلد"
 msgstr ""
 
@@ -106,15 +106,15 @@ msgstr ""
 msgid "آیتم"
 msgstr ""
 
-#: flavor-core/includes/API/CartController.php:292
+#: flavor-core/includes/API/CartController.php:302
 msgid "آیتم از سبد حذف شد."
 msgstr ""
 
-#: flavor-core/includes/API/CartController.php:241
+#: flavor-core/includes/API/CartController.php:247
 msgid "آیتم به سبد اضافه شد."
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/CartSession.php:107
+#: flavor-core/includes/WooCommerce/CartSession.php:109
 msgid "آیتم در سبد شما یافت نشد."
 msgstr ""
 
@@ -122,11 +122,11 @@ msgstr ""
 msgid "آیتم سبد نامعتبر است."
 msgstr ""
 
-#: flavor-core/includes/API/CartController.php:258 flavor-core/includes/API/CartController.php:288
+#: flavor-core/includes/API/CartController.php:264 flavor-core/includes/API/CartController.php:298
 msgid "آیتم مورد نظر در سبد خرید یافت نشد."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:148
+#: flavor-core/admin/views/mobile-app-dashboard.php:154
 msgid "آیکون برنامه (App Icon 1024x1024)"
 msgstr ""
 
@@ -142,19 +142,19 @@ msgstr ""
 msgid "ارزش هر امتیاز (تومان)"
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:76 flavor-core/includes/Order/PhoneOrderAdmin.php:144 flavor-core/includes/PostTypes/BranchPostType.php:136 flavor-core/includes/Receipt/ReceiptRenderer.php:110
+#: flavor-core/admin/views/kitchen-dashboard.php:77 flavor-core/includes/Order/PhoneOrderAdmin.php:144 flavor-core/includes/PostTypes/BranchPostType.php:136 flavor-core/includes/Receipt/ReceiptRenderer.php:110
 msgid "ارسال"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:147
+#: flavor-core/admin/views/executive-dashboard.php:155
 msgid "ارسال با پیک (Delivery)"
 msgstr ""
 
-#: flavor-core/includes/API/SettingsController.php:106
+#: flavor-core/includes/API/SettingsController.php:116
 msgid "ارسال با پیک اختصاصی"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:279
+#: flavor-core/admin/views/mobile-app-dashboard.php:285
 msgid "ارسال درخواست بیلد به سرویس CI/CD"
 msgstr ""
 
@@ -178,7 +178,7 @@ msgstr ""
 msgid "از تاریخ"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:52
+#: flavor-core/admin/views/executive-dashboard.php:56
 msgid "از تاریخ:"
 msgstr ""
 
@@ -202,7 +202,7 @@ msgstr ""
 msgid "اطلاعات شعبه"
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:296
+#: flavor-core/includes/Notification/PushNotificationService.php:309
 msgid "اطلاعیه رزرو میز"
 msgstr ""
 
@@ -210,15 +210,15 @@ msgstr ""
 msgid "اعمال امتیاز (+/−)"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:61
+#: flavor-core/admin/views/executive-dashboard.php:65
 msgid "اعمال فیلتر"
 msgstr ""
 
-#: flavor-core/includes/Loyalty/DiscountManager.php:146
+#: flavor-core/includes/Loyalty/DiscountManager.php:147
 msgid "اعمال کد ناموفق بود."
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/CartSession.php:202
+#: flavor-core/includes/WooCommerce/CartSession.php:213
 msgid "افزودن به سبد انجام نشد."
 msgstr ""
 
@@ -242,7 +242,7 @@ msgstr ""
 msgid "افزونه Flavor Core برای اجرا به ووکامرس ۸.۵ یا بالاتر نیاز دارد."
 msgstr ""
 
-#: flavor-core/includes/SMS/Providers/FarazProvider.php:61
+#: flavor-core/includes/SMS/Providers/FarazProvider.php:65
 msgid "افزونه فراز اس‌ام‌اس فعال نیست."
 msgstr ""
 
@@ -250,7 +250,7 @@ msgstr ""
 msgid "افزونه ملی پیامک فعال نیست."
 msgstr ""
 
-#: flavor-core/includes/SMS/Providers/KavenegarProvider.php:61
+#: flavor-core/includes/SMS/Providers/KavenegarProvider.php:65
 msgid "افزونه کاوه‌نگار فعال نیست."
 msgstr ""
 
@@ -262,7 +262,7 @@ msgstr ""
 msgid "امتیاز باشگاه به مشتری تعلق گرفت (loyalty.points_awarded)"
 msgstr ""
 
-#: flavor-core/includes/API/CartController.php:381
+#: flavor-core/includes/API/CartController.php:391
 msgid "امتیاز باشگاه مشتریان محاسبه شد."
 msgstr ""
 
@@ -270,7 +270,7 @@ msgstr ""
 msgid "امتیاز به ازای هر واحد"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:47
+#: flavor-core/admin/views/mobile-app-dashboard.php:52
 msgid "امتیاز تکمیل: %d%%"
 msgstr ""
 
@@ -290,27 +290,27 @@ msgstr ""
 msgid "امضای وب‌هوک معتبر نیست."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:108
+#: flavor-core/admin/views/mobile-app-dashboard.php:114
 msgid "امنیت و کلیدها"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:151 flavor-core/admin/views/mobile-app-dashboard.php:159
+#: flavor-core/admin/views/mobile-app-dashboard.php:157 flavor-core/admin/views/mobile-app-dashboard.php:165
 msgid "انتخاب از رسانه"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:429
+#: flavor-core/admin/views/mobile-app-dashboard.php:435
 msgid "انتخاب تصویر اپلیکیشن"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:186
+#: flavor-core/admin/views/mobile-app-dashboard.php:192
 msgid "انتخاب خودکار یا انتخاب توسط کاربر"
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/ProductModifiers.php:97 flavor-core/includes/WooCommerce/ProductModifiers.php:437
+#: flavor-core/includes/WooCommerce/ProductModifiers.php:97 flavor-core/includes/WooCommerce/ProductModifiers.php:438
 msgid "اندازه"
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/CartSession.php:128
+#: flavor-core/includes/WooCommerce/CartSession.php:133
 msgid "اندازهٔ این غذا را انتخاب کنید."
 msgstr ""
 
@@ -342,15 +342,15 @@ msgstr ""
 msgid "اگر مشتری شعبه‌ای انتخاب نکرده باشد از این شعبه استفاده شود."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:202
+#: flavor-core/admin/views/mobile-app-dashboard.php:208
 msgid "ایمیل پشتیبانی"
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/CartSession.php:189
+#: flavor-core/includes/WooCommerce/CartSession.php:200
 msgid "این آیتم قابل سفارش نیست."
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/CartSession.php:150
+#: flavor-core/includes/WooCommerce/CartSession.php:158
 msgid "این تعداد یا ویرایش توسط فروشگاه پذیرفته نشد؛ انتخاب قبلی شما محفوظ است."
 msgstr ""
 
@@ -374,11 +374,11 @@ msgstr ""
 msgid "این سفارش قبلاً با نشانی دیگری ثبت شده است."
 msgstr ""
 
-#: flavor-core/includes/API/RestController.php:185 flavor-core/includes/Delivery/ZoneAdmin.php:155 flavor-core/includes/Menu/AvailabilityAdmin.php:108 flavor-core/includes/Reservation/ReservationAdmin.php:153 flavor-core/includes/Table/TableAdmin.php:326
+#: flavor-core/includes/API/RestController.php:185 flavor-core/includes/Delivery/ZoneAdmin.php:155 flavor-core/includes/Menu/AvailabilityAdmin.php:108 flavor-core/includes/Reservation/ReservationAdmin.php:159 flavor-core/includes/Table/TableAdmin.php:326
 msgid "این شعبه در دسترس شما نیست."
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/CartSession.php:111
+#: flavor-core/includes/WooCommerce/CartSession.php:113
 msgid "این محصول دیگر قابل سفارش نیست؛ انتخاب قبلی شما حذف نشده است."
 msgstr ""
 
@@ -394,19 +394,19 @@ msgstr ""
 msgid "این نشانی در محدوده ارسال این شعبه نیست."
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/CartSession.php:142
+#: flavor-core/includes/WooCommerce/CartSession.php:148
 msgid "این ویرایش بیش از ۲۰ واحد از یک انتخاب در سبد می‌سازد. ابتدا تعداد را کم کنید؛ سبد قبلی محفوظ است."
 msgstr ""
 
-#: flavor-core/includes/Loyalty/DiscountManager.php:106
+#: flavor-core/includes/Loyalty/DiscountManager.php:107
 msgid "این کد برای شعبه انتخاب‌شده معتبر نیست."
 msgstr ""
 
-#: flavor-core/includes/Loyalty/DiscountManager.php:112
+#: flavor-core/includes/Loyalty/DiscountManager.php:113
 msgid "این کد فقط برای اولین سفارش است."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:231
+#: flavor-core/admin/views/mobile-app-dashboard.php:237
 msgid "با ثبت این درخواست، تنظیمات و لوگوهای برندینگ شما از طریق وب‌هوک رمزنگاری شده HMAC به خط لوله CI/CD (GitHub Actions / Fastlane) ارسال شده و فرآیند کامپایل آغاز می‌شود."
 msgstr ""
 
@@ -422,11 +422,11 @@ msgstr ""
 msgid "بازهٔ انتخابی بزرگ است؛ خروجی به %s ردیف محدود شد. بازه را کوتاه‌تر کنید."
 msgstr ""
 
-#: flavor-core/includes/Reporting/ScheduledReport.php:362
+#: flavor-core/includes/Reporting/ScheduledReport.php:375
 msgid "بازهٔ گزارش محدود شده است؛ برای دریافتِ کامل بازه را کوتاه‌تر کنید."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:143 flavor-core/includes/Admin/AdminMenus.php:144 flavor-core/includes/Loyalty/LoyaltyAdmin.php:57 flavor-core/includes/Reporting/ReportAdmin.php:92 flavor-core/includes/Reporting/ScheduledReport.php:325
+#: flavor-core/includes/Admin/AdminMenus.php:143 flavor-core/includes/Admin/AdminMenus.php:144 flavor-core/includes/Loyalty/LoyaltyAdmin.php:57 flavor-core/includes/Reporting/ReportAdmin.php:92 flavor-core/includes/Reporting/ScheduledReport.php:338
 msgid "باشگاه مشتریان"
 msgstr ""
 
@@ -442,7 +442,7 @@ msgstr ""
 msgid "بدنهٔ درخواست JSON معتبر نیست."
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/ProductModifiers.php:440
+#: flavor-core/includes/WooCommerce/ProductModifiers.php:441
 msgid "بدون"
 msgstr ""
 
@@ -462,7 +462,7 @@ msgstr ""
 msgid "برای PNG به پسوند GD نیاز است. SVG را دانلود کنید."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:211
+#: flavor-core/admin/views/mobile-app-dashboard.php:217
 msgid "برای انتشار در گوگل پلی و کافه بازار و مایکت الزامی است."
 msgstr ""
 
@@ -478,19 +478,19 @@ msgstr ""
 msgid "برای سفارش حضوری، میز معتبر را انتخاب کنید."
 msgstr ""
 
-#: flavor-core/includes/API/ReservationController.php:404
+#: flavor-core/includes/API/ReservationController.php:409
 msgid "برای مشاهده یا مدیریت این رزرو باید وارد شوید یا توکن مهمان ارسال کنید."
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:438
+#: flavor-core/includes/API/OrderController.php:445
 msgid "برای مشاهده یا پیگیری این سفارش باید وارد شوید یا توکن مهمان ارسال کنید."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:270
+#: flavor-core/admin/views/mobile-app-dashboard.php:276
 msgid "برای هر بیلد جدید جهت انتشار در استورها باید افزایش یابد."
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:238
+#: flavor-core/includes/Notification/PushNotificationService.php:247
 msgid "بروزرسانی سفارش #%d"
 msgstr ""
 
@@ -506,15 +506,15 @@ msgstr ""
 msgid "به‌روزرسانی رکورد بیلد با خطا مواجه شد."
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:75 flavor-core/includes/Order/PhoneOrderAdmin.php:145 flavor-core/includes/PostTypes/BranchPostType.php:135 flavor-core/includes/Receipt/ReceiptRenderer.php:109
+#: flavor-core/admin/views/kitchen-dashboard.php:76 flavor-core/includes/Order/PhoneOrderAdmin.php:145 flavor-core/includes/PostTypes/BranchPostType.php:135 flavor-core/includes/Receipt/ReceiptRenderer.php:109
 msgid "بیرون‌بر"
 msgstr ""
 
-#: flavor-core/includes/API/SettingsController.php:105
+#: flavor-core/includes/API/SettingsController.php:111
 msgid "بیرون‌بر / تحویل حضوری"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:136
+#: flavor-core/admin/views/executive-dashboard.php:144
 msgid "بیرون‌بر و تحویل حضوری (Takeaway)"
 msgstr ""
 
@@ -526,11 +526,11 @@ msgstr ""
 msgid "تا تاریخ"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:57
+#: flavor-core/admin/views/executive-dashboard.php:61
 msgid "تا تاریخ:"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportQuery.php:89
+#: flavor-core/includes/Reporting/ReportQuery.php:92
 msgid "تاریخ باید با قالب سال-ماه-روز باشد."
 msgstr ""
 
@@ -542,19 +542,19 @@ msgstr ""
 msgid "تاریخ میلادی"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:310
+#: flavor-core/admin/views/mobile-app-dashboard.php:316
 msgid "تاریخ و زمان"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:293
+#: flavor-core/admin/views/mobile-app-dashboard.php:299
 msgid "تاریخچه بیلدها و بسته‌های خروجی"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:107
+#: flavor-core/admin/views/mobile-app-dashboard.php:113
 msgid "تاریخچه بیلدها و دانلود"
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/ProductModifiers.php:98 flavor-core/includes/WooCommerce/ProductModifiers.php:438
+#: flavor-core/includes/WooCommerce/ProductModifiers.php:98 flavor-core/includes/WooCommerce/ProductModifiers.php:439
 msgid "تاپینگ"
 msgstr ""
 
@@ -566,19 +566,19 @@ msgstr ""
 msgid "تحویل داده شد"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:75
+#: flavor-core/admin/views/executive-dashboard.php:80
 msgid "تخفیف‌ها: %s"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:156
+#: flavor-core/admin/views/mobile-app-dashboard.php:162
 msgid "تصویر صفحه خوش‌آمدگویی (Splash)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:160
+#: flavor-core/admin/views/mobile-app-dashboard.php:166
 msgid "تصویر لوگو یا گرافیک اختصاصی صفحه اسپلش (حداقل 1080x1920)."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:152
+#: flavor-core/admin/views/mobile-app-dashboard.php:158
 msgid "تصویر مربعی بدون حاشیه با فرمت PNG بدون ترنسپرنسی (1024x1024 پیکسل)."
 msgstr ""
 
@@ -602,15 +602,15 @@ msgstr ""
 msgid "تعداد درخواست کد بیش از حد مجاز است. ۱۰ دقیقه دیگر تلاش کنید."
 msgstr ""
 
-#: flavor-core/includes/Reporting/ScheduledReport.php:351
+#: flavor-core/includes/Reporting/ScheduledReport.php:364
 msgid "تعداد ردیف‌ها: %d"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:195
+#: flavor-core/admin/views/executive-dashboard.php:204
 msgid "تعداد سفارش"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:196
+#: flavor-core/admin/views/executive-dashboard.php:205
 msgid "تعداد فاکتور"
 msgstr ""
 
@@ -618,7 +618,7 @@ msgstr ""
 msgid "تعداد مهر برای یک آیتم رایگان"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:82
+#: flavor-core/admin/views/executive-dashboard.php:87
 msgid "تعداد کل سفارش‌ها"
 msgstr ""
 
@@ -626,7 +626,7 @@ msgstr ""
 msgid "تغییر قیمت"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:120
+#: flavor-core/admin/views/executive-dashboard.php:128
 msgid "تفکیک کانال‌های سفارش"
 msgstr ""
 
@@ -634,19 +634,19 @@ msgstr ""
 msgid "تلفن"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:386
+#: flavor-core/admin/views/mobile-app-dashboard.php:392
 msgid "تمامی وب‌هوک‌های ارسالی از CI به وردپرس با هدر اختصاصی X-Flavor-Signature و کلید مخفی اعتبارسنجی می‌شوند."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:243
+#: flavor-core/admin/views/mobile-app-dashboard.php:249
 msgid "تمامی پلتفرم‌ها (Android APK + AAB & iOS IPA)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:394
+#: flavor-core/admin/views/mobile-app-dashboard.php:400
 msgid "تمامی پکیج‌های تولیدی با متادیتای هش SHA256 جهت جلوگیری از دستکاری در سیستم ثبت می‌گردند."
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:78
+#: flavor-core/admin/views/kitchen-dashboard.php:79
 msgid "تمام‌صفحه"
 msgstr ""
 
@@ -662,7 +662,7 @@ msgstr ""
 msgid "تنظیمات اپلیکیشن با موفقیت ذخیره شد."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:105
+#: flavor-core/admin/views/mobile-app-dashboard.php:111
 msgid "تنظیمات برند و هویت بصری"
 msgstr ""
 
@@ -678,11 +678,11 @@ msgstr ""
 msgid "تهران"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:179
+#: flavor-core/admin/views/executive-dashboard.php:188
 msgid "توزیع ۲۴ ساعته سفارش‌ها (جهت برنامه‌ریزی شیفت پرسنل و آماده‌سازی مواد اولیه)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:255
+#: flavor-core/admin/views/mobile-app-dashboard.php:261
 msgid "توسعه (Development / Debug)"
 msgstr ""
 
@@ -690,7 +690,7 @@ msgstr ""
 msgid "توضیحات"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:253
+#: flavor-core/admin/views/mobile-app-dashboard.php:259
 msgid "تولید نهایی (Production / Release Store)"
 msgstr ""
 
@@ -714,7 +714,7 @@ msgstr ""
 msgid "توکن منقضی یا نامعتبر شده است. لطفاً مجدداً وارد شوید."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:96
+#: flavor-core/admin/views/mobile-app-dashboard.php:102
 msgid "تکمیل شده"
 msgstr ""
 
@@ -750,7 +750,7 @@ msgstr ""
 msgid "ثبت میز انجام نشد. شماره میز در این شعبه تکراری است؟"
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:82
+#: flavor-core/admin/views/kitchen-dashboard.php:83
 msgid "جدید"
 msgstr ""
 
@@ -818,10 +818,6 @@ msgstr ""
 msgid "حذف ماده"
 msgstr ""
 
-#: flavor-core/includes/API/BaseApiController.php:230
-msgid "حساب شما به چند شعبه دسترسی دارد؛ ارسال branch_id الزامی است."
-msgstr ""
-
 #: flavor-core/includes/Reservation/ReservationAdmin.php:90
 msgid "حضوری"
 msgstr ""
@@ -850,7 +846,7 @@ msgstr ""
 msgid "خطا در صدور توکن. لطفاً دوباره تلاش کنید."
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:189
+#: flavor-core/admin/views/executive-dashboard.php:198
 msgid "داده‌ای برای بازه انتخابی ثبت نشده است."
 msgstr ""
 
@@ -862,7 +858,7 @@ msgstr ""
 msgid "دانلود CSV"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ScheduledReport.php:385
+#: flavor-core/includes/Reporting/ScheduledReport.php:398
 msgid "در این بازه داده‌ای ثبت نشده است. این پیام تأیید می‌کند که زمان‌بندی فعال است."
 msgstr ""
 
@@ -870,11 +866,11 @@ msgstr ""
 msgid "در این بازه داده‌ای یافت نشد."
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/ProductModifiers.php:99 flavor-core/includes/WooCommerce/ProductModifiers.php:439
+#: flavor-core/includes/WooCommerce/ProductModifiers.php:99 flavor-core/includes/WooCommerce/ProductModifiers.php:440
 msgid "درجه پخت"
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:86
+#: flavor-core/admin/views/kitchen-dashboard.php:87
 msgid "در حال آماده‌سازی"
 msgstr ""
 
@@ -882,7 +878,7 @@ msgstr ""
 msgid "در حال آماده‌سازی در آشپزخانه"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:332 flavor-core/includes/Mobile/BuildManager.php:488
+#: flavor-core/admin/views/mobile-app-dashboard.php:338 flavor-core/includes/Mobile/BuildManager.php:488
 msgid "در حال کامپایل"
 msgstr ""
 
@@ -894,7 +890,7 @@ msgstr ""
 msgid "درخواست بیلد با موفقیت ایجاد گردید و به خط لوله CI ارسال شد."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:31
+#: flavor-core/admin/views/mobile-app-dashboard.php:35
 msgid "درخواست بیلد جدید"
 msgstr ""
 
@@ -906,11 +902,11 @@ msgstr ""
 msgid "در زباله‌دان شعبه‌ای نیست."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:333 flavor-core/includes/Mobile/BuildManager.php:487
+#: flavor-core/admin/views/mobile-app-dashboard.php:339 flavor-core/includes/Mobile/BuildManager.php:487
 msgid "در صف انتظار"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:377
+#: flavor-core/admin/views/mobile-app-dashboard.php:383
 msgid "در طراحی امنیتی سامانه وایت‌لیبل Flavor، هیچ‌گونه کلید حساس امضای اندروید (Keystore/JKS)، گواهی‌نامه اپل (iOS Distribution Certificate / Provisioning Profile) یا توکن‌های محرمانه استورها در دیتابیس وردپرس یا کدهای فرانت‌اند ذخیره نمی‌گردد."
 msgstr ""
 
@@ -918,7 +914,7 @@ msgstr ""
 msgid "درگاه پرداخت پیدا نشد."
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/CartSession.php:125
+#: flavor-core/includes/WooCommerce/CartSession.php:130
 msgid "در گروه‌های تک‌انتخابی فقط یک گزینه انتخاب کنید."
 msgstr ""
 
@@ -926,15 +922,19 @@ msgstr ""
 msgid "دریافت سفارش"
 msgstr ""
 
-#: flavor-core/includes/API/BaseApiController.php:191 flavor-core/includes/API/BaseApiController.php:221
+#: flavor-core/includes/API/BaseApiController.php:191
 msgid "دسترسی به اطلاعات این شعبه برای شما مجاز نیست."
 msgstr ""
 
-#: flavor-core/includes/API/ReservationController.php:411
+#: flavor-core/includes/API/AnalyticsController.php:95
+msgid "دسترسی به اطلاعات این شعبه محدود است."
+msgstr ""
+
+#: flavor-core/includes/API/ReservationController.php:416
 msgid "دسترسی به این رزرو برای شما مجاز نیست."
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:446
+#: flavor-core/includes/API/OrderController.php:453
 msgid "دسترسی به این سفارش برای شما مجاز نیست."
 msgstr ""
 
@@ -946,7 +946,7 @@ msgstr ""
 msgid "دسترسی به گزارش این شعبه مجاز نیست."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:251 flavor-core/includes/API/RestController.php:223 flavor-core/includes/API/RestStore.php:313 flavor-core/includes/API/RestStore.php:339 flavor-core/includes/Delivery/ZoneAdmin.php:33 flavor-core/includes/Delivery/ZoneAdmin.php:148 flavor-core/includes/Loyalty/LoyaltyAdmin.php:33 flavor-core/includes/Loyalty/LoyaltyAdmin.php:113 flavor-core/includes/Menu/AvailabilityAdmin.php:32 flavor-core/includes/Menu/AvailabilityAdmin.php:101 flavor-core/includes/Menu/ScheduleAdmin.php:31 flavor-core/includes/Menu/ScheduleAdmin.php:96 flavor-core/includes/Order/PhoneOrderAdmin.php:64 flavor-core/includes/Order/PhoneOrderAdmin.php:203 flavor-core/includes/Reservation/ReservationAdmin.php:33 flavor-core/includes/Reservation/ReservationAdmin.php:145 flavor-core/includes/Table/TableAdmin.php:34 flavor-core/includes/Table/TableAdmin.php:317
+#: flavor-core/includes/Admin/AdminMenus.php:251 flavor-core/includes/API/RestController.php:223 flavor-core/includes/API/RestStore.php:313 flavor-core/includes/API/RestStore.php:339 flavor-core/includes/Delivery/ZoneAdmin.php:33 flavor-core/includes/Delivery/ZoneAdmin.php:148 flavor-core/includes/Loyalty/LoyaltyAdmin.php:33 flavor-core/includes/Loyalty/LoyaltyAdmin.php:113 flavor-core/includes/Menu/AvailabilityAdmin.php:32 flavor-core/includes/Menu/AvailabilityAdmin.php:101 flavor-core/includes/Menu/ScheduleAdmin.php:31 flavor-core/includes/Menu/ScheduleAdmin.php:96 flavor-core/includes/Order/PhoneOrderAdmin.php:64 flavor-core/includes/Order/PhoneOrderAdmin.php:203 flavor-core/includes/Reservation/ReservationAdmin.php:33 flavor-core/includes/Reservation/ReservationAdmin.php:151 flavor-core/includes/Table/TableAdmin.php:34 flavor-core/includes/Table/TableAdmin.php:317
 msgid "دسترسی ندارید."
 msgstr ""
 
@@ -962,7 +962,7 @@ msgstr ""
 msgid "دورهٔ ارسال باید روزانه، هفتگی یا ماهانه باشد."
 msgstr ""
 
-#: flavor-core/includes/API/ReviewController.php:202
+#: flavor-core/includes/API/ReviewController.php:203
 msgid "دیدگاه شما با موفقیت ثبت شد."
 msgstr ""
 
@@ -974,7 +974,7 @@ msgstr ""
 msgid "ذخیره"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:223
+#: flavor-core/admin/views/mobile-app-dashboard.php:229
 msgid "ذخیره تنظیمات برندینگ"
 msgstr ""
 
@@ -982,7 +982,7 @@ msgstr ""
 msgid "ذخیره تنظیمات وفاداری"
 msgstr ""
 
-#: flavor-core/includes/API/MenuController.php:459
+#: flavor-core/includes/API/MenuController.php:465
 msgid "رایگان"
 msgstr ""
 
@@ -990,7 +990,7 @@ msgstr ""
 msgid "ردیف خالی نادیده گرفته می‌شود. برای افزودن ردیف، پس از ذخیره دوباره باز کنید — ویرایشگر پویا در فاز ۲ می‌آید."
 msgstr ""
 
-#: flavor-core/includes/API/ReservationController.php:328
+#: flavor-core/includes/API/ReservationController.php:333
 msgid "رزرو با موفقیت لغو شد."
 msgstr ""
 
@@ -998,7 +998,7 @@ msgstr ""
 msgid "رزرو شما در {branch} برای {date} ساعت {time} تایید شد."
 msgstr ""
 
-#: flavor-core/includes/API/ReservationController.php:318
+#: flavor-core/includes/API/ReservationController.php:320
 msgid "رزرو قبلاً لغو شده است."
 msgstr ""
 
@@ -1014,27 +1014,27 @@ msgstr ""
 msgid "رزرو میز جدید ثبت شد (reservation.created)"
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:285
+#: flavor-core/includes/Notification/PushNotificationService.php:295
 msgid "رزرو میز شما تایید شد"
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:291
-msgid "رزرو میز شما در %s برای تاریخ %s ساعت %s با موفقیت تایید شد."
+#: flavor-core/includes/Notification/PushNotificationService.php:302
+msgid "رزرو میز شما در %1$s برای تاریخ %2$s ساعت %3$s با موفقیت تایید شد."
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:293
-msgid "رزرو میز شماره #%d در %s لغو شد."
+#: flavor-core/includes/Notification/PushNotificationService.php:306
+msgid "رزرو میز شماره #%1$d در %2$s لغو شد."
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:287
+#: flavor-core/includes/Notification/PushNotificationService.php:297
 msgid "رزرو میز لغو شد"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:91 flavor-core/includes/Reporting/ScheduledReport.php:324
+#: flavor-core/includes/Reporting/ReportAdmin.php:91 flavor-core/includes/Reporting/ScheduledReport.php:337
 msgid "رزروها"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:106
+#: flavor-core/admin/views/executive-dashboard.php:113
 msgid "رزروهای سالن"
 msgstr ""
 
@@ -1046,7 +1046,7 @@ msgstr ""
 msgid "رستوران مستقیم"
 msgstr ""
 
-#: flavor-core/includes/API/WebhookController.php:145 flavor-core/includes/API/WebhookController.php:228
+#: flavor-core/includes/API/WebhookController.php:146 flavor-core/includes/API/WebhookController.php:230
 msgid "رمز وب‌هوک باید دست‌کم ۱۶ نویسه باشد تا امضای HMAC معنادار بماند."
 msgstr ""
 
@@ -1054,19 +1054,19 @@ msgstr ""
 msgid "رمز وب‌هوک برای امضای HMAC معتبر نیست؛ ارسال بدونِ امضا انجام نمی‌شود."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:168
+#: flavor-core/admin/views/mobile-app-dashboard.php:174
 msgid "رنگ اصلی (Primary)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:172
+#: flavor-core/admin/views/mobile-app-dashboard.php:178
 msgid "رنگ فرعی (Secondary)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:176
+#: flavor-core/admin/views/mobile-app-dashboard.php:182
 msgid "رنگ مکمل (Accent)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:164
+#: flavor-core/admin/views/mobile-app-dashboard.php:170
 msgid "رنگ‌بندی برند (Palette)"
 msgstr ""
 
@@ -1114,7 +1114,7 @@ msgstr ""
 msgid "ساخت گروهی"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:159
+#: flavor-core/admin/views/executive-dashboard.php:167
 msgid "ساعات اوج شلوغی و سفارش (Peak Hours Heatmap)"
 msgstr ""
 
@@ -1122,15 +1122,15 @@ msgstr ""
 msgid "ساعت"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:171
-msgid "ساعت %s: %d سفارش"
+#: flavor-core/admin/views/executive-dashboard.php:180
+msgid "ساعت %1$s: %2$d سفارش"
 msgstr ""
 
 #: flavor-core/includes/Reservation/ReservationService.php:54
 msgid "ساعت رزرو نامعتبر است."
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:74 flavor-core/includes/Order/PhoneOrderAdmin.php:146 flavor-core/includes/PostTypes/BranchPostType.php:134 flavor-core/includes/Receipt/ReceiptRenderer.php:108 flavor-core/includes/Reservation/ReservationAdmin.php:84 flavor-core/includes/Table/TableAdmin.php:78
+#: flavor-core/admin/views/kitchen-dashboard.php:75 flavor-core/includes/Order/PhoneOrderAdmin.php:146 flavor-core/includes/PostTypes/BranchPostType.php:134 flavor-core/includes/Receipt/ReceiptRenderer.php:108 flavor-core/includes/Reservation/ReservationAdmin.php:84 flavor-core/includes/Table/TableAdmin.php:78
 msgid "سالن"
 msgstr ""
 
@@ -1138,11 +1138,11 @@ msgstr ""
 msgid "سبد خالی است."
 msgstr ""
 
-#: flavor-core/includes/API/CartController.php:312
+#: flavor-core/includes/API/CartController.php:322
 msgid "سبد خرید خالی شد."
 msgstr ""
 
-#: flavor-core/includes/Loyalty/DiscountManager.php:133 flavor-core/includes/WooCommerce/CartSession.php:184
+#: flavor-core/includes/Loyalty/DiscountManager.php:134 flavor-core/includes/WooCommerce/CartSession.php:195
 msgid "سبد در دسترس نیست."
 msgstr ""
 
@@ -1150,15 +1150,15 @@ msgstr ""
 msgid "سراسری"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:74
+#: flavor-core/admin/views/mobile-app-dashboard.php:80
 msgid "سرویس پوش نوتیفیکیشن"
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:233
+#: flavor-core/includes/Notification/PushNotificationService.php:239
 msgid "سفارش #%d آماده سرو / تحویل به پیک اختصاصی شد."
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:235
+#: flavor-core/includes/Notification/PushNotificationService.php:243
 msgid "سفارش #%d لغو گردید. در صورت بروز مشکل با پشتیبانی تماس بگیرید."
 msgstr ""
 
@@ -1170,7 +1170,7 @@ msgstr ""
 msgid "سفارش {order_number} الان «{status}» است."
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:219
+#: flavor-core/admin/views/executive-dashboard.php:228
 msgid "سفارشات"
 msgstr ""
 
@@ -1178,11 +1178,11 @@ msgstr ""
 msgid "سفارش با موفقیت ثبت شد."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:230
+#: flavor-core/admin/views/mobile-app-dashboard.php:236
 msgid "سفارش بیلد جدید از راه دور (Cloud CI/CD Trigger)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:106
+#: flavor-core/admin/views/mobile-app-dashboard.php:112
 msgid "سفارش بیلد و CI/CD"
 msgstr ""
 
@@ -1202,23 +1202,23 @@ msgstr ""
 msgid "سفارش در حال آماده‌سازی یا تحویل است و امکان لغو آن وجود ندارد."
 msgstr ""
 
-#: flavor-core/includes/API/SettingsController.php:104
+#: flavor-core/includes/API/SettingsController.php:106
 msgid "سفارش سر میز (سالن)"
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:226
+#: flavor-core/includes/Notification/PushNotificationService.php:230
 msgid "سفارش شما آماده است"
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:227
+#: flavor-core/includes/Notification/PushNotificationService.php:231
 msgid "سفارش شما تحویل داده شد"
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:225
+#: flavor-core/includes/Notification/PushNotificationService.php:229
 msgid "سفارش شما در حال آماده‌سازی است"
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:228
+#: flavor-core/includes/Notification/PushNotificationService.php:232
 msgid "سفارش شما لغو شد"
 msgstr ""
 
@@ -1226,19 +1226,19 @@ msgstr ""
 msgid "سفارش لغو شد (order.cancelled)"
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:324
+#: flavor-core/includes/API/OrderController.php:326
 msgid "سفارش لغو شد."
 msgstr ""
 
-#: flavor-core/includes/API/OrderController.php:215 flavor-core/includes/API/OrderController.php:238 flavor-core/includes/API/OrderController.php:306 flavor-core/includes/API/OrderController.php:338
+#: flavor-core/includes/API/OrderController.php:215 flavor-core/includes/API/OrderController.php:238 flavor-core/includes/API/OrderController.php:306 flavor-core/includes/API/OrderController.php:341
 msgid "سفارش مورد نظر یافت نشد."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:25
+#: flavor-core/admin/views/mobile-app-dashboard.php:29
 msgid "سفارشی‌سازی برند رستوران، اتصال به CI/CD و ساخت خودکار خروجی‌های Android (APK/AAB) و iOS (IPA) بدون تغییر کدهای اصلی."
 msgstr ""
 
-#: flavor-core/includes/Reporting/ReportAdmin.php:90 flavor-core/includes/Reporting/ScheduledReport.php:323
+#: flavor-core/includes/Reporting/ReportAdmin.php:90 flavor-core/includes/Reporting/ScheduledReport.php:336
 msgid "سفارش‌ها"
 msgstr ""
 
@@ -1262,7 +1262,7 @@ msgstr ""
 msgid "شعاع km"
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:63 flavor-core/includes/Delivery/ZoneAdmin.php:50 flavor-core/includes/Menu/AvailabilityAdmin.php:54 flavor-core/includes/PostTypes/BranchPostType.php:58 flavor-core/includes/Reporting/ReportAdmin.php:143 flavor-core/includes/Reservation/ReservationAdmin.php:56 flavor-core/includes/Table/TableAdmin.php:53
+#: flavor-core/admin/views/kitchen-dashboard.php:64 flavor-core/includes/Delivery/ZoneAdmin.php:50 flavor-core/includes/Menu/AvailabilityAdmin.php:54 flavor-core/includes/PostTypes/BranchPostType.php:58 flavor-core/includes/Reporting/ReportAdmin.php:143 flavor-core/includes/Reservation/ReservationAdmin.php:56 flavor-core/includes/Table/TableAdmin.php:53
 msgid "شعبه"
 msgstr ""
 
@@ -1270,7 +1270,7 @@ msgstr ""
 msgid "شعبه (۰ = سراسری)"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:40
+#: flavor-core/admin/views/executive-dashboard.php:44
 msgid "شعبه:"
 msgstr ""
 
@@ -1302,7 +1302,7 @@ msgstr ""
 msgid "شعبه و محصول لازم است."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:183 flavor-core/includes/PostTypes/BranchPostType.php:181
+#: flavor-core/admin/views/mobile-app-dashboard.php:189 flavor-core/includes/PostTypes/BranchPostType.php:181
 msgid "شعبه پیش‌فرض"
 msgstr ""
 
@@ -1334,7 +1334,7 @@ msgstr ""
 msgid "شماره"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:196
+#: flavor-core/admin/views/mobile-app-dashboard.php:202
 msgid "شماره تماس پشتیبانی"
 msgstr ""
 
@@ -1358,7 +1358,7 @@ msgstr ""
 msgid "شماره نامعتبر است."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:260
+#: flavor-core/admin/views/mobile-app-dashboard.php:266
 msgid "شماره نسخه نمایشی (Version Name)"
 msgstr ""
 
@@ -1366,11 +1366,11 @@ msgstr ""
 msgid "شمارهٔ تلفنِ مشتریان در خروجی پوشانده می‌شود. دیدنِ شمارهٔ کامل نیازمندِ تواناییِ ویژه است."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:141
+#: flavor-core/admin/views/mobile-app-dashboard.php:147
 msgid "شناسه باندل iOS (Bundle Identifier)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:304
+#: flavor-core/admin/views/mobile-app-dashboard.php:310
 msgid "شناسه بیلد"
 msgstr ""
 
@@ -1382,27 +1382,27 @@ msgstr ""
 msgid "شناسه بیلد یافت نشد."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:127
+#: flavor-core/admin/views/mobile-app-dashboard.php:133
 msgid "شناسه مستاجر / Tenant ID"
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/CartSession.php:116
+#: flavor-core/includes/WooCommerce/CartSession.php:120
 msgid "شناسهٔ گزینه معتبر نیست."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:56
+#: flavor-core/admin/views/mobile-app-dashboard.php:62
 msgid "شناسه پکیج: %s"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:134
+#: flavor-core/admin/views/mobile-app-dashboard.php:140
 msgid "شناسه پکیج اندروید (Package Name)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:144
+#: flavor-core/admin/views/mobile-app-dashboard.php:150
 msgid "شناسه پکیج در App Store Connect. مثال: com.flavor.restaurant.shandiz"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:130
+#: flavor-core/admin/views/mobile-app-dashboard.php:136
 msgid "شناسه یکتای رستوران در ساختار چندمستاجره (Multi-Tenant). مثال: shandiz_mashhad"
 msgstr ""
 
@@ -1418,7 +1418,7 @@ msgstr ""
 msgid "صدای سفارش جدید"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:125
+#: flavor-core/admin/views/executive-dashboard.php:133
 msgid "صرف در سالن (Dine-in)"
 msgstr ""
 
@@ -1430,7 +1430,7 @@ msgstr ""
 msgid "صندوق‌دار (Cashier)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:96
+#: flavor-core/admin/views/mobile-app-dashboard.php:102
 msgid "ضروری جهت ثبت"
 msgstr ""
 
@@ -1462,7 +1462,7 @@ msgstr ""
 msgid "غذای مورد نظر یافت نشد."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:79 flavor-core/includes/Table/TableAdmin.php:148
+#: flavor-core/admin/views/mobile-app-dashboard.php:85 flavor-core/includes/Table/TableAdmin.php:148
 msgid "غیرفعال"
 msgstr ""
 
@@ -1470,15 +1470,15 @@ msgstr ""
 msgid "فارسی (۲۵٬۰۰۰)"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ScheduledReport.php:366
+#: flavor-core/includes/Reporting/ScheduledReport.php:379
 msgid "فایل پیوست با اکسل، لیبره‌آفیس و گوگل‌شیت سازگار است."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:360
+#: flavor-core/admin/views/mobile-app-dashboard.php:366
 msgid "فایلی تولید نشده"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:309
+#: flavor-core/admin/views/mobile-app-dashboard.php:315
 msgid "فایل‌های خروجی (Artifacts)"
 msgstr ""
 
@@ -1486,15 +1486,15 @@ msgstr ""
 msgid "فراز اس‌ام‌اس"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:137
+#: flavor-core/admin/views/mobile-app-dashboard.php:143
 msgid "فرمت استاندارد جاوا. مثال: com.flavor.restaurant.shandiz"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:70
+#: flavor-core/admin/views/executive-dashboard.php:74
 msgid "فروش ناخالص کل"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:220
+#: flavor-core/admin/views/executive-dashboard.php:229
 msgid "فروش کل"
 msgstr ""
 
@@ -1506,11 +1506,11 @@ msgstr ""
 msgid "فعال"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:245
+#: flavor-core/admin/views/mobile-app-dashboard.php:251
 msgid "فقط آی‌او‌اس (iOS IPA / TestFlight)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:244
+#: flavor-core/admin/views/mobile-app-dashboard.php:250
 msgid "فقط اندروید (Android APK & AAB Bundle)"
 msgstr ""
 
@@ -1538,7 +1538,7 @@ msgstr ""
 msgid "لاتین (25,000)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:283
+#: flavor-core/admin/views/mobile-app-dashboard.php:289
 msgid "لطفاً ابتدا موارد الزامی در تب برندینگ را تکمیل نمایید."
 msgstr ""
 
@@ -1546,7 +1546,7 @@ msgstr ""
 msgid "لطفاً متن نظر خود را وارد کنید."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:334 flavor-core/includes/Mobile/BuildManager.php:491
+#: flavor-core/admin/views/mobile-app-dashboard.php:340 flavor-core/includes/Mobile/BuildManager.php:491
 msgid "لغو شده"
 msgstr ""
 
@@ -1566,7 +1566,7 @@ msgstr ""
 msgid "مالک رستوران (Owner)"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:31
+#: flavor-core/admin/views/executive-dashboard.php:35
 msgid "مانیتورینگ بلادرنگ شاخص‌های کلیدی عملکرد (KPIs)، فروش، رفتار مشتریان و راندمان شعب."
 msgstr ""
 
@@ -1578,7 +1578,7 @@ msgstr ""
 msgid "مبلغ را هنگام تحویل در سالن یا پیشخوان پرداخت کنید."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:263
+#: flavor-core/admin/views/mobile-app-dashboard.php:269
 msgid "مثال: 1.0.0 یا 1.1.0"
 msgstr ""
 
@@ -1586,11 +1586,11 @@ msgstr ""
 msgid "مثال: ۱۴۰۴/۱۲/۲۹ — روی تاریخ انقضای ووکامرس نوشته می‌شود."
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:111
+#: flavor-core/admin/views/executive-dashboard.php:119
 msgid "مجموع %d میهمان پذیرش شده"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:187
+#: flavor-core/admin/views/executive-dashboard.php:196
 msgid "محبوب‌ترین آیتم‌های منو (Top 10)"
 msgstr ""
 
@@ -1614,11 +1614,11 @@ msgstr ""
 msgid "محله‌ها (هر خط یکی)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:307
+#: flavor-core/admin/views/mobile-app-dashboard.php:313
 msgid "محیط"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:250
+#: flavor-core/admin/views/mobile-app-dashboard.php:256
 msgid "محیط بیلد (Environment)"
 msgstr ""
 
@@ -1634,7 +1634,7 @@ msgstr ""
 msgid "مدیر کل رستوران (General Manager)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:23
+#: flavor-core/admin/views/mobile-app-dashboard.php:27
 msgid "مدیریت و بیلد اپلیکیشن موبایل (White-Label)"
 msgstr ""
 
@@ -1642,7 +1642,7 @@ msgstr ""
 msgid "مدیفایرها — قیمت‌ها به واحد ذخیره (پیش‌فرض: ریال)"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:254
+#: flavor-core/admin/views/mobile-app-dashboard.php:260
 msgid "مرحله‌ای (Staging / Internal Test)"
 msgstr ""
 
@@ -1658,11 +1658,11 @@ msgstr ""
 msgid "مشتری پیدا نشد."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:375
+#: flavor-core/admin/views/mobile-app-dashboard.php:381
 msgid "معماری امنیتی و مدیریت گواهی‌های امضا (Zero-Trust Secret Handling)"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:214
+#: flavor-core/admin/views/executive-dashboard.php:223
 msgid "مقایسه عملکرد و فروش شعب"
 msgstr ""
 
@@ -1682,7 +1682,7 @@ msgstr ""
 msgid "منطقه زمانی"
 msgstr ""
 
-#: flavor-core/includes/Reporting/ScheduledReport.php:356
+#: flavor-core/includes/Reporting/ScheduledReport.php:369
 msgid "منطقهٔ زمانی: %s"
 msgstr ""
 
@@ -1718,7 +1718,7 @@ msgstr ""
 msgid "موجود کن"
 msgstr ""
 
-#: flavor-core/includes/API/CartController.php:375
+#: flavor-core/includes/API/CartController.php:385
 msgid "موجودی امتیاز شما کافی نیست."
 msgstr ""
 
@@ -1726,7 +1726,7 @@ msgstr ""
 msgid "موجودی لحظه‌ای"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:330
+#: flavor-core/admin/views/mobile-app-dashboard.php:336
 msgid "موفق"
 msgstr ""
 
@@ -1734,7 +1734,7 @@ msgstr ""
 msgid "موفق و آماده دانلود"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:87
+#: flavor-core/admin/views/executive-dashboard.php:93
 msgid "میانگین سفارش (AOV): %s"
 msgstr ""
 
@@ -1762,19 +1762,19 @@ msgstr ""
 msgid "نام"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:120
+#: flavor-core/admin/views/mobile-app-dashboard.php:126
 msgid "نام اپلیکیشن (App Name)"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:218
+#: flavor-core/admin/views/executive-dashboard.php:227
 msgid "نام شعبه"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:194
+#: flavor-core/admin/views/executive-dashboard.php:203
 msgid "نام غذا / نوشیدنی"
 msgstr ""
 
-#: flavor-core/includes/API/WebhookController.php:128
+#: flavor-core/includes/API/WebhookController.php:129
 msgid "نام و آدرس وب‌هوک الزامی است."
 msgstr ""
 
@@ -1786,11 +1786,11 @@ msgstr ""
 msgid "ناموجود کن"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:331
+#: flavor-core/admin/views/mobile-app-dashboard.php:337
 msgid "ناموفق"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:123
+#: flavor-core/admin/views/mobile-app-dashboard.php:129
 msgid "نامی که زیر آیکون برنامه در گوشی مشتری و در فروشگاه‌ها نمایش داده می‌شود."
 msgstr ""
 
@@ -1798,15 +1798,15 @@ msgstr ""
 msgid "ناهار"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:94
+#: flavor-core/admin/views/executive-dashboard.php:100
 msgid "نرخ بازگشت مشتریان"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:306
+#: flavor-core/admin/views/mobile-app-dashboard.php:312
 msgid "نسخه"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:54
+#: flavor-core/admin/views/mobile-app-dashboard.php:59
 msgid "نسخه جاری اپلیکیشن"
 msgstr ""
 
@@ -1846,7 +1846,7 @@ msgstr ""
 msgid "نمایش"
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:234
+#: flavor-core/includes/Notification/PushNotificationService.php:241
 msgid "نوش جان! سفارش #%d تحویل داده شد. ممنون از اعتماد شما."
 msgstr ""
 
@@ -1862,7 +1862,7 @@ msgstr ""
 msgid "نوع گزارش نامعتبر است."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:44
+#: flavor-core/admin/views/mobile-app-dashboard.php:48
 msgid "نیازمند تکمیل اطلاعات"
 msgstr ""
 
@@ -1886,11 +1886,11 @@ msgstr ""
 msgid "هزینه ارسال (واحد ذخیره)"
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:73
+#: flavor-core/admin/views/kitchen-dashboard.php:74
 msgid "همه"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:42
+#: flavor-core/admin/views/executive-dashboard.php:46
 msgid "همه شعب فعال"
 msgstr ""
 
@@ -1902,7 +1902,7 @@ msgstr ""
 msgid "همهٔ تاریخ‌ها بر پایهٔ منطقهٔ زمانیِ سایت (%s) هستند."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:298
+#: flavor-core/admin/views/mobile-app-dashboard.php:304
 msgid "هنوز هیچ بیلد فعالی ثبت نشده است. از تب «سفارش بیلد» اولین پکیج را درخواست دهید."
 msgstr ""
 
@@ -1914,19 +1914,19 @@ msgstr ""
 msgid "واحد نمایش"
 msgstr ""
 
-#: flavor-core/includes/API/CartController.php:367 flavor-core/includes/API/OrderController.php:173 flavor-core/includes/API/ReservationController.php:275
+#: flavor-core/includes/API/CartController.php:377 flavor-core/includes/API/OrderController.php:173 flavor-core/includes/API/ReservationController.php:275
 msgid "وارد حساب شوید."
 msgstr ""
 
-#: flavor-core/includes/API/WebhookController.php:172
+#: flavor-core/includes/API/WebhookController.php:173
 msgid "وب‌هوک با موفقیت ایجاد گردید."
 msgstr ""
 
-#: flavor-core/includes/API/WebhookController.php:193 flavor-core/includes/API/WebhookController.php:211 flavor-core/includes/API/WebhookController.php:266
+#: flavor-core/includes/API/WebhookController.php:195 flavor-core/includes/API/WebhookController.php:213 flavor-core/includes/API/WebhookController.php:268
 msgid "وب‌هوک یافت نشد."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:382
+#: flavor-core/admin/views/mobile-app-dashboard.php:388
 msgid "وردپرس صرفاً پیکربندی عمومی و هویت برند را ارائه داده و فرآیند سنگین کامپایل در گیت‌هاب اکشنز یا سرور CI ایزوله انجام می‌شود."
 msgstr ""
 
@@ -1934,15 +1934,15 @@ msgstr ""
 msgid "ورود حضوری / تلفنی"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:308 flavor-core/includes/Menu/AvailabilityAdmin.php:66 flavor-core/includes/Reservation/ReservationAdmin.php:103
+#: flavor-core/admin/views/mobile-app-dashboard.php:314 flavor-core/includes/Menu/AvailabilityAdmin.php:66 flavor-core/includes/Reservation/ReservationAdmin.php:103
 msgid "وضعیت"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:63
+#: flavor-core/admin/views/mobile-app-dashboard.php:69
 msgid "وضعیت API و اتصال"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:41
+#: flavor-core/admin/views/mobile-app-dashboard.php:45
 msgid "وضعیت آماده‌سازی برند"
 msgstr ""
 
@@ -1950,7 +1950,7 @@ msgstr ""
 msgid "وضعیت بیلد ارسال‌شده معتبر نیست."
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:297
+#: flavor-core/includes/Notification/PushNotificationService.php:311
 msgid "وضعیت رزرو #%d تغییر کرد."
 msgstr ""
 
@@ -1958,8 +1958,8 @@ msgstr ""
 msgid "وضعیت رزرو به‌روز شد (reservation.updated)"
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:239
-msgid "وضعیت سفارش #%d به %s تغییر یافت."
+#: flavor-core/includes/Notification/PushNotificationService.php:249
+msgid "وضعیت سفارش #%1$d به %2$s تغییر یافت."
 msgstr ""
 
 #: flavor-core/includes/Webhooks/WebhookManager.php:74
@@ -1974,7 +1974,7 @@ msgstr ""
 msgid "وگان"
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/CartSession.php:169
+#: flavor-core/includes/WooCommerce/CartSession.php:180
 msgid "ویرایش انجام نشد. انتخاب‌های قبلی سبد محفوظ‌اند؛ دوباره تلاش کنید."
 msgstr ""
 
@@ -2018,11 +2018,11 @@ msgstr ""
 msgid "پروفایل با موفقیت بروزرسانی شد."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:305
+#: flavor-core/admin/views/mobile-app-dashboard.php:311
 msgid "پلتفرم"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:240
+#: flavor-core/admin/views/mobile-app-dashboard.php:246
 msgid "پلتفرم هدف (Platform)"
 msgstr ""
 
@@ -2038,7 +2038,7 @@ msgstr ""
 msgid "پیشخوان عملیات و آمار"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:29
+#: flavor-core/admin/views/executive-dashboard.php:33
 msgid "پیشخوان هوشمند عملیات و تحلیل کسب‌وکار رستوران"
 msgstr ""
 
@@ -2062,7 +2062,7 @@ msgstr ""
 msgid "پیک دستگاه کارت‌خوان می‌آورد."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:77
+#: flavor-core/admin/views/mobile-app-dashboard.php:83
 msgid "پیکربندی شده"
 msgstr ""
 
@@ -2078,7 +2078,7 @@ msgstr ""
 msgid "چاپ کارت‌های A6"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:89
+#: flavor-core/admin/views/mobile-app-dashboard.php:95
 msgid "چک‌لیست الزامات انتشار"
 msgstr ""
 
@@ -2114,15 +2114,15 @@ msgstr ""
 msgid "کد تخفیف"
 msgstr ""
 
-#: flavor-core/includes/API/CartController.php:334
+#: flavor-core/includes/API/CartController.php:344
 msgid "کد تخفیف با موفقیت اعمال شد."
 msgstr ""
 
-#: flavor-core/includes/API/CartController.php:355
+#: flavor-core/includes/API/CartController.php:365
 msgid "کد تخفیف حذف شد."
 msgstr ""
 
-#: flavor-core/includes/Loyalty/DiscountManager.php:137
+#: flavor-core/includes/Loyalty/DiscountManager.php:138
 msgid "کد تخفیف خالی است."
 msgstr ""
 
@@ -2134,7 +2134,7 @@ msgstr ""
 msgid "کد نادرست است."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:267
+#: flavor-core/admin/views/mobile-app-dashboard.php:273
 msgid "کد نسخه ترتیبی (Build / Version Code)"
 msgstr ""
 
@@ -2146,7 +2146,7 @@ msgstr ""
 msgid "کد یا شماره نامعتبر است."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:390
+#: flavor-core/admin/views/mobile-app-dashboard.php:396
 msgid "کلیدهای امضای Release در محیط متغیرهای رمزگذاری شده سرور CI بارگذاری و پس از اتمام کامپایل نابود می‌شوند."
 msgstr ""
 
@@ -2162,7 +2162,7 @@ msgstr ""
 msgid "گذار وضعیت از «%1$s» به «%2$s» مجاز نیست."
 msgstr ""
 
-#: flavor-core/includes/Reporting/ScheduledReport.php:330
+#: flavor-core/includes/Reporting/ScheduledReport.php:343
 msgid "گزارش %1$s — %2$s تا %3$s"
 msgstr ""
 
@@ -2174,7 +2174,7 @@ msgstr ""
 msgid "گزینه‌های انتخابی «%s» دیگر معتبر نیستند؛ آیتم را دوباره انتخاب کنید."
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/CartSession.php:114
+#: flavor-core/includes/WooCommerce/CartSession.php:117
 msgid "گزینه‌های انتخابی معتبر نیستند."
 msgstr ""
 
@@ -2186,11 +2186,11 @@ msgstr ""
 msgid "یادآوری: رزرو شما دو ساعت دیگر در {branch} است."
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:292
-msgid "یادآوری: رزرو میز شما در %s تا ۲ ساعت آینده (ساعت %s) می‌باشد."
+#: flavor-core/includes/Notification/PushNotificationService.php:304
+msgid "یادآوری: رزرو میز شما در %1$s تا ۲ ساعت آینده (ساعت %2$s) می‌باشد."
 msgstr ""
 
-#: flavor-core/includes/Notification/PushNotificationService.php:286
+#: flavor-core/includes/Notification/PushNotificationService.php:296
 msgid "یادآوری رزرو میز"
 msgstr ""
 
@@ -2198,23 +2198,23 @@ msgstr ""
 msgid "یکی از آیتم‌های سبد دیگر وجود ندارد."
 msgstr ""
 
-#: flavor-core/includes/WooCommerce/CartSession.php:121
+#: flavor-core/includes/WooCommerce/CartSession.php:125
 msgid "یکی از گزینه‌ها دیگر در منو وجود ندارد. انتخاب‌های فعلی سبد تغییر نکرده‌اند."
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:381
+#: flavor-core/admin/views/mobile-app-dashboard.php:387
 msgid "۱. جداسازی هسته اجرا و کامپایل:"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:385
+#: flavor-core/admin/views/mobile-app-dashboard.php:391
 msgid "۲. امضای امن HMAC-SHA256:"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:389
+#: flavor-core/admin/views/mobile-app-dashboard.php:395
 msgid "۳. محیط امن GitHub Actions Secrets / Fastlane Match:"
 msgstr ""
 
-#: flavor-core/admin/views/mobile-app-dashboard.php:393
+#: flavor-core/admin/views/mobile-app-dashboard.php:399
 msgid "۴. یکپارچگی فایل‌های خروجی:"
 msgstr ""
 
