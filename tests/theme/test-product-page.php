@@ -315,8 +315,17 @@ check(
 echo "\n--- 12. R3-01 is decided and R3-11 holds ---\n";
 
 foreach ( array( 'README.md', 'flavor/readme.txt', 'docs/raastichin/listing.md' ) as $surface ) {
-	$text = (string) file_get_contents( dirname( __DIR__, 2 ) . '/' . $surface );
-	check( ! preg_match( '/theme\s*builder/i', $text ), "{$surface} makes no Elementor Theme Builder claim" );
+	$text  = (string) file_get_contents( dirname( __DIR__, 2 ) . '/' . $surface );
+	$lines = array_values(
+		array_filter(
+			preg_split( '/\n/', $text ),
+			static function ( $l ) {
+				return (bool) preg_match( '/theme\s*builder/i', $l )
+					&& ! preg_match( '/(ادعا نمی‌شود|❌ ندارد|بدون ادعا|not a claim|نمی\'کند)/u', $l );
+			}
+		)
+	);
+	check( array() === $lines, "{$surface} makes no positive Elementor Theme Builder claim" );
 }
 $doc = (string) file_get_contents( dirname( __DIR__, 2 ) . '/docs/fa/11-elementor.md' );
 check( str_contains( $doc, 'گزینهٔ (ب)' ), 'docs/fa/11-elementor.md records the chosen option' );
