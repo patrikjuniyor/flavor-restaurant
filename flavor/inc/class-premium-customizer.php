@@ -70,7 +70,7 @@ class Premium_Customizer {
 			)
 		);
 
-		self::checkbox( $wp_customize, 'flavor_color_scheme_enable', 'flavor_section_scheme', __( 'فعال‌بودن حالت شب/روز', 'flavor' ), 'yes' );
+		self::checkbox( $wp_customize, 'flavor_color_scheme_enable', 'flavor_section_scheme', __( 'فعال‌بودن حالت شب/روز', 'flavor' ), 'yes', __( 'روشن یا خاموش کردن حالت شب/روز. وقتی خاموش است، سایت همیشه یک‌رنگ نمایش داده می‌شود.', 'flavor' ) );
 		self::select(
 			$wp_customize,
 			'flavor_color_scheme',
@@ -81,10 +81,11 @@ class Premium_Customizer {
 				'auto'  => __( 'خودکار (پیروی از تنظیم دستگاه بازدیدکننده)', 'flavor' ),
 				'light' => __( 'روشن', 'flavor' ),
 				'dark'  => __( 'شب', 'flavor' ),
-			)
+			),
+			__( 'حالتی که بازدیدکننده در نخستین ورود می‌بیند؛ «خودکار» از تنظیم دستگاه او پیروی می‌کند.', 'flavor' )
 		);
-		self::checkbox( $wp_customize, 'flavor_color_scheme_toggle', 'flavor_section_scheme', __( 'نمایش دکمهٔ تغییر حالت برای بازدیدکننده', 'flavor' ), 'yes' );
-		self::checkbox( $wp_customize, 'flavor_wishlist_enable', 'flavor_section_scheme', __( 'فعال‌بودن علاقه‌مندی‌ها (بدون افزونه)', 'flavor' ), 'yes' );
+		self::checkbox( $wp_customize, 'flavor_color_scheme_toggle', 'flavor_section_scheme', __( 'نمایش دکمهٔ تغییر حالت برای بازدیدکننده', 'flavor' ), 'yes', __( 'دکمهٔ ماه/خورشید کنار هدر نمایش داده می‌شود تا خودِ بازدیدکننده حالت را عوض کند.', 'flavor' ) );
+		self::checkbox( $wp_customize, 'flavor_wishlist_enable', 'flavor_section_scheme', __( 'فعال‌بودن علاقه‌مندی‌ها (بدون افزونه)', 'flavor' ), 'yes', __( 'روی کارتِ محصولات دکمهٔ «علاقه‌مندی» ظاهر می‌شود؛ فهرست در همان مرورگر نگه داشته می‌شود و به افزونه نیاز ندارد.', 'flavor' ) );
 	}
 
 	/**
@@ -102,16 +103,17 @@ class Premium_Customizer {
 			)
 		);
 
-		self::checkbox( $wp_customize, 'flavor_mega_enable', 'flavor_section_mega', __( 'فعال‌بودن مگامنو در منوی اصلی', 'flavor' ), 'yes' );
+		self::checkbox( $wp_customize, 'flavor_mega_enable', 'flavor_section_mega', __( 'فعال‌بودن مگامنو در منوی اصلی', 'flavor' ), 'yes', __( 'زیرمنوهای منوی اصلی به‌جای فهرستِ ساده، به‌صورت پنلِ چندستونی باز می‌شوند.', 'flavor' ) );
 		self::select(
 			$wp_customize,
 			'flavor_mega_columns',
 			'flavor_section_mega',
 			__( 'تعداد ستون‌ها', 'flavor' ),
 			3,
-			array( 2 => '۲', 3 => '۳', 4 => '۴' )
+			array( 2 => '۲', 3 => '۳', 4 => '۴' ),
+			__( 'تعداد ستون‌های پنلِ مگامنو.', 'flavor' )
 		);
-		self::number( $wp_customize, 'flavor_mega_threshold', 'flavor_section_mega', __( 'حداقل تعداد زیرمنو برای مگامنو شدن', 'flavor' ), 5, 2, 20 );
+		self::number( $wp_customize, 'flavor_mega_threshold', 'flavor_section_mega', __( 'حداقل تعداد زیرمنو برای مگامنو شدن', 'flavor' ), 5, 2, 20, __( 'منو فقط از این تعداد به بالا زیرمنو مگامنو می‌شود.', 'flavor' ) );
 	}
 
 	/**
@@ -128,14 +130,14 @@ class Premium_Customizer {
 			)
 		);
 
-		self::checkbox( $wp_customize, 'flavor_sticky_buy_enable', 'flavor_section_shopping', __( 'نوار چسبان «افزودن به سبد» در صفحهٔ محصول', 'flavor' ), 'yes' );
-		self::checkbox( $wp_customize, 'flavor_quick_view_enable', 'flavor_section_shopping', __( 'نمای سریع روی کارت‌های فروشگاه', 'flavor' ), 'yes' );
+		self::checkbox( $wp_customize, 'flavor_sticky_buy_enable', 'flavor_section_shopping', __( 'نوار چسبان «افزودن به سبد» در صفحهٔ محصول', 'flavor' ), 'yes', __( 'هنگام پیمایشِ صفحهٔ محصول، دکمهٔ «افزودن به سبد» پایینِ صفحه ثابت می‌ماند.', 'flavor' ) );
+		self::checkbox( $wp_customize, 'flavor_quick_view_enable', 'flavor_section_shopping', __( 'نمای سریع روی کارت‌های فروشگاه', 'flavor' ), 'yes', __( 'روی کارت‌های فروشگاه دکمهٔ نمایشِ سریع ظاهر می‌شود؛ خلاصهٔ محصول در پنجرهٔ بازشو نشان داده می‌شود.', 'flavor' ) );
 
-		self::number( $wp_customize, 'flavor_free_delivery_threshold', 'flavor_section_shopping', __( 'سقف ارسال رایگان (به تومان، ۰ = خاموش)', 'flavor' ), 0, 0, 100000000 );
-		self::checkbox( $wp_customize, 'flavor_free_delivery_detect', 'flavor_section_shopping', __( 'اگر خالی بود، از قانون ارسال رایگان ووکامرس خوانده شود', 'flavor' ), 'yes' );
+		self::number( $wp_customize, 'flavor_free_delivery_threshold', 'flavor_section_shopping', __( 'سقف ارسال رایگان (به تومان، ۰ = خاموش)', 'flavor' ), 0, 0, 100000000, __( 'از این مبلغ به بالا پیام «ارسال رایگان» نشان داده می‌شود. ۰ یعنی این نوار خاموش.', 'flavor' ) );
+		self::checkbox( $wp_customize, 'flavor_free_delivery_detect', 'flavor_section_shopping', __( 'اگر خالی بود، از قانون ارسال رایگان ووکامرس خوانده شود', 'flavor' ), 'yes', __( 'اگر سقف را ۰ گذاشته‌اید، مبلغ از قانونِ «ارسال رایگان» خودِ ووکامرس خوانده می‌شود.', 'flavor' ) );
 
-		self::checkbox( $wp_customize, 'flavor_trust_badges_enable', 'flavor_section_shopping', __( 'نمایش نشان‌های اعتماد', 'flavor' ), 'yes' );
-		self::checkbox( $wp_customize, 'flavor_trust_badges_single', 'flavor_section_shopping', __( 'نمایش نشان‌ها زیر دکمهٔ خرید محصول', 'flavor' ), 'yes' );
+		self::checkbox( $wp_customize, 'flavor_trust_badges_enable', 'flavor_section_shopping', __( 'نمایش نشان‌های اعتماد', 'flavor' ), 'yes', __( 'ردیفِ نشان‌های اعتماد (ارسال سریع، بازگشت وجه و…) روشن می‌شود.', 'flavor' ) );
+		self::checkbox( $wp_customize, 'flavor_trust_badges_single', 'flavor_section_shopping', __( 'نمایش نشان‌ها زیر دکمهٔ خرید محصول', 'flavor' ), 'yes', __( 'نشان‌ها علاوه بر فهرست، زیرِ دکمهٔ خریدِ هر محصولِ تکی هم نمایش داده می‌شوند.', 'flavor' ) );
 		self::textarea(
 			$wp_customize,
 			'flavor_trust_badges',
@@ -169,7 +171,7 @@ class Premium_Customizer {
 			)
 		);
 
-		self::checkbox( $wp_customize, 'flavor_offer_countdown_enable', 'flavor_section_engagement', __( 'فعال‌بودن شمارش معکوس پیشنهاد', 'flavor' ), 'yes' );
+		self::checkbox( $wp_customize, 'flavor_offer_countdown_enable', 'flavor_section_engagement', __( 'فعال‌بودن شمارش معکوس پیشنهاد', 'flavor' ), 'yes', __( 'شمارشِ معکوسِ «تا پایان پیشنهاد» روی محصولاتِ زمان‌دار نمایش داده می‌شود.', 'flavor' ) );
 		self::text(
 			$wp_customize,
 			'flavor_offer_deadline',
@@ -180,7 +182,7 @@ class Premium_Customizer {
 			__( 'خالی بگذارید تا شمارش معکوس روی محصولات زمان‌دار، از تاریخ پایان حراج خود ووکامرس خوانده شود.', 'flavor' )
 		);
 
-		self::checkbox( $wp_customize, 'flavor_newsletter_enable', 'flavor_section_engagement', __( 'فعال‌بودن فرم عضویت خبرنامه', 'flavor' ), 'yes' );
+		self::checkbox( $wp_customize, 'flavor_newsletter_enable', 'flavor_section_engagement', __( 'فعال‌بودن فرم عضویت خبرنامه', 'flavor' ), 'yes', __( 'فرمِ عضویتِ خبرنامهٔ داخلی روشن می‌شود؛ ایمیل‌ها در فهرستِ محلیِ Flavor ذخیره می‌شوند.', 'flavor' ) );
 		self::select(
 			$wp_customize,
 			'flavor_newsletter_mode',
@@ -190,16 +192,17 @@ class Premium_Customizer {
 			array(
 				'exit'  => __( 'هنگام قصد خروج (دسکتاپ) — در موبایل با تأخیر', 'flavor' ),
 				'delay' => __( 'بعد از چند ثانیه', 'flavor' ),
-			)
+			),
+			__( 'زمانِ باز شدنِ فرمِ عضویت را تعیین می‌کند.', 'flavor' )
 		);
-		self::number( $wp_customize, 'flavor_newsletter_delay', 'flavor_section_engagement', __( 'تأخیر یا زمان موبایل (ثانیه)', 'flavor' ), 30, 5, 300 );
-		self::text( $wp_customize, 'flavor_newsletter_title', 'flavor_section_engagement', __( 'عنوان فرم عضویت', 'flavor' ), __( 'اول از همه، تازه‌های منو را بدانید', 'flavor' ) );
-		self::textarea( $wp_customize, 'flavor_newsletter_text', 'flavor_section_engagement', __( 'متن فرم عضویت', 'flavor' ), __( 'منوی فصل، پیشنهادهای ویژه و تخفیف‌های مناسبتی را یک هفته زودتر دریافت کنید. هر وقت خواستید لغو کنید.', 'flavor' ) );
-		self::text( $wp_customize, 'flavor_newsletter_code', 'flavor_section_engagement', __( 'کد تخفیف تشکر (اختیاری)', 'flavor' ), '' );
-		self::checkbox( $wp_customize, 'flavor_newsletter_notify', 'flavor_section_engagement', __( 'ارسال ایمیل اطلاع به مدیر برای هر عضو جدید', 'flavor' ), 'no' );
+		self::number( $wp_customize, 'flavor_newsletter_delay', 'flavor_section_engagement', __( 'تأخیر یا زمان موبایل (ثانیه)', 'flavor' ), 30, 5, 300, __( 'در حالت «بعد از چند ثانیه» و روی موبایل، همین تعداد ثانیه صبر می‌کند.', 'flavor' ) );
+		self::text( $wp_customize, 'flavor_newsletter_title', 'flavor_section_engagement', __( 'عنوان فرم عضویت', 'flavor' ), __( 'اول از همه، تازه‌های منو را بدانید', 'flavor' ), 'sanitize_text_field', __( 'تیتری که بالای فرمِ عضویت خوانده می‌شود.', 'flavor' ) );
+		self::textarea( $wp_customize, 'flavor_newsletter_text', 'flavor_section_engagement', __( 'متن فرم عضویت', 'flavor' ), __( 'منوی فصل، پیشنهادهای ویژه و تخفیف‌های مناسبتی را یک هفته زودتر دریافت کنید. هر وقت خواستید لغو کنید.', 'flavor' ), 'sanitize_textarea_field', __( 'متنِ راهنمای زیرِ تیتر؛ خالی بگذارید تا متنِ پیش‌فرض قالب بماند.', 'flavor' ) );
+		self::text( $wp_customize, 'flavor_newsletter_code', 'flavor_section_engagement', __( 'کد تخفیف تشکر (اختیاری)', 'flavor' ), '', 'sanitize_text_field', __( 'پس از عضویت نمایش داده می‌شود؛ فقط پیامِ اطلاع‌رسانی است و کوپنِ واقعی در ووکامرس نمی‌سازد.', 'flavor' ) );
+		self::checkbox( $wp_customize, 'flavor_newsletter_notify', 'flavor_section_engagement', __( 'ارسال ایمیل اطلاع به مدیر برای هر عضو جدید', 'flavor' ), 'no', __( 'برای هر عضوِ جدید، به مدیرِ سایت ایمیلِ خبر می‌رود.', 'flavor' ) );
 
-		self::checkbox( $wp_customize, 'flavor_cookie_notice_enable', 'flavor_section_engagement', __( 'نمایش نوار رضایت کوکی', 'flavor' ), 'yes' );
-		self::textarea( $wp_customize, 'flavor_cookie_text', 'flavor_section_engagement', __( 'متن نوار کوکی', 'flavor' ), '' );
+		self::checkbox( $wp_customize, 'flavor_cookie_notice_enable', 'flavor_section_engagement', __( 'نمایش نوار رضایت کوکی', 'flavor' ), 'yes', __( 'نوارِ رضایتِ کوکی پایینِ صفحه نمایش داده می‌شود.', 'flavor' ) );
+		self::textarea( $wp_customize, 'flavor_cookie_text', 'flavor_section_engagement', __( 'متن نوار کوکی', 'flavor' ), '', 'sanitize_textarea_field', __( 'متنِ نوارِ کوکی؛ خالی بگذارید تا پیامِ پیش‌فرض قالب نمایش داده شود.', 'flavor' ) );
 	}
 
 	/**
@@ -216,10 +219,10 @@ class Premium_Customizer {
 			)
 		);
 
-		self::checkbox( $wp_customize, 'flavor_dock_enable', 'flavor_section_dock', __( 'نمایش دکمه‌های شناور', 'flavor' ), 'yes' );
-		self::checkbox( $wp_customize, 'flavor_dock_top', 'flavor_section_dock', __( 'دکمهٔ بازگشت به بالا با حلقهٔ پیشرفت', 'flavor' ), 'yes' );
-		self::checkbox( $wp_customize, 'flavor_dock_call', 'flavor_section_dock', __( 'دکمهٔ تماس تلفنی', 'flavor' ), 'yes' );
-		self::checkbox( $wp_customize, 'flavor_dock_whatsapp', 'flavor_section_dock', __( 'دکمهٔ واتس‌اپ (از شمارهٔ تماس ساخته می‌شود)', 'flavor' ), 'yes' );
+		self::checkbox( $wp_customize, 'flavor_dock_enable', 'flavor_section_dock', __( 'نمایش دکمه‌های شناور', 'flavor' ), 'yes', __( 'دکمه‌های شناورِ پایینِ صفحه روشن می‌شوند.', 'flavor' ) );
+		self::checkbox( $wp_customize, 'flavor_dock_top', 'flavor_section_dock', __( 'دکمهٔ بازگشت به بالا با حلقهٔ پیشرفت', 'flavor' ), 'yes', __( 'دکمهٔ بازگشت به بالا نمایش داده می‌شود؛ حلقهٔ دورش میزانِ پیمایشِ صفحه را نشان می‌دهد.', 'flavor' ) );
+		self::checkbox( $wp_customize, 'flavor_dock_call', 'flavor_section_dock', __( 'دکمهٔ تماس تلفنی', 'flavor' ), 'yes', __( 'دکمهٔ تماس با همان شماره‌ای ساخته می‌شود که در اطلاعاتِ تماس وارد کرده‌اید.', 'flavor' ) );
+		self::checkbox( $wp_customize, 'flavor_dock_whatsapp', 'flavor_section_dock', __( 'دکمهٔ واتس‌اپ (از شمارهٔ تماس ساخته می‌شود)', 'flavor' ), 'yes', __( 'دکمهٔ گفت‌وگو در واتس‌اپ از همان شمارهٔ تماس ساخته می‌شود.', 'flavor' ) );
 	}
 
 	/**
@@ -237,7 +240,7 @@ class Premium_Customizer {
 			)
 		);
 
-		self::checkbox( $wp_customize, 'flavor_branch_map_enable', 'flavor_section_map', __( 'نمایش نقشهٔ جاسازی‌شده در صفحهٔ شعبه', 'flavor' ), 'yes' );
+		self::checkbox( $wp_customize, 'flavor_branch_map_enable', 'flavor_section_map', __( 'نمایش نقشهٔ جاسازی‌شده در صفحهٔ شعبه', 'flavor' ), 'yes', __( 'نقشهٔ جاسازی‌شده در صفحهٔ شعبه نمایش داده می‌شود.', 'flavor' ) );
 	}
 
 	/**
@@ -248,17 +251,19 @@ class Premium_Customizer {
 	 * @param string                $section      Section id.
 	 * @param string                $label        Label.
 	 * @param string                $default      Default value.
+	 * @param string                $description  Inline guidance (empty = none, keeping the old arg shape).
 	 */
-	public static function checkbox( $wp_customize, string $id, string $section, string $label, string $default = 'yes' ): void {
+	public static function checkbox( $wp_customize, string $id, string $section, string $label, string $default = 'yes', string $description = '' ): void {
 		$wp_customize->add_setting( $id, array( 'default' => $default, 'sanitize_callback' => 'sanitize_key' ) );
-		$wp_customize->add_control(
-			$id,
-			array(
-				'label'   => $label,
-				'section' => $section,
-				'type'    => 'checkbox',
-			)
+		$args = array(
+			'label'   => $label,
+			'section' => $section,
+			'type'    => 'checkbox',
 		);
+		if ( '' !== $description ) {
+			$args['description'] = $description;
+		}
+		$wp_customize->add_control( $id, $args );
 	}
 
 	/**
@@ -295,8 +300,9 @@ class Premium_Customizer {
 	 * @param int                   $default      Default.
 	 * @param int                   $min          Minimum.
 	 * @param int                   $max          Maximum.
+	 * @param string                $description  Inline guidance.
 	 */
-	public static function number( $wp_customize, string $id, string $section, string $label, int $default, int $min, int $max ): void {
+	public static function number( $wp_customize, string $id, string $section, string $label, int $default, int $min, int $max, string $description = '' ): void {
 		$wp_customize->add_setting(
 			$id,
 			array(
@@ -307,18 +313,19 @@ class Premium_Customizer {
 				},
 			)
 		);
-		$wp_customize->add_control(
-			$id,
-			array(
-				'label'   => $label,
-				'section' => $section,
-				'type'    => 'number',
-				'input_attrs' => array(
-					'min' => $min,
-					'max' => $max,
-				),
-			)
+		$args = array(
+			'label'   => $label,
+			'section' => $section,
+			'type'    => 'number',
+			'input_attrs' => array(
+				'min' => $min,
+				'max' => $max,
+			),
 		);
+		if ( '' !== $description ) {
+			$args['description'] = $description;
+		}
+		$wp_customize->add_control( $id, $args );
 	}
 
 	/**
@@ -330,18 +337,20 @@ class Premium_Customizer {
 	 * @param string                $label        Label.
 	 * @param mixed                 $default      Default.
 	 * @param array<mixed>          $choices      Choices.
+	 * @param string                $description  Inline guidance.
 	 */
-	public static function select( $wp_customize, string $id, string $section, string $label, $default, array $choices ): void {
+	public static function select( $wp_customize, string $id, string $section, string $label, $default, array $choices, string $description = '' ): void {
 		$wp_customize->add_setting( $id, array( 'default' => $default, 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp_customize->add_control(
-			$id,
-			array(
-				'label'   => $label,
-				'section' => $section,
-				'type'    => 'select',
-				'choices' => $choices,
-			)
+		$args = array(
+			'label'   => $label,
+			'section' => $section,
+			'type'    => 'select',
+			'choices' => $choices,
 		);
+		if ( '' !== $description ) {
+			$args['description'] = $description;
+		}
+		$wp_customize->add_control( $id, $args );
 	}
 
 	/**

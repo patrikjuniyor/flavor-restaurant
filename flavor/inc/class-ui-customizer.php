@@ -20,6 +20,7 @@ class UI_Customizer {
 		require_once FLAVOR_DIR . '/inc/class-ui-preview-control.php';
 		$manager->add_control( new UI_Preview_Control( $manager, 'flavor_ui_preview', array(
 			'section' => 'flavor_section_ui', 'settings' => array(), 'capability' => 'edit_theme_options', 'priority' => 1,
+			'description' => __( 'پیش‌نمایشِ زندهٔ چیدمان و استایلِ کارتِ منو؛ چیزی ذخیره نمی‌کند و تنظیمی را عوض نمی‌کند.', 'flavor' ),
 		) ) );
 		foreach ( UI::schema() as $key => $definition ) {
 			$id = 'flavor_ui_' . $key;

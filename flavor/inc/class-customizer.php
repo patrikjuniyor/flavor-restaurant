@@ -478,7 +478,7 @@ class Customizer {
 					'800' => __( 'خیلی درشت (800)', 'flavor' ),
 					'900' => __( 'سیاه (900)', 'flavor' ),
 				),
-				'',
+				__( 'ضخامتِ قلمِ عنوان‌ها؛ روی تیترهای h2 تا h6 اثر می‌گذارد.', 'flavor' ),
 			),
 			'flavor_heading_line_height'     => array(
 				__( 'ارتفاع خط تیترها', 'flavor' ),
@@ -491,7 +491,7 @@ class Customizer {
 					'1.3'  => __( 'باز (1.3)', 'flavor' ),
 					'1.4'  => __( 'خیلی باز (1.4)', 'flavor' ),
 				),
-				'',
+				__( 'فاصلهٔ عمودیِ خطوطِ تیتر؛ عددِ کوچک‌تر یعنی خطوطِ فشرده‌تر.', 'flavor' ),
 			),
 			'flavor_heading_letter_spacing'  => array(
 				__( 'فاصلهٔ حروف تیترها', 'flavor' ),
@@ -516,7 +516,7 @@ class Customizer {
 					'600' => __( 'نیمه‌درشت (600)', 'flavor' ),
 					'700' => __( 'درشت (700)', 'flavor' ),
 				),
-				'',
+				__( 'ضخامتِ قلمِ متنِ بدنه در سراسر سایت.', 'flavor' ),
 			),
 			'flavor_body_line_height'        => array(
 				__( 'ارتفاع خط متن بدنه', 'flavor' ),
@@ -815,7 +815,7 @@ class Customizer {
 				'flavor_section_gallery',
 					/* translators: %d: gallery slot number. */
 					sprintf( __( 'تصویر گالری %d', 'flavor' ), $slot ),
-					1 === $slot ? __( 'نسبت ۴:۳. هر جای خالی با تصویر دموی قالب پر می‌شود.', 'flavor' ) : ''
+					__( 'نسبت ۴:۳. هر جای خالی با تصویر دموی قالب پر می‌شود.', 'flavor' )
 				);
 		}
 

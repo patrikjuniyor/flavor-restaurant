@@ -247,10 +247,12 @@ class Chrome_Builder {
 		return array(
 			'copy'    => array(
 				'label'   => __( 'نمایش خط کپی‌رایت', 'flavor' ),
+				'description' => __( 'خطِ کپی‌رایت پایینِ پاورقی نمایش داده می‌شود.', 'flavor' ),
 				'default' => true,
 			),
 			'powered' => array(
 				'label'   => __( 'نمایش «قدرت گرفته از Flavor»', 'flavor' ),
+				'description' => __( 'برچسبِ «قدرت گرفته از Flavor» کنارِ خطِ کپی‌رایت نمایش داده می‌شود.', 'flavor' ),
 				'default' => true,
 			),
 			'map'     => array(
@@ -1201,6 +1203,7 @@ class Chrome_Builder {
 		return array(
 			'flavor_header_align'             => array(
 				'label'    => __( 'تراز ردیف هدر', 'flavor' ),
+				'description' => __( 'چیدمانِ افقیِ لوگو، منو و دکمه‌ها در ردیفِ هدر.', 'flavor' ),
 				'var'      => '--flavor-header-align',
 				'default'  => '',
 				'choices'  => array(
@@ -1215,6 +1218,7 @@ class Chrome_Builder {
 			),
 			'flavor_header_min_height'        => array(
 				'label'    => __( 'کمترین ارتفاع هدر (دسکتاپ)', 'flavor' ),
+				'description' => __( 'کمترین ارتفاعِ ردیفِ هدر در دسکتاپ؛ مقدارِ بزرگ‌تر فضای تنفس بیشتری می‌دهد.', 'flavor' ),
 				'var'      => '--flavor-header-height',
 				'default'  => '',
 				'choices'  => array(
@@ -1230,6 +1234,7 @@ class Chrome_Builder {
 			),
 			'flavor_header_min_height_mobile' => array(
 				'label'    => __( 'کمترین ارتفاع هدر (موبایل)', 'flavor' ),
+				'description' => __( 'ارتفاعِ اختصاصیِ هدر در موبایل؛ «مثل دسکتاپ» یعنی بدون تغییر.', 'flavor' ),
 				'var'      => '--flavor-header-height-mobile',
 				'default'  => '',
 				'choices'  => array(
@@ -1244,6 +1249,7 @@ class Chrome_Builder {
 			),
 			'flavor_header_gap'               => array(
 				'label'    => __( 'فاصلهٔ بین عناصر هدر', 'flavor' ),
+				'description' => __( 'فاصلهٔ بینِ عناصرِ هدر در دسکتاپ.', 'flavor' ),
 				'var'      => '--flavor-header-gap',
 				'default'  => '',
 				'choices'  => array(
@@ -1258,6 +1264,7 @@ class Chrome_Builder {
 			),
 			'flavor_header_nav_size'          => array(
 				'label'    => __( 'اندازهٔ آیتم‌های منو (دسکتاپ)', 'flavor' ),
+				'description' => __( 'اندازهٔ قلمِ آیتم‌های منوی اصلی در دسکتاپ.', 'flavor' ),
 				'var'      => '--flavor-nav-size',
 				'default'  => '',
 				'choices'  => array(
@@ -1273,6 +1280,7 @@ class Chrome_Builder {
 			),
 			'flavor_header_nav_size_mobile'   => array(
 				'label'    => __( 'اندازهٔ آیتم‌های منو (موبایل)', 'flavor' ),
+				'description' => __( 'اندازهٔ قلمِ منو در موبایل؛ «مثل دسکتاپ» یعنی همان عددِ دسکتاپ.', 'flavor' ),
 				'var'      => '--flavor-nav-size-mobile',
 				'default'  => '',
 				'choices'  => array(
@@ -1287,6 +1295,7 @@ class Chrome_Builder {
 			),
 			'flavor_header_border'            => array(
 				'label'    => __( 'جدول پایین هدر', 'flavor' ),
+				'description' => __( 'مرزِ پایینِ هدر: خطِ باریک، سایهٔ نرم، هر دو یا هیچ‌کدام.', 'flavor' ),
 				'var'      => '--flavor-header-border-size',
 				'default'  => '',
 				'choices'  => array(
@@ -1361,6 +1370,7 @@ class Chrome_Builder {
 			),
 			'flavor_footer_columns_tablet'    => array(
 				'label'    => __( 'تعداد ستون در تبلت', 'flavor' ),
+				'description' => __( 'تعداد ستون‌های پاورقی روی نمایشگرِ تبلت؛ ۰ یعنی تک‌ستونه.', 'flavor' ),
 				'var'      => '--flavor-footer-cols-tablet',
 				'default'  => 0,
 				'choices'  => array(
@@ -1375,6 +1385,7 @@ class Chrome_Builder {
 			),
 			'flavor_footer_columns_mobile'    => array(
 				'label'    => __( 'تعداد ستون در موبایل', 'flavor' ),
+				'description' => __( 'تعداد ستون‌های پاورقی در موبایل؛ ۰ یعنی تک‌ستونه.', 'flavor' ),
 				'var'      => '--flavor-footer-cols-mobile',
 				'default'  => 0,
 				'choices'  => array(
@@ -1388,6 +1399,7 @@ class Chrome_Builder {
 			),
 			'flavor_footer_space'             => array(
 				'label'    => __( 'فضای پاورقی (دسکتاپ)', 'flavor' ),
+				'description' => __( 'فضای عمودیِ بالا و پایینِ پاورقی در دسکتاپ.', 'flavor' ),
 				'var'      => '--flavor-footer-space',
 				'default'  => '',
 				'choices'  => array(
@@ -1402,6 +1414,7 @@ class Chrome_Builder {
 			),
 			'flavor_footer_space_mobile'      => array(
 				'label'    => __( 'فضای پاورقی (موبایل)', 'flavor' ),
+				'description' => __( 'فضای عمودیِ پاورقی در موبایل؛ «مثل دسکتاپ» یعنی بدون تغییر.', 'flavor' ),
 				'var'      => '--flavor-footer-space-mobile',
 				'default'  => '',
 				'choices'  => array(
@@ -1415,6 +1428,7 @@ class Chrome_Builder {
 			),
 			'flavor_footer_heading_size'      => array(
 				'label'    => __( 'اندازهٔ تیتر ستون‌های پاورقی', 'flavor' ),
+				'description' => __( 'اندازهٔ قلمِ تیترِ ستون‌های پاورقی.', 'flavor' ),
 				'var'      => '--flavor-footer-heading-size',
 				'default'  => '',
 				'choices'  => array(
@@ -1429,6 +1443,7 @@ class Chrome_Builder {
 			),
 			'flavor_footer_link_size'         => array(
 				'label'    => __( 'اندازهٔ لینک‌های پاورقی', 'flavor' ),
+				'description' => __( 'اندازهٔ قلمِ لینک‌ها و متن‌های پاورقی.', 'flavor' ),
 				'var'      => '--flavor-footer-link-size',
 				'default'  => '',
 				'choices'  => array(
@@ -2084,6 +2099,7 @@ class Chrome_Builder {
 			'flavor_footer_newsletter_title',
 			array(
 				'label'    => __( 'عنوان بلوک خبرنامه', 'flavor' ),
+				'description' => __( 'تیترِ فرمِ عضویت؛ وقتی بلوکِ «خبرنامه» یکی از ستون‌های پاورقی باشد نمایش داده می‌شود.', 'flavor' ),
 				'section'  => 'flavor_section_footer',
 				'type'     => 'text',
 				'priority' => 60,
@@ -2102,6 +2118,7 @@ class Chrome_Builder {
 			'flavor_footer_newsletter_text',
 			array(
 				'label'    => __( 'متن بلوک خبرنامه', 'flavor' ),
+				'description' => __( 'متنِ راهنمای بالای فیلدِ ایمیل در همان بلوک.', 'flavor' ),
 				'section'  => 'flavor_section_footer',
 				'type'     => 'textarea',
 				'priority' => 61,

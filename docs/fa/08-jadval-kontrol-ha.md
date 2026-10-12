@@ -7,7 +7,7 @@
 این جدول مستقیماً از خودِ وردپرس خوانده شده است: همان کنترل‌هایی که پنل شخصی‌سازی نشان می‌دهد.
 
 - کنترل‌های Flavor: **144**
-- از این میان بدون توضیح: **54**
+- از این میان بدون توضیح: **0**
 - بخش‌های Flavor: **23**
 - کنترل‌های هسته و ووکامرس (در این جدول نیستند): **40**
 
@@ -20,61 +20,61 @@
 
 | شناسه | برچسب | توضیح | نوع |
 |---|---|---|---|
-| `flavor_color_scheme_enable` | فعال‌بودن حالت شب/روز | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_color_scheme` | حالت پیش‌فرض سایت | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_color_scheme_toggle` | نمایش دکمهٔ تغییر حالت برای بازدیدکننده | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_wishlist_enable` | فعال‌بودن علاقه‌مندی‌ها (بدون افزونه) | ⚠️ بدون توضیح | WP_Customize_Control |
+| `flavor_color_scheme_enable` | فعال‌بودن حالت شب/روز | روشن یا خاموش کردن حالت شب/روز. وقتی خاموش است، سایت همیشه یک‌رنگ نمایش داده می‌شود. | WP_Customize_Control |
+| `flavor_color_scheme` | حالت پیش‌فرض سایت | حالتی که بازدیدکننده در نخستین ورود می‌بیند؛ «خودکار» از تنظیم دستگاه او پیروی می‌کند. | WP_Customize_Control |
+| `flavor_color_scheme_toggle` | نمایش دکمهٔ تغییر حالت برای بازدیدکننده | دکمهٔ ماه/خورشید کنار هدر نمایش داده می‌شود تا خودِ بازدیدکننده حالت را عوض کند. | WP_Customize_Control |
+| `flavor_wishlist_enable` | فعال‌بودن علاقه‌مندی‌ها (بدون افزونه) | روی کارتِ محصولات دکمهٔ «علاقه‌مندی» ظاهر می‌شود؛ فهرست در همان مرورگر نگه داشته می‌شود و به افزونه نیاز ندارد. | WP_Customize_Control |
 
 ### مگامنو
 
 | شناسه | برچسب | توضیح | نوع |
 |---|---|---|---|
-| `flavor_mega_enable` | فعال‌بودن مگامنو در منوی اصلی | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_mega_columns` | تعداد ستون‌ها | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_mega_threshold` | حداقل تعداد زیرمنو برای مگامنو شدن | ⚠️ بدون توضیح | WP_Customize_Control |
+| `flavor_mega_enable` | فعال‌بودن مگامنو در منوی اصلی | زیرمنوهای منوی اصلی به‌جای فهرستِ ساده، به‌صورت پنلِ چندستونی باز می‌شوند. | WP_Customize_Control |
+| `flavor_mega_columns` | تعداد ستون‌ها | تعداد ستون‌های پنلِ مگامنو. | WP_Customize_Control |
+| `flavor_mega_threshold` | حداقل تعداد زیرمنو برای مگامنو شدن | منو فقط از این تعداد به بالا زیرمنو مگامنو می‌شود. | WP_Customize_Control |
 
 ### ابزارهای فروش
 
 | شناسه | برچسب | توضیح | نوع |
 |---|---|---|---|
-| `flavor_sticky_buy_enable` | نوار چسبان «افزودن به سبد» در صفحهٔ محصول | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_quick_view_enable` | نمای سریع روی کارت‌های فروشگاه | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_free_delivery_threshold` | سقف ارسال رایگان (به تومان، ۰ = خاموش) | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_free_delivery_detect` | اگر خالی بود، از قانون ارسال رایگان ووکامرس خوانده شود | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_trust_badges_enable` | نمایش نشان‌های اعتماد | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_trust_badges_single` | نمایش نشان‌ها زیر دکمهٔ خرید محصول | ⚠️ بدون توضیح | WP_Customize_Control |
+| `flavor_sticky_buy_enable` | نوار چسبان «افزودن به سبد» در صفحهٔ محصول | هنگام پیمایشِ صفحهٔ محصول، دکمهٔ «افزودن به سبد» پایینِ صفحه ثابت می‌ماند. | WP_Customize_Control |
+| `flavor_quick_view_enable` | نمای سریع روی کارت‌های فروشگاه | روی کارت‌های فروشگاه دکمهٔ نمایشِ سریع ظاهر می‌شود؛ خلاصهٔ محصول در پنجرهٔ بازشو نشان داده می‌شود. | WP_Customize_Control |
+| `flavor_free_delivery_threshold` | سقف ارسال رایگان (به تومان، ۰ = خاموش) | از این مبلغ به بالا پیام «ارسال رایگان» نشان داده می‌شود. ۰ یعنی این نوار خاموش. | WP_Customize_Control |
+| `flavor_free_delivery_detect` | اگر خالی بود، از قانون ارسال رایگان ووکامرس خوانده شود | اگر سقف را ۰ گذاشته‌اید، مبلغ از قانونِ «ارسال رایگان» خودِ ووکامرس خوانده می‌شود. | WP_Customize_Control |
+| `flavor_trust_badges_enable` | نمایش نشان‌های اعتماد | ردیفِ نشان‌های اعتماد (ارسال سریع، بازگشت وجه و…) روشن می‌شود. | WP_Customize_Control |
+| `flavor_trust_badges_single` | نمایش نشان‌ها زیر دکمهٔ خرید محصول | نشان‌ها علاوه بر فهرست، زیرِ دکمهٔ خریدِ هر محصولِ تکی هم نمایش داده می‌شوند. | WP_Customize_Control |
 | `flavor_trust_badges` | هر خط یک نشان: آیکون\|متن | آیکون‌های مجاز: shield, truck, leaf, clock, star, tag, check, lock, info, heart | WP_Customize_Control |
 
 ### شمارش معکوس، خبرنامه و کوکی
 
 | شناسه | برچسب | توضیح | نوع |
 |---|---|---|---|
-| `flavor_offer_countdown_enable` | فعال‌بودن شمارش معکوس پیشنهاد | ⚠️ بدون توضیح | WP_Customize_Control |
+| `flavor_offer_countdown_enable` | فعال‌بودن شمارش معکوس پیشنهاد | شمارشِ معکوسِ «تا پایان پیشنهاد» روی محصولاتِ زمان‌دار نمایش داده می‌شود. | WP_Customize_Control |
 | `flavor_offer_deadline` | پایان پیشنهاد ویژه (۱۴۰۵-۰۸-۳۰ ۲۳:۵۹ یا 2026-11-21 23:59) | خالی بگذارید تا شمارش معکوس روی محصولات زمان‌دار، از تاریخ پایان حراج خود ووکامرس خوانده شود. | WP_Customize_Control |
-| `flavor_newsletter_enable` | فعال‌بودن فرم عضویت خبرنامه | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_newsletter_mode` | زمان نمایش فرم عضویت | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_newsletter_delay` | تأخیر یا زمان موبایل (ثانیه) | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_newsletter_title` | عنوان فرم عضویت | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_newsletter_text` | متن فرم عضویت | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_newsletter_code` | کد تخفیف تشکر (اختیاری) | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_newsletter_notify` | ارسال ایمیل اطلاع به مدیر برای هر عضو جدید | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_cookie_notice_enable` | نمایش نوار رضایت کوکی | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_cookie_text` | متن نوار کوکی | ⚠️ بدون توضیح | WP_Customize_Control |
+| `flavor_newsletter_enable` | فعال‌بودن فرم عضویت خبرنامه | فرمِ عضویتِ خبرنامهٔ داخلی روشن می‌شود؛ ایمیل‌ها در فهرستِ محلیِ Flavor ذخیره می‌شوند. | WP_Customize_Control |
+| `flavor_newsletter_mode` | زمان نمایش فرم عضویت | زمانِ باز شدنِ فرمِ عضویت را تعیین می‌کند. | WP_Customize_Control |
+| `flavor_newsletter_delay` | تأخیر یا زمان موبایل (ثانیه) | در حالت «بعد از چند ثانیه» و روی موبایل، همین تعداد ثانیه صبر می‌کند. | WP_Customize_Control |
+| `flavor_newsletter_title` | عنوان فرم عضویت | تیتری که بالای فرمِ عضویت خوانده می‌شود. | WP_Customize_Control |
+| `flavor_newsletter_text` | متن فرم عضویت | متنِ راهنمای زیرِ تیتر؛ خالی بگذارید تا متنِ پیش‌فرض قالب بماند. | WP_Customize_Control |
+| `flavor_newsletter_code` | کد تخفیف تشکر (اختیاری) | پس از عضویت نمایش داده می‌شود؛ فقط پیامِ اطلاع‌رسانی است و کوپنِ واقعی در ووکامرس نمی‌سازد. | WP_Customize_Control |
+| `flavor_newsletter_notify` | ارسال ایمیل اطلاع به مدیر برای هر عضو جدید | برای هر عضوِ جدید، به مدیرِ سایت ایمیلِ خبر می‌رود. | WP_Customize_Control |
+| `flavor_cookie_notice_enable` | نمایش نوار رضایت کوکی | نوارِ رضایتِ کوکی پایینِ صفحه نمایش داده می‌شود. | WP_Customize_Control |
+| `flavor_cookie_text` | متن نوار کوکی | متنِ نوارِ کوکی؛ خالی بگذارید تا پیامِ پیش‌فرض قالب نمایش داده شود. | WP_Customize_Control |
 
 ### داک شناور
 
 | شناسه | برچسب | توضیح | نوع |
 |---|---|---|---|
-| `flavor_dock_enable` | نمایش دکمه‌های شناور | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_dock_top` | دکمهٔ بازگشت به بالا با حلقهٔ پیشرفت | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_dock_call` | دکمهٔ تماس تلفنی | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_dock_whatsapp` | دکمهٔ واتس‌اپ (از شمارهٔ تماس ساخته می‌شود) | ⚠️ بدون توضیح | WP_Customize_Control |
+| `flavor_dock_enable` | نمایش دکمه‌های شناور | دکمه‌های شناورِ پایینِ صفحه روشن می‌شوند. | WP_Customize_Control |
+| `flavor_dock_top` | دکمهٔ بازگشت به بالا با حلقهٔ پیشرفت | دکمهٔ بازگشت به بالا نمایش داده می‌شود؛ حلقهٔ دورش میزانِ پیمایشِ صفحه را نشان می‌دهد. | WP_Customize_Control |
+| `flavor_dock_call` | دکمهٔ تماس تلفنی | دکمهٔ تماس با همان شماره‌ای ساخته می‌شود که در اطلاعاتِ تماس وارد کرده‌اید. | WP_Customize_Control |
+| `flavor_dock_whatsapp` | دکمهٔ واتس‌اپ (از شمارهٔ تماس ساخته می‌شود) | دکمهٔ گفت‌وگو در واتس‌اپ از همان شمارهٔ تماس ساخته می‌شود. | WP_Customize_Control |
 
 ### نقشهٔ شعبه‌ها
 
 | شناسه | برچسب | توضیح | نوع |
 |---|---|---|---|
-| `flavor_branch_map_enable` | نمایش نقشهٔ جاسازی‌شده در صفحهٔ شعبه | ⚠️ بدون توضیح | WP_Customize_Control |
+| `flavor_branch_map_enable` | نمایش نقشهٔ جاسازی‌شده در صفحهٔ شعبه | نقشهٔ جاسازی‌شده در صفحهٔ شعبه نمایش داده می‌شود. | WP_Customize_Control |
 
 
 ## پنل: طراحی و استایل رستوران
@@ -83,7 +83,7 @@
 
 | شناسه | برچسب | توضیح | نوع |
 |---|---|---|---|
-| `flavor_ui_preview` |  | ⚠️ بدون توضیح | UI_Preview_Control |
+| `flavor_ui_preview` |  | پیش‌نمایشِ زندهٔ چیدمان و استایلِ کارتِ منو؛ چیزی ذخیره نمی‌کند و تنظیمی را عوض نمی‌کند. | UI_Preview_Control |
 | `flavor_ui_menu_layout` | نمای پیش‌فرض منو | کارتی یا فهرستی؛ مشتری همچنان می‌تواند نمای همین صفحه را عوض کند. | WP_Customize_Control |
 | `flavor_ui_density` | فاصله‌گذاری کارت غذا | فاصلهٔ محتوا در هر دو نمای منو؛ اندازهٔ دکمه‌ها و اهداف لمس کوچک نمی‌شود. | WP_Customize_Control |
 | `flavor_ui_image_ratio` | قاب عکس در منوی کارتی | افقی ۳ به ۲ یا مربع؛ تصویر اصلی و فایل‌های دمو تغییر نمی‌کنند. در فهرست، عکس با ارتفاع ردیف هماهنگ است. | WP_Customize_Control |
@@ -137,10 +137,10 @@
 | شناسه | برچسب | توضیح | نوع |
 |---|---|---|---|
 | `flavor_type_scale` | نسبت مقیاس تیترها | فقط تیترهای h2 تا h6 را تغییر می‌دهد. تیتر اصلی (h1) از مقیاس ریسپانسیو پیروی می‌کند تا روی موبایل نشکند. | WP_Customize_Control |
-| `flavor_heading_weight` | وزن تیترها | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_heading_line_height` | ارتفاع خط تیترها | ⚠️ بدون توضیح | WP_Customize_Control |
+| `flavor_heading_weight` | وزن تیترها | ضخامتِ قلمِ عنوان‌ها؛ روی تیترهای h2 تا h6 اثر می‌گذارد. | WP_Customize_Control |
+| `flavor_heading_line_height` | ارتفاع خط تیترها | فاصلهٔ عمودیِ خطوطِ تیتر؛ عددِ کوچک‌تر یعنی خطوطِ فشرده‌تر. | WP_Customize_Control |
 | `flavor_heading_letter_spacing` | فاصلهٔ حروف تیترها | هشدار: در خط فارسی حروف به هم می‌چسبند. هر مقدارِ غیرصفر پیوستگیِ کلمات را می‌شکند و متن را نازیبا می‌کند؛ فقط برای تیترهای لاتین استفاده کنید. | WP_Customize_Control |
-| `flavor_body_weight` | وزن متن بدنه | ⚠️ بدون توضیح | WP_Customize_Control |
+| `flavor_body_weight` | وزن متن بدنه | ضخامتِ قلمِ متنِ بدنه در سراسر سایت. | WP_Customize_Control |
 | `flavor_body_line_height` | ارتفاع خط متن بدنه | برای متن فارسی، مقادیر بازتر خوانایی را به‌طور محسوسی بهتر می‌کنند. | WP_Customize_Control |
 
 
@@ -198,11 +198,11 @@
 |---|---|---|---|
 | `flavor_gallery_enable` | نمایش گالری تصاویر | نمایشِ گالری. اگر تصویری در بستهٔ دمو نباشد، این بخش خودبه‌خود پنهان می‌شود. | WP_Customize_Control |
 | `flavor_gallery_image_1` | تصویر گالری 1 | نسبت ۴:۳. هر جای خالی با تصویر دموی قالب پر می‌شود. | WP_Customize_Image_Control |
-| `flavor_gallery_image_2` | تصویر گالری 2 | ⚠️ بدون توضیح | WP_Customize_Image_Control |
-| `flavor_gallery_image_3` | تصویر گالری 3 | ⚠️ بدون توضیح | WP_Customize_Image_Control |
-| `flavor_gallery_image_4` | تصویر گالری 4 | ⚠️ بدون توضیح | WP_Customize_Image_Control |
-| `flavor_gallery_image_5` | تصویر گالری 5 | ⚠️ بدون توضیح | WP_Customize_Image_Control |
-| `flavor_gallery_image_6` | تصویر گالری 6 | ⚠️ بدون توضیح | WP_Customize_Image_Control |
+| `flavor_gallery_image_2` | تصویر گالری 2 | نسبت ۴:۳. هر جای خالی با تصویر دموی قالب پر می‌شود. | WP_Customize_Image_Control |
+| `flavor_gallery_image_3` | تصویر گالری 3 | نسبت ۴:۳. هر جای خالی با تصویر دموی قالب پر می‌شود. | WP_Customize_Image_Control |
+| `flavor_gallery_image_4` | تصویر گالری 4 | نسبت ۴:۳. هر جای خالی با تصویر دموی قالب پر می‌شود. | WP_Customize_Image_Control |
+| `flavor_gallery_image_5` | تصویر گالری 5 | نسبت ۴:۳. هر جای خالی با تصویر دموی قالب پر می‌شود. | WP_Customize_Image_Control |
+| `flavor_gallery_image_6` | تصویر گالری 6 | نسبت ۴:۳. هر جای خالی با تصویر دموی قالب پر می‌شود. | WP_Customize_Image_Control |
 | `flavor_gallery_items` | تصویرهای گالری | تعداد دلخواه تصویر بیفزایید و با فلش‌ها جابه‌جا کنید. متن جایگزین برای هر تصویر را پر کنید — این متن را صفحه‌خوان‌ها می‌خوانند. | Repeater_Control |
 
 ### ۸. نظرات مهمان‌ها
@@ -232,13 +232,13 @@
 | `flavor_header_topbar_link` | لینک نوار اطلاعیه (اختیاری) | مثلاً نشانی صفحهٔ تخفیف‌ها. خالی بگذارید تا نوار فقط متن باشد. | WP_Customize_Control |
 | `flavor_header_sticky_mobile` | هدر چسبان در موبایل | خاموش کردنش جای بیشتری برای محتوا روی گوشی می‌گذارد. | WP_Customize_Control |
 | `flavor_header_show_tagline` | نمایش شعار کوتاه کنار نام سایت | همان «شرح کوتاه سایت» در تنظیمات عمومی وردپرس. وقتی لوگوی اختصاصی بگذارید، این گزینه اثری ندارد. | WP_Customize_Control |
-| `flavor_header_align` | تراز ردیف هدر | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_header_min_height` | کمترین ارتفاع هدر (دسکتاپ) | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_header_min_height_mobile` | کمترین ارتفاع هدر (موبایل) | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_header_gap` | فاصلهٔ بین عناصر هدر | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_header_nav_size` | اندازهٔ آیتم‌های منو (دسکتاپ) | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_header_nav_size_mobile` | اندازهٔ آیتم‌های منو (موبایل) | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_header_border` | جدول پایین هدر | ⚠️ بدون توضیح | WP_Customize_Control |
+| `flavor_header_align` | تراز ردیف هدر | چیدمانِ افقیِ لوگو، منو و دکمه‌ها در ردیفِ هدر. | WP_Customize_Control |
+| `flavor_header_min_height` | کمترین ارتفاع هدر (دسکتاپ) | کمترین ارتفاعِ ردیفِ هدر در دسکتاپ؛ مقدارِ بزرگ‌تر فضای تنفس بیشتری می‌دهد. | WP_Customize_Control |
+| `flavor_header_min_height_mobile` | کمترین ارتفاع هدر (موبایل) | ارتفاعِ اختصاصیِ هدر در موبایل؛ «مثل دسکتاپ» یعنی بدون تغییر. | WP_Customize_Control |
+| `flavor_header_gap` | فاصلهٔ بین عناصر هدر | فاصلهٔ بینِ عناصرِ هدر در دسکتاپ. | WP_Customize_Control |
+| `flavor_header_nav_size` | اندازهٔ آیتم‌های منو (دسکتاپ) | اندازهٔ قلمِ آیتم‌های منوی اصلی در دسکتاپ. | WP_Customize_Control |
+| `flavor_header_nav_size_mobile` | اندازهٔ آیتم‌های منو (موبایل) | اندازهٔ قلمِ منو در موبایل؛ «مثل دسکتاپ» یعنی همان عددِ دسکتاپ. | WP_Customize_Control |
+| `flavor_header_border` | جدول پایین هدر | مرزِ پایینِ هدر: خطِ باریک، سایهٔ نرم، هر دو یا هیچ‌کدام. | WP_Customize_Control |
 | `flavor_header_bg` | پس‌زمینهٔ هدر | خالی بگذارید تا رنگ خودِ پوسته حفظ شود. | WP_Customize_Color_Control |
 | `flavor_header_ink` | رنگ متن و آیکن‌های هدر | خالی بگذارید تا رنگ خودِ پوسته حفظ شود. | WP_Customize_Color_Control |
 | `flavor_header_line` | رنگ خط پایین هدر | خالی بگذارید تا رنگ خودِ پوسته حفظ شود. | WP_Customize_Color_Control |
@@ -266,18 +266,18 @@
 | `flavor_social_telegram` | لینک تلگرام | نشانی کامل با https://. خالی بگذارید تا این آیکون در پانوشت نمایش داده نشود. | WP_Customize_Control |
 | `flavor_social_whatsapp` | لینک واتس‌اپ | نشانی کاملِ واتس‌اپ. خالی بگذارید تا این آیکون در پانوشت نمایش داده نشود. | WP_Customize_Control |
 | `flavor_footer_copy` | متن کپی‌رایت اختصاصی | متنِ کپی‌رایتِ پانوشت. خالی بگذارید تا متنِ پیش‌فرضِ قالب استفاده شود. | WP_Customize_Control |
-| `flavor_footer_show_copy` | نمایش خط کپی‌رایت | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_footer_show_powered` | نمایش «قدرت گرفته از Flavor» | ⚠️ بدون توضیح | WP_Customize_Control |
+| `flavor_footer_show_copy` | نمایش خط کپی‌رایت | خطِ کپی‌رایت پایینِ پاورقی نمایش داده می‌شود. | WP_Customize_Control |
+| `flavor_footer_show_powered` | نمایش «قدرت گرفته از Flavor» | برچسبِ «قدرت گرفته از Flavor» کنارِ خطِ کپی‌رایت نمایش داده می‌شود. | WP_Customize_Control |
 | `flavor_footer_show_map` | لینک «دیدن نقشهٔ شعب» در ستون تماس | به صفحهٔ شعبه‌ها لینک می‌دهد؛ اگر آن صفحه را نساخته‌اید، لینک به همان نشانی می‌رود که هدر و فوتر استفاده می‌کنند. | WP_Customize_Control |
 | `flavor_footer_columns` | تعداد ستون در دسکتاپ | «خودکار» همان شبکهٔ فعلی پوسته است و برای بیشتر رستوران‌ها بهترین انتخاب است. | WP_Customize_Control |
-| `flavor_footer_columns_tablet` | تعداد ستون در تبلت | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_footer_columns_mobile` | تعداد ستون در موبایل | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_footer_space` | فضای پاورقی (دسکتاپ) | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_footer_space_mobile` | فضای پاورقی (موبایل) | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_footer_heading_size` | اندازهٔ تیتر ستون‌های پاورقی | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_footer_link_size` | اندازهٔ لینک‌های پاورقی | ⚠️ بدون توضیح | WP_Customize_Control |
+| `flavor_footer_columns_tablet` | تعداد ستون در تبلت | تعداد ستون‌های پاورقی روی نمایشگرِ تبلت؛ ۰ یعنی تک‌ستونه. | WP_Customize_Control |
+| `flavor_footer_columns_mobile` | تعداد ستون در موبایل | تعداد ستون‌های پاورقی در موبایل؛ ۰ یعنی تک‌ستونه. | WP_Customize_Control |
+| `flavor_footer_space` | فضای پاورقی (دسکتاپ) | فضای عمودیِ بالا و پایینِ پاورقی در دسکتاپ. | WP_Customize_Control |
+| `flavor_footer_space_mobile` | فضای پاورقی (موبایل) | فضای عمودیِ پاورقی در موبایل؛ «مثل دسکتاپ» یعنی بدون تغییر. | WP_Customize_Control |
+| `flavor_footer_heading_size` | اندازهٔ تیتر ستون‌های پاورقی | اندازهٔ قلمِ تیترِ ستون‌های پاورقی. | WP_Customize_Control |
+| `flavor_footer_link_size` | اندازهٔ لینک‌های پاورقی | اندازهٔ قلمِ لینک‌ها و متن‌های پاورقی. | WP_Customize_Control |
 | `flavor_footer_bg` | پس‌زمینهٔ پاورقی | خالی بگذارید تا رنگ خودِ پوسته حفظ شود. | WP_Customize_Color_Control |
 | `flavor_footer_ink` | رنگ متن پاورقی | خالی بگذارید تا رنگ خودِ پوسته حفظ شود. | WP_Customize_Color_Control |
-| `flavor_footer_newsletter_title` | عنوان بلوک خبرنامه | ⚠️ بدون توضیح | WP_Customize_Control |
-| `flavor_footer_newsletter_text` | متن بلوک خبرنامه | ⚠️ بدون توضیح | WP_Customize_Control |
+| `flavor_footer_newsletter_title` | عنوان بلوک خبرنامه | تیترِ فرمِ عضویت؛ وقتی بلوکِ «خبرنامه» یکی از ستون‌های پاورقی باشد نمایش داده می‌شود. | WP_Customize_Control |
+| `flavor_footer_newsletter_text` | متن بلوک خبرنامه | متنِ راهنمای بالای فیلدِ ایمیل در همان بلوک. | WP_Customize_Control |
 

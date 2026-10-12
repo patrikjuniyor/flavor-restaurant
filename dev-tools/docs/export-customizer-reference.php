@@ -12,6 +12,11 @@
  *
  *   wp eval-file dev-tools/docs/export-customizer-reference.php
  *
+ * No WordPress at hand? php tests/theme/test-customizer-reference.php runs
+ * the same registrars against a recording manager and writes the identical
+ * file (--write); in check mode it fails when the committed table no longer
+ * matches what the code registers, so CI and offline agree on the invariant.
+ *
  * Output: docs/fa/08-jadval-kontrol-ha.md (override with FLAVOR_REF_OUT).
  *
  * Only controls whose id starts with `flavor_` are listed. WordPress core
