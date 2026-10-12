@@ -147,5 +147,10 @@
   "commit": "c8dce84",
   "note": "بازرسِ ماندگارِ flavor-ar.po (audit-ar-po.py) به check-i18n وصل شد؛ ۹ اصلاحِ ترجمه در ar-part99-review.py (ارقامِ عربی، ۲۰۱۶م، العنابی، رفع mistranslationِ ماست→مخلل)؛ یادداشتِ بازبینیِ بومی در صدرِ کاتالوگ؛ msgfmt+check-i18n سبز، منفی‌آزماییِ ۱۸-خطا",
   "state": "done"
+ },
+ "30": {
+  "commit": "4ca1e85",
+  "note": "کانال امضاشده زنده شد: keygen خارج از مخزن، public.key کامیت‌شده + امپد در functions.php با گارد defined، مانیفستِ ۱.۶.۲ امضا و کنارِ zip در release-site/flavor؛ verify سبز، منفی‌آزماییِ دستکاریِ نسخه و گاردِ کلیدِ داخل‌مخزن؛ publish-release.yml با کلیدِ عمومی چک می‌کند؛ docs 10 با آدرسِ نهایی",
+  "state": "done"
  }
 }
