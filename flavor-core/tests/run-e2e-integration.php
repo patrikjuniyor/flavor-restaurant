@@ -1845,6 +1845,25 @@ run_test( 'Queue processing delivers asynchronously, records outcomes and skips 
 	WebhookManager::process_queue();
 	$unsafe_row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$deliveries_tbl} WHERE webhook_id = %d ORDER BY id DESC LIMIT 1", $unsafe_id ), ARRAY_A );
 
+	// Retry semantics (prompt 42): the first failed attempt is NOT terminal —
+	// the row returns to the queue for backoff. A second immediate drain must
+	// find it inside the 30s window and refuse to consume another attempt.
+	WebhookManager::process_queue();
+	$unsafe_requeued = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$deliveries_tbl} WHERE webhook_id = %d ORDER BY id DESC LIMIT 1", $unsafe_id ), ARRAY_A );
+
+	// Exhaustion: with the retry budget one short and the backoff window
+	// elapsed, the next pass must mark the row terminal and count the failure.
+	$wpdb->update(
+		$deliveries_tbl,
+		array(
+			'attempt_count' => 4,
+			'created_at'    => gmdate( 'Y-m-d H:i:s', time() - 7200 ),
+		),
+		array( 'id' => (int) $unsafe_row['id'] )
+	);
+	WebhookManager::process_queue();
+	$unsafe_final = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$deliveries_tbl} WHERE webhook_id = %d ORDER BY id DESC LIMIT 1", $unsafe_id ), ARRAY_A );
+
 	// 3. Webhook deactivated between queueing and processing -> skipped.
 	$wpdb->insert(
 		'wp_flavor_webhooks',
@@ -1875,9 +1894,17 @@ run_test( 'Queue processing delivers asynchronously, records outcomes and skips 
 		&& 0 === $queued
 		&& $triggered >= 1
 		&& $unsafe_row
-		&& 'failed' === (string) $unsafe_row['status']
+		&& 'queued' === (string) $unsafe_row['status']
+		&& 1 === (int) $unsafe_row['attempt_count']
 		&& str_contains( (string) $unsafe_row['error_message'], 'SSRF' )
-		&& (int) $wpdb->get_var( "SELECT failure_count FROM wp_flavor_webhooks WHERE id = {$unsafe_id}" ) >= 1
+		&& str_contains( (string) $unsafe_row['error_message'], 'Retry scheduled' )
+		&& $unsafe_requeued
+		&& 1 === (int) $unsafe_requeued['attempt_count'] // backoff window refused an immediate retry
+		&& $unsafe_final
+		&& 'failed' === (string) $unsafe_final['status']
+		&& 5 === (int) $unsafe_final['attempt_count']
+		&& ! str_contains( (string) $unsafe_final['error_message'], 'Retry scheduled' )
+		&& 1 === (int) $wpdb->get_var( "SELECT failure_count FROM wp_flavor_webhooks WHERE id = {$unsafe_id}" )
 		&& $skipped_row
 		&& 'skipped' === (string) $skipped_row['status']
 		&& 1 === $queued_for_inactive;

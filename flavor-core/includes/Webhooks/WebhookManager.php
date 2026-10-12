@@ -45,6 +45,16 @@ class WebhookManager {
 	public const QUEUE_BATCH_LIMIT = 20;
 
 	/**
+	 * Retry policy for failed deliveries: exponential backoff. Delivery k+1
+	 * becomes due at created_at + sum over i=1..k of min(BASE * 2^(i-1),
+	 * CAP). There is no attempt counter in the table beyond attempt_count,
+	 * so the schedule is derived from the audit row itself.
+	 */
+	public const MAX_ATTEMPTS       = 5;
+	public const RETRY_BASE_SECONDS = 30;
+	public const RETRY_CAP_SECONDS  = 3600;
+
+	/**
 	 * Delivery statuses stored in the audit table.
 	 */
 	public const STATUS_QUEUED    = 'queued';
@@ -142,6 +152,90 @@ class WebhookManager {
 	}
 
 	/**
+	 * Canonical wire signature of a delivery body: raw 64-hex HMAC-SHA256,
+	 * the exact format build-mobile.yml emits (openssl dgst -hmac) and
+	 * BuildManager verifies for CI callbacks. Single source of truth.
+	 *
+	 * @param string $json_body Exact bytes of the request body.
+	 * @param string $secret    Shared webhook secret.
+	 */
+	public static function sign_body( string $json_body, string $secret ): string {
+		return hash_hmac( 'sha256', $json_body, $secret );
+	}
+
+	/**
+	 * Timing-safe verification of an X-Flavor-Signature against the raw body.
+	 * Receivers MUST use this instead of == or === (signature comparison is a
+	 * classic timing oracle). A `sha256=` prefix is tolerated, casing is
+	 * normalized; anything else that is not exactly 64 hex chars is rejected
+	 * before any comparison happens, and an empty secret never verifies.
+	 *
+	 * @param string $json_body Exact bytes of the received body.
+	 * @param string $secret    Shared webhook secret.
+	 * @param string $signature Header value to verify.
+	 */
+	public static function verify_signature( string $json_body, string $secret, string $signature ): bool {
+		$signature = strtolower( trim( $signature ) );
+		if ( 0 === strpos( $signature, 'sha256=' ) ) {
+			$signature = substr( $signature, 7 );
+		}
+		if ( '' === $secret || ! preg_match( '/^[0-9a-f]{64}$/', $signature ) ) {
+			return false;
+		}
+		return hash_equals( self::sign_body( $json_body, $secret ), $signature );
+	}
+
+	/**
+	 * A secret is dispatch-ready only when it is long enough for HMAC to be
+	 * meaningful; empty or stub secrets produce signatures anyone can brute
+	 * force, so they are refused at the sender edge (fail closed).
+	 *
+	 * @param string $secret Candidate secret.
+	 */
+	public static function signing_ready( string $secret ): bool {
+		return strlen( trim( $secret ) ) >= 16;
+	}
+
+	/**
+	 * Backoff schedule helper: total seconds after created_at at which the
+	 * delivery becomes eligible for its next attempt, given how many
+	 * attempts already ran. attempt_count 0 means "due immediately".
+	 *
+	 * @param int $attempt_count Completed attempts so far.
+	 */
+	public static function next_attempt_offset( int $attempt_count ): int {
+		$offset = 0;
+		for ( $i = 1; $i <= $attempt_count; $i++ ) {
+			$offset += min( self::RETRY_BASE_SECONDS * ( 2 ** ( $i - 1 ) ), self::RETRY_CAP_SECONDS );
+		}
+		return $offset;
+	}
+
+	/**
+	 * Eligibility of a queued row right now under the backoff schedule.
+	 *
+	 * @param int      $created_unix created_at of the row as a unix stamp.
+	 * @param int      $attempt_count Completed attempts so far.
+	 * @param int|null $now          Current unix time (injectable for tests).
+	 */
+	public static function delivery_is_due( int $created_unix, int $attempt_count, ?int $now = null ): bool {
+		$now = null === $now ? time() : $now;
+		return $now - $created_unix >= self::next_attempt_offset( $attempt_count );
+	}
+
+	/**
+	 * Whether an outcome ends the delivery's lifecycle: success always, or a
+	 * failure once the attempt budget is spent. Extracted so the retry
+	 * policy is unit-testable without a database or transport.
+	 *
+	 * @param bool $success       This attempt's result.
+	 * @param int  $attempts_done Attempts completed including this one.
+	 */
+	public static function is_terminal( bool $success, int $attempts_done ): bool {
+		return $success || $attempts_done >= self::MAX_ATTEMPTS;
+	}
+
+	/**
 	 * A webhook target must be an external http(s) URL — never localhost, a
 	 * private/reserved IP literal, a host resolving to one, or a URL carrying
 	 * credentials. DNS-derived checks defer to wp_http_validate_url() and the
@@ -161,8 +255,17 @@ class WebhookManager {
 		}
 
 		$scheme = strtolower( (string) ( $parts['scheme'] ?? '' ) );
-		if ( ! in_array( $scheme, array( 'http', 'https' ), true ) ) {
-			return false;
+		if ( 'https' !== $scheme ) {
+			// Cleartext dispatch is refused outright (prompt 42: https only).
+			// Local development may opt in explicitly by defining
+			// FLAVOR_WEBHOOK_ALLOW_HTTP as true in wp-config — and even then
+			// only public hosts pass: loopback/private/reserved ranges below
+			// stay blocked regardless of scheme (the opt-in relaxes wire
+			// encryption, never the SSRF fence).
+			$dev_http = defined( 'FLAVOR_WEBHOOK_ALLOW_HTTP' ) && FLAVOR_WEBHOOK_ALLOW_HTTP;
+			if ( 'http' !== $scheme || ! $dev_http ) {
+				return false;
+			}
 		}
 
 		$host = strtolower( trim( (string) ( $parts['host'] ?? '' ) ) );
@@ -296,9 +399,9 @@ class WebhookManager {
 	/**
 	 * Schedule the queue processor (immediately, via WP-Cron).
 	 */
-	private static function schedule_queue(): void {
+	private static function schedule_queue( int $at = 0 ): void {
 		if ( function_exists( 'wp_schedule_single_event' ) ) {
-			wp_schedule_single_event( time(), self::QUEUE_HOOK );
+			wp_schedule_single_event( $at > 0 ? $at : time(), self::QUEUE_HOOK );
 		}
 	}
 
@@ -313,66 +416,92 @@ class WebhookManager {
 		$deliveries_tbl = Schema::table( 'flavor_webhook_deliveries' );
 		$webhooks_tbl   = Schema::table( 'flavor_webhooks' );
 
+		// Single pass over one page of the queue. Failed attempts stay queued
+		// (status is only made terminal when the retry budget is exhausted),
+		// so a while-loop re-querying would hammer the same rows; the cron
+		// follow-up below re-arms at the earliest backoff due-time instead.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$pending = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM {$deliveries_tbl} WHERE status = %s ORDER BY id ASC LIMIT %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				self::STATUS_QUEUED,
+				$limit
+			),
+			ARRAY_A
+		);
+		if ( empty( $pending ) ) {
+			return 0;
+		}
+
 		$attempted = 0;
-		while ( $attempted < $limit ) {
+		$next_due  = 0;
+		foreach ( $pending as $row ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			$pending = $wpdb->get_results(
+			$wh = $wpdb->get_row(
 				$wpdb->prepare(
-					"SELECT * FROM {$deliveries_tbl} WHERE status = %s ORDER BY id ASC LIMIT %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-					self::STATUS_QUEUED,
-					$limit - $attempted
+					"SELECT id, target_url, secret, is_active FROM {$webhooks_tbl} WHERE id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					(int) $row['webhook_id']
 				),
 				ARRAY_A
 			);
-			if ( empty( $pending ) ) {
-				break;
-			}
 
-			foreach ( $pending as $row ) {
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				$wh = $wpdb->get_row(
-					$wpdb->prepare(
-						"SELECT id, target_url, secret, is_active FROM {$webhooks_tbl} WHERE id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-						(int) $row['webhook_id']
-					),
-					ARRAY_A
-				);
-
-				if ( ! $wh || ! (int) $wh['is_active'] ) {
-					self::finalize_row(
-						(int) $row['id'],
-						array(
-							'status'        => self::STATUS_SKIPPED,
-							'error_message' => 'Webhook inactive or deleted',
-						)
-					);
-					continue;
-				}
-
-				$payload  = json_decode( (string) $row['payload_json'], true );
-				$payload  = is_array( $payload ) ? $payload : array();
-				$event    = (string) $row['event'];
-				$delivery = self::attempt(
-					(string) $wh['target_url'],
-					(string) $wh['secret'],
-					$event,
-					(string) $row['payload_json'],
-					(string) ( $payload['delivery_id'] ?? wp_generate_uuid4() )
-				);
-
+			if ( ! $wh || ! (int) $wh['is_active'] ) {
 				self::finalize_row(
 					(int) $row['id'],
 					array(
-						'status'        => $delivery['success'] ? self::STATUS_DELIVERED : self::STATUS_FAILED,
-						'response_code' => $delivery['status_code'],
-						'response_body' => $delivery['response_body'],
-						'duration_ms'   => $delivery['duration_ms'],
-						'error_message' => $delivery['error'],
+						'status'        => self::STATUS_SKIPPED,
+						'error_message' => 'Webhook inactive or deleted',
 					)
 				);
-				self::record_webhook_outcome( (int) $wh['id'], $delivery['success'] );
-				++$attempted;
+				continue;
 			}
+
+			$attempts = (int) ( $row['attempt_count'] ?? 0 );
+			$created  = strtotime( (string) ( $row['created_at'] ?? '' ) . ' UTC' );
+			if ( false !== $created && ! self::delivery_is_due( $created, $attempts ) ) {
+				// Backoff window still open: leave it queued, remember the wake
+				// time so the next cron run can be armed precisely.
+				$due      = $created + self::next_attempt_offset( $attempts );
+				$next_due = $next_due > 0 ? min( $next_due, $due ) : $due;
+				continue;
+			}
+
+			$payload  = json_decode( (string) $row['payload_json'], true );
+			$payload  = is_array( $payload ) ? $payload : array();
+			$event    = (string) $row['event'];
+			$delivery = self::attempt(
+				(string) $wh['target_url'],
+				(string) $wh['secret'],
+				$event,
+				(string) $row['payload_json'],
+				(string) ( $payload['delivery_id'] ?? wp_generate_uuid4() )
+			);
+
+			$terminal = self::is_terminal( (bool) $delivery['success'], $attempts + 1 );
+			$status   = $delivery['success']
+				? self::STATUS_DELIVERED
+				: ( $terminal ? self::STATUS_FAILED : self::STATUS_QUEUED );
+
+			self::finalize_row(
+				(int) $row['id'],
+				array(
+					'status'        => $status,
+					'response_code' => $delivery['status_code'],
+					'response_body' => $delivery['response_body'],
+					'duration_ms'   => $delivery['duration_ms'],
+					'error_message' => $terminal
+						? $delivery['error']
+						: 'Retry scheduled after attempt ' . ( $attempts + 1 ) . ': ' . $delivery['error'],
+				)
+			);
+			if ( $terminal ) {
+				self::record_webhook_outcome( (int) $wh['id'], $delivery['success'] );
+			}
+			++$attempted;
+		}
+
+		if ( $next_due > 0 ) {
+			self::schedule_queue( max( time(), $next_due ) );
 		}
 
 		return $attempted;
@@ -411,6 +540,15 @@ class WebhookManager {
 	 * @return array{success: bool, status_code: int, response_body: string, duration_ms: int, error: string}
 	 */
 	private static function attempt( string $target_url, string $secret, string $event, string $json_body, string $delivery_id ): array {
+		if ( ! self::signing_ready( $secret ) ) {
+			return array(
+				'success'       => false,
+				'status_code'   => 0,
+				'response_body' => '',
+				'duration_ms'   => 0,
+				'error'         => __( 'رمز وب‌هوک برای امضای HMAC معتبر نیست؛ ارسال بدونِ امضا انجام نمی‌شود.', 'flavor-core' ),
+			);
+		}
 		if ( ! self::is_safe_target_url( $target_url ) ) {
 			return array(
 				'success'       => false,
@@ -428,7 +566,7 @@ class WebhookManager {
 			'headers'     => array(
 				'Content-Type'         => 'application/json',
 				'User-Agent'           => 'Flavor-Webhook-Dispatcher/2.0',
-				'X-Flavor-Signature'   => hash_hmac( 'sha256', $json_body, $secret ),
+				'X-Flavor-Signature'   => self::sign_body( $json_body, $secret ),
 				'X-Flavor-Event'       => $event,
 				'X-Flavor-Delivery-ID' => $delivery_id,
 			),

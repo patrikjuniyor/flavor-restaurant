@@ -203,6 +203,10 @@
  "41": {
   "commit": "0354520",
   "state": "done",
-  "note": "تست‌نفوذ demo-importer: گیتِ نامِ تخت (basename+sanitize+regex لنگردار+ردِ دابل‌اکستنشن)، محصورسازی realpath داخل demos/ (symlink فرارکننده رد می‌شود)، وایت‌لیستِ موافقِ پرامپت jpg/png/svg (webp حذف؛ svg فقط بی‌ضرر — script/on*/ENTITY/foreignObject → reject). حفرهٔ دومِ واقعی: مقصدِ copy در rollback از آپشن می‌آمد → گاردِ basedir+ضدِ.. با ترتیبِ mkdir-پسِ-تأیید. گیتِ تازه ۳۱ بررسی با پروب‌هایِ زنده و سه منفی‌آزماییِ هدف‌دار روی کدِ پروداکشن"
+  "note": "تست‌نفوذ demo-importer: گیتِ نامِ تخت (basename+sanitize+regex لنگردار+ردِ دابل‌اکستنشن)، محصورسازی realpath داخل demos/ (symlink فرارکننده رد می‌شود)، وایت‌لیستِ موافقِ پرامپت jpg/png/svg (webp حذف؛ svg فقط بی‌ضرر — script/on*/ENTITY/foreignObject → reject). حفرهٔ دومِ واقعی: مقصدِ copy در rollback از آپشن می‌آمد → گاردِ basedir+ضدِ.. با ترتیبِ mkdir-پسِ-تأیید. گیتِ تازه ۳۱ بررسی با پروب‌هایِ زنده و سه منفی‌آزماییِ هدف‌دار روی کدِ پروداکشن" },
+ "42": {
+  "commit": "PENDING",
+  "state": "done",
+  "note": "وب‌هوک خروجی: sign_body/verify_signature با hash_equals (قالب build-mobile.yml؛ fail-closed روی رمز خالی)، https-only با opt-in صریح FLAVOR_WEBHOOK_ALLOW_HTTP (حصار SSRF تکان‌نخورده)، retry backoff نمایی ۳۰s→سقف ۱h با بودجه ۵ (بدون مهاجرت schema؛ cron روی نزدیک‌ترین بیداری) + چرخش رمز در update. گیت ۴۴ بررسی + e2e با اثبات رفتاری پنجره backoff و exhaustion (۸۱/۸۱)؛ چهار منفی‌آزماییِ هدفمند"
  }
 }

@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-12 12:00+00:00\n"
+"POT-Creation-Date: 2026-10-12 13:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
@@ -74,12 +74,12 @@ msgstr ""
 msgid "آدرس صفحه حریم خصوصی"
 msgstr ""
 
-#: flavor-core/includes/Webhooks/WebhookManager.php:420
+#: flavor-core/includes/Webhooks/WebhookManager.php:558
 msgid "آدرس مقصد وب‌هوک امن نیست (SSRF)."
 msgstr ""
 
-#: flavor-core/includes/API/WebhookController.php:142 flavor-core/includes/API/WebhookController.php:218
-msgid "آدرس مقصد وب‌هوک مجاز نیست؛ فقط http/https عمومی پذیرفته می‌شود."
+#: flavor-core/includes/API/WebhookController.php:142 flavor-core/includes/API/WebhookController.php:221
+msgid "آدرس مقصد وب‌هوک مجاز نیست؛ فقط https عمومی پذیرفته می‌شود."
 msgstr ""
 
 #: flavor-core/admin/views/kitchen-dashboard.php:61 flavor-core/includes/Admin/AdminMenus.php:98 flavor-core/includes/Admin/AdminMenus.php:99
@@ -258,7 +258,7 @@ msgstr ""
 msgid "امتیاز: %d"
 msgstr ""
 
-#: flavor-core/includes/Webhooks/WebhookManager.php:70
+#: flavor-core/includes/Webhooks/WebhookManager.php:80
 msgid "امتیاز باشگاه به مشتری تعلق گرفت (loyalty.points_awarded)"
 msgstr ""
 
@@ -794,11 +794,11 @@ msgstr ""
 msgid "حداقل سفارش این منطقه %s است."
 msgstr ""
 
-#: flavor-core/includes/Webhooks/WebhookManager.php:94
+#: flavor-core/includes/Webhooks/WebhookManager.php:104
 msgid "حداقل یک رویداد انتخاب کنید."
 msgstr ""
 
-#: flavor-core/includes/Webhooks/WebhookManager.php:137
+#: flavor-core/includes/Webhooks/WebhookManager.php:147
 msgid "حداقل یک رویداد معتبر انتخاب کنید."
 msgstr ""
 
@@ -1010,7 +1010,7 @@ msgstr ""
 msgid "رزرو میز"
 msgstr ""
 
-#: flavor-core/includes/Webhooks/WebhookManager.php:67
+#: flavor-core/includes/Webhooks/WebhookManager.php:77
 msgid "رزرو میز جدید ثبت شد (reservation.created)"
 msgstr ""
 
@@ -1046,6 +1046,14 @@ msgstr ""
 msgid "رستوران مستقیم"
 msgstr ""
 
+#: flavor-core/includes/API/WebhookController.php:145 flavor-core/includes/API/WebhookController.php:228
+msgid "رمز وب‌هوک باید دست‌کم ۱۶ نویسه باشد تا امضای HMAC معنادار بماند."
+msgstr ""
+
+#: flavor-core/includes/Webhooks/WebhookManager.php:549
+msgid "رمز وب‌هوک برای امضای HMAC معتبر نیست؛ ارسال بدونِ امضا انجام نمی‌شود."
+msgstr ""
+
 #: flavor-core/admin/views/mobile-app-dashboard.php:168
 msgid "رنگ اصلی (Primary)"
 msgstr ""
@@ -1066,7 +1074,7 @@ msgstr ""
 msgid "روش پرداخت برای این حالت سفارش مجاز نیست."
 msgstr ""
 
-#: flavor-core/includes/Webhooks/WebhookManager.php:118
+#: flavor-core/includes/Webhooks/WebhookManager.php:128
 msgid "رویداد «%s» پشتیبانی نمی‌شود."
 msgstr ""
 
@@ -1178,7 +1186,7 @@ msgstr ""
 msgid "سفارش بیلد و CI/CD"
 msgstr ""
 
-#: flavor-core/includes/Webhooks/WebhookManager.php:65
+#: flavor-core/includes/Webhooks/WebhookManager.php:75
 msgid "سفارش تحویل/تکمیل شد (order.completed)"
 msgstr ""
 
@@ -1186,7 +1194,7 @@ msgstr ""
 msgid "سفارش تلفنی"
 msgstr ""
 
-#: flavor-core/includes/Webhooks/WebhookManager.php:63
+#: flavor-core/includes/Webhooks/WebhookManager.php:73
 msgid "سفارش جدید ثبت شد (order.created)"
 msgstr ""
 
@@ -1214,7 +1222,7 @@ msgstr ""
 msgid "سفارش شما لغو شد"
 msgstr ""
 
-#: flavor-core/includes/Webhooks/WebhookManager.php:66
+#: flavor-core/includes/Webhooks/WebhookManager.php:76
 msgid "سفارش لغو شد (order.cancelled)"
 msgstr ""
 
@@ -1642,7 +1650,7 @@ msgstr ""
 msgid "مشاهده شعبه"
 msgstr ""
 
-#: flavor-core/includes/Webhooks/WebhookManager.php:69
+#: flavor-core/includes/Webhooks/WebhookManager.php:79
 msgid "مشتری جدید ثبت‌نام کرد (customer.created)"
 msgstr ""
 
@@ -1910,11 +1918,11 @@ msgstr ""
 msgid "وارد حساب شوید."
 msgstr ""
 
-#: flavor-core/includes/API/WebhookController.php:169
+#: flavor-core/includes/API/WebhookController.php:172
 msgid "وب‌هوک با موفقیت ایجاد گردید."
 msgstr ""
 
-#: flavor-core/includes/API/WebhookController.php:190 flavor-core/includes/API/WebhookController.php:208 flavor-core/includes/API/WebhookController.php:256
+#: flavor-core/includes/API/WebhookController.php:193 flavor-core/includes/API/WebhookController.php:211 flavor-core/includes/API/WebhookController.php:266
 msgid "وب‌هوک یافت نشد."
 msgstr ""
 
@@ -1946,7 +1954,7 @@ msgstr ""
 msgid "وضعیت رزرو #%d تغییر کرد."
 msgstr ""
 
-#: flavor-core/includes/Webhooks/WebhookManager.php:68
+#: flavor-core/includes/Webhooks/WebhookManager.php:78
 msgid "وضعیت رزرو به‌روز شد (reservation.updated)"
 msgstr ""
 
@@ -1954,7 +1962,7 @@ msgstr ""
 msgid "وضعیت سفارش #%d به %s تغییر یافت."
 msgstr ""
 
-#: flavor-core/includes/Webhooks/WebhookManager.php:64
+#: flavor-core/includes/Webhooks/WebhookManager.php:74
 msgid "وضعیت سفارش تغییر کرد (order.updated)"
 msgstr ""
 

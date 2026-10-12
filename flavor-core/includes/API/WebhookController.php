@@ -139,7 +139,10 @@ class WebhookController extends BaseApiController {
 
 		// SSRF guard.
 		if ( ! WebhookManager::is_safe_target_url( $url ) ) {
-			return $this->respond_error( 'flavor_webhook_url', __( 'آدرس مقصد وب‌هوک مجاز نیست؛ فقط http/https عمومی پذیرفته می‌شود.', 'flavor-core' ), 400 );
+			return $this->respond_error( 'flavor_webhook_url', __( 'آدرس مقصد وب‌هوک مجاز نیست؛ فقط https عمومی پذیرفته می‌شود.', 'flavor-core' ), 400 );
+		}
+		if ( isset( $body['secret'] ) && ! WebhookManager::signing_ready( (string) $body['secret'] ) ) {
+			return $this->respond_error( 'flavor_webhook_secret', __( 'رمز وب‌هوک باید دست‌کم ۱۶ نویسه باشد تا امضای HMAC معنادار بماند.', 'flavor-core' ), 400 );
 		}
 
 		$tbl = Schema::table( 'flavor_webhooks' );
@@ -215,9 +218,16 @@ class WebhookController extends BaseApiController {
 		if ( isset( $body['target_url'] ) ) {
 			$url = esc_url_raw( (string) $body['target_url'] );
 			if ( ! WebhookManager::is_safe_target_url( $url ) ) {
-				return $this->respond_error( 'flavor_webhook_url', __( 'آدرس مقصد وب‌هوک مجاز نیست؛ فقط http/https عمومی پذیرفته می‌شود.', 'flavor-core' ), 400 );
+				return $this->respond_error( 'flavor_webhook_url', __( 'آدرس مقصد وب‌هوک مجاز نیست؛ فقط https عمومی پذیرفته می‌شود.', 'flavor-core' ), 400 );
 			}
 			$data['target_url'] = $url;
+		}
+		if ( isset( $body['secret'] ) ) {
+			$secret_in = sanitize_text_field( (string) $body['secret'] );
+			if ( ! WebhookManager::signing_ready( $secret_in ) ) {
+				return $this->respond_error( 'flavor_webhook_secret', __( 'رمز وب‌هوک باید دست‌کم ۱۶ نویسه باشد تا امضای HMAC معنادار بماند.', 'flavor-core' ), 400 );
+			}
+			$data['secret'] = $secret_in;
 		}
 		if ( isset( $body['is_active'] ) ) {
 			$data['is_active'] = ! empty( $body['is_active'] ) ? 1 : 0;
