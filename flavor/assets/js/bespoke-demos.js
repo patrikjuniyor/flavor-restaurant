@@ -48,7 +48,10 @@
 				body: JSON.stringify({ branch_id: Number(cfg.branchId) || 0, neighborhood: coverage.elements.neighborhood.value, city: coverage.elements.city.value })
 			}).then(function (response) {
 				return response.json().then(function (json) {
-					if (!response.ok || json.success === false) throw new Error(json.message || t('zone_failed'));
+					if (!response.ok || json.success === false) {
+						var entry = json && json.errors && json.errors[0];
+						throw new Error((entry && entry.message) || json.message || t('zone_failed'));
+					}
 					return json.success === true ? json.data : json;
 				});
 			}).then(function (zone) {

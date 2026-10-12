@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-12 15:56+00:00\n"
+"POT-Creation-Date: 2026-10-12 16:47+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
@@ -118,7 +118,7 @@ msgstr ""
 msgid "آیتم در سبد شما یافت نشد."
 msgstr ""
 
-#: flavor-core/includes/API/RestStore.php:186
+#: flavor-core/includes/API/RestStore.php:189
 msgid "آیتم سبد نامعتبر است."
 msgstr ""
 
@@ -234,7 +234,7 @@ msgstr ""
 msgid "افزودن میز"
 msgstr ""
 
-#: flavor-core/includes/Plugin.php:154
+#: flavor-core/includes/Plugin.php:155
 msgid "افزونه Flavor Core برای اجرا به ووکامرس ۸.۵ یا بالاتر نیاز دارد."
 msgstr ""
 
@@ -350,7 +350,7 @@ msgstr ""
 msgid "این تعداد یا ویرایش توسط فروشگاه پذیرفته نشد؛ انتخاب قبلی شما محفوظ است."
 msgstr ""
 
-#: flavor-core/includes/API/RestController.php:228
+#: flavor-core/includes/API/RestController.php:229
 msgid "این تغییر وضعیت مجاز نیست."
 msgstr ""
 
@@ -462,7 +462,7 @@ msgstr ""
 msgid "برای انتشار در گوگل پلی و کافه بازار و مایکت الزامی است."
 msgstr ""
 
-#: flavor-core/includes/API/BaseApiController.php:144
+#: flavor-core/includes/API/BaseApiController.php:169
 msgid "برای انجام این عملیات باید وارد حساب کاربری خود شوید."
 msgstr ""
 
@@ -586,7 +586,7 @@ msgstr ""
 msgid "تعداد تلاش بیش از حد. کد جدید بگیرید."
 msgstr ""
 
-#: flavor-core/includes/API/RestSearch.php:182
+#: flavor-core/includes/API/RestSearch.php:187
 msgid "تعداد درخواست بیش از حد است."
 msgstr ""
 
@@ -714,7 +714,7 @@ msgstr ""
 msgid "تکمیل شده"
 msgstr ""
 
-#: flavor-core/includes/API/RestController.php:220 flavor-core/includes/API/RestStore.php:310 flavor-core/includes/Receipt/ReceiptRenderer.php:29
+#: flavor-core/includes/API/RestController.php:221 flavor-core/includes/API/RestStore.php:313 flavor-core/includes/Receipt/ReceiptRenderer.php:29
 msgid "تیکت پیدا نشد."
 msgstr ""
 
@@ -814,7 +814,7 @@ msgstr ""
 msgid "حذف ماده"
 msgstr ""
 
-#: flavor-core/includes/API/BaseApiController.php:206
+#: flavor-core/includes/API/BaseApiController.php:231
 msgid "حساب شما به چند شعبه دسترسی دارد؛ ارسال branch_id الزامی است."
 msgstr ""
 
@@ -822,7 +822,7 @@ msgstr ""
 msgid "حضوری"
 msgstr ""
 
-#: flavor-core/includes/API/RestStore.php:257
+#: flavor-core/includes/API/RestStore.php:260
 msgid "خارج از محدوده ارسال."
 msgstr ""
 
@@ -922,7 +922,7 @@ msgstr ""
 msgid "دریافت سفارش"
 msgstr ""
 
-#: flavor-core/includes/API/BaseApiController.php:197
+#: flavor-core/includes/API/BaseApiController.php:222
 msgid "دسترسی به اطلاعات این شعبه برای شما مجاز نیست."
 msgstr ""
 
@@ -942,7 +942,7 @@ msgstr ""
 msgid "دسترسی به گزارش این شعبه مجاز نیست."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:251 flavor-core/includes/API/RestController.php:223 flavor-core/includes/API/RestStore.php:313 flavor-core/includes/API/RestStore.php:339 flavor-core/includes/Delivery/ZoneAdmin.php:33 flavor-core/includes/Delivery/ZoneAdmin.php:148 flavor-core/includes/Loyalty/LoyaltyAdmin.php:33 flavor-core/includes/Loyalty/LoyaltyAdmin.php:113 flavor-core/includes/Menu/AvailabilityAdmin.php:32 flavor-core/includes/Menu/AvailabilityAdmin.php:101 flavor-core/includes/Menu/ScheduleAdmin.php:31 flavor-core/includes/Menu/ScheduleAdmin.php:96 flavor-core/includes/Order/PhoneOrderAdmin.php:64 flavor-core/includes/Order/PhoneOrderAdmin.php:203 flavor-core/includes/Reservation/ReservationAdmin.php:33 flavor-core/includes/Reservation/ReservationAdmin.php:151 flavor-core/includes/Table/TableAdmin.php:34 flavor-core/includes/Table/TableAdmin.php:317
+#: flavor-core/includes/Admin/AdminMenus.php:251 flavor-core/includes/API/RestController.php:224 flavor-core/includes/API/RestStore.php:316 flavor-core/includes/API/RestStore.php:344 flavor-core/includes/Delivery/ZoneAdmin.php:33 flavor-core/includes/Delivery/ZoneAdmin.php:148 flavor-core/includes/Loyalty/LoyaltyAdmin.php:33 flavor-core/includes/Loyalty/LoyaltyAdmin.php:113 flavor-core/includes/Menu/AvailabilityAdmin.php:32 flavor-core/includes/Menu/AvailabilityAdmin.php:101 flavor-core/includes/Menu/ScheduleAdmin.php:31 flavor-core/includes/Menu/ScheduleAdmin.php:96 flavor-core/includes/Order/PhoneOrderAdmin.php:64 flavor-core/includes/Order/PhoneOrderAdmin.php:203 flavor-core/includes/Reservation/ReservationAdmin.php:33 flavor-core/includes/Reservation/ReservationAdmin.php:151 flavor-core/includes/Table/TableAdmin.php:34 flavor-core/includes/Table/TableAdmin.php:317
 msgid "دسترسی ندارید."
 msgstr ""
 
@@ -1278,7 +1278,7 @@ msgstr ""
 msgid "شعبه مورد نظر یافت نشد."
 msgstr ""
 
-#: flavor-core/includes/API/RestStore.php:336
+#: flavor-core/includes/API/RestStore.php:341
 msgid "شعبه و محصول لازم است."
 msgstr ""
 
@@ -1306,7 +1306,7 @@ msgstr ""
 msgid "شما اجازهٔ دسترسی به این صفحه را ندارید."
 msgstr ""
 
-#: flavor-core/includes/API/BaseApiController.php:167
+#: flavor-core/includes/API/BaseApiController.php:192
 msgid "شما دسترسی لازم برای این عملیات را ندارید."
 msgstr ""
 
@@ -1334,7 +1334,7 @@ msgstr ""
 msgid "شماره میز واردشده برای این شعبه معتبر نیست."
 msgstr ""
 
-#: flavor-core/includes/API/RestExperience.php:150
+#: flavor-core/includes/API/RestExperience.php:153
 msgid "شماره نامعتبر است."
 msgstr ""
 
@@ -1798,7 +1798,7 @@ msgstr ""
 msgid "نشانی ایمیل معتبر نیست."
 msgstr ""
 
-#: flavor-core/includes/Plugin.php:164
+#: flavor-core/includes/Plugin.php:165
 msgid "نصب WooCommerce"
 msgstr ""
 

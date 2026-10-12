@@ -83,7 +83,9 @@
 					var msg = (error && error.message) || (j && (j.message || (j.data && j.data.message))) || r.statusText;
 					throw new Error(msg);
 				}
-				// Core 1.4 uses an envelope; retained v1 store routes are raw.
+				// Every flavor route answers with the standard envelope since
+				// prompt 46; the raw fallback covers cached pre-envelope
+				// responses during rollout.
 				var data = j && j.success === true ? j.data : j;
 				if (data && data.cart_token) {
 					try { sessionStorage.setItem('flavorCartToken', data.cart_token); } catch (ignore) {}

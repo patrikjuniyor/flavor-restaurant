@@ -218,7 +218,9 @@
 			})
 			.then(function (payload) {
 				setConn(true);
-				render(payload);
+				/* Standard envelope since prompt 46; the raw fallback keeps
+				   boards alive against cached pre-envelope responses. */
+				render(payload && payload.success === true && payload.data ? payload.data : payload);
 			})
 			.catch(function () {
 				setConn(false);

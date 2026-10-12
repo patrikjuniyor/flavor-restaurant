@@ -582,7 +582,13 @@ run_test( 'Branch Staff Isolation: Staff from Branch 1 cannot access Branch 2 Ki
 	$master_ctrl = new \FlavorCore\API\RestController();
 	$res = $master_ctrl->kitchen_list( $req );
 
-	return is_wp_error( $res ) && $res->get_error_data()['status'] === 403;
+	// Prompt 46: route callbacks answer with the standard error envelope
+	// (respond_error), not a raw WP_Error — 403 lives in the response status
+	// and success===false in the body.
+	return $res instanceof \WP_REST_Response
+		&& $res->get_status() === 403
+		&& ($res->get_data()['success'] ?? null) === false
+		&& ($res->get_data()['errors'][0]['code'] ?? '') === 'flavor_forbidden';
 } );
 
 run_test( 'Admin Access: Administrator can view and manage all orders and branches', function () use ( $order_ctrl, $user_b_order_id ) {
