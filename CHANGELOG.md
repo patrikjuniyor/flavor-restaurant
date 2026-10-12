@@ -7,6 +7,13 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added — سخت‌سازیِ endpointهای عمومیِ REST (پرامپت ۳۷ / R4-5)
+
+- **ممیزیِ سه‌گانه طبقِ پرامپت:** `SettingsController::/settings/app-bootstrap` (نام، ارز، طراحی، شاخه‌ها، OTP-length برای شمارندهٔ رزندِ اپ — هیچ رازی ندارد)، `MobileProvisionController::/mobile/config` (قراردادِ وایت‌لیبل فقط؛ FCM به‌صورتِ boolean `has_fcm` و کلیدها هرگز؛ مسیرِ POSTِ config و builds پشتِ `require_admin`؛ callbackِ build با `__return_true` اما HMAC-امضا) و `ObservabilityController` (health عمومی، logs ادمینی) — هر سه از قبل امن بودند؛ خروجیِ ممیزی به‌جایِ ادعایِ شفاهی، گیتِ ماشینی شد.
+- **گیتِ تازه (`tests/theme/test-public-endpoints.php`، ۲۲ بررسی):** ① منیفستِ پین‌شدهٔ هر ۴۳ مسیرِ `__return_true` (فایل|مسیر|callback) — مسیرِ عمومیِ تازه بدونِ بازبینیِ صریح → FAIL؛ ② اسکنِ سورسِ هر callback عمومی + سازنده‌های استاتیکِ یک‌لایه‌اش برایِ نامِ آپشن‌هایِ راز (`fcm_service_key/ci_webhook_secret/github_token/apns_*`) و dump کاملِ config (`return $all`) — تنها استثنایِ allowlist‌شده `BuildManager::update_build_from_ci` که راز را فقط برایِ `hash_equals` می‌خواند و هرگز برنمی‌گرداند (دست‌چین تأیید شد)؛ ③ **canary زنده:** کاشتِ `SEED_*` از setterِ تولیدیِ `MobileConfigManager::update` + `flavor_apns_*`، اجرایِ واقعیِ هر سه callback روی mock WP — هیچِ مقدارِ کاشت‌شده‌ای در هیچِ پاسخی نیست (با assertِ non-vacuous: پاسخ‌ها واقعاً تولید شده‌اند)؛ ④ health ناشناس فقطِ `status` (هیچِ `php_version/memory_limit/missing_tables`) و همانِ endpoint با نقشِ ادمین **جزئیات دارد** — یعنی redaction شرطیِ واقعی است نه crash پوشالی؛ fail-safe طوری‌ست که check ناشناختهٔ آینده هم خودکار فقط-status می‌شود؛ ⑤ pinهای HMAC (hash_equals + ردِ امضایِ غایب/بدقالب) و منفی‌سنجیِ خودِ اسکنر (کاشتِ github_token → flag).
+- **منفی‌آزماییِ زندهٔ کلِ گیت:** کاشتِ مسیرِ `/system/leak-probe` با echoِ `github_token` در ObservabilityController → دو FAILِ همزمان (مسیرِ تازهٔ منیفست + نشتِ راز)؛ حذف → **ALL 22**. رانرِ تم: ۳۴ فایل، همه سبز.
+
+
 ### Added — گشتِ sanitize ورودی روی API و ادمین (پرامپت ۳۶ / R4-4)
 
 - **ممیزی:** هر خواندنِ `$_GET/$_POST/$_REQUEST`، `get_param()` و بدنهٔ `get_json_params()` در ۹۸ فایلِ `flavor-core/includes/**` و `flavor-core/admin/views/` — ۲۳۰ ورودیِ سوپرگلوبال/پارامتر + ۵۵ تجزیهٔ بدنهٔ JSON — با گیتِ مستقلِ تازه (`tests/theme/test-input-sanitization.php`، ۹ بررسی، اجرا در تورِ سراسری CI) بازبینی شد.
