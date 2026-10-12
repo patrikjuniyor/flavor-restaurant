@@ -116,7 +116,13 @@ class ReservationAdmin {
 							<td><?php echo esc_html( (string) $r['party_size'] ); ?></td>
 							<td><?php echo esc_html( (string) $r['status'] ); ?></td>
 							<td>
-								<?php foreach ( array( 'confirmed' => 'تایید', 'seated' => 'نشست', 'completed' => 'تمام', 'cancelled' => 'لغو', 'no_show' => 'نیامد' ) as $st => $lab ) : ?>
+								<?php foreach ( array(
+	'confirmed' => 'تایید',
+	'seated' => 'نشست',
+	'completed' => 'تمام',
+	'cancelled' => 'لغو',
+	'no_show' => 'نیامد',
+) as $st => $lab ) : ?>
 									<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline;">
 										<?php wp_nonce_field( 'flavor_save_reservation' ); ?>
 										<input type="hidden" name="action" value="flavor_save_reservation" />

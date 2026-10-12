@@ -20,10 +20,13 @@ class Enqueue {
 	public static function init(): void {
 		add_action( 'wp_enqueue_scripts', array( self::class, 'front' ) );
 		add_action( 'wp_enqueue_scripts', array( self::class, 'elementor_widgets' ), 20 );
-		/* The motion layer is an overlay: it has to land after the skin sheets
-		   and after premium.css so that a rule it shares a selector with
-		   (`.flavor-filters__chip`, say) resolves in its favour. Skin art
-		   direction still wins on specificity, which is what we want. */
+
+		/*
+		The motion layer is an overlay: it has to land after the skin sheets
+			and after premium.css so that a rule it shares a selector with
+			(`.flavor-filters__chip`, say) resolves in its favour. Skin art
+			direction still wins on specificity, which is what we want.
+			*/
 		add_action( 'wp_enqueue_scripts', array( self::class, 'motion' ), 50 );
 		add_action( 'enqueue_block_editor_assets', array( self::class, 'editor' ) );
 		add_action( 'wp_head', array( self::class, 'preload' ), 1 );
@@ -55,8 +58,10 @@ class Enqueue {
 			return;
 		}
 
-		/* Depend on whatever is actually registered, so this still works if the
-		   premium layer is ever removed or if a skin sheet is missing. */
+		/*
+		Depend on whatever is actually registered, so this still works if the
+			premium layer is ever removed or if a skin sheet is missing.
+			*/
 		$deps = array( 'flavor-main' );
 		foreach ( array( 'flavor-marketing', 'flavor-premium', 'flavor-dark-mode' ) as $handle ) {
 			if ( wp_style_is( $handle, 'registered' ) || wp_style_is( $handle, 'enqueued' ) || wp_style_is( $handle, 'done' ) ) {
@@ -77,8 +82,10 @@ class Enqueue {
 			(string) filemtime( FLAVOR_DIR . $css )
 		);
 
-		/* Depends on main.js because the toast wrapper in motion.js decorates
-		   `window.flavorToast`, which main.js is what defines. */
+		/*
+		Depends on main.js because the toast wrapper in motion.js decorates
+			`window.flavorToast`, which main.js is what defines.
+			*/
 		wp_enqueue_script(
 			'flavor-motion-js',
 			FLAVOR_URI . $js,
@@ -229,13 +236,20 @@ class Enqueue {
 			$payload['tableId'] = $presentation['table_id'];
 			$payload['tableLabel'] = $presentation['table'];
 			$payload['defaultMode'] = Bespoke_Demos::active() ? ( Bespoke_Demos::demo()['landing']['default_mode'] ?? 'takeaway' ) : 'takeaway';
-			if ( $presentation['table_id'] ) { $payload['defaultMode'] = 'dine_in'; }
+			if ( $presentation['table_id'] ) {
+$payload['defaultMode'] = 'dine_in'; }
 		}
 
 		if ( is_page_template( 'page-templates/template-reservation.php' ) ) {
 			$payload['reservationBranchIds'] = array();
-			foreach ( get_posts( array( 'post_type' => 'flavor_branch', 'post_status' => 'publish', 'posts_per_page' => 50, 'fields' => 'ids' ) ) as $branch_id ) {
-				if ( UI::reservation_available( (int) $branch_id ) ) { $payload['reservationBranchIds'][] = (int) $branch_id; }
+			foreach ( get_posts( array(
+				'post_type' => 'flavor_branch',
+				'post_status' => 'publish',
+				'posts_per_page' => 50,
+				'fields' => 'ids',
+			) ) as $branch_id ) {
+				if ( UI::reservation_available( (int) $branch_id ) ) {
+$payload['reservationBranchIds'][] = (int) $branch_id; }
 			}
 		}
 
@@ -276,14 +290,20 @@ class Enqueue {
 				FLAVOR_URI . '/assets/js/bespoke-demos.js',
 				array( 'flavor-main-js' ),
 				(string) filemtime( FLAVOR_DIR . '/assets/js/bespoke-demos.js' ),
-				array( 'in_footer' => true, 'strategy' => 'defer' )
+				array(
+					'in_footer' => true,
+					'strategy' => 'defer',
+				)
 			);
 			wp_enqueue_script(
 				'flavor-demo-animations-js',
 				FLAVOR_URI . '/assets/js/demo-animations.js',
 				array( 'flavor-bespoke-js' ),
 				(string) filemtime( FLAVOR_DIR . '/assets/js/demo-animations.js' ),
-				array( 'in_footer' => true, 'strategy' => 'defer' )
+				array(
+					'in_footer' => true,
+					'strategy' => 'defer',
+				)
 			);
 		}
 
@@ -295,7 +315,10 @@ class Enqueue {
 				FLAVOR_URI . '/assets/js/catering.js',
 				array( 'flavor-bespoke-js' ),
 				(string) filemtime( FLAVOR_DIR . '/assets/js/catering.js' ),
-				array( 'in_footer' => true, 'strategy' => 'defer' )
+				array(
+					'in_footer' => true,
+					'strategy' => 'defer',
+				)
 			);
 		}
 
@@ -394,10 +417,15 @@ class Enqueue {
 			'guests_range'     => __( 'تعداد پیشنهادی را بین ۱ تا ۱۰۰۰ وارد کنید؛ برای تعداد بیشتر تماس بگیرید.', 'flavor' ),
 			'field_required'   => __( 'لطفاً این بخش را تکمیل کنید.', 'flavor' ),
 			'summary_title'    => __( 'خلاصه برای هماهنگی پذیرایی', 'flavor' ),
+			/* translators: %s values. */
 			'service_line'     => __( 'نوع پذیرایی: %s', 'flavor' ),
+			/* translators: %s values. */
 			'guests_line'      => __( 'تعداد پیشنهادی: %s نفر', 'flavor' ),
+			/* translators: %s values. */
 			'date_line'        => __( 'روز و ساعت پیشنهادی: %s', 'flavor' ),
+			/* translators: %s values. */
 			'location_line'    => __( 'شهر و محل: %s', 'flavor' ),
+			/* translators: %s values. */
 			'notes_line'       => __( 'توضیحات و نیاز غذایی: %s', 'flavor' ),
 			'notes_none'       => __( 'در گفت‌وگو مشخص می‌شود.', 'flavor' ),
 			'summary_notice'   => __( 'این خلاصه ارسال نشده است؛ ظرفیت، هزینه و شرایط اجرا به تأیید جداگانه نیاز دارند.', 'flavor' ),
@@ -411,14 +439,20 @@ class Enqueue {
 			// Menu cards and the category bar.
 			'currency'          => __( 'تومان', 'flavor' ),
 			'no_image'          => __( 'بدون تصویر', 'flavor' ),
+			/* translators: %s values. */
 			'prep_time'         => __( '%s دقیقه آماده‌سازی', 'flavor' ),
+			/* translators: %s values. */
 			'calories'          => __( '%s کالری', 'flavor' ),
+			/* translators: %s values. */
 			'details'           => __( 'جزئیات %s', 'flavor' ),
 			'unavailable'       => __( 'فعلاً ناموجود', 'flavor' ),
+			/* translators: %s values. */
 			'choose'            => __( 'انتخاب %s', 'flavor' ),
 			'choose_dish'       => __( 'انتخاب غذا', 'flavor' ),
 			'all_menu'          => __( 'همهٔ منو', 'flavor' ),
+			/* translators: %s values. */
 			'shown_count'       => __( '%s انتخاب نمایش داده می‌شود.', 'flavor' ),
+			/* translators: %s values. */
 			'menu_count'        => __( '%s انتخاب در منو', 'flavor' ),
 			'load_failed'       => __( 'بارگذاری موجودی زنده ناموفق بود؛ جزئیات منتشرشده را ببینید یا دوباره تلاش کنید.', 'flavor' ),
 
@@ -427,6 +461,7 @@ class Enqueue {
 			'choice_unavailable' => __( 'این انتخاب فعلاً ناموجود است', 'flavor' ),
 			'save_changes'      => __( 'ذخیرهٔ تغییرات', 'flavor' ),
 			'add_to_cart'       => __( 'افزودن به سبد', 'flavor' ),
+			/* translators: %s values. */
 			'unit_count'        => __( '%s عدد', 'flavor' ),
 			'max_qty'           => __( 'حداکثر ۲۰ واحد از یک انتخاب؛ تعداد را کم کنید.', 'flavor' ),
 			'need_required'     => __( 'برای ادامه، انتخاب‌های ضروری این غذا را مشخص کنید.', 'flavor' ),
@@ -445,11 +480,13 @@ class Enqueue {
 			'required_suffix'   => __( '(انتخاب ضروری)', 'flavor' ),
 			'no_change'         => __( 'بدون تغییر در این گروه', 'flavor' ),
 			'no_fee'            => __( 'بدون هزینهٔ اضافه', 'flavor' ),
+			/* translators: %s values. */
 			'per_unit'          => __( '%s برای هر واحد', 'flavor' ),
 			'kitchen_note'      => __( 'یادداشت برای آشپزخانه', 'flavor' ),
 			'optional'          => __( '(اختیاری)', 'flavor' ),
 			'note_placeholder'  => __( 'مثلاً سس جداگانه یا کم‌نمک', 'flavor' ),
 			'note_help'         => __( 'حساسیت غذایی دارید؟ پیش از ثبت سفارش دربارهٔ امکان آماده‌سازی و آلودگی متقاطع هماهنگ کنید.', 'flavor' ),
+			/* translators: %s values. */
 			'added_to_cart'     => __( '«%s» به سبد خرید اضافه شد.', 'flavor' ),
 			'dish_added'        => __( 'غذا به سبد اضافه شد.', 'flavor' ),
 			'choices_saved'     => __( 'انتخاب‌های این غذا در سبد ذخیره شد.', 'flavor' ),
@@ -459,18 +496,27 @@ class Enqueue {
 			'cart_empty'        => __( 'هنوز انتخابی ندارید', 'flavor' ),
 			// Trailing space stripped for the same reason; the joiner adds it.
 			'mod_separator'     => __( '،', 'flavor' ),
+			/* translators: %s values. */
 			'line_note'         => __( 'یادداشت: %s', 'flavor' ),
 			'edit_line'         => __( 'ویرایش انتخاب‌ها', 'flavor' ),
+			/* translators: %s values. */
 			'edit_line_aria'    => __( 'ویرایش انتخاب‌ها و یادداشت %s', 'flavor' ),
+			/* translators: %s values. */
 			'quantity_aria'     => __( 'تعداد %s', 'flavor' ),
+			/* translators: %s values. */
 			'decrease_aria'     => __( 'کاهش تعداد %s', 'flavor' ),
+			/* translators: %s values. */
 			'increase_aria'     => __( 'افزایش تعداد %s', 'flavor' ),
 			'remove'            => __( 'حذف', 'flavor' ),
+			/* translators: %s values. */
 			'remove_aria'       => __( 'حذف %s', 'flavor' ),
 			'shipping_row'      => __( 'ارسال ثبت‌شده در سبد', 'flavor' ),
+			/* translators: %s values. */
 			'remove_coupon'     => __( 'حذف کد %s ×', 'flavor' ),
+			/* translators: %s values. */
 			'cart_updated'      => __( 'سبد به‌روزرسانی شد؛ %s انتخاب.', 'flavor' ),
 			'total_note'        => __( 'مبالغ از سرور خوانده می‌شوند؛ هزینه‌های تأییدنشده به جمع سبد اضافه نمی‌شوند.', 'flavor' ),
+			/* translators: %s values. */
 			'cart_fetch_failed' => __( 'دریافت سبد ناموفق بود؛ صفحه را دوباره باز کنید. %s', 'flavor' ),
 
 			// Order mode, payment and delivery zone.
@@ -480,8 +526,10 @@ class Enqueue {
 			'pay_none'          => __( 'برای این روش دریافت، پرداخت فعالی تنظیم نشده است. با مجموعه تماس بگیرید.', 'flavor' ),
 			'pay_failed'        => __( 'دریافت روش‌های پرداخت ناموفق بود.', 'flavor' ),
 			'table_pick'        => __( 'میز را انتخاب کنید', 'flavor' ),
+			/* translators: %s values. */
 			'table_number'      => __( 'میز %s', 'flavor' ),
 			'zone_checking'     => __( 'در حال بررسی محدودهٔ ارسال…', 'flavor' ),
+			/* translators: %1$s, %2$s values. */
 			'zone_ok'           => __( 'محدوده تأیید شد · هزینهٔ ارسال: %1$s · برآورد منطقه: حدود %2$s دقیقه؛ زمان تضمین‌شده نیست.', 'flavor' ),
 			'zone_out'          => __( 'نشانی خارج از محدودهٔ ارسال است.', 'flavor' ),
 			'zone_note'         => __( 'هزینهٔ منطقه جداگانه نمایش داده شده و در مبلغ فعلی سبد منظور نشده است؛ سرور مبلغ نهایی را هنگام ثبت بررسی می‌کند.', 'flavor' ),
@@ -494,6 +542,7 @@ class Enqueue {
 			'pay_required'      => __( 'یک روش پرداخت فعال را انتخاب کنید.', 'flavor' ),
 			'placing'           => __( 'در حال بررسی و ثبت…', 'flavor' ),
 			'bad_redirect'      => __( 'نشانی ادامهٔ پرداخت معتبر نیست؛ با مجموعه تماس بگیرید.', 'flavor' ),
+			/* translators: %s values. */
 			'order_placed'      => __( 'سفارش %s ثبت شد.', 'flavor' ),
 			'place_order'       => __( 'ثبت سفارش و ادامهٔ پرداخت', 'flavor' ),
 		);

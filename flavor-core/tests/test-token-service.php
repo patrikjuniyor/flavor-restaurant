@@ -60,7 +60,7 @@ class Flavor_Token_Service_Test extends WP_UnitTestCase {
 
 	public function test_tokens_stored_hashed_not_plaintext() {
 		$src = file_get_contents( dirname( __DIR__ ) . '/includes/Customer/TokenService.php' );
-		$this->assertSame( 2, substr_count( $src, "wp_generate_password( 64, false, false )" ), 'both tokens issued via 62^64 alphanumeric CSPRNG-backed generator' );
+		$this->assertSame( 2, substr_count( $src, 'wp_generate_password( 64, false, false )' ), 'both tokens issued via 62^64 alphanumeric CSPRNG-backed generator' );
 		$this->assertStringContainsString( "hash( 'sha256'", $src );
 	}
 

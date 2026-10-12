@@ -321,7 +321,10 @@ class OrderController extends BaseApiController {
 		}
 		$order->update_status( 'cancelled', __( 'لغو شده توسط مشتری از طریق اپلیکیشن.', 'flavor-core' ) );
 
-		return $this->respond_success( array( 'cancelled' => true, 'message' => __( 'سفارش لغو شد.', 'flavor-core' ) ) );
+		return $this->respond_success( array(
+			'cancelled' => true,
+			'message' => __( 'سفارش لغو شد.', 'flavor-core' ),
+		) );
 	}
 
 	/**
@@ -365,9 +368,12 @@ class OrderController extends BaseApiController {
 				}
 			}
 
-			$key = CartSession::add( $prod_id, $qty, array( 'ids' => $mod_ids, 'instructions' => $notes ) );
+			$key = CartSession::add( $prod_id, $qty, array(
+				'ids' => $mod_ids,
+				'instructions' => $notes,
+			) );
 			if ( ! is_wp_error( $key ) ) {
-				$added_count++;
+				++$added_count;
 			}
 		}
 
@@ -381,6 +387,7 @@ class OrderController extends BaseApiController {
 				'added_items' => $added_count,
 				'cart'        => CartSession::payload(),
 			),
+			/* translators: %d values. */
 			array( 'message' => sprintf( __( '%d قلم غذا به سبد خرید افزوده شد.', 'flavor-core' ), $added_count ) )
 		);
 	}

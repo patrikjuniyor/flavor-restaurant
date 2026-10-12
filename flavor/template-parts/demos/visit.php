@@ -1,7 +1,8 @@
 <?php
 /** Configurable contact card, with no fabricated open/closed status. @package Flavor */
 defined( 'ABSPATH' ) || exit;
-if ( 'no' === get_theme_mod( 'flavor_hours_enable', 'yes' ) ) { return; }
+if ( 'no' === get_theme_mod( 'flavor_hours_enable', 'yes' ) ) {
+return; }
 $demo    = \Flavor\Bespoke_Demos::demo();
 $address = (string) get_theme_mod( 'flavor_address', $demo['address'] ?? '' );
 $phone   = (string) get_theme_mod( 'flavor_phone', $demo['phone'] ?? '' );

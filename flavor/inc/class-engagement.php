@@ -114,7 +114,12 @@ class Engagement {
 
 		echo '<div class="flavor-countdown__clock">';
 
-		foreach ( array( 'day' => __( 'روز', 'flavor' ), 'hour' => __( 'ساعت', 'flavor' ), 'minute' => __( 'دقیقه', 'flavor' ), 'second' => __( 'ثانیه', 'flavor' ) ) as $unit => $text ) {
+		foreach ( array(
+			'day' => __( 'روز', 'flavor' ),
+			'hour' => __( 'ساعت', 'flavor' ),
+			'minute' => __( 'دقیقه', 'flavor' ),
+			'second' => __( 'ثانیه', 'flavor' ),
+		) as $unit => $text ) {
 			echo '<span class="flavor-countdown__unit"><strong data-cd="' . esc_attr( $unit ) . '">۰</strong><small>' . esc_html( $text ) . '</small></span>';
 		}
 
@@ -320,7 +325,7 @@ class Engagement {
 			wp_send_json_error( array( 'message' => __( 'نشست منقضی شده است؛ صفحه را دوباره باز کنید.', 'flavor' ) ), 403 );
 		}
 
-		$email = self::validate_email( (string) wp_unslash( $_POST['email'] ?? '' ) );
+		$email = self::validate_email( sanitize_email( (string) wp_unslash( (string) $_POST['email'] ?? '' ) ) );
 
 		if ( '' === $email ) {
 			wp_send_json_error( array( 'message' => __( 'ایمیل معتبر وارد کنید.', 'flavor' ) ), 400 );

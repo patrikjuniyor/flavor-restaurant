@@ -110,7 +110,11 @@ class Premium_Customizer {
 			'flavor_section_mega',
 			__( 'تعداد ستون‌ها', 'flavor' ),
 			3,
-			array( 2 => '۲', 3 => '۳', 4 => '۴' ),
+			array(
+				2 => '۲',
+				3 => '۳',
+				4 => '۴',
+			),
 			__( 'تعداد ستون‌های پنلِ مگامنو.', 'flavor' )
 		);
 		self::number( $wp_customize, 'flavor_mega_threshold', 'flavor_section_mega', __( 'حداقل تعداد زیرمنو برای مگامنو شدن', 'flavor' ), 5, 2, 20, __( 'منو فقط از این تعداد به بالا زیرمنو مگامنو می‌شود.', 'flavor' ) );
@@ -254,7 +258,10 @@ class Premium_Customizer {
 	 * @param string                $description  Inline guidance (empty = none, keeping the old arg shape).
 	 */
 	public static function checkbox( $wp_customize, string $id, string $section, string $label, string $default = 'yes', string $description = '' ): void {
-		$wp_customize->add_setting( $id, array( 'default' => $default, 'sanitize_callback' => 'sanitize_key' ) );
+		$wp_customize->add_setting( $id, array(
+			'default' => $default,
+			'sanitize_callback' => 'sanitize_key',
+		) );
 		$args = array(
 			'label'   => $label,
 			'section' => $section,
@@ -278,7 +285,10 @@ class Premium_Customizer {
 	 * @param string                $description  Description.
 	 */
 	public static function text( $wp_customize, string $id, string $section, string $label, string $default = '', string $sanitize = 'sanitize_text_field', string $description = '' ): void {
-		$wp_customize->add_setting( $id, array( 'default' => $default, 'sanitize_callback' => $sanitize ) );
+		$wp_customize->add_setting( $id, array(
+			'default' => $default,
+			'sanitize_callback' => $sanitize,
+		) );
 		$wp_customize->add_control(
 			$id,
 			array(
@@ -340,7 +350,10 @@ class Premium_Customizer {
 	 * @param string                $description  Inline guidance.
 	 */
 	public static function select( $wp_customize, string $id, string $section, string $label, $default, array $choices, string $description = '' ): void {
-		$wp_customize->add_setting( $id, array( 'default' => $default, 'sanitize_callback' => 'sanitize_text_field' ) );
+		$wp_customize->add_setting( $id, array(
+			'default' => $default,
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
 		$args = array(
 			'label'   => $label,
 			'section' => $section,
@@ -365,7 +378,10 @@ class Premium_Customizer {
 	 * @param string                $description  Description.
 	 */
 	public static function textarea( $wp_customize, string $id, string $section, string $label, string $default = '', string $sanitize = 'sanitize_textarea_field', string $description = '' ): void {
-		$wp_customize->add_setting( $id, array( 'default' => $default, 'sanitize_callback' => $sanitize ) );
+		$wp_customize->add_setting( $id, array(
+			'default' => $default,
+			'sanitize_callback' => $sanitize,
+		) );
 		$wp_customize->add_control(
 			$id,
 			array(

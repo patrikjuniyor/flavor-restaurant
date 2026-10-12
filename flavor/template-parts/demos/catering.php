@@ -28,7 +28,8 @@ $image = get_theme_mod( 'flavor_hero_image', '' ) ?: \Flavor\Bespoke_Demos::asse
 			</figure>
 		</div>
 		<ul class="fd-mizan-promises" aria-label="<?php esc_attr_e( 'رویکرد پذیرایی میزان', 'flavor' ); ?>">
-			<?php foreach ( $demo['landing']['perks'] as $perk ) : ?><li><?php \Flavor\Bespoke_Demos::icon( 'check', 18 ); ?><span><?php echo esc_html( $perk ); ?></span></li><?php endforeach; ?>
+			<?php foreach ( $demo['landing']['perks'] as $perk ) :
+?><li><?php \Flavor\Bespoke_Demos::icon( 'check', 18 ); ?><span><?php echo esc_html( $perk ); ?></span></li><?php endforeach; ?>
 		</ul>
 	</div>
 </section>
@@ -47,7 +48,8 @@ $image = get_theme_mod( 'flavor_hero_image', '' ) ?: \Flavor\Bespoke_Demos::asse
 						<span class="fd-mizan-service__overline" lang="en" dir="ltr"><?php echo esc_html( $service['english'] ); ?></span>
 						<div class="fd-mizan-service__title"><h3><?php echo esc_html( $service['label'] ); ?></h3><span aria-hidden="true"><?php echo esc_html( str_pad( (string) ( $index + 1 ), 2, '0', STR_PAD_LEFT ) ); ?></span></div>
 						<p><?php echo esc_html( $service['text'] ); ?></p>
-						<ul><?php foreach ( $service['details'] as $detail ) : ?><li><?php \Flavor\Bespoke_Demos::icon( 'check', 14 ); ?><?php echo esc_html( $detail ); ?></li><?php endforeach; ?></ul>
+						<ul><?php foreach ( $service['details'] as $detail ) :
+?><li><?php \Flavor\Bespoke_Demos::icon( 'check', 14 ); ?><?php echo esc_html( $detail ); ?></li><?php endforeach; ?></ul>
 						<a class="fd-text-link" href="<?php echo esc_url( \Flavor\Bespoke_Demos::action_url( '#proposal' ) ); ?>" data-fd-service="<?php echo esc_attr( $service['id'] ); ?>"><?php echo esc_html( $service['link'] ); ?><?php \Flavor\Bespoke_Demos::icon( 'arrow', 19 ); ?></a>
 					</div>
 				</article>
@@ -67,7 +69,8 @@ $image = get_theme_mod( 'flavor_hero_image', '' ) ?: \Flavor\Bespoke_Demos::asse
 			<span class="fd-eyebrow"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'feature_eyebrow' ) ); ?></span>
 			<h2 id="fd-proposal-title"><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'feature_title' ) ); ?></h2>
 			<p><?php echo esc_html( \Flavor\Bespoke_Demos::value( 'feature_text' ) ); ?></p>
-			<ul><?php foreach ( $demo['landing']['proposal_notes'] as $note ) : ?><li><?php \Flavor\Bespoke_Demos::icon( 'check', 18 ); ?><span><?php echo esc_html( $note ); ?></span></li><?php endforeach; ?></ul>
+			<ul><?php foreach ( $demo['landing']['proposal_notes'] as $note ) :
+?><li><?php \Flavor\Bespoke_Demos::icon( 'check', 18 ); ?><span><?php echo esc_html( $note ); ?></span></li><?php endforeach; ?></ul>
 			<a class="fd-mizan-proposal__phone" href="<?php echo esc_url( \Flavor\Bespoke_Demos::action_url( 'phone' ) ); ?>"><?php \Flavor\Bespoke_Demos::icon( 'phone', 22 ); ?><span><small><?php esc_html_e( 'گفت‌وگو با دفتر هماهنگی', 'flavor' ); ?></small><bdi><?php echo esc_html( \Flavor\Bespoke_Demos::digits( (string) get_theme_mod( 'flavor_phone', $demo['phone'] ) ) ); ?></bdi></span><?php \Flavor\Bespoke_Demos::icon( 'arrow', 20 ); ?></a>
 		</div>
 		<div class="fd-mizan-proposal__panel">
@@ -75,7 +78,8 @@ $image = get_theme_mod( 'flavor_hero_image', '' ) ?: \Flavor\Bespoke_Demos::asse
 			<p class="fd-mizan-proposal__privacy" id="fd-planner-privacy"><?php esc_html_e( 'این ابزار فقط خلاصهٔ قابل‌کپی می‌سازد؛ هیچ اطلاعاتی ارسال یا ذخیره نمی‌شود و هیچ رزرو یا سفارشی ثبت نمی‌کند.', 'flavor' ); ?></p>
 			<form class="fd-mizan-planner" data-fd-proposal aria-labelledby="fd-planner-title" aria-describedby="fd-planner-privacy" hidden>
 				<div class="fd-mizan-planner__fields">
-					<div class="fd-mizan-planner__field fd-mizan-planner__field--wide"><label for="fd-proposal-service"><?php esc_html_e( 'نوع پذیرایی', 'flavor' ); ?></label><select id="fd-proposal-service" name="service" required><?php foreach ( $demo['landing']['services'] as $service ) : ?><option value="<?php echo esc_attr( $service['id'] ); ?>"><?php echo esc_html( $service['label'] ); ?></option><?php endforeach; ?></select></div>
+					<div class="fd-mizan-planner__field fd-mizan-planner__field--wide"><label for="fd-proposal-service"><?php esc_html_e( 'نوع پذیرایی', 'flavor' ); ?></label><select id="fd-proposal-service" name="service" required><?php foreach ( $demo['landing']['services'] as $service ) :
+?><option value="<?php echo esc_attr( $service['id'] ); ?>"><?php echo esc_html( $service['label'] ); ?></option><?php endforeach; ?></select></div>
 					<div class="fd-mizan-planner__field"><label for="fd-proposal-guests"><?php esc_html_e( 'تعداد مهمان پیشنهادی', 'flavor' ); ?> <span class="fd-mizan-planner__required"><?php esc_html_e( '(ضروری)', 'flavor' ); ?></span></label><input id="fd-proposal-guests" name="guests" type="text" inputmode="numeric" pattern="[0-9۰-۹٠-٩]+" maxlength="4" required placeholder="مثلاً ۵۰" aria-describedby="fd-guests-help" /><small id="fd-guests-help"><?php esc_html_e( '۱ تا ۱۰۰۰ نفر در برنامه‌ریز؛ ظرفیت باید تلفنی تأیید شود.', 'flavor' ); ?></small></div>
 					<div class="fd-mizan-planner__field"><label for="fd-proposal-date"><?php esc_html_e( 'روز و ساعت پیشنهادی', 'flavor' ); ?> <span class="fd-mizan-planner__required"><?php esc_html_e( '(ضروری)', 'flavor' ); ?></span></label><input id="fd-proposal-date" name="date" type="text" maxlength="80" required placeholder="مثلاً ۲۵ مهر، ساعت ۱۳" /></div>
 					<div class="fd-mizan-planner__field fd-mizan-planner__field--wide"><label for="fd-proposal-location"><?php esc_html_e( 'شهر و محل برنامه', 'flavor' ); ?> <span class="fd-mizan-planner__required"><?php esc_html_e( '(ضروری)', 'flavor' ); ?></span></label><input id="fd-proposal-location" name="location" type="text" maxlength="180" required placeholder="مثلاً تهران، دفتر شرکت در ونک" /></div>

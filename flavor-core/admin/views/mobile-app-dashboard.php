@@ -13,7 +13,11 @@ defined( 'ABSPATH' ) || exit;
 $config    = MobileConfigManager::get_all();
 $readiness = MobileConfigManager::get_readiness_status();
 $history   = BuildManager::get_history( 15 );
-$branches  = get_posts( array( 'post_type' => 'flavor_branch', 'numberposts' => -1, 'post_status' => 'publish' ) );
+$branches  = get_posts( array(
+	'post_type' => 'flavor_branch',
+	'numberposts' => -1,
+	'post_status' => 'publish',
+) );
 $nonce     = wp_create_nonce( 'flavor_mobile_admin_nonce' );
 ?>
 
@@ -44,6 +48,7 @@ $nonce     = wp_create_nonce( 'flavor_mobile_admin_nonce' );
 						<?php echo $readiness['is_ready'] ? esc_html__( 'آماده بیلد', 'flavor-core' ) : esc_html__( 'نیازمند تکمیل اطلاعات', 'flavor-core' ); ?>
 					</span>
 				</div>
+				<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into the browser output. ?>
 				<div class="flavor-card__desc"><?php echo esc_html( sprintf( __( 'امتیاز تکمیل: %d%%', 'flavor-core' ), $readiness['readiness_score'] ) ); ?></div>
 			</div>
 		</div>
@@ -53,6 +58,7 @@ $nonce     = wp_create_nonce( 'flavor_mobile_admin_nonce' );
 			<div class="flavor-card__content">
 				<div class="flavor-card__label"><?php esc_html_e( 'نسخه جاری اپلیکیشن', 'flavor-core' ); ?></div>
 				<div class="flavor-card__value"><?php echo esc_html( $config['version_name'] . ' (' . $config['version_code'] . ')' ); ?></div>
+				<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into the browser output. ?>
 				<div class="flavor-card__desc"><?php echo esc_html( sprintf( __( 'شناسه پکیج: %s', 'flavor-core' ), $config['package_name'] ) ); ?></div>
 			</div>
 		</div>

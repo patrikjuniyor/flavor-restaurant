@@ -4,6 +4,8 @@
  * Executes offline test assertions for fast regression verification.
  */
 
+// phpcs:disable WordPress.Security.EscapeOutput -- CLI harness output, not an HTTP response.
+
 define( 'ABSPATH', __DIR__ . '/../../' );
 define( 'MINUTE_IN_SECONDS', 60 );
 define( 'HOUR_IN_SECONDS', 3600 );
@@ -29,10 +31,10 @@ $failed = 0;
 function assert_test( $condition, $message ) {
 	global $passed, $failed;
 	if ( $condition ) {
-		$passed++;
+		++$passed;
 		echo "  [PASS] {$message}\n";
 	} else {
-		$failed++;
+		++$failed;
 		echo "  [FAIL] {$message}\n";
 	}
 }
@@ -43,15 +45,15 @@ echo "=== Running Flavor Core Pure Logic Regression Suite ===\n\n";
 echo "--- 1. Guest Ownership Token (IDOR Security) ---\n";
 $token = GuestToken::generate();
 assert_test( is_string( $token ) && strlen( $token ) === 64, "Generated guest token is 64-char hex string: {$token}" );
-assert_test( ctype_xdigit( $token ), "Guest token contains only valid hexadecimal characters" );
-assert_test( GuestToken::verify( $token, $token ), "Constant-time token verification succeeds on matching token" );
-assert_test( ! GuestToken::verify( $token, 'wrong_token' ), "Token verification fails on mismatched token" );
-assert_test( ! GuestToken::verify( $token, '' ), "Token verification fails on empty token" );
+assert_test( ctype_xdigit( $token ), 'Guest token contains only valid hexadecimal characters' );
+assert_test( GuestToken::verify( $token, $token ), 'Constant-time token verification succeeds on matching token' );
+assert_test( ! GuestToken::verify( $token, 'wrong_token' ), 'Token verification fails on mismatched token' );
+assert_test( ! GuestToken::verify( $token, '' ), 'Token verification fails on empty token' );
 
 // P38: GuestToken hardening pins.
 $gt_src = file_get_contents( __DIR__ . '/../includes/Support/GuestToken.php' );
 assert_test(
-	false !== strpos( $gt_src, "bin2hex( random_bytes( 32 ) )" )
+	false !== strpos( $gt_src, 'bin2hex( random_bytes( 32 ) )' )
 	&& false === strpos( $gt_src, 'uniqid( (string) wp_rand' )
 	&& false === strpos( $gt_src, 'microtime( true )' ),
 	'guest token generation is CSPRNG-only (256-bit, no time-derived fallback)'
@@ -68,16 +70,16 @@ assert_test( ! GuestToken::verify( 'abc', 'abcd' ), 'guest verify rejects differ
 echo "\n--- 2. Mobile Guest Cart Token Service ---\n";
 $cart_token = CartTokenService::generate_token();
 assert_test( str_starts_with( $cart_token, 'fcart_' ), "Cart token starts with prefix 'fcart_': {$cart_token}" );
-assert_test( strlen( $cart_token ) > 40, "Cart token has high entropy" );
+assert_test( strlen( $cart_token ) > 40, 'Cart token has high entropy' );
 $hash1 = CartTokenService::hash_token( $cart_token );
 $hash2 = CartTokenService::hash_token( $cart_token );
-assert_test( $hash1 === $hash2 && strlen( $hash1 ) === 64, "SHA-256 cart token hash is idempotent and 64 chars" );
+assert_test( $hash1 === $hash2 && strlen( $hash1 ) === 64, 'SHA-256 cart token hash is idempotent and 64 chars' );
 
 // P38: CartTokenService hardening pins.
 $ct_src = file_get_contents( __DIR__ . '/../includes/WooCommerce/CartTokenService.php' );
 assert_test( preg_match( '/^fcart_[0-9a-f]{48}$/', $cart_token ) === 1, 'cart token is fcart_ + 192 bits of hex' );
 assert_test(
-	false !== strpos( $ct_src, "bin2hex( random_bytes( 24 ) )" )
+	false !== strpos( $ct_src, 'bin2hex( random_bytes( 24 ) )' )
 	&& false === strpos( $ct_src, 'uniqid( (string) wp_rand' ),
 	'cart token generation is CSPRNG-only (no time-derived fallback)'
 );
@@ -89,16 +91,16 @@ assert_test( 300 === count( $ct_seen ), '300 consecutive cart tokens are all dis
 
 // 3. Mobile Normalization
 echo "\n--- 3. Iranian Mobile Phone Normalization ---\n";
-assert_test( Iran::normalize_mobile( '09121234567' ) === '09121234567', "Standard mobile 09121234567 normalized" );
-assert_test( Iran::normalize_mobile( '+989121234567' ) === '09121234567', "International +989121234567 normalized to 09121234567" );
-assert_test( Iran::normalize_mobile( '۰۰۹۸۹۱۲۱۲۳۴۵۶۷' ) === '09121234567', "Persian digits and prefix normalized" );
+assert_test( Iran::normalize_mobile( '09121234567' ) === '09121234567', 'Standard mobile 09121234567 normalized' );
+assert_test( Iran::normalize_mobile( '+989121234567' ) === '09121234567', 'International +989121234567 normalized to 09121234567' );
+assert_test( Iran::normalize_mobile( '۰۰۹۸۹۱۲۱۲۳۴۵۶۷' ) === '09121234567', 'Persian digits and prefix normalized' );
 
 // 4. Jalali Dates
 echo "\n--- 4. Jalali Calendar & Leap Year Calculation ---\n";
 $conv = Jalali::to_gregorian( 1403, 1, 1 );
-assert_test( $conv[0] === 2024 && $conv[1] === 3 && $conv[2] === 20, "1403/01/01 corresponds to 2024-03-20" );
-assert_test( Jalali::is_leap( 1403 ), "Year 1403 is a Jalali leap year" );
-assert_test( ! Jalali::is_leap( 1404 ), "Year 1404 is not a Jalali leap year" );
+assert_test( $conv[0] === 2024 && $conv[1] === 3 && $conv[2] === 20, '1403/01/01 corresponds to 2024-03-20' );
+assert_test( Jalali::is_leap( 1403 ), 'Year 1403 is a Jalali leap year' );
+assert_test( ! Jalali::is_leap( 1404 ), 'Year 1404 is not a Jalali leap year' );
 
 // 4b. Gregorian → Jalali direction (regression: this used to decode to year 7715).
 echo "\n--- 4b. Gregorian → Jalali Conversion Anchors ---\n";
@@ -148,7 +150,7 @@ assert_test(
 // 5. Persian Text Processing
 echo "\n--- 5. Persian Typography & Normalization ---\n";
 $persian = PersianText::normalize( 'كباب شيشليك با گوشت تازه' );
-assert_test( $persian === 'کباب شیشلیک با گوشت تازه', "Arabic Yeh/Kaf replaced with Persian equivalents" );
+assert_test( $persian === 'کباب شیشلیک با گوشت تازه', 'Arabic Yeh/Kaf replaced with Persian equivalents' );
 
 // 6. OTP & auth-token hardening (پرامپت ۳۸)
 echo "\n--- 6. OTP & Auth-Token Hardening Pins ---\n";

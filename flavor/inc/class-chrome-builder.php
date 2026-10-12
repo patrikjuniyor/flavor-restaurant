@@ -770,8 +770,10 @@ class Chrome_Builder {
 					return true;
 				}
 
+// phpcs:disable WordPress.Security.EscapeOutput -- chrome markup with static inline SVG from self::icon(); no user data in the echoed fragment.
 				echo '<a href="tel:' . esc_attr( $tel ) . '" class="flavor-header__phone" aria-label="' . esc_attr__( 'تماس تلفنی', 'flavor' ) . '">'
 					. self::icon( 'phone' ) . '<span>' . esc_html( $phone ) . '</span></a>';
+// phpcs:enable
 
 				return true;
 
@@ -790,8 +792,10 @@ class Chrome_Builder {
 				$menu_page = get_page_by_path( 'menu' );
 				$menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 
+// phpcs:disable WordPress.Security.EscapeOutput -- chrome markup with static inline SVG from self::icon(); no user data in the echoed fragment.
 				echo '<a href="' . esc_url( $menu_url ) . '" class="flavor-btn flavor-btn--primary flavor-btn--sm flavor-header__order-btn">'
 					. self::icon( 'bag' ) . esc_html__( 'سفارش آنلاین', 'flavor' ) . '</a>';
+// phpcs:enable
 
 				return true;
 
@@ -812,12 +816,14 @@ class Chrome_Builder {
 				return true;
 
 			case 'search':
+// phpcs:disable WordPress.Security.EscapeOutput -- chrome markup with static inline SVG from self::icon(); no user data in the echoed fragment.
 				echo '<form class="flavor-header__search" role="search" method="get" action="' . esc_url( home_url( '/' ) ) . '">'
 					. '<label class="screen-reader-text" for="flavor-header-search-' . ( $besp ? 'bespoke' : 'classic' ) . '">' . esc_html__( 'جست‌وجو در منو و صفحات', 'flavor' ) . '</label>'
 					. '<input type="search" id="flavor-header-search-' . ( $besp ? 'bespoke' : 'classic' ) . '" name="s" maxlength="120" autocomplete="off"'
 					. ' placeholder="' . esc_attr__( 'جست‌وجو…', 'flavor' ) . '" value="' . esc_attr( (string) get_search_query() ) . '" />'
 					. '<button type="submit" class="flavor-header__search-submit" aria-label="' . esc_attr__( 'جست‌وجو', 'flavor' ) . '">' . self::icon( 'search' ) . '</button>'
 					. '</form>';
+// phpcs:enable
 
 				return true;
 
@@ -830,9 +836,11 @@ class Chrome_Builder {
 
 				$count = self::cart_count();
 
+// phpcs:disable WordPress.Security.EscapeOutput -- chrome markup with static inline SVG from self::icon(); no user data in the echoed fragment.
 				echo '<a class="flavor-header__cart' . ( $count ? ' has-items' : '' ) . '" href="' . esc_url( function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' ) ) . '"'
 					. ' aria-label="' . esc_attr__( 'سبد خرید', 'flavor' ) . '">' . self::icon( 'bag' )
 					. '<span class="flavor-header__cart-count" data-flavor-cart-count>' . esc_html( (string) $count ) . '</span></a>';
+// phpcs:enable
 
 				return true;
 
@@ -852,8 +860,10 @@ class Chrome_Builder {
 
 				$label = is_user_logged_in() ? __( 'حساب من', 'flavor' ) : __( 'ورود یا ثبت‌نام', 'flavor' );
 
+// phpcs:disable WordPress.Security.EscapeOutput -- chrome markup with static inline SVG from self::icon(); no user data in the echoed fragment.
 				echo '<a class="flavor-header__account' . ( is_user_logged_in() ? ' is-logged-in' : '' ) . '" href="' . esc_url( $url ) . '" aria-label="' . esc_attr( $label ) . '">'
 					. self::icon( 'user' ) . '</a>';
+// phpcs:enable
 
 				return true;
 		}
@@ -926,10 +936,12 @@ class Chrome_Builder {
 		echo '</div>';
 
 		if ( '' !== $tel ) {
+// phpcs:disable WordPress.Security.EscapeOutput -- chrome markup with static inline SVG from self::icon(); no user data in the echoed fragment.
 			echo '<div class="flavor-drawer__contact"><a href="tel:' . esc_attr( $tel ) . '" class="flavor-btn flavor-btn--primary flavor-btn--full">'
 				. self::icon( 'phone' )
 				. esc_html( sprintf( /* translators: phone number */ __( 'تماس تلفنی: %s', 'flavor' ), $phone ) )
 				. '</a>';
+// phpcs:enable
 			if ( $besp ) {
 				flavor_social_links();
 			}
@@ -1078,10 +1090,12 @@ class Chrome_Builder {
 				return;
 
 			case 'contact':
+// phpcs:disable WordPress.Security.EscapeOutput -- chrome markup with static inline SVG from self::icon(); no user data in the echoed fragment.
 				echo '<div class="flavor-footer__col"><h4 class="flavor-footer__heading">' . esc_html__( 'اطلاعات تماس', 'flavor' ) . '</h4>'
 					. '<div class="flavor-footer__contact-item">' . self::icon( 'pin' ) . '<span>' . esc_html( $address ) . '</span></div>'
 					. '<div class="flavor-footer__contact-item">' . self::icon( 'phone' )
 					. '<a href="tel:' . esc_attr( (string) preg_replace( '/\D+/', '', $phone ) ) . '">' . esc_html( $phone ) . '</a></div>';
+// phpcs:enable
 
 				if ( self::show( 'map', self::FOOTER_SHOW_PREFIX, false ) ) {
 					$branches = get_page_by_path( 'branches' );
@@ -1539,8 +1553,10 @@ class Chrome_Builder {
 			$value = get_theme_mod( $id, $config['default'] );
 			$value = is_scalar( $value ) ? (string) $value : '';
 
-			/* Untouched or "skin default" means: print nothing, let the
-			   stylesheet (and the twelve skins) decide. */
+			/*
+			Untouched or "skin default" means: print nothing, let the
+				stylesheet (and the twelve skins) decide.
+			 */
 			if ( '' === $value || $value === (string) $config['default'] ) {
 				continue;
 			}
@@ -1624,7 +1640,10 @@ class Chrome_Builder {
 	 */
 	public static function state_gates(): array {
 		return array(
-			'flavor_header_sticky'            => array( 'on' => 'flavor-header-sticky', 'off' => 'flavor-header-not-sticky' ),
+			'flavor_header_sticky'            => array(
+				'on' => 'flavor-header-sticky',
+				'off' => 'flavor-header-not-sticky',
+			),
 			'flavor_header_sticky_mobile'     => array( 'off' => 'flavor-chrome-sticky-mobile-off' ),
 			'flavor_header_show_mobile_nav'   => array( 'off' => 'flavor-chrome-no-mobile-nav' ),
 		);

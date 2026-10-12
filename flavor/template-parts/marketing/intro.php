@@ -11,13 +11,13 @@ if ( 'no' === get_theme_mod( 'flavor_intro_enable', 'yes' ) ) {
 	return;
 }
 
-$title = get_theme_mod( 'flavor_intro_title', __( 'چرا مهمان‌ها ما را انتخاب می‌کنند؟', 'flavor' ) );
+$fz_title = get_theme_mod( 'flavor_intro_title', __( 'چرا مهمان‌ها ما را انتخاب می‌کنند؟', 'flavor' ) );
 ?>
-<section class="flavor-section flavor-intro" aria-label="<?php echo esc_attr( $title ); ?>">
+<section class="flavor-section flavor-intro" aria-label="<?php echo esc_attr( $fz_title ); ?>">
 	<div class="flavor-container">
 		<div class="flavor-section-header">
 			<span class="flavor-section-header__tag"><?php esc_html_e( 'تمایز ما', 'flavor' ); ?></span>
-			<h2 class="flavor-section-header__title"><?php echo esc_html( $title ); ?></h2>
+			<h2 class="flavor-section-header__title"><?php echo esc_html( $fz_title ); ?></h2>
 			<p class="flavor-section-header__desc"><?php esc_html_e( 'تعهد به بالاترین استانداردهای بهداشت، مواد تازه و طبخ اصیل با عشق و احترام به ذائقه شما', 'flavor' ); ?></p>
 		</div>
 

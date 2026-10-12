@@ -241,7 +241,7 @@ class SmartSearch {
 			}
 
 			if ( $best > 0 ) {
-				$matched++;
+				++$matched;
 				$score += $best;
 			}
 		}
@@ -368,7 +368,7 @@ class SmartSearch {
 						'count' => 0,
 					);
 				}
-				$categories[ $id ]['count']++;
+				++$categories[ $id ]['count'];
 			}
 
 			foreach ( (array) $doc['dietary'] as $flag ) {

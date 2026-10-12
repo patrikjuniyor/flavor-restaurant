@@ -28,23 +28,80 @@ return array(
 		'flavor_featured_title' => 'امروز چه رنگی می‌نوشی؟',
 	),
 	'navigation' => array(
-		array( 'label' => 'منوی رنگی', 'anchor' => '#menu' ),
-		array( 'label' => 'قصهٔ لیمو', 'anchor' => '#story' ),
-		array( 'label' => 'پرسش‌ها', 'anchor' => '#faq' ),
-		array( 'label' => 'پیدایمان کن', 'anchor' => '#visit' ),
+		array(
+			'label' => 'منوی رنگی',
+			'anchor' => '#menu',
+		),
+		array(
+			'label' => 'قصهٔ لیمو',
+			'anchor' => '#story',
+		),
+		array(
+			'label' => 'پرسش‌ها',
+			'anchor' => '#faq',
+		),
+		array(
+			'label' => 'پیدایمان کن',
+			'anchor' => '#visit',
+		),
 	),
-	'categories' => array( 'آبمیوهٔ تازه' => 'fresh-juices', 'اسموتی' => 'smoothies', 'کاسهٔ میوه' => 'fruit-bowls', 'شات تازه' => 'fresh-shots' ),
-	'category_images' => array( 'fresh-juices' => 'category-fresh.jpg', 'smoothies' => 'category-smoothies.jpg', 'fruit-bowls' => 'category-bowls.jpg', 'fresh-shots' => 'category-shots.jpg' ),
+	'categories' => array(
+		'آبمیوهٔ تازه' => 'fresh-juices',
+		'اسموتی' => 'smoothies',
+		'کاسهٔ میوه' => 'fruit-bowls',
+		'شات تازه' => 'fresh-shots',
+	),
+	'category_images' => array(
+		'fresh-juices' => 'category-fresh.jpg',
+		'smoothies' => 'category-smoothies.jpg',
+		'fruit-bowls' => 'category-bowls.jpg',
+		'fresh-shots' => 'category-shots.jpg',
+	),
 	'testimonials' => array(), // No invented customer ratings on the landing page.
 	'items' => array(
-		flavor_demo_item( 'پرتقالِ تازه', 'پرتقال آبگیری‌شده، بدون شکر افزوده؛ لیوان ۳۵۰ میلی‌لیتری', 89000, 'fresh-juices', array( 'prep' => 5, 'image' => 'category-fresh.jpg', 'dietary' => array( 'vegan' ) ) ),
-		flavor_demo_item( 'اسموتی سبزِ لیمو', 'کیوی، خیار، سیب سبز و نعنا؛ طعمی تازه و متعادل', 145000, 'smoothies', array( 'prep' => 7, 'image' => 'product-green.jpg', 'dietary' => array( 'vegan' ) ) ),
-		flavor_demo_item( 'توت‌فرنگی و موز', 'توت‌فرنگی، موز و شیر؛ امکان انتخاب شیر جو دوسر', 155000, 'smoothies', array( 'prep' => 7, 'image' => 'category-smoothies.jpg', 'allergens' => array( 'milk' ) ) ),
-		flavor_demo_item( 'کاسهٔ آکای و گرانولا', 'پورهٔ آکای، موز، توت‌فرنگی، بلوبری، گرانولا و چیا', 225000, 'fruit-bowls', array( 'prep' => 10, 'image' => 'category-bowls.jpg', 'dietary' => array( 'vegan' ), 'allergens' => array( 'gluten', 'nuts' ) ) ),
-		flavor_demo_item( 'هویج و پرتقال', 'آب هویج و پرتقال تازه با مقدار کمی زنجبیل', 105000, 'fresh-juices', array( 'prep' => 5, 'image' => 'category-fresh.jpg', 'dietary' => array( 'vegan' ) ) ),
-		flavor_demo_item( 'اسموتی بریِ گیاهی', 'توت‌فرنگی، موز و شیر جو دوسر؛ بدون شیر لبنی', 165000, 'smoothies', array( 'prep' => 7, 'image' => 'category-smoothies.jpg', 'dietary' => array( 'vegan' ), 'allergens' => array( 'gluten' ) ) ),
-		flavor_demo_item( 'کاسهٔ میوهٔ فصل', 'آکای و انتخاب میوه‌های روز با گرانولای ترد؛ ترکیب فصل متغیر است', 195000, 'fruit-bowls', array( 'prep' => 8, 'image' => 'category-bowls.jpg', 'dietary' => array( 'vegan' ), 'allergens' => array( 'gluten', 'nuts' ) ) ),
-		flavor_demo_item( 'شات زنجبیل و لیمو', 'آب لیموی تازه، زنجبیل و سیب؛ بطری ۶۰ میلی‌لیتری', 65000, 'fresh-shots', array( 'prep' => 4, 'image' => 'category-shots.jpg', 'dietary' => array( 'vegan' ) ) ),
+		flavor_demo_item( 'پرتقالِ تازه', 'پرتقال آبگیری‌شده، بدون شکر افزوده؛ لیوان ۳۵۰ میلی‌لیتری', 89000, 'fresh-juices', array(
+			'prep' => 5,
+			'image' => 'category-fresh.jpg',
+			'dietary' => array( 'vegan' ),
+		) ),
+		flavor_demo_item( 'اسموتی سبزِ لیمو', 'کیوی، خیار، سیب سبز و نعنا؛ طعمی تازه و متعادل', 145000, 'smoothies', array(
+			'prep' => 7,
+			'image' => 'product-green.jpg',
+			'dietary' => array( 'vegan' ),
+		) ),
+		flavor_demo_item( 'توت‌فرنگی و موز', 'توت‌فرنگی، موز و شیر؛ امکان انتخاب شیر جو دوسر', 155000, 'smoothies', array(
+			'prep' => 7,
+			'image' => 'category-smoothies.jpg',
+			'allergens' => array( 'milk' ),
+		) ),
+		flavor_demo_item( 'کاسهٔ آکای و گرانولا', 'پورهٔ آکای، موز، توت‌فرنگی، بلوبری، گرانولا و چیا', 225000, 'fruit-bowls', array(
+			'prep' => 10,
+			'image' => 'category-bowls.jpg',
+			'dietary' => array( 'vegan' ),
+			'allergens' => array( 'gluten', 'nuts' ),
+		) ),
+		flavor_demo_item( 'هویج و پرتقال', 'آب هویج و پرتقال تازه با مقدار کمی زنجبیل', 105000, 'fresh-juices', array(
+			'prep' => 5,
+			'image' => 'category-fresh.jpg',
+			'dietary' => array( 'vegan' ),
+		) ),
+		flavor_demo_item( 'اسموتی بریِ گیاهی', 'توت‌فرنگی، موز و شیر جو دوسر؛ بدون شیر لبنی', 165000, 'smoothies', array(
+			'prep' => 7,
+			'image' => 'category-smoothies.jpg',
+			'dietary' => array( 'vegan' ),
+			'allergens' => array( 'gluten' ),
+		) ),
+		flavor_demo_item( 'کاسهٔ میوهٔ فصل', 'آکای و انتخاب میوه‌های روز با گرانولای ترد؛ ترکیب فصل متغیر است', 195000, 'fruit-bowls', array(
+			'prep' => 8,
+			'image' => 'category-bowls.jpg',
+			'dietary' => array( 'vegan' ),
+			'allergens' => array( 'gluten', 'nuts' ),
+		) ),
+		flavor_demo_item( 'شات زنجبیل و لیمو', 'آب لیموی تازه، زنجبیل و سیب؛ بطری ۶۰ میلی‌لیتری', 65000, 'fresh-shots', array(
+			'prep' => 4,
+			'image' => 'category-shots.jpg',
+			'dietary' => array( 'vegan' ),
+		) ),
 	),
 	'landing' => array(
 		'wordmark'        => 'LIMO / FRESH DAILY',
@@ -62,9 +119,21 @@ return array(
 		'hero_caption_tag'=> 'از منوی امروز',
 		'perks'           => array( 'آبگیری پس از سفارش', 'بسته‌بندی سرد', 'انتخاب شیر گیاهی' ),
 		'steps'           => array(
-			array( 'title' => 'میوهٔ فصل، هر روز', 'text' => 'انتخاب روزانه؛ طعم واقعی از همین‌جا شروع می‌شود.', 'icon' => 'leaf' ),
-			array( 'title' => 'برای تو آماده می‌شود', 'text' => 'نوشیدنی‌ات را بعد از ثبت سفارش ترکیب می‌کنیم.', 'icon' => 'glass' ),
-			array( 'title' => 'خنک تا آخرین جرعه', 'text' => 'بسته‌بندی مناسب برای تحویل حضوری یا ارسال.', 'icon' => 'truck' ),
+			array(
+				'title' => 'میوهٔ فصل، هر روز',
+				'text' => 'انتخاب روزانه؛ طعم واقعی از همین‌جا شروع می‌شود.',
+				'icon' => 'leaf',
+			),
+			array(
+				'title' => 'برای تو آماده می‌شود',
+				'text' => 'نوشیدنی‌ات را بعد از ثبت سفارش ترکیب می‌کنیم.',
+				'icon' => 'glass',
+			),
+			array(
+				'title' => 'خنک تا آخرین جرعه',
+				'text' => 'بسته‌بندی مناسب برای تحویل حضوری یا ارسال.',
+				'icon' => 'truck',
+			),
 		),
 		'menu_eyebrow'    => 'منوی رنگی لیمو',
 		'menu_title'      => 'امروز چه رنگی می‌نوشی؟',
@@ -82,10 +151,22 @@ return array(
 		'faq_title'       => 'سؤالی قبل از اولین جرعه؟',
 		'faq_text'        => 'ترکیب‌ها را شفاف می‌گوییم تا انتخاب راحت‌تر شود.',
 		'faq' => array(
-			array( 'question' => 'به آبمیوه‌ها شکر اضافه می‌کنید؟', 'answer' => 'آبمیوه‌های تازهٔ این منو بدون شکر افزوده آماده می‌شوند و قند طبیعی میوه دارند. ترکیبات هر اسموتی در توضیح محصول آمده است؛ برای تغییر شیرینی قبل از سفارش با ما هماهنگ کنید.' ),
-			array( 'question' => 'شیر گیاهی و انتخاب بدون لبنیات دارید؟', 'answer' => 'اسموتی بریِ گیاهی با شیر جو دوسر و اسموتی سبز بدون لبنیات آماده می‌شوند. برای تغییر رسپی سایر نوشیدنی‌ها با ما تماس بگیرید؛ امکان تهیه به موجودی روز بستگی دارد.' ),
-			array( 'question' => 'اگر حساسیت غذایی داشته باشم چه کنم؟', 'answer' => 'گرانولا و شیرها ممکن است حاوی گلوتن، مغزها یا لبنیات باشند. تجهیزات مشترک‌اند؛ پیش از ثبت سفارش حساسیت خود را تلفنی اعلام کنید. نبود یک ماده در رسپی، به معنی نبود تماس متقاطع نیست.' ),
-			array( 'question' => 'چطور سفارش بدهم و دریافت کنم؟', 'answer' => 'از منوی کامل، محصول و روش دریافت را انتخاب کنید. محدودهٔ ارسال، هزینه و زمان تخمینی در فرایند سفارش مشخص می‌شود. زمان آماده‌سازی روی کارت‌ها، زمان تحویل پیک نیست.' ),
+			array(
+				'question' => 'به آبمیوه‌ها شکر اضافه می‌کنید؟',
+				'answer' => 'آبمیوه‌های تازهٔ این منو بدون شکر افزوده آماده می‌شوند و قند طبیعی میوه دارند. ترکیبات هر اسموتی در توضیح محصول آمده است؛ برای تغییر شیرینی قبل از سفارش با ما هماهنگ کنید.',
+			),
+			array(
+				'question' => 'شیر گیاهی و انتخاب بدون لبنیات دارید؟',
+				'answer' => 'اسموتی بریِ گیاهی با شیر جو دوسر و اسموتی سبز بدون لبنیات آماده می‌شوند. برای تغییر رسپی سایر نوشیدنی‌ها با ما تماس بگیرید؛ امکان تهیه به موجودی روز بستگی دارد.',
+			),
+			array(
+				'question' => 'اگر حساسیت غذایی داشته باشم چه کنم؟',
+				'answer' => 'گرانولا و شیرها ممکن است حاوی گلوتن، مغزها یا لبنیات باشند. تجهیزات مشترک‌اند؛ پیش از ثبت سفارش حساسیت خود را تلفنی اعلام کنید. نبود یک ماده در رسپی، به معنی نبود تماس متقاطع نیست.',
+			),
+			array(
+				'question' => 'چطور سفارش بدهم و دریافت کنم؟',
+				'answer' => 'از منوی کامل، محصول و روش دریافت را انتخاب کنید. محدودهٔ ارسال، هزینه و زمان تخمینی در فرایند سفارش مشخص می‌شود. زمان آماده‌سازی روی کارت‌ها، زمان تحویل پیک نیست.',
+			),
 		),
 		'visit_eyebrow' => 'از پیشخوان ما تا روز تو',
 		'visit_title'   => 'حالا نوبت یک جرعه تازگی است.',

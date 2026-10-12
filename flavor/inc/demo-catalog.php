@@ -41,13 +41,32 @@ function flavor_demo_item( string $name, string $desc, int $price, string $cat, 
  */
 function flavor_demo_catalog(): array {
 	$size_mod = array(
-		array( 'type' => 'size', 'name' => 'یک‌نفره (استاندارد)', 'price' => 0, 'is_default' => 1 ),
-		array( 'type' => 'size', 'name' => 'دو‌نفره (دوبل)', 'price' => 45000, 'is_default' => 0 ),
+		array(
+			'type' => 'size',
+			'name' => 'یک‌نفره (استاندارد)',
+			'price' => 0,
+			'is_default' => 1,
+		),
+		array(
+			'type' => 'size',
+			'name' => 'دو‌نفره (دوبل)',
+			'price' => 45000,
+			'is_default' => 0,
+		),
 	);
 
 	$cook_mod = array(
-		array( 'type' => 'cook', 'name' => 'متوسط آبدار (Medium)', 'price' => 0, 'is_default' => 1 ),
-		array( 'type' => 'cook', 'name' => 'کاملاً مغزپخت (Well Done)', 'price' => 0 ),
+		array(
+			'type' => 'cook',
+			'name' => 'متوسط آبدار (Medium)',
+			'price' => 0,
+			'is_default' => 1,
+		),
+		array(
+			'type' => 'cook',
+			'name' => 'کاملاً مغزپخت (Well Done)',
+			'price' => 0,
+		),
 	);
 
 	return array(
@@ -72,7 +91,13 @@ function flavor_demo_catalog(): array {
 				'flavor_address'         => 'شهرک غرب، بلوار دادمان، نبش خیابان هرمزان',
 				'flavor_featured_title'  => 'منتخب‌های امروز سرآشپز',
 			),
-			'categories'      => array( 'غذاهای اصلی' => 'main', 'برگر و ساندویچ' => 'burger', 'پاستا و پیتزا' => 'pasta', 'پیش‌غذا و سالاد' => 'starters', 'نوشیدنی بار' => 'drinks' ),
+			'categories'      => array(
+				'غذاهای اصلی' => 'main',
+				'برگر و ساندویچ' => 'burger',
+				'پاستا و پیتزا' => 'pasta',
+				'پیش‌غذا و سالاد' => 'starters',
+				'نوشیدنی بار' => 'drinks',
+			),
 			'category_images' => array(
 				'main'     => 'category-main.jpg',
 				'burger'   => 'category-burger.jpg',
@@ -81,8 +106,14 @@ function flavor_demo_catalog(): array {
 				'drinks'   => 'category-drinks.jpg',
 			),
 			'testimonials' => array(
-				array( 'name' => 'سارا محمدی', 'text' => 'استیک فیله مینیون و سس قارچ بی‌نظیر بود؛ فضای آرام و پذیرایی بسیار محترمانه.' ),
-				array( 'name' => 'کیان رضایی', 'text' => 'سفارش آنلاین با بسته‌بندی عایق در کمتر از ۲۵ دقیقه رسید؛ دقیقاً مثل سرو در سالن داغ بود.' ),
+				array(
+					'name' => 'سارا محمدی',
+					'text' => 'استیک فیله مینیون و سس قارچ بی‌نظیر بود؛ فضای آرام و پذیرایی بسیار محترمانه.',
+				),
+				array(
+					'name' => 'کیان رضایی',
+					'text' => 'سفارش آنلاین با بسته‌بندی عایق در کمتر از ۲۵ دقیقه رسید؛ دقیقاً مثل سرو در سالن داغ بود.',
+				),
 			),
 			'items'        => array(
 				flavor_demo_item( 'استیک فیله گوساله', '۲۵۰ گرم فیله گریل با سبزیجات بخارپز و سس فلفل سیاه', 485000, 'main', array( 'modifiers' => $cook_mod ) ),
@@ -117,7 +148,13 @@ function flavor_demo_catalog(): array {
 				'flavor_address'         => 'نیاوران، مژده، برج رویال',
 				'flavor_featured_title'  => 'امضای سرآشپز',
 			),
-			'categories'      => array( 'منوی سرآشپز' => 'chef', 'دریایی و خاویار' => 'seafood', 'گوشت و استیک' => 'steak', 'دسر دست‌ساز' => 'dessert', 'نوشیدنی اختصاصی' => 'mocktails' ),
+			'categories'      => array(
+				'منوی سرآشپز' => 'chef',
+				'دریایی و خاویار' => 'seafood',
+				'گوشت و استیک' => 'steak',
+				'دسر دست‌ساز' => 'dessert',
+				'نوشیدنی اختصاصی' => 'mocktails',
+			),
 			'category_images' => array(
 				'chef'      => 'category-chef.jpg',
 				'seafood'   => 'category-seafood.jpg',
@@ -126,8 +163,14 @@ function flavor_demo_catalog(): array {
 				'mocktails' => 'category-mocktails.jpg',
 			),
 			'testimonials' => array(
-				array( 'name' => 'دکتر احسان فرهمند', 'text' => 'بهترین تجربه فاین‌داینینگ تهران؛ خاویار و استیک ریب‌آی با کیفیتی بی‌رقیب سرو شد.' ),
-				array( 'name' => 'مهندس نیلوفر راد', 'text' => 'مراسم سالگرد عقدمان را در سالن خصوصی برگزار کردیم؛ پذیرایی بی‌نقص و باشکوه بود.' ),
+				array(
+					'name' => 'دکتر احسان فرهمند',
+					'text' => 'بهترین تجربه فاین‌داینینگ تهران؛ خاویار و استیک ریب‌آی با کیفیتی بی‌رقیب سرو شد.',
+				),
+				array(
+					'name' => 'مهندس نیلوفر راد',
+					'text' => 'مراسم سالگرد عقدمان را در سالن خصوصی برگزار کردیم؛ پذیرایی بی‌نقص و باشکوه بود.',
+				),
 			),
 			'items'        => array(
 				flavor_demo_item( 'استیک ریب‌آی واگیو', 'گوشت پرورده ممتاز با پوره سیب‌زمینی ترافلی و سس ردواین', 890000, 'steak', array( 'modifiers' => $cook_mod ) ),
@@ -162,7 +205,12 @@ function flavor_demo_catalog(): array {
 				'flavor_address'        => 'اصفهان، میدان نقش جهان، خیابان حافظ',
 				'flavor_featured_title' => 'گزیده سفره نقش جهان',
 			),
-			'categories'      => array( 'کباب‌های ذغالی' => 'kebab', 'چلو خورشت اصیل' => 'stew', 'پیش‌غذا و مخلفات' => 'side', 'نوشیدنی و شربتخانه' => 'drinks' ),
+			'categories'      => array(
+				'کباب‌های ذغالی' => 'kebab',
+				'چلو خورشت اصیل' => 'stew',
+				'پیش‌غذا و مخلفات' => 'side',
+				'نوشیدنی و شربتخانه' => 'drinks',
+			),
 			'category_images' => array(
 				'kebab'  => 'category-kebab.jpg',
 				'stew'   => 'category-stew.jpg',
@@ -170,8 +218,14 @@ function flavor_demo_catalog(): array {
 				'drinks' => 'category-drinks.jpg',
 			),
 			'testimonials' => array(
-				array( 'name' => 'حاج مرتضی حسینی', 'text' => 'کباب برگ و شیشلیک بی‌نظیر؛ گوشت کاملاً پنبه و بدون ذره‌ای بو.' ),
-				array( 'name' => 'مریم صادقی', 'text' => 'دیزی سنگی با نان تازه و ترشی بادمجان یاد خاطرات خانه پدری را زنده کرد.' ),
+				array(
+					'name' => 'حاج مرتضی حسینی',
+					'text' => 'کباب برگ و شیشلیک بی‌نظیر؛ گوشت کاملاً پنبه و بدون ذره‌ای بو.',
+				),
+				array(
+					'name' => 'مریم صادقی',
+					'text' => 'دیزی سنگی با نان تازه و ترشی بادمجان یاد خاطرات خانه پدری را زنده کرد.',
+				),
 			),
 			'items'        => array(
 				flavor_demo_item( 'چلو کباب شیشلیک مخصوص', 'شش تکه دنده گوسفندی نرم با برنج زعفرانی طارم و کره محلی', 540000, 'kebab' ),
@@ -206,7 +260,13 @@ function flavor_demo_catalog(): array {
 				'flavor_address'         => 'سعادت‌آباد، سرو غربی، پلاک ۲۴',
 				'flavor_featured_title'  => 'پرفروش‌های باکس فایو',
 			),
-			'categories'      => array( 'برگر دست‌ساز' => 'burger', 'مرغ و سوخاری' => 'chicken', 'ساندویچ و هات‌داگ' => 'sandwich', 'پیش‌غذا و سیب' => 'sides', 'نوشیدنی و شیک' => 'drinks' ),
+			'categories'      => array(
+				'برگر دست‌ساز' => 'burger',
+				'مرغ و سوخاری' => 'chicken',
+				'ساندویچ و هات‌داگ' => 'sandwich',
+				'پیش‌غذا و سیب' => 'sides',
+				'نوشیدنی و شیک' => 'drinks',
+			),
 			'category_images' => array(
 				'burger'   => 'category-burger.jpg',
 				'chicken'  => 'category-chicken.jpg',
@@ -215,8 +275,14 @@ function flavor_demo_catalog(): array {
 				'drinks'   => 'category-drinks.jpg',
 			),
 			'testimonials' => array(
-				array( 'name' => 'امیرحسین پارسا', 'text' => 'بهترین اسمش برگر تهران؛ آبدار، پنیری و با سس باربیکیو تند عالی!' ),
-				array( 'name' => 'الهام خسروی', 'text' => 'استریپس‌های ۳ تکه با سس سیر واقعاً کرانچی و بدون روغن اضافه بود.' ),
+				array(
+					'name' => 'امیرحسین پارسا',
+					'text' => 'بهترین اسمش برگر تهران؛ آبدار، پنیری و با سس باربیکیو تند عالی!',
+				),
+				array(
+					'name' => 'الهام خسروی',
+					'text' => 'استریپس‌های ۳ تکه با سس سیر واقعاً کرانچی و بدون روغن اضافه بود.',
+				),
 			),
 			'items'        => array(
 				flavor_demo_item( 'ترافل اسمش برگر', 'دو لایه گوشت گوساله اسمش، پنیر چدار دوبل، سس قارچ و ترافل', 265000, 'burger', array( 'modifiers' => $size_mod ) ),
@@ -251,7 +317,13 @@ function flavor_demo_catalog(): array {
 				'flavor_address'         => 'تهران، بلوار کشاورز، خیابان فلسطین، پلاک ۴۲',
 				'flavor_featured_title'  => 'پیشنهاد باریستا و آشپزخانه',
 			),
-			'categories'      => array( 'قهوه تخصصی' => 'coffee', 'صبحانه و برانچ' => 'brunch', 'نان و شیرینی' => 'bakery', 'بشقاب‌های بیسترو' => 'bistro', 'نوشیدنی سرد' => 'cold' ),
+			'categories'      => array(
+				'قهوه تخصصی' => 'coffee',
+				'صبحانه و برانچ' => 'brunch',
+				'نان و شیرینی' => 'bakery',
+				'بشقاب‌های بیسترو' => 'bistro',
+				'نوشیدنی سرد' => 'cold',
+			),
 			'category_images' => array(
 				'coffee' => 'category-coffee.jpg',
 				'brunch' => 'category-brunch.jpg',
@@ -260,8 +332,14 @@ function flavor_demo_catalog(): array {
 				'cold'   => 'category-cold.jpg',
 			),
 			'testimonials' => array(
-				array( 'name' => 'نگار احمدی', 'text' => 'قهوه V60 دقیق و خوش‌عطر بود؛ فضای روشن و آرام کافه برای یک صبح طولانی عالی است.' ),
-				array( 'name' => 'سامان وثوقی', 'text' => 'تست آووکادو و تخم‌مرغ پوچ تازه و متعادل بود؛ برخورد باریستاها هم بسیار حرفه‌ای است.' ),
+				array(
+					'name' => 'نگار احمدی',
+					'text' => 'قهوه V60 دقیق و خوش‌عطر بود؛ فضای روشن و آرام کافه برای یک صبح طولانی عالی است.',
+				),
+				array(
+					'name' => 'سامان وثوقی',
+					'text' => 'تست آووکادو و تخم‌مرغ پوچ تازه و متعادل بود؛ برخورد باریستاها هم بسیار حرفه‌ای است.',
+				),
 			),
 			'items'        => array(
 				flavor_demo_item( 'فلت‌وایت خانه سبز', 'دبل اسپرسو با شیر مخملی و لاته‌آرت، تهیه‌شده با دانه فصل', 95000, 'coffee', array( 'prep' => 7 ) ),
@@ -296,7 +374,13 @@ function flavor_demo_catalog(): array {
 				'flavor_address'         => 'تهران، فرشته، خیابان بوسنی و هرزگوین، پلاک ۱۸',
 				'flavor_featured_title'  => 'منتخب تنور و آشپزخانه',
 			),
-			'categories'      => array( 'پیتزای ناپلی' => 'pizza', 'پاستای تازه' => 'pasta', 'آنتی‌پاستی و سالاد' => 'antipasti', 'دسر ایتالیایی' => 'dessert', 'نوشیدنی' => 'drinks' ),
+			'categories'      => array(
+				'پیتزای ناپلی' => 'pizza',
+				'پاستای تازه' => 'pasta',
+				'آنتی‌پاستی و سالاد' => 'antipasti',
+				'دسر ایتالیایی' => 'dessert',
+				'نوشیدنی' => 'drinks',
+			),
 			'category_images' => array(
 				'pizza'     => 'category-pizza.jpg',
 				'pasta'     => 'category-pasta.jpg',
@@ -305,8 +389,14 @@ function flavor_demo_catalog(): array {
 				'drinks'    => 'category-drinks.jpg',
 			),
 			'testimonials' => array(
-				array( 'name' => 'آرین نادری', 'text' => 'خمیر پیتزا سبک و لبه‌ها کاملاً پلنگی بود؛ مارگاریتا دقیقاً همان طعمی را داشت که در ناپل تجربه کردم.' ),
-				array( 'name' => 'مهسا رستگار', 'text' => 'پاستای راگو تازه و تیرامیسو فوق‌العاده بود؛ فضای گرم روسو برای شام دونفره عالی است.' ),
+				array(
+					'name' => 'آرین نادری',
+					'text' => 'خمیر پیتزا سبک و لبه‌ها کاملاً پلنگی بود؛ مارگاریتا دقیقاً همان طعمی را داشت که در ناپل تجربه کردم.',
+				),
+				array(
+					'name' => 'مهسا رستگار',
+					'text' => 'پاستای راگو تازه و تیرامیسو فوق‌العاده بود؛ فضای گرم روسو برای شام دونفره عالی است.',
+				),
 			),
 			'items'        => array(
 				flavor_demo_item( 'پیتزا مارگاریتا کلاسیک', 'خمیر ۴۸ ساعته، گوجه سن‌مارزانو، فیور دی لاته، ریحان و روغن زیتون', 285000, 'pizza' ),
@@ -341,7 +431,13 @@ function flavor_demo_catalog(): array {
 				'flavor_address'         => 'تهران، الهیه، خیابان خزر، پلاک ۲۷',
 				'flavor_featured_title'  => 'ویترین امروز پاتیسری',
 			),
-			'categories'      => array( 'کروسان و وینوازری' => 'viennoiserie', 'کیک‌های دست‌ساز' => 'cakes', 'نان آرتیزان' => 'bread', 'تارت و دسر' => 'dessert', 'نوشیدنی کافه' => 'drinks' ),
+			'categories'      => array(
+				'کروسان و وینوازری' => 'viennoiserie',
+				'کیک‌های دست‌ساز' => 'cakes',
+				'نان آرتیزان' => 'bread',
+				'تارت و دسر' => 'dessert',
+				'نوشیدنی کافه' => 'drinks',
+			),
 			'category_images' => array(
 				'viennoiserie' => 'category-viennoiserie.jpg',
 				'cakes'        => 'category-cakes.jpg',
@@ -350,8 +446,14 @@ function flavor_demo_catalog(): array {
 				'drinks'       => 'category-drinks.jpg',
 			),
 			'testimonials' => array(
-				array( 'name' => 'رها آذری', 'text' => 'کیک پسته و تمشک هم از نظر طعم و هم طراحی بی‌نقص بود؛ شیرینی کاملاً متعادل و بسته‌بندی بسیار حرفه‌ای.' ),
-				array( 'name' => 'لیلا شریفی', 'text' => 'کروسان بادام واقعاً لایه‌لایه و تازه بود؛ نان خمیرترش هم پوسته عالی و بافت سبکی داشت.' ),
+				array(
+					'name' => 'رها آذری',
+					'text' => 'کیک پسته و تمشک هم از نظر طعم و هم طراحی بی‌نقص بود؛ شیرینی کاملاً متعادل و بسته‌بندی بسیار حرفه‌ای.',
+				),
+				array(
+					'name' => 'لیلا شریفی',
+					'text' => 'کروسان بادام واقعاً لایه‌لایه و تازه بود؛ نان خمیرترش هم پوسته عالی و بافت سبکی داشت.',
+				),
 			),
 			'items'        => array(
 				flavor_demo_item( 'کروسان کره‌ای کلاسیک', 'خمیر لایه‌ای با کره خالص و تخمیر شبانه', 95000, 'viennoiserie', array( 'prep' => 5 ) ),

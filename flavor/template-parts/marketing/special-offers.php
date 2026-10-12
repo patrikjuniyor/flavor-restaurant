@@ -11,13 +11,13 @@ if ( 'no' === get_theme_mod( 'flavor_offers_enable', 'yes' ) ) {
 	return;
 }
 
-$title = get_theme_mod( 'flavor_offers_title', __( '۱۵٪ تخفیف برای اولین سفارش آنلاین', 'flavor' ) );
+$fz_title = get_theme_mod( 'flavor_offers_title', __( '۱۵٪ تخفیف برای اولین سفارش آنلاین', 'flavor' ) );
 $code  = get_theme_mod( 'flavor_offers_code', 'FIRST15' );
 
 $menu_page = get_page_by_path( 'menu' );
 $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 ?>
-<section class="flavor-section flavor-offers" aria-label="<?php echo esc_attr( $title ); ?>">
+<section class="flavor-section flavor-offers" aria-label="<?php echo esc_attr( $fz_title ); ?>">
 	<div class="flavor-container">
 		<div class="flavor-offer-banner">
 			<div class="flavor-offer-banner__bg-pattern"></div>
@@ -26,7 +26,7 @@ $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
 					<?php esc_html_e( 'پیشنهاد طلایی این ماه', 'flavor' ); ?>
 				</span>
-				<h2 class="flavor-offer-banner__title"><?php echo esc_html( $title ); ?></h2>
+				<h2 class="flavor-offer-banner__title"><?php echo esc_html( $fz_title ); ?></h2>
 				<p class="flavor-offer-banner__desc">
 					<?php esc_html_e( 'با وارد کردن کد تخفیف زیر در سبد خرید، از تخفیف ویژه اولین سفارش خود بهره‌مند شوید.', 'flavor' ); ?>
 				</p>

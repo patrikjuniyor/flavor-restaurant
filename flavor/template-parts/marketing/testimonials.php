@@ -30,7 +30,7 @@ $items = $args['items'] ?? \Flavor\Repeater::items( 'testimonials' );
 			<?php foreach ( $items as $item ) : ?>
 				<blockquote class="flavor-review-card">
 					<div class="flavor-review-card__stars" aria-label="۵ ستاره">
-						<?php for ( $s = 0; $s < (int) ( $item['rating'] ?? 5 ); $s++ ) : ?>
+						<?php for ( $fz_s = 0; $fz_s < (int) ( $item['rating'] ?? 5 ); $fz_s++ ) : ?>
 							<svg width="18" height="18" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
 						<?php endfor; ?>
 					</div>

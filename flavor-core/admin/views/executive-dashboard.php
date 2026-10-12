@@ -13,10 +13,14 @@ defined( 'ABSPATH' ) || exit;
 
 $current_user_id = get_current_user_id();
 $branch_id       = isset( $_GET['branch_id'] ) ? absint( $_GET['branch_id'] ) : null;
-$start_date      = isset( $_GET['start_date'] ) ? sanitize_text_field( (string) $_GET['start_date'] ) : gmdate( 'Y-m-d', strtotime( '-30 days' ) );
-$end_date        = isset( $_GET['end_date'] ) ? sanitize_text_field( (string) $_GET['end_date'] ) : gmdate( 'Y-m-d' );
+$start_date      = isset( $_GET['start_date'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['start_date'] ) ) : gmdate( 'Y-m-d', strtotime( '-30 days' ) );
+$end_date        = isset( $_GET['end_date'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['end_date'] ) ) : gmdate( 'Y-m-d' );
 
-$branches = get_posts( array( 'post_type' => 'flavor_branch', 'numberposts' => -1, 'post_status' => 'publish' ) );
+$branches = get_posts( array(
+	'post_type' => 'flavor_branch',
+	'numberposts' => -1,
+	'post_status' => 'publish',
+) );
 $overview = AnalyticsManager::get_overview( $branch_id, $start_date, $end_date );
 $peak_hrs = AnalyticsManager::get_peak_hours( $branch_id, $start_date, $end_date );
 $popular  = AnalyticsManager::get_popular_dishes( $branch_id, 10, $start_date, $end_date );
@@ -72,6 +76,7 @@ $branches_summary = AnalyticsManager::get_branches_summary( $start_date, $end_da
 			</div>
 			<div class="flavor-kpi-card__value"><?php echo esc_html( Currency::format( $overview['sales']['gross_revenue'] ) ); ?></div>
 			<div class="flavor-kpi-card__meta">
+				<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into the browser output. ?>
 				<span><?php echo esc_html( sprintf( __( 'تخفیف‌ها: %s', 'flavor-core' ), Currency::format( $overview['sales']['total_discounts'] ) ) ); ?></span>
 			</div>
 		</div>
@@ -84,6 +89,7 @@ $branches_summary = AnalyticsManager::get_branches_summary( $start_date, $end_da
 			</div>
 			<div class="flavor-kpi-card__value"><?php echo esc_html( number_format_i18n( $overview['sales']['total_orders'] ) ); ?></div>
 			<div class="flavor-kpi-card__meta">
+				<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into the browser output. ?>
 				<span><?php echo esc_html( sprintf( __( 'میانگین سفارش (AOV): %s', 'flavor-core' ), Currency::format( $overview['sales']['avg_order_value'] ) ) ); ?></span>
 			</div>
 		</div>
@@ -96,7 +102,8 @@ $branches_summary = AnalyticsManager::get_branches_summary( $start_date, $end_da
 			</div>
 			<div class="flavor-kpi-card__value"><?php echo esc_html( $overview['customers']['retention_rate_pct'] . '%' ); ?></div>
 			<div class="flavor-kpi-card__meta">
-				<span><?php echo esc_html( sprintf( __( '%d مشتری وفادار از %d کل', 'flavor-core' ), $overview['customers']['repeat_customers'], $overview['customers']['total_active'] ) ); ?></span>
+				<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into the browser output. ?>
+				<span><?php echo esc_html( sprintf( __( '%1$d مشتری وفادار از %2$d کل', 'flavor-core' ), $overview['customers']['repeat_customers'], $overview['customers']['total_active'] ) ); ?></span>
 			</div>
 		</div>
 
@@ -108,6 +115,7 @@ $branches_summary = AnalyticsManager::get_branches_summary( $start_date, $end_da
 			</div>
 			<div class="flavor-kpi-card__value"><?php echo esc_html( number_format_i18n( $overview['reservations']['total_reservations'] ) ); ?></div>
 			<div class="flavor-kpi-card__meta">
+				<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into the browser output. ?>
 				<span><?php echo esc_html( sprintf( __( 'مجموع %d میهمان پذیرش شده', 'flavor-core' ), $overview['reservations']['total_guests'] ) ); ?></span>
 			</div>
 		</div>
@@ -158,17 +166,18 @@ $branches_summary = AnalyticsManager::get_branches_summary( $start_date, $end_da
 		<div class="flavor-box flavor-box--half">
 			<h3 class="flavor-box__title"><span class="dashicons dashicons-clock"></span> <?php esc_html_e( 'ساعات اوج شلوغی و سفارش (Peak Hours Heatmap)', 'flavor-core' ); ?></h3>
 			<div class="flavor-peak-grid">
-				<?php 
+				<?php
 				$max_orders = 1;
 				foreach ( $peak_hrs as $p ) {
 					if ( $p['order_count'] > $max_orders ) {
 						$max_orders = $p['order_count'];
 					}
 				}
-				foreach ( $peak_hrs as $ph ) : 
+				foreach ( $peak_hrs as $ph ) :
 					$pct = round( ( $ph['order_count'] / $max_orders ) * 100 );
 				?>
-					<div class="flavor-peak-col" title="<?php echo esc_attr( sprintf( __( 'ساعت %s: %d سفارش', 'flavor-core' ), $ph['hour'], $ph['order_count'] ) ); ?>">
+					<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into the browser output. ?>
+					<div class="flavor-peak-col" title="<?php echo esc_attr( sprintf( __( 'ساعت %1$s: %2$d سفارش', 'flavor-core' ), $ph['hour'], $ph['order_count'] ) ); ?>">
 						<div class="flavor-peak-bar-wrap">
 							<div class="flavor-peak-bar" style="height: <?php echo esc_attr( (string) max( 4, $pct ) ); ?>%;"></div>
 						</div>

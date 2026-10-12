@@ -304,7 +304,7 @@ class Onboarding {
 							<?php if ( $launch_checks ) : ?>
 								<ul style="max-width:620px;margin:0 auto 24px;text-align:right;padding:14px 20px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;list-style:none;">
 									<?php foreach ( array_slice( $launch_checks, 0, 6 ) as $launch_check ) : ?>
-										<li style="padding:5px 0;"><strong><?php echo 'pass' === $launch_check['status'] ? '✓' : '!' ; ?></strong> <?php echo esc_html( $launch_check['label'] ); ?> — <?php echo esc_html( $launch_check['status_label'] ); ?></li>
+										<li style="padding:5px 0;"><strong><?php echo 'pass' === $launch_check['status'] ? '✓' : '!'; ?></strong> <?php echo esc_html( $launch_check['label'] ); ?> — <?php echo esc_html( $launch_check['status_label'] ); ?></li>
 									<?php endforeach; ?>
 								</ul>
 							<?php endif; ?>
@@ -649,7 +649,14 @@ class Onboarding {
 			$branch_id = (int) \FlavorCore\PostTypes\BranchPostType::default_id();
 		}
 		if ( ! $branch_id ) {
-			$ids = get_posts( array( 'post_type' => 'flavor_branch', 'post_status' => array( 'publish', 'draft' ), 'posts_per_page' => 1, 'fields' => 'ids', 'orderby' => 'ID', 'order' => 'ASC' ) );
+			$ids = get_posts( array(
+				'post_type' => 'flavor_branch',
+				'post_status' => array( 'publish', 'draft' ),
+				'posts_per_page' => 1,
+				'fields' => 'ids',
+				'orderby' => 'ID',
+				'order' => 'ASC',
+			) );
 			$branch_id = empty( $ids ) ? 0 : (int) $ids[0];
 		}
 		if ( ! $branch_id && post_type_exists( 'flavor_branch' ) ) {
@@ -696,11 +703,21 @@ class Onboarding {
 		if ( $table !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table ) ) ) ) {
 			return;
 		}
-		$wpdb->delete( $table, array( 'branch_id' => $branch_id, 'mode' => 'all' ), array( '%d', '%s' ) );
+		$wpdb->delete( $table, array(
+			'branch_id' => $branch_id,
+			'mode' => 'all',
+		), array( '%d', '%s' ) );
 		for ( $day = 0; $day < 7; $day++ ) {
 			$wpdb->insert(
 				$table,
-				array( 'branch_id' => $branch_id, 'day_of_week' => $day, 'mode' => 'all', 'open_time' => $hours['open'], 'close_time' => $hours['close'], 'is_closed' => 0 ),
+				array(
+					'branch_id' => $branch_id,
+					'day_of_week' => $day,
+					'mode' => 'all',
+					'open_time' => $hours['open'],
+					'close_time' => $hours['close'],
+					'is_closed' => 0,
+				),
 				array( '%d', '%d', '%s', '%s', '%s', '%d' )
 			);
 		}
@@ -712,16 +729,43 @@ class Onboarding {
 	 * @return array{open:string,close:string}
 	 */
 	private static function parse_hours( string $label ): array {
-		$label = strtr( $label, array( '۰'=>'0', '۱'=>'1', '۲'=>'2', '۳'=>'3', '۴'=>'4', '۵'=>'5', '۶'=>'6', '۷'=>'7', '۸'=>'8', '۹'=>'9', '٠'=>'0', '١'=>'1', '٢'=>'2', '٣'=>'3', '٤'=>'4', '٥'=>'5', '٦'=>'6', '٧'=>'7', '٨'=>'8', '٩'=>'9' ) );
+		$label = strtr( $label, array(
+			'۰'=>'0',
+			'۱'=>'1',
+			'۲'=>'2',
+			'۳'=>'3',
+			'۴'=>'4',
+			'۵'=>'5',
+			'۶'=>'6',
+			'۷'=>'7',
+			'۸'=>'8',
+			'۹'=>'9',
+			'٠'=>'0',
+			'١'=>'1',
+			'٢'=>'2',
+			'٣'=>'3',
+			'٤'=>'4',
+			'٥'=>'5',
+			'٦'=>'6',
+			'٧'=>'7',
+			'٨'=>'8',
+			'٩'=>'9',
+		) );
 		$pattern = '/(\d{1,2})(?:\s*[:٫.]\s*(\d{1,2}))?\s*(?:الی|تا|[-–—])\s*(\d{1,2})(?:\s*[:٫.]\s*(\d{1,2}))?/u';
 		if ( preg_match( $pattern, $label, $match ) ) {
 			$open_hour = min( 23, absint( $match[1] ) );
 			$open_minute = isset( $match[2] ) && '' !== $match[2] ? min( 59, absint( $match[2] ) ) : 0;
 			$close_hour = min( 23, absint( $match[3] ) );
 			$close_minute = isset( $match[4] ) && '' !== $match[4] ? min( 59, absint( $match[4] ) ) : 0;
-			return array( 'open' => sprintf( '%02d:%02d:00', $open_hour, $open_minute ), 'close' => sprintf( '%02d:%02d:00', $close_hour, $close_minute ) );
+			return array(
+				'open' => sprintf( '%02d:%02d:00', $open_hour, $open_minute ),
+				'close' => sprintf( '%02d:%02d:00', $close_hour, $close_minute ),
+			);
 		}
-		return array( 'open' => '11:30:00', 'close' => '23:45:00' );
+		return array(
+			'open' => '11:30:00',
+			'close' => '23:45:00',
+		);
 	}
 
 	/**
@@ -731,7 +775,14 @@ class Onboarding {
 		if ( empty( $data['first_item_name'] ) || ! class_exists( '\WC_Product_Simple' ) ) {
 			return;
 		}
-		$ids = get_posts( array( 'post_type' => 'product', 'post_status' => 'any', 'posts_per_page' => 1, 'fields' => 'ids', 'meta_key' => '_flavor_onboarding_product', 'meta_value' => '1' ) );
+		$ids = get_posts( array(
+			'post_type' => 'product',
+			'post_status' => 'any',
+			'posts_per_page' => 1,
+			'fields' => 'ids',
+			'meta_key' => '_flavor_onboarding_product',
+			'meta_value' => '1',
+		) );
 		$product = ! empty( $ids ) ? wc_get_product( (int) $ids[0] ) : new \WC_Product_Simple();
 		if ( ! $product ) {
 			return;
@@ -774,7 +825,13 @@ class Onboarding {
 		foreach ( array( 'home', 'menu', 'reservation', 'branches', 'contact' ) as $slug ) {
 			$page = get_page_by_path( $slug );
 			if ( $page && ! in_array( (int) $page->ID, $existing_pages, true ) ) {
-				wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => $page->post_title, 'menu-item-object' => 'page', 'menu-item-object-id' => $page->ID, 'menu-item-type' => 'post_type', 'menu-item-status' => 'publish' ) );
+				wp_update_nav_menu_item( $menu_id, 0, array(
+					'menu-item-title' => $page->post_title,
+					'menu-item-object' => 'page',
+					'menu-item-object-id' => $page->ID,
+					'menu-item-type' => 'post_type',
+					'menu-item-status' => 'publish',
+				) );
 			}
 		}
 		$locations['primary'] = $menu_id;
@@ -806,9 +863,21 @@ class Onboarding {
 				'slug'     => 'branches',
 				'template' => 'page-templates/template-branches.php',
 			),
-			'about' => array( 'title' => __( 'درباره ما', 'flavor' ), 'slug' => 'about', 'template' => 'page-templates/template-about.php' ),
-			'contact' => array( 'title' => __( 'تماس', 'flavor' ), 'slug' => 'contact', 'template' => 'page-templates/template-contact.php' ),
-			'tracking' => array( 'title' => __( 'پیگیری سفارش', 'flavor' ), 'slug' => 'tracking', 'template' => 'page-templates/template-order-tracking.php' ),
+			'about' => array(
+				'title' => __( 'درباره ما', 'flavor' ),
+				'slug' => 'about',
+				'template' => 'page-templates/template-about.php',
+			),
+			'contact' => array(
+				'title' => __( 'تماس', 'flavor' ),
+				'slug' => 'contact',
+				'template' => 'page-templates/template-contact.php',
+			),
+			'tracking' => array(
+				'title' => __( 'پیگیری سفارش', 'flavor' ),
+				'slug' => 'tracking',
+				'template' => 'page-templates/template-order-tracking.php',
+			),
 		);
 
 		foreach ( $pages as $p ) {

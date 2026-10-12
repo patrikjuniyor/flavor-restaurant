@@ -28,9 +28,11 @@ class Bespoke_Demos {
 	 */
 	public static function strings(): array {
 		return array(
+			/* translators: %s values. */
 			'selection_shown' => __( '%s انتخاب نمایش داده می‌شود.', 'flavor' ),
 			'zone_checking'   => __( 'در حال بررسی محله…', 'flavor' ),
 			'zone_failed'     => __( 'بررسی محله ناموفق بود. دوباره تلاش کن یا تماس بگیر.', 'flavor' ),
+			/* translators: %1$s, %2$s, %3$s values. */
 			'zone_summary'    => __( '%1$s · هزینهٔ ارسال: %2$s · زمان برآوردی منطقه: حدود %3$s دقیقه؛ زمان تضمین‌شده نیست.', 'flavor' ),
 			'zone_out'        => __( 'خارج از محدودهٔ ارسال؛ دریافت بیرون‌بر را بررسی کن.', 'flavor' ),
 		);
@@ -111,7 +113,18 @@ class Bespoke_Demos {
 	}
 
 	public static function digits( string $value ): string {
-		return strtr( $value, array( '0' => '۰', '1' => '۱', '2' => '۲', '3' => '۳', '4' => '۴', '5' => '۵', '6' => '۶', '7' => '۷', '8' => '۸', '9' => '۹' ) );
+		return strtr( $value, array(
+			'0' => '۰',
+			'1' => '۱',
+			'2' => '۲',
+			'3' => '۳',
+			'4' => '۴',
+			'5' => '۵',
+			'6' => '۶',
+			'7' => '۷',
+			'8' => '۸',
+			'9' => '۹',
+		) );
 	}
 
 	/**
@@ -202,13 +215,38 @@ class Bespoke_Demos {
 		foreach ( $fields as $key => $label ) {
 			$id = 'flavor_landing_' . $key;
 			$textarea = in_array( $key, array( 'feature_text', 'services_text', 'menu_notice' ), true );
-			$wp_customize->add_setting( $id, array( 'default' => self::value( $key ), 'sanitize_callback' => $textarea ? 'sanitize_textarea_field' : 'sanitize_text_field' ) );
-			$wp_customize->add_control( $id, array( 'label' => $label, 'section' => 'flavor_bespoke', 'type' => $textarea ? 'textarea' : 'text' ) );
+			$wp_customize->add_setting( $id, array(
+				'default' => self::value( $key ),
+				'sanitize_callback' => $textarea ? 'sanitize_textarea_field' : 'sanitize_text_field',
+			) );
+			$wp_customize->add_control( $id, array(
+				'label' => $label,
+				'section' => 'flavor_bespoke',
+				'type' => $textarea ? 'textarea' : 'text',
+			) );
 		}
-		foreach ( array( 'story' => 'داستان برند', 'process' => 'مراحل و ویژگی‌ها', 'feature' => 'پیشنهاد اختصاصی', 'faq' => 'پرسش‌های متداول' ) as $key => $label ) {
+		foreach ( array(
+			'story' => 'داستان برند',
+			'process' => 'مراحل و ویژگی‌ها',
+			'feature' => 'پیشنهاد اختصاصی',
+			'faq' => 'پرسش‌های متداول',
+		) as $key => $label ) {
 			$id = 'flavor_landing_' . $key . '_enable';
-			$wp_customize->add_setting( $id, array( 'default' => 'yes', 'sanitize_callback' => static function ( $v ) { return 'no' === $v ? 'no' : 'yes'; } ) );
-			$wp_customize->add_control( $id, array( 'label' => $label, 'section' => 'flavor_bespoke', 'type' => 'radio', 'choices' => array( 'yes' => __( 'نمایش', 'flavor' ), 'no' => __( 'پنهان', 'flavor' ) ) ) );
+			$wp_customize->add_setting( $id, array(
+				'default' => 'yes',
+				'sanitize_callback' => static function ( $v ) {
+				return 'no' === $v ? 'no' : 'yes';
+				},
+			) );
+			$wp_customize->add_control( $id, array(
+				'label' => $label,
+				'section' => 'flavor_bespoke',
+				'type' => 'radio',
+				'choices' => array(
+					'yes' => __( 'نمایش', 'flavor' ),
+					'no' => __( 'پنهان', 'flavor' ),
+				),
+			) );
 		}
 		// `flavor_landing_story_image` is registered in Customizer::register()
 		// instead. It also feeds the «دربارهٔ مجموعه» page template, which every

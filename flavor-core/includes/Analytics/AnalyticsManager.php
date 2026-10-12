@@ -50,7 +50,7 @@ class AnalyticsManager {
 		}
 
 		// 1. Sales & Orders Summary
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Schema-derived table names; internal branch filter fragment.
 		$sales_row = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT 
@@ -66,13 +66,14 @@ class AnalyticsManager {
 			),
 			ARRAY_A
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$total_orders = (int) ( $sales_row['total_orders'] ?? 0 );
 		$gross_rev    = (int) ( $sales_row['gross_revenue'] ?? 0 );
 		$aov          = (int) ( $sales_row['avg_order_value'] ?? 0 );
 
 		// 2. Order Modes Breakdown
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Schema-derived table names; internal branch filter fragment.
 		$modes_rows = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT order_mode, COUNT(id) AS order_count, COALESCE(SUM(total), 0) AS mode_revenue
@@ -83,11 +84,24 @@ class AnalyticsManager {
 			),
 			ARRAY_A
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$modes_data = array(
-			'dine_in'  => array( 'count' => 0, 'revenue' => 0, 'percentage' => 0 ),
-			'takeaway' => array( 'count' => 0, 'revenue' => 0, 'percentage' => 0 ),
-			'delivery' => array( 'count' => 0, 'revenue' => 0, 'percentage' => 0 ),
+			'dine_in'  => array(
+				'count' => 0,
+				'revenue' => 0,
+				'percentage' => 0,
+			),
+			'takeaway' => array(
+				'count' => 0,
+				'revenue' => 0,
+				'percentage' => 0,
+			),
+			'delivery' => array(
+				'count' => 0,
+				'revenue' => 0,
+				'percentage' => 0,
+			),
 		);
 
 		foreach ( $modes_rows as $mr ) {
@@ -103,7 +117,7 @@ class AnalyticsManager {
 		}
 
 		// 3. Reservation Stats
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Schema-derived table names; internal branch filter fragment.
 		$res_row = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT 
@@ -119,9 +133,10 @@ class AnalyticsManager {
 			),
 			ARRAY_A
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// 4. Customer Retention & Repeat Purchases
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Schema-derived table names; internal branch filter fragment.
 		$cust_rows = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT customer_mobile, COUNT(id) as orders_count
@@ -133,12 +148,13 @@ class AnalyticsManager {
 			),
 			ARRAY_A
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$unique_customers = count( $cust_rows );
 		$repeat_customers = 0;
 		foreach ( $cust_rows as $cr ) {
 			if ( (int) $cr['orders_count'] > 1 ) {
-				$repeat_customers++;
+				++$repeat_customers;
 			}
 		}
 		$retention_rate = $unique_customers > 0 ? round( ( $repeat_customers / $unique_customers ) * 100, 1 ) : 0;
@@ -198,7 +214,7 @@ class AnalyticsManager {
 			$params[]   = $branch_id;
 		}
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Schema-derived table names; internal branch filter fragment.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT 
@@ -213,6 +229,7 @@ class AnalyticsManager {
 			),
 			ARRAY_A
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// Map to 24 slots (00:00 to 23:00)
 		$histogram = array();
@@ -267,7 +284,7 @@ class AnalyticsManager {
 
 		$params[] = $limit;
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Schema-derived table names; internal branch filter fragment.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT 
@@ -285,9 +302,10 @@ class AnalyticsManager {
 			),
 			ARRAY_A
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return array_map(
-			static function( $row ) {
+			static function ( $row ) {
 				return array(
 					'product_id'     => (int) $row['product_id'],
 					'item_name'      => $row['item_name'],
@@ -317,9 +335,13 @@ class AnalyticsManager {
 		}
 
 		$tickets_tbl = Schema::table( 'flavor_kitchen_tickets' );
-		$branches    = get_posts( array( 'post_type' => 'flavor_branch', 'numberposts' => -1, 'post_status' => 'publish' ) );
+		$branches    = get_posts( array(
+			'post_type' => 'flavor_branch',
+			'numberposts' => -1,
+			'post_status' => 'publish',
+		) );
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Schema-derived table names; internal branch filter fragment.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT 
@@ -335,6 +357,7 @@ class AnalyticsManager {
 			),
 			ARRAY_A
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$indexed = array();
 		foreach ( $rows as $r ) {
@@ -344,7 +367,11 @@ class AnalyticsManager {
 		$out = array();
 		foreach ( $branches as $b ) {
 			$bid = (int) $b->ID;
-			$stat = $indexed[ $bid ] ?? array( 'total_orders' => 0, 'gross_revenue' => 0, 'avg_order_value' => 0 );
+			$stat = $indexed[ $bid ] ?? array(
+				'total_orders' => 0,
+				'gross_revenue' => 0,
+				'avg_order_value' => 0,
+			);
 			$out[] = array(
 				'branch_id'       => $bid,
 				'branch_name'     => $b->post_title,

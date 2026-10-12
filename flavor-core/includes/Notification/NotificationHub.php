@@ -71,7 +71,11 @@ class NotificationHub {
 			$results['push'] = $push_res;
 		}
 
-		StructuredLogger::info( 'notifications', 'Notification dispatched', array( 'event' => $params['event'] ?? 'general', 'channels' => $channels, 'results' => $results ) );
+		StructuredLogger::info( 'notifications', 'Notification dispatched', array(
+			'event' => $params['event'] ?? 'general',
+			'channels' => $channels,
+			'results' => $results,
+		) );
 
 		return $results;
 	}
@@ -102,7 +106,10 @@ class NotificationHub {
 			return false;
 		}
 
-		$results = array( 'fcm' => array(), 'apns' => array() );
+		$results = array(
+			'fcm' => array(),
+			'apns' => array(),
+		);
 		$stale   = array();
 
 		if ( ! empty( $android_tokens ) ) {

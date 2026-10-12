@@ -11,7 +11,7 @@ if ( 'no' === get_theme_mod( 'flavor_cats_enable', 'yes' ) ) {
 	return;
 }
 
-$title = get_theme_mod( 'flavor_cats_title', __( 'دسته‌بندی‌های منوی رستوران', 'flavor' ) );
+$fz_title = get_theme_mod( 'flavor_cats_title', __( 'دسته‌بندی‌های منوی رستوران', 'flavor' ) );
 
 $cats = array();
 if ( taxonomy_exists( 'product_cat' ) ) {
@@ -31,20 +31,20 @@ if ( empty( $cats ) || is_wp_error( $cats ) ) {
 $menu_page = get_page_by_path( 'menu' );
 $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 ?>
-<section class="flavor-section flavor-categories" aria-label="<?php echo esc_attr( $title ); ?>">
+<section class="flavor-section flavor-categories" aria-label="<?php echo esc_attr( $fz_title ); ?>">
 	<div class="flavor-container">
 		<div class="flavor-section-header">
 			<span class="flavor-section-header__tag"><?php esc_html_e( 'تنوع کم‌نظیر', 'flavor' ); ?></span>
-			<h2 class="flavor-section-header__title"><?php echo esc_html( $title ); ?></h2>
+			<h2 class="flavor-section-header__title"><?php echo esc_html( $fz_title ); ?></h2>
 			<p class="flavor-section-header__desc"><?php esc_html_e( 'انتخاب از میان بهترین غذاهای اصلی، پیش‌غذا، نوشیدنی‌ها و دسرهای لذیذ', 'flavor' ); ?></p>
 		</div>
 
 		<div class="flavor-categories__grid">
-			<?php foreach ( $cats as $cat ) : ?>
+			<?php foreach ( $cats as $fz_cat ) : ?>
 				<?php
-				$thumb_id = get_term_meta( $cat->term_id, 'thumbnail_id', true );
+				$thumb_id = get_term_meta( $fz_cat->term_id, 'thumbnail_id', true );
 				$img_url  = $thumb_id ? wp_get_attachment_image_url( (int) $thumb_id, 'medium' ) : '';
-				$cat_url  = add_query_arg( 'cat', $cat->term_id, $menu_url );
+				$cat_url  = add_query_arg( 'cat', $fz_cat->term_id, $menu_url );
 				?>
 				<a href="<?php echo esc_url( $cat_url ); ?>" class="flavor-cat-card">
 					<?php if ( $img_url ) : ?>
@@ -55,9 +55,9 @@ $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 						</div>
 					<?php endif; ?>
 					<div class="flavor-cat-card__content">
-						<h3 class="flavor-cat-card__title"><?php echo esc_html( $cat->name ); ?></h3>
+						<h3 class="flavor-cat-card__title"><?php echo esc_html( $fz_cat->name ); ?></h3>
 						<span class="flavor-cat-card__count">
-							<?php echo esc_html( sprintf( /* translators: %d items */ __( '%d آیتم', 'flavor' ), $cat->count ) ); ?>
+							<?php echo esc_html( sprintf( /* translators: %d items */ __( '%d آیتم', 'flavor' ), $fz_cat->count ) ); ?>
 						</span>
 					</div>
 				</a>

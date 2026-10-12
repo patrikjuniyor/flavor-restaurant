@@ -56,7 +56,7 @@ class Flavor_Guest_Cart_Token_Test extends WP_UnitTestCase {
 
 	public function test_guest_token_has_no_time_derived_fallback() {
 		$src = file_get_contents( dirname( __DIR__ ) . '/includes/Support/GuestToken.php' );
-		$this->assertStringContainsString( "bin2hex( random_bytes( 32 ) )", $src );
+		$this->assertStringContainsString( 'bin2hex( random_bytes( 32 ) )', $src );
 		$this->assertStringNotContainsString( 'uniqid( (string) wp_rand', $src );
 		$this->assertStringNotContainsString( 'microtime( true )', $src );
 	}
@@ -80,7 +80,7 @@ class Flavor_Guest_Cart_Token_Test extends WP_UnitTestCase {
 			$seen[ $t ] = true;
 		}
 		$src = file_get_contents( dirname( __DIR__ ) . '/includes/WooCommerce/CartTokenService.php' );
-		$this->assertStringContainsString( "bin2hex( random_bytes( 24 ) )", $src );
+		$this->assertStringContainsString( 'bin2hex( random_bytes( 24 ) )', $src );
 		$this->assertStringNotContainsString( 'uniqid( (string) wp_rand', $src );
 	}
 }

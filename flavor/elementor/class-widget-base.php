@@ -408,8 +408,8 @@ abstract class Widget_Base extends \Elementor\Widget_Base {
 				'range'      => array(
 					'px' => array(
 						'min' => 0,
-					'max' => 48,
-				),
+						'max' => 48,
+					),
 					'em' => array(
 						'min'  => 0,
 						'max'  => 3,

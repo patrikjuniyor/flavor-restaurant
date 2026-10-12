@@ -59,7 +59,10 @@ class Branch_Map {
 			return null;
 		}
 
-		return array( 'lat' => $lat, 'lng' => $lng );
+		return array(
+			'lat' => $lat,
+			'lng' => $lng,
+		);
 	}
 
 	/**

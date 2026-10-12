@@ -7,6 +7,8 @@
  * @package FlavorCore
  */
 
+// phpcs:disable WordPress.Security.EscapeOutput, WordPress.DateTime.RestrictedFunctions.date_date, WordPress.DB.PreparedSQL -- e2e harness: CLI echo, sandbox time(), local temp tables with placeholder-bound args.
+
 namespace FlavorCore\Tests;
 
 define( 'ABSPATH', __DIR__ . '/../../' );
@@ -59,18 +61,18 @@ $failed_tests = 0;
 
 function run_test( string $description, callable $test_fn ): void {
 	global $total_tests, $passed_tests, $failed_tests;
-	$total_tests++;
+	++$total_tests;
 	try {
 		$result = $test_fn();
 		if ( false !== $result ) {
-			$passed_tests++;
+			++$passed_tests;
 			echo "  [PASS] {$description}\n";
 		} else {
-			$failed_tests++;
+			++$failed_tests;
 			echo "  [FAIL] {$description} (Assertion evaluated to false)\n";
 		}
 	} catch ( \Throwable $e ) {
-		$failed_tests++;
+		++$failed_tests;
 		echo "  [FAIL] {$description}\n";
 		echo "         Exception: {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}\n";
 	}
@@ -98,7 +100,9 @@ run_test( 'Guest requests OTP SMS code for mobile 09123456789', function () use 
 
 run_test( 'Verify valid OTP code and issue JWT Bearer & Refresh Tokens', function () use ( $auth_ctrl, $otp_mobile ) {
 	$sent_code = $GLOBALS['_last_sent_otp_code'] ?? '';
-	if ( empty( $sent_code ) ) return false;
+	if ( empty( $sent_code ) ) {
+return false;
+	}
 
 	$req = new \WP_REST_Request( 'POST', '/flavor/v2/auth/otp/verify' );
 	$req->set_json_params( array(
@@ -206,7 +210,10 @@ run_test( 'Expired refresh token can never rotate (TTL enforced, incl. legacy ro
 
 	// 2. Legacy row without the column (schema < 1.5.0): created_at older than REFRESH_TTL.
 	$legacy = TokenService::issue( $user_id, '', 'Legacy Row' );
-	$wpdb->update( $table, array( 'refresh_expires_at' => null, 'created_at' => '2000-01-01 00:00:00' ), array( 'refresh_token_hash' => hash( 'sha256', $legacy['refresh_token'] ) ) );
+	$wpdb->update( $table, array(
+		'refresh_expires_at' => null,
+		'created_at' => '2000-01-01 00:00:00',
+	), array( 'refresh_token_hash' => hash( 'sha256', $legacy['refresh_token'] ) ) );
 	$legacy_out = TokenService::refresh( $legacy['refresh_token'] );
 
 	// 3. Sanity: a fresh, in-TTL refresh token still rotates.
@@ -227,7 +234,11 @@ run_test( 'Device registration persists app_version & last_seen_at and re-regist
 
 	$req = new \WP_REST_Request( 'POST', '/flavor/v2/auth/device' );
 	$req->set_header( 'Authorization', 'Bearer ' . $tokens['access_token'] );
-	$req->set_json_params( array( 'device_token' => 'fcm_regression_token', 'platform' => 'android', 'app_version' => '2.4.0' ) );
+	$req->set_json_params( array(
+		'device_token' => 'fcm_regression_token',
+		'platform' => 'android',
+		'app_version' => '2.4.0',
+	) );
 	$res = $auth_ctrl->register_device( $req );
 
 	$row      = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE device_token = %s AND platform = %s", 'fcm_regression_token', 'android' ), ARRAY_A );
@@ -236,7 +247,11 @@ run_test( 'Device registration persists app_version & last_seen_at and re-regist
 	// Re-registering the same device token with a newer app version must upsert.
 	$req2 = new \WP_REST_Request( 'POST', '/flavor/v2/auth/device' );
 	$req2->set_header( 'Authorization', 'Bearer ' . $tokens['access_token'] );
-	$req2->set_json_params( array( 'device_token' => 'fcm_regression_token', 'platform' => 'android', 'app_version' => '2.5.1' ) );
+	$req2->set_json_params( array(
+		'device_token' => 'fcm_regression_token',
+		'platform' => 'android',
+		'app_version' => '2.5.1',
+	) );
 	$res2 = $auth_ctrl->register_device( $req2 );
 
 	$count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table} WHERE device_token = %s AND platform = %s", 'fcm_regression_token', 'android' ) );
@@ -708,7 +723,10 @@ run_test( 'Register Android & iOS FCM device tokens for Customer A', function ()
 
 run_test( 'User Notification Preferences update and query', function () {
 	$user_id = 101;
-	$updated = PushNotificationService::update_preferences( $user_id, array( 'order_status' => true, 'promotions' => false ) );
+	$updated = PushNotificationService::update_preferences( $user_id, array(
+		'order_status' => true,
+		'promotions' => false,
+	) );
 	$prefs   = PushNotificationService::get_preferences( $user_id );
 
 	return $updated && $prefs['order_status'] === true && $prefs['promotions'] === false;
@@ -719,7 +737,10 @@ run_test( 'Order Status Push & Multi-Channel Dispatch delivers through FCM when 
 
 	// Fake, test-generated credentials (never real secrets).
 	PushNotificationService::register_device( 101, 'fcm_multichannel_device_token', 'android', '1.0.0' );
-	$key = openssl_pkey_new( array( 'private_key_type' => OPENSSL_KEYTYPE_RSA, 'private_key_bits' => 2048 ) );
+	$key = openssl_pkey_new( array(
+		'private_key_type' => OPENSSL_KEYTYPE_RSA,
+		'private_key_bits' => 2048,
+	) );
 	openssl_pkey_export( $key, $pem );
 	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON=' . wp_json_encode( array(
 		'project_id'   => 'flavor-ci-test',
@@ -729,9 +750,18 @@ run_test( 'Order Status Push & Multi-Channel Dispatch delivers through FCM when 
 	) ) );
 	$_mock_http_responder = function ( string $url ) {
 		if ( strpos( $url, 'oauth2.googleapis.com/token' ) !== false ) {
-			return array( 'code' => 200, 'body' => wp_json_encode( array( 'access_token' => 'test-fake-oauth-token', 'expires_in' => 3600 ) ) );
+			return array(
+				'code' => 200,
+				'body' => wp_json_encode( array(
+					'access_token' => 'test-fake-oauth-token',
+					'expires_in' => 3600,
+				) ),
+			);
 		}
-		return array( 'code' => 200, 'body' => wp_json_encode( array( 'name' => 'projects/flavor-ci-test/messages/3' ) ) );
+		return array(
+			'code' => 200,
+			'body' => wp_json_encode( array( 'name' => 'projects/flavor-ci-test/messages/3' ) ),
+		);
 	};
 	delete_transient( 'flavor_fcm_oauth_' . md5( 'flavor-push@flavor-ci-test.iam.gserviceaccount.com' ) );
 	$_mock_http_requests = array();
@@ -1601,11 +1631,25 @@ run_test( 'Every supported webhook event is dispatched (queued) from its real ap
 		)
 	);
 
-	do_action( 'flavor_core_kitchen_ticket_created', 501, array( 'order_id' => 77, 'order_number' => '77', 'branch_id' => 1, 'order_mode' => 'dine_in', 'total' => 1000, 'source' => 'online' ) );
+	do_action( 'flavor_core_kitchen_ticket_created', 501, array(
+		'order_id' => 77,
+		'order_number' => '77',
+		'branch_id' => 1,
+		'order_mode' => 'dine_in',
+		'total' => 1000,
+		'source' => 'online',
+	) );
 	do_action( 'flavor_core_kitchen_status_changed', 501, 'new', 'preparing' );
 	do_action( 'flavor_core_kitchen_status_changed', 501, 'preparing', 'completed' );
 	do_action( 'flavor_core_kitchen_status_changed', 501, 'new', 'cancelled' );
-	do_action( 'flavor_core_reservation_created', 88, array( 'branch_id' => 1, 'table_id' => 2, 'reservation_date' => '2026-10-01', 'reservation_time' => '19:00', 'party_size' => 2, 'status' => 'pending' ) );
+	do_action( 'flavor_core_reservation_created', 88, array(
+		'branch_id' => 1,
+		'table_id' => 2,
+		'reservation_date' => '2026-10-01',
+		'reservation_time' => '19:00',
+		'party_size' => 2,
+		'status' => 'pending',
+	) );
 	do_action( 'flavor_core_reservation_status_changed', 88, 'confirmed' );
 
 	// customer.created only for accounts created in this very OTP flow.
@@ -1660,7 +1704,10 @@ run_test( 'Unsupported webhook events are rejected (validation + dispatch + cont
 	$ok4 = (int) $GLOBALS['wpdb']->get_var( 'SELECT COUNT(*) FROM wp_flavor_webhook_deliveries' ) === $before;
 
 	// Controller rejects bad event lists with 400.
-	$admin                              = new \WP_User( array( 'ID' => 9101, 'roles' => array( 'administrator' ) ) );
+	$admin                              = new \WP_User( array(
+		'ID' => 9101,
+		'roles' => array( 'administrator' ),
+	) );
 	$GLOBALS['_mock_users'][9101]       = $admin;
 	wp_set_current_user( 9101 );
 	$ctrl = new WebhookController();
@@ -1681,7 +1728,10 @@ run_test( 'Unsupported webhook events are rejected (validation + dispatch + cont
 } );
 
 run_test( 'Webhook secrets are redacted from every GET endpoint (list + single)', function () use ( $wpdb ) {
-	$admin                        = new \WP_User( array( 'ID' => 9102, 'roles' => array( 'administrator' ) ) );
+	$admin                        = new \WP_User( array(
+		'ID' => 9102,
+		'roles' => array( 'administrator' ),
+	) );
 	$GLOBALS['_mock_users'][9102] = $admin;
 	wp_set_current_user( 9102 );
 
@@ -1733,12 +1783,18 @@ run_test( 'Unauthorized users cannot manage webhooks (guest + customer get 403)'
 	wp_set_current_user( 0 );
 	$guest = $ctrl->require_webhook_admin( $req );
 
-	$customer                        = new \WP_User( array( 'ID' => 9103, 'roles' => array( 'customer' ) ) );
+	$customer                        = new \WP_User( array(
+		'ID' => 9103,
+		'roles' => array( 'customer' ),
+	) );
 	$GLOBALS['_mock_users'][9103]    = $customer;
 	wp_set_current_user( 9103 );
 	$cust = $ctrl->require_webhook_admin( $req );
 
-	$admin                        = new \WP_User( array( 'ID' => 9104, 'roles' => array( 'administrator' ) ) );
+	$admin                        = new \WP_User( array(
+		'ID' => 9104,
+		'roles' => array( 'administrator' ),
+	) );
 	$GLOBALS['_mock_users'][9104] = $admin;
 	wp_set_current_user( 9104 );
 	$adm = $ctrl->require_webhook_admin( $req );
@@ -1773,7 +1829,10 @@ run_test( 'SSRF protection: localhost/private ranges/bad schemes/credentials rej
 	$ok = $ok && WebhookManager::is_safe_target_url( 'https://hooks.example.com/callback' );
 
 	// API-level: create with private URL -> 400; update to private URL -> 400.
-	$admin                        = new \WP_User( array( 'ID' => 9105, 'roles' => array( 'administrator' ) ) );
+	$admin                        = new \WP_User( array(
+		'ID' => 9105,
+		'roles' => array( 'administrator' ),
+	) );
 	$GLOBALS['_mock_users'][9105] = $admin;
 	wp_set_current_user( 9105 );
 	$ctrl = new WebhookController();
@@ -1841,7 +1900,11 @@ run_test( 'Queue processing delivers asynchronously, records outcomes and skips 
 		)
 	);
 	$unsafe_id = (int) $wpdb->insert_id;
-	WebhookManager::dispatch( 'order.updated', array( 'ticket_id' => 777, 'old_status' => 'new', 'new_status' => 'preparing' ) );
+	WebhookManager::dispatch( 'order.updated', array(
+		'ticket_id' => 777,
+		'old_status' => 'new',
+		'new_status' => 'preparing',
+	) );
 	WebhookManager::process_queue();
 	$unsafe_row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$deliveries_tbl} WHERE webhook_id = %d ORDER BY id DESC LIMIT 1", $unsafe_id ), ARRAY_A );
 
@@ -1879,14 +1942,22 @@ run_test( 'Queue processing delivers asynchronously, records outcomes and skips 
 		)
 	);
 	$inactive_id = (int) $wpdb->insert_id;
-	WebhookManager::dispatch( 'order.cancelled', array( 'ticket_id' => 778, 'old_status' => 'new', 'new_status' => 'cancelled' ) );
+	WebhookManager::dispatch( 'order.cancelled', array(
+		'ticket_id' => 778,
+		'old_status' => 'new',
+		'new_status' => 'cancelled',
+	) );
 	$wpdb->update( 'wp_flavor_webhooks', array( 'is_active' => 0 ), array( 'id' => $inactive_id ) );
 	WebhookManager::process_queue();
 	$skipped_row = $wpdb->get_row( $wpdb->prepare( "SELECT status FROM {$deliveries_tbl} WHERE webhook_id = %d ORDER BY id DESC LIMIT 1", $inactive_id ), ARRAY_A );
 
 	// 4. Inactive webhooks never get queued in the first place.
 	$before = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$deliveries_tbl}" );
-	WebhookManager::dispatch( 'order.cancelled', array( 'ticket_id' => 779, 'old_status' => 'new', 'new_status' => 'cancelled' ) );
+	WebhookManager::dispatch( 'order.cancelled', array(
+		'ticket_id' => 779,
+		'old_status' => 'new',
+		'new_status' => 'cancelled',
+	) );
 	$queued_for_inactive = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$deliveries_tbl} WHERE webhook_id = {$inactive_id}" );
 	unset( $before );
 
@@ -1911,7 +1982,10 @@ run_test( 'Queue processing delivers asynchronously, records outcomes and skips 
 } );
 
 run_test( 'Admin test endpoint still delivers synchronously with an audit row', function () use ( $wpdb ) {
-	$admin                        = new \WP_User( array( 'ID' => 9106, 'roles' => array( 'administrator' ) ) );
+	$admin                        = new \WP_User( array(
+		'ID' => 9106,
+		'roles' => array( 'administrator' ),
+	) );
 	$GLOBALS['_mock_users'][9106] = $admin;
 	wp_set_current_user( 9106 );
 
@@ -1933,7 +2007,7 @@ run_test( 'Admin test endpoint still delivers synchronously with an audit row', 
 	$result = (array) ( $res->get_data()['data'] ?? array() );
 
 	$audit = $wpdb->get_row(
-		$wpdb->prepare( "SELECT status, event, attempt_count FROM wp_flavor_webhook_deliveries WHERE webhook_id = %d AND event = %s ORDER BY id DESC LIMIT 1", $wh_id, 'system.ping' ),
+		$wpdb->prepare( 'SELECT status, event, attempt_count FROM wp_flavor_webhook_deliveries WHERE webhook_id = %d AND event = %s ORDER BY id DESC LIMIT 1', $wh_id, 'system.ping' ),
 		ARRAY_A
 	);
 
@@ -1956,7 +2030,10 @@ echo "\n--- 13. PUSH NOTIFICATIONS (tokens, rotation, delivery, cleanup) ---\n";
 
 run_test( 'Device endpoints reject unauthenticated callers with 401', function () use ( $auth_ctrl ) {
 	$reg = new \WP_REST_Request( 'POST', '/flavor/v2/auth/device' );
-	$reg->set_json_params( array( 'device_token' => 'anon_token_will_fail', 'platform' => 'android' ) );
+	$reg->set_json_params( array(
+		'device_token' => 'anon_token_will_fail',
+		'platform' => 'android',
+	) );
 	$reg_res = $auth_ctrl->register_device( $reg );
 
 	$del = new \WP_REST_Request( 'DELETE', '/flavor/v2/auth/device' );
@@ -2013,7 +2090,10 @@ run_test( 'FCM delivery executed end-to-end (HTTP v1 OAuth + messages:send)', fu
 	global $_mock_http_requests, $_mock_http_responder;
 
 	// Ephemeral, test-generated RSA key — obviously fake credentials, never a real secret.
-	$key = openssl_pkey_new( array( 'private_key_type' => OPENSSL_KEYTYPE_RSA, 'private_key_bits' => 2048 ) );
+	$key = openssl_pkey_new( array(
+		'private_key_type' => OPENSSL_KEYTYPE_RSA,
+		'private_key_bits' => 2048,
+	) );
 	openssl_pkey_export( $key, $pem );
 	$sa = wp_json_encode( array(
 		'type'         => 'service_account',
@@ -2026,17 +2106,29 @@ run_test( 'FCM delivery executed end-to-end (HTTP v1 OAuth + messages:send)', fu
 
 	$_mock_http_responder = function ( string $url, array $args ) {
 		if ( strpos( $url, 'oauth2.googleapis.com/token' ) !== false ) {
-			return array( 'code' => 200, 'body' => wp_json_encode( array( 'access_token' => 'test-fake-oauth-token', 'expires_in' => 3600 ) ) );
+			return array(
+				'code' => 200,
+				'body' => wp_json_encode( array(
+					'access_token' => 'test-fake-oauth-token',
+					'expires_in' => 3600,
+				) ),
+			);
 		}
 		if ( strpos( $url, 'fcm.googleapis.com/v1/projects/' ) !== false ) {
-			return array( 'code' => 200, 'body' => wp_json_encode( array( 'name' => 'projects/flavor-ci-test/messages/1' ) ) );
+			return array(
+				'code' => 200,
+				'body' => wp_json_encode( array( 'name' => 'projects/flavor-ci-test/messages/1' ) ),
+			);
 		}
 		return null;
 	};
 	$_mock_http_requests = array();
 	delete_transient( 'flavor_fcm_oauth_' . md5( 'flavor-push@flavor-ci-test.iam.gserviceaccount.com' ) );
 
-	$result = PushNotificationService::send_fcm( array( 'fcm_delivery_token_a' ), 'عنوان تست', 'متن تست', array( 'type' => 'order_status', 'order_id' => '77' ) );
+	$result = PushNotificationService::send_fcm( array( 'fcm_delivery_token_a' ), 'عنوان تست', 'متن تست', array(
+		'type' => 'order_status',
+		'order_id' => '77',
+	) );
 
 	$urls = array_column( $_mock_http_requests, 'url' );
 	$saw_oauth = in_array( 'https://oauth2.googleapis.com/token', $urls, true );
@@ -2061,7 +2153,10 @@ run_test( 'APNs delivery executed end-to-end (ES256 token + per-device POST)', f
 	global $_mock_http_requests, $_mock_http_responder;
 
 	// Ephemeral, test-generated EC key written to a temp .p8 — never a real secret.
-	$key = openssl_pkey_new( array( 'private_key_type' => OPENSSL_KEYTYPE_EC, 'curve_name' => 'prime256v1' ) );
+	$key = openssl_pkey_new( array(
+		'private_key_type' => OPENSSL_KEYTYPE_EC,
+		'curve_name' => 'prime256v1',
+	) );
 	openssl_pkey_export( $key, $pem );
 	$p8_path = tempnam( sys_get_temp_dir(), 'fake_p8_' ) . '.p8';
 	file_put_contents( $p8_path, $pem );
@@ -2074,7 +2169,10 @@ run_test( 'APNs delivery executed end-to-end (ES256 token + per-device POST)', f
 
 	$_mock_http_responder = function ( string $url, array $args ) {
 		if ( strpos( $url, 'api.sandbox.push.apple.com/3/device/' ) !== false ) {
-			return array( 'code' => 200, 'body' => '' );
+			return array(
+				'code' => 200,
+				'body' => '',
+			);
 		}
 		return null;
 	};
@@ -2108,7 +2206,10 @@ run_test( 'APNs delivery executed end-to-end (ES256 token + per-device POST)', f
 run_test( 'Stale FCM tokens (UNREGISTERED) are deactivated as rotation cleanup', function () {
 	global $_mock_http_requests, $_mock_http_responder, $wpdb;
 
-	$key = openssl_pkey_new( array( 'private_key_type' => OPENSSL_KEYTYPE_RSA, 'private_key_bits' => 2048 ) );
+	$key = openssl_pkey_new( array(
+		'private_key_type' => OPENSSL_KEYTYPE_RSA,
+		'private_key_bits' => 2048,
+	) );
 	openssl_pkey_export( $key, $pem );
 	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON=' . wp_json_encode( array(
 		'project_id'   => 'flavor-ci-test',
@@ -2119,9 +2220,23 @@ run_test( 'Stale FCM tokens (UNREGISTERED) are deactivated as rotation cleanup',
 
 	$_mock_http_responder = function ( string $url, array $args ) {
 		if ( strpos( $url, 'oauth2.googleapis.com/token' ) !== false ) {
-			return array( 'code' => 200, 'body' => wp_json_encode( array( 'access_token' => 'test-fake-oauth-token', 'expires_in' => 3600 ) ) );
+			return array(
+				'code' => 200,
+				'body' => wp_json_encode( array(
+					'access_token' => 'test-fake-oauth-token',
+					'expires_in' => 3600,
+				) ),
+			);
 		}
-		return array( 'code' => 404, 'body' => wp_json_encode( array( 'error' => array( 'code' => 404, 'status' => 'UNREGISTERED' ) ) ) );
+		return array(
+			'code' => 404,
+			'body' => wp_json_encode( array(
+				'error' => array(
+					'code' => 404,
+					'status' => 'UNREGISTERED',
+				),
+			) ),
+		);
 	};
 
 	PushNotificationService::register_device( 321, 'fcm_stale_rotation_token', 'android', '1.0.0' );
@@ -2188,12 +2303,18 @@ run_test( 'Push observability hook fires WITH delivery results (not as the deliv
 
 	$hook_payloads = array();
 	add_action( 'flavor_dispatch_push_tokens', function ( $tokens, $title, $body, $data, $results = array() ) use ( &$hook_payloads ) {
-		$hook_payloads[] = array( 'tokens' => $tokens, 'results' => $results );
+		$hook_payloads[] = array(
+			'tokens' => $tokens,
+			'results' => $results,
+		);
 	}, 10, 5 );
 
 	PushNotificationService::register_device( 341, 'observability_hook_token', 'android', '1.0.0' );
 
-	$key = openssl_pkey_new( array( 'private_key_type' => OPENSSL_KEYTYPE_RSA, 'private_key_bits' => 2048 ) );
+	$key = openssl_pkey_new( array(
+		'private_key_type' => OPENSSL_KEYTYPE_RSA,
+		'private_key_bits' => 2048,
+	) );
 	openssl_pkey_export( $key, $pem );
 	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON=' . wp_json_encode( array(
 		'project_id'   => 'flavor-ci-test',
@@ -2203,9 +2324,18 @@ run_test( 'Push observability hook fires WITH delivery results (not as the deliv
 	) ) );
 	$_mock_http_responder = function ( string $url ) {
 		if ( strpos( $url, 'oauth2.googleapis.com/token' ) !== false ) {
-			return array( 'code' => 200, 'body' => wp_json_encode( array( 'access_token' => 'test-fake-oauth-token', 'expires_in' => 3600 ) ) );
+			return array(
+				'code' => 200,
+				'body' => wp_json_encode( array(
+					'access_token' => 'test-fake-oauth-token',
+					'expires_in' => 3600,
+				) ),
+			);
 		}
-		return array( 'code' => 200, 'body' => wp_json_encode( array( 'name' => 'projects/flavor-ci-test/messages/2' ) ) );
+		return array(
+			'code' => 200,
+			'body' => wp_json_encode( array( 'name' => 'projects/flavor-ci-test/messages/2' ) ),
+		);
 	};
 	delete_transient( 'flavor_fcm_oauth_' . md5( 'flavor-push@flavor-ci-test.iam.gserviceaccount.com' ) );
 	$_mock_http_requests = array();

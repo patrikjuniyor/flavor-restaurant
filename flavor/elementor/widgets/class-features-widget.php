@@ -43,8 +43,14 @@ class Features_Widget extends Widget_Base {
 		);
 
 		$repeater = new \Elementor\Repeater();
-		$repeater->add_control( 'title', array( 'label' => __( 'عنوان', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXT ) );
-		$repeater->add_control( 'text', array( 'label' => __( 'توضیح', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXTAREA ) );
+		$repeater->add_control( 'title', array(
+			'label' => __( 'عنوان', 'flavor' ),
+			'type' => \Elementor\Controls_Manager::TEXT,
+		) );
+		$repeater->add_control( 'text', array(
+			'label' => __( 'توضیح', 'flavor' ),
+			'type' => \Elementor\Controls_Manager::TEXTAREA,
+		) );
 
 		$this->add_control(
 			'items',

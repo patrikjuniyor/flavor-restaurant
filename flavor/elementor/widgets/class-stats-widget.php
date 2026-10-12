@@ -38,8 +38,14 @@ class Stats_Widget extends Widget_Base {
 		$this->start_controls_section( 'content', array( 'label' => __( 'محتوا', 'flavor' ) ) );
 
 		$repeater = new \Elementor\Repeater();
-		$repeater->add_control( 'figure', array( 'label' => __( 'عدد یا متن کوتاه', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXT ) );
-		$repeater->add_control( 'label', array( 'label' => __( 'برچسب', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXT ) );
+		$repeater->add_control( 'figure', array(
+			'label' => __( 'عدد یا متن کوتاه', 'flavor' ),
+			'type' => \Elementor\Controls_Manager::TEXT,
+		) );
+		$repeater->add_control( 'label', array(
+			'label' => __( 'برچسب', 'flavor' ),
+			'type' => \Elementor\Controls_Manager::TEXT,
+		) );
 
 		$this->add_control(
 			'items',

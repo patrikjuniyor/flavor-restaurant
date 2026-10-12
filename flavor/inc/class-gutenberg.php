@@ -59,23 +59,41 @@ class Gutenberg {
 	private static function attrs( string $slug ): array {
 		if ( 'hero' === $slug ) {
 			return array(
-				'title' => array( 'type' => 'string', 'default' => '' ),
-				'cta'   => array( 'type' => 'string', 'default' => '' ),
-				'image' => array( 'type' => 'string', 'default' => '' ),
+				'title' => array(
+					'type' => 'string',
+					'default' => '',
+				),
+				'cta'   => array(
+					'type' => 'string',
+					'default' => '',
+				),
+				'image' => array(
+					'type' => 'string',
+					'default' => '',
+				),
 			);
 		}
 		if ( 'about' === $slug ) {
 			return array(
-				'title' => array( 'type' => 'string', 'default' => '' ),
+				'title' => array(
+					'type' => 'string',
+					'default' => '',
+				),
 			);
 		}
 		if ( 'gallery' === $slug ) {
 			return array(
-				'images' => array( 'type' => 'string', 'default' => '' ),
+				'images' => array(
+					'type' => 'string',
+					'default' => '',
+				),
 			);
 		}
 		return array(
-			'name' => array( 'type' => 'string', 'default' => '' ),
+			'name' => array(
+				'type' => 'string',
+				'default' => '',
+			),
 		);
 	}
 

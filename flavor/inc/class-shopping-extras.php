@@ -241,7 +241,10 @@ class Shopping_Extras {
 				continue;
 			}
 
-			$badges[] = array( 'icon' => $icon, 'label' => $label );
+			$badges[] = array(
+				'icon' => $icon,
+				'label' => $label,
+			);
 		}
 
 		return array_slice( $badges, 0, 6 );
@@ -260,7 +263,7 @@ class Shopping_Extras {
 		echo '<ul class="flavor-trust" aria-label="' . esc_attr__( 'تضمین‌های خرید', 'flavor' ) . '">';
 
 		foreach ( $badges as $badge ) {
-			echo '<li class="flavor-trust__item">' . '<span class="flavor-trust__icon">';
+			echo '<li class="flavor-trust__item"><span class="flavor-trust__icon">';
 			UI::icon( $badge['icon'], 18 );
 			echo '</span><span>' . esc_html( $badge['label'] ) . '</span></li>';
 		}

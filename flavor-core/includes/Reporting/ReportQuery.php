@@ -84,7 +84,10 @@ class ReportQuery {
 		}
 
 		// Dates are Y-m-d or empty (empty means unbounded on that side).
-		foreach ( array( 'from' => $from, 'to' => $to ) as $key => $value ) {
+		foreach ( array(
+			'from' => $from,
+			'to' => $to,
+		) as $key => $value ) {
 			if ( '' !== $value && ! self::is_date( $value ) ) {
 				$errors[] = __( 'تاریخ باید با قالب سال-ماه-روز باشد.', 'flavor-core' );
 				$$key     = '';

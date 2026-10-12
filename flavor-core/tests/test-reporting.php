@@ -13,6 +13,8 @@
  * @package FlavorCore
  */
 
+// phpcs:disable WordPress.Security.EscapeOutput, WordPress.WP.GlobalVariablesOverride -- CLI harness output and deliberate global staging.
+
 // The reporting classes bail via defined( 'ABSPATH' ) || exit;, and the
 // mock does not define it — so it has to be set before they are loaded.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -52,7 +54,12 @@ echo "=== Flavor Reporting Tests ===\n\n";
 
 echo "--- 1. Request normalisation rejects nonsense rather than trusting it ---\n";
 
-$ok = ReportQuery::normalise( array( 'type' => 'orders', 'from' => '2026-01-01', 'to' => '2026-01-31', 'branch' => 2 ) );
+$ok = ReportQuery::normalise( array(
+	'type' => 'orders',
+	'from' => '2026-01-01',
+	'to' => '2026-01-31',
+	'branch' => 2,
+) );
 check( $ok['ok'], 'a well-formed request is accepted' );
 check( 'orders' === $ok['type'], 'the type survives' );
 check( 2 === $ok['branch'], 'the branch filter survives' );
@@ -61,15 +68,25 @@ $bad_type = ReportQuery::normalise( array( 'type' => 'drop_table' ) );
 check( ! $bad_type['ok'], 'an unknown report type is rejected' );
 check( 'orders' === $bad_type['type'], 'an unknown type falls back to orders, not to the input' );
 
-$bad_date = ReportQuery::normalise( array( 'type' => 'orders', 'from' => 'yesterday' ) );
+$bad_date = ReportQuery::normalise( array(
+	'type' => 'orders',
+	'from' => 'yesterday',
+) );
 check( ! $bad_date['ok'], 'a non-date is rejected' );
 check( '' === $bad_date['from'], 'a bad date is dropped rather than passed to SQL' );
 
-$impossible = ReportQuery::normalise( array( 'type' => 'orders', 'from' => '2026-13-45' ) );
+$impossible = ReportQuery::normalise( array(
+	'type' => 'orders',
+	'from' => '2026-13-45',
+) );
 check( ! $impossible['ok'], 'an impossible calendar date is rejected' );
 
 // A backwards range is a typo, not an empty result.
-$swapped = ReportQuery::normalise( array( 'type' => 'orders', 'from' => '2026-05-01', 'to' => '2026-01-01' ) );
+$swapped = ReportQuery::normalise( array(
+	'type' => 'orders',
+	'from' => '2026-05-01',
+	'to' => '2026-01-01',
+) );
 check( '2026-01-01' === $swapped['from'] && '2026-05-01' === $swapped['to'], 'a backwards range is swapped, not silently emptied' );
 
 echo "\n--- 2. Date validation ---\n";
@@ -219,29 +236,57 @@ check( ScheduledReport::interval_seconds( '' ) > 0, 'no frequency can be interpr
 $now = 2000000000;
 
 // Never sent -> due immediately, so an owner sees proof it works.
-$never = array( 'frequency' => 'weekly', 'last_sent' => 0, 'enabled' => true );
+$never = array(
+	'frequency' => 'weekly',
+	'last_sent' => 0,
+	'enabled' => true,
+);
 check( ScheduledReport::is_due( $never, $now ), 'a schedule that has never run is due' );
 
 // Sent a minute ago -> not due.
-$recent = array( 'frequency' => 'weekly', 'last_sent' => $now - 60, 'enabled' => true );
+$recent = array(
+	'frequency' => 'weekly',
+	'last_sent' => $now - 60,
+	'enabled' => true,
+);
 check( ! ScheduledReport::is_due( $recent, $now ), 'a schedule sent a minute ago is not due' );
 
 // Sent more than a week ago -> due.
-$old = array( 'frequency' => 'weekly', 'last_sent' => $now - 800000, 'enabled' => true );
+$old = array(
+	'frequency' => 'weekly',
+	'last_sent' => $now - 800000,
+	'enabled' => true,
+);
 check( ScheduledReport::is_due( $old, $now ), 'a schedule sent over a week ago is due' );
 
 // Disabled schedules never fire, whatever the timing.
-$disabled = array( 'frequency' => 'weekly', 'last_sent' => 0, 'enabled' => false );
+$disabled = array(
+	'frequency' => 'weekly',
+	'last_sent' => 0,
+	'enabled' => false,
+);
 check( ! ScheduledReport::is_due( $disabled, $now ), 'a disabled schedule is never due' );
 
 // Validation rejects what it cannot deliver.
-$bad_email = ScheduledReport::save( array( 'type' => 'orders', 'frequency' => 'weekly', 'recipient' => 'not-an-email' ) );
+$bad_email = ScheduledReport::save( array(
+	'type' => 'orders',
+	'frequency' => 'weekly',
+	'recipient' => 'not-an-email',
+) );
 check( ! $bad_email['ok'], 'an invalid recipient is rejected' );
 
-$bad_type = ScheduledReport::save( array( 'type' => 'drop_table', 'frequency' => 'weekly', 'recipient' => 'a@b.com' ) );
+$bad_type = ScheduledReport::save( array(
+	'type' => 'drop_table',
+	'frequency' => 'weekly',
+	'recipient' => 'a@b.com',
+) );
 check( ! $bad_type['ok'], 'an invalid report type is rejected' );
 
-$bad_freq = ScheduledReport::save( array( 'type' => 'orders', 'frequency' => 'every-second', 'recipient' => 'a@b.com' ) );
+$bad_freq = ScheduledReport::save( array(
+	'type' => 'orders',
+	'frequency' => 'every-second',
+	'recipient' => 'a@b.com',
+) );
 check( ! $bad_freq['ok'], 'an invalid frequency is rejected' );
 
 // Subjects and bodies carry the range, so the email is self-describing.

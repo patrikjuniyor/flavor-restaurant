@@ -137,7 +137,11 @@ class PushNotificationService {
 	 */
 	public static function get_user_devices( int $user_id ): array {
 		if ( $user_id <= 0 ) {
-			return array( 'android' => array(), 'ios' => array(), 'web' => array() );
+			return array(
+				'android' => array(),
+				'ios' => array(),
+				'web' => array(),
+			);
 		}
 
 		global $wpdb;
@@ -229,14 +233,20 @@ class PushNotificationService {
 		);
 
 		$status_bodies = array(
+			/* translators: %d — replaced at runtime. */
 			'preparing' => sprintf( __( 'آشپزخانه رستوران سفارش #%d را تایید کرد و در حال پخت است.', 'flavor-core' ), $order_id ),
+			/* translators: %d — replaced at runtime. */
 			'ready'     => sprintf( __( 'سفارش #%d آماده سرو / تحویل به پیک اختصاصی شد.', 'flavor-core' ), $order_id ),
+			/* translators: %d — replaced at runtime. */
 			'completed' => sprintf( __( 'نوش جان! سفارش #%d تحویل داده شد. ممنون از اعتماد شما.', 'flavor-core' ), $order_id ),
+			/* translators: %d — replaced at runtime. */
 			'cancelled' => sprintf( __( 'سفارش #%d لغو گردید. در صورت بروز مشکل با پشتیبانی تماس بگیرید.', 'flavor-core' ), $order_id ),
 		);
 
+		/* translators: %d, %1$d, %2$s — replaced at runtime. */
 		$title = $status_titles[ $new_status ] ?? sprintf( __( 'بروزرسانی سفارش #%d', 'flavor-core' ), $order_id );
-		$body  = $status_bodies[ $new_status ] ?? sprintf( __( 'وضعیت سفارش #%d به %s تغییر یافت.', 'flavor-core' ), $order_id, $new_status );
+		/* translators: %1$d, %2$s — replaced at runtime. */
+		$body  = $status_bodies[ $new_status ] ?? sprintf( __( 'وضعیت سفارش #%1$d به %2$s تغییر یافت.', 'flavor-core' ), $order_id, $new_status );
 
 		$data = array(
 			'type'     => 'order_status',
@@ -288,12 +298,16 @@ class PushNotificationService {
 		);
 
 		$bodies = array(
-			'confirmed' => sprintf( __( 'رزرو میز شما در %s برای تاریخ %s ساعت %s با موفقیت تایید شد.', 'flavor-core' ), $branch, $date, $time ),
-			'reminder'  => sprintf( __( 'یادآوری: رزرو میز شما در %s تا ۲ ساعت آینده (ساعت %s) می‌باشد.', 'flavor-core' ), $branch, $time ),
-			'cancelled' => sprintf( __( 'رزرو میز شماره #%d در %s لغو شد.', 'flavor-core' ), $reservation_id, $branch ),
+			/* translators: %1$s, %2$s, %3$s — replaced at runtime. */
+			'confirmed' => sprintf( __( 'رزرو میز شما در %1$s برای تاریخ %2$s ساعت %3$s با موفقیت تایید شد.', 'flavor-core' ), $branch, $date, $time ),
+			/* translators: %1$s, %2$s, %1$d — replaced at runtime. */
+			'reminder'  => sprintf( __( 'یادآوری: رزرو میز شما در %1$s تا ۲ ساعت آینده (ساعت %2$s) می‌باشد.', 'flavor-core' ), $branch, $time ),
+			/* translators: %1$d, %2$s — replaced at runtime. */
+			'cancelled' => sprintf( __( 'رزرو میز شماره #%1$d در %2$s لغو شد.', 'flavor-core' ), $reservation_id, $branch ),
 		);
 
 		$title = $titles[ $status ] ?? __( 'اطلاعیه رزرو میز', 'flavor-core' );
+		/* translators: %d — replaced at runtime. */
 		$body  = $bodies[ $status ] ?? sprintf( __( 'وضعیت رزرو #%d تغییر کرد.', 'flavor-core' ), $reservation_id );
 
 		$data = array(
@@ -405,7 +419,7 @@ class PushNotificationService {
 			$status  = is_array( $json ) ? (string) ( $json['error']['status'] ?? '' ) : '';
 
 			if ( 200 === $code ) {
-				$sent++;
+				++$sent;
 			} elseif ( 404 === $code || 'UNREGISTERED' === $status ) {
 				$stale[] = $token;
 			} else {
@@ -476,7 +490,10 @@ class PushNotificationService {
 		}
 
 		$jwt = self::build_jwt(
-			array( 'alg' => 'RS256', 'typ' => 'JWT' ),
+			array(
+				'alg' => 'RS256',
+				'typ' => 'JWT',
+			),
 			array(
 				'iss'   => $service_account['client_email'],
 				'scope' => 'https://www.googleapis.com/auth/firebase.messaging',
@@ -549,13 +566,24 @@ class PushNotificationService {
 		}
 
 		$jwt = self::build_jwt(
-			array( 'alg' => 'ES256', 'kid' => $config['key_id'], 'typ' => 'JWT' ),
-			array( 'iss' => $config['team_id'], 'iat' => time() ),
+			array(
+				'alg' => 'ES256',
+				'kid' => $config['key_id'],
+				'typ' => 'JWT',
+			),
+			array(
+				'iss' => $config['team_id'],
+				'iat' => time(),
+			),
 			$config['auth_key'],
 			OPENSSL_ALGO_SHA256
 		);
 		if ( is_wp_error( $jwt ) ) {
-			return array( 'success' => false, 'error' => $jwt->get_error_code(), 'message' => $jwt->get_error_message() );
+			return array(
+				'success' => false,
+				'error' => $jwt->get_error_code(),
+				'message' => $jwt->get_error_message(),
+			);
 		}
 
 		$host = ( 'sandbox' === $config['env'] )
@@ -604,7 +632,7 @@ class PushNotificationService {
 			$reason = is_array( $json ) ? (string) ( $json['reason'] ?? '' ) : '';
 
 			if ( 200 === $code ) {
-				$sent++;
+				++$sent;
 			} elseif ( 410 === $code || in_array( $reason, array( 'BadDeviceToken', 'Unregistered' ), true ) ) {
 				$stale[] = $token;
 			} else {
@@ -689,9 +717,6 @@ class PushNotificationService {
 		$ok        = openssl_sign( $signing_input, $signature, $key, $algo );
 
 		$details = openssl_pkey_get_details( $key );
-		if ( function_exists( 'openssl_free_key' ) ) {
-			openssl_free_key( $key );
-		}
 		if ( ! $ok ) {
 			return new \WP_Error( 'signing_failed', 'Push credential provisioning failed: could not sign JWT.' );
 		}

@@ -114,11 +114,12 @@ class Branch_Info_Widget extends Widget_Base {
 				? __( 'هیچ شعبه‌ای تعریف نشده است. ابتدا یک شعبه در افزونهٔ Flavor Core بسازید.', 'flavor' )
 				: __( 'افزونهٔ Flavor Core برای نمایش اطلاعات شعبه لازم است.', 'flavor' );
 
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- section() escapes class/label; inner is esc_html'd here.
 			echo self::section(
 				(string) __( 'اطلاعات شعبه', 'flavor' ),
 				'<p class="flavor-widget-note">' . esc_html( $message ) . '</p>',
 				'flavor-section--branch'
-			); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			);
 			return;
 		}
 

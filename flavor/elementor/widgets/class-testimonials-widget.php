@@ -29,8 +29,14 @@ class Testimonials_Widget extends Widget_Base {
 	protected function register_controls() {
 		$this->start_controls_section( 'content', array( 'label' => __( 'نظرها', 'flavor' ) ) );
 		$repeater = new \Elementor\Repeater();
-		$repeater->add_control( 'name', array( 'label' => __( 'نام', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXT ) );
-		$repeater->add_control( 'text', array( 'label' => __( 'متن', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXTAREA ) );
+		$repeater->add_control( 'name', array(
+			'label' => __( 'نام', 'flavor' ),
+			'type' => \Elementor\Controls_Manager::TEXT,
+		) );
+		$repeater->add_control( 'text', array(
+			'label' => __( 'متن', 'flavor' ),
+			'type' => \Elementor\Controls_Manager::TEXTAREA,
+		) );
 		$this->add_control(
 			'items',
 			array(

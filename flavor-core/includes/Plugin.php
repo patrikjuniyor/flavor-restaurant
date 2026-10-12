@@ -175,6 +175,8 @@ final class Plugin {
 
 	/**
 	 * Prevent wakeup.
+	 *
+	 * @throws \RuntimeException Always - singleton unserialization is forbidden.
 	 */
 	public function __wakeup() {
 		throw new \RuntimeException( 'Cannot unserialize singleton' );

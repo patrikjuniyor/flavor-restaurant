@@ -88,7 +88,11 @@ class Repeater {
 	 * @return array<string, mixed>
 	 */
 	public static function schema( string $schema ): array {
-		return self::schemas()[ $schema ] ?? array( 'label' => $schema, 'max' => self::MAX_ITEMS, 'fields' => array() );
+		return self::schemas()[ $schema ] ?? array(
+			'label' => $schema,
+			'max' => self::MAX_ITEMS,
+			'fields' => array(),
+		);
 	}
 
 	/**

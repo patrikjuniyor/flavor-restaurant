@@ -102,18 +102,22 @@ class CartSession {
 	 * @return string|\WP_Error Updated (possibly merged) cart key.
 	 */
 	public static function update_selection( string $key, int $qty, array $selection ) {
-		self::ensure(); $cart = WC()->cart;
+		self::ensure();
+$cart = WC()->cart;
 		$item = $cart ? $cart->get_cart_item( $key ) : array();
-		if ( ! $item ) { return new \WP_Error( 'invalid_cart_item', __( 'آیتم در سبد شما یافت نشد.', 'flavor-core' ) ); }
+		if ( ! $item ) {
+return new \WP_Error( 'invalid_cart_item', __( 'آیتم در سبد شما یافت نشد.', 'flavor-core' ) ); }
 		$product_id = (int) $item['product_id'];
 		$product = wc_get_product( ! empty( $item['variation_id'] ) ? (int) $item['variation_id'] : $product_id );
 		if ( ! $product || ! $product->is_purchasable() || 'publish' !== $product->get_status() ) {
 			return new \WP_Error( 'flavor_bad_product', __( 'این محصول دیگر قابل سفارش نیست؛ انتخاب قبلی شما حذف نشده است.', 'flavor-core' ) );
 		}
 		$ids = $selection['ids'] ?? array();
-		if ( ! is_array( $ids ) ) { return new \WP_Error( 'flavor_modifiers', __( 'گزینه‌های انتخابی معتبر نیستند.', 'flavor-core' ) ); }
+		if ( ! is_array( $ids ) ) {
+return new \WP_Error( 'flavor_modifiers', __( 'گزینه‌های انتخابی معتبر نیستند.', 'flavor-core' ) ); }
 		foreach ( $ids as $id ) {
-			if ( ! is_string( $id ) && ! is_int( $id ) ) { return new \WP_Error( 'flavor_modifiers', __( 'شناسهٔ گزینه معتبر نیست.', 'flavor-core' ) ); }
+			if ( ! is_string( $id ) && ! is_int( $id ) ) {
+return new \WP_Error( 'flavor_modifiers', __( 'شناسهٔ گزینه معتبر نیست.', 'flavor-core' ) ); }
 		}
 		$ids = array_values( array_unique( array_map( 'strval', $ids ) ) );
 		$selected = ProductModifiers::sanitize_selection( $product_id, array( 'ids' => $ids ) );
@@ -122,14 +126,16 @@ class CartSession {
 		}
 		$types = array_count_values( array_column( $selected, 'type' ) );
 		foreach ( array( 'size', 'cook', 'removal' ) as $type ) {
-			if ( ( $types[ $type ] ?? 0 ) > 1 ) { return new \WP_Error( 'flavor_modifiers', __( 'در گروه‌های تک‌انتخابی فقط یک گزینه انتخاب کنید.', 'flavor-core' ) ); }
+			if ( ( $types[ $type ] ?? 0 ) > 1 ) {
+return new \WP_Error( 'flavor_modifiers', __( 'در گروه‌های تک‌انتخابی فقط یک گزینه انتخاب کنید.', 'flavor-core' ) ); }
 		}
 		if ( in_array( 'size', array_column( ProductModifiers::get_modifiers( $product_id ), 'type' ), true ) && empty( $types['size'] ) ) {
 			return new \WP_Error( 'flavor_modifiers', __( 'اندازهٔ این غذا را انتخاب کنید.', 'flavor-core' ) );
 		}
 		$notes = ProductModifiers::clean_instructions( (string) ( $selection['instructions'] ?? '' ) );
 		$extra_data = $item;
-		foreach ( array( 'key', 'product_id', 'variation_id', 'variation', 'quantity', 'data', 'data_hash', 'line_tax_data', 'line_subtotal', 'line_subtotal_tax', 'line_total', 'line_tax' ) as $builtin ) { unset( $extra_data[ $builtin ] ); }
+		foreach ( array( 'key', 'product_id', 'variation_id', 'variation', 'quantity', 'data', 'data_hash', 'line_tax_data', 'line_subtotal', 'line_subtotal_tax', 'line_total', 'line_tax' ) as $builtin ) {
+unset( $extra_data[ $builtin ] ); }
 		$extra_data['flavor_modifiers'] = $selected;
 		$extra_data['flavor_instructions'] = $notes;
 		$extra_data['flavor_extra'] = ProductModifiers::selection_extra( $selected );
@@ -142,15 +148,20 @@ class CartSession {
 			return new \WP_Error( 'flavor_quantity_limit', __( 'این ویرایش بیش از ۲۰ واحد از یک انتخاب در سبد می‌سازد. ابتدا تعداد را کم کنید؛ سبد قبلی محفوظ است.', 'flavor-core' ) );
 		}
 		// Respect native stock, individually-sold products and update validation.
-		$stock_id = $product->get_stock_managed_by_id(); $stock_qty = $qty;
+		$stock_id = $product->get_stock_managed_by_id();
+$stock_qty = $qty;
 		foreach ( $cart->get_cart() as $existing_key => $existing ) {
-			if ( $existing_key !== $key && isset( $existing['data'] ) && $existing['data']->get_stock_managed_by_id() === $stock_id ) { $stock_qty += (int) $existing['quantity']; }
+			if ( $existing_key !== $key && isset( $existing['data'] ) && $existing['data']->get_stock_managed_by_id() === $stock_id ) {
+$stock_qty += (int) $existing['quantity']; }
 		}
 		if ( ! $product->is_in_stock() || ! $product->has_enough_stock( $stock_qty ) || ( $product->is_sold_individually() && $stock_qty > 1 ) || ! apply_filters( 'woocommerce_update_cart_validation', true, $key, $item, $qty ) ) {
 			return new \WP_Error( 'flavor_cart_validation', __( 'این تعداد یا ویرایش توسط فروشگاه پذیرفته نشد؛ انتخاب قبلی شما محفوظ است.', 'flavor-core' ) );
 		}
-		$before = $cart->get_cart(); $before_totals = $cart->get_totals();
-		foreach ( $before as &$saved_line ) { if ( isset( $saved_line['data'] ) && is_object( $saved_line['data'] ) ) { $saved_line['data'] = clone $saved_line['data']; } }
+		$before = $cart->get_cart();
+$before_totals = $cart->get_totals();
+		foreach ( $before as &$saved_line ) {
+if ( isset( $saved_line['data'] ) && is_object( $saved_line['data'] ) ) {
+$saved_line['data'] = clone $saved_line['data']; } }
 		unset( $saved_line );
 		try {
 			$updated = array_replace( $item, $extra_data );

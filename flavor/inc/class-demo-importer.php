@@ -72,7 +72,8 @@ class Demo_Importer {
 				<div class="notice notice-warning"><p><?php esc_html_e( 'Flavor Core فعال نیست؛ صفحات و رنگ‌ها وارد می‌شوند اما محصول و شعبه ساخته نمی‌شود.', 'flavor' ); ?></p></div>
 			<?php endif; ?>
 			<?php if ( ! empty( $state['status'] ) && 'running' === $state['status'] ) : ?>
-				<div class="notice notice-info"><p><?php echo esc_html( sprintf( __( 'درون‌ریزی «%s» در مرحلهٔ «%s» است: %d٪', 'flavor' ), $state['slug'] ?? '', $state['message'] ?? '', (int) ( $state['percent'] ?? 0 ) ) ); ?></p></div>
+				<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into browser output. ?>
+				<div class="notice notice-info"><p><?php echo esc_html( sprintf( __( 'درون‌ریزی «%1$s» در مرحلهٔ «%2$s» است: %3$d٪', 'flavor' ), $state['slug'] ?? '', $state['message'] ?? '', (int) ( $state['percent'] ?? 0 ) ) ); ?></p></div>
 			<?php elseif ( ! empty( $state['status'] ) && 'failed' === $state['status'] ) : ?>
 				<div class="notice notice-error"><p><?php esc_html_e( 'درون‌ریزی کامل نشد. محتوای پیشین از آرشیو محافظت می‌شود؛ از بخش بازگشت استفاده کنید.', 'flavor' ); ?></p></div>
 			<?php endif; ?>
@@ -80,11 +81,15 @@ class Demo_Importer {
 			<?php if ( $preview_slug && isset( $catalog[ $preview_slug ] ) ) : ?>
 				<?php $preview = self::preview( $catalog[ $preview_slug ] ); ?>
 				<div class="notice notice-info" style="padding:12px 16px;">
+					<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into browser output. ?>
 					<h2 style="margin-top:0;"><?php echo esc_html( sprintf( __( 'پیش‌نمایش بستهٔ «%s»', 'flavor' ), $catalog[ $preview_slug ]['title'] ) ); ?></h2>
 					<p><?php echo esc_html( $catalog[ $preview_slug ]['tagline'] ); ?></p>
 					<ul>
-						<li><?php echo esc_html( sprintf( __( '%d صفحه و %d آیتم منو ایجاد می‌شود.', 'flavor' ), $preview['pages'], $preview['items'] ) ); ?></li>
-						<li><?php echo esc_html( sprintf( __( 'تصاویر بسته: %d فایل؛ شعبه و %d میز نمونه.', 'flavor' ), $preview['assets'], $preview['tables'] ) ); ?></li>
+						<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into browser output. ?>
+						<li><?php echo esc_html( sprintf( __( '%1$d صفحه و %2$d آیتم منو ایجاد می‌شود.', 'flavor' ), $preview['pages'], $preview['items'] ) ); ?></li>
+						<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into browser output. ?>
+						<li><?php echo esc_html( sprintf( __( 'تصاویر بسته: %1$d فایل؛ شعبه و %2$d میز نمونه.', 'flavor' ), $preview['assets'], $preview['tables'] ) ); ?></li>
+						<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into browser output. ?>
 						<li><?php echo esc_html( sprintf( __( 'تغییرات احتمالی: %d مسیر صفحهٔ موجود با پسوند امن ساخته می‌شود؛ محتوای اصلی حذف نمی‌شود.', 'flavor' ), $preview['conflicts'] ) ); ?></li>
 					</ul>
 				</div>
@@ -97,7 +102,8 @@ class Demo_Importer {
 							<?php wp_nonce_field( 'flavor_demo_rollback_' . $archive['id'] ); ?>
 							<input type="hidden" name="action" value="flavor_demo_rollback" />
 							<input type="hidden" name="archive_id" value="<?php echo esc_attr( $archive['id'] ); ?>" />
-							<button class="button"><?php echo esc_html( sprintf( __( 'بازگشت به %s (%s)', 'flavor' ), $archive['demo'] ?? __( 'وضعیت قبلی', 'flavor' ), $archive['created_at'] ?? '' ) ); ?></button>
+							<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into browser output. ?>
+							<button class="button"><?php echo esc_html( sprintf( __( 'بازگشت به %1$s (%2$s)', 'flavor' ), $archive['demo'] ?? __( 'وضعیت قبلی', 'flavor' ), $archive['created_at'] ?? '' ) ); ?></button>
 						</form>
 					<?php endforeach; ?>
 				</div>
@@ -125,11 +131,15 @@ class Demo_Importer {
 							<p><?php echo esc_html( sprintf( /* translators: count */ __( '%d آیتم منو', 'flavor' ), count( $demo['items'] ) ) ); ?></p>
 							<div style="display:flex;flex-wrap:wrap;gap:6px;">
 								<a class="button" target="_blank" rel="noopener" href="<?php echo esc_url( $customizer_url ); ?>"><?php esc_html_e( 'پیش‌نمایش در سفارشی‌ساز (بدون ذخیره)', 'flavor' ); ?></a>
-								<a class="button" href="<?php echo esc_url( add_query_arg( array( 'page' => 'flavor-demos', 'preview' => $slug ), admin_url( 'themes.php' ) ) ); ?>"><?php esc_html_e( 'بررسی تغییرات درون‌ریزی', 'flavor' ); ?></a>
+								<a class="button" href="<?php echo esc_url( add_query_arg( array(
+	'page' => 'flavor-demos',
+	'preview' => $slug,
+), admin_url( 'themes.php' ) ) ); ?>"><?php esc_html_e( 'بررسی تغییرات درون‌ریزی', 'flavor' ); ?></a>
 								<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline-block;">
 									<?php wp_nonce_field( 'flavor_import_demo' ); ?>
 									<input type="hidden" name="action" value="flavor_import_demo" />
 									<input type="hidden" name="demo" value="<?php echo esc_attr( $slug ); ?>" />
+									<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into browser output. ?>
 									<button class="button button-primary" onclick="return confirm('<?php echo esc_js( sprintf( __( 'درون‌ریزی «%s» محتوای فعلی این دموی Flavor را با محتوای جدید جایگزین می‌کند (سایر محتواها دست‌نخورده باقی می‌مانند) و یک آرشیو پشتیبان پیش از اعمال ساخته می‌شود. ادامه می‌دهید؟', 'flavor' ), $demo['title'] ) ); ?>')"><?php esc_html_e( 'درون‌ریزی با پشتیبان', 'flavor' ); ?></button>
 								</form>
 							</div>
@@ -159,7 +169,13 @@ class Demo_Importer {
 		$archive_id = '';
 		try {
 			$archive_id = self::create_archive( $slug );
-			self::set_state( array( 'status' => 'running', 'slug' => $slug, 'archive_id' => $archive_id, 'percent' => 3, 'message' => __( 'ساخت آرشیو پشتیبان', 'flavor' ) ) );
+			self::set_state( array(
+				'status' => 'running',
+				'slug' => $slug,
+				'archive_id' => $archive_id,
+				'percent' => 3,
+				'message' => __( 'ساخت آرشیو پشتیبان', 'flavor' ),
+			) );
 			self::import( $catalog[ $slug ], $archive_id );
 			wp_safe_redirect( admin_url( 'themes.php?page=flavor-demos&imported=' . rawurlencode( $slug ) ) );
 		} catch ( \Throwable $error ) {
@@ -168,9 +184,17 @@ class Demo_Importer {
 					self::rollback_archive( $archive_id, false );
 				} catch ( \Throwable $rollback_error ) {
 					// Keep the archive available for a manual rollback even if the automatic recovery fails.
+					unset( $rollback_error );
 				}
 			}
-			self::set_state( array( 'status' => 'failed', 'slug' => $slug, 'archive_id' => $archive_id, 'percent' => 100, 'message' => __( 'بازگردانی خودکار پس از خطا', 'flavor' ), 'error' => sanitize_text_field( $error->getMessage() ) ) );
+			self::set_state( array(
+				'status' => 'failed',
+				'slug' => $slug,
+				'archive_id' => $archive_id,
+				'percent' => 100,
+				'message' => __( 'بازگردانی خودکار پس از خطا', 'flavor' ),
+				'error' => sanitize_text_field( $error->getMessage() ),
+			) );
 			wp_safe_redirect( admin_url( 'themes.php?page=flavor-demos&error=import' ) );
 		}
 		exit;
@@ -191,13 +215,29 @@ class Demo_Importer {
 		if ( ! self::get_archive( $archive_id ) ) {
 			wp_die( esc_html__( 'آرشیو پیدا نشد.', 'flavor' ) );
 		}
-		self::set_state( array( 'status' => 'running', 'archive_id' => $archive_id, 'percent' => 10, 'message' => __( 'بازگردانی آرشیو', 'flavor' ) ) );
+		self::set_state( array(
+			'status' => 'running',
+			'archive_id' => $archive_id,
+			'percent' => 10,
+			'message' => __( 'بازگردانی آرشیو', 'flavor' ),
+		) );
 		try {
 			self::rollback_archive( $archive_id, true );
-			self::set_state( array( 'status' => 'complete', 'archive_id' => $archive_id, 'percent' => 100, 'message' => __( 'بازگشت کامل شد', 'flavor' ) ) );
+			self::set_state( array(
+				'status' => 'complete',
+				'archive_id' => $archive_id,
+				'percent' => 100,
+				'message' => __( 'بازگشت کامل شد', 'flavor' ),
+			) );
 			wp_safe_redirect( admin_url( 'themes.php?page=flavor-demos&rolled_back=1' ) );
 		} catch ( \Throwable $error ) {
-			self::set_state( array( 'status' => 'failed', 'archive_id' => $archive_id, 'percent' => 100, 'message' => __( 'بازگشت کامل نشد', 'flavor' ), 'error' => sanitize_text_field( $error->getMessage() ) ) );
+			self::set_state( array(
+				'status' => 'failed',
+				'archive_id' => $archive_id,
+				'percent' => 100,
+				'message' => __( 'بازگشت کامل نشد', 'flavor' ),
+				'error' => sanitize_text_field( $error->getMessage() ),
+			) );
 			wp_safe_redirect( admin_url( 'themes.php?page=flavor-demos&error=rollback' ) );
 		}
 		exit;
@@ -210,9 +250,18 @@ class Demo_Importer {
 	 */
 	public static function import( array $demo, string $archive_id = '' ): bool {
 		$archive_id = $archive_id ? sanitize_key( $archive_id ) : self::create_archive( (string) ( $demo['slug'] ?? 'demo' ) );
-		self::set_state( array( 'status' => 'running', 'slug' => (string) ( $demo['slug'] ?? '' ), 'archive_id' => $archive_id, 'percent' => 10, 'message' => __( 'حذف فقط محتوای دموی مالکیت‌شده', 'flavor' ) ) );
+		self::set_state( array(
+			'status' => 'running',
+			'slug' => (string) ( $demo['slug'] ?? '' ),
+			'archive_id' => $archive_id,
+			'percent' => 10,
+			'message' => __( 'حذف فقط محتوای دموی مالکیت‌شده', 'flavor' ),
+		) );
 		self::cleanup();
-		self::set_state( array( 'percent' => 20, 'message' => __( 'اعمال پوسته و تنظیمات ظاهری', 'flavor' ) ) );
+		self::set_state( array(
+			'percent' => 20,
+			'message' => __( 'اعمال پوسته و تنظیمات ظاهری', 'flavor' ),
+		) );
 
 		// Reset only demo-owned overrides when selecting a new pack. This code
 		// never runs on a theme update or a normal page request.
@@ -222,10 +271,12 @@ class Demo_Importer {
 			$previous_keys = array_keys( $previous['theme_mods'] ?? array() );
 		}
 		foreach ( $previous_keys as $key ) {
-			if ( 0 === strpos( (string) $key, 'flavor_' ) ) { remove_theme_mod( $key ); }
+			if ( 0 === strpos( (string) $key, 'flavor_' ) ) {
+remove_theme_mod( $key ); }
 		}
 		foreach ( (array) get_theme_mods() as $key => $value ) {
-			if ( 0 === strpos( (string) $key, 'flavor_landing_' ) ) { remove_theme_mod( $key ); }
+			if ( 0 === strpos( (string) $key, 'flavor_landing_' ) ) {
+remove_theme_mod( $key ); }
 		}
 		remove_theme_mod( 'flavor_hero_image' );
 		if ( ! empty( $demo['landing'] ) ) {
@@ -266,12 +317,30 @@ class Demo_Importer {
 		update_option( 'flavor_demo_theme_mod_keys', array_values( array_unique( $owned_mod_keys ) ), false );
 
 		$pages = array(
-			'home'        => array( 'title' => $demo['site_title'], 'template' => '' ),
-			'menu'        => array( 'title' => __( 'منو', 'flavor' ), 'template' => 'page-templates/template-menu.php' ),
-			'reservation' => array( 'title' => __( 'رزرو', 'flavor' ), 'template' => 'page-templates/template-reservation.php' ),
-			'branches'    => array( 'title' => __( 'شعبه‌ها', 'flavor' ), 'template' => 'page-templates/template-branches.php' ),
-			'about'       => array( 'title' => __( 'درباره ما', 'flavor' ), 'template' => '' ),
-			'contact'     => array( 'title' => __( 'تماس', 'flavor' ), 'template' => '' ),
+			'home'        => array(
+				'title' => $demo['site_title'],
+				'template' => '',
+			),
+			'menu'        => array(
+				'title' => __( 'منو', 'flavor' ),
+				'template' => 'page-templates/template-menu.php',
+			),
+			'reservation' => array(
+				'title' => __( 'رزرو', 'flavor' ),
+				'template' => 'page-templates/template-reservation.php',
+			),
+			'branches'    => array(
+				'title' => __( 'شعبه‌ها', 'flavor' ),
+				'template' => 'page-templates/template-branches.php',
+			),
+			'about'       => array(
+				'title' => __( 'درباره ما', 'flavor' ),
+				'template' => '',
+			),
+			'contact'     => array(
+				'title' => __( 'تماس', 'flavor' ),
+				'template' => '',
+			),
 		);
 
 		$ids = array();
@@ -310,11 +379,17 @@ class Demo_Importer {
 				update_option( 'page_on_front', $ids['home'] );
 			}
 
-			self::set_state( array( 'percent' => 50, 'message' => __( 'ساخت صفحات و منوی اصلی', 'flavor' ) ) );
+			self::set_state( array(
+				'percent' => 50,
+				'message' => __( 'ساخت صفحات و منوی اصلی', 'flavor' ),
+			) );
 			self::build_menu( $ids, $demo['navigation'] ?? array() );
 
 			if ( defined( 'FLAVOR_CORE_VERSION' ) && function_exists( 'wc_get_product' ) ) {
-				self::set_state( array( 'percent' => 65, 'message' => __( 'ساخت محصولات، شعبه و ساعات کاری', 'flavor' ) ) );
+				self::set_state( array(
+					'percent' => 65,
+					'message' => __( 'ساخت محصولات، شعبه و ساعات کاری', 'flavor' ),
+				) );
 				self::import_commerce( $demo, $hero_id );
 			}
 
@@ -322,7 +397,12 @@ class Demo_Importer {
 			Onboarding::ensure_pages();
 			update_option( 'flavor_active_demo', $demo['slug'], false );
 			update_option( 'flavor_demo_last_archive', $archive_id, false );
-			self::set_state( array( 'status' => 'complete', 'percent' => 100, 'message' => __( 'درون‌ریزی کامل شد', 'flavor' ), 'finished_at' => current_time( 'mysql' ) ) );
+			self::set_state( array(
+				'status' => 'complete',
+				'percent' => 100,
+				'message' => __( 'درون‌ریزی کامل شد', 'flavor' ),
+				'finished_at' => current_time( 'mysql' ),
+			) );
 			return true;
 		}
 
@@ -381,13 +461,13 @@ class Demo_Importer {
 		$conflicts = 0;
 		foreach ( $slugs as $slug ) {
 			if ( get_page_by_path( $slug ) ) {
-				$conflicts++;
+				++$conflicts;
 			}
 		}
 		$assets = 1 + count( (array) ( $demo['category_images'] ?? array() ) );
 		foreach ( (array) ( $demo['items'] ?? array() ) as $item ) {
 			if ( ! empty( $item['image'] ) ) {
-				$assets++;
+				++$assets;
 			}
 		}
 		return array(
@@ -478,7 +558,10 @@ class Demo_Importer {
 		foreach ( is_array( $items ) ? $items : array() as $item ) {
 			$post = get_post( $item->ID );
 			if ( $post ) {
-				$snapshot[] = array( 'post' => (array) $post, 'meta' => get_post_meta( $post->ID ) );
+				$snapshot[] = array(
+					'post' => (array) $post,
+					'meta' => get_post_meta( $post->ID ),
+				);
 			}
 		}
 		return $snapshot;
@@ -504,7 +587,10 @@ class Demo_Importer {
 			}
 			$taxonomies[ $taxonomy ] = array_map(
 				static function ( $term ): array {
-					return array( 'slug' => $term->slug, 'name' => $term->name );
+					return array(
+						'slug' => $term->slug,
+						'name' => $term->name,
+					);
 				},
 				$terms
 			);
@@ -553,6 +639,8 @@ class Demo_Importer {
 
 	/**
 	 * Restore the archive. Cleanup only targets posts explicitly owned by a demo.
+	 *
+	 * @throws \RuntimeException When the demo archive is missing.
 	 */
 	private static function rollback_archive( string $archive_id, bool $set_state = true ): void {
 		$archive = self::get_archive( $archive_id );
@@ -561,7 +649,10 @@ class Demo_Importer {
 		}
 		self::cleanup();
 		if ( $set_state ) {
-			self::set_state( array( 'percent' => 35, 'message' => __( 'بازگردانی محتوا و رسانه', 'flavor' ) ) );
+			self::set_state( array(
+				'percent' => 35,
+				'message' => __( 'بازگردانی محتوا و رسانه', 'flavor' ),
+			) );
 		}
 		$map = array();
 		$posts = (array) $archive['posts'];
@@ -667,7 +758,10 @@ class Demo_Importer {
 			}
 		}
 		if ( $set_state ) {
-			self::set_state( array( 'percent' => 90, 'message' => __( 'بازگردانی تنظیمات اصلی', 'flavor' ) ) );
+			self::set_state( array(
+				'percent' => 90,
+				'message' => __( 'بازگردانی تنظیمات اصلی', 'flavor' ),
+			) );
 		}
 	}
 
@@ -689,10 +783,12 @@ class Demo_Importer {
 				global $wpdb;
 				$wpdb->delete( \FlavorCore\Database\Schema::table( 'flavor_branch_hours' ), array( 'branch_id' => (int) $id ), array( '%d' ) );
 				if ( class_exists( \FlavorCore\Delivery\ZoneRepository::class ) ) {
-					foreach ( \FlavorCore\Delivery\ZoneRepository::for_branch( (int) $id ) as $zone ) { \FlavorCore\Delivery\ZoneRepository::delete( (int) $zone['id'] ); }
+					foreach ( \FlavorCore\Delivery\ZoneRepository::for_branch( (int) $id ) as $zone ) {
+\FlavorCore\Delivery\ZoneRepository::delete( (int) $zone['id'] ); }
 				}
 				if ( class_exists( \FlavorCore\Table\TableRepository::class ) ) {
-					foreach ( \FlavorCore\Table\TableRepository::for_branch( (int) $id ) as $table ) { \FlavorCore\Table\TableRepository::delete( (int) $table['id'] ); }
+					foreach ( \FlavorCore\Table\TableRepository::for_branch( (int) $id ) as $table ) {
+\FlavorCore\Table\TableRepository::delete( (int) $table['id'] ); }
 				}
 			}
 			wp_delete_post( (int) $id, true );
@@ -884,7 +980,8 @@ class Demo_Importer {
 	private static function home_blocks( array $demo, int $hero_id ): string {
 		// These packs are rendered once by front-page.php. Leave the editor
 		// empty so bespoke sections are not followed by a second block hero.
-		if ( ! empty( $demo['landing'] ) ) { return ''; }
+		if ( ! empty( $demo['landing'] ) ) {
+return ''; }
 		$url = $hero_id ? wp_get_attachment_image_url( $hero_id, 'flavor-hero' ) : '';
 		$quotes = '';
 		foreach ( $demo['testimonials'] as $t ) {
@@ -926,7 +1023,8 @@ class Demo_Importer {
 			}
 		}
 		foreach ( $navigation as $link ) {
-			if ( ! preg_match( '/^#[a-z][a-z0-9-]*$/', $link['anchor'] ?? '' ) ) { continue; }
+			if ( ! preg_match( '/^#[a-z][a-z0-9-]*$/', $link['anchor'] ?? '' ) ) {
+continue; }
 			$item_id = wp_update_nav_menu_item( (int) $mid, 0, array(
 				'menu-item-title' => sanitize_text_field( $link['label'] ),
 				'menu-item-type' => 'custom',
@@ -1024,8 +1122,10 @@ class Demo_Importer {
 			update_post_meta( $post_id, '_virtual', 'yes' );
 			update_post_meta( $post_id, '_flavor_prep_time', (int) ( $row['prep'] ?? 15 ) );
 			update_post_meta( $post_id, '_flavor_dietary', $row['dietary'] ?? array() );
-			if ( isset( $row['allergens'] ) ) { update_post_meta( $post_id, '_flavor_allergens', array_map( 'sanitize_key', (array) $row['allergens'] ) ); }
-			if ( isset( $row['calories'] ) ) { update_post_meta( $post_id, '_flavor_calories', absint( $row['calories'] ) ); }
+			if ( isset( $row['allergens'] ) ) {
+update_post_meta( $post_id, '_flavor_allergens', array_map( 'sanitize_key', (array) $row['allergens'] ) ); }
+			if ( isset( $row['calories'] ) ) {
+update_post_meta( $post_id, '_flavor_calories', absint( $row['calories'] ) ); }
 			update_post_meta( $post_id, '_flavor_schedule', $row['schedule'] ?? array() );
 			$mods = array();
 			foreach ( $row['modifiers'] ?? array() as $i => $m ) {
@@ -1092,8 +1192,12 @@ class Demo_Importer {
 			global $wpdb;
 			for ( $day = 0; $day < 7; $day++ ) {
 				$wpdb->insert( \FlavorCore\Database\Schema::table( 'flavor_branch_hours' ), array(
-					'branch_id' => (int) $branch_id, 'day_of_week' => $day, 'mode' => 'all',
-					'open_time' => $demo['opening_hours']['open'], 'close_time' => $demo['opening_hours']['close'], 'is_closed' => 0,
+					'branch_id' => (int) $branch_id,
+					'day_of_week' => $day,
+					'mode' => 'all',
+					'open_time' => $demo['opening_hours']['open'],
+					'close_time' => $demo['opening_hours']['close'],
+					'is_closed' => 0,
 				), array( '%d', '%d', '%s', '%s', '%s', '%d' ) );
 			}
 		}

@@ -314,7 +314,10 @@ class MenuController extends BaseApiController {
 
 		return $this->respond_success(
 			$items,
-			array( 'count' => count( $items ), 'branch_id' => $branch_id ),
+			array(
+				'count' => count( $items ),
+				'branch_id' => $branch_id,
+			),
 			200,
 			array( 'Cache-Control' => 'public, max-age=60' )
 		);
@@ -348,7 +351,10 @@ class MenuController extends BaseApiController {
 
 		return $this->respond_success(
 			$items,
-			array( 'count' => count( $items ), 'branch_id' => $branch_id ),
+			array(
+				'count' => count( $items ),
+				'branch_id' => $branch_id,
+			),
 			200,
 			array( 'Cache-Control' => 'public, max-age=60' )
 		);

@@ -70,7 +70,7 @@ final class Package {
 				throw new Update_Error( 'path', 'بسته شامل مسیر «..» یا نامعتبر است.' );
 			}
 			if ( $root !== $parts[0] ) {
-				throw new Update_Error( 'root', 'ساختار بسته نامعتبر است؛ ریشه باید «' . $root . '» باشد.' );
+				throw new Update_Error( 'root', 'ساختار بسته نامعتبر است؛ ریشهٔ بسته ناسازگار است.' );
 			}
 		}
 	}

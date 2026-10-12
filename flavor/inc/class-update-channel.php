@@ -283,7 +283,7 @@ final class Update_Channel {
 	public static function handle_save(): void {
 		self::guard( 'flavor_updates_save' );
 		$enabled = isset( $_POST['enabled'] ) ? 'yes' : 'no'; // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		$url     = isset( $_POST['manifest_url'] ) ? esc_url_raw( trim( wp_unslash( (string) $_POST['manifest_url'] ) ), array( 'https' ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$url     = isset( $_POST['manifest_url'] ) ? trim( esc_url_raw( wp_unslash( (string) $_POST['manifest_url'] ), array( 'https' ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$key     = isset( $_POST['public_key'] ) ? trim( sanitize_text_field( wp_unslash( (string) $_POST['public_key'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 		if ( '' !== $key && ! self::valid_public_key( $key ) ) {

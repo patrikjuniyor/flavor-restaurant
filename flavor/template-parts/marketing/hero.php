@@ -10,7 +10,7 @@
 defined( 'ABSPATH' ) || exit;
 
 $badge = get_theme_mod( 'flavor_hero_badge', __( 'طعم اصیل و ماندگار', 'flavor' ) );
-$title = $args['title'] ?? get_theme_mod( 'flavor_hero_title', get_bloginfo( 'name' ) );
+$fz_title = $args['title'] ?? get_theme_mod( 'flavor_hero_title', get_bloginfo( 'name' ) );
 $text  = $args['text'] ?? get_theme_mod( 'flavor_hero_text', get_bloginfo( 'description' ) );
 $cta1  = $args['cta'] ?? get_theme_mod( 'flavor_hero_cta', __( 'مشاهده منو و سفارش آنلاین', 'flavor' ) );
 $cta2  = get_theme_mod( 'flavor_hero_cta2', __( 'رزرو آنلاین میز', 'flavor' ) );
@@ -18,8 +18,8 @@ $style = get_theme_mod( 'flavor_hero_style', 'fullscreen' );
 
 $url1 = $args['url'] ?? '';
 if ( ! $url1 ) {
-	$menu = get_page_by_path( 'menu' );
-	$url1 = $menu ? get_permalink( $menu ) : home_url( '/menu/' );
+	$fz_menu = get_page_by_path( 'menu' );
+	$url1 = $fz_menu ? get_permalink( $fz_menu ) : home_url( '/menu/' );
 }
 
 $res_page = get_page_by_path( 'reservation' );
@@ -65,7 +65,7 @@ if ( ! $image ) {
 				</div>
 			<?php endif; ?>
 
-			<h1 class="flavor-hero__title"><?php echo esc_html( $title ); ?></h1>
+			<h1 class="flavor-hero__title"><?php echo esc_html( $fz_title ); ?></h1>
 			<p class="flavor-hero__text"><?php echo esc_html( $text ); ?></p>
 
 			<div class="flavor-hero__actions">
@@ -109,7 +109,7 @@ if ( ! $image ) {
 						$image,
 						'flavor-hero',
 						array(
-							'alt'           => $title,
+							'alt'           => $fz_title,
 							'sizes'         => '(min-width: 992px) 45vw, 100vw',
 							'width'         => 1600,
 							'height'        => 900,

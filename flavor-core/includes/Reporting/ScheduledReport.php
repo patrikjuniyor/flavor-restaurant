@@ -99,7 +99,10 @@ class ScheduledReport {
 		}
 
 		if ( ! empty( $errors ) ) {
-			return array( 'ok' => false, 'errors' => $errors );
+			return array(
+				'ok' => false,
+				'errors' => $errors,
+			);
 		}
 
 		$all   = self::all();
@@ -116,7 +119,10 @@ class ScheduledReport {
 		);
 
 		update_option( self::OPTION, $all, false );
-		return array( 'ok' => true, 'errors' => array() );
+		return array(
+			'ok' => true,
+			'errors' => array(),
+		);
 	}
 
 	/**
@@ -191,7 +197,11 @@ class ScheduledReport {
 		$now     = time();
 		$all     = self::all();
 		$updated = array();
-		$counts  = array( 'sent' => 0, 'skipped' => 0, 'failed' => 0 );
+		$counts  = array(
+			'sent' => 0,
+			'skipped' => 0,
+			'failed' => 0,
+		);
 
 		foreach ( $all as $schedule ) {
 			if ( ! self::is_due( $schedule, $now ) ) {
@@ -259,7 +269,10 @@ class ScheduledReport {
 			$recipient,
 			self::subject( $type, $from, $to ),
 			self::body( $type, $result['count'], $from, $to, $result['truncated'] ),
-			array( 'name' => $filename, 'content' => $csv )
+			array(
+				'name' => $filename,
+				'content' => $csv,
+			)
 		);
 	}
 

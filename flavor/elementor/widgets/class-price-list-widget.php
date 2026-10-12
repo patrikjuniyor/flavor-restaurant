@@ -47,9 +47,18 @@ class Price_List_Widget extends Widget_Base {
 		);
 
 		$repeater = new \Elementor\Repeater();
-		$repeater->add_control( 'name', array( 'label' => __( 'نام', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXT ) );
-		$repeater->add_control( 'price', array( 'label' => __( 'قیمت (متن آزاد)', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXT ) );
-		$repeater->add_control( 'note', array( 'label' => __( 'توضیح کوتاه', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXT ) );
+		$repeater->add_control( 'name', array(
+			'label' => __( 'نام', 'flavor' ),
+			'type' => \Elementor\Controls_Manager::TEXT,
+		) );
+		$repeater->add_control( 'price', array(
+			'label' => __( 'قیمت (متن آزاد)', 'flavor' ),
+			'type' => \Elementor\Controls_Manager::TEXT,
+		) );
+		$repeater->add_control( 'note', array(
+			'label' => __( 'توضیح کوتاه', 'flavor' ),
+			'type' => \Elementor\Controls_Manager::TEXT,
+		) );
 
 		$this->add_control(
 			'items',

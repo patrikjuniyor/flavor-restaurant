@@ -48,8 +48,8 @@ $wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE '_flavor\\_%' O
 $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'flavor_core\\_%'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 
 $roles = array( 'flavor_branch_manager', 'flavor_kitchen', 'flavor_cashier' );
-foreach ( $roles as $role ) {
-	remove_role( $role );
+foreach ( $roles as $fz_role ) {
+	remove_role( $fz_role );
 }
 
 wp_cache_flush();

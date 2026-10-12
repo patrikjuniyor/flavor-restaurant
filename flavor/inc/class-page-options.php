@@ -296,7 +296,7 @@ class Page_Options {
 
 		foreach ( array_keys( self::options() ) as $key ) {
 			$field = self::PREFIX . $key;
-			$raw   = isset( $_POST[ $field ] ) ? wp_unslash( $_POST[ $field ] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified above.
+			$raw   = isset( $_POST[ $field ] ) ? wp_unslash( $_POST[ $field ] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput -- verified above; self::sanitize() one line below applies the per-type sanitizer.
 			$value = self::sanitize( $key, $raw );
 
 			if ( '' === $value ) {

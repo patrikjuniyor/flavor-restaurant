@@ -101,9 +101,21 @@ class SettingsController extends BaseApiController {
 			),
 			'ordering' => array(
 				'modes' => array(
-					array( 'id' => 'dine_in', 'label' => __( 'سفارش سر میز (سالن)', 'flavor-core' ), 'icon' => 'utensils' ),
-					array( 'id' => 'takeaway', 'label' => __( 'بیرون‌بر / تحویل حضوری', 'flavor-core' ), 'icon' => 'shopping-bag' ),
-					array( 'id' => 'delivery', 'label' => __( 'ارسال با پیک اختصاصی', 'flavor-core' ), 'icon' => 'motorcycle' ),
+					array(
+						'id' => 'dine_in',
+						'label' => __( 'سفارش سر میز (سالن)', 'flavor-core' ),
+						'icon' => 'utensils',
+					),
+					array(
+						'id' => 'takeaway',
+						'label' => __( 'بیرون‌بر / تحویل حضوری', 'flavor-core' ),
+						'icon' => 'shopping-bag',
+					),
+					array(
+						'id' => 'delivery',
+						'label' => __( 'ارسال با پیک اختصاصی', 'flavor-core' ),
+						'icon' => 'motorcycle',
+					),
 				),
 				'guest_checkout' => 'yes' === Settings::get( 'guest_checkout', 'yes' ),
 			),

@@ -82,7 +82,7 @@ class ObservabilityController extends BaseApiController {
 		$tbl       = Schema::table( 'flavor_system_logs' );
 		$params[]  = $limit;
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL -- {$tbl} from Schema::table() and {$where_sql} built from fixed allow-listed clauses; every user value is placeholder-bound.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT * FROM {$tbl} {$where_sql} ORDER BY id DESC LIMIT %d",
@@ -90,9 +90,10 @@ class ObservabilityController extends BaseApiController {
 			),
 			ARRAY_A
 		);
+		// phpcs:enable
 
 		$items = array_map(
-			static function( $r ) {
+			static function ( $r ) {
 				$r['context'] = json_decode( (string) $r['context_json'], true ) ?: array();
 				unset( $r['context_json'] );
 				return $r;

@@ -38,6 +38,7 @@ if ( ! $is_admin_wrap ) {
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title><?php esc_html_e( 'داشبورد آشپزخانه', 'flavor-core' ); ?></title>
 		<?php wp_head(); ?>
+		<?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet -- standalone kiosk document outside the WP enqueue lifecycle; the URL below is esc_url()d. ?>
 		<link rel="stylesheet" href="<?php echo esc_url( FLAVOR_CORE_URL . 'assets/public/css/kitchen-dashboard.css' ); ?>?ver=<?php echo esc_attr( FLAVOR_CORE_VERSION ); ?>" />
 	</head>
 	<body class="flavor-kitchen-kiosk">
@@ -62,9 +63,9 @@ if ( ! $is_admin_wrap ) {
 		<label>
 			<?php esc_html_e( 'شعبه', 'flavor-core' ); ?>
 			<select id="flavor-kitchen-branch">
-				<?php foreach ( $allowed as $id ) : ?>
-					<?php if ( $id ) : ?>
-						<option value="<?php echo esc_attr( (string) $id ); ?>" <?php selected( $branch_id, $id ); ?>><?php echo esc_html( get_the_title( $id ) ); ?></option>
+				<?php foreach ( $allowed as $fz_id ) : ?>
+					<?php if ( $fz_id ) : ?>
+						<option value="<?php echo esc_attr( (string) $fz_id ); ?>" <?php selected( $branch_id, $fz_id ); ?>><?php echo esc_html( get_the_title( $fz_id ) ); ?></option>
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</select>
@@ -92,6 +93,7 @@ if ( ! $is_admin_wrap ) {
 		</section>
 	</div>
 </div>
+<?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- standalone kiosk document outside the WP enqueue lifecycle; the URL below is esc_url()d. ?>
 <script src="<?php echo esc_url( FLAVOR_CORE_URL . 'assets/public/js/kitchen-dashboard.js' ); ?>?ver=<?php echo esc_attr( FLAVOR_CORE_VERSION ); ?>"></script>
 <?php
 if ( ! $is_admin_wrap ) {

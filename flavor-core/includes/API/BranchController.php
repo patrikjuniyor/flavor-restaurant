@@ -172,7 +172,10 @@ class BranchController extends BaseApiController {
 
 		return $this->respond_success(
 			$active,
-			array( 'branch_id' => $branch_id, 'count' => count( $active ) ),
+			array(
+				'branch_id' => $branch_id,
+				'count' => count( $active ),
+			),
 			200,
 			array( 'Cache-Control' => 'public, max-age=120' )
 		);
@@ -209,7 +212,10 @@ class BranchController extends BaseApiController {
 
 		return $this->respond_success(
 			$formatted,
-			array( 'branch_id' => $branch_id, 'count' => count( $formatted ) ),
+			array(
+				'branch_id' => $branch_id,
+				'count' => count( $formatted ),
+			),
 			200,
 			array( 'Cache-Control' => 'public, max-age=120' )
 		);

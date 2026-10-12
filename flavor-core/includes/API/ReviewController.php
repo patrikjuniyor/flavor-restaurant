@@ -199,7 +199,10 @@ class ReviewController extends BaseApiController {
 				'id'          => (int) $wpdb->insert_id,
 				'is_verified' => $is_verified,
 			),
-			array( 'message' => __( 'دیدگاه شما با موفقیت ثبت شد.', 'flavor-core' ), 'status' => 201 ),
+			array(
+				'message' => __( 'دیدگاه شما با موفقیت ثبت شد.', 'flavor-core' ),
+				'status' => 201,
+			),
 			201
 		);
 	}

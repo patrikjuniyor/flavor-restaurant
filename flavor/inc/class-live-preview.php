@@ -130,31 +130,91 @@ class Live_Preview {
 			// The theme mod uses surface_alt; the custom property it feeds is
 			// --flavor-surface-alt. Underscore-to-hyphen is what keeps the
 			// preview mapping to the variable the server actually emits.
-			$map[ 'flavor_' . $key ] = array( 'var' => '--flavor-' . str_replace( '_', '-', $key ), 'kind' => 'color' );
+			$map[ 'flavor_' . $key ] = array(
+				'var' => '--flavor-' . str_replace( '_', '-', $key ),
+				'kind' => 'color',
+			);
 		}
 
 		return array_merge(
 			$map,
 			array(
-				'flavor_radius'                 => array( 'var' => '--flavor-radius', 'kind' => 'length' ),
-				'flavor_btn_radius'             => array( 'var' => '--flavor-btn-radius', 'kind' => 'length' ),
-				'flavor_container_width'        => array( 'var' => '--flavor-container-max', 'kind' => 'length' ),
-				'flavor_body_size'              => array( 'var' => '--flavor-body-size', 'kind' => 'length' ),
-				'flavor_gutter_mobile'          => array( 'var' => '--flavor-container-gutter', 'kind' => 'length' ),
-				'flavor_gutter_tablet'          => array( 'var' => '--flavor-container-gutter-tablet', 'kind' => 'length' ),
-				'flavor_gutter_desktop'         => array( 'var' => '--flavor-container-gutter-desktop', 'kind' => 'length' ),
-				'flavor_section_space_mobile'   => array( 'var' => '--flavor-section-space', 'kind' => 'length' ),
-				'flavor_section_space_tablet'   => array( 'var' => '--flavor-section-space-tablet', 'kind' => 'length' ),
-				'flavor_section_space_desktop'  => array( 'var' => '--flavor-section-space-desktop', 'kind' => 'length' ),
-				'flavor_heading_size_mobile'    => array( 'var' => '--flavor-heading-size', 'kind' => 'raw' ),
-				'flavor_heading_size_tablet'    => array( 'var' => '--flavor-heading-size-tablet', 'kind' => 'raw' ),
-				'flavor_heading_size_desktop'   => array( 'var' => '--flavor-heading-size-desktop', 'kind' => 'raw' ),
-				'flavor_type_scale'             => array( 'var' => '--flavor-h2', 'kind' => 'scale' ),
-				'flavor_body_weight'            => array( 'var' => '--flavor-body-weight', 'kind' => 'raw' ),
-				'flavor_body_line_height'       => array( 'var' => '--flavor-body-line-height', 'kind' => 'raw' ),
-				'flavor_heading_weight'         => array( 'var' => '--flavor-heading-weight', 'kind' => 'raw' ),
-				'flavor_heading_line_height'    => array( 'var' => '--flavor-heading-line-height', 'kind' => 'raw' ),
-				'flavor_heading_letter_spacing' => array( 'var' => '--flavor-heading-letter-spacing', 'kind' => 'raw' ),
+				'flavor_radius'                 => array(
+					'var' => '--flavor-radius',
+					'kind' => 'length',
+				),
+				'flavor_btn_radius'             => array(
+					'var' => '--flavor-btn-radius',
+					'kind' => 'length',
+				),
+				'flavor_container_width'        => array(
+					'var' => '--flavor-container-max',
+					'kind' => 'length',
+				),
+				'flavor_body_size'              => array(
+					'var' => '--flavor-body-size',
+					'kind' => 'length',
+				),
+				'flavor_gutter_mobile'          => array(
+					'var' => '--flavor-container-gutter',
+					'kind' => 'length',
+				),
+				'flavor_gutter_tablet'          => array(
+					'var' => '--flavor-container-gutter-tablet',
+					'kind' => 'length',
+				),
+				'flavor_gutter_desktop'         => array(
+					'var' => '--flavor-container-gutter-desktop',
+					'kind' => 'length',
+				),
+				'flavor_section_space_mobile'   => array(
+					'var' => '--flavor-section-space',
+					'kind' => 'length',
+				),
+				'flavor_section_space_tablet'   => array(
+					'var' => '--flavor-section-space-tablet',
+					'kind' => 'length',
+				),
+				'flavor_section_space_desktop'  => array(
+					'var' => '--flavor-section-space-desktop',
+					'kind' => 'length',
+				),
+				'flavor_heading_size_mobile'    => array(
+					'var' => '--flavor-heading-size',
+					'kind' => 'raw',
+				),
+				'flavor_heading_size_tablet'    => array(
+					'var' => '--flavor-heading-size-tablet',
+					'kind' => 'raw',
+				),
+				'flavor_heading_size_desktop'   => array(
+					'var' => '--flavor-heading-size-desktop',
+					'kind' => 'raw',
+				),
+				'flavor_type_scale'             => array(
+					'var' => '--flavor-h2',
+					'kind' => 'scale',
+				),
+				'flavor_body_weight'            => array(
+					'var' => '--flavor-body-weight',
+					'kind' => 'raw',
+				),
+				'flavor_body_line_height'       => array(
+					'var' => '--flavor-body-line-height',
+					'kind' => 'raw',
+				),
+				'flavor_heading_weight'         => array(
+					'var' => '--flavor-heading-weight',
+					'kind' => 'raw',
+				),
+				'flavor_heading_line_height'    => array(
+					'var' => '--flavor-heading-line-height',
+					'kind' => 'raw',
+				),
+				'flavor_heading_letter_spacing' => array(
+					'var' => '--flavor-heading-letter-spacing',
+					'kind' => 'raw',
+				),
 			)
 		);
 	}

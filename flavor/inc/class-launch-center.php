@@ -131,6 +131,7 @@ class Launch_Center {
 			'branch',
 			__( 'شعبهٔ اصلی با نشانی و شهر فعال است', 'flavor' ),
 			(bool) $branch_ok,
+			/* translators: %s values. */
 			$branch_ok ? sprintf( __( 'شعبهٔ پیش‌فرض: %s', 'flavor' ), get_the_title( $branch_id ) ) : __( 'برای QR، ساعت کاری، رزرو و محدودهٔ ارسال یک شعبه با نشانی کامل بسازید.', 'flavor' ),
 			__( 'شعبه‌ها', 'flavor' ),
 			admin_url( 'admin.php?page=flavor-core' )
@@ -174,6 +175,7 @@ class Launch_Center {
 			'menu_items',
 			__( 'حداقل یک آیتم منوی منتشر وجود دارد', 'flavor' ),
 			$product_count > 0,
+			/* translators: %d values. */
 			$product_count > 0 ? sprintf( __( '%d محصول منتشر شده است.', 'flavor' ), $product_count ) : __( 'یک دمو درون‌ریزی کنید یا اولین آیتم غذا را در ویزارد بسازید.', 'flavor' ),
 			__( 'افزودن محصول', 'flavor' ),
 			admin_url( 'post-new.php?post_type=product' )
@@ -223,6 +225,7 @@ class Launch_Center {
 		if ( class_exists( '\\FlavorCore\\Support\\Settings' ) ) {
 			$provider = (string) \FlavorCore\Support\Settings::get( 'sms_provider', 'dev' );
 			$sms_ok   = 'dev' !== $provider;
+			/* translators: %s values. */
 			$sms_description = $sms_ok ? sprintf( __( 'ارائه‌دهندهٔ پیامک «%s» انتخاب شده است.', 'flavor' ), $provider ) : $sms_description;
 		}
 		$checks[] = self::check(
@@ -296,11 +299,13 @@ class Launch_Center {
 			'group_fonts'    => __( 'فونت‌ها', 'flavor' ),
 			'group_other'    => __( 'موارد دیگر', 'flavor' ),
 			'state_none'     => __( 'هنوز دستی اجرا نشده است؛ بعد از هر ذخیرهٔ Customizer خودش اجرا می‌شود.', 'flavor' ),
+			/* translators: %1$d, %2$d values. */
 			'state_ok'       => __( '%1$d کلید نوشته شد و %2$d کلید دست‌نخورده ماند.', 'flavor' ),
 			'state_current'  => __( 'چیزی برای نوشتن نبود؛ کیت از پیش با توکن‌های قالب هماهنگ بود.', 'flavor' ),
 			'state_inactive' => __( 'Elementor فعال نیست؛ چیزی نوشته نشد.', 'flavor' ),
 			'state_no_kit'   => __( 'کیت فعالی در المنتور پیدا نشد؛ ابتدا یک Kit در تنظیمات سایت بسازید.', 'flavor' ),
 			'state_failed'   => __( 'ذخیرهٔ کیت مجاز نبود؛ تنظیمات قالب دست‌نخورده ماند.', 'flavor' ),
+			/* translators: %1$s, %2$s values. */
 			'last_run'       => __( 'آخرین اجرای دستی: %1$s — %2$s', 'flavor' ),
 		);
 	}
@@ -492,7 +497,10 @@ class Launch_Center {
 			<?php if ( '' !== $report['summary'] && ! $fresh ) : ?>
 				<p class="flavor-kit-sync__last"><?php echo esc_html( $report['summary'] ); ?></p>
 			<?php endif; ?>
-			<?php foreach ( array( 'written' => $labels['written'], 'skipped' => $labels['skipped'] ) as $side => $heading ) : ?>
+			<?php foreach ( array(
+	'written' => $labels['written'],
+	'skipped' => $labels['skipped'],
+) as $side => $heading ) : ?>
 				<?php if ( $fresh && $report[ $side ] ) : ?>
 					<ul class="flavor-kit-sync__list">
 						<li class="flavor-kit-sync__list-title"><?php echo esc_html( $heading ); ?></li>
@@ -522,8 +530,12 @@ class Launch_Center {
 			wp_die( esc_html__( 'دسترسی ندارید.', 'flavor' ) );
 		}
 		$checks = self::checks();
-		$required = array_filter( $checks, static function ( $check ) { return ! empty( $check['required'] ); } );
-		$passed   = count( array_filter( $required, static function ( $check ) { return 'pass' === $check['status']; } ) );
+		$required = array_filter( $checks, static function ( $check ) {
+return ! empty( $check['required'] );
+} );
+		$passed   = count( array_filter( $required, static function ( $check ) {
+return 'pass' === $check['status'];
+} ) );
 		$total    = count( $required );
 		$percent  = $total ? (int) round( ( $passed / $total ) * 100 ) : 0;
 		?>
@@ -537,7 +549,8 @@ class Launch_Center {
 					<p><?php esc_html_e( 'قبل از تبلیغ سایت، وابستگی‌ها، منو، شعبه، پرداخت و مسیر سفارش را بررسی کنید.', 'flavor' ); ?></p>
 					<div class="flavor-launch-bar" aria-label="<?php esc_attr_e( 'درصد آمادگی', 'flavor' ); ?>"><span></span></div>
 				</div>
-				<div class="flavor-launch-score"><strong><?php echo esc_html( (string) $percent ); ?>٪</strong><span><?php echo esc_html( sprintf( __( '%d از %d مورد اصلی', 'flavor' ), $passed, $total ) ); ?></span></div>
+				<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into browser output. ?>
+				<div class="flavor-launch-score"><strong><?php echo esc_html( (string) $percent ); ?>٪</strong><span><?php echo esc_html( sprintf( __( '%1$d از %2$d مورد اصلی', 'flavor' ), $passed, $total ) ); ?></span></div>
 			</div>
 			<div class="flavor-launch-actions">
 				<a class="button button-primary" href="<?php echo esc_url( admin_url( 'themes.php?page=flavor-setup' ) ); ?>"><?php esc_html_e( 'راه‌اندازی سریع', 'flavor' ); ?></a>
@@ -551,7 +564,8 @@ class Launch_Center {
 				<tbody>
 				<?php foreach ( $checks as $check ) : ?>
 					<tr>
-						<td><strong><?php echo esc_html( $check['label'] ); ?></strong><?php if ( ! empty( $check['required'] ) ) : ?><br /><small><?php esc_html_e( 'مورد اصلی انتشار', 'flavor' ); ?></small><?php endif; ?></td>
+						<td><strong><?php echo esc_html( $check['label'] ); ?></strong><?php if ( ! empty( $check['required'] ) ) :
+?><br /><small><?php esc_html_e( 'مورد اصلی انتشار', 'flavor' ); ?></small><?php endif; ?></td>
 						<td><span class="flavor-launch-status flavor-launch-status--<?php echo esc_attr( $check['status'] ); ?>"><?php echo esc_html( $check['status_label'] ); ?></span></td>
 						<td class="flavor-launch-description"><?php echo esc_html( $check['description'] ); ?></td>
 						<td class="flavor-launch-action"><a href="<?php echo esc_url( $check['url'] ); ?>"><?php echo esc_html( $check['action'] ); ?></a></td>
@@ -573,7 +587,12 @@ class Launch_Center {
 				return $default_id;
 			}
 		}
-		$ids = get_posts( array( 'post_type' => 'flavor_branch', 'post_status' => 'publish', 'posts_per_page' => 1, 'fields' => 'ids' ) );
+		$ids = get_posts( array(
+			'post_type' => 'flavor_branch',
+			'post_status' => 'publish',
+			'posts_per_page' => 1,
+			'fields' => 'ids',
+		) );
 		return empty( $ids ) ? 0 : (int) $ids[0];
 	}
 
@@ -582,7 +601,21 @@ class Launch_Center {
 	 */
 	private static function check( string $id, string $label, bool $pass, string $description, string $action, string $url, bool $required = true, bool $info = false ): array {
 		$status = $info ? 'info' : ( $pass ? 'pass' : ( $required ? 'fail' : 'warning' ) );
-		$labels = array( 'pass' => __( 'آماده', 'flavor' ), 'fail' => __( 'نیازمند اقدام', 'flavor' ), 'warning' => __( 'هشدار', 'flavor' ), 'info' => __( 'بررسی دستی', 'flavor' ) );
-		return array( 'id' => $id, 'label' => $label, 'status' => $status, 'status_label' => $labels[ $status ], 'description' => $description, 'action' => $action, 'url' => $url, 'required' => $required );
+		$labels = array(
+			'pass' => __( 'آماده', 'flavor' ),
+			'fail' => __( 'نیازمند اقدام', 'flavor' ),
+			'warning' => __( 'هشدار', 'flavor' ),
+			'info' => __( 'بررسی دستی', 'flavor' ),
+		);
+		return array(
+			'id' => $id,
+			'label' => $label,
+			'status' => $status,
+			'status_label' => $labels[ $status ],
+			'description' => $description,
+			'action' => $action,
+			'url' => $url,
+			'required' => $required,
+		);
 	}
 }

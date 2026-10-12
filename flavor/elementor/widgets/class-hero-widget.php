@@ -28,10 +28,25 @@ class Hero_Widget extends Widget_Base {
 
 	protected function register_controls() {
 		$this->start_controls_section( 'content', array( 'label' => __( 'محتوا', 'flavor' ) ) );
-		$this->add_control( 'title', array( 'label' => __( 'عنوان', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => '' ) );
-		$this->add_control( 'text', array( 'label' => __( 'متن', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => '' ) );
-		$this->add_control( 'cta', array( 'label' => __( 'دکمه', 'flavor' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => __( 'مشاهده منو', 'flavor' ) ) );
-		$this->add_control( 'image', array( 'label' => __( 'تصویر', 'flavor' ), 'type' => \Elementor\Controls_Manager::MEDIA ) );
+		$this->add_control( 'title', array(
+			'label' => __( 'عنوان', 'flavor' ),
+			'type' => \Elementor\Controls_Manager::TEXT,
+			'default' => '',
+		) );
+		$this->add_control( 'text', array(
+			'label' => __( 'متن', 'flavor' ),
+			'type' => \Elementor\Controls_Manager::TEXTAREA,
+			'default' => '',
+		) );
+		$this->add_control( 'cta', array(
+			'label' => __( 'دکمه', 'flavor' ),
+			'type' => \Elementor\Controls_Manager::TEXT,
+			'default' => __( 'مشاهده منو', 'flavor' ),
+		) );
+		$this->add_control( 'image', array(
+			'label' => __( 'تصویر', 'flavor' ),
+			'type' => \Elementor\Controls_Manager::MEDIA,
+		) );
 		$this->end_controls_section();
 		$this->register_flavor_style_controls();
 	}

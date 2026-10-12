@@ -78,15 +78,33 @@ class Flavor_Zone_Checker_Test extends WP_UnitTestCase {
 			'zone_type'    => 'polygon',
 			'polygon_json' => wp_json_encode(
 				array(
-					array( 'lat' => 35.0, 'lng' => 51.0 ),
-					array( 'lat' => 35.0, 'lng' => 52.0 ),
-					array( 'lat' => 36.0, 'lng' => 52.0 ),
-					array( 'lat' => 36.0, 'lng' => 51.0 ),
+					array(
+						'lat' => 35.0,
+						'lng' => 51.0,
+					),
+					array(
+						'lat' => 35.0,
+						'lng' => 52.0,
+					),
+					array(
+						'lat' => 36.0,
+						'lng' => 52.0,
+					),
+					array(
+						'lat' => 36.0,
+						'lng' => 51.0,
+					),
 				)
 			),
 		);
-		$inside  = array( 'lat' => 35.5, 'lng' => 51.5 );
-		$outside = array( 'lat' => 34.0, 'lng' => 51.5 );
+		$inside  = array(
+			'lat' => 35.5,
+			'lng' => 51.5,
+		);
+		$outside = array(
+			'lat' => 34.0,
+			'lng' => 51.5,
+		);
 		$this->assertTrue( \FlavorCore\Delivery\ZoneChecker::in_polygon( $zone, $inside ) );
 		$this->assertFalse( \FlavorCore\Delivery\ZoneChecker::in_polygon( $zone, $outside ) );
 	}

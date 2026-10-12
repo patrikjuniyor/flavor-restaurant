@@ -72,6 +72,7 @@ class Jalali {
 
 		if ( $g_d_n > 365 ) {
 			$jy    += self::div( $g_d_n - 1, 365 );
+			// phpcs:ignore Squiz.Operators.IncrementDecrementUsage.Found -- explicit calendar arithmetic; --$g_d_n inside the modulo would obscure the algorithm.
 			$g_d_n  = ( $g_d_n - 1 ) % 365;
 		}
 
@@ -93,8 +94,8 @@ class Jalali {
 	 */
 	public static function to_gregorian( int $jy, int $jm, int $jd ): array {
 		$jy -= 979;
-		$jm -= 1;
-		$jd -= 1;
+		--$jm;
+		--$jd;
 		$j_day_no = 365 * $jy + self::div( $jy, 33 ) * 8 + self::div( ( $jy % 33 ) + 3, 4 );
 		for ( $i = 0; $i < $jm; $i++ ) {
 			$j_day_no += ( $i < 6 ) ? 31 : 30;
@@ -105,11 +106,11 @@ class Jalali {
 		$g_day_no  = $g_day_no % 146097;
 		$leap      = true;
 		if ( $g_day_no >= 36525 ) {
-			$g_day_no--;
+			--$g_day_no;
 			$gy      += 100 * self::div( $g_day_no, 36524 );
 			$g_day_no = $g_day_no % 36524;
 			if ( $g_day_no >= 365 ) {
-				$g_day_no++;
+				++$g_day_no;
 			} else {
 				$leap = false;
 			}
@@ -118,7 +119,7 @@ class Jalali {
 		$g_day_no  = $g_day_no % 1461;
 		if ( $g_day_no >= 366 ) {
 			$leap      = false;
-			$g_day_no--;
+			--$g_day_no;
 			$gy       += self::div( $g_day_no, 365 );
 			$g_day_no  = $g_day_no % 365;
 		}
@@ -126,7 +127,7 @@ class Jalali {
 		$gm    = 0;
 		while ( $gm < 13 && $g_day_no >= $sal_a[ $gm ] ) {
 			$g_day_no -= $sal_a[ $gm ];
-			$gm++;
+			++$gm;
 		}
 		$gd = $g_day_no + 1;
 		return array( $gy, $gm, $gd );
@@ -200,7 +201,7 @@ class Jalali {
 		if ( $n < $jump ) {
 			$leap_j = $leap_j + self::div( $n, 33 ) * 8 + self::div( ( $n % 33 ) + 3, 4 );
 			if ( ( $jump % 33 ) === 4 && ( $jump - $n ) === 4 ) {
-				$leap_j++;
+				++$leap_j;
 			}
 		}
 		$leap_g = self::div( $gy, 4 ) - self::div( ( self::div( $gy, 100 ) + 1 ) * 3, 4 ) - 150;

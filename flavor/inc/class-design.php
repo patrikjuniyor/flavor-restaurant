@@ -413,7 +413,8 @@ class Design {
 
 		foreach ( $keys as $key ) {
 			$mod = get_theme_mod( 'flavor_' . $key, '' );
-			if ( ! is_string( $mod ) || '' === trim( $mod ) ) { continue; }
+			if ( ! is_string( $mod ) || '' === trim( $mod ) ) {
+continue; }
 			$mod = trim( $mod );
 			// Defense in depth for direct theme-mod writes and legacy imports too.
 			if ( in_array( $key, array( 'radius', 'btn_radius' ), true ) ) {
@@ -423,7 +424,8 @@ class Design {
 			} else {
 				$valid = (bool) preg_match( '/^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/iD', $mod );
 			}
-			if ( $valid ) { $base[ $key ] = $mod; }
+			if ( $valid ) {
+$base[ $key ] = $mod; }
 		}
 
 		// Backward compatibility for legacy customizer keys.

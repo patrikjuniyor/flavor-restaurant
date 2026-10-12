@@ -7,10 +7,20 @@
  * @package FlavorCore\Tests
  */
 
-if ( ! defined( 'ARRAY_A' ) ) define( 'ARRAY_A', 'ARRAY_A' );
-if ( ! defined( 'ARRAY_N' ) ) define( 'ARRAY_N', 'ARRAY_N' );
-if ( ! defined( 'OBJECT' ) ) define( 'OBJECT', 'OBJECT' );
-if ( ! defined( 'AUTH_SALT' ) ) define( 'AUTH_SALT', 'mock-test-auth-salt-1234567890' );
+// phpcs:disable WordPress.WP.GlobalVariablesOverride, WordPress.DateTime.RestrictedFunctions.date_date, WordPress.DB.RestrictedClasses, WordPress.Security.EscapeOutput -- the mock IS WordPress: it stubs $wpdb (PDO), core globals and echoes CLI reports on purpose.
+
+if ( ! defined( 'ARRAY_A' ) ) {
+define( 'ARRAY_A', 'ARRAY_A' );
+}
+if ( ! defined( 'ARRAY_N' ) ) {
+define( 'ARRAY_N', 'ARRAY_N' );
+}
+if ( ! defined( 'OBJECT' ) ) {
+define( 'OBJECT', 'OBJECT' );
+}
+if ( ! defined( 'AUTH_SALT' ) ) {
+define( 'AUTH_SALT', 'mock-test-auth-salt-1234567890' );
+}
 
 // Core time constants. WordPress defines these in wp-includes/default-constants.php,
 // which the mock does not load, so anything scheduling work needs them here.
@@ -104,9 +114,12 @@ function site_url( string $path = '' ): string {
 	return home_url( $path );
 }
 
-function wp_cache_get( $key, $group = '' ) { return false; }
-function wp_cache_set( $key, $val, $group = '', $expire = 0 ) { return true; }
-function wp_cache_delete( $key, $group = '' ) { return true; }
+function wp_cache_get( $key, $group = '' ) {
+return false; }
+function wp_cache_set( $key, $val, $group = '', $expire = 0 ) {
+return true; }
+function wp_cache_delete( $key, $group = '' ) {
+return true; }
 function wp_set_auth_cookie( int $user_id, bool $remember = false ) {}
 
 /**
@@ -163,9 +176,15 @@ class WP_User {
 		if ( isset( $caps[ $cap ] ) ) {
 			return (bool) $caps[ $cap ];
 		}
-		if ( in_array( 'administrator', $this->roles, true ) ) return true;
-		if ( $cap === 'manage_options' && in_array( 'administrator', $this->roles, true ) ) return true;
-		if ( $cap === 'flavor_manage_kitchen' && in_array( 'flavor_kitchen', $this->roles, true ) ) return true;
+		if ( in_array( 'administrator', $this->roles, true ) ) {
+return true;
+		}
+		if ( $cap === 'manage_options' && in_array( 'administrator', $this->roles, true ) ) {
+return true;
+		}
+		if ( $cap === 'flavor_manage_kitchen' && in_array( 'flavor_kitchen', $this->roles, true ) ) {
+return true;
+		}
 		return false;
 	}
 }
@@ -182,24 +201,42 @@ class WC_Product {
 		$this->name  = $name;
 		$this->price = $price;
 	}
-	public function get_id(): int { return $this->id; }
-	public function get_name(): string { return $this->name; }
-	public function get_slug(): string { return 'dish-' . $this->id; }
-	public function get_price(): int { return $this->price; }
-	public function get_regular_price(): int { return $this->price; }
-	public function is_purchasable(): bool { return true; }
-	public function get_status(): string { return 'publish'; }
-	public function is_on_sale(): bool { return false; }
-	public function get_short_description(): string { return 'تهیه شده از بهترین مواد اولیه ایرانی'; }
-	public function get_description(): string { return 'توضیحات کامل غذای اصیل و خوش‌طعم'; }
-	public function get_image_id(): int { return 0; }
-	public function get_gallery_image_ids(): array { return array(); }
-	public function get_average_rating(): float { return 4.9; }
-	public function get_rating_count(): int { return 120; }
-	public function get_sku(): string { return 'DISH-' . $this->id; }
-	public function get_permalink(): string { return home_url( '/product/dish-' . $this->id . '/' ); }
-	public function get_price_html(): string { return number_format( $this->price ) . ' تومان'; }
-	public function is_in_stock(): bool { return true; }
+	public function get_id(): int {
+return $this->id; }
+	public function get_name(): string {
+return $this->name; }
+	public function get_slug(): string {
+return 'dish-' . $this->id; }
+	public function get_price(): int {
+return $this->price; }
+	public function get_regular_price(): int {
+return $this->price; }
+	public function is_purchasable(): bool {
+return true; }
+	public function get_status(): string {
+return 'publish'; }
+	public function is_on_sale(): bool {
+return false; }
+	public function get_short_description(): string {
+return 'تهیه شده از بهترین مواد اولیه ایرانی'; }
+	public function get_description(): string {
+return 'توضیحات کامل غذای اصیل و خوش‌طعم'; }
+	public function get_image_id(): int {
+return 0; }
+	public function get_gallery_image_ids(): array {
+return array(); }
+	public function get_average_rating(): float {
+return 4.9; }
+	public function get_rating_count(): int {
+return 120; }
+	public function get_sku(): string {
+return 'DISH-' . $this->id; }
+	public function get_permalink(): string {
+return home_url( '/product/dish-' . $this->id . '/' ); }
+	public function get_price_html(): string {
+return number_format( $this->price ) . ' تومان'; }
+	public function is_in_stock(): bool {
+return true; }
 }
 
 /**
@@ -207,18 +244,29 @@ class WC_Product {
  */
 class WC_Order_Item_Product {
 	public array $ci;
-	public function __construct( array $ci ) { $this->ci = $ci; }
-	public function get_id(): int { return 1; }
-	public function get_product_id(): int { return (int) ( $this->ci['product_id'] ?? 1 ); }
-	public function get_name(): string { return $this->ci['data'] ? $this->ci['data']->get_name() : 'کباب کوبیده'; }
-	public function get_quantity(): int { return (int) ( $this->ci['quantity'] ?? 1 ); }
-	public function get_total(): float { return (float) ( $this->ci['line_total'] ?? 150000 ); }
+	public function __construct( array $ci ) {
+$this->ci = $ci; }
+	public function get_id(): int {
+return 1; }
+	public function get_product_id(): int {
+return (int) ( $this->ci['product_id'] ?? 1 ); }
+	public function get_name(): string {
+return $this->ci['data'] ? $this->ci['data']->get_name() : 'کباب کوبیده'; }
+	public function get_quantity(): int {
+return (int) ( $this->ci['quantity'] ?? 1 ); }
+	public function get_total(): float {
+return (float) ( $this->ci['line_total'] ?? 150000 ); }
 	public function get_meta( string $k ) {
-		if ( $k === '_flavor_modifiers' ) return $this->ci['flavor_modifiers'] ?? array();
-		if ( $k === '_flavor_instructions' ) return $this->ci['flavor_instructions'] ?? '';
+		if ( $k === '_flavor_modifiers' ) {
+return $this->ci['flavor_modifiers'] ?? array();
+		}
+		if ( $k === '_flavor_instructions' ) {
+return $this->ci['flavor_instructions'] ?? '';
+		}
 		return null;
 	}
-	public function get_product() { return $this->ci['data'] ?? wc_get_product( $this->get_product_id() ); }
+	public function get_product() {
+return $this->ci['data'] ?? wc_get_product( $this->get_product_id() ); }
 }
 
 /**
@@ -245,38 +293,65 @@ class WC_Order {
 		}
 	}
 
-	public function get_id(): int { return $this->id; }
-	public function get_order_number(): string { return (string) $this->id; }
-	public function get_customer_id(): int { return $this->customer_id; }
-	public function get_status(): string { return $this->status; }
-	public function update_status( string $st, string $note = '' ) { $this->status = $st; }
-	public function get_payment_method(): string { return $this->posted['payment_method'] ?? 'flavor_pay_at_counter'; }
-	public function get_payment_method_title(): string { return 'پرداخت در محل / حضوری'; }
-	public function set_payment_method( string $m ) { $this->posted['payment_method'] = $m; }
-	public function get_meta( string $k ) { return $this->meta[ $k ] ?? null; }
-	public function update_meta_data( string $k, $v ) { $this->meta[ $k ] = $v; }
+	public function get_id(): int {
+return $this->id; }
+	public function get_order_number(): string {
+return (string) $this->id; }
+	public function get_customer_id(): int {
+return $this->customer_id; }
+	public function get_status(): string {
+return $this->status; }
+	public function update_status( string $st, string $note = '' ) {
+$this->status = $st; }
+	public function get_payment_method(): string {
+return $this->posted['payment_method'] ?? 'flavor_pay_at_counter'; }
+	public function get_payment_method_title(): string {
+return 'پرداخت در محل / حضوری'; }
+	public function set_payment_method( string $m ) {
+$this->posted['payment_method'] = $m; }
+	public function get_meta( string $k ) {
+return $this->meta[ $k ] ?? null; }
+	public function update_meta_data( string $k, $v ) {
+$this->meta[ $k ] = $v; }
 	public function save() {}
-	public function get_items(): array { return $this->items; }
-	public function get_total(): float { return 350000.0; }
-	public function get_subtotal(): float { return 350000.0; }
-	public function get_discount_total(): float { return 0.0; }
-	public function get_shipping_total(): float { return 0.0; }
-	public function get_currency(): string { return 'IRT'; }
+	public function get_items(): array {
+return $this->items; }
+	public function get_total(): float {
+return 350000.0; }
+	public function get_subtotal(): float {
+return 350000.0; }
+	public function get_discount_total(): float {
+return 0.0; }
+	public function get_shipping_total(): float {
+return 0.0; }
+	public function get_currency(): string {
+return 'IRT'; }
 	public function get_date_created() {
-		return new class {
-			public function date( $f ) { return date( $f ); }
+		return new class() {
+			public function date( $f ) {
+return date( $f ); }
 		};
 	}
-	public function get_formatted_billing_full_name(): string { return $this->posted['billing_first_name'] ?? 'مشتری'; }
-	public function get_billing_first_name(): string { return $this->posted['billing_first_name'] ?? ''; }
-	public function get_billing_last_name(): string { return ''; }
-	public function get_billing_phone(): string { return $this->posted['billing_phone'] ?? ''; }
-	public function get_billing_address_1(): string { return $this->posted['billing_address_1'] ?? ''; }
-	public function get_billing_city(): string { return $this->posted['billing_city'] ?? 'تهران'; }
-	public function get_billing_state(): string { return $this->posted['billing_state'] ?? 'تهران'; }
-	public function get_formatted_billing_address(): string { return $this->get_billing_address_1(); }
-	public function get_customer_note(): string { return $this->posted['order_comments'] ?? ''; }
-	public function get_item_count(): int { return count( $this->items ); }
+	public function get_formatted_billing_full_name(): string {
+return $this->posted['billing_first_name'] ?? 'مشتری'; }
+	public function get_billing_first_name(): string {
+return $this->posted['billing_first_name'] ?? ''; }
+	public function get_billing_last_name(): string {
+return ''; }
+	public function get_billing_phone(): string {
+return $this->posted['billing_phone'] ?? ''; }
+	public function get_billing_address_1(): string {
+return $this->posted['billing_address_1'] ?? ''; }
+	public function get_billing_city(): string {
+return $this->posted['billing_city'] ?? 'تهران'; }
+	public function get_billing_state(): string {
+return $this->posted['billing_state'] ?? 'تهران'; }
+	public function get_formatted_billing_address(): string {
+return $this->get_billing_address_1(); }
+	public function get_customer_note(): string {
+return $this->posted['order_comments'] ?? ''; }
+	public function get_item_count(): int {
+return count( $this->items ); }
 }
 
 /**
@@ -601,9 +676,15 @@ class MockWPDB {
 		return preg_replace_callback( '/%([sdfF])/', function ( $match ) use ( &$idx, $args ) {
 			$type = $match[1];
 			$val  = $args[ $idx++ ] ?? '';
-			if ( is_null( $val ) ) return 'NULL';
-			if ( 'd' === $type ) return (string) (int) $val;
-			if ( 'f' === $type || 'F' === $type ) return (string) (float) $val;
+			if ( is_null( $val ) ) {
+return 'NULL';
+			}
+			if ( 'd' === $type ) {
+return (string) (int) $val;
+			}
+			if ( 'f' === $type || 'F' === $type ) {
+return (string) (float) $val;
+			}
 			return "'" . addslashes( (string) $val ) . "'";
 		}, $query );
 	}
@@ -619,7 +700,7 @@ class MockWPDB {
 	public function insert( string $table, array $data, array $format = null ): bool {
 		$cols = array_keys( $data );
 		$placeholders = array_fill( 0, count( $cols ), '?' );
-		$sql = "INSERT INTO {$table} (" . implode( ',', $cols ) . ") VALUES (" . implode( ',', $placeholders ) . ")";
+		$sql = "INSERT INTO {$table} (" . implode( ',', $cols ) . ') VALUES (' . implode( ',', $placeholders ) . ')';
 		try {
 			$stmt = $this->pdo->prepare( $sql );
 			$stmt->execute( array_values( $data ) );
@@ -633,7 +714,7 @@ class MockWPDB {
 	public function replace( string $table, array $data ): bool {
 		$cols = array_keys( $data );
 		$placeholders = array_fill( 0, count( $cols ), '?' );
-		$sql = "INSERT OR REPLACE INTO {$table} (" . implode( ',', $cols ) . ") VALUES (" . implode( ',', $placeholders ) . ")";
+		$sql = "INSERT OR REPLACE INTO {$table} (" . implode( ',', $cols ) . ') VALUES (' . implode( ',', $placeholders ) . ')';
 		try {
 			$stmt = $this->pdo->prepare( $sql );
 			$stmt->execute( array_values( $data ) );
@@ -661,7 +742,7 @@ class MockWPDB {
 				$vals[] = $v;
 			}
 		}
-		$sql = "UPDATE {$table} SET " . implode( ',', $sets ) . " WHERE " . implode( ' AND ', $where_clauses );
+		$sql = "UPDATE {$table} SET " . implode( ',', $sets ) . ' WHERE ' . implode( ' AND ', $where_clauses );
 		try {
 			$stmt = $this->pdo->prepare( $sql );
 			return $stmt->execute( $vals );
@@ -695,7 +776,9 @@ class MockWPDB {
 		try {
 			$stmt = $this->pdo->query( $query );
 			$row = $stmt->fetch( \PDO::FETCH_ASSOC );
-			if ( ! $row ) return null;
+			if ( ! $row ) {
+return null;
+			}
 			return ( $output === OBJECT ) ? (object) $row : $row;
 		} catch ( \Exception $e ) {
 			return null;
@@ -739,11 +822,41 @@ $wpdb = new MockWPDB();
 
 // Mock WP User & Meta Storage
 $GLOBALS['_mock_users'] = array(
-	1 => new WP_User( (object) array( 'ID' => 1, 'user_login' => 'admin', 'display_name' => 'مدیر سیستم', 'user_email' => 'admin@flavor.local', 'roles' => array( 'administrator' ) ) ),
-	101 => new WP_User( (object) array( 'ID' => 101, 'user_login' => '09123456789', 'display_name' => 'علی رضایی', 'user_email' => 'ali@example.com', 'roles' => array( 'customer' ) ) ),
-	102 => new WP_User( (object) array( 'ID' => 102, 'user_login' => '09120000002', 'display_name' => 'سارا احمدی', 'user_email' => 'sara@example.com', 'roles' => array( 'customer' ) ) ),
-	202 => new WP_User( (object) array( 'ID' => 202, 'user_login' => '09120000202', 'display_name' => 'رضا حسینی', 'user_email' => 'reza@example.com', 'roles' => array( 'customer' ) ) ),
-	301 => new WP_User( (object) array( 'ID' => 301, 'user_login' => 'chef1', 'display_name' => 'سرآشپز شعبه ۱', 'user_email' => 'chef1@flavor.local', 'roles' => array( 'flavor_kitchen' ) ) ),
+	1 => new WP_User( (object) array(
+		'ID' => 1,
+		'user_login' => 'admin',
+		'display_name' => 'مدیر سیستم',
+		'user_email' => 'admin@flavor.local',
+		'roles' => array( 'administrator' ),
+	) ),
+	101 => new WP_User( (object) array(
+		'ID' => 101,
+		'user_login' => '09123456789',
+		'display_name' => 'علی رضایی',
+		'user_email' => 'ali@example.com',
+		'roles' => array( 'customer' ),
+	) ),
+	102 => new WP_User( (object) array(
+		'ID' => 102,
+		'user_login' => '09120000002',
+		'display_name' => 'سارا احمدی',
+		'user_email' => 'sara@example.com',
+		'roles' => array( 'customer' ),
+	) ),
+	202 => new WP_User( (object) array(
+		'ID' => 202,
+		'user_login' => '09120000202',
+		'display_name' => 'رضا حسینی',
+		'user_email' => 'reza@example.com',
+		'roles' => array( 'customer' ),
+	) ),
+	301 => new WP_User( (object) array(
+		'ID' => 301,
+		'user_login' => 'chef1',
+		'display_name' => 'سرآشپز شعبه ۱',
+		'user_email' => 'chef1@flavor.local',
+		'roles' => array( 'flavor_kitchen' ),
+	) ),
 );
 
 $GLOBALS['_mock_user_meta'] = array(
@@ -773,9 +886,15 @@ function get_userdata( int $id ): ?WP_User {
 }
 function get_user_by( string $field, $value ): ?WP_User {
 	foreach ( $GLOBALS['_mock_users'] as $u ) {
-		if ( $field === 'id' && $u->ID === (int) $value ) return $u;
-		if ( $field === 'login' && $u->user_login === (string) $value ) return $u;
-		if ( $field === 'email' && $u->user_email === (string) $value ) return $u;
+		if ( $field === 'id' && $u->ID === (int) $value ) {
+return $u;
+		}
+		if ( $field === 'login' && $u->user_login === (string) $value ) {
+return $u;
+		}
+		if ( $field === 'email' && $u->user_email === (string) $value ) {
+return $u;
+		}
 	}
 	return null;
 }
@@ -814,12 +933,16 @@ function update_user_meta( int $user_id, string $key, $val ): bool {
 }
 function current_user_can( string $cap ): bool {
 	$user = wp_get_current_user();
-	if ( ! $user || empty( $user->ID ) ) return false;
+	if ( ! $user || empty( $user->ID ) ) {
+return false;
+	}
 	return $user->has_cap( $cap );
 }
 function user_can( $user, string $cap ): bool {
 	$u = is_numeric( $user ) ? get_userdata( (int) $user ) : $user;
-	if ( ! $u ) return false;
+	if ( ! $u ) {
+return false;
+	}
 	return $u->has_cap( $cap );
 }
 
@@ -870,11 +993,16 @@ function current_time( string $type ) {
 
 function size_format( $bytes, int $decimals = 2 ) {
 	$bytes = (float) $bytes;
-	if ( $bytes >= 1048576 ) return number_format_i18n_proxy( $bytes / 1048576, (int) $decimals ) . ' MB';
-	if ( $bytes >= 1024 ) return number_format_i18n_proxy( $bytes / 1024, (int) $decimals ) . ' KB';
+	if ( $bytes >= 1048576 ) {
+return number_format_i18n_proxy( $bytes / 1048576, (int) $decimals ) . ' MB';
+	}
+	if ( $bytes >= 1024 ) {
+return number_format_i18n_proxy( $bytes / 1024, (int) $decimals ) . ' KB';
+	}
 	return (int) $bytes . ' B';
 }
-function number_format_i18n_proxy( float $num, int $decimals ): string { return number_format( $num, $decimals ); }
+function number_format_i18n_proxy( float $num, int $decimals ): string {
+return number_format( $num, $decimals ); }
 
 function rest_url( string $path = '' ): string {
 	return 'https://mock.flavor.local/wp-json/' . ltrim( $path, '/' );
@@ -882,7 +1010,9 @@ function rest_url( string $path = '' ): string {
 
 function sanitize_hex_color( $color ) {
 	$color = ltrim( (string) $color, '#' );
-	if ( preg_match( '/^([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/', $color ) ) return '#' . $color;
+	if ( preg_match( '/^([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/', $color ) ) {
+return '#' . $color;
+	}
 	return '';
 }
 
@@ -1071,9 +1201,12 @@ class WP_Error {
 		$this->message = $message;
 		$this->data    = $data;
 	}
-	public function get_error_code(): string { return $this->code; }
-	public function get_error_message(): string { return $this->message; }
-	public function get_error_data(): array { return $this->data; }
+	public function get_error_code(): string {
+return $this->code; }
+	public function get_error_message(): string {
+return $this->message; }
+	public function get_error_data(): array {
+return $this->data; }
 }
 function is_wp_error( $thing ): bool {
 	return $thing instanceof WP_Error;
@@ -1092,20 +1225,29 @@ class WP_REST_Request {
 		$this->method = $method;
 		$this->route  = $route;
 	}
-	public function set_header( string $k, string $v ) { $this->headers[ strtolower( $k ) ] = $v; }
-	public function get_header( string $k ) { return $this->headers[ strtolower( $k ) ] ?? ''; }
-	public function set_param( string $k, $v ) { $this->params[ $k ] = $v; }
-	public function get_param( string $k ) { return $this->params[ $k ] ?? $this->json_params[ $k ] ?? null; }
-	public function get_params(): array { return array_merge( $this->params, $this->json_params ); }
-	public function set_json_params( array $params ) { $this->json_params = $params; }
-	public function get_json_params(): array { return $this->json_params; }
+	public function set_header( string $k, string $v ) {
+$this->headers[ strtolower( $k ) ] = $v; }
+	public function get_header( string $k ) {
+return $this->headers[ strtolower( $k ) ] ?? ''; }
+	public function set_param( string $k, $v ) {
+$this->params[ $k ] = $v; }
+	public function get_param( string $k ) {
+return $this->params[ $k ] ?? $this->json_params[ $k ] ?? null; }
+	public function get_params(): array {
+return array_merge( $this->params, $this->json_params ); }
+	public function set_json_params( array $params ) {
+$this->json_params = $params; }
+	public function get_json_params(): array {
+return $this->json_params; }
 	public function set_body( string $body ) {
 		$this->body        = $body;
 		$decoded           = json_decode( $body, true );
 		$this->json_params = is_array( $decoded ) ? $decoded : array();
 	}
-	public function get_body(): string { return $this->body; }
-	public function offsetGet( $k ) { return $this->get_param( $k ); }
+	public function get_body(): string {
+return $this->body; }
+	public function offsetGet( $k ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid -- PHP ArrayAccess interface contract pins this exact name.
+return $this->get_param( $k ); }
 }
 
 class WP_REST_Response {
@@ -1116,14 +1258,20 @@ class WP_REST_Response {
 		$this->data   = $data;
 		$this->status = $status;
 	}
-	public function get_status(): int { return $this->status; }
-	public function get_data() { return $this->data; }
-	public function header( string $k, string $v ) { $this->headers[ $k ] = $v; }
-	public function get_headers(): array { return $this->headers; }
+	public function get_status(): int {
+return $this->status; }
+	public function get_data() {
+return $this->data; }
+	public function header( string $k, string $v ) {
+$this->headers[ $k ] = $v; }
+	public function get_headers(): array {
+return $this->headers; }
 }
 
 function rest_ensure_response( $response ) {
-	if ( $response instanceof WP_REST_Response ) return $response;
+	if ( $response instanceof WP_REST_Response ) {
+return $response;
+	}
 	return new WP_REST_Response( $response, 200 );
 }
 
@@ -1133,27 +1281,51 @@ class MockWCCart {
 	public array $coupons = array();
 	public array $fees = array();
 
-	public function is_empty(): bool { return empty( $this->items ); }
-	public function empty_cart() { $this->items = array(); $this->coupons = array(); $this->fees = array(); }
+	public function is_empty(): bool {
+return empty( $this->items ); }
+	public function empty_cart() {
+$this->items = array();
+$this->coupons = array();
+$this->fees = array(); }
 	public function get_cart_contents_count(): int {
 		$sum = 0;
-		foreach ( $this->items as $i ) $sum += (int) ( $i['quantity'] ?? 1 );
+		foreach ( $this->items as $i ) {
+$sum += (int) ( $i['quantity'] ?? 1 );
+		}
 		return $sum;
 	}
-	public function get_cart(): array { return $this->items; }
-	public function get_cart_item( string $key ) { return $this->items[ $key ] ?? null; }
-	public function set_quantity( string $key, int $qty ) { if ( isset( $this->items[ $key ] ) ) $this->items[ $key ]['quantity'] = $qty; }
-	public function remove_cart_item( string $key ) { unset( $this->items[ $key ] ); }
-	public function get_subtotal(): float { return (float) ( $this->get_cart_contents_count() * 150000 ); }
-	public function get_total( $mode = 'edit' ): float { return $this->get_subtotal(); }
-	public function get_fees(): array { return $this->fees; }
+	public function get_cart(): array {
+return $this->items; }
+	public function get_cart_item( string $key ) {
+return $this->items[ $key ] ?? null; }
+	public function set_quantity( string $key, int $qty ) {
+if ( isset( $this->items[ $key ] ) ) {
+$this->items[ $key ]['quantity'] = $qty;
+	} }
+	public function remove_cart_item( string $key ) {
+unset( $this->items[ $key ] ); }
+	public function get_subtotal(): float {
+return (float) ( $this->get_cart_contents_count() * 150000 ); }
+	public function get_total( $mode = 'edit' ): float {
+return $this->get_subtotal(); }
+	public function get_fees(): array {
+return $this->fees; }
 	public function add_fee( string $name, float $amount, bool $taxable = false ) {
-		$this->fees[] = (object) array( 'name' => $name, 'amount' => $amount );
+		$this->fees[] = (object) array(
+			'name' => $name,
+			'amount' => $amount,
+		);
 	}
-	public function needs_payment(): bool { return true; }
-	public function get_applied_coupons(): array { return $this->coupons; }
-	public function apply_coupon( string $code ): bool { $this->coupons[] = $code; return true; }
-	public function remove_coupon( string $code ): bool { $this->coupons = array_diff( $this->coupons, array( $code ) ); return true; }
+	public function needs_payment(): bool {
+return true; }
+	public function get_applied_coupons(): array {
+return $this->coupons; }
+	public function apply_coupon( string $code ): bool {
+$this->coupons[] = $code;
+return true; }
+	public function remove_coupon( string $code ): bool {
+$this->coupons = array_diff( $this->coupons, array( $code ) );
+return true; }
 	public function calculate_totals() {}
 	public function add_to_cart( int $product_id, int $qty = 1 ): string {
 		$key = 'mock_item_key_' . $product_id;
@@ -1173,10 +1345,13 @@ class MockWCCart {
 
 class MockWCSession {
 	public array $data = array();
-	public function has_session(): bool { return true; }
+	public function has_session(): bool {
+return true; }
 	public function set_customer_session_cookie( bool $val ) {}
-	public function get( string $key, $default = null ) { return $this->data[ $key ] ?? $default; }
-	public function set( string $key, $value ) { $this->data[ $key ] = $value; }
+	public function get( string $key, $default = null ) {
+return $this->data[ $key ] ?? $default; }
+	public function set( string $key, $value ) {
+$this->data[ $key ] = $value; }
 }
 
 class MockWCGateway {
@@ -1187,22 +1362,33 @@ class MockWCGateway {
 		$this->id    = $id;
 		$this->title = $title;
 	}
-	public function get_title(): string { return $this->title; }
-	public function get_description(): string { return 'روش پرداخت انتخابی رستوران'; }
+	public function get_title(): string {
+return $this->title; }
+	public function get_description(): string {
+return 'روش پرداخت انتخابی رستوران'; }
 	public function process_payment( int $order_id ): array {
-		return array( 'result' => 'success', 'redirect' => 'https://restaurant.example.com/order-received' );
+		return array(
+			'result' => 'success',
+			'redirect' => 'https://restaurant.example.com/order-received',
+		);
 	}
 }
 
 class MockWCFailingGateway extends MockWCGateway {
 	public function process_payment( int $order_id ): array {
-		return array( 'result' => 'failure', 'messages' => 'تراکنش توسط بانک رد شد.' );
+		return array(
+			'result' => 'failure',
+			'messages' => 'تراکنش توسط بانک رد شد.',
+		);
 	}
 }
 
 class MockWCOnlineGateway extends MockWCGateway {
 	public function process_payment( int $order_id ): array {
-		return array( 'result' => 'success', 'redirect' => 'https://bank.example.com/pay/' . $order_id );
+		return array(
+			'result' => 'success',
+			'redirect' => 'https://bank.example.com/pay/' . $order_id,
+		);
 	}
 }
 
@@ -1229,7 +1415,7 @@ class MockWCPaymentGateways {
 class MockWCCheckout {
 	public static int $order_counter = 1000;
 	public function create_order( array $posted ): int {
-		self::$order_counter++;
+		++self::$order_counter;
 		$order_id = self::$order_counter;
 		$order = new WC_Order( $order_id, $posted );
 		$GLOBALS['_mock_wc_orders'][ $order_id ] = $order;
@@ -1257,7 +1443,7 @@ class MockWC {
 $GLOBALS['_mock_wc'] = new MockWC();
 $GLOBALS['_mock_wc_orders'] = array();
 
-function WC(): MockWC {
+function WC(): MockWC { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid -- WooCommerce's global factory function is named WC().
 	return $GLOBALS['_mock_wc'];
 }
 
@@ -1361,7 +1547,12 @@ function wc_format_coupon_code( string $code ): string {
 	return trim( strtoupper( $code ) );
 }
 function wc_get_order_status_name( string $status ): string {
-	$map = array( 'pending' => 'در انتظار پرداخت', 'processing' => 'در حال پردازش', 'completed' => 'تکمیل شده', 'cancelled' => 'لغو شده' );
+	$map = array(
+		'pending' => 'در انتظار پرداخت',
+		'processing' => 'در حال پردازش',
+		'completed' => 'تکمیل شده',
+		'cancelled' => 'لغو شده',
+	);
 	return $map[ $status ] ?? $status;
 }
 function get_woocommerce_currency(): string {
@@ -1417,7 +1608,8 @@ function delete_post_meta( int $post_id, string $key, $value = '' ) {
 function get_the_terms( int $id, string $tax ) {
 	return array( new WP_Term( 1, 'کباب‌ها', 'kabab' ) );
 }
-function taxonomy_exists( string $tax ): bool { return true; }
+function taxonomy_exists( string $tax ): bool {
+return true; }
 function get_terms( array $args ) {
 	return array(
 		new WP_Term( 1, 'کباب و گریل', 'kabab', 'product_cat', 'انواع کباب‌های تازه', 8 ),
@@ -1425,14 +1617,17 @@ function get_terms( array $args ) {
 		new WP_Term( 3, 'پیش‌غذا و سالاد', 'appetizer', 'product_cat', 'سالادها و ماست‌های محلی', 5 ),
 	);
 }
-function get_term_meta( int $id, string $key, bool $single = false ) { return ''; }
-function get_posts( array $args ) { return array( 1, 2 ); }
+function get_term_meta( int $id, string $key, bool $single = false ) {
+return ''; }
+function get_posts( array $args ) {
+return array( 1, 2 ); }
 
 // Test seams for branch validation: mark posts as missing or override status.
 $GLOBALS['_mock_missing_posts'] = isset( $GLOBALS['_mock_missing_posts'] ) && is_array( $GLOBALS['_mock_missing_posts'] ) ? $GLOBALS['_mock_missing_posts'] : array();
 $GLOBALS['_mock_post_status']   = isset( $GLOBALS['_mock_post_status'] ) && is_array( $GLOBALS['_mock_post_status'] ) ? $GLOBALS['_mock_post_status'] : array();
 
-function get_post_type( int $id ): string { return 'flavor_branch'; }
+function get_post_type( int $id ): string {
+return 'flavor_branch'; }
 function get_post_status( $id ): string {
 	$id = is_object( $id ) ? (int) ( $id->ID ?? 0 ) : (int) $id;
 	return (string) ( $GLOBALS['_mock_post_status'][ $id ] ?? 'publish' );
@@ -1450,8 +1645,10 @@ function get_post( int $id ) {
 		'post_title'   => 'شعبه مرکزی',
 	);
 }
-function get_the_title( int $id ): string { return 'شعبه مرکزی شاندیز'; }
-function get_avatar_url( int $id, array $args = array() ): string { return 'https://secure.gravatar.com/avatar/sample'; }
+function get_the_title( int $id ): string {
+return 'شعبه مرکزی شاندیز'; }
+function get_avatar_url( int $id, array $args = array() ): string {
+return 'https://secure.gravatar.com/avatar/sample'; }
 /**
  * Recorded outbound HTTP calls: array of {url, args}.
  * Tests inspect this to verify real delivery attempts were made.
@@ -1483,8 +1680,14 @@ function wp_remote_post( string $url, array $args ) {
 			);
 		}
 	}
-	return array( 'response' => array( 'code' => 200 ), 'body' => '{"success":true}' );
+	return array(
+		'response' => array( 'code' => 200 ),
+		'body' => '{"success":true}',
+	);
 }
-function wp_remote_retrieve_response_code( $resp ): int { return (int) ( $resp['response']['code'] ?? 200 ); }
-function wp_remote_retrieve_body( $resp ): string { return (string) ( $resp['body'] ?? '' ); }
-function wp_mail( string $to, string $subj, string $body, array $headers = array() ): bool { return true; }
+function wp_remote_retrieve_response_code( $resp ): int {
+return (int) ( $resp['response']['code'] ?? 200 ); }
+function wp_remote_retrieve_body( $resp ): string {
+return (string) ( $resp['body'] ?? '' ); }
+function wp_mail( string $to, string $subj, string $body, array $headers = array() ): bool {
+return true; }

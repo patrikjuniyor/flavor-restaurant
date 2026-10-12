@@ -13,7 +13,7 @@ if ( 'no' === get_theme_mod( 'flavor_about_enable', 'yes' ) ) {
 	return;
 }
 
-$title = $args['title'] ?? __( 'داستان و فلسفه آشپزی ما', 'flavor' );
+$fz_title = $args['title'] ?? __( 'داستان و فلسفه آشپزی ما', 'flavor' );
 $text  = $args['text'] ?? get_theme_mod( 'flavor_about', '' );
 
 if ( ! $text ) {
@@ -26,7 +26,7 @@ if ( ! $hero_img ) {
 	$hero_img = \Flavor\Bespoke_Demos::asset( 'hero.jpg' );
 }
 ?>
-<section class="flavor-section flavor-about" aria-label="<?php echo esc_attr( $title ); ?>">
+<section class="flavor-section flavor-about" aria-label="<?php echo esc_attr( $fz_title ); ?>">
 	<div class="flavor-container">
 		<div class="flavor-about__inner">
 			<div class="flavor-about__media">
@@ -37,7 +37,7 @@ if ( ! $hero_img ) {
 						$hero_img,
 						'large',
 						array(
-							'alt'      => $title,
+							'alt'      => $fz_title,
 							'sizes'    => '(min-width: 992px) 45vw, 92vw',
 							'width'    => 800,
 							'height'   => 600,
@@ -55,7 +55,7 @@ if ( ! $hero_img ) {
 
 			<div class="flavor-about__content">
 				<span class="flavor-section-header__tag"><?php esc_html_e( 'درباره ما', 'flavor' ); ?></span>
-				<h2 class="flavor-about__title"><?php echo esc_html( $title ); ?></h2>
+				<h2 class="flavor-about__title"><?php echo esc_html( $fz_title ); ?></h2>
 				<div class="flavor-about__text">
 					<?php echo wp_kses_post( wpautop( $text ) ); ?>
 				</div>

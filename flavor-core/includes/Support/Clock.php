@@ -46,7 +46,7 @@ final class Clock {
 			try {
 				return new \DateTimeZone( wp_timezone_string() );
 			} catch ( \Exception $e ) {
-				/* Fall through: a broken option must not break a receipt. */
+				unset( $e ); // Fall through: a broken option must not break a receipt.
 			}
 		}
 		return new \DateTimeZone( 'UTC' );
@@ -106,5 +106,4 @@ final class Clock {
 		}
 		return ( new \DateTimeImmutable( '@' . $timestamp ) )->setTimezone( self::site_zone() )->format( $format );
 	}
-
 }

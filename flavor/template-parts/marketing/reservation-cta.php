@@ -11,7 +11,7 @@ if ( 'no' === get_theme_mod( 'flavor_res_enable', 'yes' ) ) {
 	return;
 }
 
-$title    = get_theme_mod( 'flavor_res_title', __( 'میز خود را در محیطی دنج و آرام رزرو کنید', 'flavor' ) );
+$fz_title    = get_theme_mod( 'flavor_res_title', __( 'میز خود را در محیطی دنج و آرام رزرو کنید', 'flavor' ) );
 $res_page = get_page_by_path( 'reservation' );
 $url      = $res_page ? get_permalink( $res_page ) : home_url( '/reservation/' );
 $skin     = \Flavor\Design::current_skin();
@@ -20,12 +20,12 @@ if ( ! $hero_img ) {
 	$hero_img = \Flavor\Bespoke_Demos::asset( 'hero.jpg' );
 }
 ?>
-<section class="flavor-section flavor-res-cta" aria-label="<?php echo esc_attr( $title ); ?>">
+<section class="flavor-section flavor-res-cta" aria-label="<?php echo esc_attr( $fz_title ); ?>">
 	<div class="flavor-container">
 		<div class="flavor-res-banner">
 			<div class="flavor-res-banner__content">
 				<span class="flavor-res-banner__tag"><?php esc_html_e( 'پذیرایی اختصاصی', 'flavor' ); ?></span>
-				<h2 class="flavor-res-banner__title"><?php echo esc_html( $title ); ?></h2>
+				<h2 class="flavor-res-banner__title"><?php echo esc_html( $fz_title ); ?></h2>
 				<p class="flavor-res-banner__desc">
 					<?php esc_html_e( 'برای دورهمی‌های خانوادگی، جلسات کاری و جشن‌های خاطره‌انگیز، میز و بخش دلخواه خود را به سادگی و بدون هزینه آنلاین رزرو نمایید.', 'flavor' ); ?>
 				</p>
@@ -60,7 +60,7 @@ if ( ! $hero_img ) {
 					$hero_img,
 					'large',
 					array(
-						'alt'      => $title,
+						'alt'      => $fz_title,
 						'sizes'    => '(min-width: 992px) 42vw, 92vw',
 						'width'    => 800,
 						'height'   => 600,

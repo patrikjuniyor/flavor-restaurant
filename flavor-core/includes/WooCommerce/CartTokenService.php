@@ -220,7 +220,10 @@ class CartTokenService {
 						$mod_ids[] = (string) $m;
 					}
 				}
-				CartSession::add( $product_id, $qty, array( 'ids' => $mod_ids, 'instructions' => $instructions ) );
+				CartSession::add( $product_id, $qty, array(
+					'ids' => $mod_ids,
+					'instructions' => $instructions,
+				) );
 			}
 		}
 
@@ -298,7 +301,10 @@ class CartTokenService {
 							$mod_ids[] = (string) $m;
 						}
 					}
-					CartSession::add( $product_id, $qty, array( 'ids' => $mod_ids, 'instructions' => $instructions ) );
+					CartSession::add( $product_id, $qty, array(
+						'ids' => $mod_ids,
+						'instructions' => $instructions,
+					) );
 				}
 			}
 			WC()->cart->calculate_totals();

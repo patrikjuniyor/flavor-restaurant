@@ -21,7 +21,10 @@ $images = $args['images'] ?? \Flavor\Repeater::items( 'gallery' );
 // A caller passing plain URLs still works, so nothing outside this file
 // needs to know the shape changed.
 $images = array_map(
-	static fn( $item ) => is_array( $item ) ? $item : array( 'image' => (string) $item, 'alt' => '' ),
+	static fn( $item ) => is_array( $item ) ? $item : array(
+		'image' => (string) $item,
+		'alt' => '',
+	),
 	(array) $images
 );
 
@@ -55,7 +58,7 @@ if ( empty( $images ) ) {
 						$src,
 						'flavor-card',
 						array(
-								'alt'      => \Flavor\Repeater::image_alt( $item ),
+							'alt'      => \Flavor\Repeater::image_alt( $item ),
 							'sizes'    => '(min-width: 992px) 30vw, 92vw',
 							'width'    => 600,
 							'height'   => 400,

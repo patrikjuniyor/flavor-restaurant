@@ -99,8 +99,9 @@ class WebhookController extends BaseApiController {
 	public function get_webhooks(): \WP_REST_Response {
 		global $wpdb;
 		$tbl  = Schema::table( 'flavor_webhooks' );
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL -- {$tbl} from Schema::table(); all filters/values are placeholder-bound via $wpdb->prepare.
 		$rows = $wpdb->get_results( "SELECT id, name, target_url, events_json, is_active, failure_count, last_triggered_at, created_at FROM {$tbl} ORDER BY id DESC", ARRAY_A );
+		// phpcs:enable
 
 		$items = array_map(
 			static function ( $r ) {
@@ -180,7 +181,7 @@ class WebhookController extends BaseApiController {
 		$tbl = Schema::table( 'flavor_webhooks' );
 		// The HMAC secret is write-only: it is returned exactly once (on create)
 		// and never by any GET endpoint.
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL -- {$tbl} from Schema::table(); all filters/values are placeholder-bound via $wpdb->prepare.
 		$row = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT id, name, target_url, events_json, is_active, failure_count, last_triggered_at, created_at, updated_at, (secret <> '') AS secret_configured FROM {$tbl} WHERE id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -188,6 +189,7 @@ class WebhookController extends BaseApiController {
 			),
 			ARRAY_A
 		);
+		// phpcs:enable
 
 		if ( ! $row ) {
 			return $this->respond_error( 'not_found', __( 'وب‌هوک یافت نشد.', 'flavor-core' ), 404 );
@@ -259,7 +261,7 @@ class WebhookController extends BaseApiController {
 		global $wpdb;
 		$id  = (int) $request->get_param( 'id' );
 		$tbl = Schema::table( 'flavor_webhooks' );
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL -- {$tbl} from Schema::table(); all filters/values are placeholder-bound via $wpdb->prepare.
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$tbl} WHERE id = %d", $id ), ARRAY_A );
 
 		if ( ! $row ) {
@@ -275,6 +277,7 @@ class WebhookController extends BaseApiController {
 				'webhook_id'  => $id,
 			),
 		);
+		// phpcs:enable
 
 		$result = WebhookManager::send_delivery( $id, $row['target_url'], $row['secret'], WebhookManager::EVENT_SYSTEM_PING, $payload );
 		return $this->respond_success( $result );
@@ -286,7 +289,7 @@ class WebhookController extends BaseApiController {
 		$limit = min( 50, max( 1, (int) ( $request->get_param( 'limit' ) ?: 20 ) ) );
 		$tbl   = Schema::table( 'flavor_webhook_deliveries' );
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL -- {$tbl} from Schema::table(); all filters/values are placeholder-bound via $wpdb->prepare.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT id, webhook_id, event, response_code, duration_ms, attempt_count, status, error_message, created_at
@@ -299,6 +302,7 @@ class WebhookController extends BaseApiController {
 			),
 			ARRAY_A
 		);
+		// phpcs:enable
 
 		return $this->respond_success( $rows );
 	}

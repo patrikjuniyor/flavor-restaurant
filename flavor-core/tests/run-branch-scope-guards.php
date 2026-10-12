@@ -14,6 +14,8 @@
  * @package FlavorCore
  */
 
+// phpcs:disable WordPress.Security.EscapeOutput, WordPress.WP.GlobalVariablesOverride -- CLI harness output and deliberate global staging.
+
 define( 'ABSPATH', __DIR__ . '/../../' );
 
 require_once __DIR__ . '/mock-wp-environment.php';
@@ -32,10 +34,10 @@ $failed = 0;
 function assert_test( $cond, string $msg ): void {
 	global $passed, $failed;
 	if ( $cond ) {
-		$passed++;
+		++$passed;
 		echo "  [PASS] {$msg}\n";
 	} else {
-		$failed++;
+		++$failed;
 		echo "  [FAIL] {$msg}\n";
 	}
 }
@@ -143,7 +145,7 @@ foreach ( (array) glob( __DIR__ . '/../includes/API/*.php' ) as $f ) {
 	foreach ( array( '->set_role(', '->add_cap(', '->remove_cap(', '->remove_role(', 'add_role(', "'roles'" ) as $needle ) {
 		if ( false !== strpos( $s, $needle ) ) {
 			$clean = false;
-			echo "  [note] " . basename( $f ) . " contains {$needle}\n";
+			echo '  [note] ' . basename( $f ) . " contains {$needle}\n";
 		}
 	}
 }

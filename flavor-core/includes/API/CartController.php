@@ -90,8 +90,14 @@ class CartController extends BaseApiController {
 							'required' => true,
 						),
 						// Optional: omission keeps the existing quantity-only contract.
-						'modifier_ids' => array( 'type' => 'array', 'items' => array( 'type' => 'string' ) ),
-						'instructions' => array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ),
+						'modifier_ids' => array(
+							'type' => 'array',
+							'items' => array( 'type' => 'string' ),
+						),
+						'instructions' => array(
+							'type' => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+						),
 					),
 				),
 				array(
@@ -264,8 +270,12 @@ class CartController extends BaseApiController {
 			$item = WC()->cart->get_cart_item( $key );
 			$ids = null !== $request->get_param( 'modifier_ids' ) ? (array) $request->get_param( 'modifier_ids' ) : array_column( $item['flavor_modifiers'] ?? array(), 'id' );
 			$notes = null !== $request->get_param( 'instructions' ) ? (string) $request->get_param( 'instructions' ) : (string) ( $item['flavor_instructions'] ?? '' );
-			$updated = CartSession::update_selection( $key, min( 20, $qty ), array( 'ids' => $ids, 'instructions' => $notes ) );
-			if ( is_wp_error( $updated ) ) { return $this->respond_error( $updated->get_error_code(), $updated->get_error_message(), 400 ); }
+			$updated = CartSession::update_selection( $key, min( 20, $qty ), array(
+				'ids' => $ids,
+				'instructions' => $notes,
+			) );
+			if ( is_wp_error( $updated ) ) {
+return $this->respond_error( $updated->get_error_code(), $updated->get_error_message(), 400 ); }
 			return $this->respond_cart( $cart_token, array( 'last_key' => $updated ) );
 		} else {
 			WC()->cart->set_quantity( $key, min( 20, $qty ) );

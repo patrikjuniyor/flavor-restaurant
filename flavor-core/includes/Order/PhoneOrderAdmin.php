@@ -217,7 +217,10 @@ class PhoneOrderAdmin {
 				continue;
 			}
 			$ids = isset( $mods[ $pid ] ) ? array_map( 'sanitize_title', (array) $mods[ $pid ] ) : array();
-			CartSession::add( (int) $pid, $q, array( 'ids' => $ids, 'instructions' => '' ) );
+			CartSession::add( (int) $pid, $q, array(
+				'ids' => $ids,
+				'instructions' => '',
+			) );
 		}
 
 		$coupon = isset( $_POST['coupon'] ) ? sanitize_text_field( wp_unslash( $_POST['coupon'] ) ) : '';

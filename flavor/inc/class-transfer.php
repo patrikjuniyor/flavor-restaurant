@@ -105,7 +105,9 @@ class Transfer {
 	 */
 	public static function import(): void {
 		self::authorize( 'flavor_import_settings' );
+		// phpcs:disable WordPress.Security.NonceVerification -- self::authorize() above runs check_admin_referer; import() has no separate nonce.
 		$file = isset( $_FILES['flavor_settings_file'] ) && is_array( $_FILES['flavor_settings_file'] ) ? $_FILES['flavor_settings_file'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- validated below.
+		// phpcs:enable
 		if ( UPLOAD_ERR_OK !== (int) ( $file['error'] ?? UPLOAD_ERR_NO_FILE ) || empty( $file['tmp_name'] ) || ! is_uploaded_file( $file['tmp_name'] ) ) {
 			self::redirect( 'error' );
 		}
@@ -135,10 +137,10 @@ class Transfer {
 			}
 		}
 		$payload = array(
-				'format'       => self::FORMAT,
-				'version'      => self::VERSION,
-				'generated_at' => gmdate( 'c' ),
-				'theme'        => get_stylesheet(),
+			'format'       => self::FORMAT,
+			'version'      => self::VERSION,
+			'generated_at' => gmdate( 'c' ),
+			'theme'        => get_stylesheet(),
 			'theme_mods'  => $mods,
 			'core'        => array(),
 		);
@@ -249,7 +251,10 @@ class Transfer {
 	 * Redirect to the transfer page.
 	 */
 	private static function redirect( string $notice ): void {
-		wp_safe_redirect( add_query_arg( array( 'page' => 'flavor-transfer', 'transfer' => sanitize_key( $notice ) ), admin_url( 'themes.php' ) ) );
+		wp_safe_redirect( add_query_arg( array(
+			'page' => 'flavor-transfer',
+			'transfer' => sanitize_key( $notice ),
+		), admin_url( 'themes.php' ) ) );
 		exit;
 	}
 }

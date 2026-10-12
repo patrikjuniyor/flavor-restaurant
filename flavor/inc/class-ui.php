@@ -6,6 +6,7 @@
  * @package Flavor
  */
 namespace Flavor;
+
 defined( 'ABSPATH' ) || exit;
 
 class UI {
@@ -15,18 +16,60 @@ class UI {
 	}
 
 	public static function inner(): bool {
-		if ( function_exists( 'is_account_page' ) && ( is_account_page() || is_checkout() || is_cart() ) ) { return true; }
+		if ( function_exists( 'is_account_page' ) && ( is_account_page() || is_checkout() || is_cart() ) ) {
+return true; }
 		return ! is_front_page() && ! is_home();
 	}
 
 	/** One allowlist supplies front-end defaults, controls, validation and previews. */
 	public static function schema(): array {
 		return array(
-			'menu_layout' => array( 'default' => 'grid', 'label' => __( 'نمای پیش‌فرض منو', 'flavor' ), 'description' => __( 'کارتی یا فهرستی؛ مشتری همچنان می‌تواند نمای همین صفحه را عوض کند.', 'flavor' ), 'choices' => array( 'grid' => __( 'کارتی', 'flavor' ), 'list' => __( 'فهرستی', 'flavor' ) ) ),
-			'density' => array( 'default' => 'comfortable', 'label' => __( 'فاصله‌گذاری کارت غذا', 'flavor' ), 'description' => __( 'فاصلهٔ محتوا در هر دو نمای منو؛ اندازهٔ دکمه‌ها و اهداف لمس کوچک نمی‌شود.', 'flavor' ), 'choices' => array( 'comfortable' => __( 'راحت و باز', 'flavor' ), 'compact' => __( 'جمع‌وجور', 'flavor' ) ) ),
-			'image_ratio' => array( 'default' => 'landscape', 'label' => __( 'قاب عکس در منوی کارتی', 'flavor' ), 'description' => __( 'افقی ۳ به ۲ یا مربع؛ تصویر اصلی و فایل‌های دمو تغییر نمی‌کنند. در فهرست، عکس با ارتفاع ردیف هماهنگ است.', 'flavor' ), 'choices' => array( 'landscape' => __( 'افقی — ۳ به ۲', 'flavor' ), 'square' => __( 'مربع — ۱ به ۱', 'flavor' ) ) ),
-			'card_style' => array( 'default' => 'skin', 'label' => __( 'گوشهٔ کارت و پنل غذا', 'flavor' ), 'description' => __( 'پیش‌فرض از پوسته می‌آید؛ این گزینه چیدمان مستقل صفحهٔ اصلی دمو را عوض نمی‌کند.', 'flavor' ), 'choices' => array( 'skin' => __( 'پیش‌فرض پوسته', 'flavor' ), 'soft' => __( 'نرم و گرد', 'flavor' ), 'sharp' => __( 'زاویه‌دار', 'flavor' ) ) ),
-			'mobile_nav' => array( 'default' => 'contextual', 'label' => __( 'نوار دسترسی موبایل', 'flavor' ), 'description' => __( 'کامل با خانه، یا کوتاه بدون خانه؛ حساب/تماس/رزرو همچنان از امکانات واقعی صفحه انتخاب می‌شوند.', 'flavor' ), 'choices' => array( 'contextual' => __( 'کامل و متناسب با صفحه', 'flavor' ), 'minimal' => __( 'کوتاه و سه‌گزینه‌ای', 'flavor' ) ) ),
+			'menu_layout' => array(
+				'default' => 'grid',
+				'label' => __( 'نمای پیش‌فرض منو', 'flavor' ),
+				'description' => __( 'کارتی یا فهرستی؛ مشتری همچنان می‌تواند نمای همین صفحه را عوض کند.', 'flavor' ),
+				'choices' => array(
+					'grid' => __( 'کارتی', 'flavor' ),
+					'list' => __( 'فهرستی', 'flavor' ),
+				),
+			),
+			'density' => array(
+				'default' => 'comfortable',
+				'label' => __( 'فاصله‌گذاری کارت غذا', 'flavor' ),
+				'description' => __( 'فاصلهٔ محتوا در هر دو نمای منو؛ اندازهٔ دکمه‌ها و اهداف لمس کوچک نمی‌شود.', 'flavor' ),
+				'choices' => array(
+					'comfortable' => __( 'راحت و باز', 'flavor' ),
+					'compact' => __( 'جمع‌وجور', 'flavor' ),
+				),
+			),
+			'image_ratio' => array(
+				'default' => 'landscape',
+				'label' => __( 'قاب عکس در منوی کارتی', 'flavor' ),
+				'description' => __( 'افقی ۳ به ۲ یا مربع؛ تصویر اصلی و فایل‌های دمو تغییر نمی‌کنند. در فهرست، عکس با ارتفاع ردیف هماهنگ است.', 'flavor' ),
+				'choices' => array(
+					'landscape' => __( 'افقی — ۳ به ۲', 'flavor' ),
+					'square' => __( 'مربع — ۱ به ۱', 'flavor' ),
+				),
+			),
+			'card_style' => array(
+				'default' => 'skin',
+				'label' => __( 'گوشهٔ کارت و پنل غذا', 'flavor' ),
+				'description' => __( 'پیش‌فرض از پوسته می‌آید؛ این گزینه چیدمان مستقل صفحهٔ اصلی دمو را عوض نمی‌کند.', 'flavor' ),
+				'choices' => array(
+					'skin' => __( 'پیش‌فرض پوسته', 'flavor' ),
+					'soft' => __( 'نرم و گرد', 'flavor' ),
+					'sharp' => __( 'زاویه‌دار', 'flavor' ),
+				),
+			),
+			'mobile_nav' => array(
+				'default' => 'contextual',
+				'label' => __( 'نوار دسترسی موبایل', 'flavor' ),
+				'description' => __( 'کامل با خانه، یا کوتاه بدون خانه؛ حساب/تماس/رزرو همچنان از امکانات واقعی صفحه انتخاب می‌شوند.', 'flavor' ),
+				'choices' => array(
+					'contextual' => __( 'کامل و متناسب با صفحه', 'flavor' ),
+					'minimal' => __( 'کوتاه و سه‌گزینه‌ای', 'flavor' ),
+				),
+			),
 		);
 	}
 
@@ -40,7 +83,8 @@ class UI {
 	}
 
 	public static function body_class( array $classes ): array {
-		if ( ! in_array( get_theme_mod( 'flavor_header_sticky', 'yes' ), array( 'yes', 'on', '1', 1, true ), true ) ) { $classes[] = 'flavor-header-not-sticky'; }
+		if ( ! in_array( get_theme_mod( 'flavor_header_sticky', 'yes' ), array( 'yes', 'on', '1', 1, true ), true ) ) {
+$classes[] = 'flavor-header-not-sticky'; }
 		if ( self::inner() ) {
 			$classes[] = 'flavor-ui';
 			foreach ( self::settings() as $key => $value ) {
@@ -48,7 +92,8 @@ class UI {
 			}
 			if ( is_page_template( 'page-templates/template-menu.php' ) ) {
 				$classes[] = 'flavor-ui-menu';
-				if ( ! empty( self::context()['table'] ) ) { $classes[] = 'flavor-ui-qr'; }
+				if ( ! empty( self::context()['table'] ) ) {
+$classes[] = 'flavor-ui-qr'; }
 			}
 		}
 		return $classes;
@@ -57,18 +102,27 @@ class UI {
 	public static function assets(): void {
 		wp_enqueue_style( 'flavor-ui-navigation', FLAVOR_URI . '/assets/css/ui-navigation.css', array( 'flavor-main' ), (string) filemtime( FLAVOR_DIR . '/assets/css/ui-navigation.css' ) );
 		wp_add_inline_style( 'flavor-ui-navigation', self::variables() );
-		wp_enqueue_script( 'flavor-ui-navigation-js', FLAVOR_URI . '/assets/js/navigation.js', array( 'flavor-main-js' ), (string) filemtime( FLAVOR_DIR . '/assets/js/navigation.js' ), array( 'in_footer' => true, 'strategy' => 'defer' ) );
-		if ( ! self::inner() ) { return; }
+		wp_enqueue_script( 'flavor-ui-navigation-js', FLAVOR_URI . '/assets/js/navigation.js', array( 'flavor-main-js' ), (string) filemtime( FLAVOR_DIR . '/assets/js/navigation.js' ), array(
+			'in_footer' => true,
+			'strategy' => 'defer',
+		) );
+		if ( ! self::inner() ) {
+return; }
 		$deps = array( 'flavor-main', 'flavor-marketing' );
 		$skin = 'flavor-skin-' . sanitize_html_class( Design::current_skin() );
-		if ( wp_style_is( $skin, 'enqueued' ) ) { $deps[] = $skin; }
-		if ( wp_style_is( 'flavor-search', 'enqueued' ) ) { $deps[] = 'flavor-search'; }
+		if ( wp_style_is( $skin, 'enqueued' ) ) {
+$deps[] = $skin; }
+		if ( wp_style_is( 'flavor-search', 'enqueued' ) ) {
+$deps[] = 'flavor-search'; }
 		foreach ( array( 'ui', 'ui-menu', 'ui-checkout' ) as $file ) {
 			wp_enqueue_style( 'flavor-' . $file, FLAVOR_URI . '/assets/css/' . $file . '.css', $deps, (string) filemtime( FLAVOR_DIR . '/assets/css/' . $file . '.css' ) );
 			$deps = array( 'flavor-' . $file );
 		}
 		wp_add_inline_style( 'flavor-ui', self::variables() );
-		wp_enqueue_script( 'flavor-ui-js', FLAVOR_URI . '/assets/js/ui.js', array( 'flavor-main-js' ), (string) filemtime( FLAVOR_DIR . '/assets/js/ui.js' ), array( 'in_footer' => true, 'strategy' => 'defer' ) );
+		wp_enqueue_script( 'flavor-ui-js', FLAVOR_URI . '/assets/js/ui.js', array( 'flavor-main-js' ), (string) filemtime( FLAVOR_DIR . '/assets/js/ui.js' ), array(
+			'in_footer' => true,
+			'strategy' => 'defer',
+		) );
 	}
 
 	/**
@@ -82,6 +136,7 @@ class UI {
 	public static function strings(): array {
 		return array(
 			'resend_aria'         => __( 'دریافت دوبارهٔ کد ورود', 'flavor' ),
+			/* translators: %s values. */
 			'resend_countdown'    => __( 'دریافت دوباره · %s', 'flavor' ),
 			'resend_short'        => __( 'دریافت دوبارهٔ کد', 'flavor' ),
 			'mobile_invalid_otp'  => __( 'شمارهٔ معتبر مانند ۰۹۱۲۱۲۳۴۵۶۷ وارد کنید.', 'flavor' ),
@@ -95,7 +150,9 @@ class UI {
 			'show_code'           => __( 'نمایش کد', 'flavor' ),
 			'code_copied'         => __( 'کد پیگیری کپی شد؛ آن را در اختیار دیگران نگذارید.', 'flavor' ),
 			'copy_manual'         => __( 'کپی خودکار ممکن نیست؛ کد را دستی کپی کنید و در اختیار دیگران نگذارید.', 'flavor' ),
+			/* translators: %s values. */
 			'branches_shown'      => __( '%s شعبه نمایش داده می‌شود.', 'flavor' ),
+			/* translators: %s values. */
 			'cart_total_aria'     => __( 'مبلغ فعلی سبد: %s', 'flavor' ),
 		);
 	}
@@ -141,8 +198,10 @@ class UI {
 	/** Relative luminance/contrast, used for readable controls in all 12 skins. */
 	public static function luminance( string $hex ): float {
 		$hex = ltrim( $hex, '#' );
-		if ( 3 === strlen( $hex ) ) { $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2]; }
-		if ( ! preg_match( '/^[0-9a-f]{6}$/i', $hex ) ) { return 0; }
+		if ( 3 === strlen( $hex ) ) {
+$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2]; }
+		if ( ! preg_match( '/^[0-9a-f]{6}$/i', $hex ) ) {
+return 0; }
 		$channels = array();
 		for ( $i = 0; $i < 6; $i += 2 ) {
 			$v = hexdec( substr( $hex, $i, 2 ) ) / 255;
@@ -151,7 +210,8 @@ class UI {
 		return .2126 * $channels[0] + .7152 * $channels[1] + .0722 * $channels[2];
 	}
 	public static function contrast( string $a, string $b ): float {
-		$a = self::luminance( $a ); $b = self::luminance( $b );
+		$a = self::luminance( $a );
+$b = self::luminance( $b );
 		return ( max( $a, $b ) + .05 ) / ( min( $a, $b ) + .05 );
 	}
 	public static function variables(): string {
@@ -166,29 +226,52 @@ class UI {
 		$id = Enqueue::current_branch_id();
 		$branch = $id ? get_post( $id ) : null;
 		if ( ! $branch || 'publish' !== $branch->post_status || 'flavor_branch' !== $branch->post_type ) {
-			return array( 'id' => 0, 'name' => '', 'modes' => array(), 'table' => '', 'table_id' => 0 );
+			return array(
+				'id' => 0,
+				'name' => '',
+				'modes' => array(),
+				'table' => '',
+				'table_id' => 0,
+			);
 		}
 		$modes = get_post_meta( $id, '_flavor_order_modes', true );
 		$modes = is_array( $modes ) ? array_values( array_intersect( $modes, array( 'dine_in', 'takeaway', 'delivery' ) ) ) : array( 'dine_in', 'takeaway', 'delivery' );
 		$ctx = class_exists( \FlavorCore\Order\OrderModes::class ) ? \FlavorCore\Order\OrderModes::get() : array();
-		$table_label = ''; $table_id = 0;
+		$table_label = '';
+$table_id = 0;
 		if ( ! empty( $ctx['table_id'] ) && class_exists( \FlavorCore\Table\TableRepository::class ) ) {
 			$table = \FlavorCore\Table\TableRepository::find( (int) $ctx['table_id'] );
-			if ( $table && ! empty( $table['is_active'] ) && (int) $table['branch_id'] === $id ) { $table_label = (string) $table['table_number']; $table_id = (int) $table['id']; }
+			if ( $table && ! empty( $table['is_active'] ) && (int) $table['branch_id'] === $id ) {
+$table_label = (string) $table['table_number'];
+$table_id = (int) $table['id']; }
 		}
 		if ( ! $table_id && ! empty( $ctx['table_token'] ) && is_string( $ctx['table_token'] ) && class_exists( \FlavorCore\Table\TableRepository::class ) ) {
 			$table = \FlavorCore\Table\TableRepository::find_by_token( $ctx['table_token'] );
-			if ( $table && ! empty( $table['is_active'] ) && (int) $table['branch_id'] === $id ) { $table_label = (string) $table['table_number']; $table_id = (int) $table['id']; }
+			if ( $table && ! empty( $table['is_active'] ) && (int) $table['branch_id'] === $id ) {
+$table_label = (string) $table['table_number'];
+$table_id = (int) $table['id']; }
 		}
-		if ( ! in_array( 'dine_in', $modes, true ) ) { $table_label = ''; $table_id = 0; }
-		return array( 'id' => $id, 'name' => $branch->post_title, 'modes' => $modes, 'table' => $table_label, 'table_id' => $table_id );
+		if ( ! in_array( 'dine_in', $modes, true ) ) {
+$table_label = '';
+$table_id = 0; }
+		return array(
+			'id' => $id,
+			'name' => $branch->post_title,
+			'modes' => $modes,
+			'table' => $table_label,
+			'table_id' => $table_id,
+		);
 	}
 
 	public static function reservation_available( int $branch_id = 0 ): bool {
-		$context = self::context(); $id = $branch_id ?: $context['id'];
+		$context = self::context();
+$id = $branch_id ?: $context['id'];
 		$modes = $id ? get_post_meta( $id, '_flavor_order_modes', true ) : array();
-		if ( ! $id || ! is_array( $modes ) || ! in_array( 'dine_in', $modes, true ) || ! class_exists( \FlavorCore\Table\TableRepository::class ) ) { return false; }
-		foreach ( \FlavorCore\Table\TableRepository::for_branch( $id ) as $table ) { if ( ! empty( $table['is_active'] ) ) { return true; } }
+		if ( ! $id || ! is_array( $modes ) || ! in_array( 'dine_in', $modes, true ) || ! class_exists( \FlavorCore\Table\TableRepository::class ) ) {
+return false; }
+		foreach ( \FlavorCore\Table\TableRepository::for_branch( $id ) as $table ) {
+if ( ! empty( $table['is_active'] ) ) {
+return true; } }
 		return false;
 	}
 	public static function account_available(): bool {
@@ -248,13 +331,18 @@ class UI {
 	}
 
 	public static function mode_labels(): array {
-		return array( 'dine_in' => __( 'سالن', 'flavor' ), 'takeaway' => __( 'بیرون‌بر', 'flavor' ), 'delivery' => __( 'ارسال', 'flavor' ) );
+		return array(
+			'dine_in' => __( 'سالن', 'flavor' ),
+			'takeaway' => __( 'بیرون‌بر', 'flavor' ),
+			'delivery' => __( 'ارسال', 'flavor' ),
+		);
 	}
 
 	public static function url( string $page ): string {
 		if ( 'account' === $page && function_exists( 'wc_get_page_permalink' ) ) {
 			$url = wc_get_page_permalink( 'myaccount' );
-			if ( self::account_available() && $url ) { return $url; }
+			if ( self::account_available() && $url ) {
+return $url; }
 			return Bespoke_Demos::page_url( 'contact' );
 		}
 		return Bespoke_Demos::page_url( $page );

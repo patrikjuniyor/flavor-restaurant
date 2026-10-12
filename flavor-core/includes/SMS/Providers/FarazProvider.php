@@ -53,7 +53,11 @@ class FarazProvider implements ProviderInterface {
 		}
 		$sent = apply_filters( 'flavor_core_sms_faraz', null, $mobile, $message, $context );
 		if ( is_array( $sent ) ) {
-			return wp_parse_args( $sent, array( 'ok' => false, 'id' => null, 'error' => null ) );
+			return wp_parse_args( $sent, array(
+				'ok' => false,
+				'id' => null,
+				'error' => null,
+			) );
 		}
 		return array(
 			'ok'    => false,

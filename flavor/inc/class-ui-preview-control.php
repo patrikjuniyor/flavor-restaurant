@@ -1,6 +1,7 @@
 <?php
 /** Customizer-only guide; loaded after WordPress's control base is available. @package Flavor */
 namespace Flavor;
+
 defined( 'ABSPATH' ) || exit;
 
 class UI_Preview_Control extends \WP_Customize_Control {

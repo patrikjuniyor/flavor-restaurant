@@ -106,7 +106,9 @@ class Premium_Assets {
 			'scheme_night'       => __( 'حالت شب فعال شد.', 'flavor' ),
 			'scheme_day'         => __( 'حالت روز فعال شد.', 'flavor' ),
 			'choose_combo'       => __( 'برای این غذا ابتدا ترکیبات را انتخاب کنید.', 'flavor' ),
+			/* translators: %s values. */
 			'wish_aria'          => __( 'افزودن %s به علاقه‌مندی‌ها', 'flavor' ),
+			/* translators: %s values. */
 			'free_ship_remaining' => __( '%s دیگر تا ارسال رایگان', 'flavor' ),
 			'free_ship_done'     => __( 'ارسال این سفارش رایگان است.', 'flavor' ),
 			'unit_day'           => __( 'روز', 'flavor' ),
@@ -115,7 +117,9 @@ class Premium_Assets {
 			'unit_second'        => __( 'ثانیه', 'flavor' ),
 			'consent_all'        => __( 'انتخاب شما ثبت شد.', 'flavor' ),
 			'consent_required'   => __( 'فقط کوکی ضروری فعال است.', 'flavor' ),
+			/* translators: %s values. */
 			'count_all'          => __( '%s غذا', 'flavor' ),
+			/* translators: %1$s, %2$s values. */
 			'count_of'           => __( '%1$s از %2$s غذا', 'flavor' ),
 			'shown_suffix'       => __( 'نمایش داده می‌شود.', 'flavor' ),
 			'copied'             => __( 'کپی شد', 'flavor' ),

@@ -66,11 +66,37 @@ class Builder {
 				'icon'     => 'dashicons-heading',
 				'category' => __( 'محتوا', 'flavor' ),
 				'fields'   => array(
-					array( 'key' => 'title', 'label' => __( 'متن تیتر', 'flavor' ), 'type' => 'text' ),
-					array( 'key' => 'level', 'label' => __( 'سطح', 'flavor' ), 'type' => 'select', 'options' => array( 'h2' => 'H2', 'h3' => 'H3', 'h4' => 'H4' ) ),
-					array( 'key' => 'align', 'label' => __( 'تراز', 'flavor' ), 'type' => 'select', 'options' => array( 'start' => __( 'راست', 'flavor' ), 'center' => __( 'وسط', 'flavor' ), 'end' => __( 'چپ', 'flavor' ) ) ),
+					array(
+						'key' => 'title',
+						'label' => __( 'متن تیتر', 'flavor' ),
+						'type' => 'text',
+					),
+					array(
+						'key' => 'level',
+						'label' => __( 'سطح', 'flavor' ),
+						'type' => 'select',
+						'options' => array(
+							'h2' => 'H2',
+							'h3' => 'H3',
+							'h4' => 'H4',
+						),
+					),
+					array(
+						'key' => 'align',
+						'label' => __( 'تراز', 'flavor' ),
+						'type' => 'select',
+						'options' => array(
+							'start' => __( 'راست', 'flavor' ),
+							'center' => __( 'وسط', 'flavor' ),
+							'end' => __( 'چپ', 'flavor' ),
+						),
+					),
 				),
-				'defaults' => array( 'title' => __( 'یک تیتر جدید', 'flavor' ), 'level' => 'h2', 'align' => 'center' ),
+				'defaults' => array(
+					'title' => __( 'یک تیتر جدید', 'flavor' ),
+					'level' => 'h2',
+					'align' => 'center',
+				),
 				'render'   => function ( $p ) {
 					$level = in_array( $p['level'], array( 'h2', 'h3', 'h4' ), true ) ? $p['level'] : 'h2';
 					$align = in_array( $p['align'], array( 'start', 'center', 'end' ), true ) ? $p['align'] : 'center';
@@ -82,7 +108,11 @@ class Builder {
 				'icon'     => 'dashicons-text',
 				'category' => __( 'محتوا', 'flavor' ),
 				'fields'   => array(
-					array( 'key' => 'content', 'label' => __( 'متن', 'flavor' ), 'type' => 'textarea' ),
+					array(
+						'key' => 'content',
+						'label' => __( 'متن', 'flavor' ),
+						'type' => 'textarea',
+					),
 				),
 				'defaults' => array( 'content' => __( 'متن خود را اینجا بنویسید…', 'flavor' ) ),
 				'render'   => function ( $p ) {
@@ -94,11 +124,32 @@ class Builder {
 				'icon'     => 'dashicons-button',
 				'category' => __( 'محتوا', 'flavor' ),
 				'fields'   => array(
-					array( 'key' => 'label', 'label' => __( 'متن دکمه', 'flavor' ), 'type' => 'text' ),
-					array( 'key' => 'url', 'label' => __( 'پیوند', 'flavor' ), 'type' => 'url' ),
-					array( 'key' => 'align', 'label' => __( 'تراز', 'flavor' ), 'type' => 'select', 'options' => array( 'start' => __( 'راست', 'flavor' ), 'center' => __( 'وسط', 'flavor' ), 'end' => __( 'چپ', 'flavor' ) ) ),
+					array(
+						'key' => 'label',
+						'label' => __( 'متن دکمه', 'flavor' ),
+						'type' => 'text',
+					),
+					array(
+						'key' => 'url',
+						'label' => __( 'پیوند', 'flavor' ),
+						'type' => 'url',
+					),
+					array(
+						'key' => 'align',
+						'label' => __( 'تراز', 'flavor' ),
+						'type' => 'select',
+						'options' => array(
+							'start' => __( 'راست', 'flavor' ),
+							'center' => __( 'وسط', 'flavor' ),
+							'end' => __( 'چپ', 'flavor' ),
+						),
+					),
 				),
-				'defaults' => array( 'label' => __( 'مشاهدهٔ منو', 'flavor' ), 'url' => '#', 'align' => 'center' ),
+				'defaults' => array(
+					'label' => __( 'مشاهدهٔ منو', 'flavor' ),
+					'url' => '#',
+					'align' => 'center',
+				),
 				'render'   => function ( $p ) {
 					$align = in_array( $p['align'], array( 'start', 'center', 'end' ), true ) ? $p['align'] : 'center';
 					return sprintf( '<div class="fb-button" style="text-align:%1$s"><a class="fb-btn" href="%2$s">%3$s</a></div>', esc_attr( $align ), esc_url( $p['url'] ), esc_html( $p['label'] ) );
@@ -109,10 +160,21 @@ class Builder {
 				'icon'     => 'dashicons-format-image',
 				'category' => __( 'محتوا', 'flavor' ),
 				'fields'   => array(
-					array( 'key' => 'url', 'label' => __( 'نشانی تصویر', 'flavor' ), 'type' => 'url' ),
-					array( 'key' => 'alt', 'label' => __( 'متن جایگزین', 'flavor' ), 'type' => 'text' ),
+					array(
+						'key' => 'url',
+						'label' => __( 'نشانی تصویر', 'flavor' ),
+						'type' => 'url',
+					),
+					array(
+						'key' => 'alt',
+						'label' => __( 'متن جایگزین', 'flavor' ),
+						'type' => 'text',
+					),
 				),
-				'defaults' => array( 'url' => '', 'alt' => '' ),
+				'defaults' => array(
+					'url' => '',
+					'alt' => '',
+				),
 				'render'   => function ( $p ) {
 					if ( ! $p['url'] ) {
 						return '';
@@ -135,7 +197,11 @@ class Builder {
 				'icon'     => 'dashicons-editor-expand',
 				'category' => __( 'چیدمان', 'flavor' ),
 				'fields'   => array(
-					array( 'key' => 'height', 'label' => __( 'ارتفاع (پیکسل)', 'flavor' ), 'type' => 'number' ),
+					array(
+						'key' => 'height',
+						'label' => __( 'ارتفاع (پیکسل)', 'flavor' ),
+						'type' => 'number',
+					),
 				),
 				'defaults' => array( 'height' => 40 ),
 				'render'   => function ( $p ) {
@@ -148,12 +214,33 @@ class Builder {
 				'icon'     => 'dashicons-megaphone',
 				'category' => __( 'بخش‌ها', 'flavor' ),
 				'fields'   => array(
-					array( 'key' => 'title', 'label' => __( 'تیتر', 'flavor' ), 'type' => 'text' ),
-					array( 'key' => 'text', 'label' => __( 'توضیح', 'flavor' ), 'type' => 'textarea' ),
-					array( 'key' => 'btn', 'label' => __( 'متن دکمه', 'flavor' ), 'type' => 'text' ),
-					array( 'key' => 'url', 'label' => __( 'پیوند دکمه', 'flavor' ), 'type' => 'url' ),
+					array(
+						'key' => 'title',
+						'label' => __( 'تیتر', 'flavor' ),
+						'type' => 'text',
+					),
+					array(
+						'key' => 'text',
+						'label' => __( 'توضیح', 'flavor' ),
+						'type' => 'textarea',
+					),
+					array(
+						'key' => 'btn',
+						'label' => __( 'متن دکمه', 'flavor' ),
+						'type' => 'text',
+					),
+					array(
+						'key' => 'url',
+						'label' => __( 'پیوند دکمه', 'flavor' ),
+						'type' => 'url',
+					),
 				),
-				'defaults' => array( 'title' => __( 'همین حالا سفارش دهید', 'flavor' ), 'text' => __( 'سفارش آنلاین، سریع و تازه، مستقیم از آشپزخانهٔ ما.', 'flavor' ), 'btn' => __( 'شروع سفارش', 'flavor' ), 'url' => '#' ),
+				'defaults' => array(
+					'title' => __( 'همین حالا سفارش دهید', 'flavor' ),
+					'text' => __( 'سفارش آنلاین، سریع و تازه، مستقیم از آشپزخانهٔ ما.', 'flavor' ),
+					'btn' => __( 'شروع سفارش', 'flavor' ),
+					'url' => '#',
+				),
 				'render'   => function ( $p ) {
 					return '<div class="fb-cta"><h3>' . esc_html( $p['title'] ) . '</h3><p>' . esc_html( $p['text'] ) . '</p><a class="fb-btn fb-btn--light" href="' . esc_url( $p['url'] ) . '">' . esc_html( $p['btn'] ) . '</a></div>';
 				},
@@ -163,10 +250,21 @@ class Builder {
 				'icon'     => 'dashicons-yes',
 				'category' => __( 'بخش‌ها', 'flavor' ),
 				'fields'   => array(
-					array( 'key' => 'title', 'label' => __( 'عنوان بخش', 'flavor' ), 'type' => 'text' ),
-					array( 'key' => 'items', 'label' => __( 'ویژگی‌ها (هر خط: عنوان | توضیح)', 'flavor' ), 'type' => 'textarea' ),
+					array(
+						'key' => 'title',
+						'label' => __( 'عنوان بخش', 'flavor' ),
+						'type' => 'text',
+					),
+					array(
+						'key' => 'items',
+						'label' => __( 'ویژگی‌ها (هر خط: عنوان | توضیح)', 'flavor' ),
+						'type' => 'textarea',
+					),
 				),
-				'defaults' => array( 'title' => __( 'چرا ما؟', 'flavor' ), 'items' => "مواد تازه | تهیهٔ روزانه از بازار محلی\nارسال سریع | تحویل داغ در کمتر از ۴۵ دقیقه\nپخت لحظه‌ای | سفارش شما همان لحظه آماده می‌شود" ),
+				'defaults' => array(
+					'title' => __( 'چرا ما؟', 'flavor' ),
+					'items' => "مواد تازه | تهیهٔ روزانه از بازار محلی\nارسال سریع | تحویل داغ در کمتر از ۴۵ دقیقه\nپخت لحظه‌ای | سفارش شما همان لحظه آماده می‌شود",
+				),
 				'render'   => function ( $p ) {
 					$items = array_filter( array_map( 'trim', explode( "\n", (string) $p['items'] ) ) );
 					$html  = '<div class="fb-features"><h3>' . esc_html( $p['title'] ) . '</h3><ul>';
@@ -186,10 +284,21 @@ class Builder {
 				'icon'     => 'dashicons-format-quote',
 				'category' => __( 'بخش‌ها', 'flavor' ),
 				'fields'   => array(
-					array( 'key' => 'title', 'label' => __( 'عنوان بخش', 'flavor' ), 'type' => 'text' ),
-					array( 'key' => 'items', 'label' => __( 'نظرات (هر خط: نام | نظر)', 'flavor' ), 'type' => 'textarea' ),
+					array(
+						'key' => 'title',
+						'label' => __( 'عنوان بخش', 'flavor' ),
+						'type' => 'text',
+					),
+					array(
+						'key' => 'items',
+						'label' => __( 'نظرات (هر خط: نام | نظر)', 'flavor' ),
+						'type' => 'textarea',
+					),
 				),
-				'defaults' => array( 'title' => __( 'مشتریان چه می‌گویند؟', 'flavor' ), 'items' => "علی رضایی | کیفیت غذا فوق‌العاده بود.\nسارا احمدی | ارسال سریع و بسته‌بندی عالی." ),
+				'defaults' => array(
+					'title' => __( 'مشتریان چه می‌گویند؟', 'flavor' ),
+					'items' => "علی رضایی | کیفیت غذا فوق‌العاده بود.\nسارا احمدی | ارسال سریع و بسته‌بندی عالی.",
+				),
 				'render'   => function ( $p ) {
 					$items = array_filter( array_map( 'trim', explode( "\n", (string) $p['items'] ) ) );
 					$html  = '<div class="fb-testimonials"><h3>' . esc_html( $p['title'] ) . '</h3><div class="fb-testimonials__grid">';
@@ -205,10 +314,21 @@ class Builder {
 				'icon'     => 'dashicons-food',
 				'category' => __( 'منو', 'flavor' ),
 				'fields'   => array(
-					array( 'key' => 'title', 'label' => __( 'عنوان بخش', 'flavor' ), 'type' => 'text' ),
-					array( 'key' => 'limit', 'label' => __( 'تعداد آیتم‌ها', 'flavor' ), 'type' => 'number' ),
+					array(
+						'key' => 'title',
+						'label' => __( 'عنوان بخش', 'flavor' ),
+						'type' => 'text',
+					),
+					array(
+						'key' => 'limit',
+						'label' => __( 'تعداد آیتم‌ها', 'flavor' ),
+						'type' => 'number',
+					),
 				),
-				'defaults' => array( 'title' => __( 'پرفروش‌ترین‌ها', 'flavor' ), 'limit' => 4 ),
+				'defaults' => array(
+					'title' => __( 'پرفروش‌ترین‌ها', 'flavor' ),
+					'limit' => 4,
+				),
 				'render'   => function ( $p ) {
 					$limit = max( 1, absint( $p['limit'] ) );
 					$items = self::menu_items( $limit );
@@ -236,7 +356,11 @@ class Builder {
 				'icon'     => 'dashicons-category',
 				'category' => __( 'منو', 'flavor' ),
 				'fields'   => array(
-					array( 'key' => 'title', 'label' => __( 'عنوان بخش', 'flavor' ), 'type' => 'text' ),
+					array(
+						'key' => 'title',
+						'label' => __( 'عنوان بخش', 'flavor' ),
+						'type' => 'text',
+					),
 				),
 				'defaults' => array( 'title' => __( 'دسته‌بندی‌های منو', 'flavor' ) ),
 				'render'   => function ( $p ) {
@@ -261,11 +385,27 @@ class Builder {
 				'icon'     => 'dashicons-calendar-alt',
 				'category' => __( 'منو', 'flavor' ),
 				'fields'   => array(
-					array( 'key' => 'title', 'label' => __( 'تیتر', 'flavor' ), 'type' => 'text' ),
-					array( 'key' => 'text', 'label' => __( 'توضیح', 'flavor' ), 'type' => 'textarea' ),
-					array( 'key' => 'btn', 'label' => __( 'متن دکمه', 'flavor' ), 'type' => 'text' ),
+					array(
+						'key' => 'title',
+						'label' => __( 'تیتر', 'flavor' ),
+						'type' => 'text',
+					),
+					array(
+						'key' => 'text',
+						'label' => __( 'توضیح', 'flavor' ),
+						'type' => 'textarea',
+					),
+					array(
+						'key' => 'btn',
+						'label' => __( 'متن دکمه', 'flavor' ),
+						'type' => 'text',
+					),
 				),
-				'defaults' => array( 'title' => __( 'میز خود را رزرو کنید', 'flavor' ), 'text' => __( 'برای تجربهٔ یک شام بی‌نقص، از قبل میز خود را ثبت کنید.', 'flavor' ), 'btn' => __( 'رزرو میز', 'flavor' ) ),
+				'defaults' => array(
+					'title' => __( 'میز خود را رزرو کنید', 'flavor' ),
+					'text' => __( 'برای تجربهٔ یک شام بی‌نقص، از قبل میز خود را ثبت کنید.', 'flavor' ),
+					'btn' => __( 'رزرو میز', 'flavor' ),
+				),
 				'render'   => function ( $p ) {
 					$url = self::reservation_url();
 					return '<div class="fb-reserve"><h3>' . esc_html( $p['title'] ) . '</h3><p>' . esc_html( $p['text'] ) . '</p><a class="fb-btn fb-btn--light" href="' . esc_url( $url ) . '">' . esc_html( $p['btn'] ) . '</a></div>';

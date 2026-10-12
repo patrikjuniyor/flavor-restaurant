@@ -137,13 +137,15 @@ class Block_Patterns {
 		}
 	}
 
-	/* ------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------
 	 * Pattern content.
 	 *
 	 * Preset colour classes (has-primary-color, has-surface-background-color)
 	 * come from the slugs declared in flavor/theme.json, so each pattern
 	 * repaints itself when the merchant changes skin.
-	 * ---------------------------------------------------------------- */
+	 * ----------------------------------------------------------------
+	 */
 
 	/**
 	 * Hero.

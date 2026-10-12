@@ -11,7 +11,7 @@ if ( 'no' === get_theme_mod( 'flavor_featured_enable', 'yes' ) ) {
 	return;
 }
 
-$title = get_theme_mod( 'flavor_featured_title', __( 'پیشنهادهای ویژه سرآشپز', 'flavor' ) );
+$fz_title = get_theme_mod( 'flavor_featured_title', __( 'پیشنهادهای ویژه سرآشپز', 'flavor' ) );
 
 $products = array();
 if ( function_exists( 'wc_get_products' ) ) {
@@ -32,12 +32,12 @@ if ( empty( $products ) ) {
 $menu_page = get_page_by_path( 'menu' );
 $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 ?>
-<section class="flavor-section flavor-featured" aria-label="<?php echo esc_attr( $title ); ?>">
+<section class="flavor-section flavor-featured" aria-label="<?php echo esc_attr( $fz_title ); ?>">
 	<div class="flavor-container">
 		<div class="flavor-section-header flavor-section-header--with-action">
 			<div>
 				<span class="flavor-section-header__tag"><?php esc_html_e( 'انتخاب ویژه', 'flavor' ); ?></span>
-				<h2 class="flavor-section-header__title"><?php echo esc_html( $title ); ?></h2>
+				<h2 class="flavor-section-header__title"><?php echo esc_html( $fz_title ); ?></h2>
 			</div>
 			<a href="<?php echo esc_url( $menu_url ); ?>" class="flavor-btn flavor-btn--outline">
 				<?php esc_html_e( 'مشاهده کل منو', 'flavor' ); ?>

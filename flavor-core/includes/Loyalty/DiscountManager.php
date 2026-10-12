@@ -91,6 +91,7 @@ class DiscountManager {
 	 * @param \WC_Coupon $coupon Coupon.
 	 * @param \WC_Discounts $discounts Discounts.
 	 * @return bool
+	 * @throws \Exception When branch restriction or first-order rule is violated.
 	 */
 	public function validate( $valid, $coupon, $discounts = null ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 		if ( ! $valid || ! $coupon ) {
@@ -103,13 +104,13 @@ class DiscountManager {
 			$ctx     = OrderModes::get();
 			$bid     = (int) ( $ctx['branch_id'] ?? 0 );
 			if ( $allowed && $bid && ! in_array( $bid, $allowed, true ) ) {
-				throw new \Exception( __( 'این کد برای شعبه انتخاب‌شده معتبر نیست.', 'flavor-core' ) );
+				throw new \Exception( esc_html__( 'این کد برای شعبه انتخاب‌شده معتبر نیست.', 'flavor-core' ) );
 			}
 		}
 		if ( 'yes' === (string) get_post_meta( $id, '_flavor_first_order', true ) && is_user_logged_in() ) {
 			$n = wc_get_customer_order_count( get_current_user_id() );
 			if ( $n > 0 ) {
-				throw new \Exception( __( 'این کد فقط برای اولین سفارش است.', 'flavor-core' ) );
+				throw new \Exception( esc_html__( 'این کد فقط برای اولین سفارش است.', 'flavor-core' ) );
 			}
 		}
 		return $valid;

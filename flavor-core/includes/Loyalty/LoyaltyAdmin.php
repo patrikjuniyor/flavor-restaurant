@@ -114,7 +114,7 @@ class LoyaltyAdmin {
 		}
 		check_admin_referer( 'flavor_adjust_points' );
 		$uid   = isset( $_POST['user_id'] ) ? absint( wp_unslash( $_POST['user_id'] ) ) : 0;
-		$delta = isset( $_POST['delta'] ) ? (int) wp_unslash( $_POST['delta'] ) : 0;
+		$delta = isset( $_POST['delta'] ) ? intval( wp_unslash( $_POST['delta'] ) ) : 0;
 		$mob   = isset( $_POST['mobile'] ) ? sanitize_text_field( wp_unslash( $_POST['mobile'] ) ) : '';
 		if ( $uid && 0 !== $delta ) {
 			PointsManager::adjust( $uid, $delta, 'adjust', 0, 'admin' );

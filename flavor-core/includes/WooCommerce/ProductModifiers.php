@@ -333,7 +333,8 @@ class ProductModifiers {
 			// Reading the already-mutated cart object compounds extras each time.
 			$catalog_id = (int) ( ! empty( $item['variation_id'] ) ? $item['variation_id'] : ( $item['product_id'] ?? 0 ) );
 			$catalog = $catalog_id ? wc_get_product( $catalog_id ) : null;
-			if ( ! $catalog ) { continue; }
+			if ( ! $catalog ) {
+continue; }
 			$base = (float) $catalog->get_price();
 			$item['data']->set_price( $base + self::storage_to_wc( $extra ) );
 		}
