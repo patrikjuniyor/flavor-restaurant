@@ -65,3 +65,23 @@ Legend: **public** = `__return_true` (input is still sanitized + rate-limited); 
 - **Security**: target URLs must be public http(s), non-localhost, non-private/reserved IPs (literal and DNS-resolved), no URL credentials; redirects are never followed (3xx = failure); timeout 5s; `wp_safe_remote_post()` is used when available; every payload is signed with `X-Flavor-Signature` (HMAC-SHA256 over the exact raw body) and carries `X-Flavor-Event` + `X-Flavor-Delivery-ID`.
 - **Secrets**: returned exactly once on `POST /webhooks` (create), never by any GET endpoint (`secret_configured: true` is exposed instead).
 - **Admin test endpoint** (`POST /webhooks/{id}/test`, event `system.ping`) remains synchronous by design — it is an operator action, not the event pipeline.
+
+## 4. Response contract (unified in prompt 46)
+
+Every `flavor/v1` and `flavor/v2` route answers in one envelope — modular controllers and the legacy v1-only sub-routers alike:
+
+```jsonc
+// success
+{ "success": true,  "data": { … }, "meta": { "timestamp": 1760000000, … }, "errors": [] }
+// error
+{ "success": false, "data": null,  "meta": { "timestamp": 1760000000 },
+  "errors": [ { "code": "flavor_not_found", "message": "…", "details": { … } } ] }
+```
+
+- **Builders**: `BaseApiController::respond_success()` / `respond_error()` / `respond_paginated()`; domain `WP_Error`s (CheckoutService, CartSession, RateLimit, …) are relayed with `relay_error()`, which preserves the source status and turns extra error data into `details`.
+- **Wire normaliser**: `Support\ResponseEnvelope` (on `rest_post_dispatch`) rewrites the two shapes a callback cannot produce itself — `permission_callback` `WP_Error` refusals and core-generated route errors (`rest_invalid_param`, invalid nonce, …) — into the same envelope, status and headers untouched, `/flavor/*` routes only, idempotent. Non-flavor namespaces keep the native WordPress shape.
+- **Status semantics** (pinned by `tests/theme/test-rest-response-contract.php`): `400` input/validation, `401` unauthenticated (`flavor_unauthorized`), `403` forbidden (`flavor_forbidden`, branch scope), `404` not found (`*not_found*`), `409` conflict (`flavor_idempotency_conflict` on order replay, `flavor_bad_transition` on kitchen state), `429` rate (`flavor_rate` / `rate_limit_exceeded`), `503` unhealthy (health endpoint only).
+- **Business verdicts are not HTTP errors**: `POST /zones/check` answers `200` with `data.ok: false` when an address is outside coverage; `GET /staff/customer` answers `200` with `data.found: false`; `GET /me` answers `200` with `data.logged_in: false`.
+- **Legacy note**: before prompt 46 the legacy v1-only routes returned bare payloads (`{tickets: […]}`, `{terms: […]}`, …). Their bodies are now the same objects nested under `data`. Theme JS helpers (`menu.js`, `reservation.js`, `search.js`, `bespoke-demos.js`, `kitchen-dashboard.js`) unwrap `success === true ? data : body`, so cached pre-envelope pages keep working during rollout.
+- **admin-ajax shim** (`action=flavor_search`) keeps the ajax protocol (`wp_send_json_*`): success is natively `{success:true, data:…}`; the 429 refusal carries the same `{code, message}` entry as the REST envelope.
+

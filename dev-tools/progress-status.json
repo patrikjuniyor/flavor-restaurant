@@ -227,5 +227,10 @@
     "commit": "ded8bc2",
     "note": "۲۱ متد/تابعِ تک‌مرجع و CSS یتیم (fd-mobile-bar، responsive-token، cart-badge، سلکتور entry-title) حذف شد؛ ۸۱۸ کلاسِ namespace‌دار همه reachable (زنده‌بودنِ dynamic از سطرهایِ چاپِ کلاس اثبات شد)؛ سه موردِ نام‌برده درِ پرامپت با دلیل ماندند (README-updater، اسلاتِ iransans، print-receipt تا ۶۲)؛ lib/ِ vendored excludedِ مستند؛ گیتِ test-dead-code هفت‌clause + دو اثباتِ sabotage → ۷/۰",
     "state": "done"
+  },
+  "46": {
+    "commit": "538eae2",
+    "state": "done",
+    "note": "یکدست‌سازی مدیریت خطا در REST: هر ۸۱ callback فقط از respond_success/respond_error/relay_error پاسخ می‌دهد (چهار کلاس legacy هم extends Base شدند)؛ میان‌افزار ResponseEnvelope ردِ permissionها و خطاهای هسته را فقط روی /flavor/* به پاکت {success,data,meta,errors} نرمال می‌کند؛ جدول status پین شد (۴۰۰/۴۰۱/۴۰۳/۴۰۴/۴۰۹-idempotency/۴۲۹) و کدهای بی‌پیشوند unauthorized/forbidden به flavor_* یکدست شدند؛ مصرف‌کننده‌ها (kitchen-dashboard JS، e2e ۸۱/۸۱) مهاجرت کردند؛ گیت token-based test-rest-response-contract هفت‌clause + سه اثبات sabotage → ۲۸/۰"
   }
 }
