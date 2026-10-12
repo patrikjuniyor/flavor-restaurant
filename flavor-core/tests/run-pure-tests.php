@@ -14,8 +14,10 @@ require_once __DIR__ . '/../includes/WooCommerce/CartTokenService.php';
 require_once __DIR__ . '/../includes/Support/Jalali.php';
 require_once __DIR__ . '/../includes/Support/Iran.php';
 require_once __DIR__ . '/../includes/Support/PersianText.php';
+require_once __DIR__ . '/../includes/Support/SecurityHeaders.php';
 
 use FlavorCore\Support\GuestToken;
+use FlavorCore\Support\SecurityHeaders;
 use FlavorCore\WooCommerce\CartTokenService;
 use FlavorCore\Support\Jalali;
 use FlavorCore\Support\Iran;
@@ -161,6 +163,47 @@ $ts_src = file_get_contents( __DIR__ . '/../includes/Customer/TokenService.php' 
 assert_test( 2 === substr_count( $ts_src, 'wp_generate_password( 64, false, false )' ), 'access+refresh tokens: 62^64 (~381-bit) CSPRNG-backed generator' );
 assert_test( false !== strpos( $ts_src, "hash( 'sha256', \$access_token )" ) && false !== strpos( $ts_src, "hash( 'sha256', \$refresh_token )" ), 'auth tokens stored hashed, validated by hash lookup' );
 assert_test( false === strpos( $ts_src, '== $raw_token' ) && false === strpos( $ts_src, '$raw_token ==' ), 'no loose token comparison in TokenService' );
+
+// 7. Response security headers (پرامپت ۳۹)
+echo "\n--- 7. Response Security Headers ---\n";
+$sh = SecurityHeaders::rest_headers( array(), 'flavor/v1' );
+assert_test(
+	'nosniff' === ( $sh['X-Content-Type-Options'] ?? '' ) && 'strict-origin-when-cross-origin' === ( $sh['Referrer-Policy'] ?? '' ),
+	'flavor REST responses get nosniff + strict Referrer-Policy'
+);
+assert_test(
+	'no-store, must-revalidate' === ( $sh['Cache-Control'] ?? '' ),
+	'default-deny: REST responses are no-store unless a controller opts into caching'
+);
+assert_test(
+	'public, max-age=30' === SecurityHeaders::rest_headers( array( 'Cache-Control' => 'public, max-age=30' ), 'flavor/v1' )['Cache-Control'],
+	'explicit public cache opt-in (menu/search) is preserved'
+);
+assert_test(
+	array() === SecurityHeaders::rest_headers( array(), 'wp/v2' ),
+	'non-flavor REST namespaces stay untouched'
+);
+$html = SecurityHeaders::html_headers( array(), SecurityHeaders::csp_report_only() );
+assert_test(
+	isset( $html['Content-Security-Policy-Report-Only'] ) && ! isset( $html['Content-Security-Policy'] ),
+	'front-end CSP is Report-Only only — never the enforcing header'
+);
+assert_test(
+	! isset( SecurityHeaders::html_headers( array(), '' )['Content-Security-Policy-Report-Only'] )
+		&& isset( SecurityHeaders::html_headers( array(), '' )['X-Content-Type-Options'] ),
+	'empty filtered CSP disables only the CSP header'
+);
+$sh_src = file_get_contents( __DIR__ . '/../includes/Support/SecurityHeaders.php' );
+assert_test(
+	false !== strpos( $sh_src, "add_filter( 'rest_post_dispatch', array( \$this, 'on_rest_dispatch' ), 10, 3 )" )
+		&& false !== strpos( $sh_src, "add_filter( 'wp_headers', array( \$this, 'on_wp_headers' ) )" ),
+	'SecurityHeaders hooks into REST dispatch (3 args) and wp_headers'
+);
+$plug_src = file_get_contents( __DIR__ . '/../includes/Plugin.php' );
+assert_test(
+	false !== strpos( $plug_src, '( new Support\SecurityHeaders() )->hooks();' ),
+	'SecurityHeaders middleware is wired into Plugin boot'
+);
 
 echo "\n=======================================================\n";
 echo "Results: {$passed} Passed, {$failed} Failed\n";

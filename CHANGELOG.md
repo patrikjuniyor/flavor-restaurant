@@ -7,6 +7,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added — هدرهای امنیتی پاسخ‌ها: REST و HTML (پرامپت ۳۹ / R4-6)
+
+- **Middleware تازهٔ `Support\SecurityHeaders`:** روی `rest_post_dispatch` (۳ آرگومان) به تمام پاسخ‌های `flavor/v1` — حتی پاسخ‌های خطا (401/403) — دو هدرِ `X-Content-Type-Options: nosniff` و `Referrer-Policy: strict-origin-when-cross-origin` می‌نشیند و **سیاستِ پیش‌فرضِ منع**: هر پاسخی که کنترلر خودش `Cache-Control` ننوشته (orders، reservation، auth، cart، …) `no-store, must-revalidate` می‌گیرد؛ endpointهای دادهٔ عمومیِ قابل‌کش (menu/search) که صریحاً `public, max-age=30` ست می‌کنند دست‌نخورده می‌مانند — opt-in صریح، نه سراسری. کنترلرهای `RestController/RestStore/RestExperience` هم که از قبل `private, no-store` داشتند همان‌جا pin شدند.
+- **HTML عمومی:** روی فیلترِ `wp_headers` همان دو هدر + **CSPِ گزارش‌محورِ نرم** (`Content-Security-Policy-Report-Only`) — عمداً Report-Only تا Elementor و payloadهای inline تم نشکنند؛ `unsafe-inline` برای style/script حفظ شد و حفره‌هایِ پرخطر (`object-src 'none'`، `base-uri`، `form-action`) بسته شدند. هیچ `report-uri` اضافه نشد تا endpointِ ناشناسِ تازه‌ای متولد نشود؛ با فیلترِ `flavor_csp_report_only` قابلِ تنظیم/خاموش‌کردن است. wp-admin دست‌نخورده.
+- **گیتِ ماشینی:** تستِ تازهٔ `tests/theme/test-security-headers.php` (۲۶ بررسی: خلوصِ تابعِ هدرها، middleware زنده روی mock `WP_REST_Response`، fallbackِ namespace-from-route، scopeِ فقط-flavor، مسیرِ Report-Only، pinهای سیم‌کشی) + آیینهٔ ۸ بررسیِ CI-اجرا در `run-pure-tests.php` (۳۹→**۴۷/۰**). منفی‌آزماییِ زنده: کش‌شدنِ پاسخِ مشتری → `[FAIL] default-deny…`؛ enforcing‌شدنِ CSP → `[FAIL] Report-Only only…`؛ حذفِ سیم‌کشی از Plugin → `[FAIL] wired into Plugin boot`؛ بازگشت → ۴۷/۰.
+- **رگرسیونِ خواسته‌شده:** smoke تستِ REST (e2e) سبز ماند: **۸۱/۸۱**؛ گیتِ endpointهای عمومی (پرامپت ۳۷) بدون‌تغییر ۲۲/۲۲ — هیچ مسیرِ تازه‌ای ثبت نشد.
+
+
 ### Fixed — سخت‌سازی GuestToken/OTP و تکمیل تست‌های توکن (پرامپت ۳۸ / R4-6)
 
 - **اصلاح واقعی:** هر دو `GuestToken::generate()` و `CartTokenService::generate_token()` در حالتِ fallback (خطای CSPRNG) توکنِ مشتق‌از `uniqid(wp_rand)+microtime` می‌ساختند — آنتروپیِ قابل‌حدس (~۳۰-۵۰ بیت) برای توکنِ مالکیتِ سفارش/سبدِ مهمان. fallback حذف شد؛ تولید الان **فقط** `random_bytes(32)`/`random_bytes(24)` (۲۵۶/۱۹۲ بیت) است و اگر CSPRNG نایاب باشد سرور fail-closed می‌کند (۵۰۰) نه توکنِ قابل‌بروتفورس. ( opensslِ منسوخِ ۸.۴ هم عمداً به‌عنوانِ مسیرِ دوم اضافه نشد. )
