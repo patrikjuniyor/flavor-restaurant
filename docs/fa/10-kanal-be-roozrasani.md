@@ -2,7 +2,7 @@
 
 این راهنما برای **صاحب محصول** و کسی نوشته شده که بسته‌های Flavor را منتشر می‌کند. کانال به‌روزرسانی در نسخهٔ ۱.۶ ساخته شده، اما **به‌صورت پیش‌فرض خاموش است** و تا زمانی که شما سرور و کلید را تعیین نکنید، هیچ درخواست شبکه‌ای ارسال نمی‌کند.
 
-> **وضعیت:** کد، ابزار انتشار، آزمون‌ها و مسیر انتشار روی **GitHub Pages** (در همین مخزن) آماده‌اند. کانال **هنوز روشن نیست**: قبل از فعال‌سازی روی هر سایت باید (۱) کلید عمومی را در `release-site/public.key` commit کنید، (۲) Pages را روی حالت «GitHub Actions» بگذارید، و (۳) یک نسخه را منتشر و بررسی کنید.
+> **وضعیت (R3-06): کانال زنده است.** جفت‌کلید Ed25519 با `build-release.php keygen` روی ماشین انتشار (خارج از مخزن) ساخته شد؛ کلید عمومی در `release-site/public.key` کامیت شده و به‌عنوان مقدار پیش‌فرضِ ثابت `FLAVOR_UPDATE_PUBLIC_KEY` در `flavor/functions.php` هم امپد شده (تعریفِ زودهنگام‌تر در wp-config همیشه می‌برد). مانیفستِ امضاشدهٔ نسخهٔ ۱.۶.۲ با مهلتِ ۹۰ روزه در `release-site/flavor/` کنارِ خودِ بسته قرار دارد و workflow ‏`publish-release.yml` پیش از هر استقرار، امضا/sha256/ساختار را **فقط با کلید عمومی** راستی‌آزمایی می‌کند و نشانی‌های زنده را با ۲۰۰ِ بدونِ ریدایرکت چک می‌کند. کانال روی هر سایت هنوز انتخابی است: فعال‌سازی از **نمایش ← به‌روزرسانی Flavor**.
 
 ---
 
@@ -54,7 +54,7 @@ define( 'FLAVOR_UPDATE_PUBLIC_KEY', 'کلید-عمومی-base64-اینجا' );
 ۳. نشانی مانیفست را وارد کنید:
 
 ```
-https://<owner>.github.io/flavor-restaurant/flavor/manifest.json
+https://patrikjuniyor.github.io/flavor-restaurant/flavor/manifest.json
 ```
 
 ۴. گزینهٔ **فعال‌سازی کانال به‌روزرسانی** را تیک بزنید و **ذخیرهٔ تنظیمات** را بزنید.
@@ -75,7 +75,7 @@ https://<owner>.github.io/flavor-restaurant/flavor/manifest.json
 
 ### الف) یک بار: تنظیمات مخزن و کلید
 
-۱. **تنظیمات Pages:** در GitHub به *Settings ← Pages ← Build and deployment ← Source* بروید و **GitHub Actions** را انتخاب کنید. (اگر API در دسترس باشد، همین کار با `POST /repos/<owner>/flavor-restaurant/pages` و بدنهٔ `{"build_type":"workflow"}` هم انجام می‌شود.)
+۱. **تنظیمات Pages:** در GitHub به *Settings ← Pages ← Build and deployment ← Source* بروید و **GitHub Actions** را انتخاب کنید. (اگر API در دسترس باشد، همین کار با `POST /repos/patrikjuniyor/flavor-restaurant/pages` و بدنهٔ `{"build_type":"workflow"}` هم انجام می‌شود.)
 
 ۲. **ساختن کلید** خارج از مخزن (پوشه را خودتان بسازید؛ مسیر داخل مخزن رد می‌شود):
 
@@ -103,7 +103,7 @@ git push
 
 ```bash
 FLAVOR_RELEASE_SECRET_KEY=$HOME/flavor-keys/secret.key \
-FLAVOR_RELEASE_URL_PREFIX=https://<owner>.github.io/flavor-restaurant/flavor/ \
+FLAVOR_RELEASE_URL_PREFIX=https://patrikjuniyor.github.io/flavor-restaurant/flavor/ \
 ./dev-tools/release/publish.sh 1.7.0
 ```
 
@@ -127,7 +127,7 @@ git push
 
 ```bash
 curl -sS -o /dev/null -w '%{http_code} redirect=%{redirect_url}\n' --max-redirs 0 \
-  https://<owner>.github.io/flavor-restaurant/flavor/manifest.json
+  https://patrikjuniyor.github.io/flavor-restaurant/flavor/manifest.json
 ```
 
 خروجی باید `200 redirect=` (بدون آدرس بعد از `=`) باشد.
@@ -141,10 +141,10 @@ curl -sS -o /dev/null -w '%{http_code} redirect=%{redirect_url}\n' --max-redirs 
 ```bash
 php dev-tools/release/build-release.php sign \
   --zip=release-site/flavor/flavor-1.7.0.zip --version=1.7.0 \
-  --url=https://<owner>.github.io/flavor-restaurant/flavor/flavor-1.7.0.zip \
+  --url=https://patrikjuniyor.github.io/flavor-restaurant/flavor/flavor-1.7.0.zip \
   --secret-key=$HOME/flavor-keys/secret.key --out=release-site/flavor --expires-days=30
 php dev-tools/release/build-release.php verify --dir=release-site/flavor \
-  --public-key=release-site/public.key --url-prefix=https://<owner>.github.io/flavor-restaurant/flavor/
+  --public-key=release-site/public.key --url-prefix=https://patrikjuniyor.github.io/flavor-restaurant/flavor/
 git add release-site/flavor && git commit -m "release: refresh manifest 1.7.0" && git push
 ```
 
@@ -167,7 +167,8 @@ git add release-site/flavor && git commit -m "release: refresh manifest 1.7.0" &
 ## ۶. آنچه هنوز تأیید نشده است (صادقانه)
 
 - **زنجیرهٔ کامل نصب از کانال روی وردپرس واقعی** هنوز اجرا نشده است. نیاز به کلید عمومی تولیدشده، یک انتشار واقعی روی Pages، و یک سایت آزمایشی دارد.
-- **workflow انتشار** هنوز روی GitHub اجرا نشده است؛ اولین اجرای آن پس از push این تغییرات و با Pages روی حالت «GitHub Actions» انجام می‌شود.
+- **workflow انتشار:** اولین اجرای واقعیِ آن با همین push (کامیتِ مانیفستِ ۱.۶.۲) روی GitHub انجام می‌شود؛ اگر Pages روی حالت «GitHub Actions» نباشد از Settings ← Pages تنظیمش کنید — status.txt همین حالا ۲۰۰ می‌دهد، پس مسیر باز است.
+- **مانیفستِ جاری مهلتِ ۹۰ روزه دارد** (`--expires-days=90` هنگام امضا)؛ برای ادامهٔ کانال، هر انتشار باید امضای تازه بگیرد — این عمر عمداً محدود است تا مانیفستِ دزدی بی‌مدت‌اعلان اعتبار نداشته باشد.
 - آنچه در محیط واقعی (WordPress و WooCommerce) **تأیید شده**: صفحهٔ تنظیمات بدون خطا رندر می‌شود؛ کانال بدون کلید بسته می‌ماند؛ `http://` رد می‌شود؛ زمان‌بندی فقط وقتی کانال روشن است ثبت می‌شود؛ خطای شبکه باعث خطای فاتال نمی‌شود.
 - آنچه **با ابزار انتشار و کد تأیید** تأیید شده: خروجی `build-release.php` با همان کد وردپرس تأیید می‌شود؛ دست‌کاری مانیفست، کلید اشتباه، مهلت گذشته، downgrade، sha256 نادرست و ریشهٔ زیپ نادرست همگی رد می‌شوند.
 
@@ -181,7 +182,7 @@ git add release-site/flavor && git commit -m "release: refresh manifest 1.7.0" &
 
 ## ۸. تصمیم‌ها
 
-۱. **سرور انتشار:** GitHub Pages در همین مخزن. نشانی: `https://<owner>.github.io/flavor-restaurant/flavor/manifest.json` (مالک را خودتان تنظیم کنید). بدون هزینه.
+۱. **سرور انتشار:** GitHub Pages در همین مخزن. نشانی: `https://patrikjuniyor.github.io/flavor-restaurant/flavor/manifest.json` (مالک را خودتان تنظیم کنید). بدون هزینه.
 ۲. **نگهدارندهٔ کلید:** مالک، روی ماشین امن خودش. کلید خصوصی هرگز در CI، مخزن یا Pages نیست.
 ۳. **سیاست انتشار:** هنوز باز است: هر چند وقت یک بار نسخه منتشر شود، و آیا نسخهٔ اضطراری امنیتی جدا داریم؟ مهلت پیش‌فرض ۳۰ روز است (بخش ۴-پ).
 ۴. **عمومی‌بودن زیپ‌ها:** با توجه به عمومی‌بودن مخزن، زیپ‌ها هم عمومی‌اند (بخش ۴-ت).

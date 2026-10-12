@@ -9,6 +9,19 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'FLAVOR_VERSION', '1.6.2' );
 define( 'FLAVOR_DIR', get_template_directory() );
+
+/*
+ * Vendor public key for the signed update channel (R3-06).
+ *
+ * This is PUBLIC material — the counterpart of a signing key that never
+ * leaves the release machine — so shipping it in the theme is safe and
+ * means every install trusts the channel out of the box. A site owner who
+ * hosts their own channel overrides it in wp-config.php; that file loads
+ * before this one, and the defined() guard below makes their value win.
+ */
+if ( ! defined( 'FLAVOR_UPDATE_PUBLIC_KEY' ) ) {
+	define( 'FLAVOR_UPDATE_PUBLIC_KEY', 'iuuvIOgZPAH20YrAUluo3CQvIhUXtWj4M4Ht/q/4CKs=' );
+}
 define( 'FLAVOR_URI', get_template_directory_uri() );
 
 require_once FLAVOR_DIR . '/inc/template-tags.php';

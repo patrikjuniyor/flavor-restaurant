@@ -1,0 +1,17 @@
+{
+    "schema": 1,
+    "product": "flavor",
+    "version": "1.6.2",
+    "expires": 1799567476,
+    "released": "2026-10-12",
+    "requires_php": "8.0",
+    "requires_wp": "6.4",
+    "changelog": [
+        "فاز 3 — کانال به‌روزرسانی امضاشده: اتصال به GitHub Pages، کلید عمومیِ امپدشده، مانیفستِ امضاشده."
+    ],
+    "package": {
+        "url": "https://patrikjuniyor.github.io/flavor-restaurant/flavor/flavor-1.6.2.zip",
+        "sha256": "985dd7c2ea823a2eee53f1fdc604aae26ed77db1146fbdcb747f7c72143d7ce4",
+        "size": 1501054
+    }
+}
