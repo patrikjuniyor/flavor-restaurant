@@ -237,5 +237,10 @@
     "commit": "e9f34b0",
     "state": "done",
     "note": "پوشش تست هسته: پنج سوئیت منطق خالص در flavor-core/tests/pure/ (تجمیع با glob در run-pure-tests + micro-stubهای exists-guarded، بدون WP و بدون mock) برای شش کلاس بی‌تست — PointsManager/Currency/DiscountManager (اولویت پول: convert floor، مرزهای estimate_points، ثابت‌های اقتصاد وفاداری)، WebhookManager (ماتریس sign/verify، backoff با cap، validate_events، حصار SSRF روی literalها)، CheckoutService helpers با reflection (idempotency sanitize/fingerprint/window ۱۲۰s) + SlotCalculator، ReceiptRenderer/KitchenTicketSync (mode_label زنده، اثبات short-circuitِ suspend بدون WC، پین‌های cancel-map و hook-drift)، PushNotificationService (بردارهای DER→raw + round-tripِ openssl_verify روی build_jwt با کلید P-256 یک‌بارمصرف)؛ run-pure-tests از ۴۷ به ۱۷۳؛ گیت test-core-test-coverage با اجرای زندهٔ runner + دو اثبات sabotage → ۱۲/۰"
+  },
+  "48": {
+    "commit": "126d262",
+    "state": "done",
+    "note": "تقویم جلالی و زمان: اصلاح is_leap به پورت وفادار jalaali-js (رجرشن کبیسه شبح ۱۴۰۷/۱۴۱۱/۱۴۱۵/۱۴۱۹/۱۴۲۳/۱۴۲۷ — اسفند ۳۰ روزه ناموجود که اعتبارسنج رزرو از مارس ۲۰۲۸ می‌پذیرفت)، سه جفت‌سازی epoch بومی (یادآور رزرو ۳:۳۰ ساعت دیر، پنجره ناموجودی ۳:۳۰ ساعت اضافه، سن تیکت آشپزخانه چسبیده به صفر)، لبه ۲۴:۰۰ سانس‌های بعداز‌نیمه‌شب پنجره شبانه، و fallback امروز جلالی با current_time؛ جاروب‌های راستی‌آزمایی: صفر واگرایی با jalaali-js (۱۳۸۰–۱۴۳۰) و is_leap⇔۳۶۶روز (۱۳۸۰–۱۴۲۹)؛ سوئیت pure/jalali-time (۵۳ assertion: ماتریس کبیسه، مرز ماه‌ها، لنگرهای رسمی، round-trip ۱۴۶۱ روزه، iran_dow، پین‌های سیاست +۳:۳۰، جاروب صفر-mktime) + پنج متد PHPUnit در test-jalali.php؛ گیت ۱۲→۱۵ با دو اثبات sabotage؛ run-pure-tests ۲۲۶/۰"
   }
 }
