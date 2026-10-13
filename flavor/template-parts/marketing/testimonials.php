@@ -34,7 +34,7 @@ $items = $args['items'] ?? \Flavor\Repeater::items( 'testimonials' );
 					       item's actual rating instead of claiming a hard "۵ ستاره" for every card. */ ?>
 					<div class="flavor-review-card__stars" role="img" aria-label="<?php echo esc_attr( sprintf( /* translators: %d — star rating out of five. */ __( '%d ستاره از ۵', 'flavor' ), (int) ( $item['rating'] ?? 5 ) ) ); ?>">
 						<?php for ( $fz_s = 0; $fz_s < (int) ( $item['rating'] ?? 5 ); $fz_s++ ) : ?>
-							<svg width="18" height="18" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+							<svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
 						<?php endfor; ?>
 					</div>
 					<p class="flavor-review-card__text"><?php echo esc_html( (string) ( $item['text'] ?? '' ) ); ?></p>

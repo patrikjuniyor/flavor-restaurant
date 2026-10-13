@@ -17,6 +17,6 @@ get_header();
 	<details class="flavor-tracking-native"><summary><?php esc_html_e( 'پیگیری اصلی ووکامرس با ایمیل صورتحساب', 'flavor' ); ?></summary><?php if ( shortcode_exists( 'woocommerce_order_tracking' ) ) {
 echo do_shortcode( '[woocommerce_order_tracking]' ); } ?></details>
 </section><aside class="flavor-tracking-guide"><span class="flavor-account-login__mark" aria-hidden="true"><?php \Flavor\UI::icon( 'bag', 32 ); ?></span><h2><?php esc_html_e( 'وضعیت واقعی، نه تخمین نمایشی.', 'flavor' ); ?></h2><p><?php esc_html_e( 'وضعیت پرداخت از سفارش و مراحل آماده‌سازی فقط از رکورد موجود آشپزخانه خوانده می‌شوند. زمان رسیدن تضمین‌شده و نقشهٔ زندهٔ پیک ارائه نمی‌شود.', 'flavor' ); ?></p><a class="flavor-ui-text-link" href="<?php echo esc_url( \Flavor\UI::url( 'account' ) ); ?>"><?php esc_html_e( 'رفتن به حساب مشتری', 'flavor' ); ?><?php \Flavor\UI::icon( 'arrow', 18 ); ?></a></aside></div>
-<section class="flavor-tracking-result" data-ui-track-result role="region" aria-labelledby="flavor-tracking-result-title" tabindex="-1" hidden></section>
+<section class="flavor-tracking-result" data-ui-track-result role="region" aria-labelledby="flavor-tracking-result-title" aria-live="polite" tabindex="-1" hidden></section>
 </div>
 <?php get_footer(); ?>

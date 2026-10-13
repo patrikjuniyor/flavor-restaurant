@@ -159,20 +159,33 @@
 			'<div class="flavor-food-card__meta">' + metadata + '</div><div class="flavor-food-card__footer"><strong class="flavor-food-card__price">' + esc(plain(item.price_html)) + '</strong><button type="button" class="flavor-btn flavor-btn--primary flavor-btn--sm" data-add="' + esc(item.id) + '" aria-label="' + esc(fill('choose', item.name)) + '"' + (disabled ? ' disabled' : '') + '>' + smallIcon('plus') + esc(t('choose_dish')) + '</button></div></div></article>';
 	}
 
+	/* Categories follow the WAI-ARIA tabs pattern (prompt 55): the scroller is
+	   the tablist, each chip is a role=tab with aria-selected and a roving
+	   tabindex, and the grid is the shared tabpanel labelled by the active tab.
+	   Arrow keys move AND activate (automatic activation — the panel is cheap
+	   to repaint), with the direction mirrored for the RTL document. */
 	function renderCats(cats) {
 		if (!catsEl) return;
-		var html = '<button type="button" class="is-active" data-cat="0" aria-pressed="true" aria-controls="flavor-menu-grid">' + esc(t('all_menu')) + ' <span class="flavor-cats__count">' + fa(catalog.length) + '</span></button>';
+		var html = '<button type="button" class="is-active" id="flavor-cat-tab-0" role="tab" data-cat="0" aria-selected="true" tabindex="0" aria-controls="flavor-menu-grid">' + esc(t('all_menu')) + ' <span class="flavor-cats__count">' + fa(catalog.length) + '</span></button>';
 		(cats || []).forEach(function (c) {
 			var count = catalog.filter(function (dish) { return (dish.categories || []).some(function (category) { return Number(category.id) === Number(c.id); }); }).length;
-			if (count) html += '<button type="button" data-cat="' + esc(c.id) + '" aria-pressed="false" aria-controls="flavor-menu-grid">' + esc(c.name) + '<span class="flavor-cats__count">' + fa(count) + '</span></button>';
+			if (count) html += '<button type="button" id="flavor-cat-tab-' + esc(c.id) + '" role="tab" data-cat="' + esc(c.id) + '" aria-selected="false" tabindex="-1" aria-controls="flavor-menu-grid">' + esc(c.name) + '<span class="flavor-cats__count">' + fa(count) + '</span></button>';
 		});
 		catsEl.innerHTML = html;
+		grid.setAttribute('role', 'tabpanel');
+		grid.setAttribute('aria-labelledby', 'flavor-cat-tab-0');
 		var nav = document.getElementById('flavor-cats-nav'); if (nav) nav.hidden = false;
 	}
 	function filterCat(id) {
 		var count = 0;
 		grid.querySelectorAll('.flavor-card').forEach(function (el) { var visible = !id || id === '0' || (el.getAttribute('data-cats') || '').split(',').includes(String(id)); el.hidden = !visible; if (visible && !el.classList.contains('is-search-hidden')) count++; });
-		if (catsEl) catsEl.querySelectorAll('button').forEach(function (button) { var selected = String(button.dataset.cat) === String(id || 0); button.classList.toggle('is-active', selected); button.setAttribute('aria-pressed', String(selected)); });
+		if (catsEl) catsEl.querySelectorAll('[role="tab"]').forEach(function (button) {
+			var selected = String(button.dataset.cat) === String(id || 0);
+			button.classList.toggle('is-active', selected);
+			button.setAttribute('aria-selected', String(selected));
+			button.tabIndex = selected ? 0 : -1;
+			if (selected) grid.setAttribute('aria-labelledby', button.id);
+		});
 		if (statusEl) statusEl.textContent = fill('shown_count', fa(count));
 	}
 
@@ -305,6 +318,14 @@
 		if (cartCount) cartCount.textContent = String(cart.count || 0); // Legacy machine-readable count.
 		if (mobileCartCount) mobileCartCount.textContent = fa(cart.count || 0);
 		document.querySelectorAll('[data-ui-cart-count]').forEach(function (element) { element.textContent = fa(cart.count || 0); });
+		/* The header cart link is server-rendered with its count baked into the
+		   accessible name; after every JS refresh the badge digit and the link
+		   label have to agree with the real cart (prompt 55). */
+		document.querySelectorAll('[data-flavor-cart-count]').forEach(function (element) {
+			element.textContent = fa(cart.count || 0);
+			var link = element.closest('a');
+			if (link) link.setAttribute('aria-label', (cart.count || 0) ? fill('cart_count_live', fa(cart.count)) : t('cart_label'));
+		});
 		document.querySelectorAll('[data-ui-cart-total]').forEach(function (element) { element.textContent = cart.count ? plain(cart.total_html) : t('cart_empty'); });
 		var loading = document.getElementById('flavor-cart-loading'); if (loading) loading.hidden = true;
 		var empty = document.getElementById('flavor-cart-empty'); if (empty) empty.hidden = !!cart.count;
@@ -486,12 +507,26 @@
 
 	if (catsEl) {
 		catsEl.addEventListener('click', function (e) {
-			var b = e.target.closest('[data-cat]');
+			var b = e.target.closest('[role="tab"]');
 			if (!b) return;
-			catsEl.querySelectorAll('button').forEach(function (x) {
-				x.classList.toggle('is-active', x === b);
-			});
 			filterCat(b.getAttribute('data-cat'));
+		});
+		catsEl.addEventListener('keydown', function (e) {
+			var tab = e.target.closest('[role="tab"]');
+			if (!tab || !catsEl.contains(tab)) return;
+			var tabs = Array.prototype.slice.call(catsEl.querySelectorAll('[role="tab"]'));
+			var index = tabs.indexOf(tab);
+			var rtl = (document.documentElement.getAttribute('dir') || '').toLowerCase() === 'rtl';
+			var next = -1;
+			if (e.key === 'ArrowLeft') { next = rtl ? index + 1 : index - 1; }
+			else if (e.key === 'ArrowRight') { next = rtl ? index - 1 : index + 1; }
+			else if (e.key === 'Home') { next = 0; }
+			else if (e.key === 'End') { next = tabs.length - 1; }
+			if (next < 0) return;
+			e.preventDefault();
+			var target = tabs[(next + tabs.length) % tabs.length];
+			target.focus();
+			filterCat(target.getAttribute('data-cat'));
 		});
 	}
 

@@ -41,7 +41,7 @@ $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 			</div>
 			<a href="<?php echo esc_url( $menu_url ); ?>" class="flavor-btn flavor-btn--outline">
 				<?php esc_html_e( 'مشاهده کل منو', 'flavor' ); ?>
-				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+				<svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
 			</a>
 		</div>
 
@@ -64,7 +64,7 @@ $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 							<img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $product->get_name() ); ?>" loading="lazy" width="600" height="400" />
 						<?php else : ?>
 							<div class="flavor-food-card__ph" aria-hidden="true">
-								<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11h18"/><path d="M5 11a7 7 0 0 1 14 0"/><path d="M4 15h16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M12 4V2"/></svg>
+								<svg aria-hidden="true" focusable="false" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11h18"/><path d="M5 11a7 7 0 0 1 14 0"/><path d="M4 15h16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M12 4V2"/></svg>
 							</div>
 						<?php endif; ?>
 						<?php if ( $cat_name ) : ?>
@@ -82,13 +82,13 @@ $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 						<div class="flavor-food-card__meta">
 							<?php if ( $prep_time ) : ?>
 								<span class="flavor-food-card__meta-item">
-									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+									<svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
 									<?php echo esc_html( (string) $prep_time . ' ' . __( 'دقیقه', 'flavor' ) ); ?>
 								</span>
 							<?php endif; ?>
 							<?php if ( $calories ) : ?>
 								<span class="flavor-food-card__meta-item">
-									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+									<svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
 									<?php echo esc_html( (string) $calories . ' ' . __( 'کالری', 'flavor' ) ); ?>
 								</span>
 							<?php endif; ?>
@@ -99,7 +99,7 @@ $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 								<?php echo wp_kses_post( wc_price( $price ) ); ?>
 							</div>
 							<a href="<?php echo esc_url( $menu_url . '#item-' . $pid ); ?>" class="flavor-btn flavor-btn--primary flavor-btn--sm">
-								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+								<svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
 								<?php esc_html_e( 'سفارش', 'flavor' ); ?>
 							</a>
 						</div>

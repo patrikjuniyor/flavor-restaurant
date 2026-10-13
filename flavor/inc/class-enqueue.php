@@ -474,6 +474,9 @@ $payload['reservationBranchIds'][] = (int) $branch_id; }
 			'choose'            => __( 'انتخاب %s', 'flavor' ),
 			'choose_dish'       => __( 'انتخاب غذا', 'flavor' ),
 			'all_menu'          => __( 'همهٔ منو', 'flavor' ),
+			'cart_label'        => __( 'سبد خرید', 'flavor' ),
+			/* translators: %s: number of items in the cart. */
+			'cart_count_live'   => __( 'سبد خرید، %s قلم', 'flavor' ),
 			/* translators: %s values. */
 			'shown_count'       => __( '%s انتخاب نمایش داده می‌شود.', 'flavor' ),
 			/* translators: %s values. */

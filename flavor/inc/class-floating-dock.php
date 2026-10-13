@@ -107,7 +107,7 @@ class Floating_Dock {
 		// 2πr for r=19, used by the progress ring.
 		$circumference = 119.38;
 		?>
-		<div class="flavor-dock" id="flavor-dock" data-flavor-dock hidden>
+		<div class="flavor-dock" id="flavor-dock" data-flavor-dock role="group" aria-label="<?php esc_attr_e( 'میان‌برهای شناور', 'flavor' ); ?>" hidden>
 			<?php if ( '' !== $wa ) : ?>
 				<a class="flavor-dock__btn flavor-dock__btn--wa" href="<?php echo esc_url( $wa ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e( 'گفت‌وگو در واتس‌اپ', 'flavor' ); ?>" title="<?php esc_attr_e( 'گفت‌وگو در واتس‌اپ', 'flavor' ); ?>"><?php UI::icon( 'whatsapp', 20 ); ?></a>
 			<?php endif; ?>

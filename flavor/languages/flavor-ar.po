@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flavor\n"
 "Report-Msgid-Bugs-To: https://github.com/patrikjuniyor/flavor-restaurant/issues\n"
-"PO-Revision-Date: 2026-10-13 13:26+0000\n"
+"PO-Revision-Date: 2026-10-13 17:03+0000\n"
 "Last-Translator: Flavor Translations\n"
 "Language-Team: Flavor Translations\n"
 "Language: ar\n"
@@ -71,15 +71,15 @@ msgstr "%d نجوم من ٥"
 msgid "%d محصول منتشر شده است."
 msgstr "نُشر %d منتج."
 
-#: flavor/inc/class-enqueue.php:480
+#: flavor/inc/class-enqueue.php:483
 msgid "%s انتخاب در منو"
 msgstr "%s خياراً في القائمة"
 
-#: flavor/inc/class-bespoke-demos.php:32 flavor/inc/class-enqueue.php:478
+#: flavor/inc/class-bespoke-demos.php:32 flavor/inc/class-enqueue.php:481
 msgid "%s انتخاب نمایش داده می‌شود."
 msgstr "يُعرض %s من الخيارات."
 
-#: flavor/inc/class-enqueue.php:508
+#: flavor/inc/class-enqueue.php:511
 msgid "%s برای هر واحد"
 msgstr "%s لكل وحدة"
 
@@ -95,7 +95,7 @@ msgstr "تبقّى %s حتى الشحن المجاني"
 msgid "%s شعبه نمایش داده می‌شود."
 msgstr "%s فرع معروض."
 
-#: flavor/inc/class-enqueue.php:489
+#: flavor/inc/class-enqueue.php:492
 msgid "%s عدد"
 msgstr "%s قطعة"
 
@@ -107,11 +107,11 @@ msgstr "%s طبق"
 msgid "%s کالری"
 msgstr "%s سعرة حرارية"
 
-#: flavor/inc/class-enqueue.php:510 flavor/inc/class-ui.php:323 flavor/page-templates/template-contact.php:36 flavor/page-templates/template-contact.php:38 flavor/template-parts/demos/catering.php:86 flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/reservation/reservation-form.php:24
+#: flavor/inc/class-enqueue.php:513 flavor/inc/class-ui.php:323 flavor/page-templates/template-contact.php:36 flavor/page-templates/template-contact.php:38 flavor/template-parts/demos/catering.php:86 flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/reservation/reservation-form.php:24
 msgid "(اختیاری)"
 msgstr "(اختياري)"
 
-#: flavor/inc/class-enqueue.php:504 flavor/inc/class-ui.php:319
+#: flavor/inc/class-enqueue.php:507 flavor/inc/class-ui.php:319
 msgid "(انتخاب ضروری)"
 msgstr "(اختيار إلزامي)"
 
@@ -143,15 +143,15 @@ msgstr "لدى WooCommerce بوابة دفع أو طريقة دفع مفعّلة
 msgid "WooCommerce فعال است"
 msgstr "WooCommerce مفعّل"
 
-#: flavor/inc/class-enqueue.php:514
+#: flavor/inc/class-enqueue.php:517
 msgid "«%s» به سبد خرید اضافه شد."
 msgstr "أُضيف «%s» إلى سلة التسوق."
 
-#: flavor/inc/class-chrome-builder.php:1371
+#: flavor/inc/class-chrome-builder.php:1374
 msgid "«خودکار» همان شبکهٔ فعلی پوسته است و برای بیشتر رستوران‌ها بهترین انتخاب است."
 msgstr "«تلقائي» هو الشبكة الحالية للقالب، وهو الخيار الأفضل لمعظم المطاعم."
 
-#: flavor/inc/class-enqueue.php:522
+#: flavor/inc/class-enqueue.php:525
 msgid "،"
 msgstr "،"
 
@@ -263,7 +263,7 @@ msgstr "اختر اليوم المطلوب أولاً."
 msgid "ابزارهای فروش"
 msgstr "أدوات البيع"
 
-#: flavor/inc/class-chrome-builder.php:1339
+#: flavor/inc/class-chrome-builder.php:1342
 msgid "ابعاد دکمه‌ها"
 msgstr "أبعاد الأزرار"
 
@@ -299,7 +299,7 @@ msgstr "ارتفاع سطر نص المحتوى"
 msgid "ارتفاع لوگو در هدر (پیکسل)"
 msgstr "ارتفاع الشعار في الترويسة (بكسل)"
 
-#: flavor/inc/class-chrome-builder.php:1251
+#: flavor/inc/class-chrome-builder.php:1254
 msgid "ارتفاعِ اختصاصیِ هدر در موبایل؛ «مثل دسکتاپ» یعنی بدون تغییر."
 msgstr "ارتفاع خاص لشريط الترويسة في الجوال؛ «مثل سطح المكتب» يعني دون تغيير."
 
@@ -325,7 +325,7 @@ msgstr "شحن هذا الطلب مجاني."
 msgid "ارسال با پیک"
 msgstr "التوصيل عبر المندوب"
 
-#: flavor/inc/class-enqueue.php:537
+#: flavor/inc/class-enqueue.php:540
 #. %s values. */
 msgid "ارسال ثبت‌شده در سبد"
 msgstr "الشحن المسجّل في السلة"
@@ -346,7 +346,7 @@ msgstr "إرسال رسالة"
 msgid "ارسال پیام به جاوااسکریپت نیاز دارد؛ می‌توانید مستقیم از رایانامهٔ خود به ایمیل مجموعه در بالا پیام بدهید."
 msgstr "يتطلب إرسال الرسالة تفعيل جافاسكربت؛ يمكنك مراسلة بريد المطعم أعلاه مباشرةً من بريدك الإلكتروني."
 
-#: flavor/inc/class-contact-form.php:158 flavor/inc/class-enqueue.php:632
+#: flavor/inc/class-contact-form.php:158 flavor/inc/class-enqueue.php:635
 msgid "ارسال پیام ناموفق بود؛ کمی بعد دوباره تلاش کنید یا تلفنی هماهنگ کنید."
 msgstr "تعذّر إرسال الرسالة؛ حاول مجددًا بعد قليل أو نسّق هاتفيًا."
 
@@ -406,7 +406,7 @@ msgstr "قياسي (1.25) — الافتراضي"
 msgid "استاندارد (1240px)"
 msgstr "قياسي (1240px)"
 
-#: flavor/inc/class-chrome-builder.php:1346
+#: flavor/inc/class-chrome-builder.php:1349
 msgid "استاندارد قالب"
 msgstr "قياسي للقالب"
 
@@ -442,7 +442,7 @@ msgstr "أكملوا المعلومات الأساسية للمطعم حتى ي�
 msgid "اطلاعات این شعبه"
 msgstr "معلومات هذا الفرع"
 
-#: flavor/inc/class-chrome-builder.php:1094
+#: flavor/inc/class-chrome-builder.php:1097
 msgid "اطلاعات تماس"
 msgstr "معلومات الاتصال"
 
@@ -494,7 +494,7 @@ msgstr "فخرنا هو ابتسامة رضاكم وصنع ذكريات شهية
 msgid "افزایش تعداد"
 msgstr "زيادة الكمية"
 
-#: flavor/inc/class-enqueue.php:533
+#: flavor/inc/class-enqueue.php:536
 msgid "افزایش تعداد %s"
 msgstr "زيادة كمية %s"
 
@@ -510,7 +510,7 @@ msgstr "إضافة %s"
 msgid "افزودن %s به علاقه‌مندی‌ها"
 msgstr "إضافة %s إلى المفضلة"
 
-#: flavor/inc/class-enqueue.php:487 flavor/inc/class-shopping-extras.php:359 flavor/inc/class-wishlist.php:188 flavor/template-parts/menu/item-modal.php:16
+#: flavor/inc/class-enqueue.php:490 flavor/inc/class-shopping-extras.php:359 flavor/inc/class-wishlist.php:188 flavor/template-parts/menu/item-modal.php:16
 msgid "افزودن به سبد"
 msgstr "أضف إلى السلة"
 
@@ -527,7 +527,7 @@ msgstr "إضافة منتج"
 msgid "افزودن همه به سبد"
 msgstr "إضافة الكل إلى السلة"
 
-#: flavor/inc/class-enqueue.php:496 flavor/inc/class-ui.php:315
+#: flavor/inc/class-enqueue.php:499 flavor/inc/class-ui.php:315
 msgid "افزودنی‌ها"
 msgstr "الإضافات"
 
@@ -616,7 +616,7 @@ msgstr "اختر الطبق"
 msgid "انتخاب غذا و روش دریافت"
 msgstr "اختيار الطعام وطريقة الاستلام"
 
-#: flavor/inc/class-enqueue.php:494
+#: flavor/inc/class-enqueue.php:497
 msgid "انتخاب فعلی این ردیف را ویرایش می‌کنید؛ تا زدن «ذخیرهٔ تغییرات» چیزی در سبد عوض نمی‌شود."
 msgstr "تعدّل الاختيار الحالي لهذا السطر؛ لن يتغيّر شيء في السلة قبل الضغط على «حفظ التغييرات»."
 
@@ -636,11 +636,11 @@ msgstr "اختيار قالب المطعم"
 msgid "انتخاب یا آپلود لوگو از رسانه"
 msgstr "اختيار الشعار أو رفعه من الوسائط"
 
-#: flavor/inc/class-enqueue.php:499 flavor/inc/class-ui.php:318
+#: flavor/inc/class-enqueue.php:502 flavor/inc/class-ui.php:318
 msgid "انتخاب‌ها"
 msgstr "الاختيارات"
 
-#: flavor/inc/class-enqueue.php:516
+#: flavor/inc/class-enqueue.php:519
 msgid "انتخاب‌های این غذا در سبد ذخیره شد."
 msgstr "حُفظت اختيارات هذا الطبق في السلة."
 
@@ -681,39 +681,39 @@ msgstr "انحناء قياسي حديث (16px)"
 msgid "انحنای ملایم (8px)"
 msgstr "انحناء لطيف (8px)"
 
-#: flavor/inc/class-enqueue.php:495 flavor/inc/class-ui.php:314
+#: flavor/inc/class-enqueue.php:498 flavor/inc/class-ui.php:314
 msgid "اندازه و پرس"
 msgstr "الحجم والتقديم"
 
-#: flavor/inc/class-chrome-builder.php:1280
+#: flavor/inc/class-chrome-builder.php:1283
 msgid "اندازهٔ آیتم‌های منو (دسکتاپ)"
 msgstr "حجم عناصر القائمة (سطح المكتب)"
 
-#: flavor/inc/class-chrome-builder.php:1296
+#: flavor/inc/class-chrome-builder.php:1299
 msgid "اندازهٔ آیتم‌های منو (موبایل)"
 msgstr "حجم عناصر القائمة (الجوال)"
 
-#: flavor/inc/class-chrome-builder.php:1444
+#: flavor/inc/class-chrome-builder.php:1447
 msgid "اندازهٔ تیتر ستون‌های پاورقی"
 msgstr "حجم عنوان أعمدة التذييل"
 
-#: flavor/inc/class-chrome-builder.php:1281
+#: flavor/inc/class-chrome-builder.php:1284
 msgid "اندازهٔ قلمِ آیتم‌های منوی اصلی در دسکتاپ."
 msgstr "حجم خط عناصر القائمة الرئيسية في سطح المكتب."
 
-#: flavor/inc/class-chrome-builder.php:1445
+#: flavor/inc/class-chrome-builder.php:1448
 msgid "اندازهٔ قلمِ تیترِ ستون‌های پاورقی."
 msgstr "حجم خط عناوين أعمدة التذييل."
 
-#: flavor/inc/class-chrome-builder.php:1460
+#: flavor/inc/class-chrome-builder.php:1463
 msgid "اندازهٔ قلمِ لینک‌ها و متن‌های پاورقی."
 msgstr "حجم خط روابط التذييل ونصوصه."
 
-#: flavor/inc/class-chrome-builder.php:1297
+#: flavor/inc/class-chrome-builder.php:1300
 msgid "اندازهٔ قلمِ منو در موبایل؛ «مثل دسکتاپ» یعنی همان عددِ دسکتاپ."
 msgstr "حجم خط القائمة في الجوال؛ «مثل سطح المكتب» يعني استخدام الرقم نفسه."
 
-#: flavor/inc/class-chrome-builder.php:1459
+#: flavor/inc/class-chrome-builder.php:1462
 msgid "اندازهٔ لینک‌های پاورقی"
 msgstr "حجم روابط التذييل"
 
@@ -777,7 +777,7 @@ msgstr "البريد الإلكتروني: %s"
 msgid "ایمیل تماس مجموعه تنظیم نشده است؛ لطفاً از شمارهٔ تلفن درج‌شده استفاده کنید."
 msgstr "لم يُضبط بريد التواصل للمطعم؛ يرجى استخدام رقم الهاتف المدرج."
 
-#: flavor/inc/class-chrome-builder.php:1122 flavor/inc/class-engagement.php:231
+#: flavor/inc/class-chrome-builder.php:1125 flavor/inc/class-engagement.php:231
 msgid "ایمیل شما"
 msgstr "بريدكم الإلكتروني"
 
@@ -805,11 +805,11 @@ msgstr "هذا الفحص لا ينشئ عمداً تسعيراً أو طلبا�
 msgid "این ابزار فقط خلاصهٔ قابل‌کپی می‌سازد؛ هیچ اطلاعاتی ارسال یا ذخیره نمی‌شود و هیچ رزرو یا سفارشی ثبت نمی‌کند."
 msgstr "هذه الأداة تُنشئ ملخّصاً قابلاً للنسخ فقط؛ لا تُرسل أي بيانات ولا تُخزّنها، ولا تُسجّل أي حجز أو طلب."
 
-#: flavor/inc/class-enqueue.php:517
+#: flavor/inc/class-enqueue.php:520
 msgid "این انتخاب در حال حاضر موجود نیست."
 msgstr "هذا الاختيار غير متوفر حالياً."
 
-#: flavor/inc/class-enqueue.php:485
+#: flavor/inc/class-enqueue.php:488
 msgid "این انتخاب فعلاً ناموجود است"
 msgstr "هذا الاختيار غير متوفر حالياً"
 
@@ -829,7 +829,7 @@ msgstr "يستخدم هذا الموقع ذاكرة المتصفح لعمل سل
 msgid "اینستاگرام"
 msgstr "إنستغرام"
 
-#: flavor/inc/class-chrome-builder.php:1138
+#: flavor/inc/class-chrome-builder.php:1141
 msgid "این ستون هنوز ویجتی ندارد. از نمایش ← ویجت‌ها، «ویجت‌های پاورقی %d» را پر کنید."
 msgstr "هذا العمود لا يحتوي على أدوات بعد. من المظهر ← أدوات، املأوا «أدوات التذييل %d»."
 
@@ -877,15 +877,15 @@ msgstr "سجّل الدخول بتأكيد رقم الهاتف. إن لم يكن
 msgid "با تغییر پوسته، رنگ‌بندی، فونت و استایل کلی رستوران هماهنگ می‌شود."
 msgstr "بتغيير القالب تتناسق الألوان والخطوط والنمط العام للمطعم."
 
-#: flavor/inc/class-chrome-builder.php:1921
+#: flavor/inc/class-chrome-builder.php:1924
 msgid "با درگ کردن یا دکمهٔ جابه‌جایی، ترتیب را عوض کنید. تیک هر مورد یعنی در هدر نمایش داده شود."
 msgstr "غيّروا الترتيب بالسحب أو بزر النقل. علامة الاختيار لكل عنصر تعني أنه يظهر في الترويسة."
 
-#: flavor/inc/class-enqueue.php:598
+#: flavor/inc/class-enqueue.php:601
 msgid "بار"
 msgstr "ركن المشروبات"
 
-#: flavor/inc/class-enqueue.php:481
+#: flavor/inc/class-enqueue.php:484
 #. %s values. */
 msgid "بارگذاری موجودی زنده ناموفق بود؛ جزئیات منتشرشده را ببینید یا دوباره تلاش کنید."
 msgstr "تعذّر تحميل التوفر المباشر؛ اطّلع على التفاصيل المنشورة أو أعد المحاولة."
@@ -942,11 +942,11 @@ msgstr "استعادة المحتوى والوسائط"
 msgid "بازگردانی نسخهٔ قبلی"
 msgstr "استعادة النسخة السابقة"
 
-#: flavor/inc/class-chrome-builder.php:1926
+#: flavor/inc/class-chrome-builder.php:1929
 msgid "بازگردانی چینش پیش‌فرض هدر"
 msgstr "استعادة ترتيب الترويسة الافتراضي"
 
-#: flavor/inc/class-chrome-builder.php:2104
+#: flavor/inc/class-chrome-builder.php:2107
 msgid "بازگردانی چینش پیش‌فرض پاورقی"
 msgstr "استعادة ترتيب التذييل الافتراضي"
 
@@ -1050,11 +1050,11 @@ msgstr "بدون بيض"
 msgid "بدون تصویر"
 msgstr "بدون صورة"
 
-#: flavor/inc/class-enqueue.php:505 flavor/inc/class-ui.php:320
+#: flavor/inc/class-enqueue.php:508 flavor/inc/class-ui.php:320
 msgid "بدون تغییر در این گروه"
 msgstr "بدون تغيير في هذه المجموعة"
 
-#: flavor/inc/class-chrome-builder.php:1319
+#: flavor/inc/class-chrome-builder.php:1322
 msgid "بدون خط و سایه"
 msgstr "بدون حد وظل"
 
@@ -1070,7 +1070,7 @@ msgstr "بدون منتجات الألبان"
 msgid "بدون مغزها"
 msgstr "بدون مكسّرات"
 
-#: flavor/inc/class-enqueue.php:506 flavor/inc/class-ui.php:321
+#: flavor/inc/class-enqueue.php:509 flavor/inc/class-ui.php:321
 msgid "بدون هزینهٔ اضافه"
 msgstr "بدون تكلفة إضافية"
 
@@ -1094,7 +1094,7 @@ msgstr "يُحسب حسب المسافة بينكم وبين الفرع، ويظ
 msgid "برای QR، ساعت کاری، رزرو و محدودهٔ ارسال یک شعبه با نشانی کامل بسازید."
 msgstr "أنشئوا فرعاً بعنوان كامل لرمز QR وساعات العمل والحجز ونطاق التوصيل."
 
-#: flavor/inc/class-enqueue.php:491
+#: flavor/inc/class-enqueue.php:494
 msgid "برای ادامه، انتخاب‌های ضروری این غذا را مشخص کنید."
 msgstr "لتتابع، حدّد خيارات هذا الطبق الإلزامية."
 
@@ -1102,15 +1102,15 @@ msgstr "لتتابع، حدّد خيارات هذا الطبق الإلزامي�
 msgid "برای اعلان‌های رزرو و سفارش یک آدرس معتبر ثبت شده است."
 msgstr "سُجّل عنوان صالح لإشعارات الحجز والطلب."
 
-#: flavor/inc/class-enqueue.php:588
+#: flavor/inc/class-enqueue.php:591
 msgid "برای این تاریخ و انتخاب، ظرفیت قابل رزرو وجود ندارد. تاریخ یا بخش دیگری را بررسی کنید."
 msgstr "لا توجد سعة قابلة للحجز لهذا التاريخ والاختيار. جرّب تاريخًا أو قسمًا آخر."
 
-#: flavor/inc/class-enqueue.php:550
+#: flavor/inc/class-enqueue.php:553
 msgid "برای این روش دریافت، پرداخت فعالی تنظیم نشده است. با مجموعه تماس بگیرید."
 msgstr "لم تُضبط طريقة دفع فعّالة لهذا الأسلوب. اتصل بالمطعم."
 
-#: flavor/inc/class-enqueue.php:547
+#: flavor/inc/class-enqueue.php:550
 msgid "برای این شعبه روش سفارش فعالی تنظیم نشده است؛ با مجموعه تماس بگیرید."
 msgstr "لم تُضبط طريقة طلب فعّالة لهذا الفرع؛ اتصل بالمطعم."
 
@@ -1255,7 +1255,7 @@ msgstr "استعلام الطلب"
 msgid "بررسی ظرفیت رزرو"
 msgstr "التحقق من سعة الحجز"
 
-#: flavor/inc/class-enqueue.php:589
+#: flavor/inc/class-enqueue.php:592
 msgid "بررسی ظرفیت ناموفق بود."
 msgstr "تعذّر التحقق من السعة."
 
@@ -1323,7 +1323,7 @@ msgstr "إغلاق السلة"
 msgid "بستن علاقه‌مندی‌ها"
 msgstr "إغلاق المفضلة"
 
-#: flavor/inc/class-chrome-builder.php:924 flavor/template-parts/demos/header.php:44
+#: flavor/inc/class-chrome-builder.php:927 flavor/template-parts/demos/header.php:44
 msgid "بستن منو"
 msgstr "إغلاق القائمة"
 
@@ -1351,11 +1351,11 @@ msgstr "نعم، وهي مُعلَّمة برمز خاص في القائمة."
 msgid "بله؛ از طریق پیامکِ تأیید یا تماس با شعبه تا یک ساعت پیش از زمان رزرو."
 msgstr "نعم؛ عبر رسالة التأكيد النصية أو الاتصال بالفرع حتى ساعة قبل موعد الحجز."
 
-#: flavor/inc/class-chrome-builder.php:2098
+#: flavor/inc/class-chrome-builder.php:2101
 msgid "بلوک‌های پاورقی"
 msgstr "كتل التذييل"
 
-#: flavor/inc/class-chrome-builder.php:1340
+#: flavor/inc/class-chrome-builder.php:1343
 msgid "به جای CSS آزاد، سه اندازهٔ بررسی‌شده؛ فاصلهٔ داخلی و فاصلهٔ آیکن با هم تنظیم می‌شوند تا چیدمان نشکند."
 msgstr "بدلاً من CSS حر، ثلاثة أحجام تم اختبارها؛ تُضبط المسافة الداخلية ومسافة الأيقونة معاً حتى لا ينكسر التخطيط."
 
@@ -1387,7 +1387,7 @@ msgstr "طلب خارجي"
 msgid "تأخیر یا زمان موبایل (ثانیه)"
 msgstr "التأخير أو الوقت على الجوال (ثانية)"
 
-#: flavor/inc/class-enqueue.php:608
+#: flavor/inc/class-enqueue.php:611
 msgid "تأیید شده"
 msgstr "مؤكَّد"
 
@@ -1408,7 +1408,7 @@ msgstr "ما لم تُفصل هذه الكتلة، تظهر الروابط تح�
 msgid "تاریخ انتشار: %s"
 msgstr "تاريخ النشر: %s"
 
-#: flavor/inc/class-enqueue.php:601
+#: flavor/inc/class-enqueue.php:604
 msgid "تاریخ و ساعت را از تقویم و فهرست ساعت‌ها انتخاب کنید."
 msgstr "اختر التاريخ والساعة من التقويم وقائمة الساعات."
 
@@ -1432,7 +1432,7 @@ msgstr "الخطوط والزوايا"
 msgid "تایید آنی با پیامک"
 msgstr "تأكيد فوري عبر الرسائل النصية"
 
-#: flavor/inc/class-chrome-builder.php:1042
+#: flavor/inc/class-chrome-builder.php:1045
 msgid "تجربه طعم اصیل و فراموش‌نشدنی با تازه‌ترین مواد اولیه و میزبانی صمیمانه در محیطی آرام و دلپذیر."
 msgstr "تجربة نكهة أصيلة لا تُنسى، بأحدث المكونات الطازجة وضيافة دافئة في أجواء هادئة وممتعة."
 
@@ -1452,7 +1452,7 @@ msgstr "خصم"
 msgid "تراز"
 msgstr "المحاذاة"
 
-#: flavor/inc/class-chrome-builder.php:1219
+#: flavor/inc/class-chrome-builder.php:1222
 msgid "تراز ردیف هدر"
 msgstr "محاذاة صف الترويسة"
 
@@ -1460,7 +1460,7 @@ msgstr "محاذاة صف الترويسة"
 msgid "تراکم و قاب عکس برای منوی سفارش است، نه ترکیب صفحهٔ اصلی دمو. قاب مربع در نمایش کارتی دیده می‌شود؛ عکس فهرست با ارتفاع ردیف هماهنگ است. «پیش‌فرض پوسته» گردی و هویت همان دمو را نگه می‌دارد."
 msgstr "الكثافة وإطار الصورة للطلب فقط، وليس تركيبة الصفحة الرئيسية التجريبية. يظهر الإطار المربع في العرض البطاقي، وتتناسق صورة القائمة مع ارتفاع الصف. «الافتراضي للقالب» يحافظ على استدارة الهوية نفسها."
 
-#: flavor/inc/class-chrome-builder.php:2099
+#: flavor/inc/class-chrome-builder.php:2102
 msgid "ترتیب بلوک‌ها همان ترتیب ستون‌هاست. اگر «تعداد ستون در دسکتاپ» را کمتر از بلوک‌های روشن بگذارید، بلوک‌های اضافه در ستون آخر زیر هم می‌آیند."
 msgstr "ترتيب الكتل هو ترتيب الأعمدة. إذا جعلتم «عدد الأعمدة على سطح المكتب» أقل من عدد الكتل الظاهرة، تنزل الكتل الزائدة في العمود الأخير تحت بعضها."
 
@@ -1556,7 +1556,7 @@ msgstr "ضمانات الشراء"
 msgid "تعداد"
 msgstr "العدد"
 
-#: flavor/inc/class-enqueue.php:529
+#: flavor/inc/class-enqueue.php:532
 msgid "تعداد %s"
 msgstr "كمية %s"
 
@@ -1572,15 +1572,15 @@ msgstr "عدد العناصر"
 msgid "تعداد دلخواه تصویر بیفزایید و با فلش‌ها جابه‌جا کنید. متن جایگزین برای هر تصویر را پر کنید — این متن را صفحه‌خوان‌ها می‌خوانند."
 msgstr "أضيفوا عدد الصور الذي تريدونه وانقلوها بالأسهم. اكتبوا نصاً بديلاً لكل صورة، فقارئات الشاشة تقرؤه."
 
-#: flavor/inc/class-chrome-builder.php:1386
+#: flavor/inc/class-chrome-builder.php:1389
 msgid "تعداد ستون در تبلت"
 msgstr "عدد الأعمدة على الجهاز اللوحي"
 
-#: flavor/inc/class-chrome-builder.php:1370
+#: flavor/inc/class-chrome-builder.php:1373
 msgid "تعداد ستون در دسکتاپ"
 msgstr "عدد الأعمدة على سطح المكتب"
 
-#: flavor/inc/class-chrome-builder.php:1401
+#: flavor/inc/class-chrome-builder.php:1404
 msgid "تعداد ستون در موبایل"
 msgstr "عدد الأعمدة على الجوال"
 
@@ -1588,11 +1588,11 @@ msgstr "عدد الأعمدة على الجوال"
 msgid "تعداد ستون‌ها"
 msgstr "عدد الأعمدة"
 
-#: flavor/inc/class-chrome-builder.php:1402
+#: flavor/inc/class-chrome-builder.php:1405
 msgid "تعداد ستون‌های پاورقی در موبایل؛ ۰ یعنی تک‌ستونه."
 msgstr "عدد أعمدة التذييل في الجوال؛ 0 يعني عمودًا واحدًا."
 
-#: flavor/inc/class-chrome-builder.php:1387
+#: flavor/inc/class-chrome-builder.php:1390
 msgid "تعداد ستون‌های پاورقی روی نمایشگرِ تبلت؛ ۰ یعنی تک‌ستونه."
 msgstr "عدد أعمدة التذييل على شاشة الجهاز اللوحي؛ 0 يعني عمودًا واحدًا."
 
@@ -1608,7 +1608,7 @@ msgstr "عدد الأطباق"
 msgid "تعداد مهمان"
 msgstr "عدد الضيوف"
 
-#: flavor/inc/class-enqueue.php:602
+#: flavor/inc/class-enqueue.php:605
 msgid "تعداد مهمان باید بین ۱ و ۲۰ باشد؛ برای تعداد بیشتر با مجموعه تماس بگیرید."
 msgstr "يجب أن يكون عدد الضيوف بين ١ و٢٠؛ وللأعداد الأكبر اتصل بالمطعم."
 
@@ -1704,7 +1704,7 @@ msgstr "اتصل للتنسيق"
 msgid "تماس تلفنی"
 msgstr "اتصال هاتفي"
 
-#: flavor/inc/class-chrome-builder.php:942
+#: flavor/inc/class-chrome-builder.php:945
 msgid "تماس تلفنی: %s"
 msgstr "الاتصال الهاتفي: %s"
 
@@ -1720,7 +1720,7 @@ msgstr "اتصال مباشر"
 msgid "تمام صفحه لوکس (1440px)"
 msgstr "عرض كامل فاخر (1440px)"
 
-#: flavor/inc/class-chrome-builder.php:1183
+#: flavor/inc/class-chrome-builder.php:1186
 msgid "تمامی حقوق محفوظ است."
 msgstr "جميع الحقوق محفوظة."
 
@@ -1866,7 +1866,7 @@ msgstr "عنوان قصة العلامة"
 msgid "تیتر منوی منتخب"
 msgstr "عنوان القائمة المختارة"
 
-#: flavor/inc/class-chrome-builder.php:2121
+#: flavor/inc/class-chrome-builder.php:2124
 msgid "تیترِ فرمِ عضویت؛ وقتی بلوکِ «خبرنامه» یکی از ستون‌های پاورقی باشد نمایش داده می‌شود."
 msgstr "عنوان نموذج الاشتراك؛ يظهر عندما تكون كتلة «النشرة البريدية» أحد أعمدة التذييل."
 
@@ -1894,7 +1894,7 @@ msgstr "ثانية"
 msgid "ثبت سفارش"
 msgstr "تقديم الطلب"
 
-#: flavor/inc/class-enqueue.php:571 flavor/template-parts/menu/cart-drawer.php:36
+#: flavor/inc/class-enqueue.php:574 flavor/template-parts/menu/cart-drawer.php:36
 #. %s values. */
 msgid "ثبت سفارش و ادامهٔ پرداخت"
 msgstr "تسجيل الطلب ومتابعة الدفع"
@@ -1915,11 +1915,11 @@ msgstr "لم يُسجَّل؛ حاولوا لاحقاً."
 msgid "جابه‌جا شد."
 msgstr "تم النقل."
 
-#: flavor/inc/class-chrome-builder.php:1136
+#: flavor/inc/class-chrome-builder.php:1139
 msgid "جایگاه ویجت"
 msgstr "موضع الأداة"
 
-#: flavor/inc/class-chrome-builder.php:1347
+#: flavor/inc/class-chrome-builder.php:1350
 msgid "جای‌دار"
 msgstr "محجوز"
 
@@ -1927,7 +1927,7 @@ msgstr "محجوز"
 msgid "جداکننده"
 msgstr "فاصل"
 
-#: flavor/inc/class-chrome-builder.php:1311
+#: flavor/inc/class-chrome-builder.php:1314
 msgid "جدول پایین هدر"
 msgstr "شريط أسفل الترويسة"
 
@@ -1951,11 +1951,11 @@ msgstr "تفاصيل المنتج"
 msgid "جزئیات هر انتخاب را پیش از سفارش بخوانید."
 msgstr "اقرؤوا تفاصيل كل اختيار قبل الطلب."
 
-#: flavor/inc/class-chrome-builder.php:180 flavor/inc/class-chrome-builder.php:824 flavor/inc/class-chrome-builder.php:898 flavor/search.php:7
+#: flavor/inc/class-chrome-builder.php:180 flavor/inc/class-chrome-builder.php:824 flavor/inc/class-chrome-builder.php:901 flavor/search.php:7
 msgid "جست‌وجو"
 msgstr "بحث"
 
-#: flavor/inc/class-chrome-builder.php:821 flavor/inc/class-chrome-builder.php:895
+#: flavor/inc/class-chrome-builder.php:821 flavor/inc/class-chrome-builder.php:898
 msgid "جست‌وجو در منو و صفحات"
 msgstr "البحث في القائمة والصفحات"
 
@@ -1975,7 +1975,7 @@ msgstr "البحث باسم الفرع أو مدينته"
 msgid "جست‌وجوی هوشمند در منو"
 msgstr "بحث ذكي في القائمة"
 
-#: flavor/inc/class-chrome-builder.php:823 flavor/inc/class-chrome-builder.php:897
+#: flavor/inc/class-chrome-builder.php:823 flavor/inc/class-chrome-builder.php:900
 msgid "جست‌وجو…"
 msgstr "بحث…"
 
@@ -1987,7 +1987,7 @@ msgstr "مجموع الأطباق والإضافات"
 msgid "جمعه"
 msgstr "الجمعة"
 
-#: flavor/inc/class-chrome-builder.php:1345 flavor/inc/class-customizer.php:480 flavor/inc/class-customizer.php:490 flavor/inc/class-customizer.php:499 flavor/inc/class-ui-customizer.php:153 flavor/inc/class-ui-customizer.php:159 flavor/inc/class-ui-customizer.php:164 flavor/inc/class-ui.php:42
+#: flavor/inc/class-chrome-builder.php:1348 flavor/inc/class-customizer.php:480 flavor/inc/class-customizer.php:490 flavor/inc/class-customizer.php:499 flavor/inc/class-ui-customizer.php:153 flavor/inc/class-ui-customizer.php:159 flavor/inc/class-ui-customizer.php:164 flavor/inc/class-ui.php:42
 msgid "جمع‌وجور"
 msgstr "مدمج"
 
@@ -2087,17 +2087,17 @@ msgstr "أقصى عرض للمحتوى"
 msgid "حداکثرِ عرضِ محتوا به پیکسل. روی صفحه‌های عریض، محتوا از این مقدار فراتر نمی‌رود."
 msgstr "أقصى عرض للمحتوى بالبكسل. في الشاشات العريضة لا يتجاوز المحتوى هذه القيمة."
 
-#: flavor/inc/class-enqueue.php:490
+#: flavor/inc/class-enqueue.php:493
 #. %s values. */
 msgid "حداکثر ۲۰ واحد از یک انتخاب؛ تعداد را کم کنید."
 msgstr "الحد الأقصى ٢٠ وحدة من كل خيار؛ قلّل الكمية."
 
-#: flavor/inc/class-builder.php:737 flavor/inc/class-enqueue.php:534 flavor/inc/class-repeater-control.php:131 flavor/inc/class-wishlist.php:193
+#: flavor/inc/class-builder.php:737 flavor/inc/class-enqueue.php:537 flavor/inc/class-repeater-control.php:131 flavor/inc/class-wishlist.php:193
 #. %s values. */
 msgid "حذف"
 msgstr "إزالة"
 
-#: flavor/inc/class-enqueue.php:536
+#: flavor/inc/class-enqueue.php:539
 msgid "حذف %s"
 msgstr "إزالة %s"
 
@@ -2109,11 +2109,11 @@ msgstr "حذف هذا العنصر"
 msgid "حذف فقط محتوای دموی مالکیت‌شده"
 msgstr "حذف المحتوى التجريبي المملوك فقط"
 
-#: flavor/inc/class-enqueue.php:498 flavor/inc/class-ui.php:317
+#: flavor/inc/class-enqueue.php:501 flavor/inc/class-ui.php:317
 msgid "حذف مخلفات"
 msgstr "حذف المكونات"
 
-#: flavor/inc/class-enqueue.php:539
+#: flavor/inc/class-enqueue.php:542
 msgid "حذف کد %s ×"
 msgstr "حذف الرمز %s ×"
 
@@ -2121,7 +2121,7 @@ msgstr "حذف الرمز %s ×"
 msgid "حساب مشتری"
 msgstr "حساب العميل"
 
-#: flavor/inc/class-chrome-builder.php:861 flavor/page.php:17 flavor/template-parts/ui/mobile-nav.php:10
+#: flavor/inc/class-chrome-builder.php:864 flavor/page.php:17 flavor/template-parts/ui/mobile-nav.php:10
 msgid "حساب من"
 msgstr "حسابي"
 
@@ -2129,7 +2129,7 @@ msgstr "حسابي"
 msgid "حساب کاربری"
 msgstr "الحساب"
 
-#: flavor/inc/class-enqueue.php:512 flavor/inc/class-ui.php:325
+#: flavor/inc/class-enqueue.php:515 flavor/inc/class-ui.php:325
 msgid "حساسیت غذایی دارید؟ پیش از ثبت سفارش دربارهٔ امکان آماده‌سازی و آلودگی متقاطع هماهنگ کنید."
 msgstr "لديك حساسية غذائية؟ نسّق حول إمكانية التحضير والتلوث المتقاطع قبل تأكيد الطلب."
 
@@ -2138,7 +2138,7 @@ msgstr "لديك حساسية غذائية؟ نسّق حول إمكانية ال
 msgid "خارج از محدودهٔ ارسال؛ دریافت بیرون‌بر را بررسی کن."
 msgstr "خارج نطاق التوصيل؛ جرّب الاستلام من الفرع."
 
-#: flavor/inc/class-chrome-builder.php:2044
+#: flavor/inc/class-chrome-builder.php:2047
 msgid "خالی بگذارید تا رنگ خودِ پوسته حفظ شود."
 msgstr "اتركوه فارغاً ليبقى لون القالب نفسه."
 
@@ -2146,7 +2146,7 @@ msgstr "اتركوه فارغاً ليبقى لون القالب نفسه."
 msgid "خالی بگذارید تا شمارش معکوس روی محصولات زمان‌دار، از تاریخ پایان حراج خود ووکامرس خوانده شود."
 msgstr "اتركوه فارغاً ليُقرأ العد التنازلي للمنتجات المحدودة الوقت من تاريخ انتهاء التخفيض في WooCommerce."
 
-#: flavor/inc/class-chrome-builder.php:1963
+#: flavor/inc/class-chrome-builder.php:1966
 msgid "خاموش کردنش جای بیشتری برای محتوا روی گوشی می‌گذارد."
 msgstr "إيقافه يوفر مساحة أكبر للمحتوى على الهاتف."
 
@@ -2154,11 +2154,11 @@ msgstr "إيقافه يوفر مساحة أكبر للمحتوى على الها
 msgid "خانه"
 msgstr "الرئيسية"
 
-#: flavor/inc/class-chrome-builder.php:1117 flavor/inc/class-chrome-builder.php:2112
+#: flavor/inc/class-chrome-builder.php:1120 flavor/inc/class-chrome-builder.php:2115
 msgid "خبرنامهٔ منو و تخفیف‌ها"
 msgstr "نشرة القائمة والتخفيضات"
 
-#: flavor/inc/class-chrome-builder.php:1318
+#: flavor/inc/class-chrome-builder.php:1321
 msgid "خط و سایه"
 msgstr "حد وظل"
 
@@ -2186,7 +2186,7 @@ msgstr "واضح (1.8)"
 msgid "خوانایی رنگ‌ها"
 msgstr "وضوح الألوان"
 
-#: flavor/inc/class-chrome-builder.php:1375 flavor/inc/class-chrome-builder.php:1391 flavor/inc/class-chrome-builder.php:1406
+#: flavor/inc/class-chrome-builder.php:1378 flavor/inc/class-chrome-builder.php:1394 flavor/inc/class-chrome-builder.php:1409
 msgid "خودکار"
 msgstr "تلقائي"
 
@@ -2242,7 +2242,7 @@ msgstr "لنبقَ على تواصل."
 msgid "دراماتیک — ۱.۴۱۴"
 msgstr "درامي — 1.414"
 
-#: flavor/inc/class-enqueue.php:609
+#: flavor/inc/class-enqueue.php:612
 msgid "در انتظار تأیید"
 msgstr "بانتظار التأكيد"
 
@@ -2266,15 +2266,15 @@ msgstr "حول فلسفتنا"
 msgid "دربارهٔ ما"
 msgstr "عنا"
 
-#: flavor/inc/class-enqueue.php:497 flavor/inc/class-ui.php:316
+#: flavor/inc/class-enqueue.php:500 flavor/inc/class-ui.php:316
 msgid "درجهٔ پخت"
 msgstr "درجة الاستواء"
 
-#: flavor/inc/class-enqueue.php:605
+#: flavor/inc/class-enqueue.php:608
 msgid "در حال ارسال درخواست…"
 msgstr "جارٍ إرسال الطلب…"
 
-#: flavor/inc/class-enqueue.php:630
+#: flavor/inc/class-enqueue.php:633
 msgid "در حال ارسال پیام…"
 msgstr "جارٍ إرسال الرسالة…"
 
@@ -2286,11 +2286,11 @@ msgstr "جارٍ الإضافة إلى السلة…"
 msgid "در حال بارگذاری منو…"
 msgstr "جارٍ تحميل القائمة…"
 
-#: flavor/inc/class-enqueue.php:587
+#: flavor/inc/class-enqueue.php:590
 msgid "در حال بررسی ظرفیت…"
 msgstr "جارٍ التحقق من السعة…"
 
-#: flavor/inc/class-enqueue.php:555
+#: flavor/inc/class-enqueue.php:558
 #. %s values. */
 msgid "در حال بررسی محدودهٔ ارسال…"
 msgstr "جارٍ التحقق من نطاق التوصيل…"
@@ -2300,7 +2300,7 @@ msgstr "جارٍ التحقق من نطاق التوصيل…"
 msgid "در حال بررسی محله…"
 msgstr "جارٍ فحص الحي…"
 
-#: flavor/inc/class-enqueue.php:567
+#: flavor/inc/class-enqueue.php:570
 msgid "در حال بررسی و ثبت…"
 msgstr "جارٍ التحقق والتسجيل…"
 
@@ -2324,7 +2324,7 @@ msgstr "جارٍ جلب بيانات الطبق…"
 msgid "در حال دریافت اطلاعات…"
 msgstr "جارٍ جلب المعلومات…"
 
-#: flavor/inc/class-enqueue.php:549
+#: flavor/inc/class-enqueue.php:552
 msgid "در حال دریافت روش‌های مجاز…"
 msgstr "جارٍ جلب الطرق المسموحة…"
 
@@ -2332,11 +2332,11 @@ msgstr "جارٍ جلب الطرق المسموحة…"
 msgid "در حال دریافت سبد…"
 msgstr "جارٍ جلب السلة…"
 
-#: flavor/inc/class-enqueue.php:484
+#: flavor/inc/class-enqueue.php:487
 msgid "در حال ذخیرهٔ انتخاب‌ها…"
 msgstr "جارٍ حفظ الاختيارات…"
 
-#: flavor/inc/class-enqueue.php:612
+#: flavor/inc/class-enqueue.php:615
 msgid "درخواست ثبت شد (%1$s ساعت %2$s). وضعیت: %3$s"
 msgstr "سُجّل طلبك (%1$s الساعة %2$s). الحالة: %3$s"
 
@@ -2426,11 +2426,11 @@ msgstr "إعادة إرسال الرمز"
 msgid "دریافت دوبارهٔ کد ورود"
 msgstr "إعادة إرسال رمز الدخول"
 
-#: flavor/inc/class-enqueue.php:551
+#: flavor/inc/class-enqueue.php:554
 msgid "دریافت روش‌های پرداخت ناموفق بود."
 msgstr "فشل جلب طرق الدفع."
 
-#: flavor/inc/class-enqueue.php:544
+#: flavor/inc/class-enqueue.php:547
 msgid "دریافت سبد ناموفق بود؛ صفحه را دوباره باز کنید. %s"
 msgstr "تعذّر جلب السلة؛ أعد فتح الصفحة. %s"
 
@@ -2442,7 +2442,7 @@ msgstr "تنزيل ملف JSON للإعدادات"
 msgid "دریافت کد ورود"
 msgstr "استلام رمز الدخول"
 
-#: flavor/inc/class-chrome-builder.php:1053
+#: flavor/inc/class-chrome-builder.php:1056
 msgid "دسترسی سریع"
 msgstr "الوصول السريع"
 
@@ -2598,7 +2598,7 @@ msgstr "عرض القائمة كاملة"
 msgid "دیدن موقعیت ثبت‌شده در نقشه"
 msgstr "عرض الموقع المسجّل على الخريطة"
 
-#: flavor/inc/class-chrome-builder.php:1103
+#: flavor/inc/class-chrome-builder.php:1106
 msgid "دیدن نقشهٔ شعب"
 msgstr "عرض خريطة الفروع"
 
@@ -2606,7 +2606,7 @@ msgstr "عرض خريطة الفروع"
 msgid "ذخیره در علاقه‌مندی‌ها"
 msgstr "حفظ في المفضلة"
 
-#: flavor/inc/class-enqueue.php:486
+#: flavor/inc/class-enqueue.php:489
 msgid "ذخیرهٔ تغییرات"
 msgstr "حفظ التغييرات"
 
@@ -2678,7 +2678,7 @@ msgstr "حجز الطاولة عبر الإنترنت"
 msgid "رزرو آنلاین میز در دسترس نیست."
 msgstr "حجز الطاولة عبر الإنترنت غير متاح."
 
-#: flavor/inc/class-chrome-builder.php:1003
+#: flavor/inc/class-chrome-builder.php:1006
 msgid "رزرو اینترنتی میز"
 msgstr "حجز الطاولة عبر الإنترنت"
 
@@ -2786,7 +2786,7 @@ msgstr "لون الخطوط"
 msgid "رنگ خطوط و کادرها (Border Line)"
 msgstr "لون الخطوط والإطارات (Border Line)"
 
-#: flavor/inc/class-chrome-builder.php:1496
+#: flavor/inc/class-chrome-builder.php:1499
 msgid "رنگ خط پایین هدر"
 msgstr "لون الخط أسفل الترويسة"
 
@@ -2838,15 +2838,15 @@ msgstr "لون نص الزر الرئيسي"
 msgid "رنگ متن فرعی (Muted Text)"
 msgstr "لون النص الثانوي (Muted Text)"
 
-#: flavor/inc/class-chrome-builder.php:1508
+#: flavor/inc/class-chrome-builder.php:1511
 msgid "رنگ متن نوار اطلاعیه"
 msgstr "لون نص شريط الإعلانات"
 
-#: flavor/inc/class-chrome-builder.php:1490
+#: flavor/inc/class-chrome-builder.php:1493
 msgid "رنگ متن و آیکن‌های هدر"
 msgstr "لون نص أيقونات الترويسة"
 
-#: flavor/inc/class-chrome-builder.php:1520
+#: flavor/inc/class-chrome-builder.php:1523
 msgid "رنگ متن پاورقی"
 msgstr "لون نص التذييل"
 
@@ -2898,7 +2898,7 @@ msgstr "الألوان التي تُدخلونها تُقاس هنا."
 msgid "روز"
 msgstr "اليوم"
 
-#: flavor/inc/class-enqueue.php:586
+#: flavor/inc/class-enqueue.php:589
 msgid "روز انتخاب شد؛ یک ساعت دارای ظرفیت انتخاب کنید."
 msgstr "تم اختيار اليوم؛ اختر ساعة متاحة."
 
@@ -2930,7 +2930,7 @@ msgstr "فاتح"
 msgid "روشن یا خاموش کردن حالت شب/روز. وقتی خاموش است، سایت همیشه یک‌رنگ نمایش داده می‌شود."
 msgstr "تشغيل الوضع الليلي/النهاري أو إيقافه؛ عند الإيقاف يظهر الموقع بلون واحد دائمًا."
 
-#: flavor/inc/class-enqueue.php:548 flavor/template-parts/menu/cart-drawer.php:28
+#: flavor/inc/class-enqueue.php:551 flavor/template-parts/menu/cart-drawer.php:28
 msgid "روش پرداخت"
 msgstr "طريقة الدفع"
 
@@ -2970,7 +2970,7 @@ msgstr "النظام الغذائي:"
 msgid "زاویه‌دار"
 msgstr "زاوي"
 
-#: flavor/inc/class-enqueue.php:493
+#: flavor/inc/class-enqueue.php:496
 msgid "زمان آماده‌سازی برآورد است، نه زمان تضمین‌شدهٔ رسیدن سفارش."
 msgstr "وقت التحضير تقدير وليس ضماناً لوصول الطلب."
 
@@ -3042,11 +3042,11 @@ msgstr "سارة محمدي"
 msgid "سارا موسوی"
 msgstr "سارة موسوي"
 
-#: flavor/inc/class-chrome-builder.php:1857
+#: flavor/inc/class-chrome-builder.php:1860
 msgid "سازندهٔ هدر"
 msgstr "منشئ الترويسة"
 
-#: flavor/inc/class-chrome-builder.php:1867
+#: flavor/inc/class-chrome-builder.php:1870
 msgid "سازندهٔ پاورقی"
 msgstr "منشئ التذييل"
 
@@ -3074,7 +3074,7 @@ msgstr "ساعات التنسيق"
 msgid "ساعات پذیرایی"
 msgstr "ساعات الضيافة"
 
-#: flavor/inc/class-chrome-builder.php:1077
+#: flavor/inc/class-chrome-builder.php:1080
 msgid "ساعات پذیرایی و ارسال"
 msgstr "ساعات الضيافة والتوصيل"
 
@@ -3102,7 +3102,7 @@ msgstr "ساعات العمل والعنوان"
 msgid "ساعت"
 msgstr "الساعة"
 
-#: flavor/inc/class-enqueue.php:591
+#: flavor/inc/class-enqueue.php:594
 msgid "ساعت انتخاب‌شده: %s؛ هنوز رزروی ارسال نشده است."
 msgstr "الساعة المختارة: %s؛ لم يُرسل أي حجز بعد."
 
@@ -3134,7 +3134,7 @@ msgstr "سنوات من الخبرة"
 msgid "سال تجربه و افتخار میزبانی"
 msgstr "عاماً من الخبرة وشرف الضيافة"
 
-#: flavor/inc/class-enqueue.php:595 flavor/inc/class-ui.php:335 flavor/template-parts/menu/cart-drawer.php:18
+#: flavor/inc/class-enqueue.php:598 flavor/inc/class-ui.php:335 flavor/template-parts/menu/cart-drawer.php:18
 msgid "سالن"
 msgstr "القاعة"
 
@@ -3142,7 +3142,7 @@ msgstr "القاعة"
 msgid "سالن، بیرون‌بر یا ارسال با پیک."
 msgstr "القاعة أو الاستلام الخارجي أو التوصيل بالمندوب."
 
-#: flavor/inc/class-chrome-builder.php:1317
+#: flavor/inc/class-chrome-builder.php:1320
 msgid "سایهٔ نرم بدون خط"
 msgstr "ظل ناعم بدون حد"
 
@@ -3150,7 +3150,7 @@ msgstr "ظل ناعم بدون حد"
 msgid "سبد"
 msgstr "السلة"
 
-#: flavor/inc/class-enqueue.php:541
+#: flavor/inc/class-enqueue.php:544
 msgid "سبد به‌روزرسانی شد؛ %s انتخاب."
 msgstr "حدّثت السلة؛ %s خياراً."
 
@@ -3158,9 +3158,13 @@ msgstr "حدّثت السلة؛ %s خياراً."
 msgid "سبدتان هنوز خالی است."
 msgstr "سلتك ما زالت فارغة."
 
-#: flavor/elementor/widgets/class-cart-widget.php:25 flavor/inc/class-chrome-builder.php:185 flavor/inc/class-chrome-builder.php:841
+#: flavor/elementor/widgets/class-cart-widget.php:25 flavor/inc/class-chrome-builder.php:185 flavor/inc/class-chrome-builder.php:841 flavor/inc/class-enqueue.php:477
 msgid "سبد خرید"
 msgstr "سلّة الشراء"
+
+#: flavor/inc/class-chrome-builder.php:841 flavor/inc/class-enqueue.php:479
+msgid "سبد خرید، %s قلم"
+msgstr "سلّة الشراء، %s عنصر"
 
 #: flavor/template-parts/menu/cart-drawer.php:5
 msgid "سبد سفارش"
@@ -3182,7 +3186,7 @@ msgstr "السلة والاستلام"
 msgid "سبزیجات و گوشت هر روز صبح تامین می‌شود."
 msgstr "تُوفَّر الخضروات واللحوم كل صباح."
 
-#: flavor/inc/class-chrome-builder.php:1868
+#: flavor/inc/class-chrome-builder.php:1871
 msgid "ستون‌های پاورقی، بلوک هر ستون و ظاهرشان. محتوای ویجت‌ها از نمایش ← ویجت‌ها مدیریت می‌شود."
 msgstr "أعمدة التذييل، وكتلة كل عمود ومظهرها. يُدار محتوى الأدوات من المظهر ← الأدوات."
 
@@ -3242,7 +3246,7 @@ msgstr "الطلب"
 msgid "سفارش %s"
 msgstr "طلب %s"
 
-#: flavor/inc/class-enqueue.php:570
+#: flavor/inc/class-enqueue.php:573
 msgid "سفارش %s ثبت شد."
 msgstr "سُجّل الطلب %s."
 
@@ -3258,7 +3262,7 @@ msgstr "تم تسجيل طلب تجريبي"
 msgid "سفارش آنلاین"
 msgstr "طلب عبر الإنترنت"
 
-#: flavor/inc/class-chrome-builder.php:1085
+#: flavor/inc/class-chrome-builder.php:1088
 msgid "سفارش آنلاین:"
 msgstr "الطلب الإلكتروني:"
 
@@ -3439,7 +3443,7 @@ msgstr "الفروع"
 msgid "شعبه‌ها و راه‌های دسترسی"
 msgstr "الفروع وطرق الوصول"
 
-#: flavor/inc/class-chrome-builder.php:1009
+#: flavor/inc/class-chrome-builder.php:1012
 msgid "شعبه‌ها و ساعات کاری"
 msgstr "الفروع وساعات العمل"
 
@@ -3475,11 +3479,11 @@ msgstr "رقم الاتصال"
 msgid "شمارهٔ موبایل"
 msgstr "رقم الهاتف المحمول"
 
-#: flavor/inc/class-contact-form.php:115 flavor/inc/class-enqueue.php:564 flavor/inc/class-enqueue.php:604 flavor/inc/class-enqueue.php:628 flavor/inc/class-ui.php:142
+#: flavor/inc/class-contact-form.php:115 flavor/inc/class-enqueue.php:567 flavor/inc/class-enqueue.php:607 flavor/inc/class-enqueue.php:631 flavor/inc/class-ui.php:142
 msgid "شمارهٔ موبایل باید ۱۱ رقم و با ۰۹ شروع شود؛ مانند ۰۹۱۲۱۲۳۴۵۶۷."
 msgstr "يجب أن يتكوّن رقم الجوال من ١١ رقمًا ويبدأ بـ٠٩؛ مثل ٠٩١٢١٢٣٤٥٦٧."
 
-#: flavor/inc/class-contact-form.php:112 flavor/inc/class-enqueue.php:627
+#: flavor/inc/class-contact-form.php:112 flavor/inc/class-enqueue.php:630
 msgid "شمارهٔ موبایل یا ایمیل را وارد کنید تا بتوانیم پاسخ دهیم."
 msgstr "أدخل رقم الجوال أو البريد الإلكتروني حتى نتمكّن من الردّ عليك."
 
@@ -3503,7 +3507,7 @@ msgstr "أدخلوا معرّف الطلب ورمز متابعة الضيف من
 msgid "شنبه تا پنج‌شنبه"
 msgstr "من السبت إلى الخميس"
 
-#: flavor/inc/class-chrome-builder.php:1083 flavor/template-parts/marketing/hours.php:32
+#: flavor/inc/class-chrome-builder.php:1086 flavor/template-parts/marketing/hours.php:32
 msgid "شنبه تا چهارشنبه:"
 msgstr "السبت إلى الأربعاء:"
 
@@ -3535,7 +3539,7 @@ msgstr "طريقة عرض القائمة"
 msgid "صفحه اختصاصی دمو"
 msgstr "صفحة العرض التجريبي المخصصة"
 
-#: flavor/inc/class-chrome-builder.php:992
+#: flavor/inc/class-chrome-builder.php:995
 msgid "صفحه اصلی"
 msgstr "الصفحة الرئيسية"
 
@@ -3639,7 +3643,7 @@ msgstr "عريض عصري (1360px)"
 msgid "عضو جدید خبرنامه"
 msgstr "عضو جديد في النشرة البريدية"
 
-#: flavor/inc/class-chrome-builder.php:1124 flavor/inc/class-engagement.php:233
+#: flavor/inc/class-chrome-builder.php:1127 flavor/inc/class-engagement.php:233
 msgid "عضویت"
 msgstr "العضوية"
 
@@ -3659,7 +3663,7 @@ msgstr "مفضلتي"
 msgid "عملیات کامل نشد. آرشیو قبلی را بررسی کنید و در صورت نیاز بازگردانی را اجرا کنید."
 msgstr "لم تكتمل العملية. راجعوا الأرشيف السابق، ونفّذوا الاستعادة عند الحاجة."
 
-#: flavor/inc/class-chrome-builder.php:1858
+#: flavor/inc/class-chrome-builder.php:1861
 msgid "عناصر هدر را روشن یا خاموش کنید و با کشیدن، ترتیبشان را بچینید. تغییرات روی همین پیش‌نمایش اعمال می‌شود."
 msgstr "فعّلوا أو عطّلوا عناصر الترويسة ورتّبوها بالسحب. تُطبَّق التغييرات على هذه المعاينة نفسها."
 
@@ -3679,7 +3683,7 @@ msgstr "العنوان الرئيسي للواجهة"
 msgid "عنوان بخش"
 msgstr "عنوان القسم"
 
-#: flavor/inc/class-chrome-builder.php:2120
+#: flavor/inc/class-chrome-builder.php:2123
 msgid "عنوان بلوک خبرنامه"
 msgstr "عنوان كتلة النشرة"
 
@@ -3723,7 +3727,7 @@ msgstr "عنوان بانر الحجز. اكتبوه قصيراً؛ فالنص �
 msgid "عنوانی که بازدیدکننده در نگاهِ اول می‌بیند. کوتاه‌تر از این، نرخِ تبدیل بهتر است."
 msgstr "العنوان الذي يراه الزائر أولاً. كلما كان أقصر كان معدل التحويل أفضل."
 
-#: flavor/inc/class-enqueue.php:515
+#: flavor/inc/class-enqueue.php:518
 #. %s values. */
 msgid "غذا به سبد اضافه شد."
 msgstr "أُضيف الطبق إلى السلة."
@@ -3760,11 +3764,11 @@ msgstr "يُدعم أيضاً الخطأ الإملائي والياء والك�
 msgid "فاصله"
 msgstr "المسافة"
 
-#: flavor/inc/class-chrome-builder.php:1265
+#: flavor/inc/class-chrome-builder.php:1268
 msgid "فاصلهٔ بین عناصر هدر"
 msgstr "المسافة بين عناصر الترويسة"
 
-#: flavor/inc/class-chrome-builder.php:1266
+#: flavor/inc/class-chrome-builder.php:1269
 msgid "فاصلهٔ بینِ عناصرِ هدر در دسکتاپ."
 msgstr "المسافة بين عناصر الترويسة في سطح المكتب."
 
@@ -3844,7 +3848,7 @@ msgstr "أكثر إحكاماً (0.02em-)"
 msgid "فضای آرام کافه‌ای با تونالیته چوب، زیتونی و کرم"
 msgstr "أجواء مقهى هادئة بدرجات الخشب والزيتوني والكريمي"
 
-#: flavor/inc/class-enqueue.php:596
+#: flavor/inc/class-enqueue.php:599
 msgid "فضای باز"
 msgstr "الجلسات الخارجية"
 
@@ -3856,19 +3860,19 @@ msgstr "مساحة العلامة والمكوّنات الطازجة"
 msgid "فضای سالن فوق‌العاده آرام و دلنشین است. برخورد پرسنل عالی و سرعت آماده‌سازی سفارش با QR کد سر میز بسیار راحت و مدرن بود."
 msgstr "أجواء القاعة هادئة وممتعة للغاية. تعامل الطاقم ممتاز، وكان الطلب من الطاولة عبر رمز QR مريحاً وعصرياً وسريعاً."
 
-#: flavor/inc/class-chrome-builder.php:1416
+#: flavor/inc/class-chrome-builder.php:1419
 msgid "فضای عمودیِ بالا و پایینِ پاورقی در دسکتاپ."
 msgstr "المساحة العمودية أعلى التذييل وأسفله في سطح المكتب."
 
-#: flavor/inc/class-chrome-builder.php:1431
+#: flavor/inc/class-chrome-builder.php:1434
 msgid "فضای عمودیِ پاورقی در موبایل؛ «مثل دسکتاپ» یعنی بدون تغییر."
 msgstr "المساحة العمودية للتذييل في الجوال؛ «مثل سطح المكتب» يعني دون تغيير."
 
-#: flavor/inc/class-chrome-builder.php:1415
+#: flavor/inc/class-chrome-builder.php:1418
 msgid "فضای پاورقی (دسکتاپ)"
 msgstr "مساحة التذييل (سطح المكتب)"
 
-#: flavor/inc/class-chrome-builder.php:1430
+#: flavor/inc/class-chrome-builder.php:1433
 msgid "فضای پاورقی (موبایل)"
 msgstr "مساحة التذييل (الجوال)"
 
@@ -4001,7 +4005,7 @@ msgstr "إطار الصورة في القائمة البطاقية"
 msgid "قالب Flavor بدون افزونه Flavor Core مثل یک قالب رستورانی معمولی کار می‌کند. برای سفارش‌گیری، QR و آشپزخانه افزونه را فعال کنید."
 msgstr "يعمل قالب Flavor بدون إضافة Flavor Core كقالب مطاعم عادي. لاستقبال الطلبات وQR والمطبخ، فعّلوا الإضافة."
 
-#: flavor/inc/class-contact-form.php:118 flavor/inc/class-enqueue.php:629
+#: flavor/inc/class-contact-form.php:118 flavor/inc/class-enqueue.php:632
 msgid "قالب ایمیل درست نیست؛ کامل وارد کنید، مانند name@example.com."
 msgstr "صيغة البريد الإلكتروني غير صحيحة؛ أدخله كاملًا مثل name@example.com."
 
@@ -4033,7 +4037,7 @@ msgstr "قبل الترويج للموقع، راجعوا الاعتماديات
 msgid "قبول همه"
 msgstr "قبول الكل"
 
-#: flavor/inc/class-chrome-builder.php:1189
+#: flavor/inc/class-chrome-builder.php:1192
 msgid "قدرت گرفته از پلتفرم رستوران مستقیم Flavor"
 msgstr "مدعوم بمنصة مطعم Flavor المباشرة"
 
@@ -4069,7 +4073,7 @@ msgstr "استمتع بوجبتك"
 msgid "لطفاً این بخش را تکمیل کنید."
 msgstr "أكمل هذا الحقل."
 
-#: flavor/inc/class-enqueue.php:610
+#: flavor/inc/class-enqueue.php:613
 msgid "لغوشده"
 msgstr "ملغى"
 
@@ -4093,7 +4097,7 @@ msgstr "الشعار والقائمة في المنتصف"
 msgid "لوگوی باکیفیت (PNG با پس‌زمینه شفاف پیشنهاد می‌شود)"
 msgstr "شعار عالي الجودة (يُنصح بملف PNG بخلفية شفافة)"
 
-#: flavor/inc/class-chrome-builder.php:1225
+#: flavor/inc/class-chrome-builder.php:1228
 msgid "لوگو یک سر، منو و دکمه‌ها سر دیگر"
 msgstr "الشعار في طرف، والقائمة والأزرار في الطرف الآخر"
 
@@ -4113,7 +4117,7 @@ msgstr "رابط إنستغرام"
 msgid "لینک تلگرام"
 msgstr "رابط تيليغرام"
 
-#: flavor/inc/class-chrome-builder.php:1943
+#: flavor/inc/class-chrome-builder.php:1946
 msgid "لینک نوار اطلاعیه (اختیاری)"
 msgstr "رابط شريط الإعلانات (اختياري)"
 
@@ -4121,7 +4125,7 @@ msgstr "رابط شريط الإعلانات (اختياري)"
 msgid "لینک واتس‌اپ"
 msgstr "رابط واتساب"
 
-#: flavor/inc/class-chrome-builder.php:1110
+#: flavor/inc/class-chrome-builder.php:1113
 msgid "ما را دنبال کنید"
 msgstr "تابعونا"
 
@@ -4145,7 +4149,7 @@ msgstr "الشهر التالي"
 msgid "ماه قبل"
 msgstr "الشهر السابق"
 
-#: flavor/inc/class-enqueue.php:542 flavor/template-parts/menu/cart-drawer.php:33
+#: flavor/inc/class-enqueue.php:545 flavor/template-parts/menu/cart-drawer.php:33
 #. %s values. */
 msgid "مبالغ از سرور خوانده می‌شوند؛ هزینه‌های تأییدنشده به جمع سبد اضافه نمی‌شوند."
 msgstr "تُقرأ المبالغ من الخادم؛ التكاليف غير المؤكَّدة لا تُضاف إلى مجموع السلة."
@@ -4186,7 +4190,7 @@ msgstr "النص الأساسي على خلفية الصفحة"
 msgid "متن اصلی روی کارت‌ها"
 msgstr "النص الأساسي على البطاقات"
 
-#: flavor/inc/class-chrome-builder.php:2139
+#: flavor/inc/class-chrome-builder.php:2142
 msgid "متن بلوک خبرنامه"
 msgstr "نص كتلة النشرة"
 
@@ -4254,7 +4258,7 @@ msgstr "نص الزر الأساسي. تحدد النواة وجهة هذا ال
 msgid "متنِ دکمهٔ دوم. برای پنهان‌کردن، خالی بگذارید."
 msgstr "نص الزر الثاني. اتركوه فارغاً لإخفائه."
 
-#: flavor/inc/class-chrome-builder.php:2140
+#: flavor/inc/class-chrome-builder.php:2143
 msgid "متنِ راهنمای بالای فیلدِ ایمیل در همان بلوک."
 msgstr "نص الإرشاد أعلى حقل البريد في الكتلة نفسها."
 
@@ -4298,11 +4302,11 @@ msgstr "مثال: توصيل مجاني للطلبات فوق 300 ألف توم�
 msgid "مثال: طعم اصیل کباب و نان داغ در محیطی آرام"
 msgstr "مثال: نكهة أصيلة من الكباب والخبز الساخن في أجواء هادئة"
 
-#: flavor/inc/class-enqueue.php:511 flavor/inc/class-ui.php:324
+#: flavor/inc/class-enqueue.php:514 flavor/inc/class-ui.php:324
 msgid "مثلاً سس جداگانه یا کم‌نمک"
 msgstr "مثلاً الصلصة منفصلة أو طبق خفيف الملح"
 
-#: flavor/inc/class-chrome-builder.php:1944
+#: flavor/inc/class-chrome-builder.php:1947
 msgid "مثلاً نشانی صفحهٔ تخفیف‌ها. خالی بگذارید تا نوار فقط متن باشد."
 msgstr "مثلاً عنوان صفحة الخصومات. اتركوه فارغاً ليكون الشريط نصاً فقط."
 
@@ -4310,7 +4314,7 @@ msgstr "مثلاً عنوان صفحة الخصومات. اتركوه فارغا
 msgid "مثلاً ونک"
 msgstr "مثال: ونك"
 
-#: flavor/inc/class-chrome-builder.php:1255 flavor/inc/class-chrome-builder.php:1301 flavor/inc/class-chrome-builder.php:1435
+#: flavor/inc/class-chrome-builder.php:1258 flavor/inc/class-chrome-builder.php:1304 flavor/inc/class-chrome-builder.php:1438
 msgid "مثل دسکتاپ"
 msgstr "مثل سطح المكتب"
 
@@ -4334,11 +4338,11 @@ msgstr "المحتوى"
 msgid "محتوایی پیدا نشد."
 msgstr "لم يُعثر على محتوى."
 
-#: flavor/inc/class-enqueue.php:557
+#: flavor/inc/class-enqueue.php:560
 msgid "محدوده تأیید شد · هزینهٔ ارسال: %1$s · برآورد منطقه: حدود %2$s دقیقه؛ زمان تضمین‌شده نیست."
 msgstr "تمّت الموافقة على النطاق · تكلفة التوصيل: %1$s · تقدير المنطقة: نحو %2$s دقيقة؛ الوقت غير مضمون."
 
-#: flavor/inc/class-enqueue.php:565
+#: flavor/inc/class-enqueue.php:568
 msgid "محدودهٔ ارسال هنوز تأیید نشده است؛ شهر و محله را بررسی کنید."
 msgstr "لم يُؤكَّد نطاق التوصيل بعد؛ تحقق من المدينة والحي."
 
@@ -4382,7 +4386,7 @@ msgstr "مربع — 1 إلى 1"
 msgid "مرتب‌سازی"
 msgstr "الترتيب"
 
-#: flavor/inc/class-chrome-builder.php:1312
+#: flavor/inc/class-chrome-builder.php:1315
 msgid "مرزِ پایینِ هدر: خطِ باریک، سایهٔ نرم، هر دو یا هیچ‌کدام."
 msgstr "حد أسفل الترويسة: خط رفيع، ظل ناعم، كلاهما، أو لا شيء."
 
@@ -4570,7 +4574,7 @@ msgstr "قائمة الوصول السريع"
 msgid "منوی رستوران"
 msgstr "قائمة المطعم"
 
-#: flavor/inc/class-chrome-builder.php:996
+#: flavor/inc/class-chrome-builder.php:999
 msgid "منوی سفارش آنلاین"
 msgstr "قائمة الطلب الإلكتروني"
 
@@ -4590,7 +4594,7 @@ msgstr "احصل على قائمة الموسم والعروض الخاصة وخ
 msgid "منوی ما"
 msgstr "قائمتنا"
 
-#: flavor/inc/class-chrome-builder.php:919 flavor/inc/class-chrome-builder.php:927 flavor/template-parts/demos/header.php:46
+#: flavor/inc/class-chrome-builder.php:922 flavor/inc/class-chrome-builder.php:930 flavor/template-parts/demos/header.php:46
 msgid "منوی موبایل"
 msgstr "قائمة الجوال"
 
@@ -4658,7 +4662,11 @@ msgstr "الموقع المسجّل على الخريطة"
 msgid "مگامنو"
 msgstr "القائمة الضخمة"
 
-#: flavor/inc/class-enqueue.php:554 flavor/page-templates/template-menu.php:19
+#: flavor/inc/class-floating-dock.php:110
+msgid "میان‌برهای شناور"
+msgstr "الاختصارات العائمة"
+
+#: flavor/inc/class-enqueue.php:557 flavor/page-templates/template-menu.php:19
 msgid "میز %s"
 msgstr "الطاولة %s"
 
@@ -4670,7 +4678,7 @@ msgstr "احجز طاولتك في أجواء دافئة وهادئة"
 msgid "میز خود را رزرو کنید"
 msgstr "احجز طاولتك"
 
-#: flavor/inc/class-enqueue.php:552
+#: flavor/inc/class-enqueue.php:555
 msgid "میز را انتخاب کنید"
 msgstr "اختر الطاولة"
 
@@ -4710,7 +4718,7 @@ msgstr "الاسم"
 msgid "نام: %s"
 msgstr "الاسم: %s"
 
-#: flavor/inc/class-enqueue.php:603
+#: flavor/inc/class-enqueue.php:606
 msgid "نام خود را وارد کنید؛ بدون نام، درخواست قابل پیگیری نیست."
 msgstr "أدخل اسمك؛ فبدون اسم لا يمكن متابعة الطلب."
 
@@ -4718,7 +4726,7 @@ msgstr "أدخل اسمك؛ فبدون اسم لا يمكن متابعة الط�
 msgid "نام خود را وارد کنید؛ بدون نام، پیام قابل پیگیری نیست."
 msgstr "أدخل اسمك؛ فبدون اسم لا يمكن متابعة الرسالة."
 
-#: flavor/inc/class-enqueue.php:625
+#: flavor/inc/class-enqueue.php:628
 msgid "نام خود را وارد کنید تا پیام قابل پیگیری باشد."
 msgstr "أدخل اسمك حتى تكون الرسالة قابلة للمتابعة."
 
@@ -4803,7 +4811,7 @@ msgstr "العنوان"
 msgid "نشانی manifest.json (https)"
 msgstr "عنوان manifest.json (https)"
 
-#: flavor/inc/class-enqueue.php:568
+#: flavor/inc/class-enqueue.php:571
 msgid "نشانی ادامهٔ پرداخت معتبر نیست؛ با مجموعه تماس بگیرید."
 msgstr "عنوان متابعة الدفع غير صالح؛ اتصل بالمطعم."
 
@@ -4815,7 +4823,7 @@ msgstr "عنوان الصورة"
 msgid "نشانی ثبت‌شده"
 msgstr "العنوان المسجّل"
 
-#: flavor/inc/class-enqueue.php:558
+#: flavor/inc/class-enqueue.php:561
 #. %1$s, %2$s values. */
 msgid "نشانی خارج از محدودهٔ ارسال است."
 msgstr "العنوان خارج نطاق التوصيل."
@@ -5005,7 +5013,7 @@ msgstr "عرض الأزرار العائمة"
 msgid "نمایش ساعات کاری و آدرس"
 msgstr "عرض ساعات العمل والعنوان"
 
-#: flavor/inc/class-chrome-builder.php:1981
+#: flavor/inc/class-chrome-builder.php:1984
 msgid "نمایش شعار کوتاه کنار نام سایت"
 msgstr "عرض الشعار القصير بجانب اسم الموقع"
 
@@ -5201,7 +5209,7 @@ msgstr "ترويسة زجاجية شفافة فوق صورة الواجهة"
 msgid "هدر و ناوبری سایت"
 msgstr "الترويسة والتنقل في الموقع"
 
-#: flavor/inc/class-chrome-builder.php:1962
+#: flavor/inc/class-chrome-builder.php:1965
 msgid "هدر چسبان در موبایل"
 msgstr "ترويسة ثابتة على الجوال"
 
@@ -5209,7 +5217,7 @@ msgstr "ترويسة ثابتة على الجوال"
 msgid "هدر چسبان هنگام اسکرول (Sticky Header)"
 msgstr "ترويسة ثابتة عند التمرير (Sticky Header)"
 
-#: flavor/inc/class-enqueue.php:594 flavor/template-parts/reservation/reservation-form.php:22
+#: flavor/inc/class-enqueue.php:597 flavor/template-parts/reservation/reservation-form.php:22
 msgid "هر بخشِ دارای ظرفیت"
 msgstr "كل قسم متاحة فيه السعة"
 
@@ -5229,7 +5237,7 @@ msgstr "يُجهَّز يومياً بمكونات طازجة."
 msgid "هر ستون جایگاه ویجت خودش را دارد؛ در نمایش ← ویجت‌ها پرشان کنید."
 msgstr "لكل عمود موضع أداة خاص به؛ املأوه من المظهر ← الأدوات."
 
-#: flavor/inc/class-chrome-builder.php:1119 flavor/inc/class-chrome-builder.php:2131
+#: flavor/inc/class-chrome-builder.php:1122 flavor/inc/class-chrome-builder.php:2134
 msgid "هر هفته یک ایمیل: منوی جدید، تخفیف‌های مناسبتی و ساعت ویژه."
 msgstr "بريد واحد كل أسبوع: قائمة جديدة وخصومات المناسبات وساعات خاصة."
 
@@ -5249,7 +5257,7 @@ msgstr "كيف تُحسب رسوم التوصيل؟"
 msgid "هزینهٔ انتخاب‌های اضافه در سبد خرید به فاکتور افزوده می‌شود."
 msgstr "تُضاف كلفة الاختيارات الإضافية إلى الفاتورة داخل سلة التسوّق."
 
-#: flavor/inc/class-enqueue.php:559
+#: flavor/inc/class-enqueue.php:562
 msgid "هزینهٔ منطقه جداگانه نمایش داده شده و در مبلغ فعلی سبد منظور نشده است؛ سرور مبلغ نهایی را هنگام ثبت بررسی می‌کند."
 msgstr "تُعرض تكلفة المنطقة بشكل منفصل وليست مشمولة بالمبلغ الحالي للسلة؛ يتحقق الخادم من المبلغ النهائي عند التأكيد."
 
@@ -5261,7 +5269,7 @@ msgstr "تنبيه"
 msgid "هشدار: در خط فارسی حروف به هم می‌چسبند. هر مقدارِ غیرصفر پیوستگیِ کلمات را می‌شکند و متن را نازیبا می‌کند؛ فقط برای تیترهای لاتین استفاده کنید."
 msgstr "تنبيه: في الخط الفارسي تتصل الحروف ببعضها. أي قيمة غير صفرية تكسر اتصال الكلمات وتجعل النص غير جميل؛ استخدموها للعناوين اللاتينية فقط."
 
-#: flavor/inc/class-chrome-builder.php:1982
+#: flavor/inc/class-chrome-builder.php:1985
 msgid "همان «شرح کوتاه سایت» در تنظیمات عمومی وردپرس. وقتی لوگوی اختصاصی بگذارید، این گزینه اثری ندارد."
 msgstr "هو «الشعار النصي للموقع» في الإعدادات العامة لووردبريس. وعند وضع شعار مخصص لا يكون لهذا الخيار أثر."
 
@@ -5289,15 +5297,15 @@ msgstr "تنسيق مناسبة خاصة"
 msgid "همه"
 msgstr "الكل"
 
-#: flavor/inc/class-chrome-builder.php:1226
+#: flavor/inc/class-chrome-builder.php:1229
 msgid "همه در ابتدا (راست در فارسی)"
 msgstr "الكل في البداية (يمين في الفارسية)"
 
-#: flavor/inc/class-chrome-builder.php:1228
+#: flavor/inc/class-chrome-builder.php:1231
 msgid "همه در انتها (چپ در فارسی)"
 msgstr "الكل في النهاية (يسار في الفارسية)"
 
-#: flavor/inc/class-chrome-builder.php:1227
+#: flavor/inc/class-chrome-builder.php:1230
 msgid "همه وسط"
 msgstr "الكل في المنتصف"
 
@@ -5349,7 +5357,7 @@ msgstr "محاذاة النص"
 msgid "هنوز آیتمی در منو منتشر نشده است."
 msgstr "لم يُنشر أي عنصر في القائمة بعد."
 
-#: flavor/inc/class-enqueue.php:520
+#: flavor/inc/class-enqueue.php:523
 msgid "هنوز انتخابی ندارید"
 msgstr "لم تختر شيئاً بعد"
 
@@ -5469,7 +5477,7 @@ msgstr "دخول بسيط، ومتابعة أسهل."
 msgid "ورود پیامکی به JavaScript نیاز دارد. از فرم اصلی نام کاربری و رمز عبور در ادامه استفاده کنید."
 msgstr "الدخول بالرسائل النصية يحتاج JavaScript. استخدم نموذج اسم المستخدم وكلمة المرور الرئيسي أدناه."
 
-#: flavor/inc/class-chrome-builder.php:861
+#: flavor/inc/class-chrome-builder.php:864
 msgid "ورود یا ثبت‌نام"
 msgstr "تسجيل الدخول أو إنشاء حساب"
 
@@ -5521,7 +5529,7 @@ msgstr "تُقرأ حالة الدفع ومراحل التجهيز من سجل �
 msgid "وضعیت پیش از آخرین درون‌ریزی بازگردانی شد."
 msgstr "استُعيدت الحالة السابقة لآخر استيراد."
 
-#: flavor/inc/class-chrome-builder.php:1787
+#: flavor/inc/class-chrome-builder.php:1790
 msgid "وقتی ستونی در سازندهٔ پاورقی روی «ویجت‌های همان ستون» باشد، اینجا پر می‌شود."
 msgstr "عند ضبط عمود في منشئ التذييل على «أدوات العمود نفسه»، يُملأ هنا."
 
@@ -5533,16 +5541,16 @@ msgstr "نباتي صرف"
 msgid "ویجت‌های همان ستون"
 msgstr "أدوات العمود نفسه"
 
-#: flavor/inc/class-chrome-builder.php:1785
+#: flavor/inc/class-chrome-builder.php:1788
 msgid "ویجت‌های پاورقی %d"
 msgstr "أدوات التذييل %d"
 
-#: flavor/inc/class-enqueue.php:525
+#: flavor/inc/class-enqueue.php:528
 #. %s values. */
 msgid "ویرایش انتخاب‌ها"
 msgstr "تعديل الاختيارات"
 
-#: flavor/inc/class-enqueue.php:527
+#: flavor/inc/class-enqueue.php:530
 msgid "ویرایش انتخاب‌ها و یادداشت %s"
 msgstr "تعديل اختيارات وملاحظة %s"
 
@@ -5622,7 +5630,7 @@ msgstr "شاهدوا الطهي عن قرب."
 msgid "پذیرایی اختصاصی"
 msgstr "ضيافة مخصّصة"
 
-#: flavor/inc/class-chrome-builder.php:1085
+#: flavor/inc/class-chrome-builder.php:1088
 msgid "پذیرش پیوسته"
 msgstr "استقبال مستمر"
 
@@ -5686,15 +5694,15 @@ msgstr "خلفية الموقع (Background)"
 msgid "پس‌زمینهٔ دکمهٔ اصلی"
 msgstr "خلفية الزر الرئيسي"
 
-#: flavor/inc/class-chrome-builder.php:1502
+#: flavor/inc/class-chrome-builder.php:1505
 msgid "پس‌زمینهٔ نوار اطلاعیه"
 msgstr "خلفية شريط الإعلانات"
 
-#: flavor/inc/class-chrome-builder.php:1484
+#: flavor/inc/class-chrome-builder.php:1487
 msgid "پس‌زمینهٔ هدر"
 msgstr "خلفية الترويسة"
 
-#: flavor/inc/class-chrome-builder.php:1514
+#: flavor/inc/class-chrome-builder.php:1517
 msgid "پس‌زمینهٔ پاورقی"
 msgstr "خلفية التذييل"
 
@@ -5714,11 +5722,11 @@ msgstr "نسخة إعدادات احتياطية"
 msgid "پشتیبانی و امکان هماهنگی پیش‌غذا"
 msgstr "دعم وإمكانية ترتيب المقبّلات"
 
-#: flavor/inc/class-chrome-builder.php:1084 flavor/template-parts/marketing/hours.php:36
+#: flavor/inc/class-chrome-builder.php:1087 flavor/template-parts/marketing/hours.php:36
 msgid "پنج‌شنبه و جمعه:"
 msgstr "الخميس والجمعة:"
 
-#: flavor/inc/class-enqueue.php:492
+#: flavor/inc/class-enqueue.php:495
 msgid "پنل جزئیات در دسترس نیست. صفحه را دوباره باز کنید."
 msgstr "لوحة التفاصيل غير متوفرة. أعد فتح الصفحة."
 
@@ -5762,11 +5770,11 @@ msgstr "الرسالة"
 msgid "پیام تماس از %s"
 msgstr "رسالة تواصل من %s"
 
-#: flavor/inc/class-contact-form.php:109 flavor/inc/class-enqueue.php:626
+#: flavor/inc/class-contact-form.php:109 flavor/inc/class-enqueue.php:629
 msgid "پیام را کامل‌تر بنویسید؛ حداقل ۱۰ نویسه لازم است."
 msgstr "اكتب الرسالة بمزيد من التفصيل؛ يلزم ١٠ أحرف على الأقل."
 
-#: flavor/inc/class-contact-form.php:170 flavor/inc/class-enqueue.php:631
+#: flavor/inc/class-contact-form.php:170 flavor/inc/class-enqueue.php:634
 msgid "پیام شما ارسال شد؛ از راهی که وارد کرده‌اید پاسخ می‌دهیم."
 msgstr "أُرسلت رسالتك؛ وسنردّ عبر الوسيلة التي أدخلتها."
 
@@ -5846,11 +5854,11 @@ msgstr "استُعيد الافتراضي."
 msgid "پیش‌فرض قالب"
 msgstr "الافتراضي للقالب"
 
-#: flavor/inc/class-chrome-builder.php:1224 flavor/inc/class-customizer.php:381 flavor/inc/class-customizer.php:403 flavor/inc/class-ui-customizer.php:88 flavor/inc/class-ui-customizer.php:96 flavor/inc/class-ui-customizer.php:103 flavor/inc/class-ui-customizer.php:186 flavor/inc/class-ui.php:59
+#: flavor/inc/class-chrome-builder.php:1227 flavor/inc/class-customizer.php:381 flavor/inc/class-customizer.php:403 flavor/inc/class-ui-customizer.php:88 flavor/inc/class-ui-customizer.php:96 flavor/inc/class-ui-customizer.php:103 flavor/inc/class-ui-customizer.php:186 flavor/inc/class-ui.php:59
 msgid "پیش‌فرض پوسته"
 msgstr "الافتراضي للقالب"
 
-#: flavor/inc/class-chrome-builder.php:1316
+#: flavor/inc/class-chrome-builder.php:1319
 msgid "پیش‌فرض پوسته (خط باریک)"
 msgstr "الافتراضي للقالب (خط رفيع)"
 
@@ -5951,7 +5959,7 @@ msgstr "يسار"
 msgid "چیدمان"
 msgstr "التخطيط"
 
-#: flavor/inc/class-chrome-builder.php:1220
+#: flavor/inc/class-chrome-builder.php:1223
 msgid "چیدمانِ افقیِ لوگو، منو و دکمه‌ها در ردیفِ هدر."
 msgstr "التوزيع الأفقي للشعار والقائمة والأزرار في صف الترويسة."
 
@@ -5972,7 +5980,7 @@ msgstr "لم يكن هناك ما يُكتب؛ كانت المجموعة متز�
 msgid "چیزی پیدا نشد."
 msgstr "لم يُعثر على شيء."
 
-#: flavor/inc/class-chrome-builder.php:1920
+#: flavor/inc/class-chrome-builder.php:1923
 msgid "چینش عناصر هدر"
 msgstr "ترتيب عناصر الترويسة"
 
@@ -6032,7 +6040,7 @@ msgstr "القناة مفعّلة ومُعدّة."
 msgid "کاهش تعداد"
 msgstr "تقليل الكمية"
 
-#: flavor/inc/class-enqueue.php:531
+#: flavor/inc/class-enqueue.php:534
 msgid "کاهش تعداد %s"
 msgstr "تقليل كمية %s"
 
@@ -6060,7 +6068,7 @@ msgstr "كود الخصم"
 msgid "کد تخفیف:"
 msgstr "كود الخصم:"
 
-#: flavor/inc/class-enqueue.php:561
+#: flavor/inc/class-enqueue.php:564
 msgid "کد تخفیف اعمال شد."
 msgstr "طُبّق رمز الخصم."
 
@@ -6076,7 +6084,7 @@ msgstr "لديك كود خصم؟"
 msgid "کد تخفیف را هنگام پرداخت وارد کنید."
 msgstr "أدخل كود الخصم عند الدفع."
 
-#: flavor/inc/class-enqueue.php:560
+#: flavor/inc/class-enqueue.php:563
 msgid "کد تخفیف را وارد کنید."
 msgstr "أدخل رمز الخصم."
 
@@ -6140,15 +6148,15 @@ msgstr "المفاتيح التي بقيت كما هي"
 msgid "کلیدهایی که نوشته شد"
 msgstr "المفاتيح التي كُتبت"
 
-#: flavor/inc/class-chrome-builder.php:1234
+#: flavor/inc/class-chrome-builder.php:1237
 msgid "کمترین ارتفاع هدر (دسکتاپ)"
 msgstr "أقل ارتفاع للترويسة (سطح المكتب)"
 
-#: flavor/inc/class-chrome-builder.php:1250
+#: flavor/inc/class-chrome-builder.php:1253
 msgid "کمترین ارتفاع هدر (موبایل)"
 msgstr "أقل ارتفاع للترويسة (الجوال)"
 
-#: flavor/inc/class-chrome-builder.php:1235
+#: flavor/inc/class-chrome-builder.php:1238
 msgid "کمترین ارتفاعِ ردیفِ هدر در دسکتاپ؛ مقدارِ بزرگ‌تر فضای تنفس بیشتری می‌دهد."
 msgstr "أقل ارتفاع لصف الترويسة في سطح المكتب؛ القيمة الأكبر تمنح مساحة أوسع."
 
@@ -6168,7 +6176,7 @@ msgstr "مضغوط قليلاً (0.01em-)"
 msgid "کم‌کالری‌ترین"
 msgstr "الأقل سعرات"
 
-#: flavor/inc/class-enqueue.php:597
+#: flavor/inc/class-enqueue.php:600
 msgid "کنار پنجره"
 msgstr "بجانب النافذة"
 
@@ -6336,11 +6344,11 @@ msgstr "نباتي"
 msgid "یادداشت"
 msgstr "ملاحظة"
 
-#: flavor/inc/class-enqueue.php:524
+#: flavor/inc/class-enqueue.php:527
 msgid "یادداشت: %s"
 msgstr "ملاحظة: %s"
 
-#: flavor/inc/class-enqueue.php:509 flavor/inc/class-ui.php:322
+#: flavor/inc/class-enqueue.php:512 flavor/inc/class-ui.php:322
 #. %s values. */
 msgid "یادداشت برای آشپزخانه"
 msgstr "ملاحظة للمطبخ"
@@ -6371,7 +6379,7 @@ msgstr "استوردوا عرضاً تجريبياً أو أنشئوا أول ط
 msgid "یک دمو درون‌ریزی کنید یا صفحهٔ خانه را در تنظیمات خواندن انتخاب کنید."
 msgstr "استوردوا عرضاً تجريبياً أو اختاروا الصفحة الرئيسية في إعدادات القراءة."
 
-#: flavor/inc/class-enqueue.php:566
+#: flavor/inc/class-enqueue.php:569
 msgid "یک روش پرداخت فعال را انتخاب کنید."
 msgstr "اختر طريقة دفع فعّالة."
 
@@ -6403,11 +6411,11 @@ msgstr "1. التعريف والمميزات البارزة"
 msgid "۱ تا ۱۰۰۰ نفر در برنامه‌ریز؛ ظرفیت باید تلفنی تأیید شود."
 msgstr "من 1 إلى 1000 شخص في المخطّط؛ يجب تأكيد السعة هاتفياً."
 
-#: flavor/inc/class-chrome-builder.php:1083 flavor/template-parts/marketing/hours.php:33
+#: flavor/inc/class-chrome-builder.php:1086 flavor/template-parts/marketing/hours.php:33
 msgid "۱۱:۳۰ الی ۲۳:۳۰"
 msgstr "من 11:30 حتى 23:30"
 
-#: flavor/inc/class-chrome-builder.php:1084 flavor/template-parts/marketing/hours.php:37
+#: flavor/inc/class-chrome-builder.php:1087 flavor/template-parts/marketing/hours.php:37
 msgid "۱۱:۳۰ الی ۲۴:۰۰"
 msgstr "من 11:30 حتى 24:00"
 

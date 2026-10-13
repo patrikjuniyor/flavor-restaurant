@@ -23,7 +23,7 @@ $menu_url  = $menu_page ? get_permalink( $menu_page ) : home_url( '/menu/' );
 			<div class="flavor-offer-banner__bg-pattern"></div>
 			<div class="flavor-offer-banner__content">
 				<span class="flavor-offer-banner__badge">
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+					<svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
 					<?php esc_html_e( 'پیشنهاد طلایی این ماه', 'flavor' ); ?>
 				</span>
 				<h2 class="flavor-offer-banner__title"><?php echo esc_html( $fz_title ); ?></h2>

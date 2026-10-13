@@ -837,8 +837,11 @@ class Chrome_Builder {
 				$count = self::cart_count();
 
 // phpcs:disable WordPress.Security.EscapeOutput -- chrome markup with static inline SVG from self::icon(); no user data in the echoed fragment.
+				/* translators: %s: number of items in the cart. */
+				$cart_label = $count ? sprintf( __( 'سبد خرید، %s قلم', 'flavor' ), (string) $count ) : __( 'سبد خرید', 'flavor' );
+
 				echo '<a class="flavor-header__cart' . ( $count ? ' has-items' : '' ) . '" href="' . esc_url( function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' ) ) . '"'
-					. ' aria-label="' . esc_attr__( 'سبد خرید', 'flavor' ) . '">' . self::icon( 'bag' )
+					. ' aria-label="' . esc_attr( $cart_label ) . '">' . self::icon( 'bag' )
 					. '<span class="flavor-header__cart-count" data-flavor-cart-count>' . esc_html( (string) $count ) . '</span></a>';
 // phpcs:enable
 
