@@ -122,7 +122,7 @@
 	margin: 0 0 var(--flavor-space-2, 8px);
 	font-size: 0.875rem;
 	font-weight: 600;
-	color: var(--flavor-primary, #a74e2c);
+	color: var(--flavor-primary, #a44c2a);
 }
 
 .flavor-chef__bio {
@@ -157,7 +157,7 @@
 
 .flavor-order-cta__mode:hover,
 .flavor-order-cta__mode:focus-visible {
-	border-color: var(--flavor-primary, #a74e2c);
+	border-color: var(--flavor-primary, #a44c2a);
 	transform: translateY(-2px);
 }
 
@@ -181,7 +181,7 @@
 .flavor-cart-summary__total {
 	font-size: 1.35rem;
 	font-weight: 700;
-	color: var(--flavor-primary, #a74e2c);
+	color: var(--flavor-primary, #a44c2a);
 }
 
 .flavor-cart-summary__empty {

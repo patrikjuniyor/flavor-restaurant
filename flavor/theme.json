@@ -17,7 +17,7 @@
 			"palette": [
 				{
 					"slug": "primary",
-					"color": "var(--flavor-primary, #a74e2c)",
+					"color": "var(--flavor-primary, #a44c2a)",
 					"name": "Primary"
 				},
 				{
@@ -79,12 +79,12 @@
 			"gradients": [
 				{
 					"slug": "primary-to-accent",
-					"gradient": "linear-gradient(135deg, var(--flavor-primary, #a74e2c) 0%, var(--flavor-accent, #d6a64f) 100%)",
+					"gradient": "linear-gradient(135deg, var(--flavor-primary, #a44c2a) 0%, var(--flavor-accent, #d6a64f) 100%)",
 					"name": "Primary to accent"
 				},
 				{
 					"slug": "ink-to-primary",
-					"gradient": "linear-gradient(135deg, var(--flavor-ink, #201c19) 0%, var(--flavor-primary, #a74e2c) 100%)",
+					"gradient": "linear-gradient(135deg, var(--flavor-ink, #201c19) 0%, var(--flavor-primary, #a44c2a) 100%)",
 					"name": "Ink to primary"
 				},
 				{
@@ -222,7 +222,7 @@
 				"lineHeight": "1.25"
 			},
 			"link": {
-				"color": "var(--flavor-primary, #a74e2c)",
+				"color": "var(--flavor-primary, #a44c2a)",
 				":hover": {
 					"color": "var(--flavor-secondary, #26352b)"
 				},
@@ -232,7 +232,7 @@
 			},
 			"button": {
 				"color": "var(--flavor-surface, #fffaf4)",
-				"background": "var(--flavor-primary, #a74e2c)",
+				"background": "var(--flavor-primary, #a44c2a)",
 				"border": {
 					"radius": "var(--flavor-btn-radius, 14px)"
 				},
@@ -256,7 +256,7 @@
 			},
 			"core/pullquote": {
 				"border": {
-					"color": "var(--flavor-primary, #a74e2c)"
+					"color": "var(--flavor-primary, #a44c2a)"
 				}
 			},
 			"core/separator": {
@@ -264,7 +264,7 @@
 			},
 			"core/quote": {
 				"border": {
-					"color": "var(--flavor-primary, #a74e2c)"
+					"color": "var(--flavor-primary, #a44c2a)"
 				}
 			}
 		}

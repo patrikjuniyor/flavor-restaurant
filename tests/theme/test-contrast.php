@@ -24,9 +24,11 @@ require_once FLAVOR_DIR . '/inc/class-design.php';
 require_once FLAVOR_DIR . '/inc/class-ui.php';
 require_once FLAVOR_DIR . '/inc/class-contrast.php';
 require_once FLAVOR_DIR . '/inc/class-contrast-control.php';
+require_once FLAVOR_DIR . '/inc/class-dark-mode.php';
 
 use Flavor\Contrast;
 use Flavor\Contrast_Control;
+use Flavor\Dark_Mode;
 use Flavor\Design;
 use Flavor\UI;
 
@@ -99,7 +101,7 @@ foreach ( $pairs as $key => $pair ) {
 echo "\n--- 3. The report reflects the tokens it is given ---\n";
 
 $good = array(
-	'primary'     => '#a74e2c',
+	'primary'     => '#a44c2a',
 	'bg'          => '#f4efe7',
 	'surface'     => '#fffaf4',
 	'surface_alt' => '#ece4d9',
@@ -146,7 +148,7 @@ $js      = (string) file_get_contents( FLAVOR_DIR . '/assets/js/customizer-contr
 $fixture = array();
 
 foreach ( array_keys( Design::colour_token_labels() ) as $token ) {
-	$fixture[ $token ] = $good[ $token ] ?? '#a74e2c';
+	$fixture[ $token ] = $good[ $token ] ?? '#a44c2a';
 }
 // Add a few deliberately awkward values.
 $fixture['__edge'] = '#010203';
@@ -223,7 +225,58 @@ foreach ( array_keys( Design::skins() ) as $slug ) {
 	);
 }
 
-echo "\n--- 7. The stylesheet covers the classes the PHP prints ---\n";
+echo "\n--- 7. All twelve skins stay readable in BOTH schemes (prompt 54) ---\n";
+
+/*
+ * The night palette is generated per skin by Dark_Mode::palette(); the day
+ * palette is the preset itself. Text (ink/muted), links (primary) and the
+ * button label are measured on every canvas they can land on — bg, surface
+ * and surface_alt — with the WCAG formula and the 4.5:1 bar the prompt sets.
+ */
+foreach ( array_keys( Design::skins() ) as $slug ) {
+	$schemes = array(
+		'light' => Design::tokens( (string) $slug ),
+		'dark'  => Dark_Mode::palette( (string) $slug ),
+	);
+	foreach ( $schemes as $scheme => $p ) {
+		$fails = array();
+		foreach ( array( 'bg', 'surface', 'surface_alt' ) as $bg_key ) {
+			foreach ( array( 'ink', 'muted', 'primary' ) as $fg_key ) {
+				$ratio = Dark_Mode::contrast( (string) $p[ $fg_key ], (string) $p[ $bg_key ] );
+				if ( $ratio < 4.5 ) {
+					$fails[] = sprintf( '%s-on-%s=%.2f', $fg_key, $bg_key, $ratio );
+				}
+			}
+		}
+		$button_ink = 'dark' === $scheme ? (string) $p['action_ink'] : Contrast::button_ink( $p );
+		$ratio      = Dark_Mode::contrast( $button_ink, (string) $p['primary'] );
+		if ( $ratio < 4.5 ) {
+			$fails[] = sprintf( 'button-on-primary=%.2f', $ratio );
+		}
+		check(
+			array() === $fails,
+			(string) $slug . ' (' . $scheme . '): text, link and button pairs all clear 4.5:1' . ( $fails ? ' — ' . implode( ', ', $fails ) : '' )
+		);
+
+		/* Every value lands in a CSS custom property, so every colour has to
+		   be a valid hex: a bare "e9e8e8" without the hash invalidates each
+		   declaration consuming it at computed-value time — the night sheet
+		   silently lost --flavor-ink, --flavor-muted, --flavor-accent and
+		   --flavor-primary that way before prompt 54 fixed Dark_Mode::ensure. */
+		$bad_format = array();
+		foreach ( array( 'bg', 'surface', 'surface_alt', 'ink', 'muted', 'line', 'primary', 'accent', 'action_ink', 'theme_color' ) as $key ) {
+			if ( isset( $p[ $key ] ) && is_string( $p[ $key ] ) && ! preg_match( '/^#[0-9a-f]{6}$/i', (string) $p[ $key ] ) ) {
+				$bad_format[] = $key . '=' . $p[ $key ];
+			}
+		}
+		check(
+			array() === $bad_format,
+			(string) $slug . ' (' . $scheme . '): every palette colour is a valid CSS hex' . ( $bad_format ? ' — ' . implode( ', ', $bad_format ) : '' )
+		);
+	}
+}
+
+echo "\n--- 8. The stylesheet covers the classes the PHP prints ---\n";
 
 $css  = (string) file_get_contents( FLAVOR_DIR . '/assets/css/customizer-presets.css' );
 $html = Contrast_Control::render_report( $bad );

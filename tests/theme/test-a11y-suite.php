@@ -174,10 +174,10 @@ foreach ( $skins as $skin => $meta ) {
 	a11y_aa( $tag, $meta['footer'], "{$skin} footer tel link" );
 }
 
-echo "\n--- 7. Fast-food red carries a scrim, not raw #e2361f, under white copy ---\n";
+echo "\n--- 7. Fast-food red carries a scrim, not raw #cd2a14, under white copy ---\n";
 $fast = a11y_file( 'flavor/assets/css/skins/fast-food.css' );
 check( str_contains( $fast, 'linear-gradient(rgba(23, 21, 18, 0.22), rgba(23, 21, 18, 0.22)), var(--fast-red)' ), 'intro band is scrimmed' );
-a11y_aa( '#ffffff', a11y_blend( '#171512', '#e2361f', 0.22 ), 'white card copy on the scrimmed fast red' );
+a11y_aa( '#ffffff', a11y_blend( '#171512', '#cd2a14', 0.22 ), 'white card copy on the scrimmed fast red' );
 $ff_black = a11y_extract( $fast, '/--fast-black:\s*(#[0-9a-fA-F]{6});/', '--fast-black' );
 check( str_contains( $fast, '.flavor-skin-fast-food .flavor-offer-banner__badge {' . "\n\t" . 'background: var(--fast-black);' ), 'offer badge sits on fast black now' );
 a11y_aa( '#ffffff', $ff_black, 'white on the fast-food badge chip' );

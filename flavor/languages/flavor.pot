@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-13 09:46+00:00\n"
+"POT-Creation-Date: 2026-10-13 13:25+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
@@ -38,7 +38,7 @@ msgstr ""
 msgid "%1$s از %2$s غذا"
 msgstr ""
 
-#: flavor/inc/class-contrast.php:202
+#: flavor/inc/class-contrast.php:225
 msgid "%1$s — %2$s به ۱ (حداقل %3$s به ۱)"
 msgstr ""
 
@@ -1645,7 +1645,7 @@ msgstr ""
 msgid "تغییر تعداد یا بخش، ساعت قبلی را پاک و ظرفیت را دوباره بررسی می‌کند."
 msgstr ""
 
-#: flavor/inc/class-dark-mode.php:224
+#: flavor/inc/class-dark-mode.php:230
 msgid "تغییر حالت شب و روز"
 msgstr ""
 
@@ -2797,6 +2797,18 @@ msgstr ""
 
 #: flavor/elementor/class-widget-base.php:345
 msgid "رنگ عنوان"
+msgstr ""
+
+#: flavor/inc/class-contrast.php:103
+msgid "رنگ لینک‌ها روی بخش‌های کم‌رنگ"
+msgstr ""
+
+#: flavor/inc/class-contrast.php:89
+msgid "رنگ لینک‌ها روی پس‌زمینهٔ صفحه"
+msgstr ""
+
+#: flavor/inc/class-contrast.php:96
+msgid "رنگ لینک‌ها روی کارت‌ها"
 msgstr ""
 
 #: flavor/elementor/class-widget-base.php:223 flavor/inc/class-design.php:340
@@ -5102,7 +5114,7 @@ msgstr ""
 msgid "نوار چسبان «افزودن به سبد» در صفحهٔ محصول"
 msgstr ""
 
-#: flavor/inc/class-contrast.php:87
+#: flavor/inc/class-contrast.php:110
 msgid "نوشتهٔ دکمهٔ اصلی"
 msgstr ""
 
@@ -6326,7 +6338,7 @@ msgstr ""
 msgid "یک انتخاب دیگر پیدا کنیم"
 msgstr ""
 
-#: flavor/inc/class-contrast.php:191
+#: flavor/inc/class-contrast.php:214
 msgid "یک ترکیب رنگ خوانایی کافی ندارد:"
 msgid_plural "چند ترکیب رنگ خوانایی کافی ندارند:"
 msgstr[0] ""

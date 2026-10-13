@@ -60,7 +60,7 @@ class Meta {
 		 */
 		$color = (string) apply_filters( 'flavor_theme_color', $color );
 
-		return (bool) preg_match( '/^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i', $color ) ? $color : '#a74e2c';
+		return (bool) preg_match( '/^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i', $color ) ? $color : '#a44c2a';
 	}
 
 	/**

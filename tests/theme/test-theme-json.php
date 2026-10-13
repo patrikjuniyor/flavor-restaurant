@@ -4,7 +4,7 @@
  *
  * The block editor learns the theme's palette, type scale and spacing from
  * flavor/theme.json. Every colour there is written as
- * `var(--flavor-primary, #a74e2c)` so the editor follows the active skin
+ * `var(--flavor-primary, #a44c2a)` so the editor follows the active skin
  * instead of freezing one preset into the stylesheet.
  *
  * That indirection is also the risk: a typo in a token name, or a fallback

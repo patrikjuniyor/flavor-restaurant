@@ -208,7 +208,7 @@ preg_match( '/function formatPx\(size\)\s*\{.*?\n\s*\}/s', $js, $m_px );
 check( ! empty( $m_hex[0] ) && ! empty( $m_px[0] ), 'the script exposes hex2rgb and formatPx' );
 
 if ( ! empty( $m_hex[0] ) && ! empty( $m_px[0] ) ) {
-	$colour_fixture = array( '#a74e2c', '#fff', '#000000', '#f4efe7', '#201c19', '#GGGGGG', '', '#123' );
+	$colour_fixture = array( '#a44c2a', '#fff', '#000000', '#f4efe7', '#201c19', '#GGGGGG', '', '#123' );
 	$size_fixture   = array( 15, 36.62109375, 1, 100, 0.5, 23.444, 75.9375, 0.004, 12.005 );
 
 	$program = "function expand(hex){hex=String(hex||'').replace('#','');if(hex.length===3)return hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];return hex;}\n"

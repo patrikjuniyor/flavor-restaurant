@@ -47,7 +47,7 @@
    ---------------------------------------------------------------------------- */
 :root {
 	/* رنگ اصلی از پوستهٔ فعال سایت (توسط قالب تزریق می‌شود)؛ پیش‌فرض: ترراکوتای تم */
-	--fv-accent: var(--fv-skin-accent, #a74e2c);
+	--fv-accent: var(--fv-skin-accent, #a44c2a);
 	--fv-accent-strong: color-mix(in srgb, var(--fv-accent) 78%, #1a120c);
 	--fv-accent-soft: color-mix(in srgb, var(--fv-accent) 7%, transparent);
 	--fv-accent-softer: color-mix(in srgb, var(--fv-accent) 13%, transparent);
@@ -861,8 +861,8 @@ html[dir="rtl"] {
 }
 #flavor-customizer-search:focus {
 	outline: none;
-	border-color: var(--fv-skin-accent, #a74e2c);
-	box-shadow: 0 0 0 3px rgba(167,78,44,0.15);
+	border-color: var(--fv-skin-accent, #a44c2a);
+	box-shadow: 0 0 0 3px rgba(164,76,42,0.15);
 }
 [dir="rtl"] #flavor-customizer-search {
 	padding: 10px 38px 10px 14px;
@@ -887,9 +887,9 @@ html[dir="rtl"] {
 }
 .flavor-section-reset:hover {
 	opacity: 1;
-	background: rgba(167,78,44,0.08);
-	border-color: rgba(167,78,44,0.25);
-	color: var(--fv-skin-accent, #a74e2c);
+	background: rgba(164,76,42,0.08);
+	border-color: rgba(164,76,42,0.25);
+	color: var(--fv-skin-accent, #a44c2a);
 }
 .customize-section-title h3, .accordion-section-title {
 	display: flex;

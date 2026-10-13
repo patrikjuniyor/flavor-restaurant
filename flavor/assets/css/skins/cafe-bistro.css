@@ -15,7 +15,7 @@ body.flavor-skin-cafe-bistro {
 	--cafe-espresso: #2d2119;
 	--cafe-olive: #536047;
 	--cafe-olive-dark: #35402f;
-	--cafe-clay: #b7643f;
+	--cafe-clay: #964f30;
 	--cafe-oat: #f3ecdf;
 	--cafe-paper: #fffaf2;
 	--cafe-sage: #d9dfcf;
@@ -211,7 +211,7 @@ body.flavor-skin-cafe-bistro {
 }
 
 .flavor-skin-cafe-bistro .flavor-section-header__desc {
-	color: #75675c;
+	color: #716357;
 	line-height: 1.95;
 }
 

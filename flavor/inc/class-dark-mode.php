@@ -109,16 +109,22 @@ class Dark_Mode {
 			$line        = self::mix( $surface, '#ffffff', 0.13 );
 		}
 
-		// Readability first: body copy on both canvas and cards, mute/metadata,
+		// Readability first: body copy on all three canvases, mute/metadata,
 		// then the brand colours that are used for links and small icons.
+		// surface_alt is the lightest night canvas, so it is the binding
+		// constraint for every foreground — prompt 54 measures it explicitly.
 		$ink   = self::ensure( $ink, $bg, 4.5 );
 		$ink   = self::ensure( $ink, $surface, 4.5 );
+		$ink   = self::ensure( $ink, $surface_alt, 4.5 );
 		$muted = self::ensure( $muted, $surface, 4.5 );
 		$muted = self::ensure( $muted, $surface_alt, 4.5 );
+		$muted = self::ensure( $muted, $bg, 4.5 );
 
 		// Brand colours are lifted through HSL, not toward white: a crimson brand
 		// stays crimson at night instead of turning into a washed-out rose.
 		$primary = self::ensure( $base['primary'], $surface, 4.5, true );
+		$primary = self::ensure( $primary, $surface_alt, 4.5, true );
+		$primary = self::ensure( $primary, $bg, 4.5, true );
 		$accent  = self::ensure( $base['accent'], $surface, 3.0, true );
 
 		$action_ink = self::contrast( $primary, '#ffffff' ) >= self::contrast( $primary, '#000000' ) ? '#ffffff' : '#000000';
@@ -344,7 +350,17 @@ class Dark_Mode {
 			$fg = $preserve_hue ? self::lighten( $fg, $pole === '#000000' ? -0.06 : 0.06 ) : self::mix( $fg, $pole, 0.07 );
 		}
 
-		return $fg;
+		// Always hand back a valid CSS hex. normalize() strips the hash and
+		// the adjusters do not always run, and a bare "e9e8e8" inside a
+		// custom property invalidates every declaration that consumes it at
+		// computed-value time — the night sheet silently lost --flavor-ink,
+		// --flavor-muted, --flavor-accent and (once prompt 54 chained the
+		// brand ensures) --flavor-primary this way.
+		if ( '' === $fg ) {
+			return '#ffffff';
+		}
+
+		return '#' === $fg[0] ? $fg : '#' . $fg;
 	}
 
 	/**

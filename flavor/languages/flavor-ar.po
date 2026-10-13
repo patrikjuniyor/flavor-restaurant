@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flavor\n"
 "Report-Msgid-Bugs-To: https://github.com/patrikjuniyor/flavor-restaurant/issues\n"
-"PO-Revision-Date: 2026-10-13 10:02+0000\n"
+"PO-Revision-Date: 2026-10-13 13:26+0000\n"
 "Last-Translator: Flavor Translations\n"
 "Language-Team: Flavor Translations\n"
 "Language: ar\n"
@@ -41,7 +41,7 @@ msgstr "%1$s · رسوم التوصيل: %2$s · الوقت التقديري ل�
 msgid "%1$s از %2$s غذا"
 msgstr "%1$s من %2$s من الأطباق"
 
-#: flavor/inc/class-contrast.php:202
+#: flavor/inc/class-contrast.php:225
 msgid "%1$s — %2$s به ۱ (حداقل %3$s به ۱)"
 msgstr "%1$s — %2$s إلى ١ (الحد الأدنى %3$s إلى ١)"
 
@@ -1652,7 +1652,7 @@ msgstr "تغييرات محتملة: سيُنشأ %d مسار لصفحة موج�
 msgid "تغییر تعداد یا بخش، ساعت قبلی را پاک و ظرفیت را دوباره بررسی می‌کند."
 msgstr "تغيير العدد أو القسم يزيل الوقت المختار سابقاً ويعيد التحقّق من السعة."
 
-#: flavor/inc/class-dark-mode.php:224
+#: flavor/inc/class-dark-mode.php:230
 msgid "تغییر حالت شب و روز"
 msgstr "تبديل الوضع الليلي والنهاري"
 
@@ -2809,6 +2809,18 @@ msgstr "لون السطح الثاني"
 #: flavor/elementor/class-widget-base.php:345
 msgid "رنگ عنوان"
 msgstr "لون العنوان"
+
+#: flavor/inc/class-contrast.php:103
+msgid "رنگ لینک‌ها روی بخش‌های کم‌رنگ"
+msgstr "لون الروابط على الأقسام الفاتحة"
+
+#: flavor/inc/class-contrast.php:89
+msgid "رنگ لینک‌ها روی پس‌زمینهٔ صفحه"
+msgstr "لون الروابط على خلفية الصفحة"
+
+#: flavor/inc/class-contrast.php:96
+msgid "رنگ لینک‌ها روی کارت‌ها"
+msgstr "لون الروابط على البطاقات"
 
 #: flavor/elementor/class-widget-base.php:223 flavor/inc/class-design.php:340
 msgid "رنگ متن"
@@ -5113,7 +5125,7 @@ msgstr "شريط الرسائل أعلى الترويسة (Announcement Bar)"
 msgid "نوار چسبان «افزودن به سبد» در صفحهٔ محصول"
 msgstr "شريط «الإضافة إلى السلة» الثابت في صفحة المنتج"
 
-#: flavor/inc/class-contrast.php:87
+#: flavor/inc/class-contrast.php:110
 msgid "نوشتهٔ دکمهٔ اصلی"
 msgstr "نص الزر الأساسي"
 
@@ -6337,7 +6349,7 @@ msgstr "ملاحظة للمطبخ"
 msgid "یک انتخاب دیگر پیدا کنیم"
 msgstr "نجد اختياراً آخر"
 
-#: flavor/inc/class-contrast.php:191
+#: flavor/inc/class-contrast.php:214
 msgid "یک ترکیب رنگ خوانایی کافی ندارد:"
 msgid_plural "چند ترکیب رنگ خوانایی کافی ندارند:"
 msgstr[0] "لا يوجد تركيب ألوان واضح بما يكفي:"

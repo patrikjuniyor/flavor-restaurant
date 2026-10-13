@@ -6,7 +6,7 @@
 body.flavor-skin-modern-restaurant {
 	--modern-forest: #26352b;
 	--modern-forest-soft: #415344;
-	--modern-terracotta: #a74e2c;
+	--modern-terracotta: #a44c2a;
 	--modern-saffron: #d6a64f;
 	--modern-cream: #f4efe7;
 	--modern-paper: #fffaf4;
@@ -88,7 +88,7 @@ body.flavor-skin-modern-restaurant {
 .flavor-skin-modern-restaurant .flavor-btn--primary {
 	background: var(--modern-terracotta);
 	border-color: var(--modern-terracotta);
-	box-shadow: 0 10px 25px rgba(167, 78, 44, 0.19);
+	box-shadow: 0 10px 25px rgba(164, 76, 42, 0.19);
 }
 
 .flavor-skin-modern-restaurant .flavor-btn--primary:hover {
@@ -363,7 +363,7 @@ body.flavor-skin-modern-restaurant {
 .flavor-skin-modern-restaurant .flavor-offer-banner {
 	background: linear-gradient(rgba(17, 12, 8, 0.22), rgba(17, 12, 8, 0.22)), var(--modern-terracotta);
 	border-radius: 34px;
-	box-shadow: 0 28px 65px rgba(167, 78, 44, 0.2);
+	box-shadow: 0 28px 65px rgba(164, 76, 42, 0.2);
 }
 
 .flavor-skin-modern-restaurant .flavor-offer-banner::after {
@@ -515,7 +515,7 @@ body.flavor-skin-modern-restaurant {
 }
 
 .flavor-skin-modern-restaurant .flavor-contact-row__icon {
-	background: rgba(167, 78, 44, 0.09);
+	background: rgba(164, 76, 42, 0.09);
 	color: var(--modern-terracotta);
 	border-radius: 13px;
 }

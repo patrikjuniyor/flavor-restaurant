@@ -81,6 +81,29 @@ class Contrast {
 				'min'   => self::AA_NORMAL,
 				'large' => false,
 			),
+			/* Prompt 54: links are body text in the brand colour — the same
+			   4.5:1 bar applies wherever a merchant can set the primary. */
+			'link_on_bg'         => array(
+				'fg'    => 'primary',
+				'bg'    => 'bg',
+				'label' => __( 'رنگ لینک‌ها روی پس‌زمینهٔ صفحه', 'flavor' ),
+				'min'   => self::AA_NORMAL,
+				'large' => false,
+			),
+			'link_on_surface'    => array(
+				'fg'    => 'primary',
+				'bg'    => 'surface',
+				'label' => __( 'رنگ لینک‌ها روی کارت‌ها', 'flavor' ),
+				'min'   => self::AA_NORMAL,
+				'large' => false,
+			),
+			'link_on_surface_alt' => array(
+				'fg'    => 'primary',
+				'bg'    => 'surface_alt',
+				'label' => __( 'رنگ لینک‌ها روی بخش‌های کم‌رنگ', 'flavor' ),
+				'min'   => self::AA_NORMAL,
+				'large' => false,
+			),
 			'button_ink'         => array(
 				'fg'    => '@button',
 				'bg'    => 'primary',

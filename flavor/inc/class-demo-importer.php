@@ -118,11 +118,11 @@ class Demo_Importer {
 						: \Flavor\Bespoke_Demos::placeholder();
 					$customizer_url = admin_url( 'customize.php?autofocus[control]=flavor_skin&flavor_try_demo=' . rawurlencode( $slug ) . '&return=' . rawurlencode( admin_url( 'themes.php?page=flavor-demos' ) ) );
 				?>
-					<article style="border:1px solid <?php echo $is_active ? '#a74e2c' : '#ddd'; ?>;border-radius:12px;overflow:hidden;background:#fff;position:relative;box-shadow:<?php echo $is_active ? '0 8px 24px rgba(167,78,44,0.15)' : 'none'; ?>;">
+					<article style="border:1px solid <?php echo $is_active ? '#a44c2a' : '#ddd'; ?>;border-radius:12px;overflow:hidden;background:#fff;position:relative;box-shadow:<?php echo $is_active ? '0 8px 24px rgba(164,76,42,0.15)' : 'none'; ?>;">
 						<div style="position:relative;">
 							<img src="<?php echo esc_url( $hero ); ?>" alt="" style="width:100%;height:140px;object-fit:cover;" />
 							<?php if ( $is_active ) : ?>
-								<span style="position:absolute;inset-inline-start:10px;inset-block-start:10px;padding:4px 10px;border-radius:999px;background:#a74e2c;color:#fff;font-size:11px;font-weight:600;"><?php esc_html_e( 'دموی فعال', 'flavor' ); ?></span>
+								<span style="position:absolute;inset-inline-start:10px;inset-block-start:10px;padding:4px 10px;border-radius:999px;background:#a44c2a;color:#fff;font-size:11px;font-weight:600;"><?php esc_html_e( 'دموی فعال', 'flavor' ); ?></span>
 							<?php endif; ?>
 						</div>
 						<div style="padding:12px 14px 16px;">

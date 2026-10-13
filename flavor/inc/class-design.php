@@ -84,7 +84,7 @@ class Design {
 	public static function tokens( string $skin ): array {
 		$map = array(
 			'modern-restaurant' => array(
-				'primary'      => '#a74e2c',
+				'primary'      => '#a44c2a',
 				'secondary'    => '#26352b',
 				'accent'       => '#d6a64f',
 				'bg'           => '#f4efe7',
@@ -132,14 +132,14 @@ class Design {
 				'font_body'    => 'Vazirmatn',
 			),
 			'cafe-bistro'       => array(
-				'primary'      => '#b7643f',
+				'primary'      => '#964f30',
 				'secondary'    => '#536047',
 				'accent'       => '#d3a878',
 				'bg'           => '#f3ecdf',
 				'surface'      => '#fffaf2',
 				'surface_alt'  => '#e8e5da',
 				'ink'          => '#2d2119',
-				'muted'        => '#75675c',
+				'muted'        => '#716357',
 				'line'         => '#ded2c2',
 				'card_shadow'  => '0 18px 45px rgba(61,46,34,0.075)',
 				'radius'       => '28px',
@@ -148,7 +148,7 @@ class Design {
 				'font_body'    => 'Vazirmatn',
 			),
 			'fast-food'         => array(
-				'primary'      => '#e2361f',
+				'primary'      => '#cd2a14',
 				'secondary'    => '#ffc928',
 				'accent'       => '#ff7a1a',
 				'bg'           => '#fff6dd',
@@ -171,7 +171,7 @@ class Design {
 				'surface'      => '#fffaf1',
 				'surface_alt'  => '#eee5d5',
 				'ink'          => '#292019',
-				'muted'        => '#76675b',
+				'muted'        => '#726357',
 				'line'         => '#dfd0b8',
 				'card_shadow'  => '0 18px 45px rgba(61,40,26,0.08)',
 				'radius'       => '25px',
@@ -187,7 +187,7 @@ class Design {
 				'surface'      => '#fffdf8',
 				'surface_alt'  => '#f2e8e2',
 				'ink'          => '#36252a',
-				'muted'        => '#7b676d',
+				'muted'        => '#776369',
 				'line'         => '#e1d2c7',
 				'card_shadow'  => '0 18px 45px rgba(77,52,59,0.075)',
 				'radius'       => '28px',

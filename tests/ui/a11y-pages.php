@@ -116,6 +116,22 @@ if ( ! function_exists( 'body_class' ) ) {
 		if ( class_exists( '\\Flavor\\Bespoke_Demos' ) ) {
 			$list = \Flavor\Bespoke_Demos::body_class( $list );
 		}
+		/* UI::body_class adds the flavor-ui layer on every inner page — the
+		   whole ui.css sheet is scoped to it, so without this the fixture
+		   would scan those pages with the UI styles inert (prompt 54: the
+		   breadcrumb link fell out of its scoped rule and axe saw the raw
+		   global link colour). Mirrored here rather than called, because the
+		   real method also branches on is_page_template(), which this
+		   offline mock does not define. */
+		if ( class_exists( '\\Flavor\\UI' ) && \Flavor\UI::inner() ) {
+			$list[] = 'flavor-ui';
+			foreach ( \Flavor\UI::settings() as $ui_key => $ui_value ) {
+				$list[] = 'flavor-ui-' . str_replace( '_', '-', (string) $ui_key ) . '-' . $ui_value;
+			}
+			if ( 'menu' === ( $GLOBALS['_a11y_page'] ?? '' ) ) {
+				$list[] = 'flavor-ui-menu';
+			}
+		}
 		echo 'class="' . implode( ' ', array_unique( array_filter( $list ) ) ) . '"';
 	}
 }
@@ -287,6 +303,11 @@ function flavor_a11y_head_assets(): string {
 		$html .= '<link rel="stylesheet" href="/assets/css/' . $file . '" />' . "\n";
 	}
 	$html .= "<style id=\"flavor-tokens\">\n" . \Flavor\Design::css_variables() . "\n</style>\n";
+	/* Live pages carry UI::variables() as an inline style on the ui sheet
+	   handle; --ui-muted and --ui-action-ink are only defined there. */
+	if ( class_exists( '\\Flavor\\UI' ) ) {
+		$html .= "<style id=\"flavor-ui-vars\">\n" . \Flavor\UI::variables() . "\n</style>\n";
+	}
 	return $html;
 }
 
