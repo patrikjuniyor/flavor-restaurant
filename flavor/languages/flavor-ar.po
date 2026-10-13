@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flavor\n"
 "Report-Msgid-Bugs-To: https://github.com/patrikjuniyor/flavor-restaurant/issues\n"
-"PO-Revision-Date: 2026-10-12 16:47+0000\n"
+"PO-Revision-Date: 2026-10-13 05:11+0000\n"
 "Last-Translator: Flavor Translations\n"
 "Language-Team: Flavor Translations\n"
 "Language: ar\n"
@@ -62,6 +62,10 @@ msgstr[5] "%d عنصر في السلة"
 #: flavor/inc/class-demo-importer.php:131
 msgid "%d آیتم منو"
 msgstr "%d عنصر من القائمة"
+
+#: flavor/template-parts/marketing/testimonials.php:35
+msgid "%d ستاره از ۵"
+msgstr "%d نجوم من ٥"
 
 #: flavor/inc/class-launch-center.php:179
 msgid "%d محصول منتشر شده است."
@@ -4490,7 +4494,7 @@ msgstr "القائمة الكاملة"
 msgid "مهرهای ثبت‌شده"
 msgstr "الأختام المسجّلة"
 
-#: flavor/inc/class-repeater.php:69 flavor/template-parts/marketing/testimonials.php:44
+#: flavor/inc/class-repeater.php:69 flavor/template-parts/marketing/testimonials.php:47
 msgid "مهمان رستوران"
 msgstr "ضيف المطعم"
 

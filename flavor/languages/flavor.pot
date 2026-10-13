@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-12 16:47+00:00\n"
+"POT-Creation-Date: 2026-10-13 05:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
@@ -54,6 +54,10 @@ msgstr[1] ""
 
 #: flavor/inc/class-demo-importer.php:131
 msgid "%d آیتم منو"
+msgstr ""
+
+#: flavor/template-parts/marketing/testimonials.php:35
+msgid "%d ستاره از ۵"
 msgstr ""
 
 #: flavor/inc/class-launch-center.php:179
@@ -4479,7 +4483,7 @@ msgstr ""
 msgid "مهرهای ثبت‌شده"
 msgstr ""
 
-#: flavor/inc/class-repeater.php:69 flavor/template-parts/marketing/testimonials.php:44
+#: flavor/inc/class-repeater.php:69 flavor/template-parts/marketing/testimonials.php:47
 msgid "مهمان رستوران"
 msgstr ""
 
