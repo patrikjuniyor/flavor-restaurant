@@ -339,7 +339,9 @@
  * ------------------------------------------------------------- */
 .flavor-offer-banner {
 	position: relative;
-	background: linear-gradient(135deg, var(--flavor-primary) 0%, var(--flavor-accent) 100%);
+	/* The 22% warm scrim keeps white banner copy at AA across every skin’s
+	   primary→accent blend — mid-tone gradients alone dip below 4.5:1. */
+	background: linear-gradient(rgba(17, 12, 8, 0.22), rgba(17, 12, 8, 0.22)), linear-gradient(135deg, var(--flavor-primary) 0%, var(--flavor-accent) 100%);
 	color: var(--ui-action-ink, #ffffff);
 	border-radius: calc(var(--flavor-radius) * 1.2);
 	padding: clamp(32px, 6vw, 56px);

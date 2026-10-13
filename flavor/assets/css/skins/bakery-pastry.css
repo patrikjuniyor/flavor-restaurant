@@ -324,7 +324,7 @@ body.flavor-skin-bakery-pastry {
 
 /* Promotions */
 .flavor-skin-bakery-pastry .flavor-offer-banner {
-	background: linear-gradient(125deg, #a83e5b, #c36d82);
+	background: linear-gradient(rgba(17, 12, 8, 0.22), rgba(17, 12, 8, 0.22)), linear-gradient(125deg, #a83e5b, #c36d82);
 	border-radius: 44px 10px 80px 10px;
 	box-shadow: 0 26px 66px rgba(168, 62, 91, 0.2);
 }
@@ -385,7 +385,7 @@ body.flavor-skin-bakery-pastry {
 .flavor-skin-bakery-pastry .flavor-gallery__item:nth-child(5) { border-radius: 85px 28px 85px 28px; }
 
 .flavor-skin-bakery-pastry .flavor-testimonials { background: var(--pastry-pistachio-dark) !important; }
-.flavor-skin-bakery-pastry .flavor-testimonials .flavor-section-header__tag { background: rgba(241,196,205,.13); color: #f1c4cd; }
+.flavor-skin-bakery-pastry .flavor-testimonials .flavor-section-header__tag { background: rgba(241,196,205,.13); color: #f8dbe2; }
 .flavor-skin-bakery-pastry .flavor-testimonials .flavor-section-header__title,
 .flavor-skin-bakery-pastry .flavor-testimonials .flavor-section-header__desc { color: #fff8ed; }
 
@@ -399,7 +399,7 @@ body.flavor-skin-bakery-pastry {
 
 .flavor-skin-bakery-pastry .flavor-review-card__text,
 .flavor-skin-bakery-pastry .flavor-review-card__name { color: #fff8ed; }
-.flavor-skin-bakery-pastry .flavor-review-card__role { color: rgba(255,248,237,.58); }
+.flavor-skin-bakery-pastry .flavor-review-card__role { color: rgba(255,248,237,.8); }
 .flavor-skin-bakery-pastry .flavor-review-card__stars { color: #f1c4cd; }
 .flavor-skin-bakery-pastry .flavor-review-card__avatar { background: var(--pastry-berry); }
 
@@ -667,3 +667,40 @@ html[data-flavor-scheme="dark"] body.flavor-skin-bakery-pastry {
 		--pastry-berry: var(--flavor-primary);
 	}
 }
+
+/* -------------------------------------------------------------
+ * WCAG AA on this skin's dark bands. The intro strip, reservation
+ * banner and footer above are painted dark, but the base components
+ * still resolve copy through --flavor-ink / --flavor-muted. Flipping
+ * the tokens inside the bands keeps every child rule readable —
+ * including ones added later — without per-element hard-coding.
+ * The footer also flips --flavor-surface-alt so social chips stay
+ * dark circles under light glyphs. Found by tests/ui/a11y.mjs.
+ * ------------------------------------------------------------- */
+.flavor-skin-bakery-pastry .flavor-intro,
+.flavor-skin-bakery-pastry .flavor-res-banner,
+.flavor-skin-bakery-pastry .flavor-footer {
+	--flavor-ink: #fbf3ee;
+	--flavor-muted: #ddcdc4;
+	color: var(--flavor-ink);
+}
+
+.flavor-skin-bakery-pastry .flavor-intro .flavor-section-header__tag {
+	color: #efb8c4;
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.flavor-skin-bakery-pastry .flavor-res-banner__tag {
+	color: #efb8c4;
+}
+
+.flavor-skin-bakery-pastry .flavor-footer {
+	--flavor-surface-alt: rgba(255, 255, 255, 0.08);
+}
+
+/* Second AA pass: the skin sets section-header title/desc and the footer tel
+   link through skin-local colors outside the token flip above, so the dark
+   bands need direct overrides at higher specificity. */
+.flavor-skin-bakery-pastry .flavor-intro .flavor-section-header__title { color: #fbf3ee; }
+.flavor-skin-bakery-pastry .flavor-intro .flavor-section-header__desc { color: #ddcdc4; }
+.flavor-skin-bakery-pastry .flavor-footer__contact-item a { color: #efb8c4; }

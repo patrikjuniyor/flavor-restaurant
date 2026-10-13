@@ -879,3 +879,46 @@ html.flavor-anim-ready .flavor-skin-luxury-dining .flavor-section.flavor-anim-in
 		box-shadow: none;
 	}
 }
+
+/* -------------------------------------------------------------
+ * WCAG AA on this skin's dark bands. The intro strip, reservation
+ * banner and footer above are painted dark, but the base components
+ * still resolve copy through --flavor-ink / --flavor-muted. Flipping
+ * the tokens inside the bands keeps every child rule readable —
+ * including ones added later — without per-element hard-coding.
+ * The footer also flips --flavor-surface-alt so social chips stay
+ * dark circles under light glyphs. Found by tests/ui/a11y.mjs.
+ * ------------------------------------------------------------- */
+.flavor-skin-luxury-dining .flavor-intro,
+.flavor-skin-luxury-dining .flavor-res-banner,
+.flavor-skin-luxury-dining .flavor-footer {
+	--flavor-ink: #f4efe6;
+	--flavor-muted: #aaa092;
+	color: var(--flavor-ink);
+}
+
+.flavor-skin-luxury-dining .flavor-intro .flavor-section-header__tag {
+	color: #cbb186;
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.flavor-skin-luxury-dining .flavor-res-banner__tag {
+	color: #cbb186;
+}
+
+.flavor-skin-luxury-dining .flavor-footer {
+	--flavor-surface-alt: rgba(255, 255, 255, 0.08);
+}
+
+/* The base phone pill paints --flavor-surface-alt (cream here) under
+   champagne text; on this skin the pill dissolves into the dark header. */
+.flavor-skin-luxury-dining .flavor-header__phone {
+	background: transparent;
+}
+
+/* Second AA pass: the skin sets section-header title/desc and the footer tel
+   link through skin-local colors outside the token flip above, so the dark
+   bands need direct overrides at higher specificity. */
+.flavor-skin-luxury-dining .flavor-intro .flavor-section-header__title { color: #f4efe6; }
+.flavor-skin-luxury-dining .flavor-intro .flavor-section-header__desc { color: #aaa092; }
+.flavor-skin-luxury-dining .flavor-footer__contact-item a { color: #cbb186; }

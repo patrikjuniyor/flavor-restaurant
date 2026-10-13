@@ -30,11 +30,11 @@
 	--flavor-font-heading: "Vazirmatn", Tahoma, -apple-system, sans-serif;
 	--flavor-font-body: "Vazirmatn", Tahoma, -apple-system, sans-serif;
 
-	--flavor-success: #16a34a;
+	--flavor-success: #15803d;
 	--flavor-success-bg: #dcfce7;
-	--flavor-warning: #d97706;
+	--flavor-warning: #b45309;
 	--flavor-warning-bg: #fef3c7;
-	--flavor-danger: #dc2626;
+	--flavor-danger: #c81e1e;
 	--flavor-danger-bg: #fee2e2;
 
 	--flavor-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);

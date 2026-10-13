@@ -31,6 +31,8 @@ require_once $root . '/tests/theme/bootstrap.php';
 
 foreach ( array(
 	'class-customizer',
+	'class-chrome-builder',
+	'class-repeater',
 	'class-design',
 	'class-ui',
 	'class-ui-pages',

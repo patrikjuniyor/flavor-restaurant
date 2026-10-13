@@ -358,7 +358,7 @@ body.flavor-skin-cafe-bistro {
 
 /* Promotions */
 .flavor-skin-cafe-bistro .flavor-offer-banner {
-	background: var(--cafe-clay);
+	background: linear-gradient(rgba(17, 12, 8, 0.22), rgba(17, 12, 8, 0.22)), var(--cafe-clay);
 	border-radius: 35px 35px 95px 35px;
 	box-shadow: 0 25px 65px rgba(183, 100, 63, 0.2);
 }
@@ -484,7 +484,7 @@ body.flavor-skin-cafe-bistro {
 }
 
 .flavor-skin-cafe-bistro .flavor-review-card__role {
-	color: rgba(255, 250, 242, 0.58);
+	color: rgba(255, 250, 242, 0.8);
 }
 
 .flavor-skin-cafe-bistro .flavor-review-card__stars {
@@ -826,3 +826,40 @@ html[data-flavor-scheme="dark"] body.flavor-skin-cafe-bistro {
 		--cafe-clay: var(--flavor-primary);
 	}
 }
+
+/* -------------------------------------------------------------
+ * WCAG AA on this skin's dark bands. The intro strip, reservation
+ * banner and footer above are painted dark, but the base components
+ * still resolve copy through --flavor-ink / --flavor-muted. Flipping
+ * the tokens inside the bands keeps every child rule readable —
+ * including ones added later — without per-element hard-coding.
+ * The footer also flips --flavor-surface-alt so social chips stay
+ * dark circles under light glyphs. Found by tests/ui/a11y.mjs.
+ * ------------------------------------------------------------- */
+.flavor-skin-cafe-bistro .flavor-intro,
+.flavor-skin-cafe-bistro .flavor-res-banner,
+.flavor-skin-cafe-bistro .flavor-footer {
+	--flavor-ink: #f7f1e3;
+	--flavor-muted: #d3c8b4;
+	color: var(--flavor-ink);
+}
+
+.flavor-skin-cafe-bistro .flavor-intro .flavor-section-header__tag {
+	color: #d9b384;
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.flavor-skin-cafe-bistro .flavor-res-banner__tag {
+	color: #d9b384;
+}
+
+.flavor-skin-cafe-bistro .flavor-footer {
+	--flavor-surface-alt: rgba(255, 255, 255, 0.08);
+}
+
+/* Second AA pass: the skin sets section-header title/desc and the footer tel
+   link through skin-local colors outside the token flip above, so the dark
+   bands need direct overrides at higher specificity. */
+.flavor-skin-cafe-bistro .flavor-intro .flavor-section-header__title { color: #f7f1e3; }
+.flavor-skin-cafe-bistro .flavor-intro .flavor-section-header__desc { color: #d3c8b4; }
+.flavor-skin-cafe-bistro .flavor-footer__contact-item a { color: #d9b384; }

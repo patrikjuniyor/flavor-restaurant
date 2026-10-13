@@ -181,6 +181,17 @@ jobs:
           path: .cache/ui-qa/elementor/
           if-no-files-found: ignore
 
+      - name: Axe accessibility scan (pages, panels, twelve skins)
+        run: node tests/ui/a11y.mjs
+
+      - name: Upload the a11y evidence when the scan fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a11y-evidence
+          path: .cache/ui-qa/a11y/
+          if-no-files-found: ignore
+
   flutter-mobile-ci:
     name: Mobile Quality & Flutter Tests
     runs-on: ubuntu-latest

@@ -858,3 +858,40 @@ html[data-flavor-scheme="dark"] body.flavor-skin-persian-traditional {
 		--traditional-brass: var(--flavor-accent);
 	}
 }
+
+/* -------------------------------------------------------------
+ * WCAG AA on this skin's dark bands. The intro strip, reservation
+ * banner and footer above are painted dark, but the base components
+ * still resolve copy through --flavor-ink / --flavor-muted. Flipping
+ * the tokens inside the bands keeps every child rule readable —
+ * including ones added later — without per-element hard-coding.
+ * The footer also flips --flavor-surface-alt so social chips stay
+ * dark circles under light glyphs. Found by tests/ui/a11y.mjs.
+ * ------------------------------------------------------------- */
+.flavor-skin-persian-traditional .flavor-intro,
+.flavor-skin-persian-traditional .flavor-res-banner,
+.flavor-skin-persian-traditional .flavor-footer {
+	--flavor-ink: #fff6e5;
+	--flavor-muted: #cfc3a8;
+	color: var(--flavor-ink);
+}
+
+.flavor-skin-persian-traditional .flavor-intro .flavor-section-header__tag {
+	color: #e8c77e;
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.flavor-skin-persian-traditional .flavor-res-banner__tag {
+	color: #e8c77e;
+}
+
+.flavor-skin-persian-traditional .flavor-footer {
+	--flavor-surface-alt: rgba(255, 255, 255, 0.08);
+}
+
+/* Second AA pass: the skin sets section-header title/desc and the footer tel
+   link through skin-local colors outside the token flip above, so the dark
+   bands need direct overrides at higher specificity. */
+.flavor-skin-persian-traditional .flavor-intro .flavor-section-header__title { color: #fff6e5; }
+.flavor-skin-persian-traditional .flavor-intro .flavor-section-header__desc { color: #cfc3a8; }
+.flavor-skin-persian-traditional .flavor-footer__contact-item a { color: #e8c77e; }

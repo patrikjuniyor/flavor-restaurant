@@ -305,3 +305,25 @@ html.fd-anim-ready .flavor-skin-dark-luxe .fd-story__grid > .fd-anim-visible .fd
 		transform: scaleY(1);
 	}
 }
+
+/* -------------------------------------------------------------
+ * WCAG AA on the noir chrome. Every fd-* band above is charcoal,
+ * but the base bespoke components resolve copy through the light
+ * theme's --flavor-ink / --flavor-muted and accents through
+ * --flavor-primary. Flip the three tokens inside the dark
+ * containers only — the cream base sections (hero, process) keep
+ * the originals. Found by tests/ui/a11y.mjs.
+ * ------------------------------------------------------------- */
+.flavor-skin-dark-luxe .fd-header,
+.flavor-skin-dark-luxe .fd-menu,
+.flavor-skin-dark-luxe .fd-story,
+.flavor-skin-dark-luxe .fd-noir-experience,
+.flavor-skin-dark-luxe .fd-noir-booking,
+.flavor-skin-dark-luxe .fd-faq,
+.flavor-skin-dark-luxe .fd-visit__card,
+.flavor-skin-dark-luxe .fd-footer {
+	--flavor-ink: #ece7e0;
+	--flavor-muted: #b6b0a9;
+	--flavor-primary: #cf9c62;
+	color: var(--flavor-ink);
+}

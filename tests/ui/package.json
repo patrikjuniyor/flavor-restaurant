@@ -9,7 +9,8 @@
     "test:digits": "node digits.mjs",
     "test:responsive": "node responsive.mjs",
     "test:preview": "node preview.mjs",
-    "test:elementor-visual": "node elementor-visual.mjs"
+    "test:elementor-visual": "node elementor-visual.mjs",
+    "test:a11y": "node a11y.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",

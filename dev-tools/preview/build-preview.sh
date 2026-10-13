@@ -67,6 +67,11 @@ new = """function wc_get_products( array $args ) {
 	}
 	return $products;
 }"""
+if new.splitlines()[0] in source and "paginate" in source.split("function wc_get_products", 1)[1][:400]:
+    # The repo mock already models both shapes natively (paginated object and
+    # plain array) — the correction this step existed for has been upstreamed.
+    # Nothing to do; keep building from the pristine copy.
+    sys.exit(0)
 if old not in source:
     sys.exit('mock-wp-environment.php no longer matches the shape this script corrects')
 path.write_text(source.replace(old, new), encoding='utf-8')

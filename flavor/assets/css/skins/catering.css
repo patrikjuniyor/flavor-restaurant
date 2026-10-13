@@ -1,7 +1,7 @@
 /* MIZAN — tailored corporate catering. Navy, warm ivory and brushed brass.
  * Skin-scoped: the other eleven demos keep their own art direction. */
 .flavor-skin-catering {
-	--fd-mizan-gold: #e6c593;
+	--fd-mizan-gold: #f6e6ca;
 	--fd-mizan-dark: var(--flavor-secondary);
 	--fd-mizan-light: #fffdf7;
 }
@@ -48,13 +48,13 @@
 	margin-bottom: 24px;
 }
 .flavor-skin-catering .fd-mizan-hero h1 em { color: var(--fd-mizan-gold); }
-.flavor-skin-catering .fd-mizan-hero .fd-hero__text { color: #d6dee4; font-size: 14px; line-height: 2.1; margin-bottom: 28px; }
+.flavor-skin-catering .fd-mizan-hero .fd-hero__text { color: #e9eef2; font-size: 14px; line-height: 2.1; margin-bottom: 28px; }
 .flavor-skin-catering .fd-mizan-hero .fd-button--primary { background: var(--fd-mizan-gold); color: #172c40; border-radius: 2px; font-size: 13px; }
 .flavor-skin-catering .fd-mizan-hero .fd-text-link { color: var(--fd-mizan-light); font-size: 12px; font-weight: 400; }
 .flavor-skin-catering .fd-mizan-hero .fd-text-link:hover { color: var(--fd-mizan-gold); }
 .flavor-skin-catering .fd-mizan-hero .fd-hero__actions { gap: 18px; }
 .flavor-skin-catering .fd-mizan-hero__signature {
-	color: #ccd6df;
+	color: #e9eef2;
 	font: 10px/1.7 Arial, sans-serif;
 	letter-spacing: .18em;
 	text-align: left;
@@ -171,13 +171,13 @@
 .flavor-skin-catering .fd-mizan-proposal__copy { padding-top: 30px; }
 .flavor-skin-catering .fd-mizan-proposal .fd-eyebrow { color: var(--fd-mizan-gold); }
 .flavor-skin-catering .fd-mizan-proposal__copy h2 { color: var(--fd-mizan-light); font-size: clamp(2rem, 3.3vw, 3rem); }
-.flavor-skin-catering .fd-mizan-proposal__copy > p { color: #d6dee4; font-size: 14px; line-height: 2.05; }
+.flavor-skin-catering .fd-mizan-proposal__copy > p { color: #e9eef2; font-size: 14px; line-height: 2.05; }
 .flavor-skin-catering .fd-mizan-proposal__copy > ul { padding: 26px 0; margin: 30px 0 0; border-block: 1px solid #536575; list-style: none; display: grid; gap: 13px; font-size: 12px; }
 .flavor-skin-catering .fd-mizan-proposal__copy li { display: flex; gap: 10px; align-items: center; }
 .flavor-skin-catering .fd-mizan-proposal__copy li svg { flex-shrink: 0; color: var(--fd-mizan-gold); }
 .flavor-skin-catering .fd-mizan-proposal__phone { display: flex; align-items: center; gap: 16px; color: var(--fd-mizan-light); margin-top: 35px; padding-block: 10px; }
 .flavor-skin-catering .fd-mizan-proposal__phone:hover { color: var(--fd-mizan-gold); }
-.flavor-skin-catering .fd-mizan-proposal__phone small { display: block; color: #d6dee4; font-size: 12px; margin-bottom: 5px; }
+.flavor-skin-catering .fd-mizan-proposal__phone small { display: block; color: #e9eef2; font-size: 12px; margin-bottom: 5px; }
 .flavor-skin-catering .fd-mizan-proposal__phone bdi { font-size: 24px; letter-spacing: .015em; }
 .flavor-skin-catering .fd-mizan-proposal__phone > svg:last-child { margin-inline-start: auto; }
 .flavor-skin-catering .fd-mizan-proposal__panel { min-width: 0; padding: 36px; background: var(--flavor-surface); color: var(--flavor-ink); border-top: 3px solid #ba9663; }
@@ -243,10 +243,10 @@
 .flavor-skin-catering .fd-footer h2,
 .flavor-skin-catering .fd-footer__brand { color: var(--fd-mizan-light); }
 .flavor-skin-catering .fd-footer p,
-.flavor-skin-catering .fd-footer li a { color: #d6dee4; }
+.flavor-skin-catering .fd-footer li a { color: #e9eef2; }
 .flavor-skin-catering .fd-footer li a:hover,
 .flavor-skin-catering .fd-footer__phone { color: var(--fd-mizan-gold); }
-.flavor-skin-catering .fd-footer__bottom { border-color: #536575; color: #c7d1db; }
+.flavor-skin-catering .fd-footer__bottom { border-color: #536575; color: #e9eef2; }
 .flavor-skin-catering .fd-mobile-bar { border-radius: 0; }
 .flavor-skin-catering .fd-mobile-bar__primary { border-radius: 2px; }
 

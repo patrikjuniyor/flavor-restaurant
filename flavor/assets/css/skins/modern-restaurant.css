@@ -361,7 +361,7 @@ body.flavor-skin-modern-restaurant {
 
 /* Offers and reservation */
 .flavor-skin-modern-restaurant .flavor-offer-banner {
-	background: var(--modern-terracotta);
+	background: linear-gradient(rgba(17, 12, 8, 0.22), rgba(17, 12, 8, 0.22)), var(--modern-terracotta);
 	border-radius: 34px;
 	box-shadow: 0 28px 65px rgba(167, 78, 44, 0.2);
 }
@@ -795,3 +795,40 @@ html[data-flavor-scheme="dark"] body.flavor-skin-modern-restaurant {
 		--modern-saffron: var(--flavor-accent);
 	}
 }
+
+/* -------------------------------------------------------------
+ * WCAG AA on this skin's dark bands. The intro strip, reservation
+ * banner and footer above are painted dark, but the base components
+ * still resolve copy through --flavor-ink / --flavor-muted. Flipping
+ * the tokens inside the bands keeps every child rule readable —
+ * including ones added later — without per-element hard-coding.
+ * The footer also flips --flavor-surface-alt so social chips stay
+ * dark circles under light glyphs. Found by tests/ui/a11y.mjs.
+ * ------------------------------------------------------------- */
+.flavor-skin-modern-restaurant .flavor-intro,
+.flavor-skin-modern-restaurant .flavor-res-banner,
+.flavor-skin-modern-restaurant .flavor-footer {
+	--flavor-ink: #f4efe7;
+	--flavor-muted: #c9c2b6;
+	color: var(--flavor-ink);
+}
+
+.flavor-skin-modern-restaurant .flavor-intro .flavor-section-header__tag {
+	color: #e0b968;
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.flavor-skin-modern-restaurant .flavor-res-banner__tag {
+	color: #e0b968;
+}
+
+.flavor-skin-modern-restaurant .flavor-footer {
+	--flavor-surface-alt: rgba(255, 255, 255, 0.08);
+}
+
+/* Second AA pass: the skin sets section-header title/desc and the footer tel
+   link through skin-local colors outside the token flip above, so the dark
+   bands need direct overrides at higher specificity. */
+.flavor-skin-modern-restaurant .flavor-intro .flavor-section-header__title { color: #f4efe7; }
+.flavor-skin-modern-restaurant .flavor-intro .flavor-section-header__desc { color: #c9c2b6; }
+.flavor-skin-modern-restaurant .flavor-footer__contact-item a { color: #e0b968; }
