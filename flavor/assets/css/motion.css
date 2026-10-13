@@ -92,6 +92,16 @@ html.flavor-anim-ready .flavor-anim-enter[data-flavor-anim="end"] {
 	transform: translate3d(calc(var(--flavor-m-slide) * -1), 0, 0);
 }
 
+/* The same two tokens, flipped: in an LTR document the reading edge —
+   and with it the side `start`/`end` enter from — swaps. */
+html[dir="ltr"].flavor-anim-ready .flavor-anim-enter[data-flavor-anim="start"] {
+	transform: translate3d(calc(var(--flavor-m-slide) * -1), 0, 0);
+}
+
+html[dir="ltr"].flavor-anim-ready .flavor-anim-enter[data-flavor-anim="end"] {
+	transform: translate3d(var(--flavor-m-slide), 0, 0);
+}
+
 html.flavor-anim-ready .flavor-anim-enter[data-flavor-anim="zoom"] {
 	transform: scale(var(--flavor-m-scale));
 }
@@ -174,6 +184,18 @@ html.flavor-anim-ready .flavor-hero__overlay {
 
 @keyframes flavor-m-hero-art {
 	from { opacity: 0; transform: translate3d(calc(var(--flavor-m-slide) * -1), 12px, 0) scale(0.98); }
+	to   { opacity: 1; transform: none; }
+}
+
+/* LTR split heroes mirror: the art half sits on the right there, so it
+   enters from the right edge instead of the left. */
+html[dir="ltr"].flavor-anim-ready .flavor-hero__media,
+html[dir="ltr"].flavor-anim-ready .flavor-hero__img-frame {
+	animation-name: flavor-m-hero-art-ltr;
+}
+
+@keyframes flavor-m-hero-art-ltr {
+	from { opacity: 0; transform: translate3d(var(--flavor-m-slide), 12px, 0) scale(0.98); }
 	to   { opacity: 1; transform: none; }
 }
 
@@ -462,6 +484,17 @@ html.flavor-anim-ready .flavor-section-header.flavor-anim-in .flavor-section-hea
 	to { transform: translateX(100%); }
 }
 
+/* The skeleton gloss travels with the reading direction; LTR reads the
+   other way, so the sweep flips. */
+html[dir="ltr"] .flavor-anim-shimmer::before {
+	transform: translateX(100%);
+	animation-name: flavor-m-shimmer-ltr;
+}
+
+@keyframes flavor-m-shimmer-ltr {
+	to { transform: translateX(-100%); }
+}
+
 /* ------------------------------------------------------------------ */
 /*  3. Floating dock (Flavor\Floating_Dock)                           */
 /* ------------------------------------------------------------------ */
@@ -558,6 +591,16 @@ html.flavor-anim-ready .flavor-section-header.flavor-anim-in .flavor-section-hea
 
 @keyframes flavor-m-mega-item {
 	from { opacity: 0; transform: translate3d(10px, 0, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+/* Mega columns fill from the reading edge; in LTR items arrive from the left. */
+html[dir="ltr"] .flavor-header__nav .flavor-mega > .sub-menu > li {
+	animation-name: flavor-m-mega-item-ltr;
+}
+
+@keyframes flavor-m-mega-item-ltr {
+	from { opacity: 0; transform: translate3d(-10px, 0, 0); }
 	to   { opacity: 1; transform: none; }
 }
 
@@ -864,6 +907,15 @@ html.flavor-anim-ready .flavor-anim-injected {
 	to   { opacity: 1; transform: none; }
 }
 
+html[dir="ltr"] .flavor-wish__item {
+	animation-name: flavor-m-wish-row-ltr;
+}
+
+@keyframes flavor-m-wish-row-ltr {
+	from { opacity: 0; transform: translate3d(calc(var(--flavor-m-slide) * -1), 0, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
 /* Quick view media zooms to fit while the panel is already open. */
 .flavor-qv__media img {
 	animation: flavor-m-qv-media 520ms var(--flavor-m-soft) both;
@@ -934,6 +986,15 @@ html.flavor-anim-ready .flavor-anim-injected {
 
 @keyframes flavor-m-line-in {
 	from { opacity: 0; transform: translate3d(var(--flavor-m-slide), 0, 0); }
+	to   { opacity: 1; transform: none; }
+}
+
+html[dir="ltr"] .flavor-cart-line {
+	animation-name: flavor-m-line-in-ltr;
+}
+
+@keyframes flavor-m-line-in-ltr {
+	from { opacity: 0; transform: translate3d(calc(var(--flavor-m-slide) * -1), 0, 0); }
 	to   { opacity: 1; transform: none; }
 }
 
@@ -1033,6 +1094,16 @@ html.flavor-anim-ready .flavor-anim-injected {
 	/* RTL: content travels from the left edge towards the right. */
 	from { transform: translate3d(-100%, 0, 0); }
 	to   { transform: translate3d(100%, 0, 0); }
+}
+
+/* LTR tickers travel the other way: in from the right edge, out to the left. */
+html[dir="ltr"] .flavor-anim-marquee > span {
+	animation-name: flavor-m-marquee-ltr;
+}
+
+@keyframes flavor-m-marquee-ltr {
+	from { transform: translate3d(100%, 0, 0); }
+	to   { transform: translate3d(-100%, 0, 0); }
 }
 
 /* ------------------------------------------------------------------ */

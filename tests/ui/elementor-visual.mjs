@@ -19,6 +19,14 @@
  * Screenshots for manual review go to <outdir>/screenshots/.
  * The fixture pages come from `php tests/ui/elementor-pages.php <outdir>`.
  *
+ * Twin direction sweep (prompt 57): every main surface — the templates
+ * above, the data-state pages, a dedicated direction probe page and the six
+ * real page surfaces built by a11y-pages.php — also renders once per
+ * direction (rtl = as shipped, ltr = twin). Each twin must keep the
+ * document's dir, stay free of sideways overflow, mirror directional arrow
+ * icons, and resolve every direction-bound animation, entrance and offset
+ * to the correct side.
+ *
  * Usage: node tests/ui/elementor-visual.mjs [--regen]
  *   --regen  run the PHP fixture builder first (CI convenience).
  * Exit 0 = everything visible and readable; 1 = violations reported.
@@ -36,6 +44,9 @@ const assetsRoot = path.join(root, 'flavor', 'assets');
 const outdir = process.env.QA_OUTPUT_DIR
   ? path.join(process.env.QA_OUTPUT_DIR, 'elementor')
   : path.join(root, '.cache', 'ui-qa', 'elementor');
+const a11yOutdir = process.env.QA_OUTPUT_DIR
+  ? path.join(process.env.QA_OUTPUT_DIR, 'a11y')
+  : path.join(root, '.cache', 'ui-qa', 'a11y');
 
 const slugs = ['home', 'about', 'menu', 'states-filled', 'states-empty'];
 const schemes = ['light', 'dark'];
@@ -59,6 +70,24 @@ const widths = [430, 960, 1440];
   if (process.argv.includes('--regen')) process.stdout.write((built.stdout || '').replace(/^/gm, '  '));
 }
 
+{
+  // The twin sweep (prompt 57) drives the a11y fixtures as well: the six
+  // real page surfaces, each rendered in both directions. Same noise
+  // contract as the elementor builder above.
+  const builtA11y = spawnSync('php', [path.join(here, 'a11y-pages.php'), a11yOutdir], { encoding: 'utf8' });
+  if (builtA11y.status !== 0) {
+    process.stderr.write(builtA11y.stderr || 'a11y fixture builder failed');
+    process.exit(1);
+  }
+  const noiseA11y = /Fatal error|Warning:|Notice:|Deprecated:|Undefined (index|variable|array key)/;
+  const outputA11y = [builtA11y.stdout || '', builtA11y.stderr || ''].join(String.fromCharCode(10));
+  if (noiseA11y.test(outputA11y)) {
+    console.error('✗ the a11y fixture build emitted PHP diagnostics:');
+    for (const line of outputA11y.split(String.fromCharCode(10)).filter((l) => noiseA11y.test(l)).slice(0, 5)) console.error('  ' + line.trim());
+    process.exit(1);
+  }
+}
+
 fs.mkdirSync(path.join(outdir, 'screenshots'), { recursive: true });
 
 /* Static server: fixture pages from outdir, theme assets under /assets/**. */
@@ -69,7 +98,9 @@ const server = http.createServer((req, res) => {
     ? [path.join(root, 'flavor', path.normalize(rel.slice('/themes/flavor/'.length))), path.join(root, 'flavor')]
     : rel.startsWith('/assets/')
       ? [path.join(assetsRoot, path.normalize(rel.slice('/assets/'.length))), assetsRoot]
-      : [path.join(outdir, path.normalize(rel)), outdir];
+      : rel.startsWith('/a11y/')
+        ? [path.join(a11yOutdir, path.normalize(rel.slice('/a11y/'.length))), a11yOutdir]
+        : [path.join(outdir, path.normalize(rel)), outdir];
   const [file, base] = mapping;
   if (!file.startsWith(base + path.sep) && file !== base) { res.writeHead(404); res.end('nope'); return; }
   if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) { res.writeHead(404); res.end('missing ' + rel); return; }
@@ -212,6 +243,192 @@ for (const slug of slugs) {
     await page.close();
   }
 }
+/* ------------------------------------------------------------------ */
+/* Twin direction sweep (prompt 57).                                    */
+/*                                                                      */
+/* Every main surface — the Elementor templates, the data-state pages,  */
+/* the direction probe page and the six real a11y surfaces — renders    */
+/* once per direction. The document's dir must win everywhere: no       */
+/* sideways overflow, arrow icons mirrored in LTR only, and every       */
+/* direction-bound animation, entrance and offset resolving to the      */
+/* correct side. Pre-reveal parked states (enter transforms, the        */
+/* fixed drawer, the travelling marquee) are layout-neutral on a live   */
+/* page — JS clears them — so the overflow probe skips exactly those.   */
+/* ------------------------------------------------------------------ */
+const twinWidths = [1440, 430];
+const twinDirs = ['rtl', 'ltr'];
+const twinPages = [];
+for (const slug of slugs) {
+  for (const scheme of schemes) {
+    twinPages.push({ name: `flavor-${slug}-${scheme}`, url: (d) => `${origin}/${d === 'rtl' ? '' : 'ltr/'}flavor-${slug}-${scheme}.html` });
+  }
+}
+twinPages.push({
+  name: 'flavor-states-direction-light',
+  url: (d) => `${origin}/${d === 'rtl' ? '' : 'ltr/'}flavor-states-direction-light.html`,
+  probePage: true,
+});
+for (const slug of ['home', 'menu', 'reservation', 'contact', 'about', 'tracking']) {
+  twinPages.push({ name: `page-${slug}`, url: (d) => `${origin}/a11y/${d === 'rtl' ? '' : 'ltr/'}page-${slug}.html` });
+}
+
+const twinProbes = `(() => {
+  const dir = document.documentElement.dir.toLowerCase();
+  const cs = (sel, pseudo) => { const el = document.querySelector(sel); return el ? getComputedStyle(el, pseudo || null) : null; };
+  const anim = (sel, pseudo) => { const s = cs(sel, pseudo); return s ? s.animationName : null; };
+  const xf = (sel) => { const s = cs(sel); return s ? s.transform : null; };
+  /* Only rendered arrows count: inside a display:none subtree Chromium
+     reports the string transform as 'none' even though the mirror rule
+     applies (the typed OM still shows scale(-1,1)). */
+  const arrows = [...document.querySelectorAll('svg[data-icon="arrow"]')]
+    .filter((el) => el.checkVisibility())
+    .slice(0, 4)
+    .map((el) => getComputedStyle(el).transform);
+  const badge = document.querySelector('.flavor-about__exp-badge');
+  let badgeGap = null;
+  if (badge && badge.parentElement) {
+    const b = badge.getBoundingClientRect();
+    const p = badge.parentElement.getBoundingClientRect();
+    badgeGap = dir === 'rtl' ? b.left - p.left : p.right - b.right;
+  }
+  /* Fixed subtrees never contribute to the document's scrollable overflow —
+     the parked drawer and its children are viewport-relative by design — so
+     the walk-up memo skips them wholesale instead of per element. */
+  const fixedMemo = new Map();
+  const inFixed = (el) => {
+    if (fixedMemo.has(el)) return fixedMemo.get(el);
+    let v = getComputedStyle(el).position === 'fixed';
+    if (!v && el.parentElement && el.parentElement !== document.documentElement) v = inFixed(el.parentElement);
+    fixedMemo.set(el, v);
+    return v;
+  };
+  let overflow = 0;
+  for (const el of document.querySelectorAll('body *')) {
+    if (el.closest('.flavor-anim-marquee')) continue;
+    if (el.classList.contains('fd-anim-enter') || el.classList.contains('flavor-anim-enter')) continue;
+    if (inFixed(el)) continue;
+    const r = el.getBoundingClientRect();
+    if (r.width === 0) continue;
+    overflow = Math.max(overflow, r.right - window.innerWidth, 0 - r.left);
+  }
+  /* Parked-drawer geometry: fully off-screen on the direction's own side. */
+  const dr = document.querySelector('.flavor-drawer');
+  let drawerParked = null;
+  if (dr && !dr.classList.contains('is-active') && dr.getClientRects().length) {
+    const rr = dr.getBoundingClientRect();
+    drawerParked = { left: Math.round(rr.left), right: Math.round(rr.right), vw: window.innerWidth };
+  }
+  return {
+    dir,
+    overflow: Math.round(overflow),
+    arrows,
+    marquee: anim('.flavor-anim-marquee > span'),
+    drawer: xf('.flavor-drawer'),
+    startEnter: xf('[data-flavor-anim="start"]'),
+    endEnter: xf('[data-flavor-anim="end"]'),
+    heroArt: anim('.flavor-hero__media'),
+    megaItem: anim('.flavor-mega > .sub-menu > li'),
+    /* Live walk: the probe page loads premium.js, whose top-level handler
+       flips which arrow advances the nav; measure where focus lands after
+       ArrowRight on the first link (rtl wraps backward, ltr steps forward). */
+    walk: (() => {
+      const links = [...document.querySelectorAll('.flavor-header__nav .flavor-nav > li > a')];
+      if (links.length < 2 || !links[0].checkVisibility()) return { count: links.length, index: null };
+      links[0].focus();
+      links[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+      return { count: links.length, index: links.indexOf(document.activeElement) };
+    })(),
+    wishRow: anim('.flavor-wish__item'),
+    cartLine: anim('.flavor-cart-line'),
+    shimmer: anim('.flavor-anim-shimmer', '::before'),
+    fdCopy: xf('.fd-hero__copy.fd-anim-enter'),
+    fdArt: xf('.fd-hero__art.fd-anim-enter'),
+    fdFaq: xf('.fd-faq details.fd-anim-enter'),
+    fdVisit: anim('.fd-visit__card', '::after'),
+    badgeGap,
+    drawerParked,
+  };
+})()`;
+
+const norm = (t) => (t || '').split(' ').join('');
+const matrixX = (t) => {
+  const s = norm(t);
+  if (!s.startsWith('matrix(')) return 0;
+  return parseFloat(s.slice(7, -1).split(',')[4]);
+};
+const mirrored = (t) => norm(t) === 'matrix(-1,0,0,1,0,0)';
+const identity = (t) => !t || t === 'none' || norm(t) === 'matrix(1,0,0,1,0,0)';
+
+const twin = [];
+for (const entry of twinPages) {
+  for (const dir of twinDirs) {
+    const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+    await page.goto(entry.url(dir), { waitUntil: 'load' });
+    await page.evaluate(() => document.fonts.ready);
+    for (const width of twinWidths) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.waitForTimeout(50);
+      const r = await page.evaluate(twinProbes);
+      const tag = `twin ${entry.name}@${dir}${width}`;
+      twin.push({ page: entry.name, dir, width, overflow: r.overflow, arrows: r.arrows.length });
+      if (r.dir !== dir) violations.push(`${tag}: document dir is "${r.dir}", expected "${dir}" — the fixture lost the twin`);
+      if (r.overflow > 1) violations.push(`${tag}: horizontal overflow ${r.overflow}px in ${dir}`);
+      for (const t of r.arrows) {
+        if (dir === 'ltr' ? !mirrored(t) : !identity(t)) violations.push(`${tag}: arrow icon transform "${t}" is not the ${dir} expectation`);
+      }
+      const wantAnim = (label, got, base) => {
+        if (got === null || got === 'none' || got === '') return;
+        const want = dir === 'ltr' ? `${base}-ltr` : base;
+        if (got !== want) violations.push(`${tag}: ${label} animation is "${got}", expected "${want}"`);
+      };
+      wantAnim('marquee', r.marquee, 'flavor-m-marquee');
+      wantAnim('hero art', r.heroArt, 'flavor-m-hero-art');
+      wantAnim('mega item', r.megaItem, 'flavor-m-mega-item');
+      if (entry.probePage) {
+        if (!r.megaItem) violations.push(`${tag}: the probe page measured no mega-item animation — coverage lost`);
+        if (!r.walk || r.walk.count < 2) violations.push(`${tag}: the probe page has no walkable top-level nav links`);
+      }
+      if (r.walk && r.walk.index !== null && r.walk.index !== 0) {
+        const expected = dir === 'rtl' ? r.walk.count - 1 : 1;
+        if (r.walk.index !== expected) violations.push(`${tag}: ArrowRight on the first nav link moved focus to index ${r.walk.index} — a ${dir} document expects index ${expected}`);
+      }
+      wantAnim('wishlist row', r.wishRow, 'flavor-m-wish-row');
+      wantAnim('cart line', r.cartLine, 'flavor-m-line-in');
+      wantAnim('skeleton gloss', r.shimmer, 'flavor-m-shimmer');
+      wantAnim('visit shimmer', r.fdVisit, 'fd-shimmer');
+      const wantSign = (label, t, rtlSign) => {
+        if (t === null) return;
+        const x = matrixX(t);
+        if (Math.abs(x) < 1) return;
+        const want = dir === 'rtl' ? rtlSign : -rtlSign;
+        if (Math.sign(x) !== want) violations.push(`${tag}: ${label} sits at x=${x}px, expected the ${dir} side`);
+      };
+      wantSign('drawer', r.drawer, 1);
+      if (r.drawerParked) {
+        const dp = r.drawerParked;
+        const off = dir === 'rtl' ? dp.left >= dp.vw - 1 : dp.right <= 1;
+        if (!off) violations.push(`${tag}: parked drawer occupies [${dp.left},${dp.right}] of a ${dp.vw}px viewport — it must sit fully off-screen on the ${dir === 'rtl' ? 'right' : 'left'}`);
+      }
+      if (entry.probePage && r.arrows.length === 0) violations.push(`${tag}: the probe page rendered no visible arrow icon — the mirror check lost its subject`);
+      wantSign('start entrance', r.startEnter, 1);
+      wantSign('end entrance', r.endEnter, -1);
+      wantSign('demo hero copy', r.fdCopy, 1);
+      wantSign('demo hero art', r.fdArt, -1);
+      wantSign('demo FAQ item', r.fdFaq, 1);
+      if (entry.probePage && r.badgeGap !== null && Math.abs(r.badgeGap - 20) > 2) {
+        violations.push(`${tag}: experience badge gap is ${r.badgeGap.toFixed(1)}px from the trailing edge, expected 20px`);
+      }
+      if (entry.probePage && width === 1440) {
+        const shot = path.join(outdir, 'screenshots', `twin-states-direction-${dir}.png`);
+        await page.screenshot({ path: shot, fullPage: true });
+        if (fs.statSync(shot).size < 2048) violations.push(`${tag}: twin screenshot too small`);
+      }
+    }
+    await page.close();
+  }
+}
+
+
 await browser.close();
 server.close();
 
@@ -221,6 +438,7 @@ const report = {
   widths,
   schemes,
   pages,
+  twin: { dirs: twinDirs, widths: twinWidths, renders: twin },
   violations,
 };
 fs.writeFileSync(path.join(outdir, 'report.json'), JSON.stringify(report, null, 2) + '\n');
@@ -229,10 +447,11 @@ const totalSections = pages.reduce((n, p) => n + p.sections, 0);
 const totalRuns = pages.reduce((n, p) => n + p.textRuns, 0);
 const shotCount = fs.readdirSync(path.join(outdir, 'screenshots')).filter((f) => f.endsWith('.png')).length;
 console.log(`صفحات: ${pages.length} · بخش‌ها: ${totalSections} · تکه‌متن‌های سنجیده‌شده: ${totalRuns} · اسکرین‌شات: ${shotCount}`);
+console.log(`گشتِ دوقلو: ${twin.length} رندر (${twinDirs.join(' + ')}) در ${twinWidths.join(' + ')} پیکسل — dir، سرریز، آیکون‌ها، انیمیشن‌ها و آفست‌ها در هر دو جهت سنجیده شد`);
 
 if (violations.length) {
   for (const v of violations.slice(0, 40)) console.error('✗ ' + v);
   console.error(`violation: ${violations.length} visual fault(s) (report: ${path.join(outdir, 'report.json')})`);
   process.exit(1);
 }
-console.log(`✅ elementor-visual: ${pages.length} page×width checks passed (overlap 0 · contrast ≥ AA · overflow 0)`);
+console.log(`✅ elementor-visual: ${pages.length} page×width checks + ${twin.length} twin renders passed (overlap 0 · contrast ≥ AA · overflow 0 · mirrored both ways)`);

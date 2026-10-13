@@ -173,7 +173,7 @@ class Bespoke_Demos {
 			'menu'    => '<path d="M4 6h16M4 12h16M4 18h16"/>',
 		);
 		$size = max( 12, min( 64, $size ) );
-		echo '<svg aria-hidden="true" focusable="false" width="' . esc_attr( (string) $size ) . '" height="' . esc_attr( (string) $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">';
+		echo '<svg aria-hidden="true" focusable="false" width="' . esc_attr( (string) $size ) . '" height="' . esc_attr( (string) $size ) . '" data-icon="' . esc_attr( $name ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">';
 		echo $paths[ $name ] ?? $paths['spark']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal trusted SVG.
 		echo '</svg>';
 	}

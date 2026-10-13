@@ -14,8 +14,10 @@
  * Usage:
  *   php tests/ui/elementor-pages.php [outdir]
  *
- * Writes <outdir>/<slug>-<scheme>.html for 3 templates × light/dark. The .mjs
- * guard serves these pages plus /assets/** and drives them in Chromium.
+ * Writes <outdir>/flavor-<slug>-<scheme>.html for 3 templates × light/dark,
+ * the two data-state pages and the direction probe page — plus the LTR twin
+ * of every one under <outdir>/ltr/ (prompt 57). The .mjs guard serves these
+ * pages plus /assets/** and drives them in Chromium, in both directions.
  *
  * @package Flavor
  */
@@ -48,6 +50,11 @@ foreach ( \Flavor\Elementor::widget_files() as $widget_file ) {
 $outdir = $argv[1] ?? dirname( __DIR__, 2 ) . '/.cache/ui-qa/elementor';
 if ( ! is_dir( $outdir ) && ! mkdir( $outdir, 0777, true ) ) {
 	fwrite( STDERR, "cannot create {$outdir}\n" );
+	exit( 1 );
+}
+
+if ( ! is_dir( $outdir . '/ltr' ) && ! mkdir( $outdir . '/ltr', 0777, true ) ) {
+	fwrite( STDERR, "cannot create {$outdir}/ltr\n" );
 	exit( 1 );
 }
 
@@ -165,14 +172,18 @@ CSS;
  * shim above is no longer a faithful stand-in and this fixture must grow.
  */
 /**
- * Page assembly shared by the template pages and the data-state pages.
+ * Page assembly shared by the template pages, the data-state pages and the
+ * direction probe page.
  *
- * @param string $slug   Page slug.
- * @param string $scheme light|dark.
- * @param string $body   Rendered Elementor structure.
+ * @param string   $slug       Page slug.
+ * @param string   $scheme     light|dark.
+ * @param string   $body       Rendered Elementor structure.
+ * @param string   $dir        rtl|ltr — the twin sweep renders every page in both.
+ * @param string[] $extra_css  Extra sheets to link (the probe page needs the demo layers).
+ * @param string   $html_class Optional class on <html> (the probe page opts into flavor-anim-ready).
  * @return string Full HTML document.
  */
-function assemble_page( string $slug, string $scheme, string $body ): string {
+function assemble_page( string $slug, string $scheme, string $body, string $dir = 'rtl', array $extra_css = array(), string $html_class = '' ): string {
 	/*
 	 * The mock environment advertises one absolute sample image for every
 	 * product card. Pointed at its host it never loads here, and a broken <img>
@@ -186,7 +197,21 @@ function assemble_page( string $slug, string $scheme, string $body ): string {
 	);
 	$tokens = \Flavor\Design::css_variables();
 	$dark   = 'dark' === $scheme ? "\n<style id=\"flavor-dark-mode\">\n" . \Flavor\Dark_Mode::css() . "\n</style>\n" : '';
-	return "<!DOCTYPE html>\n<html lang=\"fa\" dir=\"rtl\" data-flavor-scheme=\"{$scheme}\">\n<head>\n"
+	/* rtl.css ships only for RTL locales — class-enqueue.php gates it on
+	   is_rtl(). The LTR twin must not load it: its body-level direction:rtl
+	   would override the document's dir attribute. */
+	$rtl_sheet = 'rtl' === $dir ? '<link rel="stylesheet" href="/assets/css/rtl.css" />' . "\n" : '';
+	$extra     = implode(
+		'',
+		array_map(
+			static function ( string $file ): string {
+				return '<link rel="stylesheet" href="/assets/css/' . $file . '" />' . "\n";
+			},
+		$extra_css
+		)
+	);
+	$html_attr = '' !== $html_class ? " class=\"{$html_class}\"" : '';
+	return "<!DOCTYPE html>\n<html lang=\"fa\" dir=\"{$dir}\"{$html_attr} data-flavor-scheme=\"{$scheme}\">\n<head>\n"
 		. "<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n"
 		. "<title>flavor-" . $slug . " — {$scheme}</title>\n"
 		. '<link rel="stylesheet" href="/assets/css/fonts.css" />' . "\n"
@@ -198,10 +223,11 @@ function assemble_page( string $slug, string $scheme, string $body ): string {
 		. '<link rel="stylesheet" href="/assets/css/ui-navigation.css" />' . "\n"
 		. '<link rel="stylesheet" href="/assets/css/ui-pages.css" />' . "\n"
 		. '<link rel="stylesheet" href="/assets/css/ui-menu.css" />' . "\n"
-		. '<link rel="stylesheet" href="/assets/css/rtl.css" />' . "\n"
+		. $rtl_sheet
 		. '<link rel="stylesheet" href="/assets/css/skins/modern-restaurant.css" />' . "\n"
 		. '<link rel="stylesheet" href="/assets/css/motion.css" />' . "\n"
 		. '<link rel="stylesheet" href="/assets/css/elementor-widgets.css" />' . "\n"
+		. $extra
 		. "<style id=\"flavor-tokens\">\n{$tokens}\n</style>\n{$dark}"
 		. "<style id=\"elementor-layout-shim\">\n" . page_shim() . "\n</style>\n"
 		. "</head>\n<body class=\"flavor-theme flavor-skin-modern-restaurant elementor-page\">\n"
@@ -237,9 +263,11 @@ foreach ( array( 'home', 'about', 'menu' ) as $slug ) {
 	}
 	$body = render_content( (array) $data['content'], $by_name );
 	foreach ( array( 'light', 'dark' ) as $scheme ) {
-		$path = $outdir . '/flavor-' . $slug . '-' . $scheme . '.html';
-		file_put_contents( $path, assemble_page( $slug, $scheme, $body ) );
-		echo 'wrote ' . $path . "\n";
+		foreach ( array( 'rtl', 'ltr' ) as $dir ) {
+			$path = ( 'rtl' === $dir ? $outdir : $outdir . '/ltr' ) . '/flavor-' . $slug . '-' . $scheme . '.html';
+			file_put_contents( $path, assemble_page( $slug, $scheme, $body, $dir ) );
+			echo 'wrote ' . $path . "\n";
+		}
 	}
 }
 
@@ -309,9 +337,60 @@ foreach ( $state_contents as $state => $widgets ) {
 	$body = render_content( $content, $by_name );
 	$GLOBALS['_mock_wc_products'] = $products_backup;
 	foreach ( array( 'light', 'dark' ) as $scheme ) {
-		$path = $outdir . '/flavor-states-' . $state . '-' . $scheme . '.html';
-		file_put_contents( $path, assemble_page( 'states-' . $state, $scheme, $body ) );
-		echo 'wrote ' . $path . "\n";
+		foreach ( array( 'rtl', 'ltr' ) as $dir ) {
+			$path = ( 'rtl' === $dir ? $outdir : $outdir . '/ltr' ) . '/flavor-states-' . $state . '-' . $scheme . '.html';
+			file_put_contents( $path, assemble_page( 'states-' . $state, $scheme, $body, $dir ) );
+			echo 'wrote ' . $path . "\n";
+		}
 	}
 }
-echo '10 pages in ' . $outdir . "\n";
+/*
+ * Prompt 57 — the direction probe page. Not an Elementor export: it carries
+ * every direction-bound component the theme ships (arrow icons from both
+ * front-end icon() producers, the opt-in marquee, the parked drawer, the
+ * motion.css start/end entrances and the mirrored keyframe families, the
+ * bespoke demo hero/FAQ/visit entrance states, and the marketing experience
+ * badge) so the twin sweep can measure one deterministic page per direction
+ * instead of hoping a component happens to appear on a template.
+ */
+ob_start();
+?>
+<div class="flavor-container" style="padding-block:24px">
+	<div class="flavor-anim-marquee"><span>پیامِ تاپ‌بار — طعمِ تازهٔ هر روز • سفارش آنلاین • ارسال سریع •</span></div>
+	<aside class="flavor-drawer" aria-hidden="true"><div class="flavor-drawer__header"><span>یادداشتِ گشت</span></div></aside>
+	<p>
+		<a class="flavor-btn" href="#twin"><?php \Flavor\UI::icon( 'arrow', 18 ); ?><span>همهٔ سفارش‌ها</span></a>
+		<a class="fd-button fd-button--primary" href="#twin">رزرو میز<?php \Flavor\Bespoke_Demos::icon( 'arrow', 19 ); ?></a>
+	</p>
+	<p class="flavor-anim-enter" data-flavor-anim="start">ورود از لبهٔ خوانش</p>
+	<p class="flavor-anim-enter" data-flavor-anim="end">ورود از لبهٔ مقابل</p>
+	<div class="flavor-hero__media" style="height:120px;background:#ddd"></div>
+	<nav class="flavor-header__nav" aria-label="ناوبریِ گشتِ دوقلو"><ul class="flavor-nav"><li><a href="#twin">ستونِ یک</a></li><li class="flavor-mega flavor-mega--cols-2"><a href="#twin" data-flavor-nav="branch" aria-expanded="true">ستونِ دو</a><ul class="sub-menu"><li><a href="#twin">آیتمِ مگا</a></li></ul></li><li><a href="#twin">ستونِ سه</a></li></ul></nav>
+	<script>window.flavorPremium = { mega: { enabled: true } };</script>
+	<script src="/themes/flavor/assets/js/premium.js"></script>
+	<div class="flavor-wish__item">آیتمِ علاقه‌مندی</div>
+	<div class="flavor-cart-line">خطِ سبد</div>
+	<div class="flavor-anim-shimmer" style="position:relative;height:48px;background:#eee"></div>
+	<section class="fd-hero"><div class="fd-hero__copy fd-anim-enter"><h2>قهرمانِ دوطور</h2><p>متنِ آزمونِ گشت.</p></div><div class="fd-hero__art fd-anim-enter" style="height:100px;background:#ccc"></div></section>
+	<div class="fd-faq"><details class="fd-anim-enter"><summary>پرسشِ دوطور؟</summary><p>پاسخِ کوتاه.</p></details></div>
+	<div class="fd-visit__card" style="height:72px;background:#222"></div>
+	<div class="flavor-about__media" style="position:relative;height:200px;background:#bbb"><span class="flavor-about__exp-badge"><strong>۱۲</strong><span>سال تجربه</span></span></div>
+</div>
+<?php
+$direction_body = (string) ob_get_clean();
+foreach ( array( 'rtl', 'ltr' ) as $dir ) {
+	$path = ( 'rtl' === $dir ? $outdir : $outdir . '/ltr' ) . '/flavor-states-direction-light.html';
+	file_put_contents(
+		$path,
+		assemble_page(
+			'states-direction',
+			'light',
+			$direction_body,
+			$dir,
+			array( 'bespoke-demos.css', 'demo-animations.css' ),
+			'flavor-anim-ready'
+		)
+	);
+	echo 'wrote ' . $path . "\n";
+}
+echo '22 pages in ' . $outdir . " (11 rtl + 11 ltr)\n";

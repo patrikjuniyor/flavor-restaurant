@@ -57,7 +57,7 @@
 	color: #e9eef2;
 	font: 10px/1.7 Arial, sans-serif;
 	letter-spacing: .18em;
-	text-align: left;
+	text-align: end;
 	margin-top: 38px;
 	padding-top: 18px;
 	border-top: 1px solid #536575;
@@ -121,7 +121,7 @@
 .flavor-skin-catering .fd-mizan-service__media img { width: 100%; aspect-ratio: 1.4; object-fit: cover; transition: transform .4s ease; }
 .flavor-skin-catering .fd-mizan-service:hover .fd-mizan-service__media img { transform: scale(1.025); }
 .flavor-skin-catering .fd-mizan-service__body { padding: 28px; }
-.flavor-skin-catering .fd-mizan-service__overline { display: block; text-align: right; font: 9px/1.6 Arial, sans-serif; letter-spacing: .1em; color: #756043; margin-bottom: 16px; }
+.flavor-skin-catering .fd-mizan-service__overline { display: block; text-align: start; font: 9px/1.6 Arial, sans-serif; letter-spacing: .1em; color: #756043; margin-bottom: 16px; }
 .flavor-skin-catering .fd-mizan-service__title { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .flavor-skin-catering .fd-mizan-service__title h3 { font-size: 21px; font-weight: 650; margin: 0; }
 .flavor-skin-catering .fd-mizan-service__title > span { font: 24px Georgia, serif; color: #8c704d; }
@@ -206,7 +206,7 @@
 	font: inherit;
 	font-size: 13px;
 	line-height: 1.8;
-	text-align: right;
+	text-align: start;
 }
 .flavor-skin-catering .fd-mizan-planner input::placeholder,
 .flavor-skin-catering .fd-mizan-planner textarea::placeholder { color: #69717a; opacity: 1; font-size: 12px; }

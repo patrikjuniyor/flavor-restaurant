@@ -515,7 +515,8 @@
 .flavor-about__exp-badge {
 	position: absolute;
 	bottom: -20px;
-	left: 20px;
+	/* Trailing edge: left in RTL exactly as shipped, mirrored in LTR. */
+	inset-inline-end: 20px;
 	background: var(--flavor-primary);
 	color: #fff;
 	padding: 16px 24px;

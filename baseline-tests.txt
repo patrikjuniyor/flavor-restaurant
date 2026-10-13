@@ -1,6 +1,6 @@
 Flavor — baseline آزمون‌ها (test baseline)
 ===========================================================
-generated : 2026-10-11 15:11 UTC
+generated : 2026-10-13 21:06 UTC
 command   : ./dev-tools/run-baseline.sh
 
 Read this as the number to beat. After each phase, re-run the command
@@ -9,37 +9,29 @@ its last line still says 'passed'.
 
 environment
 -----------------------------------------------------------
-php       : 8.4.26
-composer  : Composer version 2.8.8 2025-04-04 16:56:46
+php       : 8.3.32
+composer  : missing
 node      : v20.20.2
 python3   : Python 3.13.16
-gettext   : msgfmt (GNU gettext-tools) 0.23.1
-flutter   : Flutter 3.24.5 • channel stable • https://github.com/flutter/flutter.git
+gettext   : missing
+flutter   : not installed — mobile suites skipped
 
 suites (the ones ci.yml gates on)
 -----------------------------------------------------------
-[ OK ] theme suite (tests/theme/*)                    1831 checks passed, 0 failed
-[ OK ] core pure logic                                23 checks passed, 0 failed
-[ OK ] core e2e integration                           INTEGRATION SUITE SUMMARY: 80/80 PASSED (0 FAILED) 
-[ OK ] PHP lint                                       همهٔ 295 فایل از نظر نحو سالم‌اند.
+[ OK ] theme suite (tests/theme/*)                    2803 checks passed, 0 failed
+[ OK ] core pure logic                                226 checks passed, 0 failed
+[ OK ] core e2e integration                           INTEGRATION SUITE SUMMARY: 81/81 PASSED (0 FAILED) 
+[ OK ] PHP lint                                       همهٔ 342 فایل از نظر نحو سالم‌اند.
 [ OK ] motion layer guard                             Motion layer: all 11 checks passed
 [ OK ] translation catalogues                         بررسیِ ترجمه موفق بود.
-[ OK ] translation contract                           84 checks passed, 0 failed
+[ OK ] translation contract                           126 checks passed, 0 failed
 [ OK ] version headers                                OK    version and compatibility headers are consistent.
 [ OK ] class wiring                                   بررسیِ اتصالِ کلاس‌ها موفق بود.
 [ OK ] child theme                                    بررسیِ چایلدتم موفق بود.
 
-mobile (Flutter)
------------------------------------------------------------
-the app resolves against the toolchain CI pins (3.24.x); the
-intl constraint in mobile/pubspec.yaml is what decides that.
-[ OK ] flutter pub get                                0 [PASS] lines
-[ OK ] flutter analyze                                No issues found! (ran in 3.6s)
-[ OK ] flutter test                                   All tests passed (43 tests)
-
 reported but not gating
 -----------------------------------------------------------
-phpcs: 
+phpcs: vendor/bin/phpcs missing — run 'composer install'
 
 outcome
 -----------------------------------------------------------

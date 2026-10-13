@@ -246,7 +246,7 @@ body.flavor-skin-modern-restaurant {
 	box-shadow: none;
 	color: #fff;
 	padding: 45px clamp(24px, 4vw, 50px);
-	text-align: right;
+	text-align: start;
 }
 
 .flavor-skin-modern-restaurant .flavor-intro__card:last-child {

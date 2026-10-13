@@ -137,8 +137,8 @@ foreach ( array( 'Escape', 'ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'H
 	);
 }
 check(
-	str_contains( $premium_js, "key === 'ArrowLeft' ? 1 : -1" ),
-	'RTL arrow semantics: ArrowLeft advances to the next top-level item, ArrowRight goes back'
+	str_contains( $premium_js, "var forward = rtl ? (key === 'ArrowLeft') : (key === 'ArrowRight')" ),
+	'arrow semantics follow the document direction: in RTL ArrowLeft advances and ArrowRight goes back, in LTR the pair flips'
 );
 check(
 	2 === substr_count( $premium_js, "host.addEventListener('flavor:dialog-closed'" ),

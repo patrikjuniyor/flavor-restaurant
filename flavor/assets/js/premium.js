@@ -498,11 +498,13 @@
 		   disclosure-navigation convention: Escape closes from anywhere
 		   inside a branch and puts focus back on its link; ArrowDown enters
 		   the panel and ArrowUp climbs back; ArrowLeft/ArrowRight walk the
-		   top level — RTL-first, so Left advances and Right goes back;
+		   top level — direction-aware like the menu tabs: in an RTL document
+		   Left advances and Right goes back, in LTR the pair flips;
 		   Home/End jump to the ends. Flat top-level links get the walking
 		   keys too, branch or not. */
 		var topList = $('.flavor-nav', nav);
 		var topLinks = topList ? $$(':scope > li > a', topList) : [];
+		var rtl = (document.documentElement.getAttribute('dir') || '').toLowerCase() === 'rtl';
 
 		if (!topList) { return; }
 
@@ -547,7 +549,7 @@
 					var target;
 					if (key === 'Home') { target = topLinks[0]; }
 					else if (key === 'End') { target = topLinks[topLinks.length - 1]; }
-					else { target = topLinks[(index + (key === 'ArrowLeft' ? 1 : -1) + topLinks.length) % topLinks.length]; }
+					else { var forward = rtl ? (key === 'ArrowLeft') : (key === 'ArrowRight'); target = topLinks[(index + (forward ? 1 : -1) + topLinks.length) % topLinks.length]; }
 					if (target && target !== link) { event.preventDefault(); close(null); target.focus(); }
 				}
 			});

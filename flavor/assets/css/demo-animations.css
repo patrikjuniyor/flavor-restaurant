@@ -476,3 +476,30 @@ html {
 	0%   { transform: translateX(-100%); }
 	100% { transform: translateX(100%); }
 }
+
+/* ================================================================== */
+/*  19. LTR mirrors                                                   */
+/* ================================================================== */
+
+/* Every horizontal slide and sweep above parks content on the RTL reading
+   side; in an LTR document the direction flips (prompt 57 twin sweep). */
+html[dir="ltr"] .fd-hero__copy.fd-anim-enter {
+	transform: translateX(-30px) translateY(0);
+}
+
+html[dir="ltr"] .fd-hero__art.fd-anim-enter {
+	transform: translateX(30px) translateY(0);
+}
+
+html[dir="ltr"] .fd-faq details.fd-anim-enter {
+	transform: translateX(-20px);
+}
+
+html[dir="ltr"] .fd-visit__card::after {
+	animation-name: fd-shimmer-ltr;
+}
+
+@keyframes fd-shimmer-ltr {
+	0%   { transform: translateX(100%); }
+	100% { transform: translateX(-100%); }
+}

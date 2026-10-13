@@ -58,7 +58,7 @@
 }
 @media (max-width: 700px) {
 	.flavor-skin-minimal-clean .fd-form-hero { padding-top: 43px; }
-	.flavor-skin-minimal-clean .fd-form-hero__copy { text-align: right; margin-bottom: 35px; }
+	.flavor-skin-minimal-clean .fd-form-hero__copy { text-align: start; margin-bottom: 35px; }
 	.flavor-skin-minimal-clean .fd-form-hero h1 { font-size: clamp(2.6rem, 8.5vw, 3.4rem); line-height: 1.45; }
 	.flavor-skin-minimal-clean .fd-form-hero h1 em { display: block; }
 	.flavor-skin-minimal-clean .fd-hero__actions { justify-content: start; }

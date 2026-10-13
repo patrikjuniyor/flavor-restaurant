@@ -235,7 +235,8 @@ body.flavor-skin-cafe-bistro {
 	box-shadow: none;
 	color: #fffaf2;
 	padding: 44px clamp(24px, 4vw, 48px);
-	text-align: right;
+	/* Logical: start = right in RTL (as shipped), left in LTR. */
+	text-align: start;
 }
 
 .flavor-skin-cafe-bistro .flavor-intro__card:last-child {

@@ -388,7 +388,7 @@ body.flavor-header-minimal .flavor-brand .custom-logo {
 	position: fixed;
 	top: 0;
 	bottom: 0;
-	inset-inline-end: 0;
+	inset-inline-start: 0;
 	width: min(340px, 85vw);
 	background: var(--flavor-surface);
 	z-index: 999;
@@ -399,10 +399,14 @@ body.flavor-header-minimal .flavor-brand .custom-logo {
 	box-shadow: var(--flavor-shadow-xl);
 }
 
-/* translateX is physical, so the parked position has to be mirrored: in LTR the
-   inline-end edge is the left one and 100% would slide the drawer across the
-   page instead of off it. rtl.css repeats the RTL value on purpose so a child
-   theme that only loads one of the two sheets still gets a working drawer. */
+/* translateX is physical, so the parked position has to be mirrored. The base
+   rule anchors the drawer to the inline-START edge — the right one in RTL,
+   where translateX(100%) parks it off-screen — and in LTR the inline-start
+   edge is the left one, so the mirror parks it with translateX(-100%).
+   (Anchoring by inline-end instead left the LTR drawer parked right:0 and
+   sliding 340px the wrong way — 90px of it back into the viewport; the
+   prompt-57 twin sweep caught it.) rtl.css repeats the RTL values on purpose
+   so a child theme that only loads one of the two sheets still works. */
 html[dir="ltr"] .flavor-drawer {
 	transform: translateX(-100%);
 }
@@ -415,6 +419,14 @@ html[dir="ltr"] .flavor-drawer {
 .flavor-breadcrumbs span::after {
 	content: "→";
 	margin: 0 8px;
+}
+
+/* Directional icons point toward the reading edge — the Persian arrow
+   points left. Every icon() producer stamps data-icon on its <svg>, so
+   the mirror selects exactly the directional glyph and leaves the
+   symmetric icons (bag, phone, star…) alone. */
+html[dir="ltr"] svg[data-icon="arrow"] {
+	transform: scaleX(-1);
 }
 
 .flavor-drawer__header {

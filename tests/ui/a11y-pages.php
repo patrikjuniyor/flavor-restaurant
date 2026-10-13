@@ -15,9 +15,11 @@
  * Usage:
  *   php tests/ui/a11y-pages.php [outdir]
  *
- * Writes <outdir>/page-<slug>.html for every surface. The .mjs guard serves
- * these pages plus /assets/** and /themes/flavor/** and drives them in
- * Chromium with @axe-core/playwright.
+ * Writes <outdir>/page-<slug>.html for every surface (RTL, the shipped
+ * default) plus the LTR twin of each page under <outdir>/ltr/ — the pair
+ * the elementor-visual.mjs twin sweep drives in both directions (prompt
+ * 57). The .mjs guard serves these pages plus /assets/** and
+ * /themes/flavor/** and drives them in Chromium with @axe-core/playwright.
  *
  * Any PHP warning/notice in the build output fails the guard (same contract
  * as elementor-pages.php): the fixture must render as clean as production.
@@ -102,7 +104,9 @@ if ( ! function_exists( 'get_footer' ) ) {
 	function get_footer( $name = '' ): void { include FLAVOR_DIR . '/footer.php'; }
 }
 if ( ! function_exists( 'language_attributes' ) ) {
-	function language_attributes(): void { echo 'dir="rtl" lang="fa-IR"'; }
+	/* The direction currently being rendered; the twin sweep (prompt 57)
+	   renders every surface once as shipped RTL and once as its LTR twin. */
+	function language_attributes(): void { echo 'dir="' . ( $GLOBALS['_a11y_dir'] ?? 'rtl' ) . '" lang="fa-IR"'; }
 }
 if ( ! function_exists( 'body_class' ) ) {
 	function body_class( $class = '' ): void {
@@ -284,6 +288,18 @@ function flavor_a11y_head_assets(): string {
 		'skins/modern-restaurant.css',
 		'motion.css',
 	);
+	/* rtl.css ships only for RTL locales — class-enqueue.php gates it on
+	   is_rtl(). The LTR twin must not load it: its body-level direction:rtl
+	   would override the document's dir attribute and the sweep would end up
+	   measuring RTL twice. */
+	if ( 'ltr' === ( $GLOBALS['_a11y_dir'] ?? 'rtl' ) ) {
+		$css = array_values( array_filter(
+			$css,
+			static function ( string $file ): bool {
+				return 'rtl.css' !== $file;
+			}
+		) );
+	}
 	/* Production declares title-tag support (Theme_Setup) and WordPress
 	   renders <title> inside wp_head; the fixture echoes the same shape so
 	   the scan reads a document as complete as a live one. */
@@ -384,45 +400,59 @@ $pages = array(
 );
 
 $failed = 0;
-foreach ( $pages as $slug => $relative ) {
-	$GLOBALS['_a11y_page'] = $slug;
-	$path                  = FLAVOR_DIR . '/' . $relative;
-	if ( ! is_readable( $path ) ) {
-		echo str_pad( $slug, 14 ) . " page:absent — {$relative}\n";
-		++$failed;
-		continue;
+/* Twin directions (prompt 57): every surface renders twice — once as the
+   shipped RTL default and once as its LTR twin under ltr/. Content and locale
+   stay Persian in both, so the only variable is the dir attribute (and the
+   conditional rtl.css that follows it). elementor-visual.mjs sweeps the pair
+   and fails when direction-bound pieces do not mirror. */
+foreach ( array( 'rtl', 'ltr' ) as $dir ) {
+	$GLOBALS['_a11y_dir'] = $dir;
+	$dir_out              = 'rtl' === $dir ? $outdir : $outdir . '/ltr';
+	if ( ! is_dir( $dir_out ) && ! mkdir( $dir_out, 0777, true ) ) {
+		fwrite( STDERR, "cannot create {$dir_out}\n" );
+		exit( 1 );
 	}
-	ob_start();
-	try {
-		include $path;
-		$html = (string) ob_get_clean();
-	} catch ( \Throwable $e ) {
-		ob_end_clean();
-		echo str_pad( $slug, 14 ) . ' page:error — ' . get_class( $e ) . ': ' . $e->getMessage() . ' @ ' . basename( $e->getFile() ) . ':' . $e->getLine() . "\n";
-		++$failed;
-		continue;
+	foreach ( $pages as $slug => $relative ) {
+		$GLOBALS['_a11y_page'] = $slug;
+		$path                  = FLAVOR_DIR . '/' . $relative;
+		if ( ! is_readable( $path ) ) {
+			echo str_pad( $slug, 14 ) . " [{$dir}] page:absent — {$relative}\n";
+			++$failed;
+			continue;
+		}
+		ob_start();
+		try {
+			include $path;
+			$html = (string) ob_get_clean();
+		} catch ( \Throwable $e ) {
+			ob_end_clean();
+			echo str_pad( $slug, 14 ) . " [{$dir}] page:error — " . get_class( $e ) . ': ' . $e->getMessage() . ' @ ' . basename( $e->getFile() ) . ':' . $e->getLine() . "\n";
+			++$failed;
+			continue;
+		}
+
+		/*
+		 * The mock advertises one absolute sample image for product cards; the
+		 * guard's server cannot reach that host and a broken <img> measures as
+		 * layout overflow — swap it for a demo image the guard actually serves
+		 * (same correction elementor-pages.php makes).
+		 */
+		$html = str_replace(
+			'https://restaurant.example.com/assets/images/sample-dish.jpg',
+			'/themes/flavor/demos/modern-restaurant/category-burger.jpg',
+			$html
+		);
+
+		if ( false === strpos( $html, '<!DOCTYPE' ) ) {
+			echo str_pad( $slug, 14 ) . " [{$dir}] page:error — the template did not render a full document\n";
+			++$failed;
+			continue;
+		}
+
+		file_put_contents( $dir_out . '/page-' . $slug . '.html', $html );
+		echo str_pad( $slug, 14 ) . " [{$dir}] page:ok " . strlen( $html ) . " bytes\n";
 	}
 
-	/*
-	 * The mock advertises one absolute sample image for product cards; the
-	 * guard's server cannot reach that host and a broken <img> measures as
-	 * layout overflow — swap it for a demo image the guard actually serves
-	 * (same correction elementor-pages.php makes).
-	 */
-	$html = str_replace(
-		'https://restaurant.example.com/assets/images/sample-dish.jpg',
-		'/themes/flavor/demos/modern-restaurant/category-burger.jpg',
-		$html
-	);
-
-	if ( false === strpos( $html, '<!DOCTYPE' ) ) {
-		echo str_pad( $slug, 14 ) . " page:error — the template did not render a full document\n";
-		++$failed;
-		continue;
-	}
-
-	file_put_contents( $outdir . '/page-' . $slug . '.html', $html );
-	echo str_pad( $slug, 14 ) . ' page:ok ' . strlen( $html ) . " bytes\n";
 }
 
 exit( $failed ? 1 : 0 );
