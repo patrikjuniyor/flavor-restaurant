@@ -6,7 +6,9 @@
  var drawer=document.getElementById('flavor-mobile-drawer');
  var overlay=document.getElementById('flavor-drawer-overlay');
  var returnFocus=null,previousOverflow='',inertSiblings=[];
- function focusables(){return drawer?Array.from(drawer.querySelectorAll('a[href],button:not([disabled]),input:not([disabled])')).filter(function(el){return el.getClientRects().length;}):[];}
+ /* Same stop set ui.js traps (dialogs over the drawer use it too): links,
+   enabled form controls and tabindex=0, visible and not inside [inert]. */
+ function focusables(){return drawer?Array.from(drawer.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex="0"]')).filter(function(el){return el.getClientRects().length&&!el.closest('[inert]');}):[];}
  function openDrawer(){
   if(!drawer||!overlay||returnFocus)return;
   returnFocus=document.activeElement;previousOverflow=document.body.style.overflow;
@@ -30,7 +32,14 @@
  if(drawer)drawer.querySelectorAll('a').forEach(function(link){link.addEventListener('click',closeDrawer);});
  document.addEventListener('keydown',function(event){
   if(!returnFocus)return;
-  if(event.key==='Escape'){event.preventDefault();closeDrawer();return;}
+  if(event.key==='Escape'){
+   /* One Escape closes one layer — the top one. A FlavorUI dialog stacked
+     over the drawer (wishlist opened from the drawer tools, cart from the
+     bottom nav) owns this keypress; closing the drawer underneath it would
+     drop both layers at once (prompt 52). */
+   if(window.FlavorUI&&window.FlavorUI.dialogCount&&window.FlavorUI.dialogCount()>0)return;
+   event.preventDefault();closeDrawer();return;
+  }
   if(event.key!=='Tab')return;
   var items=focusables();if(!items.length)return;
   if(event.shiftKey&&document.activeElement===items[0]){event.preventDefault();items[items.length-1].focus();}

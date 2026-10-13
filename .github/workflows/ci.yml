@@ -192,6 +192,21 @@ jobs:
           path: .cache/ui-qa/a11y/
           if-no-files-found: ignore
 
+      # Prompt 52: the storefront must be fully operable from the keyboard —
+      # focus order, disclosure semantics, dialog traps and focus restoration.
+      # This suite caught the paintSheetPrice shadowing bug that broke every
+      # item-sheet open in production; it guards the fix and the whole surface.
+      - name: Keyboard navigation suite (focus order, dialogs, disclosure)
+        run: node tests/ui/keyboard.mjs
+
+      - name: Upload the keyboard evidence when the suite fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: keyboard-evidence
+          path: .cache/ui-qa/keyboard/
+          if-no-files-found: ignore
+
   flutter-mobile-ci:
     name: Mobile Quality & Flutter Tests
     runs-on: ubuntu-latest

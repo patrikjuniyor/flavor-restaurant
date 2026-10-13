@@ -205,6 +205,15 @@
 		}
 		var lastTrigger = null;
 
+		/* Reset every trigger on every close path — the close button, the
+		   backdrop, ui.js's document-level Escape, or a cascade when a parent
+		   dialog closes. ui.js dispatches flavor:dialog-closed on the host for
+		   all of them, so aria-expanded can never outlive the open panel
+		   (prompt 52: the Escape path used to leave it stuck on "true"). */
+		host.addEventListener('flavor:dialog-closed', function () {
+			$$('[data-wishlist-open]').forEach(function (button) { button.setAttribute('aria-expanded', 'false'); });
+		});
+
 		function items() {
 			var value = stored(key);
 			return Array.isArray(value) ? value : [];
@@ -298,7 +307,6 @@
 
 			if (event.target.closest('[data-wishlist-close]')) {
 				closeDialog(host);
-				$$('[data-wishlist-open]').forEach(function (button) { button.setAttribute('aria-expanded', 'false'); });
 				return;
 			}
 
@@ -409,9 +417,22 @@
 	/* ---------------------------------------------------------- mega menu */
 
 	(function mega() {
-		if (!cfg.mega || !cfg.mega.enabled) { return; }
-
 		var nav = $('.flavor-header__nav');
+
+		/* The mobile drawer renders the same menu as a static nested list —
+		   its submenu is always visible, so disclosure attributes there would
+		   lie (aria-expanded="false" on an open list). The header nav is the
+		   only disclosure widget; strip the walker's attributes from every
+		   other copy of the menu (prompt 52). */
+		$$('[data-flavor-nav="branch"]').forEach(function (link) {
+			if (nav && nav.contains(link)) { return; }
+			link.removeAttribute('data-flavor-nav');
+			link.removeAttribute('aria-haspopup');
+			link.removeAttribute('aria-expanded');
+			link.removeAttribute('aria-controls');
+		});
+
+		if (!cfg.mega || !cfg.mega.enabled) { return; }
 		if (!nav) { return; }
 
 		function branches() {
@@ -425,28 +446,110 @@
 			});
 		}
 
+		function panelOf(link) {
+			var item = link.parentElement;
+			var panel = item ? item.querySelector('.sub-menu') : null;
+			return panel && panel.parentElement === item ? panel : null;
+		}
+
+		/* Wire every branch to its own panel: aria-controls completes the
+		   disclosure for assistive tech, and the flavor-nav-disclosure class
+		   is what the stylesheet collapses — so panels only hide where this
+		   script can open them again. */
+		branches().forEach(function (link, index) {
+			var panel = panelOf(link);
+			if (!panel || !link.parentElement) { return; }
+			if (!panel.id) { panel.id = 'flavor-nav-panel-' + (index + 1); }
+			link.setAttribute('aria-controls', panel.id);
+			link.parentElement.classList.add('flavor-nav-disclosure');
+		});
+
 		branches().forEach(function (link) {
 			var item = link.parentElement;
 			if (!item) { return; }
 
 			function set(state) { link.setAttribute('aria-expanded', String(state)); }
 
-			item.addEventListener('mouseenter', function () { close(link); set(true); });
+			item.addEventListener('mouseenter', function () { link._flavorEscClosed = false; close(link); set(true); });
 			item.addEventListener('mouseleave', function () { set(false); });
-			item.addEventListener('focusin', function () { close(link); set(true); });
+			item.addEventListener('focusin', function () {
+				/* The refocus Escape performs when it returns focus to the
+				   branch must not reopen the panel instantly — that would
+				   make Escape a no-op. One focusin is consumed by the flag;
+				   any later arrival (Tab back, mouse) opens normally. */
+				if (link._flavorEscClosed) { link._flavorEscClosed = false; return; }
+				close(link); set(true);
+			});
 			item.addEventListener('focusout', function (event) {
 				if (!item.contains(event.relatedTarget)) { set(false); }
-			});
-			link.addEventListener('keydown', function (event) {
-				if (event.key === 'Escape') { set(false); link.blur(); }
 			});
 			// Touch devices never fire mouseenter; the first tap opens in place.
 			link.addEventListener('click', function (event) {
 				if (!window.matchMedia('(hover: none)').matches) { return; }
 				if (link.getAttribute('aria-expanded') === 'true') { return; }
 				event.preventDefault();
+				link._flavorEscClosed = false;
 				close(link);
 				set(true);
+			});
+		});
+
+		/* One keyboard layer over the whole top level, following the
+		   disclosure-navigation convention: Escape closes from anywhere
+		   inside a branch and puts focus back on its link; ArrowDown enters
+		   the panel and ArrowUp climbs back; ArrowLeft/ArrowRight walk the
+		   top level — RTL-first, so Left advances and Right goes back;
+		   Home/End jump to the ends. Flat top-level links get the walking
+		   keys too, branch or not. */
+		var topList = $('.flavor-nav', nav);
+		var topLinks = topList ? $$(':scope > li > a', topList) : [];
+
+		if (!topList) { return; }
+
+		$$(':scope > li', topList).forEach(function (item) {
+			var link = item.querySelector(':scope > a');
+			if (!link) { return; }
+
+			function isBranch() { return link.hasAttribute('data-flavor-nav'); }
+
+			item.addEventListener('keydown', function (event) {
+				var key = event.key;
+				var onLink = event.target === link;
+
+				if (key === 'Escape') {
+					if (!isBranch() || link.getAttribute('aria-expanded') !== 'true') { return; }
+					event.preventDefault();
+					link.setAttribute('aria-expanded', 'false');
+					if (!onLink) {
+						link._flavorEscClosed = true;
+						link.focus();
+					}
+					return;
+				}
+				if (key === 'ArrowDown' && onLink && isBranch()) {
+					event.preventDefault();
+					link._flavorEscClosed = false;
+					close(link);
+					link.setAttribute('aria-expanded', 'true');
+					var panel = panelOf(link);
+					var first = panel ? $('a[href],button:not([disabled])', panel) : null;
+					if (first) { first.focus(); }
+					return;
+				}
+				if (key === 'ArrowUp' && !onLink && isBranch() && item.contains(event.target)) {
+					event.preventDefault();
+					link.focus();
+					return;
+				}
+				if ((key === 'ArrowLeft' || key === 'ArrowRight' || key === 'Home' || key === 'End') && onLink && topLinks.length) {
+					var index = topLinks.indexOf(link);
+					if (index < 0) { return; }
+					var target;
+					if (key === 'Home') { target = topLinks[0]; }
+					else if (key === 'End') { target = topLinks[topLinks.length - 1]; }
+					else { target = topLinks[(index + (key === 'ArrowLeft' ? 1 : -1) + topLinks.length) % topLinks.length]; }
+					if (target && target !== link) { event.preventDefault(); close(null); target.focus(); }
+				}
 			});
 		});
 	})();
@@ -502,6 +605,13 @@
 		var body = $('#flavor-qv-body');
 		var cache = {};
 
+		/* Same contract as the wishlist: every close path (button, backdrop,
+		   ui.js Escape, parent cascade) resets the trigger state — the
+		   click branch alone left aria-expanded="true" after Escape. */
+		host.addEventListener('flavor:dialog-closed', function () {
+			$$('[data-flavor-quickview]').forEach(function (button) { button.setAttribute('aria-expanded', 'false'); });
+		});
+
 		function render(product) {
 			var price = (product.prices && product.prices.price && product.prices.currency_minor_unit !== undefined)
 				? Number(product.prices.price) / Math.pow(10, Number(product.prices.currency_minor_unit || 0))
@@ -555,7 +665,6 @@
 
 			if (event.target.closest('[data-quickview-close]')) {
 				closeDialog(host);
-				$$('[data-flavor-quickview]').forEach(function (button) { button.setAttribute('aria-expanded', 'false'); });
 			}
 		});
 	})();

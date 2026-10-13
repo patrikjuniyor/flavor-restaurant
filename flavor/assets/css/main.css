@@ -464,6 +464,24 @@ html[dir="ltr"] .flavor-drawer {
 	font-size: 16px;
 }
 
+/* The drawer carries the primary menu as a static nested list — its
+   submenu is always expanded (the disclosure widget is the desktop
+   header's; premium.js strips the branch semantics from this copy). */
+.flavor-drawer__nav .flavor-nav .sub-menu {
+	display: grid;
+	gap: 2px;
+	list-style: none;
+	margin: 6px 0 0;
+	padding-inline-start: 14px;
+	border-inline-start: 2px solid var(--flavor-line);
+}
+
+.flavor-drawer__nav .flavor-nav .sub-menu a {
+	font-size: 14px;
+	font-weight: 500;
+	padding: 8px 10px;
+}
+
 /* -------------------------------------------------------------
  * 6. Buttons System
  * ------------------------------------------------------------- */

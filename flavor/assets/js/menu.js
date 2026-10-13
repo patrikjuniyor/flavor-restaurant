@@ -203,7 +203,10 @@
 		if (!sheetAdd || !current) return;
 		var n = livePrice();
 		var label = price(n);
-		var price = document.getElementById('flavor-sheet-price'); if (price) price.textContent = label;
+		// Not `var price`: the hoisted local shadowed the module-level price()
+		// formatter, so every openSheet died on "price is not a function"
+		// before the dialog was ever revealed (prompt 52 keyboard suite).
+		var priceEl = document.getElementById('flavor-sheet-price'); if (priceEl) priceEl.textContent = label;
 		var quantity = document.getElementById('flavor-qty'); if (quantity) quantity.textContent = fa(qty);
 		var busy = sheetMutating || cartMutating;
 		if (sheet) sheet.querySelectorAll('[data-q]').forEach(function (button) { button.disabled = busy || (button.dataset.q === '-1' && qty <= 1) || (button.dataset.q === '1' && qty >= 20); });

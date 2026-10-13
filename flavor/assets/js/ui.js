@@ -73,6 +73,15 @@
 		if (event.key !== 'Tab') return;
 		var items = focusables(entry.host);
 		if (!items.length) { event.preventDefault(); return; }
+		/* A click on non-focusable dialog text (or an inerted background
+		   element losing focus) leaves activeElement on <body>; native Tab
+		   from there could walk into the browser chrome on Shift+Tab. Any
+		   focus outside the top dialog is recaptured inside it. */
+		if (!entry.host.contains(document.activeElement)) {
+			event.preventDefault();
+			(event.shiftKey ? items[items.length - 1] : items[0]).focus();
+			return;
+		}
 		if (event.shiftKey && document.activeElement === items[0]) { event.preventDefault(); items[items.length - 1].focus(); }
 		else if (!event.shiftKey && document.activeElement === items[items.length - 1]) { event.preventDefault(); items[0].focus(); }
 	});
@@ -124,5 +133,10 @@
 		views.hidden = false;
 	}
 
-	window.FlavorUI = { esc: esc, digits: digits, latin: latin, group: group, money: money, announce: announce, request: request, headers: headers, refreshNonce: refreshNonce, openDialog: openDialog, closeDialog: closeDialog };
+	/* dialogCount lets independent layers coordinate: the mobile drawer
+	   (main.js) keeps its own Escape handler, and one Escape must close one
+	   layer — the top one. With a dialog stacked over the drawer, the
+	   drawer's handler stands down while this returns > 0. */
+	function dialogCount() { return stack.length; }
+	window.FlavorUI = { esc: esc, digits: digits, latin: latin, group: group, money: money, announce: announce, request: request, headers: headers, refreshNonce: refreshNonce, openDialog: openDialog, closeDialog: closeDialog, dialogCount: dialogCount };
 })();

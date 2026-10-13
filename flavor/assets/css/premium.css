@@ -293,20 +293,68 @@ html[dir="ltr"] .flavor-wish {
 
 /* --------------------------------------------------------------- mega menu */
 
+.flavor-header__nav {
+	position: relative;
+}
+
+.flavor-header__nav .flavor-nav > li {
+	position: relative;
+}
+
 .flavor-header__nav .flavor-mega {
 	position: static;
 }
 
-.flavor-header__nav .flavor-mega > .sub-menu {
+/* Panels hang below the header whether or not JS runs: without the
+   disclosure script they stay visible (reachable, plain), with it they
+   collapse to the aria-expanded state further down. */
+.flavor-header__nav .flavor-nav .sub-menu {
 	display: block;
-	columns: 2;
-	column-gap: 28px;
-	min-width: min(760px, calc(100vw - 48px));
-	padding: 22px 26px;
+	position: absolute;
+	top: 100%;
+	inset-inline-start: 0;
+	z-index: 80;
+	min-width: 220px;
+	margin: 0;
+	padding: 12px;
+	list-style: none;
 	border: 1px solid var(--flavor-line);
 	border-radius: var(--flavor-radius);
 	background: var(--flavor-surface);
 	box-shadow: var(--flavor-shadow-lg);
+}
+
+.flavor-header__nav .flavor-nav .sub-menu > li {
+	margin: 0;
+}
+
+.flavor-header__nav .flavor-nav .sub-menu > li > a {
+	display: block;
+	padding: 8px 10px;
+	border-radius: var(--flavor-btn-radius);
+	color: var(--flavor-ink);
+	font-size: 14px;
+	line-height: 1.8;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.flavor-header__nav .flavor-nav .sub-menu > li > a:hover,
+.flavor-header__nav .flavor-nav .sub-menu > li > a:focus-visible {
+	background: var(--flavor-surface-alt);
+	color: var(--flavor-primary);
+}
+
+.flavor-header__nav .flavor-mega > .sub-menu {
+	inset-inline: 0;
+	inset-inline-start: 0;
+	margin-inline: auto;
+	width: max-content;
+	max-width: calc(100vw - 48px);
+	min-width: min(760px, calc(100vw - 48px));
+	padding: 22px 26px;
+	columns: 2;
+	column-gap: 28px;
 }
 
 .flavor-header__nav .flavor-mega--cols-2 > .sub-menu { columns: 2; }
@@ -324,13 +372,29 @@ html[dir="ltr"] .flavor-wish {
 	border-radius: var(--flavor-btn-radius);
 	color: var(--flavor-ink);
 	font-weight: 600;
+	font-size: 15px;
+	line-height: 1.9;
 	text-decoration: none;
+	white-space: normal;
 }
 
 .flavor-header__nav .flavor-mega > .sub-menu > li > a:hover,
 .flavor-header__nav .flavor-mega > .sub-menu > li > a:focus-visible {
 	background: var(--flavor-surface-alt);
 	color: var(--flavor-primary);
+}
+
+/* The disclosure (prompt 52): a JS-managed branch collapses its panel out
+   of sight AND out of the tab order until the same aria-expanded assistive
+   tech reads reopens it. html.flavor-js lands from an inline script before
+   first paint (class-enqueue.php) and .flavor-nav-disclosure is added per
+   branch by premium.js — so panels only hide where a script can open them. */
+html.flavor-js .flavor-header__nav .flavor-nav-disclosure > .sub-menu {
+	display: none;
+}
+
+html.flavor-js .flavor-header__nav .flavor-nav-disclosure > a[aria-expanded="true"] ~ .sub-menu {
+	display: block;
 }
 
 .flavor-mega__desc {
