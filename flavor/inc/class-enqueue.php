@@ -202,6 +202,10 @@ class Enqueue {
 				// bespoke-demos.js read their copy from here too.
 				'catering' => self::catering_strings(),
 				'bespoke'  => Bespoke_Demos::strings(),
+				// Prompt 53: reservation.js graduated from the debt ledger and
+				// the new contact form script reads its copy from these maps.
+				'reservation' => self::reservation_strings(),
+				'contact'     => self::contact_strings(),
 			),
 		);
 
@@ -391,6 +395,19 @@ $payload['reservationBranchIds'][] = (int) $branch_id; }
 				)
 			);
 		}
+
+		if ( is_page_template( 'page-templates/template-contact.php' ) ) {
+			wp_enqueue_script(
+				'flavor-contact',
+				FLAVOR_URI . '/assets/js/contact.js',
+				array( 'flavor-main-js', 'flavor-ui-js' ),
+				(string) filemtime( FLAVOR_DIR . '/assets/js/contact.js' ),
+				array(
+					'in_footer' => true,
+					'strategy'  => 'defer',
+				)
+			);
+		}
 	}
 
 	/**
@@ -544,7 +561,7 @@ $payload['reservationBranchIds'][] = (int) $branch_id; }
 			'coupon_applied'    => __( 'کد تخفیف اعمال شد.', 'flavor' ),
 
 			// Placing the order.
-			'mobile_invalid'    => __( 'شمارهٔ موبایل معتبر مانند ۰۹۱۲۱۲۳۴۵۶۷ وارد کنید.', 'flavor' ),
+			'mobile_invalid'    => __( 'شمارهٔ موبایل باید ۱۱ رقم و با ۰۹ شروع شود؛ مانند ۰۹۱۲۱۲۳۴۵۶۷.', 'flavor' ),
 			'zone_unconfirmed'  => __( 'محدودهٔ ارسال هنوز تأیید نشده است؛ شهر و محله را بررسی کنید.', 'flavor' ),
 			'pay_required'      => __( 'یک روش پرداخت فعال را انتخاب کنید.', 'flavor' ),
 			'placing'           => __( 'در حال بررسی و ثبت…', 'flavor' ),
@@ -552,6 +569,67 @@ $payload['reservationBranchIds'][] = (int) $branch_id; }
 			/* translators: %s values. */
 			'order_placed'      => __( 'سفارش %s ثبت شد.', 'flavor' ),
 			'place_order'       => __( 'ثبت سفارش و ادامهٔ پرداخت', 'flavor' ),
+		);
+	}
+
+	/**
+	 * Every string reservation.js renders (prompt 53).
+	 *
+	 * The script used to be on the translation-debt ledger with its own
+	 * Persian literals; it now reads this map from flavorData.i18n.reservation.
+	 * Validation copy states the fix, not just the failure — «شمارهٔ موبایل
+	 * باید ۱۱ رقم و با ۰۹ شروع شود» instead of a bare «خطا».
+	 */
+	public static function reservation_strings(): array {
+		return array(
+			// Calendar and live capacity.
+			'day_selected'      => __( 'روز انتخاب شد؛ یک ساعت دارای ظرفیت انتخاب کنید.', 'flavor' ),
+			'checking_capacity' => __( 'در حال بررسی ظرفیت…', 'flavor' ),
+			'no_capacity'       => __( 'برای این تاریخ و انتخاب، ظرفیت قابل رزرو وجود ندارد. تاریخ یا بخش دیگری را بررسی کنید.', 'flavor' ),
+			'capacity_failed'   => __( 'بررسی ظرفیت ناموفق بود.', 'flavor' ),
+			/* translators: %s value. */
+			'time_selected'     => __( 'ساعت انتخاب‌شده: %s؛ هنوز رزروی ارسال نشده است.', 'flavor' ),
+
+			// Section names from Core's table taxonomy.
+			'section_any'       => __( 'هر بخشِ دارای ظرفیت', 'flavor' ),
+			'section_indoor'    => __( 'سالن', 'flavor' ),
+			'section_outdoor'   => __( 'فضای باز', 'flavor' ),
+			'section_window'    => __( 'کنار پنجره', 'flavor' ),
+			'section_bar'       => __( 'بار', 'flavor' ),
+
+			// Submission validation — each message carries its solution.
+			'pick_datetime'     => __( 'تاریخ و ساعت را از تقویم و فهرست ساعت‌ها انتخاب کنید.', 'flavor' ),
+			'party_range'       => __( 'تعداد مهمان باید بین ۱ و ۲۰ باشد؛ برای تعداد بیشتر با مجموعه تماس بگیرید.', 'flavor' ),
+			'name_required'     => __( 'نام خود را وارد کنید؛ بدون نام، درخواست قابل پیگیری نیست.', 'flavor' ),
+			'mobile_invalid'    => __( 'شمارهٔ موبایل باید ۱۱ رقم و با ۰۹ شروع شود؛ مانند ۰۹۱۲۱۲۳۴۵۶۷.', 'flavor' ),
+			'sending'           => __( 'در حال ارسال درخواست…', 'flavor' ),
+
+			// Result.
+			'status_confirmed'  => __( 'تأیید شده', 'flavor' ),
+			'status_pending'    => __( 'در انتظار تأیید', 'flavor' ),
+			'status_cancelled'  => __( 'لغوشده', 'flavor' ),
+			/* translators: %1$s jalali date, %2$s time, %3$s status. */
+			'request_recorded'  => __( 'درخواست ثبت شد (%1$s ساعت %2$s). وضعیت: %3$s', 'flavor' ),
+		);
+	}
+
+	/**
+	 * Every string contact.js renders (prompt 53).
+	 *
+	 * The contact form is the theme's first submitting form: the endpoint
+	 * lives in Contact_Form, the copy lives here, and the script itself
+	 * carries no text of its own.
+	 */
+	public static function contact_strings(): array {
+		return array(
+			'name_required'  => __( 'نام خود را وارد کنید تا پیام قابل پیگیری باشد.', 'flavor' ),
+			'message_short'  => __( 'پیام را کامل‌تر بنویسید؛ حداقل ۱۰ نویسه لازم است.', 'flavor' ),
+			'reply_required' => __( 'شمارهٔ موبایل یا ایمیل را وارد کنید تا بتوانیم پاسخ دهیم.', 'flavor' ),
+			'mobile_invalid' => __( 'شمارهٔ موبایل باید ۱۱ رقم و با ۰۹ شروع شود؛ مانند ۰۹۱۲۱۲۳۴۵۶۷.', 'flavor' ),
+			'email_invalid'  => __( 'قالب ایمیل درست نیست؛ کامل وارد کنید، مانند name@example.com.', 'flavor' ),
+			'sending'        => __( 'در حال ارسال پیام…', 'flavor' ),
+			'sent'           => __( 'پیام شما ارسال شد؛ از راهی که وارد کرده‌اید پاسخ می‌دهیم.', 'flavor' ),
+			'send_failed'    => __( 'ارسال پیام ناموفق بود؛ کمی بعد دوباره تلاش کنید یا تلفنی هماهنگ کنید.', 'flavor' ),
 		);
 	}
 

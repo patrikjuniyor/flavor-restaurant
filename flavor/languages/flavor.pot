@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-13 07:28+00:00\n"
+"POT-Creation-Date: 2026-10-13 09:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
@@ -64,19 +64,19 @@ msgstr ""
 msgid "%d محصول منتشر شده است."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:463
+#: flavor/inc/class-enqueue.php:480
 msgid "%s انتخاب در منو"
 msgstr ""
 
-#: flavor/inc/class-bespoke-demos.php:32 flavor/inc/class-enqueue.php:461
+#: flavor/inc/class-bespoke-demos.php:32 flavor/inc/class-enqueue.php:478
 msgid "%s انتخاب نمایش داده می‌شود."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:491
+#: flavor/inc/class-enqueue.php:508
 msgid "%s برای هر واحد"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:450
+#: flavor/inc/class-enqueue.php:467
 msgid "%s دقیقه آماده‌سازی"
 msgstr ""
 
@@ -88,7 +88,7 @@ msgstr ""
 msgid "%s شعبه نمایش داده می‌شود."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:472
+#: flavor/inc/class-enqueue.php:489
 msgid "%s عدد"
 msgstr ""
 
@@ -96,15 +96,15 @@ msgstr ""
 msgid "%s غذا"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:452
+#: flavor/inc/class-enqueue.php:469
 msgid "%s کالری"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:493 flavor/inc/class-ui.php:323 flavor/template-parts/demos/catering.php:86 flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/reservation/reservation-form.php:24
+#: flavor/inc/class-enqueue.php:510 flavor/inc/class-ui.php:323 flavor/page-templates/template-contact.php:36 flavor/page-templates/template-contact.php:38 flavor/template-parts/demos/catering.php:86 flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/reservation/reservation-form.php:24
 msgid "(اختیاری)"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:487 flavor/inc/class-ui.php:319
+#: flavor/inc/class-enqueue.php:504 flavor/inc/class-ui.php:319
 msgid "(انتخاب ضروری)"
 msgstr ""
 
@@ -136,7 +136,7 @@ msgstr ""
 msgid "WooCommerce فعال است"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:497
+#: flavor/inc/class-enqueue.php:514
 msgid "«%s» به سبد خرید اضافه شد."
 msgstr ""
 
@@ -144,7 +144,7 @@ msgstr ""
 msgid "«خودکار» همان شبکهٔ فعلی پوسته است و برای بیشتر رستوران‌ها بهترین انتخاب است."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:505
+#: flavor/inc/class-enqueue.php:522
 msgid "،"
 msgstr ""
 
@@ -318,7 +318,7 @@ msgstr ""
 msgid "ارسال با پیک"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:520
+#: flavor/inc/class-enqueue.php:537
 #. %s values. */
 msgid "ارسال ثبت‌شده در سبد"
 msgstr ""
@@ -331,8 +331,24 @@ msgstr ""
 msgid "ارسال سریع با پیک"
 msgstr ""
 
+#: flavor/page-templates/template-contact.php:31 flavor/page-templates/template-contact.php:44
+msgid "ارسال پیام"
+msgstr ""
+
+#: flavor/page-templates/template-contact.php:46
+msgid "ارسال پیام به جاوااسکریپت نیاز دارد؛ می‌توانید مستقیم از رایانامهٔ خود به ایمیل مجموعه در بالا پیام بدهید."
+msgstr ""
+
+#: flavor/inc/class-contact-form.php:158 flavor/inc/class-enqueue.php:632
+msgid "ارسال پیام ناموفق بود؛ کمی بعد دوباره تلاش کنید یا تلفنی هماهنگ کنید."
+msgstr ""
+
 #: flavor/template-parts/marketing/hero.php:94
 msgid "ارسال گرم با بسته‌بندی عایق"
+msgstr ""
+
+#: flavor/inc/class-contact-form.php:148
+msgid "ارسال‌شده در: %s"
 msgstr ""
 
 #: flavor/inc/class-update-channel.php:436
@@ -471,7 +487,7 @@ msgstr ""
 msgid "افزایش تعداد"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:516
+#: flavor/inc/class-enqueue.php:533
 msgid "افزایش تعداد %s"
 msgstr ""
 
@@ -487,7 +503,7 @@ msgstr ""
 msgid "افزودن %s به علاقه‌مندی‌ها"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:470 flavor/inc/class-shopping-extras.php:359 flavor/inc/class-wishlist.php:188 flavor/template-parts/menu/item-modal.php:16
+#: flavor/inc/class-enqueue.php:487 flavor/inc/class-shopping-extras.php:359 flavor/inc/class-wishlist.php:188 flavor/template-parts/menu/item-modal.php:16
 msgid "افزودن به سبد"
 msgstr ""
 
@@ -504,7 +520,7 @@ msgstr ""
 msgid "افزودن همه به سبد"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:479 flavor/inc/class-ui.php:315
+#: flavor/inc/class-enqueue.php:496 flavor/inc/class-ui.php:315
 msgid "افزودنی‌ها"
 msgstr ""
 
@@ -564,7 +580,7 @@ msgstr ""
 msgid "انتخاب"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:457
+#: flavor/inc/class-enqueue.php:474
 msgid "انتخاب %s"
 msgstr ""
 
@@ -584,7 +600,7 @@ msgstr ""
 msgid "انتخاب شما ثبت شد."
 msgstr ""
 
-#: flavor/elementor/widgets/class-process-widget.php:59 flavor/inc/class-enqueue.php:458
+#: flavor/elementor/widgets/class-process-widget.php:59 flavor/inc/class-enqueue.php:475
 #. %s values. */
 msgid "انتخاب غذا"
 msgstr ""
@@ -593,7 +609,7 @@ msgstr ""
 msgid "انتخاب غذا و روش دریافت"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:477
+#: flavor/inc/class-enqueue.php:494
 msgid "انتخاب فعلی این ردیف را ویرایش می‌کنید؛ تا زدن «ذخیرهٔ تغییرات» چیزی در سبد عوض نمی‌شود."
 msgstr ""
 
@@ -613,11 +629,11 @@ msgstr ""
 msgid "انتخاب یا آپلود لوگو از رسانه"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:482 flavor/inc/class-ui.php:318
+#: flavor/inc/class-enqueue.php:499 flavor/inc/class-ui.php:318
 msgid "انتخاب‌ها"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:499
+#: flavor/inc/class-enqueue.php:516
 msgid "انتخاب‌های این غذا در سبد ذخیره شد."
 msgstr ""
 
@@ -658,7 +674,7 @@ msgstr ""
 msgid "انحنای ملایم (8px)"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:478 flavor/inc/class-ui.php:314
+#: flavor/inc/class-enqueue.php:495 flavor/inc/class-ui.php:314
 msgid "اندازه و پرس"
 msgstr ""
 
@@ -742,6 +758,18 @@ msgstr ""
 msgid "ایران‌سنس — فقط با فایل دارای مجوز؛ در غیر این صورت وزیرمتن"
 msgstr ""
 
+#: flavor/page-templates/template-contact.php:38
+msgid "ایمیل"
+msgstr ""
+
+#: flavor/inc/class-contact-form.php:142
+msgid "ایمیل: %s"
+msgstr ""
+
+#: flavor/inc/class-contact-form.php:88
+msgid "ایمیل تماس مجموعه تنظیم نشده است؛ لطفاً از شمارهٔ تلفن درج‌شده استفاده کنید."
+msgstr ""
+
 #: flavor/inc/class-chrome-builder.php:1122 flavor/inc/class-engagement.php:231
 msgid "ایمیل شما"
 msgstr ""
@@ -770,11 +798,11 @@ msgstr ""
 msgid "این ابزار فقط خلاصهٔ قابل‌کپی می‌سازد؛ هیچ اطلاعاتی ارسال یا ذخیره نمی‌شود و هیچ رزرو یا سفارشی ثبت نمی‌کند."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:500
+#: flavor/inc/class-enqueue.php:517
 msgid "این انتخاب در حال حاضر موجود نیست."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:468
+#: flavor/inc/class-enqueue.php:485
 msgid "این انتخاب فعلاً ناموجود است"
 msgstr ""
 
@@ -782,7 +810,7 @@ msgstr ""
 msgid "این ایمیل از قبل ثبت شده است. ممنون!"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:438
+#: flavor/inc/class-enqueue.php:455
 msgid "این خلاصه ارسال نشده است؛ ظرفیت، هزینه و شرایط اجرا به تأیید جداگانه نیاز دارند."
 msgstr ""
 
@@ -846,7 +874,11 @@ msgstr ""
 msgid "با درگ کردن یا دکمهٔ جابه‌جایی، ترتیب را عوض کنید. تیک هر مورد یعنی در هدر نمایش داده شود."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:464
+#: flavor/inc/class-enqueue.php:598
+msgid "بار"
+msgstr ""
+
+#: flavor/inc/class-enqueue.php:481
 #. %s values. */
 msgid "بارگذاری موجودی زنده ناموفق بود؛ جزئیات منتشرشده را ببینید یا دوباره تلاش کنید."
 msgstr ""
@@ -1007,11 +1039,11 @@ msgstr ""
 msgid "بدون تخم‌مرغ"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:448
+#: flavor/inc/class-enqueue.php:465
 msgid "بدون تصویر"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:488 flavor/inc/class-ui.php:320
+#: flavor/inc/class-enqueue.php:505 flavor/inc/class-ui.php:320
 msgid "بدون تغییر در این گروه"
 msgstr ""
 
@@ -1031,7 +1063,7 @@ msgstr ""
 msgid "بدون مغزها"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:489 flavor/inc/class-ui.php:321
+#: flavor/inc/class-enqueue.php:506 flavor/inc/class-ui.php:321
 msgid "بدون هزینهٔ اضافه"
 msgstr ""
 
@@ -1055,7 +1087,7 @@ msgstr ""
 msgid "برای QR، ساعت کاری، رزرو و محدودهٔ ارسال یک شعبه با نشانی کامل بسازید."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:474
+#: flavor/inc/class-enqueue.php:491
 msgid "برای ادامه، انتخاب‌های ضروری این غذا را مشخص کنید."
 msgstr ""
 
@@ -1063,11 +1095,15 @@ msgstr ""
 msgid "برای اعلان‌های رزرو و سفارش یک آدرس معتبر ثبت شده است."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:533
+#: flavor/inc/class-enqueue.php:588
+msgid "برای این تاریخ و انتخاب، ظرفیت قابل رزرو وجود ندارد. تاریخ یا بخش دیگری را بررسی کنید."
+msgstr ""
+
+#: flavor/inc/class-enqueue.php:550
 msgid "برای این روش دریافت، پرداخت فعالی تنظیم نشده است. با مجموعه تماس بگیرید."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:530
+#: flavor/inc/class-enqueue.php:547
 msgid "برای این شعبه روش سفارش فعالی تنظیم نشده است؛ با مجموعه تماس بگیرید."
 msgstr ""
 
@@ -1156,8 +1192,16 @@ msgstr ""
 msgid "برای هر عضوِ جدید، به مدیرِ سایت ایمیلِ خبر می‌رود."
 msgstr ""
 
+#: flavor/page-templates/template-contact.php:32
+msgid "برای هماهنگی سفارش، نیاز غذایی یا جزئیات مراجعه. پیام به ایمیل مجموعه ارسال می‌شود؛ برای موارد فوری تماس بگیرید."
+msgstr ""
+
 #: flavor/page-templates/template-contact.php:16
 msgid "برای هماهنگی سفارش، نیاز غذایی یا جزئیات مراجعه، از راه‌های ارتباطی ثبت‌شده استفاده کنید."
+msgstr ""
+
+#: flavor/page-templates/template-contact.php:40
+msgid "برای پاسخ، دست‌کم یکی از موبایل یا ایمیل را وارد کنید."
 msgstr ""
 
 #: flavor/template-parts/demos/catering.php:90
@@ -1202,6 +1246,10 @@ msgstr ""
 
 #: flavor/single-flavor_branch.php:13
 msgid "بررسی ظرفیت رزرو"
+msgstr ""
+
+#: flavor/inc/class-enqueue.php:589
+msgid "بررسی ظرفیت ناموفق بود."
 msgstr ""
 
 #: flavor/template-parts/demos/coverage.php:19
@@ -1332,6 +1380,10 @@ msgstr ""
 msgid "تأخیر یا زمان موبایل (ثانیه)"
 msgstr ""
 
+#: flavor/inc/class-enqueue.php:608
+msgid "تأیید شده"
+msgstr ""
+
 #: flavor/template-parts/menu/cart-drawer.php:25
 msgid "تأیید ورود"
 msgstr ""
@@ -1347,6 +1399,10 @@ msgstr ""
 #: flavor/inc/class-update-channel.php:388
 #. %s: version */ __( 'نسخهٔ %s', 'flavor' ), $offer['version'] ) ); ?></h2>
 msgid "تاریخ انتشار: %s"
+msgstr ""
+
+#: flavor/inc/class-enqueue.php:601
+msgid "تاریخ و ساعت را از تقویم و فهرست ساعت‌ها انتخاب کنید."
 msgstr ""
 
 #: flavor/inc/class-preset-control.php:131
@@ -1493,7 +1549,7 @@ msgstr ""
 msgid "تعداد"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:512
+#: flavor/inc/class-enqueue.php:529
 msgid "تعداد %s"
 msgstr ""
 
@@ -1545,15 +1601,19 @@ msgstr ""
 msgid "تعداد مهمان"
 msgstr ""
 
+#: flavor/inc/class-enqueue.php:602
+msgid "تعداد مهمان باید بین ۱ و ۲۰ باشد؛ برای تعداد بیشتر با مجموعه تماس بگیرید."
+msgstr ""
+
 #: flavor/template-parts/demos/catering.php:83
 msgid "تعداد مهمان پیشنهادی"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:430
+#: flavor/inc/class-enqueue.php:447
 msgid "تعداد پیشنهادی: %s نفر"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:424
+#: flavor/inc/class-enqueue.php:441
 msgid "تعداد پیشنهادی را بین ۱ تا ۱۰۰۰ وارد کنید؛ برای تعداد بیشتر تماس بگیرید."
 msgstr ""
 
@@ -1723,7 +1783,7 @@ msgstr ""
 msgid "توضیح"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:436
+#: flavor/inc/class-enqueue.php:453
 msgid "توضیحات و نیاز غذایی: %s"
 msgstr ""
 
@@ -1755,7 +1815,7 @@ msgstr ""
 msgid "توضیح کوتاه روی کارت‌ها"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:447 flavor/inc/class-shopping-extras.php:116
+#: flavor/inc/class-enqueue.php:464 flavor/inc/class-shopping-extras.php:116
 msgid "تومان"
 msgstr ""
 
@@ -1823,7 +1883,7 @@ msgstr ""
 msgid "ثبت سفارش"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:554 flavor/template-parts/menu/cart-drawer.php:36
+#: flavor/inc/class-enqueue.php:571 flavor/template-parts/menu/cart-drawer.php:36
 #. %s values. */
 msgid "ثبت سفارش و ادامهٔ پرداخت"
 msgstr ""
@@ -1868,7 +1928,7 @@ msgstr ""
 msgid "جزئیات"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:454
+#: flavor/inc/class-enqueue.php:471
 msgid "جزئیات %s"
 msgstr ""
 
@@ -1888,11 +1948,11 @@ msgstr ""
 msgid "جست‌وجو در منو و صفحات"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:375
+#: flavor/inc/class-enqueue.php:379
 msgid "جست‌وجو ناموفق بود. دوباره تلاش کنید."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:367
+#: flavor/inc/class-enqueue.php:371
 msgid "جست‌وجوهای اخیر"
 msgstr ""
 
@@ -2016,17 +2076,17 @@ msgstr ""
 msgid "حداکثرِ عرضِ محتوا به پیکسل. روی صفحه‌های عریض، محتوا از این مقدار فراتر نمی‌رود."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:473
+#: flavor/inc/class-enqueue.php:490
 #. %s values. */
 msgid "حداکثر ۲۰ واحد از یک انتخاب؛ تعداد را کم کنید."
 msgstr ""
 
-#: flavor/inc/class-builder.php:737 flavor/inc/class-enqueue.php:517 flavor/inc/class-repeater-control.php:131 flavor/inc/class-wishlist.php:193
+#: flavor/inc/class-builder.php:737 flavor/inc/class-enqueue.php:534 flavor/inc/class-repeater-control.php:131 flavor/inc/class-wishlist.php:193
 #. %s values. */
 msgid "حذف"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:519
+#: flavor/inc/class-enqueue.php:536
 msgid "حذف %s"
 msgstr ""
 
@@ -2038,11 +2098,11 @@ msgstr ""
 msgid "حذف فقط محتوای دموی مالکیت‌شده"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:481 flavor/inc/class-ui.php:317
+#: flavor/inc/class-enqueue.php:498 flavor/inc/class-ui.php:317
 msgid "حذف مخلفات"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:522
+#: flavor/inc/class-enqueue.php:539
 msgid "حذف کد %s ×"
 msgstr ""
 
@@ -2058,7 +2118,7 @@ msgstr ""
 msgid "حساب کاربری"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:495 flavor/inc/class-ui.php:325
+#: flavor/inc/class-enqueue.php:512 flavor/inc/class-ui.php:325
 msgid "حساسیت غذایی دارید؟ پیش از ثبت سفارش دربارهٔ امکان آماده‌سازی و آلودگی متقاطع هماهنگ کنید."
 msgstr ""
 
@@ -2095,7 +2155,7 @@ msgstr ""
 msgid "خطِ کپی‌رایت پایینِ پاورقی نمایش داده می‌شود."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:426
+#: flavor/inc/class-enqueue.php:443
 msgid "خلاصه برای هماهنگی پذیرایی"
 msgstr ""
 
@@ -2103,7 +2163,7 @@ msgstr ""
 msgid "خلاصهٔ شما آماده است؛ هنوز ارسال نشده."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:439
+#: flavor/inc/class-enqueue.php:456
 msgid "خلاصه کپی شد؛ برای هماهنگی در اختیار تیم بگذارید. هنوز هیچ درخواستی ارسال نشده."
 msgstr ""
 
@@ -2171,6 +2231,10 @@ msgstr ""
 msgid "دراماتیک — ۱.۴۱۴"
 msgstr ""
 
+#: flavor/inc/class-enqueue.php:609
+msgid "در انتظار تأیید"
+msgstr ""
+
 #: flavor/elementor/widgets/class-chefs-widget.php:67
 msgid "درباره"
 msgstr ""
@@ -2191,8 +2255,16 @@ msgstr ""
 msgid "دربارهٔ ما"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:480 flavor/inc/class-ui.php:316
+#: flavor/inc/class-enqueue.php:497 flavor/inc/class-ui.php:316
 msgid "درجهٔ پخت"
+msgstr ""
+
+#: flavor/inc/class-enqueue.php:605
+msgid "در حال ارسال درخواست…"
+msgstr ""
+
+#: flavor/inc/class-enqueue.php:630
+msgid "در حال ارسال پیام…"
 msgstr ""
 
 #: flavor/inc/class-wishlist.php:186
@@ -2203,7 +2275,11 @@ msgstr ""
 msgid "در حال بارگذاری منو…"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:538
+#: flavor/inc/class-enqueue.php:587
+msgid "در حال بررسی ظرفیت…"
+msgstr ""
+
+#: flavor/inc/class-enqueue.php:555
 #. %s values. */
 msgid "در حال بررسی محدودهٔ ارسال…"
 msgstr ""
@@ -2213,7 +2289,7 @@ msgstr ""
 msgid "در حال بررسی محله…"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:550
+#: flavor/inc/class-enqueue.php:567
 msgid "در حال بررسی و ثبت…"
 msgstr ""
 
@@ -2237,12 +2313,20 @@ msgstr ""
 msgid "در حال دریافت اطلاعات…"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:532
+#: flavor/inc/class-enqueue.php:549
 msgid "در حال دریافت روش‌های مجاز…"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:467
+#: flavor/template-parts/menu/cart-drawer.php:11
+msgid "در حال دریافت سبد…"
+msgstr ""
+
+#: flavor/inc/class-enqueue.php:484
 msgid "در حال ذخیرهٔ انتخاب‌ها…"
+msgstr ""
+
+#: flavor/inc/class-enqueue.php:612
+msgid "درخواست ثبت شد (%1$s ساعت %2$s). وضعیت: %3$s"
 msgstr ""
 
 #: flavor/template-parts/reservation/reservation-form.php:26
@@ -2309,7 +2393,7 @@ msgstr ""
 msgid "درگاه بانکی یا روش پرداخت محلی را در WooCommerce فعال کنید."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:437
+#: flavor/inc/class-enqueue.php:454
 #. %s values. */
 msgid "در گفت‌وگو مشخص می‌شود."
 msgstr ""
@@ -2331,11 +2415,11 @@ msgstr ""
 msgid "دریافت دوبارهٔ کد ورود"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:534
+#: flavor/inc/class-enqueue.php:551
 msgid "دریافت روش‌های پرداخت ناموفق بود."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:527
+#: flavor/inc/class-enqueue.php:544
 msgid "دریافت سبد ناموفق بود؛ صفحه را دوباره باز کنید. %s"
 msgstr ""
 
@@ -2387,7 +2471,7 @@ msgstr ""
 msgid "دعوت به سفارش"
 msgstr ""
 
-#: flavor/inc/class-engagement.php:120 flavor/inc/class-enqueue.php:373 flavor/inc/class-premium-assets.php:116 flavor/template-parts/marketing/featured.php:86
+#: flavor/inc/class-engagement.php:120 flavor/inc/class-enqueue.php:377 flavor/inc/class-premium-assets.php:116 flavor/template-parts/marketing/featured.php:86
 msgid "دقیقه"
 msgstr ""
 
@@ -2511,7 +2595,7 @@ msgstr ""
 msgid "ذخیره در علاقه‌مندی‌ها"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:469
+#: flavor/inc/class-enqueue.php:486
 msgid "ذخیرهٔ تغییرات"
 msgstr ""
 
@@ -2791,6 +2875,10 @@ msgstr ""
 msgid "روز"
 msgstr ""
 
+#: flavor/inc/class-enqueue.php:586
+msgid "روز انتخاب شد؛ یک ساعت دارای ظرفیت انتخاب کنید."
+msgstr ""
+
 #: flavor/template-parts/reservation/reservation-form.php:23
 msgid "روز و ساعت"
 msgstr ""
@@ -2799,7 +2887,7 @@ msgstr ""
 msgid "روز و ساعت پیشنهادی"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:432
+#: flavor/inc/class-enqueue.php:449
 msgid "روز و ساعت پیشنهادی: %s"
 msgstr ""
 
@@ -2819,7 +2907,7 @@ msgstr ""
 msgid "روشن یا خاموش کردن حالت شب/روز. وقتی خاموش است، سایت همیشه یک‌رنگ نمایش داده می‌شود."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:531 flavor/template-parts/menu/cart-drawer.php:28
+#: flavor/inc/class-enqueue.php:548 flavor/template-parts/menu/cart-drawer.php:28
 msgid "روش پرداخت"
 msgstr ""
 
@@ -2859,7 +2947,7 @@ msgstr ""
 msgid "زاویه‌دار"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:476
+#: flavor/inc/class-enqueue.php:493
 msgid "زمان آماده‌سازی برآورد است، نه زمان تضمین‌شدهٔ رسیدن سفارش."
 msgstr ""
 
@@ -2991,6 +3079,10 @@ msgstr ""
 msgid "ساعت"
 msgstr ""
 
+#: flavor/inc/class-enqueue.php:591
+msgid "ساعت انتخاب‌شده: %s؛ هنوز رزروی ارسال نشده است."
+msgstr ""
+
 #: flavor/template-parts/demos/footer.php:16
 msgid "ساعت و نشانی"
 msgstr ""
@@ -3019,7 +3111,7 @@ msgstr ""
 msgid "سال تجربه و افتخار میزبانی"
 msgstr ""
 
-#: flavor/inc/class-ui.php:335 flavor/template-parts/menu/cart-drawer.php:18
+#: flavor/inc/class-enqueue.php:595 flavor/inc/class-ui.php:335 flavor/template-parts/menu/cart-drawer.php:18
 msgid "سالن"
 msgstr ""
 
@@ -3035,7 +3127,7 @@ msgstr ""
 msgid "سبد"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:524
+#: flavor/inc/class-enqueue.php:541
 msgid "سبد به‌روزرسانی شد؛ %s انتخاب."
 msgstr ""
 
@@ -3127,7 +3219,7 @@ msgstr ""
 msgid "سفارش %s"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:553
+#: flavor/inc/class-enqueue.php:570
 msgid "سفارش %s ثبت شد."
 msgstr ""
 
@@ -3356,20 +3448,16 @@ msgstr ""
 msgid "شماره تماس"
 msgstr ""
 
-#: flavor/inc/class-ui.php:146
-msgid "شماره و کد یک‌بارمصرف را بررسی کنید."
-msgstr ""
-
-#: flavor/inc/class-ui.php:142
-msgid "شمارهٔ معتبر مانند ۰۹۱۲۱۲۳۴۵۶۷ وارد کنید."
-msgstr ""
-
 #: flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/ui/login.php:9
 msgid "شمارهٔ موبایل"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:547
-msgid "شمارهٔ موبایل معتبر مانند ۰۹۱۲۱۲۳۴۵۶۷ وارد کنید."
+#: flavor/inc/class-contact-form.php:115 flavor/inc/class-enqueue.php:564 flavor/inc/class-enqueue.php:604 flavor/inc/class-enqueue.php:628 flavor/inc/class-ui.php:142
+msgid "شمارهٔ موبایل باید ۱۱ رقم و با ۰۹ شروع شود؛ مانند ۰۹۱۲۱۲۳۴۵۶۷."
+msgstr ""
+
+#: flavor/inc/class-contact-form.php:112 flavor/inc/class-enqueue.php:627
+msgid "شمارهٔ موبایل یا ایمیل را وارد کنید تا بتوانیم پاسخ دهیم."
 msgstr ""
 
 #: flavor/inc/class-customizer.php:1199
@@ -3400,7 +3488,7 @@ msgstr ""
 msgid "شهر"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:434
+#: flavor/inc/class-enqueue.php:451
 msgid "شهر و محل: %s"
 msgstr ""
 
@@ -3612,7 +3700,7 @@ msgstr ""
 msgid "عنوانی که بازدیدکننده در نگاهِ اول می‌بیند. کوتاه‌تر از این، نرخِ تبدیل بهتر است."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:498
+#: flavor/inc/class-enqueue.php:515
 #. %s values. */
 msgid "غذا به سبد اضافه شد."
 msgstr ""
@@ -3733,6 +3821,10 @@ msgstr ""
 msgid "فضای آرام کافه‌ای با تونالیته چوب، زیتونی و کرم"
 msgstr ""
 
+#: flavor/inc/class-enqueue.php:596
+msgid "فضای باز"
+msgstr ""
+
 #: flavor/template-parts/demos/story.php:12
 msgid "فضای برند و مواد اولیه تازه"
 msgstr ""
@@ -3785,7 +3877,7 @@ msgstr ""
 msgid "فعال‌سازی کانال به‌روزرسانی (بررسی روزانه و درخواست به سرور)"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:455
+#: flavor/inc/class-enqueue.php:472
 #. %s values. */
 msgid "فعلاً ناموجود"
 msgstr ""
@@ -3886,6 +3978,10 @@ msgstr ""
 msgid "قالب Flavor بدون افزونه Flavor Core مثل یک قالب رستورانی معمولی کار می‌کند. برای سفارش‌گیری، QR و آشپزخانه افزونه را فعال کنید."
 msgstr ""
 
+#: flavor/inc/class-contact-form.php:118 flavor/inc/class-enqueue.php:629
+msgid "قالب ایمیل درست نیست؛ کامل وارد کنید، مانند name@example.com."
+msgstr ""
+
 #: flavor/inc/class-contrast-control.php:81
 msgid "قالب رنگ‌های بی‌خوانا را خودکار اصلاح می‌کند، اما بهتر است خودتان ترکیب خواناتری انتخاب کنید."
 msgstr ""
@@ -3946,8 +4042,12 @@ msgstr ""
 msgid "لذت ببرید"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:425
+#: flavor/inc/class-enqueue.php:442
 msgid "لطفاً این بخش را تکمیل کنید."
+msgstr ""
+
+#: flavor/inc/class-enqueue.php:610
+msgid "لغوشده"
 msgstr ""
 
 #: flavor/inc/class-customizer.php:716
@@ -4002,7 +4102,7 @@ msgstr ""
 msgid "ما را دنبال کنید"
 msgstr ""
 
-#: flavor/page-templates/template-contact.php:30
+#: flavor/page-templates/template-contact.php:50
 msgid "ما را روی نقشه ببینید"
 msgstr ""
 
@@ -4022,7 +4122,7 @@ msgstr ""
 msgid "ماه قبل"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:525 flavor/template-parts/menu/cart-drawer.php:33
+#: flavor/inc/class-enqueue.php:542 flavor/template-parts/menu/cart-drawer.php:33
 #. %s values. */
 msgid "مبالغ از سرور خوانده می‌شوند؛ هزینه‌های تأییدنشده به جمع سبد اضافه نمی‌شوند."
 msgstr ""
@@ -4175,7 +4275,7 @@ msgstr ""
 msgid "مثال: طعم اصیل کباب و نان داغ در محیطی آرام"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:494 flavor/inc/class-ui.php:324
+#: flavor/inc/class-enqueue.php:511 flavor/inc/class-ui.php:324
 msgid "مثلاً سس جداگانه یا کم‌نمک"
 msgstr ""
 
@@ -4211,11 +4311,11 @@ msgstr ""
 msgid "محتوایی پیدا نشد."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:540
+#: flavor/inc/class-enqueue.php:557
 msgid "محدوده تأیید شد · هزینهٔ ارسال: %1$s · برآورد منطقه: حدود %2$s دقیقه؛ زمان تضمین‌شده نیست."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:548
+#: flavor/inc/class-enqueue.php:565
 msgid "محدودهٔ ارسال هنوز تأیید نشده است؛ شهر و محله را بررسی کنید."
 msgstr ""
 
@@ -4391,7 +4491,7 @@ msgstr ""
 msgid "منطقهٔ ارسال فعالی تنظیم نشده است. برای هماهنگی دریافت بیرون‌بر با ما تماس بگیر."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:370
+#: flavor/inc/class-enqueue.php:374
 msgid "منظورتان این بود؟"
 msgstr ""
 
@@ -4511,8 +4611,12 @@ msgstr ""
 msgid "موارد دیگر"
 msgstr ""
 
-#: flavor/template-parts/reservation/reservation-form.php:24
+#: flavor/page-templates/template-contact.php:36 flavor/template-parts/reservation/reservation-form.php:24
 msgid "موبایل"
+msgstr ""
+
+#: flavor/inc/class-contact-form.php:135
+msgid "موبایل: %s"
 msgstr ""
 
 #: flavor/template-parts/menu/cart-drawer.php:30
@@ -4531,7 +4635,7 @@ msgstr ""
 msgid "مگامنو"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:537 flavor/page-templates/template-menu.php:19
+#: flavor/inc/class-enqueue.php:554 flavor/page-templates/template-menu.php:19
 msgid "میز %s"
 msgstr ""
 
@@ -4543,7 +4647,7 @@ msgstr ""
 msgid "میز خود را رزرو کنید"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:535
+#: flavor/inc/class-enqueue.php:552
 msgid "میز را انتخاب کنید"
 msgstr ""
 
@@ -4575,8 +4679,24 @@ msgstr ""
 msgid "نازک (300)"
 msgstr ""
 
-#: flavor/elementor/widgets/class-chefs-widget.php:49 flavor/elementor/widgets/class-price-list-widget.php:47 flavor/elementor/widgets/class-testimonials-widget.php:33 flavor/inc/class-repeater.php:64 flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/reservation/reservation-form.php:24
+#: flavor/elementor/widgets/class-chefs-widget.php:49 flavor/elementor/widgets/class-price-list-widget.php:47 flavor/elementor/widgets/class-testimonials-widget.php:33 flavor/inc/class-repeater.php:64 flavor/page-templates/template-contact.php:35 flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/reservation/reservation-form.php:24
 msgid "نام"
+msgstr ""
+
+#: flavor/inc/class-contact-form.php:129
+msgid "نام: %s"
+msgstr ""
+
+#: flavor/inc/class-enqueue.php:603
+msgid "نام خود را وارد کنید؛ بدون نام، درخواست قابل پیگیری نیست."
+msgstr ""
+
+#: flavor/inc/class-contact-form.php:105
+msgid "نام خود را وارد کنید؛ بدون نام، پیام قابل پیگیری نیست."
+msgstr ""
+
+#: flavor/inc/class-enqueue.php:625
+msgid "نام خود را وارد کنید تا پیام قابل پیگیری باشد."
 msgstr ""
 
 #: flavor/inc/class-onboarding.php:166
@@ -4599,7 +4719,7 @@ msgstr ""
 msgid "نام محله"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:372
+#: flavor/inc/class-enqueue.php:376
 msgid "ناموجود"
 msgstr ""
 
@@ -4615,7 +4735,7 @@ msgstr ""
 msgid "نتایج جست‌وجو"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:371
+#: flavor/inc/class-enqueue.php:375
 msgid "نتیجه برای"
 msgstr ""
 
@@ -4660,7 +4780,7 @@ msgstr ""
 msgid "نشانی manifest.json (https)"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:551
+#: flavor/inc/class-enqueue.php:568
 msgid "نشانی ادامهٔ پرداخت معتبر نیست؛ با مجموعه تماس بگیرید."
 msgstr ""
 
@@ -4672,7 +4792,7 @@ msgstr ""
 msgid "نشانی ثبت‌شده"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:541
+#: flavor/inc/class-enqueue.php:558
 #. %1$s, %2$s values. */
 msgid "نشانی خارج از محدودهٔ ارسال است."
 msgstr ""
@@ -5002,7 +5122,7 @@ msgstr ""
 msgid "نوع پذیرایی"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:428
+#: flavor/inc/class-enqueue.php:445
 msgid "نوع پذیرایی: %s"
 msgstr ""
 
@@ -5066,7 +5186,7 @@ msgstr ""
 msgid "هدر چسبان هنگام اسکرول (Sticky Header)"
 msgstr ""
 
-#: flavor/template-parts/reservation/reservation-form.php:22
+#: flavor/inc/class-enqueue.php:594 flavor/template-parts/reservation/reservation-form.php:22
 msgid "هر بخشِ دارای ظرفیت"
 msgstr ""
 
@@ -5106,7 +5226,7 @@ msgstr ""
 msgid "هزینهٔ انتخاب‌های اضافه در سبد خرید به فاکتور افزوده می‌شود."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:542
+#: flavor/inc/class-enqueue.php:559
 msgid "هزینهٔ منطقه جداگانه نمایش داده شده و در مبلغ فعلی سبد منظور نشده است؛ سرور مبلغ نهایی را هنگام ثبت بررسی می‌کند."
 msgstr ""
 
@@ -5170,7 +5290,7 @@ msgstr ""
 msgid "همهٔ شهرها"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:459
+#: flavor/inc/class-enqueue.php:476
 msgid "همهٔ منو"
 msgstr ""
 
@@ -5206,7 +5326,7 @@ msgstr ""
 msgid "هنوز آیتمی در منو منتشر نشده است."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:503
+#: flavor/inc/class-enqueue.php:520
 msgid "هنوز انتخابی ندارید"
 msgstr ""
 
@@ -5292,6 +5412,10 @@ msgstr ""
 
 #: flavor/inc/class-transfer.php:75
 msgid "وارد کردن تنظیمات"
+msgstr ""
+
+#: flavor/page-templates/template-contact.php:41
+msgid "وب‌سایت"
 msgstr ""
 
 #: flavor/template-parts/ui/login.php:15
@@ -5390,12 +5514,12 @@ msgstr ""
 msgid "ویجت‌های پاورقی %d"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:508
+#: flavor/inc/class-enqueue.php:525
 #. %s values. */
 msgid "ویرایش انتخاب‌ها"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:510
+#: flavor/inc/class-enqueue.php:527
 msgid "ویرایش انتخاب‌ها و یادداشت %s"
 msgstr ""
 
@@ -5479,7 +5603,7 @@ msgstr ""
 msgid "پذیرش پیوسته"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:368
+#: flavor/inc/class-enqueue.php:372
 msgid "پرجست‌وجوها"
 msgstr ""
 
@@ -5571,7 +5695,7 @@ msgstr ""
 msgid "پنج‌شنبه و جمعه:"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:475
+#: flavor/inc/class-enqueue.php:492
 msgid "پنل جزئیات در دسترس نیست. صفحه را دوباره باز کنید."
 msgstr ""
 
@@ -5607,12 +5731,32 @@ msgstr ""
 msgid "پکِ تو، به روش تو"
 msgstr ""
 
+#: flavor/page-templates/template-contact.php:39
+msgid "پیام"
+msgstr ""
+
+#: flavor/inc/class-contact-form.php:123
+msgid "پیام تماس از %s"
+msgstr ""
+
+#: flavor/inc/class-contact-form.php:109 flavor/inc/class-enqueue.php:626
+msgid "پیام را کامل‌تر بنویسید؛ حداقل ۱۰ نویسه لازم است."
+msgstr ""
+
+#: flavor/inc/class-contact-form.php:170 flavor/inc/class-enqueue.php:631
+msgid "پیام شما ارسال شد؛ از راهی که وارد کرده‌اید پاسخ می‌دهیم."
+msgstr ""
+
 #: flavor/inc/class-chrome-builder.php:687
 msgid "پیام ویژه"
 msgstr ""
 
 #: flavor/inc/class-launch-center.php:233
 msgid "پیامک واقعی پیکربندی شده است"
+msgstr ""
+
+#: flavor/inc/class-contact-form.php:96
+msgid "پیام‌های زیادی از اتصال شما ارسال شده است؛ چند دقیقه بعد دوباره تلاش کنید."
 msgstr ""
 
 #: flavor/inc/class-design.php:48
@@ -5801,7 +5945,7 @@ msgstr ""
 msgid "چیزی برای نوشتن نبود؛ کیت از پیش با توکن‌های قالب هماهنگ بود."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:369
+#: flavor/inc/class-enqueue.php:373
 msgid "چیزی پیدا نشد."
 msgstr ""
 
@@ -5837,7 +5981,7 @@ msgstr ""
 msgid "کافه و بیسترو"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:374 flavor/template-parts/marketing/featured.php:92
+#: flavor/inc/class-enqueue.php:378 flavor/template-parts/marketing/featured.php:92
 msgid "کالری"
 msgstr ""
 
@@ -5865,7 +6009,7 @@ msgstr ""
 msgid "کاهش تعداد"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:514
+#: flavor/inc/class-enqueue.php:531
 msgid "کاهش تعداد %s"
 msgstr ""
 
@@ -5893,7 +6037,7 @@ msgstr ""
 msgid "کد تخفیف:"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:544
+#: flavor/inc/class-enqueue.php:561
 msgid "کد تخفیف اعمال شد."
 msgstr ""
 
@@ -5909,7 +6053,7 @@ msgstr ""
 msgid "کد تخفیف را هنگام پرداخت وارد کنید."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:543
+#: flavor/inc/class-enqueue.php:560
 msgid "کد تخفیف را وارد کنید."
 msgstr ""
 
@@ -5943,6 +6087,10 @@ msgstr ""
 
 #: flavor/template-parts/ui/login.php:11
 msgid "کد یک‌بارمصرف"
+msgstr ""
+
+#: flavor/inc/class-ui.php:146
+msgid "کد یک‌بارمصرف ۴ تا ۶ رقم است؛ پیامک دریافتی را دوباره بررسی کنید."
 msgstr ""
 
 #: flavor/template-parts/demos/story.php:16
@@ -5997,6 +6145,10 @@ msgstr ""
 msgid "کم‌کالری‌ترین"
 msgstr ""
 
+#: flavor/inc/class-enqueue.php:597
+msgid "کنار پنجره"
+msgstr ""
+
 #: flavor/inc/class-ui.php:70
 msgid "کوتاه و سه‌گزینه‌ای"
 msgstr ""
@@ -6009,7 +6161,7 @@ msgstr ""
 msgid "کپی خلاصه"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:440
+#: flavor/inc/class-enqueue.php:457
 msgid "کپی خودکار در این مرورگر ممکن نیست. متن انتخاب شده است؛ آن را دستی کپی کنید. هیچ درخواستی ارسال نشده."
 msgstr ""
 
@@ -6161,11 +6313,11 @@ msgstr ""
 msgid "یادداشت"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:507
+#: flavor/inc/class-enqueue.php:524
 msgid "یادداشت: %s"
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:492 flavor/inc/class-ui.php:322
+#: flavor/inc/class-enqueue.php:509 flavor/inc/class-ui.php:322
 #. %s values. */
 msgid "یادداشت برای آشپزخانه"
 msgstr ""
@@ -6192,7 +6344,7 @@ msgstr ""
 msgid "یک دمو درون‌ریزی کنید یا صفحهٔ خانه را در تنظیمات خواندن انتخاب کنید."
 msgstr ""
 
-#: flavor/inc/class-enqueue.php:549
+#: flavor/inc/class-enqueue.php:566
 msgid "یک روش پرداخت فعال را انتخاب کنید."
 msgstr ""
 
@@ -6234,6 +6386,10 @@ msgstr ""
 
 #: flavor/elementor/widgets/class-hours-widget.php:62 flavor/elementor/widgets/class-hours-widget.php:85 flavor/inc/class-block-patterns.php:264
 msgid "۱۱:۳۰ تا ۲۳:۴۵"
+msgstr ""
+
+#: flavor/template-parts/menu/cart-drawer.php:23 flavor/template-parts/reservation/reservation-form.php:24
+msgid "۱۱ رقم و با ۰۹ شروع می‌شود؛ مانند ۰۹۱۲۱۲۳۴۵۶۷."
 msgstr ""
 
 #: flavor/elementor/widgets/class-hours-widget.php:89 flavor/inc/class-block-patterns.php:264

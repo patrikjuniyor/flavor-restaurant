@@ -50,6 +50,13 @@
 .flavor-ui .flavor-ui-divider{border:0;border-top:1px solid var(--flavor-line);margin-block:24px}
 .flavor-ui .flavor-ui-grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
 .flavor-ui .flavor-ui-field-error{color:#852f24;background:#fff2ee;border-radius:4px;font-size:12px;padding:4px 8px}
+/* Field-level errors (prompt 53): text under the input, same danger recipe as
+   .flavor-ui-field-error, wired by FlavorUI.fieldError via aria-describedby. */
+.flavor-ui .flavor-ui-field__err{color:#852f24;background:#fff2ee;border-radius:4px;font-size:12px;padding:4px 8px;line-height:1.9;margin:0}
+.flavor-ui .flavor-ui-hint{font-size:12px;line-height:1.9;color:var(--ui-muted);margin:0}
+.flavor-ui .flavor-ui-field input[aria-invalid=true],.flavor-ui .flavor-ui-field select[aria-invalid=true],.flavor-ui .flavor-ui-field textarea[aria-invalid=true]{border-color:#c81e1e}
+/* Contact honeypot: off-screen, aria-hidden, tabindex -1 — humans never see it. */
+.flavor-contact-hp{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .flavor-ui .flavor-ui-density-compact,.flavor-ui-density-compact{--ui-card-space:16px}
 .flavor-ui-card-style-soft{--ui-card-radius:18px}
 .flavor-ui-card-style-sharp{--ui-card-radius:2px}

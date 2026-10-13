@@ -297,6 +297,8 @@ function flavor_a11y_head_assets(): string {
 $GLOBALS['_mock_theme_mods']['flavor_skin']                     = 'modern-restaurant';
 $GLOBALS['_mock_theme_mods']['flavor_free_delivery_threshold']  = 250000;
 $GLOBALS['_mock_theme_mods']['flavor_offer_deadline']           = date( 'Y-m-d H:i:s', time() + 5400 );
+/* The contact e-mail gates the prompt-53 message form on the contact page. */
+$GLOBALS['_mock_theme_mods']['flavor_ui_contact_email']         = 'hello@flavor.test';
 
 /* The menu grid is server-rendered from wc_get_products — the same eight
    dishes the motion preview seeds. */

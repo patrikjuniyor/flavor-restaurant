@@ -16,30 +16,32 @@
   if(!mobile||!send||!verify||!code||!box||!status)return;
   var requested=false,busy=false,timer=null,wait=0;
   function phone(){var value=ui.latin(mobile.value).replace(/[\s-]/g,'');if(value.startsWith('+98'))value='0'+value.slice(3);else if(value.startsWith('0098'))value='0'+value.slice(4);return /^09\d{9}$/.test(value)?value:'';}
-  function message(text,error){status.textContent=text;status.dataset.error=error?'yes':'no';status.setAttribute('role',error?'alert':'status');}
+  function message(text,error){status.textContent=text;status.dataset.error=error?'yes':'no';status.setAttribute('role',error?'alert':'status');status.setAttribute('aria-live',error?'assertive':'polite');}
   function coolDown(){wait=30;send.disabled=true;send.setAttribute('aria-label',t('resend_aria'));window.clearInterval(timer);timer=window.setInterval(function(){wait--;send.textContent=fmt('resend_countdown',ui.digits(wait));if(wait<=0){window.clearInterval(timer);send.disabled=busy;send.textContent=t('resend_short');}},1000);}
   function request(){
    if(busy||wait>0)return;
-   var value=phone();if(!value){message(t('mobile_invalid_otp'),true);mobile.focus();return;}
+   var value=phone();if(!value){message('',false);ui.fieldError(mobile,t('mobile_invalid_otp'));mobile.focus();return;}
    busy=true;send.disabled=true;message(t('code_requesting'),false);
    ui.request('auth/otp/request',{method:'POST',body:JSON.stringify({mobile:value})}).then(function(){if(value!==phone()){message(t('phone_changed'),true);return;}requested=true;box.hidden=false;code.disabled=false;code.required=true;code.value='';message(t('code_requested'),false);code.focus();coolDown();}).catch(function(error){message(error.message,true);}).finally(function(){busy=false;if(wait<=0)send.disabled=false;});
   }
   function confirm(){
    if(busy||!requested)return;
    var value=phone(),entered=ui.latin(code.value).trim();
-   if(!value||!/^\d{4,6}$/.test(entered)){message(t('check_code'),true);code.focus();return;}
+   if(!value){message(t('phone_changed'),true);ui.fieldClear(code);mobile.focus();return;}
+   if(!/^\d{4,6}$/.test(entered)){message('',false);ui.fieldError(code,t('check_code'));code.focus();return;}
    busy=true;verify.disabled=true;message(t('code_verifying'),false);
    ui.request('auth/otp/verify',{method:'POST',body:JSON.stringify({mobile:value,code:entered,name:name?name.value:'',device_name:'Flavor website'})}).then(function(){
     // Core sets its HttpOnly WP cookie. Ignore Bearer/refresh tokens; do not
     // write auth credentials to local/session storage or URLs.
     if(root.dataset.authContext==='account'){location.reload();return;}
-    return ui.refreshNonce().then(function(){box.hidden=true;requested=false;code.value='';code.disabled=true;code.required=false;send.hidden=true;message(t('verified'),false);});
+    return ui.refreshNonce().then(function(){box.hidden=true;requested=false;code.value='';code.disabled=true;code.required=false;send.hidden=true;ui.fieldClear(mobile);ui.fieldClear(code);message(t('verified'),false);});
    }).catch(function(error){message(error.message,true);}).finally(function(){busy=false;verify.disabled=false;});
   }
   send.addEventListener('click',request);verify.addEventListener('click',confirm);
   if(root.tagName==='FORM')root.addEventListener('submit',function(event){event.preventDefault();if(requested)confirm();else request();});
   code.addEventListener('keydown',function(event){if(event.key==='Enter'){event.preventDefault();event.stopPropagation();confirm();}});
-  mobile.addEventListener('input',function(){requested=false;box.hidden=true;code.value='';code.disabled=true;code.required=false;message('',false);});
+  mobile.addEventListener('input',function(){requested=false;box.hidden=true;code.value='';code.disabled=true;code.required=false;ui.fieldClear(mobile);message('',false);});
+  code.addEventListener('input',function(){ui.fieldClear(code);});
   root.hidden=false;
  });
 })();

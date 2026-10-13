@@ -8,6 +8,17 @@
 	if (!root || !cfg.hasCore || !document.getElementById('flavor-res-form')) return;
 	var ui = window.FlavorUI;
 	function digits(value) { return ui ? ui.digits(value) : String(value); }
+	/* flavor-i18n-map: flavorData.i18n.reservation */
+	// Every label comes from Enqueue::reservation_strings(). A fallback here
+	// used to be Persian, which is copy no site could translate; a key absent
+	// from the map now surfaces as the key itself and fails
+	// tests/theme/test-js-i18n.php.
+	var STR = (cfg.i18n || {}).reservation || {};
+	function t(key) {
+		return typeof STR[key] === 'string' && STR[key] !== '' ? STR[key] : key;
+	}
+	function fmt(key, value) { return t(key).replace('%s', value); }
+	function fmt3(key, first, second, third) { return t(key).replace('%1$s', first).replace('%2$s', second).replace('%3$s', third); }
 	var calendarRequest = 0;
 
 	var jy = 0;
@@ -36,10 +47,96 @@
 
 	function reportError(error) {
 		var host = document.getElementById('flavor-res-err');
-		if (host) { host.hidden = false; host.textContent = error.message; }
+		if (host) { host.hidden = false; host.textContent = error.message; host.focus({ preventScroll: true }); }
+	}
+
+	/* Field-level errors (prompt 53): aria-invalid + aria-describedby through
+	   the shared FlavorUI helper, cleared as soon as the visitor edits. */
+	function bindFieldClear(id) {
+		var input = document.getElementById(id);
+		if (input && ui) input.addEventListener('input', function () { ui.fieldClear(input); });
+	}
+	['flavor-res-party', 'flavor-res-name', 'flavor-res-mobile'].forEach(bindFieldClear);
+
+	function invalid(inputId, message) {
+		var input = document.getElementById(inputId);
+		if (ui) { ui.fieldError(input, message); }
+		if (input) { input.focus(); }
+		return true;
 	}
 
 	var slotsRequest = 0;
+	function loadSlots() {
+		var branch = document.getElementById('flavor-res-branch');
+		var party = document.getElementById('flavor-res-party');
+		var section = document.getElementById('flavor-res-section');
+		var host = document.getElementById('flavor-res-slots');
+		if (!selectedDate || !host) return;
+		selectedTime = '';
+		var selected = document.getElementById('flavor-res-selection'); if (selected) selected.textContent = t('day_selected');
+		var requestId = ++slotsRequest;
+		host.setAttribute('aria-busy', 'true');
+		host.textContent = t('checking_capacity');
+		var q =
+			'reservations/slots?branch_id=' +
+			encodeURIComponent(branch ? branch.value : 0) +
+			'&date=' +
+			encodeURIComponent(selectedDate) +
+			'&party=' +
+			encodeURIComponent(party ? party.value : 2) +
+			'&section=' +
+			encodeURIComponent(section ? section.value : '');
+		api(q).then(function (d) {
+			if (requestId !== slotsRequest) return;
+			host.removeAttribute('aria-busy');
+			host.innerHTML = (d.slots || [])
+				.map(function (s) {
+					return (
+						'<button type="button" class="flavor-slot' +
+						(s.available ? '' : ' is-off') +
+						(s.time === selectedTime ? ' is-active' : '') +
+						'" data-t="' +
+						esc(s.time) +
+						'" ' +
+						(s.available ? '' : 'disabled') +
+						'>' +
+						esc(s.time) +
+						'</button>'
+					);
+				})
+				.join('');
+			host.querySelectorAll('[data-t]').forEach(function (button) { button.setAttribute('aria-pressed', 'false'); });
+			if (!d.slots || !d.slots.length) host.textContent = t('no_capacity');
+		}).catch(function (error) {
+			if (requestId !== slotsRequest) return;
+			host.removeAttribute('aria-busy'); host.textContent = t('capacity_failed'); reportError(error);
+		});
+	}
+
+	function loadSections() {
+		var branch = document.getElementById('flavor-res-branch');
+		return api('branches/' + encodeURIComponent(branch.value) + '/tables').then(function (tables) {
+			var select = document.getElementById('flavor-res-section'); var previous = select.value;
+			var sections = Array.from(new Set((tables || []).map(function (table) { return table.section; }).filter(Boolean)));
+			var labels = { indoor: t('section_indoor'), outdoor: t('section_outdoor'), window: t('section_window'), bar: t('section_bar') };
+			select.innerHTML = '<option value="">' + esc(t('section_any')) + '</option>' + sections.map(function (section) { return '<option value="' + esc(section) + '">' + esc(labels[section] || section) + '</option>'; }).join('');
+			if (sections.includes(previous)) select.value = previous;
+		});
+	}
+	api('branches').then(function (list) {
+		var select = document.getElementById('flavor-res-branch'); if (!select) return;
+		var eligible = (list || []).filter(function (branch) { return (cfg.reservationBranchIds || []).includes(Number(branch.id)); });
+		select.innerHTML = eligible.map(function (branch) { return '<option value="' + esc(branch.id) + '">' + esc(branch.name) + '</option>'; }).join('');
+		if (eligible.some(function (branch) { return Number(branch.id) === Number(cfg.branchId); })) select.value = String(cfg.branchId);
+		loadSections().catch(reportError);
+	}).catch(reportError);
+
+	api('calendar').then(function (cal) {
+		jy = cal.jy;
+		jm = cal.jm;
+		loadCal();
+	}).catch(reportError);
+
 	function loadCal() {
 		var requestId = ++calendarRequest;
 		var q = 'calendar?jy=' + jy + '&jm=' + jm;
@@ -73,77 +170,6 @@
 			grid.querySelectorAll('[data-g]').forEach(function (button) { button.setAttribute('aria-pressed', String(button.dataset.g === selectedDate)); button.setAttribute('aria-label', button.textContent + ' ' + cal.month + ' ' + digits(cal.jy)); });
 		}).catch(reportError);
 	}
-
-	function loadSlots() {
-		var branch = document.getElementById('flavor-res-branch');
-		var party = document.getElementById('flavor-res-party');
-		var section = document.getElementById('flavor-res-section');
-		var host = document.getElementById('flavor-res-slots');
-		if (!selectedDate || !host) return;
-		selectedTime = '';
-		var selected = document.getElementById('flavor-res-selection'); if (selected) selected.textContent = 'روز انتخاب شد؛ یک ساعت دارای ظرفیت انتخاب کنید.';
-		var requestId = ++slotsRequest;
-		host.setAttribute('aria-busy', 'true');
-		host.textContent = 'در حال بررسی ظرفیت…';
-		var q =
-			'reservations/slots?branch_id=' +
-			encodeURIComponent(branch ? branch.value : 0) +
-			'&date=' +
-			encodeURIComponent(selectedDate) +
-			'&party=' +
-			encodeURIComponent(party ? party.value : 2) +
-			'&section=' +
-			encodeURIComponent(section ? section.value : '');
-		api(q).then(function (d) {
-			if (requestId !== slotsRequest) return;
-			host.removeAttribute('aria-busy');
-			host.innerHTML = (d.slots || [])
-				.map(function (s) {
-					return (
-						'<button type="button" class="flavor-slot' +
-						(s.available ? '' : ' is-off') +
-						(s.time === selectedTime ? ' is-active' : '') +
-						'" data-t="' +
-						esc(s.time) +
-						'" ' +
-						(s.available ? '' : 'disabled') +
-						'>' +
-						esc(s.time) +
-						'</button>'
-					);
-				})
-				.join('');
-			host.querySelectorAll('[data-t]').forEach(function (button) { button.setAttribute('aria-pressed', 'false'); });
-			if (!d.slots || !d.slots.length) host.textContent = 'برای این تاریخ و انتخاب، ظرفیت قابل رزرو وجود ندارد. تاریخ یا بخش دیگری را بررسی کنید.';
-		}).catch(function (error) {
-			if (requestId !== slotsRequest) return;
-			host.removeAttribute('aria-busy'); host.textContent = 'بررسی ظرفیت ناموفق بود.'; reportError(error);
-		});
-	}
-
-	function loadSections() {
-		var branch = document.getElementById('flavor-res-branch');
-		return api('branches/' + encodeURIComponent(branch.value) + '/tables').then(function (tables) {
-			var select = document.getElementById('flavor-res-section'); var previous = select.value;
-			var sections = Array.from(new Set((tables || []).map(function (table) { return table.section; }).filter(Boolean)));
-			var labels = { indoor:'سالن', outdoor:'فضای باز', window:'کنار پنجره', bar:'بار' };
-			select.innerHTML = '<option value="">هر بخشِ دارای ظرفیت</option>' + sections.map(function (section) { return '<option value="' + esc(section) + '">' + esc(labels[section] || section) + '</option>'; }).join('');
-			if (sections.includes(previous)) select.value = previous;
-		});
-	}
-	api('branches').then(function (list) {
-		var select = document.getElementById('flavor-res-branch'); if (!select) return;
-		var eligible = (list || []).filter(function (branch) { return (cfg.reservationBranchIds || []).includes(Number(branch.id)); });
-		select.innerHTML = eligible.map(function (branch) { return '<option value="' + esc(branch.id) + '">' + esc(branch.name) + '</option>'; }).join('');
-		if (eligible.some(function (branch) { return Number(branch.id) === Number(cfg.branchId); })) select.value = String(cfg.branchId);
-		loadSections().catch(reportError);
-	}).catch(reportError);
-
-	api('calendar').then(function (cal) {
-		jy = cal.jy;
-		jm = cal.jm;
-		loadCal();
-	}).catch(reportError);
 
 	var prev = document.getElementById('flavor-cal-prev');
 	var next = document.getElementById('flavor-cal-next');
@@ -191,7 +217,7 @@
 			var b = e.target.closest('[data-t]');
 			if (!b || b.disabled) return;
 			selectedTime = b.getAttribute('data-t');
-			var chosen = document.getElementById('flavor-res-selection'); if (chosen) chosen.textContent = 'ساعت انتخاب‌شده: ' + digits(selectedTime) + '؛ هنوز رزروی ارسال نشده است.';
+			var chosen = document.getElementById('flavor-res-selection'); if (chosen) chosen.textContent = fmt('time_selected', digits(selectedTime));
 			slots.querySelectorAll('.flavor-slot').forEach(function (x) {
 				x.classList.toggle('is-active', x === b);
 				x.setAttribute('aria-pressed', String(x === b));
@@ -213,17 +239,33 @@
 			e.preventDefault();
 			var err = document.getElementById('flavor-res-err');
 			var ok = document.getElementById('flavor-res-ok');
-			if (err) err.hidden = true; if (ok) ok.hidden = true;
+			if (err) { err.hidden = true; err.textContent = ''; }
+			if (ok) { ok.hidden = true; ok.textContent = ''; }
+
+			/* Validate in reading order; every message states its solution and
+			   lands on the field through aria-describedby + aria-invalid. */
+			var party = document.getElementById('flavor-res-party');
+			var partySize = party ? Number(party.value) : 0;
+			if (!partySize || partySize < 1 || partySize > 20) { invalid('flavor-res-party', t('party_range')); return; }
+			var name = document.getElementById('flavor-res-name');
+			if (!name || !name.value.trim()) { invalid('flavor-res-name', t('name_required')); return; }
+			var mobile = document.getElementById('flavor-res-mobile');
+			var mobileValue = mobile ? (ui ? ui.latin(mobile.value.trim()) : mobile.value.trim()) : '';
+			if (!/^09\d{9}$/.test(mobileValue)) { invalid('flavor-res-mobile', t('mobile_invalid')); return; }
 			if (!selectedDate || !selectedTime) {
 				if (err) {
 					err.hidden = false;
-					err.textContent = 'تاریخ و ساعت را انتخاب کنید.';
+					err.textContent = t('pick_datetime');
+					err.focus({ preventScroll: true });
 				}
 				return;
 			}
+
 			var branch = document.getElementById('flavor-res-branch');
 			var submit = form.querySelector('[type="submit"]');
 			if (submit) submit.disabled = true;
+			form.setAttribute('aria-busy', 'true');
+			if (ui) ui.announce(t('sending'));
 			api('reservations', {
 				method: 'POST',
 				headers: { 'X-WP-Nonce': cfg.nonce || '', 'Content-Type': 'application/json' },
@@ -231,27 +273,28 @@
 					branch_id: branch ? branch.value : 0,
 					date: selectedDate,
 					time: selectedTime,
-					party_size: (document.getElementById('flavor-res-party') || {}).value,
+					party_size: partySize,
 					section: (document.getElementById('flavor-res-section') || {}).value,
-					name: (document.getElementById('flavor-res-name') || {}).value,
-					mobile: (document.getElementById('flavor-res-mobile') || {}).value,
+					name: name.value,
+					mobile: mobileValue,
 					requests: (document.getElementById('flavor-res-note') || {}).value,
 				}),
 			})
 				.then(function (res) {
 					if (ok) {
 						ok.hidden = false;
-						var statuses = { confirmed:'تأیید شده', pending:'در انتظار تأیید', cancelled:'لغوشده' };
-						ok.textContent = 'درخواست ثبت شد (' + (res.jalali_label || '') + ' ساعت ' + digits(res.time) + '). وضعیت: ' + (statuses[res.status] || res.status);
-						ok.focus({ preventScroll:true });
+						var statuses = { confirmed: t('status_confirmed'), pending: t('status_pending'), cancelled: t('status_cancelled') };
+						ok.textContent = fmt3('request_recorded', res.jalali_label || '', digits(res.time), statuses[res.status] || res.status);
+						ok.focus({ preventScroll: true });
 					}
 				})
 				.catch(function (ex) {
 					if (err) {
 						err.hidden = false;
 						err.textContent = ex.message;
+						err.focus({ preventScroll: true });
 					}
-				}).finally(function () { if (submit) submit.disabled = false; });
+				}).finally(function () { if (submit) submit.disabled = false; form.removeAttribute('aria-busy'); });
 		});
 	}
 })();

@@ -137,6 +137,24 @@ $contracts = array(
 		'wire'   => array( 'inc/class-enqueue.php', 'menu.\s*=>\s*self::menu_strings\(\)' ),
 	),
 	array(
+		'file'   => 'reservation.js',
+		'marker' => 'flavor-i18n-map: flavorData.i18n.reservation',
+		'calls'  => array( 't', 'fmt', 'fmt3' ),
+		'arity'  => array( 't' => 0, 'fmt' => 1, 'fmt3' => 3 ),
+		'map'    => '\Flavor\Enqueue::reservation_strings',
+		'strict' => true, // prompt 53 graduated this file: the map serves only it
+		'wire'   => array( 'inc/class-enqueue.php', 'reservation.\s*=>\s*self::reservation_strings\(\)' ),
+	),
+	array(
+		'file'   => 'contact.js',
+		'marker' => 'flavor-i18n-map: flavorData.i18n.contact',
+		'calls'  => array( 't' ),
+		'arity'  => array( 't' => 0 ),
+		'map'    => '\Flavor\Enqueue::contact_strings',
+		'strict' => true, // the map serves only the contact form
+		'wire'   => array( 'inc/class-enqueue.php', 'contact.\s*=>\s*self::contact_strings\(\)' ),
+	),
+	array(
 		'file'   => 'premium.js',
 		'marker' => 'flavor-i18n-map: flavorPremium.i18n',
 		'calls'  => array( 't', 'fmt', 'fmt2' ),
@@ -412,7 +430,7 @@ echo "\n--- 5. The remaining translation debt is a fixed list ---\n";
 // (prompt 21 leaves it a second priority).
 $expected_debt = array(
 	// Copy debt beyond prompt 21's seven files; each needs a PHP map of its own.
-	'reservation.js',
+	// reservation.js graduated in prompt 53 (Enqueue::reservation_strings()).
 	'search.js',
 	'tracking.js',
 	'ui.js',

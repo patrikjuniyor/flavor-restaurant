@@ -537,6 +537,8 @@
 		}).catch(function (error) { if (requestId !== zoneRequest) return; zoneState = 'error'; if (msg) { msg.dataset.available = 'error'; msg.textContent = error.message; } });
 	}
 	[hood,city].forEach(function (field) { if (!field) return; field.addEventListener('input', function () { invalidateZone(); window.clearTimeout(zoneTimer); zoneTimer = window.setTimeout(checkZone, 450); }); field.addEventListener('change', function () { window.clearTimeout(zoneTimer); checkZone(); }); });
+	var checkoutMobile = document.getElementById('flavor-mobile');
+	if (checkoutMobile && ui) checkoutMobile.addEventListener('input', function () { ui.fieldClear(checkoutMobile); });
 	var couponButton = document.getElementById('flavor-coupon-btn');
 	if (couponButton) couponButton.addEventListener('click', function () {
 		var field = document.getElementById('flavor-coupon'); var status = document.getElementById('flavor-coupon-status');
@@ -553,7 +555,9 @@
 		function failure(message) { if (err) { err.hidden = false; err.textContent = message; err.focus({ preventScroll:true }); err.scrollIntoView({ block:'nearest' }); } }
 		if (err) { err.hidden = true; err.textContent = ''; }
 		var mobile = document.getElementById('flavor-mobile');
-		if (mobile && !/^09\d{9}$/.test(ui ? ui.latin(mobile.value.trim()) : mobile.value.trim())) { failure(t('mobile_invalid')); mobile.focus(); return; }
+		/* The mobile error belongs ON the field (aria-invalid + describedby),
+		   not only in the panel-level alert — and its text states the fix. */
+		if (mobile && !/^09\d{9}$/.test(ui ? ui.latin(mobile.value.trim()) : mobile.value.trim())) { if (ui) ui.fieldError(mobile, t('mobile_invalid')); else failure(t('mobile_invalid')); mobile.focus(); return; }
 		if (mode === 'delivery' && zoneState !== 'yes') { failure(t('zone_unconfirmed')); checkZone(); return; }
 		var pay = form.querySelector('input[name="pay"]:checked'); if (!pay) { failure(t('pay_required')); return; }
 		var table = document.getElementById('flavor-table'); var option = table && table.options[table.selectedIndex];

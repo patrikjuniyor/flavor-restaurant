@@ -138,5 +138,36 @@
 	   layer — the top one. With a dialog stacked over the drawer, the
 	   drawer's handler stands down while this returns > 0. */
 	function dialogCount() { return stack.length; }
-	window.FlavorUI = { esc: esc, digits: digits, latin: latin, group: group, money: money, announce: announce, request: request, headers: headers, refreshNonce: refreshNonce, openDialog: openDialog, closeDialog: closeDialog, dialogCount: dialogCount };
+
+	/* Field-level errors (prompt 53): every form field ships a
+	   .flavor-ui-field__err paragraph inside its .flavor-ui-field wrapper.
+	   The helper fills it, marks the field aria-invalid and points
+	   aria-describedby at it, so assistive tech hears WHICH field failed
+	   and WHY — the message is text with a solution, never colour alone. */
+	function fieldError(input, message) {
+		if (!input) return null;
+		var field = input.closest ? input.closest('.flavor-ui-field') : null;
+		var host = field ? field.querySelector('.flavor-ui-field__err') : null;
+		if (!host || !host.id) return null;
+		host.textContent = message;
+		host.hidden = false;
+		input.setAttribute('aria-invalid', 'true');
+		var described = (input.getAttribute('aria-describedby') || '').split(/\s+/).filter(function (id) { return id && id !== host.id; });
+		described.push(host.id);
+		input.setAttribute('aria-describedby', described.join(' '));
+		return host;
+	}
+	function fieldClear(input) {
+		if (!input) return;
+		var field = input.closest ? input.closest('.flavor-ui-field') : null;
+		var host = field ? field.querySelector('.flavor-ui-field__err') : null;
+		if (!host || !host.id) return;
+		host.textContent = '';
+		host.hidden = true;
+		input.removeAttribute('aria-invalid');
+		var described = (input.getAttribute('aria-describedby') || '').split(/\s+/).filter(function (id) { return id && id !== host.id; });
+		if (described.length) input.setAttribute('aria-describedby', described.join(' '));
+		else input.removeAttribute('aria-describedby');
+	}
+	window.FlavorUI = { esc: esc, digits: digits, latin: latin, group: group, money: money, announce: announce, request: request, headers: headers, refreshNonce: refreshNonce, openDialog: openDialog, closeDialog: closeDialog, dialogCount: dialogCount, fieldError: fieldError, fieldClear: fieldClear };
 })();
