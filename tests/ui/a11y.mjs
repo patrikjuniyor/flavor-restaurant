@@ -5,6 +5,11 @@
  * about, order tracking, cart, checkout and the twelve one-click demos —
  * with @axe-core/playwright under the wcag2a / wcag2aa / wcag21aa tags, and
  * fails on every serious or critical violation.
+ * Prompt 58 adds the night pass: every page surface plus the cart, checkout
+ * and product-sheet panels are scanned again under the generated dark
+ * palette (offline from dark/page-*.html, live by flipping the state
+ * attribute the way the toggle does), and every other classic skin gets
+ * its night face measured on home + menu from skin-<slug>/dark/.
  *
  * The pages come from the repo's own offline fixtures, never from a
  * hand-written approximation:
@@ -54,8 +59,8 @@ fs.mkdirSync(shots, { recursive: true });
 
 const diagnostics = /Fatal error|Warning:|Notice:|Deprecated:|Undefined (index|variable|array key)/;
 
-function build(cmd, args, label) {
-  const built = spawnSync(cmd, args, { encoding: 'utf8' });
+function build(cmd, args, label, env) {
+  const built = spawnSync(cmd, args, { encoding: 'utf8', env: env ? { ...process.env, ...env } : process.env });
   const output = `${built.stdout || ''}\n${built.stderr || ''}`;
   if (built.status !== 0) {
     process.stderr.write(output.replace(/^/gm, '  ') + `\n✗ ${label} failed (exit ${built.status})\n`);
@@ -69,7 +74,16 @@ function build(cmd, args, label) {
   return output;
 }
 
-if (!LIVE) build('php', [path.join(here, 'a11y-pages.php'), outdir], 'a11y page fixtures');
+/* Prompt 58: the dark sweep also dresses the pages in every other classic
+   skin — each paints header veils, bands and cards with raw literals the
+   palette never sees, so each gets its own measured night face. */
+const darkSkins = ['cafe-bistro', 'pizza-italian', 'bakery-pastry', 'fast-food', 'persian-traditional'];
+if (!LIVE) {
+  build('php', [path.join(here, 'a11y-pages.php'), outdir], 'a11y page fixtures');
+  for (const skin of darkSkins) {
+    build('php', [path.join(here, 'a11y-pages.php'), path.join(outdir, `skin-${skin}`)], `a11y page fixtures (${skin})`, { A11Y_SKIN: skin });
+  }
+}
 if (!skipDemos) build('bash', [path.join(root, 'dev-tools/preview/build-preview.sh'), path.join(outdir, 'demos.html')], 'demo preview build');
 
 /* ------------------------------------------------------------------ */
@@ -241,6 +255,41 @@ await page.evaluate(reveal, 'checkout');
 await audit('checkout', 'checkout');
 await page.evaluate(reveal, 'sheet');
 await audit('product-sheet', 'product-sheet');
+
+/* --- night scheme (prompt 58): the same surfaces under the dark palette.
+   Offline the fixture writes dark/page-<slug>.html with the generated night
+   palette inline; on a LIVE site the real head already carries it, so the
+   scan just flips the state attribute the way the toggle would. --- */
+const forceDark = () => page.evaluate(() => document.documentElement.setAttribute('data-flavor-scheme', 'dark'));
+for (const slug of pageSlugs) {
+  const url = LIVE ? new URL(livePaths[slug], base).href : new URL(`dark/page-${slug}.html`, base).href;
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(url, { waitUntil: LIVE ? 'networkidle' : 'load' });
+  if (LIVE) await forceDark();
+  await audit(`${slug}-dark`, `${slug}-dark`);
+}
+await page.goto(LIVE ? new URL('menu/', base).href : new URL('dark/page-menu.html', base).href, { waitUntil: LIVE ? 'networkidle' : 'load' });
+if (LIVE) await forceDark();
+await page.evaluate(reveal, 'cart');
+await audit('cart-filled-dark', 'cart-filled-dark');
+await page.evaluate(reveal, 'checkout');
+await audit('checkout-dark', 'checkout-dark');
+await page.evaluate(reveal, 'sheet');
+await audit('product-sheet-dark', 'product-sheet-dark');
+
+/* Night faces of the other classic skins (prompt 58): home carries the
+   header, topbar, offer coupon and reservation band; menu carries the
+   food cards and the drawer chrome. LIVE sites run the owner's single
+   skin, so this sweep is offline-only. */
+if (!LIVE) {
+  for (const skin of darkSkins) {
+    for (const slug of ['home', 'menu']) {
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      await page.goto(new URL(`skin-${skin}/dark/page-${slug}.html`, base).href, { waitUntil: 'load' });
+      await audit(`${skin}-${slug}-dark`, `${skin}-${slug}-dark`);
+    }
+  }
+}
 
 /* --- one-click demos: the assembled motion preview, skin by skin --- */
 if (!skipDemos) {

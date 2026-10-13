@@ -832,3 +832,64 @@ html[data-flavor-scheme="dark"] body.flavor-skin-modern-restaurant {
 .flavor-skin-modern-restaurant .flavor-intro .flavor-section-header__title { color: #f4efe7; }
 .flavor-skin-modern-restaurant .flavor-intro .flavor-section-header__desc { color: #c9c2b6; }
 .flavor-skin-modern-restaurant .flavor-footer__contact-item a { color: #e0b968; }
+
+/* -------------------------------------------------------------
+ * Night pass 2: the cream header veil is a raw literal, the reservation
+ * band paints its ground with --modern-charcoal (which the night flip
+ * turns into the LIGHT ink), and the phone chip / open-status keep
+ * --modern-forest as text colour on night surfaces.
+ * Added by the prompt-58 night sweep (tests/ui/a11y.mjs renders
+ * every classic skin under the dark palette and measures pixels).
+ * ------------------------------------------------------------- */
+html[data-flavor-scheme="dark"] body.flavor-skin-modern-restaurant .flavor-header {
+	background: var(--flavor-surface);
+	background: color-mix(in srgb, var(--flavor-surface) 90%, transparent);
+	border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-modern-restaurant .flavor-nav a {
+	color: var(--flavor-muted);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-modern-restaurant .flavor-header__phone {
+	color: var(--flavor-ink);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-modern-restaurant .flavor-res-banner {
+	background: #201c19;
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-modern-restaurant .flavor-res-banner__media::after {
+	background: linear-gradient(90deg, transparent, #201c19);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-modern-restaurant .flavor-live-status--open {
+	background: var(--flavor-surface-alt);
+	background: color-mix(in srgb, var(--flavor-success) 14%, transparent);
+	color: var(--flavor-success);
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] body.flavor-skin-modern-restaurant .flavor-header {
+		background: var(--flavor-surface);
+		background: color-mix(in srgb, var(--flavor-surface) 90%, transparent);
+		border-bottom-color: rgba(255, 255, 255, 0.08);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-modern-restaurant .flavor-nav a {
+		color: var(--flavor-muted);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-modern-restaurant .flavor-header__phone {
+		color: var(--flavor-ink);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-modern-restaurant .flavor-res-banner {
+		background: #201c19;
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-modern-restaurant .flavor-res-banner__media::after {
+		background: linear-gradient(90deg, transparent, #201c19);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-modern-restaurant .flavor-live-status--open {
+		background: var(--flavor-surface-alt);
+		background: color-mix(in srgb, var(--flavor-success) 14%, transparent);
+		color: var(--flavor-success);
+	}
+}

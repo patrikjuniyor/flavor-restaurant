@@ -110,7 +110,7 @@ a:hover {
 	top: -9999px;
 	inset-inline-end: 16px;
 	background: var(--flavor-primary);
-	color: #fff;
+	color: var(--ui-action-ink, #ffffff); /* prompt 58: night primary lifts; the audited action ink keeps the pair AA */
 	padding: 10px 18px;
 	border-radius: var(--flavor-btn-radius);
 	z-index: 9999;
@@ -151,7 +151,7 @@ a:hover {
  * ------------------------------------------------------------- */
 .flavor-topbar {
 	background: var(--flavor-primary);
-	color: #fff;
+	color: var(--ui-action-ink, #ffffff); /* prompt 58: night primary lifts; the audited action ink keeps the pair AA */
 	padding: 8px 0;
 	font-size: 13px;
 	font-weight: 500;

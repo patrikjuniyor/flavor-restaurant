@@ -429,6 +429,83 @@ for (const entry of twinPages) {
 }
 
 
+/* ---------------------------------------------------------------- */
+/* Scheme mechanism, live (prompt 58): the toggle, localStorage, the */
+/* pre-paint boot script and the prefers-color-scheme auto path.     */
+/* ---------------------------------------------------------------- */
+const schemeViolations = [];
+{
+  const schemePage = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+  await schemePage.goto(origin + '/flavor-states-direction-light.html', { waitUntil: 'load' });
+  const fail = (msg) => { schemeViolations.push(msg); violations.push('scheme: ' + msg); };
+
+  const hasToggle = await schemePage.evaluate(() => !!document.querySelector('[data-flavor-scheme-toggle]'));
+  if (!hasToggle) {
+    fail('the probe page rendered no [data-flavor-scheme-toggle] button');
+  } else {
+    const dayBg = await schemePage.evaluate(() => getComputedStyle(document.body).backgroundColor);
+
+    /* 1 — one click paints night, persists the JSON-encoded choice, flips aria-pressed. */
+    await schemePage.click('[data-flavor-scheme-toggle]');
+    await schemePage.waitForTimeout(420); /* let the cross-fade land */
+    const clicked = await schemePage.evaluate(() => ({
+      attr: document.documentElement.getAttribute('data-flavor-scheme'),
+      stored: window.localStorage.getItem('flavorScheme'),
+      bg: getComputedStyle(document.body).backgroundColor,
+      pressed: document.querySelector('[data-flavor-scheme-toggle]').getAttribute('aria-pressed'),
+    }));
+    if (clicked.attr !== 'dark') fail(`toggle click left data-flavor-scheme="${clicked.attr}", expected "dark"`);
+    if (clicked.stored !== '"dark"') fail(`toggle click stored ${JSON.stringify(clicked.stored)} — premium.js must persist the JSON-encoded choice`);
+    if (clicked.bg === dayBg) fail(`toggle click did not repaint the page (body background stayed ${clicked.bg}) — the night palette never applied`);
+    if (clicked.pressed !== 'true') fail(`toggle click left aria-pressed="${clicked.pressed}", expected "true" under night`);
+
+    /* 2 — reload: the pre-paint boot script must restore the stored choice. */
+    await schemePage.reload({ waitUntil: 'load' });
+    const booted = await schemePage.evaluate(() => ({
+      attr: document.documentElement.getAttribute('data-flavor-scheme'),
+      bg: getComputedStyle(document.body).backgroundColor,
+    }));
+    if (booted.attr !== 'dark') fail(`after reload the boot script did not restore the stored night choice (data-flavor-scheme="${booted.attr}")`);
+    if (booted.bg === dayBg) fail('after reload the page painted the day background despite the stored night choice — the white-flash bug is back');
+
+    /* 3 — click back to day. */
+    await schemePage.click('[data-flavor-scheme-toggle]');
+    await schemePage.waitForTimeout(420);
+    const back = await schemePage.evaluate(() => ({
+      attr: document.documentElement.getAttribute('data-flavor-scheme'),
+      stored: window.localStorage.getItem('flavorScheme'),
+      bg: getComputedStyle(document.body).backgroundColor,
+    }));
+    if (back.attr !== 'light' || back.stored !== '"light"') fail(`toggle back produced attr="${back.attr}" stored=${JSON.stringify(back.stored)}, expected light and "light"`);
+    if (back.bg !== dayBg) fail(`toggle back painted ${back.bg}, expected the day background ${dayBg}`);
+
+    /* 4 — auto follows the device, with no stored choice at all. */
+    await schemePage.evaluate(() => {
+      window.localStorage.removeItem('flavorScheme');
+      document.documentElement.setAttribute('data-flavor-scheme', 'auto');
+    });
+    await schemePage.emulateMedia({ colorScheme: 'dark' });
+    await schemePage.waitForTimeout(420);
+    const autoDark = await schemePage.evaluate(() => ({
+      bg: getComputedStyle(document.body).backgroundColor,
+      pressed: document.querySelector('[data-flavor-scheme-toggle]').getAttribute('aria-pressed'),
+    }));
+    if (autoDark.bg === dayBg) fail('auto mode: prefers-color-scheme dark did not paint the night palette');
+    if (autoDark.pressed !== 'true') fail(`auto mode: the toggle reports aria-pressed="${autoDark.pressed}" while the device prefers dark`);
+
+    /* 5 — the device flips back to light: auto follows. */
+    await schemePage.emulateMedia({ colorScheme: 'light' });
+    await schemePage.waitForTimeout(420);
+    const autoLight = await schemePage.evaluate(() => ({
+      bg: getComputedStyle(document.body).backgroundColor,
+      pressed: document.querySelector('[data-flavor-scheme-toggle]').getAttribute('aria-pressed'),
+    }));
+    if (autoLight.bg !== dayBg) fail(`auto mode: flipping the device back to light painted ${autoLight.bg}, expected ${dayBg}`);
+    if (autoLight.pressed !== 'false') fail(`auto mode: aria-pressed stayed "${autoLight.pressed}" after the device flipped to light`);
+  }
+  await schemePage.close();
+}
+
 await browser.close();
 server.close();
 
@@ -439,6 +516,7 @@ const report = {
   schemes,
   pages,
   twin: { dirs: twinDirs, widths: twinWidths, renders: twin },
+  scheme: { violations: schemeViolations.length },
   violations,
 };
 fs.writeFileSync(path.join(outdir, 'report.json'), JSON.stringify(report, null, 2) + '\n');
@@ -448,10 +526,11 @@ const totalRuns = pages.reduce((n, p) => n + p.textRuns, 0);
 const shotCount = fs.readdirSync(path.join(outdir, 'screenshots')).filter((f) => f.endsWith('.png')).length;
 console.log(`صفحات: ${pages.length} · بخش‌ها: ${totalSections} · تکه‌متن‌های سنجیده‌شده: ${totalRuns} · اسکرین‌شات: ${shotCount}`);
 console.log(`گشتِ دوقلو: ${twin.length} رندر (${twinDirs.join(' + ')}) در ${twinWidths.join(' + ')} پیکسل — dir، سرریز، آیکون‌ها، انیمیشن‌ها و آفست‌ها در هر دو جهت سنجیده شد`);
+console.log('مکانیسم شب/روز: کلیکِ تاگل، ذخیرهٔ localStorage، بازیابی اسکریپتِ بوت پس از رفرش و حالتِ خودکارِ prefers-color-scheme — زنده سنجیده شد');
 
 if (violations.length) {
   for (const v of violations.slice(0, 40)) console.error('✗ ' + v);
   console.error(`violation: ${violations.length} visual fault(s) (report: ${path.join(outdir, 'report.json')})`);
   process.exit(1);
 }
-console.log(`✅ elementor-visual: ${pages.length} page×width checks + ${twin.length} twin renders passed (overlap 0 · contrast ≥ AA · overflow 0 · mirrored both ways)`);
+console.log(`✅ elementor-visual: ${pages.length} page×width checks + ${twin.length} twin renders + live scheme mechanism passed (overlap 0 · contrast ≥ AA · overflow 0 · mirrored both ways · night persists)`);

@@ -518,7 +518,7 @@
 	/* Trailing edge: left in RTL exactly as shipped, mirrored in LTR. */
 	inset-inline-end: 20px;
 	background: var(--flavor-primary);
-	color: #fff;
+	color: var(--ui-action-ink, #ffffff); /* prompt 58: same recipe as .flavor-btn--primary */
 	padding: 16px 24px;
 	border-radius: var(--flavor-radius);
 	box-shadow: var(--flavor-shadow-xl);

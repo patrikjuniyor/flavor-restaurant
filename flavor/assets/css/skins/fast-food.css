@@ -929,3 +929,164 @@ html[data-flavor-scheme="dark"] body.flavor-skin-fast-food {
 .flavor-skin-fast-food .flavor-intro .flavor-section-header__title { color: #f7f1e5; }
 .flavor-skin-fast-food .flavor-intro .flavor-section-header__desc { color: #d8d0be; }
 .flavor-skin-fast-food .flavor-footer__contact-item a { color: #ffc928; }
+
+/* -------------------------------------------------------------
+ * Night pass 2: the yellow topbar and phone chip carry --fast-black
+ * text (flipped to LIGHT ink at night), the intro band and the
+ * reservation band / offer badge paint their grounds with flipped
+ * tokens, so cream copy would sit on light grounds.
+ * Added by the prompt-58 night sweep (tests/ui/a11y.mjs renders
+ * every classic skin under the dark palette and measures pixels).
+ * ------------------------------------------------------------- */
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-topbar {
+	color: #171512;
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-header__phone {
+	color: #171512;
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-intro {
+	background: linear-gradient(rgba(23, 21, 18, 0.22), rgba(23, 21, 18, 0.22)), #cd2a14 !important;
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-res-banner {
+	background: #171512;
+	border-color: #171512;
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-res-banner__media::after {
+	background: linear-gradient(90deg, transparent, #171512);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-offer-banner__badge {
+	background: #171512;
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-topbar {
+		color: #171512;
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-header__phone {
+		color: #171512;
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-intro {
+		background: linear-gradient(rgba(23, 21, 18, 0.22), rgba(23, 21, 18, 0.22)), #cd2a14 !important;
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-res-banner {
+		background: #171512;
+		border-color: #171512;
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-res-banner__media::after {
+		background: linear-gradient(90deg, transparent, #171512);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-offer-banner__badge {
+		background: #171512;
+	}
+}
+
+/* -------------------------------------------------------------
+ * Night pass 3 (prompt-58 skin sweep): the neo-brutalist white card
+ * grounds flip to the audited night surface, the yellow chips keep their
+ * signature ground with pinned day-black copy, the warm-grey desc literal
+ * resolves through --flavor-muted, and the testimonials band stays the
+ * day black instead of flipping to the LIGHT night ink.
+ * ------------------------------------------------------------- */
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-food-card {
+	background: var(--flavor-surface);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-review-card {
+	background: var(--flavor-surface);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-food-card__cat-badge {
+	color: #171512;
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-section-header__tag {
+	color: #171512;
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-section-header__desc {
+	color: var(--flavor-muted);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-offer-banner {
+	color: #171512;
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-offer-banner__title,
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-offer-banner__desc {
+	color: #171512;
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-testimonials {
+	background: #171512 !important;
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-testimonials .flavor-section-header__title,
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-testimonials .flavor-section-header__desc {
+	color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-food-card {
+		background: var(--flavor-surface);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-review-card {
+		background: var(--flavor-surface);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-food-card__cat-badge {
+		color: #171512;
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-section-header__tag {
+		color: #171512;
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-section-header__desc {
+		color: var(--flavor-muted);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-offer-banner {
+		color: #171512;
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-offer-banner__title,
+html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-offer-banner__desc {
+		color: #171512;
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-testimonials {
+		background: #171512 !important;
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-testimonials .flavor-section-header__title,
+html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-testimonials .flavor-section-header__desc {
+		color: #fff;
+	}
+}
+
+/* -------------------------------------------------------------
+ * Night pass 4 (prompt-58 skin sweep, second measurement): the price
+ * chip and contact icons keep their yellow ground with pinned day-black
+ * copy, and the location card flips its white ground to the night surface.
+ * ------------------------------------------------------------- */
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-food-card__price {
+	color: #171512;
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-contact-row__icon {
+	color: #171512;
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-fast-food .flavor-hours-card {
+	background: var(--flavor-surface);
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-food-card__price {
+		color: #171512;
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-contact-row__icon {
+		color: #171512;
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-fast-food .flavor-hours-card {
+		background: var(--flavor-surface);
+	}
+}

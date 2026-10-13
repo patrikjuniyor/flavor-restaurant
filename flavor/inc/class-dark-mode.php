@@ -129,6 +129,19 @@ class Dark_Mode {
 
 		$action_ink = self::contrast( $primary, '#ffffff' ) >= self::contrast( $primary, '#000000' ) ? '#ffffff' : '#000000';
 
+		// Status hues double as copy colour on their own tint chips (the
+		// live-status pill, stock badges, notices). The night tints are dark
+		// mixes of the hue, so the day hues get the same HSL lift the brand
+		// colours get — prompt 58 measures the pairs on real pixels.
+		$success_bg = self::mix( '#16a34a', $surface, 0.72 );
+		$warning_bg = self::mix( '#d97706', $surface, 0.72 );
+		$danger_bg  = self::mix( '#dc2626', $surface, 0.72 );
+		$info_bg    = self::mix( '#0284c7', $surface, 0.72 );
+		$success    = self::ensure( self::ensure( '#16a34a', $success_bg, 4.5, true ), $surface_alt, 4.5, true );
+		$warning    = self::ensure( self::ensure( '#d97706', $warning_bg, 4.5, true ), $surface_alt, 4.5, true );
+		$danger     = self::ensure( self::ensure( '#dc2626', $danger_bg, 4.5, true ), $surface_alt, 4.5, true );
+		$info       = self::ensure( self::ensure( '#0284c7', $info_bg, 4.5, true ), $surface_alt, 4.5, true );
+
 		return array(
 			'bg'          => $bg,
 			'surface'     => $surface,
@@ -140,6 +153,14 @@ class Dark_Mode {
 			'accent'      => $accent,
 			'action_ink'  => $action_ink,
 			'theme_color' => $surface,
+			'success'     => $success,
+			'success_bg'  => $success_bg,
+			'warning'     => $warning,
+			'warning_bg'  => $warning_bg,
+			'danger'      => $danger,
+			'danger_bg'   => $danger_bg,
+			'info'        => $info,
+			'info_bg'     => $info_bg,
 		);
 	}
 
@@ -177,10 +198,14 @@ class Dark_Mode {
 			. '--flavor-shadow-xl:0 24px 48px rgba(0,0,0,0.55);'
 			. '--flavor-shadow-drawer:-12px 0 40px rgba(0,0,0,0.6);'
 			. '--flavor-shadow-modal:0 20px 60px rgba(0,0,0,0.7);'
-			. '--flavor-success-bg:' . self::mix( '#16a34a', $p['surface'], 0.72 ) . ';'
-			. '--flavor-warning-bg:' . self::mix( '#d97706', $p['surface'], 0.72 ) . ';'
-			. '--flavor-danger-bg:' . self::mix( '#dc2626', $p['surface'], 0.72 ) . ';'
-			. '--flavor-info-bg:' . self::mix( '#0284c7', $p['surface'], 0.72 ) . ';';
+			. '--flavor-success:' . $p['success'] . ';'
+			. '--flavor-success-bg:' . $p['success_bg'] . ';'
+			. '--flavor-warning:' . $p['warning'] . ';'
+			. '--flavor-warning-bg:' . $p['warning_bg'] . ';'
+			. '--flavor-danger:' . $p['danger'] . ';'
+			. '--flavor-danger-bg:' . $p['danger_bg'] . ';'
+			. '--flavor-info:' . $p['info'] . ';'
+			. '--flavor-info-bg:' . $p['info_bg'] . ';';
 
 		$dark = ':root[data-flavor-scheme="dark"], html[data-flavor-scheme="dark"] body{' . $declarations . '}';
 		$auto = '@media (prefers-color-scheme:dark){:root[data-flavor-scheme="auto"]{' . $declarations . '}html[data-flavor-scheme="auto"] body{' . $declarations . '}}';
@@ -210,8 +235,12 @@ class Dark_Mode {
 
 		// Runs before the first paint: without it a night-mode visitor sees a
 		// white flash on every navigation (the classic premium-theme complaint).
+		// The toggle persists through premium.js store(), which JSON-encodes the
+		// value; parse it tolerantly so the encoded choice (and a legacy raw one)
+		// both restore — a raw s==="dark" comparison silently dropped every
+		// stored night preference (prompt 58).
 		?>
-<script id="flavor-scheme-boot">(function(){try{var d=document.documentElement;if(d.hasAttribute("data-flavor-scheme-locked"))return;var s=localStorage.getItem("<?php echo esc_js( self::STORAGE_KEY ); ?>");if(s==="dark"||s==="light"){d.setAttribute("data-flavor-scheme",s);}}catch(e){}})();</script>
+<script id="flavor-scheme-boot">(function(){try{var d=document.documentElement;if(d.hasAttribute("data-flavor-scheme-locked"))return;var s=localStorage.getItem("<?php echo esc_js( self::STORAGE_KEY ); ?>");try{s=JSON.parse(s);}catch(e){}if(s==="dark"||s==="light"){d.setAttribute("data-flavor-scheme",s);}}catch(e){}})();</script>
 		<?php
 	}
 

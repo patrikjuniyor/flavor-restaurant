@@ -18,7 +18,9 @@
  * Writes <outdir>/page-<slug>.html for every surface (RTL, the shipped
  * default) plus the LTR twin of each page under <outdir>/ltr/ — the pair
  * the elementor-visual.mjs twin sweep drives in both directions (prompt
- * 57). The .mjs guard serves these pages plus /assets/** and
+ * 57) and the night twin of each RTL page under <outdir>/dark/ — the same
+ * surfaces under the generated dark palette (prompt 58). The .mjs guard serves
+ * these pages plus /assets/** and
  * /themes/flavor/** and drives them in Chromium with @axe-core/playwright.
  *
  * Any PHP warning/notice in the build output fails the guard (same contract
@@ -106,7 +108,14 @@ if ( ! function_exists( 'get_footer' ) ) {
 if ( ! function_exists( 'language_attributes' ) ) {
 	/* The direction currently being rendered; the twin sweep (prompt 57)
 	   renders every surface once as shipped RTL and once as its LTR twin. */
-	function language_attributes(): void { echo 'dir="' . ( $GLOBALS['_a11y_dir'] ?? 'rtl' ) . '" lang="fa-IR"'; }
+	function language_attributes(): void {
+		echo 'dir="' . ( $GLOBALS['_a11y_dir'] ?? 'rtl' ) . '" lang="fa-IR"';
+		if ( 'dark' === ( $GLOBALS['_a11y_scheme'] ?? 'light' ) ) {
+			/* Dark_Mode::html_attributes() appends the state to the real
+			   language_attributes() output; the night twin echoes the same. */
+			echo ' data-flavor-scheme="dark"';
+		}
+	}
 }
 if ( ! function_exists( 'body_class' ) ) {
 	function body_class( $class = '' ): void {
@@ -285,7 +294,7 @@ function flavor_a11y_head_assets(): string {
 		'premium.css',
 		'dark-mode.css',
 		'search.css',
-		'skins/modern-restaurant.css',
+		'skins/' . $GLOBALS['_a11y_skin'] . '.css',
 		'motion.css',
 	);
 	/* rtl.css ships only for RTL locales — class-enqueue.php gates it on
@@ -324,14 +333,24 @@ function flavor_a11y_head_assets(): string {
 	if ( class_exists( '\\Flavor\\UI' ) ) {
 		$html .= "<style id=\"flavor-ui-vars\">\n" . \Flavor\UI::variables() . "\n</style>\n";
 	}
+	/* The night twin carries the generated palette exactly where the live
+	   wp_head prints it (prompt 58). */
+	if ( 'dark' === ( $GLOBALS['_a11y_scheme'] ?? 'light' ) ) {
+		$html .= "<style id=\"flavor-night-palette\">\n" . \Flavor\Dark_Mode::css() . "\n</style>\n";
+	}
 	return $html;
 }
+
+/* Prompt 58: the a11y dark sweep renders the classic skin set — A11Y_SKIN
+   picks the skin the fixtures dress the pages in. Tokens, night palette and
+   the skin sheet all follow the same value. */
+$GLOBALS['_a11y_skin'] = getenv( 'A11Y_SKIN' ) ?: 'modern-restaurant';
 
 /* ------------------------------------------------------------------ */
 /*  Seed the fixture site                                              */
 /* ------------------------------------------------------------------ */
 
-$GLOBALS['_mock_theme_mods']['flavor_skin']                     = 'modern-restaurant';
+$GLOBALS['_mock_theme_mods']['flavor_skin']                     = $GLOBALS['_a11y_skin'];
 $GLOBALS['_mock_theme_mods']['flavor_free_delivery_threshold']  = 250000;
 $GLOBALS['_mock_theme_mods']['flavor_offer_deadline']           = date( 'Y-m-d H:i:s', time() + 5400 );
 /* The contact e-mail gates the prompt-53 message form on the contact page. */
@@ -404,10 +423,15 @@ $failed = 0;
    shipped RTL default and once as its LTR twin under ltr/. Content and locale
    stay Persian in both, so the only variable is the dir attribute (and the
    conditional rtl.css that follows it). elementor-visual.mjs sweeps the pair
-   and fails when direction-bound pieces do not mirror. */
-foreach ( array( 'rtl', 'ltr' ) as $dir ) {
-	$GLOBALS['_a11y_dir'] = $dir;
-	$dir_out              = 'rtl' === $dir ? $outdir : $outdir . '/ltr';
+	   and fails when direction-bound pieces do not mirror. The night pass
+   (prompt 58) renders the shipped RTL document a second time under the
+   generated dark palette in dark/, so a11y.mjs measures the same surfaces
+   by night; the LTR twin stays light-only to keep the matrix slim. */
+foreach ( array( 'rtl/light', 'ltr/light', 'rtl/dark' ) as $pass ) {
+	list( $dir, $scheme ) = explode( '/', $pass );
+	$GLOBALS['_a11y_dir']    = $dir;
+	$GLOBALS['_a11y_scheme'] = $scheme;
+	$dir_out                 = $outdir . ( 'ltr' === $dir ? '/ltr' : '' ) . ( 'dark' === $scheme ? '/dark' : '' );
 	if ( ! is_dir( $dir_out ) && ! mkdir( $dir_out, 0777, true ) ) {
 		fwrite( STDERR, "cannot create {$dir_out}\n" );
 		exit( 1 );
@@ -416,7 +440,7 @@ foreach ( array( 'rtl', 'ltr' ) as $dir ) {
 		$GLOBALS['_a11y_page'] = $slug;
 		$path                  = FLAVOR_DIR . '/' . $relative;
 		if ( ! is_readable( $path ) ) {
-			echo str_pad( $slug, 14 ) . " [{$dir}] page:absent — {$relative}\n";
+			echo str_pad( $slug, 14 ) . " [{$dir}/{$scheme}] page:absent — {$relative}\n";
 			++$failed;
 			continue;
 		}
@@ -426,7 +450,7 @@ foreach ( array( 'rtl', 'ltr' ) as $dir ) {
 			$html = (string) ob_get_clean();
 		} catch ( \Throwable $e ) {
 			ob_end_clean();
-			echo str_pad( $slug, 14 ) . " [{$dir}] page:error — " . get_class( $e ) . ': ' . $e->getMessage() . ' @ ' . basename( $e->getFile() ) . ':' . $e->getLine() . "\n";
+			echo str_pad( $slug, 14 ) . " [{$dir}/{$scheme}] page:error — " . get_class( $e ) . ': ' . $e->getMessage() . ' @ ' . basename( $e->getFile() ) . ':' . $e->getLine() . "\n";
 			++$failed;
 			continue;
 		}
@@ -444,13 +468,13 @@ foreach ( array( 'rtl', 'ltr' ) as $dir ) {
 		);
 
 		if ( false === strpos( $html, '<!DOCTYPE' ) ) {
-			echo str_pad( $slug, 14 ) . " [{$dir}] page:error — the template did not render a full document\n";
+			echo str_pad( $slug, 14 ) . " [{$dir}/{$scheme}] page:error — the template did not render a full document\n";
 			++$failed;
 			continue;
 		}
 
 		file_put_contents( $dir_out . '/page-' . $slug . '.html', $html );
-		echo str_pad( $slug, 14 ) . " [{$dir}] page:ok " . strlen( $html ) . " bytes\n";
+		echo str_pad( $slug, 14 ) . " [{$dir}/{$scheme}] page:ok " . strlen( $html ) . " bytes\n";
 	}
 
 }

@@ -48,7 +48,10 @@
 .flavor-ui fieldset{min-width:0;border:0;padding:0;margin:0 0 24px}
 .flavor-ui fieldset legend{font-size:13px;font-weight:650;margin-bottom:14px}
 .flavor-ui .flavor-ui-required{font-size:12px;font-weight:400;color:var(--ui-muted)}
-.flavor-ui .flavor-ui-text-link{display:inline-flex;align-items:center;gap:7px;min-height:44px;color:var(--flavor-ink);font-size:12px;text-decoration:underline;text-underline-offset:5px}
+/* prompt 58: a <button> text link inherits the UA buttonface ground — a faint
+   grey box by day and a mid-grey (#6b6b6b) slab under color-scheme:dark that
+   drops night ink to 4.35:1. Text links are transparent by definition. */
+.flavor-ui .flavor-ui-text-link{display:inline-flex;align-items:center;gap:7px;min-height:44px;background:transparent;color:var(--flavor-ink);font-size:12px;text-decoration:underline;text-underline-offset:5px}
 .flavor-ui .flavor-ui-divider{border:0;border-top:1px solid var(--flavor-line);margin-block:24px}
 .flavor-ui .flavor-ui-grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
 .flavor-ui .flavor-ui-field-error{color:#852f24;background:#fff2ee;border-radius:4px;font-size:12px;padding:4px 8px}

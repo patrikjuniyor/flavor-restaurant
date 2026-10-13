@@ -895,3 +895,88 @@ html[data-flavor-scheme="dark"] body.flavor-skin-persian-traditional {
 .flavor-skin-persian-traditional .flavor-intro .flavor-section-header__title { color: #fff6e5; }
 .flavor-skin-persian-traditional .flavor-intro .flavor-section-header__desc { color: #cfc3a8; }
 .flavor-skin-persian-traditional .flavor-footer__contact-item a { color: #e8c77e; }
+
+/* -------------------------------------------------------------
+ * Night pass: cream veil, umber nav literal, and the turquoise /
+ * wine brand+phone literals never flip to the night palette.
+ * Added by the prompt-58 night sweep (tests/ui/a11y.mjs renders
+ * every classic skin under the dark palette and measures pixels).
+ * ------------------------------------------------------------- */
+html[data-flavor-scheme="dark"] body.flavor-skin-persian-traditional .flavor-header {
+	background: var(--flavor-surface);
+	background: color-mix(in srgb, var(--flavor-surface) 96%, transparent);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-persian-traditional .flavor-nav a {
+	color: var(--flavor-muted);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-persian-traditional .flavor-header__phone {
+	color: var(--flavor-ink);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-persian-traditional .flavor-brand__name {
+	color: var(--flavor-ink);
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] body.flavor-skin-persian-traditional .flavor-header {
+		background: var(--flavor-surface);
+		background: color-mix(in srgb, var(--flavor-surface) 96%, transparent);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-persian-traditional .flavor-nav a {
+		color: var(--flavor-muted);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-persian-traditional .flavor-header__phone {
+		color: var(--flavor-ink);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-persian-traditional .flavor-brand__name {
+		color: var(--flavor-ink);
+	}
+}
+
+/* -------------------------------------------------------------
+ * Night pass 2 (prompt-58 skin sweep): the wine section titles and the
+ * turquoise price literal never flip; they resolve through the audited
+ * ink / primary. The intro band keeps its own cream copy (counter-pin).
+ * ------------------------------------------------------------- */
+html[data-flavor-scheme="dark"] body.flavor-skin-persian-traditional .flavor-section-header__title,
+html[data-flavor-scheme="dark"] body.flavor-skin-persian-traditional .flavor-about__title {
+	color: var(--flavor-ink);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-persian-traditional .flavor-intro .flavor-section-header__title {
+	color: #fff6e5;
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-persian-traditional .flavor-food-card__price {
+	color: var(--flavor-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] body.flavor-skin-persian-traditional .flavor-section-header__title,
+html[data-flavor-scheme="auto"] body.flavor-skin-persian-traditional .flavor-about__title {
+		color: var(--flavor-ink);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-persian-traditional .flavor-intro .flavor-section-header__title {
+		color: #fff6e5;
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-persian-traditional .flavor-food-card__price {
+		color: var(--flavor-primary);
+	}
+}
+
+/* -------------------------------------------------------------
+ * Night pass 3 (prompt-58 skin sweep, second measurement): the seal
+ * badge keeps its wine ground (unflipped), so its copy cannot ride the
+ * primary-matched action ink — pin the day cream instead.
+ * ------------------------------------------------------------- */
+html[data-flavor-scheme="dark"] body.flavor-skin-persian-traditional .flavor-about__exp-badge {
+	color: #fff6e5;
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] body.flavor-skin-persian-traditional .flavor-about__exp-badge {
+		color: #fff6e5;
+	}
+}

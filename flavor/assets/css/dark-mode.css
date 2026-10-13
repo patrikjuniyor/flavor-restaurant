@@ -155,3 +155,49 @@ html[data-flavor-scheme="dark"] .flavor-ui .woocommerce .woocommerce-error {
 		color: #ffd8d2;
 	}
 }
+
+/* An uploaded logo is usually dark artwork on a transparent ground — it
+   vanishes into the night header. Give every custom-logo link a light chip
+   under the night scheme; a light logo reads as a deliberate badge on it.
+   Text brands carry no .custom-logo-link, so they are untouched. */
+html[data-flavor-scheme="dark"] .custom-logo-link {
+	background: #f6f3ee;
+	border-radius: var(--flavor-btn-radius, 10px);
+	padding: 4px 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] .custom-logo-link {
+		background: #f6f3ee;
+		border-radius: var(--flavor-btn-radius, 10px);
+		padding: 4px 10px;
+	}
+}
+
+/* The offer coupon hard-codes a white ground in marketing.css — under the
+   night scheme it would float as a bright box with night-ink copy. Resolve
+   it through the audited surface-alt chip instead; the dashed border and
+   the primary-coloured code keep riding the palette. */
+html[data-flavor-scheme="dark"] .flavor-offer-coupon {
+	background: var(--flavor-surface-alt);
+}
+
+/* Skins may pin the body canvas to their own art-direction tokens
+   (body.flavor-skin-* { background: ... }) and a few of those tokens are
+   raw literals the palette never sees. The night canvas always resolves
+   through the audited --flavor-bg; specificity (html + attr + body) beats
+   every skin body rule, and background-color leaves any skin background
+   image intact. */
+html[data-flavor-scheme="dark"] body {
+	background-color: var(--flavor-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] .flavor-offer-coupon {
+		background: var(--flavor-surface-alt);
+	}
+
+	html[data-flavor-scheme="auto"] body {
+		background-color: var(--flavor-bg);
+	}
+}

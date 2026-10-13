@@ -782,3 +782,52 @@ html[data-flavor-scheme="dark"] body.flavor-skin-pizza-italian {
 .flavor-skin-pizza-italian .flavor-intro .flavor-section-header__title { color: #fff9ee; }
 .flavor-skin-pizza-italian .flavor-intro .flavor-section-header__desc { color: #d8ccb6; }
 .flavor-skin-pizza-italian .flavor-footer__contact-item a { color: #f1bf73; }
+
+/* -------------------------------------------------------------
+ * Night pass: cream veil, brown nav literal, the green phone and
+ * brand literals never flip, and the food-card gradient hard-codes a
+ * cream stop (#f1e5d0) beside the flipped --italy-paper.
+ * Added by the prompt-58 night sweep (tests/ui/a11y.mjs renders
+ * every classic skin under the dark palette and measures pixels).
+ * ------------------------------------------------------------- */
+html[data-flavor-scheme="dark"] body.flavor-skin-pizza-italian .flavor-header {
+	background: var(--flavor-surface);
+	background: color-mix(in srgb, var(--flavor-surface) 94%, transparent);
+	border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-pizza-italian .flavor-nav a {
+	color: var(--flavor-muted);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-pizza-italian .flavor-header__phone {
+	color: var(--flavor-ink);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-pizza-italian .flavor-brand__name {
+	color: var(--flavor-ink);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-pizza-italian .flavor-food-card {
+	background: var(--flavor-surface);
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] body.flavor-skin-pizza-italian .flavor-header {
+		background: var(--flavor-surface);
+		background: color-mix(in srgb, var(--flavor-surface) 94%, transparent);
+		border-bottom-color: rgba(255, 255, 255, 0.08);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-pizza-italian .flavor-nav a {
+		color: var(--flavor-muted);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-pizza-italian .flavor-header__phone {
+		color: var(--flavor-ink);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-pizza-italian .flavor-brand__name {
+		color: var(--flavor-ink);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-pizza-italian .flavor-food-card {
+		background: var(--flavor-surface);
+	}
+}

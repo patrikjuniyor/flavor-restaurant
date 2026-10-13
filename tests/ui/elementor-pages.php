@@ -197,6 +197,16 @@ function assemble_page( string $slug, string $scheme, string $body, string $dir 
 	);
 	$tokens = \Flavor\Design::css_variables();
 	$dark   = 'dark' === $scheme ? "\n<style id=\"flavor-dark-mode\">\n" . \Flavor\Dark_Mode::css() . "\n</style>\n" : '';
+	/* The direction probe doubles as the scheme-mechanism subject (prompt
+	   58): it carries the full night head — palette, theme-color meta and
+	   the pre-paint boot script — so the guard can toggle the scheme,
+	   reload and watch the stored choice come back. */
+	$night = '';
+	if ( 'states-direction' === $slug ) {
+		ob_start();
+		\Flavor\Dark_Mode::head();
+		$night = (string) ob_get_clean();
+	}
 	/* rtl.css ships only for RTL locales — class-enqueue.php gates it on
 	   is_rtl(). The LTR twin must not load it: its body-level direction:rtl
 	   would override the document's dir attribute. */
@@ -228,7 +238,7 @@ function assemble_page( string $slug, string $scheme, string $body, string $dir 
 		. '<link rel="stylesheet" href="/assets/css/motion.css" />' . "\n"
 		. '<link rel="stylesheet" href="/assets/css/elementor-widgets.css" />' . "\n"
 		. $extra
-		. "<style id=\"flavor-tokens\">\n{$tokens}\n</style>\n{$dark}"
+		. "<style id=\"flavor-tokens\">\n{$tokens}\n</style>\n{$dark}{$night}"
 		. "<style id=\"elementor-layout-shim\">\n" . page_shim() . "\n</style>\n"
 		. "</head>\n<body class=\"flavor-theme flavor-skin-modern-restaurant elementor-page\">\n"
 		. "<div class=\"elementor elementor-frontend\" data-elementor-type=\"wp-page\">\n{$body}\n</div>\n"
@@ -362,6 +372,7 @@ ob_start();
 		<a class="flavor-btn" href="#twin"><?php \Flavor\UI::icon( 'arrow', 18 ); ?><span>همهٔ سفارش‌ها</span></a>
 		<a class="fd-button fd-button--primary" href="#twin">رزرو میز<?php \Flavor\Bespoke_Demos::icon( 'arrow', 19 ); ?></a>
 	</p>
+	<p class="flavor-scheme-row"><?php \Flavor\Dark_Mode::toggle( 'header' ); ?></p>
 	<p class="flavor-anim-enter" data-flavor-anim="start">ورود از لبهٔ خوانش</p>
 	<p class="flavor-anim-enter" data-flavor-anim="end">ورود از لبهٔ مقابل</p>
 	<div class="flavor-hero__media" style="height:120px;background:#ddd"></div>

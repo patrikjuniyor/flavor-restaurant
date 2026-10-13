@@ -704,3 +704,37 @@ html[data-flavor-scheme="dark"] body.flavor-skin-bakery-pastry {
 .flavor-skin-bakery-pastry .flavor-intro .flavor-section-header__title { color: #fbf3ee; }
 .flavor-skin-bakery-pastry .flavor-intro .flavor-section-header__desc { color: #ddcdc4; }
 .flavor-skin-bakery-pastry .flavor-footer__contact-item a { color: #efb8c4; }
+
+/* -------------------------------------------------------------
+ * Night pass: cream veil, plum nav literal and the pistachio phone
+ * literal stay day-side after the token flip.
+ * Added by the prompt-58 night sweep (tests/ui/a11y.mjs renders
+ * every classic skin under the dark palette and measures pixels).
+ * ------------------------------------------------------------- */
+html[data-flavor-scheme="dark"] body.flavor-skin-bakery-pastry .flavor-header {
+	background: var(--flavor-surface);
+	background: color-mix(in srgb, var(--flavor-surface) 94%, transparent);
+	border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-bakery-pastry .flavor-nav a {
+	color: var(--flavor-muted);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-bakery-pastry .flavor-header__phone {
+	color: var(--flavor-ink);
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] body.flavor-skin-bakery-pastry .flavor-header {
+		background: var(--flavor-surface);
+		background: color-mix(in srgb, var(--flavor-surface) 94%, transparent);
+		border-bottom-color: rgba(255, 255, 255, 0.08);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-bakery-pastry .flavor-nav a {
+		color: var(--flavor-muted);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-bakery-pastry .flavor-header__phone {
+		color: var(--flavor-ink);
+	}
+}

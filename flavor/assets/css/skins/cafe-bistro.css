@@ -864,3 +864,37 @@ html[data-flavor-scheme="dark"] body.flavor-skin-cafe-bistro {
 .flavor-skin-cafe-bistro .flavor-intro .flavor-section-header__title { color: #f7f1e3; }
 .flavor-skin-cafe-bistro .flavor-intro .flavor-section-header__desc { color: #d3c8b4; }
 .flavor-skin-cafe-bistro .flavor-footer__contact-item a { color: #d9b384; }
+
+/* -------------------------------------------------------------
+ * Night pass: the cream header veil and the soft-brown nav /
+ * olive phone literals stay day-side after the token flip.
+ * Added by the prompt-58 night sweep (tests/ui/a11y.mjs renders
+ * every classic skin under the dark palette and measures pixels).
+ * ------------------------------------------------------------- */
+html[data-flavor-scheme="dark"] body.flavor-skin-cafe-bistro .flavor-header {
+	background: var(--flavor-surface);
+	background: color-mix(in srgb, var(--flavor-surface) 92%, transparent);
+	border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-cafe-bistro .flavor-nav a {
+	color: var(--flavor-muted);
+}
+
+html[data-flavor-scheme="dark"] body.flavor-skin-cafe-bistro .flavor-header__phone {
+	color: var(--flavor-ink);
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-flavor-scheme="auto"] body.flavor-skin-cafe-bistro .flavor-header {
+		background: var(--flavor-surface);
+		background: color-mix(in srgb, var(--flavor-surface) 92%, transparent);
+		border-bottom-color: rgba(255, 255, 255, 0.08);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-cafe-bistro .flavor-nav a {
+		color: var(--flavor-muted);
+	}
+	html[data-flavor-scheme="auto"] body.flavor-skin-cafe-bistro .flavor-header__phone {
+		color: var(--flavor-ink);
+	}
+}
