@@ -375,6 +375,17 @@ exec( 'php ' . escapeshellarg( $e2e ) . ' > /dev/null 2>&1', $discard, $rc );
 check( 0 === $rc, 'run-e2e-integration.php exits 0' );
 $e2e_passed = preg_match( '/SUMMARY: (\d+)\/(\d+) PASSED \((\d+) FAILED\)/', $out, $m ) ? (int) $m[1] : 0;
 $e2e_failed = isset( $m[3] ) ? (int) $m[3] : -1;
+if ( $e2e_failed > 0 ) {
+	/* Observed once on a loaded CI runner: this capture came back 80/81 while
+	   the twin exec() run two seconds later — and every local run, and the
+	   other matrix legs — stayed 81/81. Name the failing check so the log
+	   identifies a load-sensitive assertion instead of only counting it. */
+	foreach ( explode( "\n", $out ) as $e2e_line ) {
+		if ( false !== strpos( $e2e_line, '[FAIL]' ) ) {
+			echo '    e2e said: ' . trim( $e2e_line ) . "\n";
+		}
+	}
+}
 check( 0 === $e2e_failed, 'the e2e summary reports zero failures (' . $e2e_failed . ')' );
 check( $e2e_passed >= 81, 'e2e volume floor: ≥81 passing checks (now ' . $e2e_passed . ')' );
 
