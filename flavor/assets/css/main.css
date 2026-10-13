@@ -808,6 +808,58 @@ body.flavor-theme::-webkit-scrollbar-thumb:hover {
 	}
 }
 
+/* --------------------------------------------------------------------------
+   High-contrast preference (prompt 56).
+
+   Visitors whose system asks for more contrast get hard edges instead of
+   hairlines and full-ink helper text instead of muted tones. Brand hues
+   stay intact: the stronger line colour is derived from the skin's own
+   tokens with color-mix, so all twelve presets sharpen inside their own
+   palette (worst derived line clears 3:1 against its background in both
+   schemes — tests/theme/test-prefers.php recomputes it per skin).
+   The !important flags mirror the reduced-motion kill switch above: a
+   user preference has to outrank every skin stylesheet in the cascade,
+   and the skins load after this file. Browsers without color-mix fall
+   back to currentColor borders through the invalid-at-computed-value
+   path — still a stronger edge, never a broken one.
+   -------------------------------------------------------------------------- */
+@media (prefers-contrast: more) {
+	body.flavor-theme {
+		--flavor-line-strong: color-mix(in srgb, var(--flavor-ink) 55%, var(--flavor-bg));
+	}
+
+	body.flavor-theme .flavor-card,
+	body.flavor-theme .flavor-ui-panel,
+	body.flavor-theme .flavor-cart__dialog,
+	body.flavor-theme .flavor-sheet__panel,
+	body.flavor-theme .flavor-header,
+	body.flavor-theme .flavor-ui-tag,
+	body.flavor-theme .flavor-btn--outline,
+	body.flavor-theme input,
+	body.flavor-theme select,
+	body.flavor-theme textarea {
+		border-color: var(--flavor-line-strong) !important;
+	}
+
+	body.flavor-theme input,
+	body.flavor-theme select,
+	body.flavor-theme textarea {
+		border-width: 2px !important;
+	}
+
+	body.flavor-theme .flavor-ui-note,
+	body.flavor-theme .flavor-ui-hint,
+	body.flavor-theme .flavor-ui-overline,
+	body.flavor-theme .flavor-food-card__desc {
+		color: var(--flavor-ink) !important;
+	}
+
+	body.flavor-theme :focus-visible {
+		outline-width: 3px !important;
+		outline-offset: 2px !important;
+	}
+}
+
 /* ---------------------------------------------------------------------------
    Per-page options (flavor/inc/class-page-options.php)
 
