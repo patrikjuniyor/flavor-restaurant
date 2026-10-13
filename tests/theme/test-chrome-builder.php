@@ -836,7 +836,10 @@ check( 0 === $columns->sanitize( '9' ), 'An out-of-range column count returns to
 
 $colour = $manager->settings['flavor_header_bg'];
 check( '#0a0a0a' === $colour->sanitize( '#0a0a0a' ), 'A valid colour is stored' );
-check( '' === $colour->sanitize( 'red' ), 'A named colour is rejected' );
+// Production truth (prompt 50): real sanitize_hex_color() returns NULL for an
+// invalid colour, and WP_Customize_Setting treats null as "invalid — keep the
+// stored value". The old mock returned '' and this pin copied that lie.
+check( null === $colour->sanitize( 'red' ), 'A named colour is rejected with null so the Customizer keeps the stored value' );
 
 echo "\n--- 9. Assets load only where they are needed ---\n";
 
