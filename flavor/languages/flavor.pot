@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-14 00:05+00:00\n"
+"POT-Creation-Date: 2026-10-14 17:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
@@ -818,7 +818,7 @@ msgstr ""
 msgid "این سایت برای کارکرد درست سبد سفارش و ورود مشتری از حافظهٔ مرورگر استفاده می‌کند. با ادامهٔ بازدید، همین حالت ضروری را می‌پذیرید."
 msgstr ""
 
-#: flavor/inc/template-tags.php:207
+#: flavor/inc/template-tags.php:213
 msgid "اینستاگرام"
 msgstr ""
 
@@ -1673,7 +1673,7 @@ msgstr ""
 msgid "تلفن پشتیبانی و سفارش تلفنی:"
 msgstr ""
 
-#: flavor/inc/template-tags.php:212
+#: flavor/inc/template-tags.php:218
 msgid "تلگرام"
 msgstr ""
 
@@ -2143,7 +2143,7 @@ msgstr ""
 msgid "خاموش کردنش جای بیشتری برای محتوا روی گوشی می‌گذارد."
 msgstr ""
 
-#: flavor/inc/class-onboarding.php:847 flavor/inc/class-schema-output.php:180 flavor/inc/class-ui-pages.php:112 flavor/inc/template-tags.php:177 flavor/page-templates/template-menu.php:13 flavor/page-templates/template-order-tracking.php:9 flavor/template-parts/ui/mobile-nav.php:23
+#: flavor/inc/class-onboarding.php:847 flavor/inc/class-schema-output.php:180 flavor/inc/class-ui-pages.php:112 flavor/inc/template-tags.php:183 flavor/page-templates/template-menu.php:13 flavor/page-templates/template-order-tracking.php:9 flavor/template-parts/ui/mobile-nav.php:23
 msgid "خانه"
 msgstr ""
 
@@ -2683,7 +2683,7 @@ msgstr ""
 msgid "رزرو سالن"
 msgstr ""
 
-#: flavor/elementor/widgets/class-reservation-widget.php:59 flavor/elementor/widgets/class-reservation-widget.php:90 flavor/inc/class-block-patterns.php:169 flavor/inc/class-block-patterns.php:247 flavor/inc/class-builder.php:384 flavor/inc/class-builder.php:407 flavor/inc/class-customizer.php:842 flavor/inc/class-onboarding.php:857 flavor/inc/template-tags.php:184 flavor/template-parts/ui/mobile-nav.php:9
+#: flavor/elementor/widgets/class-reservation-widget.php:59 flavor/elementor/widgets/class-reservation-widget.php:90 flavor/inc/class-block-patterns.php:169 flavor/inc/class-block-patterns.php:247 flavor/inc/class-builder.php:384 flavor/inc/class-builder.php:407 flavor/inc/class-customizer.php:842 flavor/inc/class-onboarding.php:857 flavor/inc/template-tags.php:190 flavor/template-parts/ui/mobile-nav.php:9
 msgid "رزرو میز"
 msgstr ""
 
@@ -3427,7 +3427,7 @@ msgstr ""
 msgid "شعبهٔ پیش‌فرض: %s"
 msgstr ""
 
-#: flavor/inc/class-demo-importer.php:333 flavor/inc/class-launch-center.php:136 flavor/inc/class-onboarding.php:862 flavor/inc/template-tags.php:188 flavor/template-parts/branch/branch-selector.php:18
+#: flavor/inc/class-demo-importer.php:333 flavor/inc/class-launch-center.php:136 flavor/inc/class-onboarding.php:862 flavor/inc/template-tags.php:194 flavor/template-parts/branch/branch-selector.php:18
 #. %s values. */
 msgid "شعبه‌ها"
 msgstr ""
@@ -4571,7 +4571,7 @@ msgstr ""
 msgid "منوی سفارش آنلاین"
 msgstr ""
 
-#: flavor/inc/class-onboarding.php:852 flavor/inc/template-tags.php:180
+#: flavor/inc/class-onboarding.php:852 flavor/inc/template-tags.php:186
 msgid "منوی غذا"
 msgstr ""
 
@@ -5418,7 +5418,7 @@ msgstr ""
 msgid "هیچ متنی برای این بنر تنظیم نشده است؛ عنوان، توضیح یا کد تخفیف را در تنظیماتِ ویجت وارد کنید."
 msgstr ""
 
-#: flavor/inc/template-tags.php:217
+#: flavor/inc/template-tags.php:223
 msgid "واتس‌اپ"
 msgstr ""
 

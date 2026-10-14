@@ -92,13 +92,13 @@ function flavor_attachment_id_from_url( string $url ): int {
 		return (int) $cached;
 	}
 
-	$id = attachment_url_to_postid( $url );
+	$id = function_exists( 'attachment_url_to_postid' ) ? attachment_url_to_postid( $url ) : 0;
 
 	if ( ! $id ) {
 		// A resized URL (…-1600x900.jpg) never matches; try the original.
 		$original = preg_replace( '/-\d+x\d+(\.[a-zA-Z0-9]+)$/', '$1', $url );
 		if ( $original && $original !== $url ) {
-			$id = attachment_url_to_postid( $original );
+			$id = function_exists( 'attachment_url_to_postid' ) ? attachment_url_to_postid( $original ) : 0;
 		}
 	}
 
@@ -134,6 +134,12 @@ function flavor_responsive_image( string $url, string $size = 'full', array $att
 
 		$image = wp_get_attachment_image( $id, $size, false, $attachment_attr );
 		if ( $image ) {
+			if ( ! empty( $attr['fetchpriority'] ) && false === strpos( $image, 'fetchpriority=' ) ) {
+				$image = preg_replace( '/<img\s+/i', '<img fetchpriority="' . esc_attr( (string) $attr['fetchpriority'] ) . '" ', $image, 1 );
+			}
+			if ( isset( $attr['loading'] ) && 'eager' === $attr['loading'] ) {
+				$image = preg_replace( '/\s+loading=["\']lazy["\']/i', ' loading="eager"', $image );
+			}
 			return $image;
 		}
 	}

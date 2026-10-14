@@ -666,7 +666,10 @@ $payload['reservationBranchIds'][] = (int) $branch_id; }
 	 * @param string $context Context.
 	 */
 	public static function keep_hero_eager( bool $default, string $tag, string $context ): bool {
-		unset( $tag, $context );
+		unset( $context );
+		if ( false !== stripos( $tag, 'hero' ) ) {
+			return false;
+		}
 		return $default;
 	}
 

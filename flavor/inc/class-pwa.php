@@ -164,7 +164,16 @@ class PWA {
 			return;
 		}
 		$file = FLAVOR_DIR . '/assets/js/pwa-register.js';
-		wp_enqueue_script( 'flavor-pwa-register', FLAVOR_URI . '/assets/js/pwa-register.js', array(), (string) ( is_readable( $file ) ? filemtime( $file ) : '1' ), true );
+		wp_enqueue_script(
+			'flavor-pwa-register',
+			FLAVOR_URI . '/assets/js/pwa-register.js',
+			array(),
+			(string) ( is_readable( $file ) ? filemtime( $file ) : '1' ),
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
+		);
 		wp_localize_script(
 			'flavor-pwa-register',
 			'flavorPwa',

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flavor\n"
 "Report-Msgid-Bugs-To: https://github.com/patrikjuniyor/flavor-restaurant/issues\n"
-"PO-Revision-Date: 2026-10-14 00:06+0000\n"
+"PO-Revision-Date: 2026-10-14 17:42+0000\n"
 "Last-Translator: Flavor Translations\n"
 "Language-Team: Flavor Translations\n"
 "Language: ar\n"
@@ -825,7 +825,7 @@ msgstr "لم يُرسل هذا الملخص؛ السعة والتكلفة وشر
 msgid "این سایت برای کارکرد درست سبد سفارش و ورود مشتری از حافظهٔ مرورگر استفاده می‌کند. با ادامهٔ بازدید، همین حالت ضروری را می‌پذیرید."
 msgstr "يستخدم هذا الموقع ذاكرة المتصفح لعمل سلّة الطلب وتسجيل دخول العميل بشكل صحيح. بمتابعة الزيارة أنت توافق على هذا الاستخدام الضروري."
 
-#: flavor/inc/template-tags.php:207
+#: flavor/inc/template-tags.php:213
 msgid "اینستاگرام"
 msgstr "إنستغرام"
 
@@ -1680,7 +1680,7 @@ msgstr "الهاتف"
 msgid "تلفن پشتیبانی و سفارش تلفنی:"
 msgstr "هاتف الدعم والطلب الهاتفي:"
 
-#: flavor/inc/template-tags.php:212
+#: flavor/inc/template-tags.php:218
 msgid "تلگرام"
 msgstr "تيليغرام"
 
@@ -2154,7 +2154,7 @@ msgstr "اتركوه فارغاً ليُقرأ العد التنازلي للم�
 msgid "خاموش کردنش جای بیشتری برای محتوا روی گوشی می‌گذارد."
 msgstr "إيقافه يوفر مساحة أكبر للمحتوى على الهاتف."
 
-#: flavor/inc/class-onboarding.php:847 flavor/inc/class-schema-output.php:180 flavor/inc/class-ui-pages.php:112 flavor/inc/template-tags.php:177 flavor/page-templates/template-menu.php:13 flavor/page-templates/template-order-tracking.php:9 flavor/template-parts/ui/mobile-nav.php:23
+#: flavor/inc/class-onboarding.php:847 flavor/inc/class-schema-output.php:180 flavor/inc/class-ui-pages.php:112 flavor/inc/template-tags.php:183 flavor/page-templates/template-menu.php:13 flavor/page-templates/template-order-tracking.php:9 flavor/template-parts/ui/mobile-nav.php:23
 msgid "خانه"
 msgstr "الرئيسية"
 
@@ -2694,7 +2694,7 @@ msgstr "يُنصح بالحجز للمجموعات التي تزيد عن أرب
 msgid "رزرو سالن"
 msgstr "حجز القاعة"
 
-#: flavor/elementor/widgets/class-reservation-widget.php:59 flavor/elementor/widgets/class-reservation-widget.php:90 flavor/inc/class-block-patterns.php:169 flavor/inc/class-block-patterns.php:247 flavor/inc/class-builder.php:384 flavor/inc/class-builder.php:407 flavor/inc/class-customizer.php:842 flavor/inc/class-onboarding.php:857 flavor/inc/template-tags.php:184 flavor/template-parts/ui/mobile-nav.php:9
+#: flavor/elementor/widgets/class-reservation-widget.php:59 flavor/elementor/widgets/class-reservation-widget.php:90 flavor/inc/class-block-patterns.php:169 flavor/inc/class-block-patterns.php:247 flavor/inc/class-builder.php:384 flavor/inc/class-builder.php:407 flavor/inc/class-customizer.php:842 flavor/inc/class-onboarding.php:857 flavor/inc/template-tags.php:190 flavor/template-parts/ui/mobile-nav.php:9
 msgid "رزرو میز"
 msgstr "حجز طاولة"
 
@@ -3438,7 +3438,7 @@ msgstr "الفرع الرئيسي مفعّل مع العنوان والمدين�
 msgid "شعبهٔ پیش‌فرض: %s"
 msgstr "الفرع الافتراضي: %s"
 
-#: flavor/inc/class-demo-importer.php:333 flavor/inc/class-launch-center.php:136 flavor/inc/class-onboarding.php:862 flavor/inc/template-tags.php:188 flavor/template-parts/branch/branch-selector.php:18
+#: flavor/inc/class-demo-importer.php:333 flavor/inc/class-launch-center.php:136 flavor/inc/class-onboarding.php:862 flavor/inc/template-tags.php:194 flavor/template-parts/branch/branch-selector.php:18
 #. %s values. */
 msgid "شعبه‌ها"
 msgstr "الفروع"
@@ -4582,7 +4582,7 @@ msgstr "قائمة المطعم"
 msgid "منوی سفارش آنلاین"
 msgstr "قائمة الطلب الإلكتروني"
 
-#: flavor/inc/class-onboarding.php:852 flavor/inc/template-tags.php:180
+#: flavor/inc/class-onboarding.php:852 flavor/inc/template-tags.php:186
 msgid "منوی غذا"
 msgstr "قائمة الطعام"
 
@@ -5429,7 +5429,7 @@ msgstr "لم يُعرَّف أي فرع. أنشئ فرعاً أولاً في إ�
 msgid "هیچ متنی برای این بنر تنظیم نشده است؛ عنوان، توضیح یا کد تخفیف را در تنظیماتِ ویجت وارد کنید."
 msgstr "لم يُضبط أي نص لهذا الشريط؛ أدخل العنوان أو الوصف أو رمز الخصم في إعدادات الأداة."
 
-#: flavor/inc/template-tags.php:217
+#: flavor/inc/template-tags.php:223
 msgid "واتس‌اپ"
 msgstr "واتساب"
 
