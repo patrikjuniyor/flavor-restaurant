@@ -224,6 +224,20 @@ html[dir="ltr"] .flavor-wish {
 	line-height: 2;
 }
 
+/* Prompt 59: the wishlist empty state follows the shared pattern —
+   icon, title, description, CTA — so the title reads in the normal
+   ink while the description stays muted. */
+.flavor-wish__empty h3 {
+	margin: 0;
+	font-size: 17px;
+	color: var(--flavor-ink);
+}
+
+.flavor-wish__empty p {
+	margin: 0;
+	max-width: 34ch;
+}
+
 .flavor-wish__item {
 	display: grid;
 	grid-template-columns: 64px 1fr auto;

@@ -23,6 +23,8 @@
 	var clearBtn = document.getElementById('flavor-search-clear');
 	var chips = document.getElementById('flavor-search-chips');
 	var grid = document.getElementById('flavor-menu-grid');
+	var retryRow = document.getElementById('flavor-search-retry-row');
+	var retryBtn = document.getElementById('flavor-search-retry');
 
 	if (!input || !panel || !list) {
 		return;
@@ -275,6 +277,9 @@
 
 	function run(query) {
 		lastQuery = query;
+		if (retryRow) {
+			retryRow.hidden = true;
+		}
 
 		if (cache[query]) {
 			render(cache[query], query);
@@ -298,6 +303,11 @@
 				busy(false);
 				list.innerHTML = '';
 				status.textContent = t('error', 'جست‌وجو ناموفق بود. دوباره تلاش کنید.');
+				/* prompt 59: the failure is a dead end unless one press can
+				   repeat the same query — the button label is server-side. */
+				if (retryRow) {
+					retryRow.hidden = false;
+				}
 				panel.hidden = false;
 			});
 	}
@@ -358,6 +368,14 @@
 	}
 
 	/* ------------------------------------------------------------- events */
+
+	if (retryBtn) {
+		retryBtn.addEventListener('click', function () {
+			if (lastQuery) {
+				run(lastQuery);
+			}
+		});
+	}
 
 	input.addEventListener('input', schedule);
 

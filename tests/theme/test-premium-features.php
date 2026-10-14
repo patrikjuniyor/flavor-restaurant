@@ -20,6 +20,7 @@ require_once __DIR__ . '/bootstrap.php';
 
 require_once FLAVOR_DIR . '/inc/class-design.php';
 require_once FLAVOR_DIR . '/inc/class-ui.php';
+require_once FLAVOR_DIR . '/inc/class-bespoke-demos.php';
 require_once FLAVOR_DIR . '/inc/class-dark-mode.php';
 require_once FLAVOR_DIR . '/inc/class-wishlist.php';
 require_once FLAVOR_DIR . '/inc/class-nav-mega.php';

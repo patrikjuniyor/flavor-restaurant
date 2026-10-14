@@ -13,8 +13,9 @@ public static function init(): void {
 	add_action( 'wp_enqueue_scripts', array( self::class, 'assets' ), 35 );
 	add_filter( 'gettext', array( self::class, 'persian_fallback' ), 20, 3 );
 	add_action( 'woocommerce_before_customer_login_form', array( self::class, 'login' ) );
-	add_action( 'woocommerce_account_dashboard', array( self::class, 'dashboard' ), 5 );
-	add_filter( 'woocommerce_account_menu_items', array( self::class, 'account_menu' ) );
+		add_action( 'woocommerce_account_dashboard', array( self::class, 'dashboard' ), 5 );
+		add_action( 'woocommerce_before_account_orders', array( self::class, 'orders_empty' ), 5 );
+		add_filter( 'woocommerce_account_menu_items', array( self::class, 'account_menu' ) );
 	add_action( 'woocommerce_view_order', array( self::class, 'receipt' ), 5 );
 	add_action( 'woocommerce_before_thankyou', array( self::class, 'receipt' ), 5 );
 }
@@ -96,6 +97,7 @@ return $translated; }
 		'Track' => 'پیگیری',
 		'Invalid order.' => 'سفارش نامعتبر است.',
 		'No order has been made yet.' => 'هنوز سفارشی به این حساب متصل نیست.',
+		'Browse products' => 'دیدن منو',
 		'Hello %1$s (not %1$s? <a href="%2$s">Log out</a>)' => 'سلام %1$s؛ شما نیستید؟ <a href="%2$s">خروج از حساب</a>',
 		'From your account dashboard you can view your <a href="%1$s">recent orders</a>, manage your <a href="%2$s">billing address</a>, and <a href="%3$s">edit your password and account details</a>.' => 'از این بخش <a href="%1$s">سفارش‌های حساب</a> را ببینید، <a href="%2$s">نشانی صورتحساب</a> را مدیریت کنید و <a href="%3$s">اطلاعات و رمز عبور</a> را تغییر دهید.',
 		'From your account dashboard you can view your <a href="%1$s">recent orders</a>, manage your <a href="%2$s">shipping and billing addresses</a>, and <a href="%3$s">edit your password and account details</a>.' => 'از این بخش <a href="%1$s">سفارش‌های حساب</a> را ببینید، <a href="%2$s">نشانی‌ها</a> را مدیریت کنید و <a href="%3$s">اطلاعات و رمز عبور</a> را تغییر دهید.',
@@ -174,6 +176,25 @@ $user = wp_get_current_user();
 	<?php endif; ?>
 	</div>
 	</section>
+	<?php
+}
+/**
+ * Designed empty state for the native orders list (prompt 59).
+ *
+ * WooCommerce prints a bare info notice when the endpoint found no orders.
+ * This renders the pattern every other data view in the theme uses — icon,
+ * title, description and a CTA — right above it, and ui-account.css hides
+ * the native notice whenever this state precedes it. The translated native
+ * block (persian_fallback) stays as the no-CSS fallback, so the copy is
+ * never lost, only deduplicated visually.
+ *
+ * @param mixed $has_orders Whether the endpoint query found orders.
+ */
+public static function orders_empty( $has_orders ): void {
+	if ( $has_orders ) {
+return; }
+	?>
+	<div class="flavor-ui-empty flavor-orders__empty"><?php UI::icon( 'bag', 40 ); ?><h2><?php esc_html_e( 'هنوز سفارشی به این حساب متصل نیست.', 'flavor' ); ?></h2><p><?php esc_html_e( 'سفارش مهمان لزوماً در تاریخچهٔ حساب نمایش داده نمی‌شود؛ از رسید یا مسیر پیگیری آن استفاده کنید.', 'flavor' ); ?></p><a class="flavor-btn flavor-btn--primary" href="<?php echo esc_url( UI::url( 'menu' ) ); ?>"><?php esc_html_e( 'دیدن منو', 'flavor' ); ?></a></div>
 	<?php
 }
 /** Defense in depth on display hooks: owner, manager, or a verified Woo receipt key. */

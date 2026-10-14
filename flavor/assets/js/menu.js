@@ -295,6 +295,9 @@
 
 	function setCartError(message) {
 		var target = document.getElementById('flavor-cart-error'); if (target) { target.hidden = !message; target.textContent = message || ''; }
+		/* prompt 59: every cart error offers one press that refetches the
+		   cart from the server; the button label is server-rendered. */
+		var retry = document.getElementById('flavor-cart-retry'); if (retry) retry.hidden = !message;
 	}
 	function readyCheckout() {
 		var place = document.getElementById('flavor-place');
@@ -438,6 +441,10 @@
 			catalog = (canonical ? data : data.items || []).map(function (dish) { return normalizeDish(dish, canonical); });
 			if (statusEl) statusEl.textContent = catalog.length ? '' : (cfg.i18n && cfg.i18n.empty) || '';
 			grid.innerHTML = catalog.map(card).join('');
+			/* prompt 59: the server-rendered designed empty state doubles as
+			   the live one — a branch whose catalogue came back empty shows
+			   the same icon + title + description + CTA block. */
+			var menuEmpty = document.getElementById('flavor-menu-empty'); if (menuEmpty) menuEmpty.hidden = catalog.length > 0;
 			grid.removeAttribute('aria-busy');
 			if (statusEl) statusEl.textContent = fill('menu_count', fa(catalog.length));
 			document.dispatchEvent(new CustomEvent('flavor:menu-ready'));
@@ -606,8 +613,10 @@
 		}).catch(function (error) { failure(error.message); /* Keep the cart and customer fields for recovery. */ }).finally(function () { placing = false; form.removeAttribute('aria-busy'); if (button) button.textContent = t('place_order'); readyCheckout(); });
 	});
 
+	function bootCart() {
 	Promise.all([api('context'), api('cart'), api('me')])
 		.then(function (pair) {
+			setCartError('');
 			ctx = pair[0] || {};
 			if (cfg.branchId) ctx.branch_id = Number(cfg.branchId);
 			if (ctx.order_mode) mode = ctx.order_mode;
@@ -627,6 +636,11 @@
 			setCartError(fill('cart_fetch_failed', error.message));
 			setMode(mode);
 		});
+	}
+
+	var cartRetry = document.getElementById('flavor-cart-retry');
+	if (cartRetry) cartRetry.addEventListener('click', bootCart);
+	bootCart();
 
 	var reload = document.getElementById('flavor-menu-reload'); if (reload) reload.addEventListener('click', loadMenu);
 	window.FlavorCartUI = { open:openCart, close:closeCart, state:function () { return cartState; } };

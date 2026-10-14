@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../config/routes.dart';
 import '../../common/empty_state.dart';
 import '../../common/flavor_card.dart';
 
@@ -33,10 +34,13 @@ class NotificationsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('اعلان‌ها و پیام‌ها')),
       body: notifications.isEmpty
-          ? const EmptyState(
+          ? EmptyState(
               title: 'پیامی ندارید',
               description: 'اعلان‌های وضعیت سفارش و تخفیف‌های ویژه اینجا نمایش داده می‌شوند.',
               icon: Icons.notifications_none,
+              buttonText: 'مشاهده منوی رستوران',
+              onButtonPressed: () =>
+                  Navigator.pushNamed(context, AppRoutes.home),
             )
           : ListView.builder(
               padding: const EdgeInsets.all(16),

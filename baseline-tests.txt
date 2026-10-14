@@ -1,6 +1,6 @@
 Flavor — baseline آزمون‌ها (test baseline)
 ===========================================================
-generated : 2026-10-13 21:06 UTC
+generated : 2026-10-14 00:43 UTC
 command   : ./dev-tools/run-baseline.sh
 
 Read this as the number to beat. After each phase, re-run the command
@@ -13,15 +13,15 @@ php       : 8.3.32
 composer  : missing
 node      : v20.20.2
 python3   : Python 3.13.16
-gettext   : missing
+gettext   : msgfmt (GNU gettext-tools) 0.23.1
 flutter   : not installed — mobile suites skipped
 
 suites (the ones ci.yml gates on)
 -----------------------------------------------------------
-[ OK ] theme suite (tests/theme/*)                    2803 checks passed, 0 failed
+[ OK ] theme suite (tests/theme/*)                    2999 checks passed, 0 failed
 [ OK ] core pure logic                                226 checks passed, 0 failed
 [ OK ] core e2e integration                           INTEGRATION SUITE SUMMARY: 81/81 PASSED (0 FAILED) 
-[ OK ] PHP lint                                       همهٔ 342 فایل از نظر نحو سالم‌اند.
+[ OK ] PHP lint                                       همهٔ 344 فایل از نظر نحو سالم‌اند.
 [ OK ] motion layer guard                             Motion layer: all 11 checks passed
 [ OK ] translation catalogues                         بررسیِ ترجمه موفق بود.
 [ OK ] translation contract                           126 checks passed, 0 failed

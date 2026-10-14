@@ -72,6 +72,9 @@ class ReservationProvider extends ChangeNotifier {
   /// Loads customer reservation history.
   Future<void> loadMyReservations() async {
     _isLoading = true;
+    // Prompt 59: a retry must clear the stale failure, or a successful
+    // reload would keep the screen on the error view.
+    _errorMessage = null;
     notifyListeners();
     try {
       _myReservations = await _resRepo.getMyReservations();

@@ -22,10 +22,13 @@ class FavoritesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('غذاهای مورد علاقه')),
       body: favoriteDishes.isEmpty
-          ? const EmptyState(
+          ? EmptyState(
               title: 'لیست علاقه‌مندی‌ها خالی است',
               description: 'غذاهای مورد علاقه خود را با زدن علامت قلب ذخیره کنید.',
               icon: Icons.favorite_border,
+              buttonText: 'مشاهده منوی رستوران',
+              onButtonPressed: () =>
+                  Navigator.pushReplacementNamed(context, AppRoutes.home),
             )
           : ListView.builder(
               padding: const EdgeInsets.all(16),

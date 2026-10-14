@@ -59,6 +59,10 @@ class MenuProvider extends ChangeNotifier {
   Future<void> selectCategory(int categoryId, int branchId) async {
     _selectedCategoryId = categoryId;
     _isLoading = true;
+    // Prompt 59: a retry (or the pull-to-refresh) must clear the stale
+    // failure, or a successful reload would keep the screen on the error
+    // view. loadInitial() already clears it; every reload path now does.
+    _errorMessage = null;
     notifyListeners();
 
     try {

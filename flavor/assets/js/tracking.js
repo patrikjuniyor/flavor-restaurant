@@ -3,14 +3,14 @@
  'use strict';
  var ui=window.FlavorUI,form=document.querySelector('[data-ui-tracking]');
  if(!ui||!form)return;
- var result=document.querySelector('[data-ui-track-result]'),error=form.querySelector('[data-ui-track-error]'),id=document.getElementById('flavor-track-id'),token=document.getElementById('flavor-track-token'),button=form.querySelector('[type=submit]');
+ var result=document.querySelector('[data-ui-track-result]'),error=form.querySelector('[data-ui-track-error]'),id=document.getElementById('flavor-track-id'),token=document.getElementById('flavor-track-token'),button=form.querySelector('[type=submit]'),retry=form.querySelector('[data-ui-track-retry]');
  var statuses={pending:'در انتظار پرداخت',processing:'در حال انجام','on-hold':'در انتظار تأیید',completed:'تکمیل‌شده',cancelled:'لغوشده',refunded:'مستردشده',failed:'پرداخت ناموفق'};
  var stateNames=['new','preparing','ready','completed'],stepNames=['در صف بررسی آشپزخانه','در حال آماده‌سازی','آمادهٔ تحویل یا سرو','تحویل ثبت شده'];
- form.addEventListener('input',function(){result.hidden=true;result.innerHTML='';error.hidden=true;});
+ form.addEventListener('input',function(){result.hidden=true;result.innerHTML='';error.hidden=true;if(retry)retry.hidden=true;});
  form.addEventListener('submit',function(event){
   event.preventDefault();if(button.disabled)return;
   var orderId=Number(ui.latin(id.value).trim()),secret=token.value.trim();
-  result.hidden=true;result.innerHTML='';error.hidden=true;
+  result.hidden=true;result.innerHTML='';error.hidden=true;if(retry)retry.hidden=true;
   if(!Number.isSafeInteger(orderId)||orderId<1){error.hidden=false;error.textContent='شناسهٔ سفارش معتبر وارد کنید.';id.focus();return;}
   if(secret&&!/^[A-Za-z0-9_-]{20,128}$/.test(secret)){error.hidden=false;error.textContent='کد پیگیری را دقیقاً از رسید وارد کنید.';token.focus();return;}
   button.disabled=true;form.setAttribute('aria-busy','true');
@@ -23,7 +23,8 @@
     html+='<ol class="flavor-order-timeline" aria-label="وضعیت ثبت‌شده در آشپزخانه">'+stepNames.map(function(label,index){return '<li class="'+(index<=current?'is-reached':'')+'"'+(index===current?' aria-current="step"':'')+'><span aria-hidden="true">'+ui.digits(index+1)+'</span><strong>'+label+'</strong></li>';}).join('')+'</ol><p class="flavor-ui-note">آمادهٔ تحویل بودن به معنی تحویل به پیک یا رسیدن به مقصد نیست.</p>';
    }else html+='<p class="flavor-ui-note">مرحلهٔ تأییدشدهٔ آماده‌سازی برای این سفارش نمایش داده نمی‌شود؛ وضعیت پرداخت و سفارش را در بالا ببینید.</p>';
    result.innerHTML=html;result.hidden=false;result.focus({preventScroll:true});result.scrollIntoView({block:'nearest',behavior:'instant'});
-  }).catch(function(problem){result.hidden=true;result.innerHTML='';error.hidden=false;error.textContent=problem.message;}).finally(function(){button.disabled=false;form.removeAttribute('aria-busy');});
+  }).catch(function(problem){result.hidden=true;result.innerHTML='';error.hidden=false;error.textContent=problem.message;if(retry)retry.hidden=false;/* prompt 59: a network failure offers one press to try the same lookup again. */}).finally(function(){button.disabled=false;form.removeAttribute('aria-busy');});
  });
+ if(retry)retry.addEventListener('click',function(){form.requestSubmit();});
  form.hidden=false;
 })();

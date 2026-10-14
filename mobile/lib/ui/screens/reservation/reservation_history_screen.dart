@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../config/routes.dart';
 import '../../../core/utils/persian_number.dart';
 import '../../../state/reservation_state.dart';
 import '../../common/empty_state.dart';
+import '../../common/error_view.dart';
 import '../../common/flavor_card.dart';
 
 /// Screen listing customer past and upcoming table reservations.
@@ -64,13 +66,21 @@ class _ReservationHistoryScreenState extends State<ReservationHistoryScreen> {
       appBar: AppBar(title: const Text('سوابق رزرو میز')),
       body: res.isLoading
           ? const Center(child: CircularProgressIndicator())
-          : res.myReservations.isEmpty
-              ? const EmptyState(
-                  title: 'رزروی ثبت نشده است',
-                  description: 'میز دلخواه خود را برای دورهمی‌های خانوادگی و کاری رزرو کنید.',
-                  icon: Icons.calendar_today_outlined,
+          : res.errorMessage != null && res.myReservations.isEmpty
+              ? ErrorView(
+                  message: res.errorMessage!,
+                  onRetry: () => res.loadMyReservations(),
                 )
-              : RefreshIndicator(
+              : res.myReservations.isEmpty
+                  ? EmptyState(
+                      title: 'رزروی ثبت نشده است',
+                      description: 'میز دلخواه خود را برای دورهمی‌های خانوادگی و کاری رزرو کنید.',
+                      icon: Icons.calendar_today_outlined,
+                      buttonText: 'رزرو میز جدید',
+                      onButtonPressed: () =>
+                          Navigator.pushNamed(context, AppRoutes.reservation),
+                    )
+                  : RefreshIndicator(
                   onRefresh: () => res.loadMyReservations(),
                   child: ListView.builder(
                     padding: const EdgeInsets.all(16),

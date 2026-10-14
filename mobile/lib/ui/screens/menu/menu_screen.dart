@@ -10,6 +10,7 @@ import '../../../state/menu_state.dart';
 import '../../common/category_chip.dart';
 import '../../common/dish_card.dart';
 import '../../common/empty_state.dart';
+import '../../common/error_view.dart';
 import '../../common/loading_shimmer.dart';
 
 /// Full Menu Screen with Category tabs, Shift filter, and Floating Cart.
@@ -107,13 +108,20 @@ class _MenuScreenState extends State<MenuScreen> {
                     padding: const EdgeInsets.all(16.0),
                     child: LoadingShimmer.dishGrid(count: 4),
                   )
-                : menu.dishes.isEmpty
-                    ? const EmptyState(
-                        title: 'غذایی در این دسته یافت نشد',
-                        description: 'لطفاً دسته یا فیلتر دیگری را انتخاب کنید.',
-                        icon: Icons.restaurant,
+                : menu.errorMessage != null && menu.dishes.isEmpty
+                    ? ErrorView(
+                        message: menu.errorMessage!,
+                        onRetry: () => menu.loadInitial(branchId),
                       )
-                    : RefreshIndicator(
+                    : menu.dishes.isEmpty
+                        ? EmptyState(
+                            title: 'غذایی در این دسته یافت نشد',
+                            description: 'لطفاً دسته یا فیلتر دیگری را انتخاب کنید.',
+                            icon: Icons.restaurant,
+                            buttonText: 'دیدن همهٔ غذاها',
+                            onButtonPressed: () => menu.selectCategory(0, branchId),
+                          )
+                        : RefreshIndicator(
                         onRefresh: () => menu.selectCategory(menu.selectedCategoryId, branchId),
                         child: ListView.builder(
                           padding: const EdgeInsets.all(16),

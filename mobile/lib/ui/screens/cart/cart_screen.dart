@@ -5,6 +5,7 @@ import '../../../core/utils/currency_formatter.dart';
 import '../../../core/utils/persian_number.dart';
 import '../../../state/cart_state.dart';
 import '../../common/empty_state.dart';
+import '../../common/error_view.dart';
 import '../../common/flavor_button.dart';
 import '../../common/flavor_card.dart';
 import '../../common/flavor_text_field.dart';
@@ -52,6 +53,18 @@ class _CartScreenState extends State<CartScreen> {
     final theme = Theme.of(context);
     final primary = theme.primaryColor;
     final cart = context.watch<CartProvider>();
+
+    // Prompt 59: a failed cart load must not masquerade as an empty cart —
+    // the error view offers one press that refetches.
+    if (cart.errorMessage != null && cart.isEmpty && !cart.isLoading) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('سبد خرید')),
+        body: ErrorView(
+          message: cart.errorMessage!,
+          onRetry: () => cart.loadCart(),
+        ),
+      );
+    }
 
     if (cart.isEmpty && !cart.isLoading) {
       return Scaffold(

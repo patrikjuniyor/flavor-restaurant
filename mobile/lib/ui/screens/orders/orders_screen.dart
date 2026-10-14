@@ -5,6 +5,7 @@ import '../../../core/utils/currency_formatter.dart';
 import '../../../state/auth_state.dart';
 import '../../../state/order_state.dart';
 import '../../common/empty_state.dart';
+import '../../common/error_view.dart';
 import '../../common/flavor_card.dart';
 
 /// Customer Order History Screen.
@@ -64,8 +65,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
       appBar: AppBar(title: const Text('سفارش‌های من')),
       body: orderProvider.isLoading
           ? const Center(child: CircularProgressIndicator())
-          : orderProvider.orders.isEmpty
-              ? EmptyState(
+          : orderProvider.errorMessage != null && orderProvider.orders.isEmpty
+              ? ErrorView(
+                  message: orderProvider.errorMessage!,
+                  onRetry: () => orderProvider.loadOrders(),
+                )
+              : orderProvider.orders.isEmpty
+                  ? EmptyState(
                   title: 'سفارشی ثبت نکرده‌اید',
                   description: 'اولین سفارش خود را از منوی رستوران ثبت کنید.',
                   icon: Icons.receipt_long_outlined,

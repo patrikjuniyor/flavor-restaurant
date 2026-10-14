@@ -216,7 +216,7 @@ class Wishlist {
 					</div>
 					<button type="button" class="flavor-ui-icon-button" data-wishlist-close aria-label="<?php esc_attr_e( 'بستن علاقه‌مندی‌ها', 'flavor' ); ?>"><?php UI::icon( 'close' ); ?></button>
 				</header>
-				<p class="flavor-wish__empty" id="flavor-wish-empty"><?php UI::icon( 'heart', 34 ); ?><span><?php esc_html_e( 'هنوز غذایی را ذخیره نکرده‌اید. با زدن قلب روی هر غذا، اینجا نگه‌داری می‌شود.', 'flavor' ); ?></span></p>
+				<div class="flavor-wish__empty" id="flavor-wish-empty"><?php UI::icon( 'heart', 34 ); ?><h3><?php esc_html_e( 'هنوز غذایی را ذخیره نکرده‌اید.', 'flavor' ); ?></h3><p><?php esc_html_e( 'با زدن قلب روی هر غذا، اینجا نگه‌داری می‌شود.', 'flavor' ); ?></p><a class="flavor-btn flavor-btn--primary" href="<?php echo esc_url( UI::url( 'menu' ) ); ?>" data-wishlist-close><?php esc_html_e( 'دیدن منو', 'flavor' ); ?></a></div>
 				<p class="flavor-wish__status screen-reader-text" id="flavor-wish-status" role="status" aria-live="polite"></p>
 				<ul class="flavor-wish__list" id="flavor-wish-items"></ul>
 				<footer class="flavor-wish__footer" id="flavor-wish-footer" hidden>

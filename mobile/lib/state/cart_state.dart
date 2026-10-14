@@ -25,6 +25,10 @@ class CartProvider extends ChangeNotifier {
   /// Loads cart from backend.
   Future<void> loadCart() async {
     _isLoading = true;
+    // Prompt 59: a retry must clear the stale failure, or a successful
+    // reload of an empty cart would stay on the error view. addToCart and
+    // friends already clear it; the load path now does too.
+    _errorMessage = null;
     notifyListeners();
     try {
       _cart = await _cartRepo.getCart();

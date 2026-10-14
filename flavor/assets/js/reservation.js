@@ -48,6 +48,11 @@
 	function reportError(error) {
 		var host = document.getElementById('flavor-res-err');
 		if (host) { host.hidden = false; host.textContent = error.message; host.focus({ preventScroll: true }); }
+		/* prompt 59: every reportError caller is a load path (branches,
+		   sections, slots, calendar), so a failed load always offers one
+		   press that repeats the whole availability boot. */
+		var retry = document.getElementById('flavor-res-retry');
+		if (retry) { retry.hidden = false; }
 	}
 
 	/* Field-level errors (prompt 53): aria-invalid + aria-describedby through
@@ -123,19 +128,32 @@
 			if (sections.includes(previous)) select.value = previous;
 		});
 	}
-	api('branches').then(function (list) {
-		var select = document.getElementById('flavor-res-branch'); if (!select) return;
-		var eligible = (list || []).filter(function (branch) { return (cfg.reservationBranchIds || []).includes(Number(branch.id)); });
-		select.innerHTML = eligible.map(function (branch) { return '<option value="' + esc(branch.id) + '">' + esc(branch.name) + '</option>'; }).join('');
-		if (eligible.some(function (branch) { return Number(branch.id) === Number(cfg.branchId); })) select.value = String(cfg.branchId);
-		loadSections().catch(reportError);
-	}).catch(reportError);
+	function bootData() {
+		api('branches').then(function (list) {
+			var select = document.getElementById('flavor-res-branch'); if (!select) return;
+			var eligible = (list || []).filter(function (branch) { return (cfg.reservationBranchIds || []).includes(Number(branch.id)); });
+			select.innerHTML = eligible.map(function (branch) { return '<option value="' + esc(branch.id) + '">' + esc(branch.name) + '</option>'; }).join('');
+			if (eligible.some(function (branch) { return Number(branch.id) === Number(cfg.branchId); })) select.value = String(cfg.branchId);
+			loadSections().catch(reportError);
+		}).catch(reportError);
 
-	api('calendar').then(function (cal) {
-		jy = cal.jy;
-		jm = cal.jm;
-		loadCal();
-	}).catch(reportError);
+		api('calendar').then(function (cal) {
+			jy = cal.jy;
+			jm = cal.jm;
+			loadCal();
+		}).catch(reportError);
+	}
+	bootData();
+
+	var resRetry = document.getElementById('flavor-res-retry');
+	if (resRetry) {
+		resRetry.addEventListener('click', function () {
+			resRetry.hidden = true;
+			var host = document.getElementById('flavor-res-err');
+			if (host) { host.hidden = true; host.textContent = ''; }
+			bootData();
+		});
+	}
 
 	function loadCal() {
 		var requestId = ++calendarRequest;
@@ -239,8 +257,10 @@
 			e.preventDefault();
 			var err = document.getElementById('flavor-res-err');
 			var ok = document.getElementById('flavor-res-ok');
+			var retry = document.getElementById('flavor-res-retry');
 			if (err) { err.hidden = true; err.textContent = ''; }
 			if (ok) { ok.hidden = true; ok.textContent = ''; }
+			if (retry) { retry.hidden = true; }
 
 			/* Validate in reading order; every message states its solution and
 			   lands on the field through aria-describedby + aria-invalid. */

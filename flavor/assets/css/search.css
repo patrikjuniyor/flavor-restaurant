@@ -144,6 +144,15 @@
 	border-bottom: 1px solid var(--flavor-line, #e6d8c8);
 }
 
+/* Prompt 59: network failure in the live search offers one press that
+   repeats the same query; the row sits under the status line. */
+.flavor-search__retry {
+	margin: 0;
+	padding: 10px 14px;
+	text-align: center;
+	border-bottom: 1px solid var(--flavor-line, #e6d8c8);
+}
+
 .flavor-search__results {
 	list-style: none;
 	margin: 0;

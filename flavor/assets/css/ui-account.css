@@ -131,3 +131,10 @@
 .flavor-ui .flavor-receipt-secret>div{display:flex;gap:15px;align-items:center}
 .flavor-ui .flavor-receipt-secret .flavor-ui-text-link{border:0;background:none;cursor:pointer}
 .flavor-ui .woocommerce-MyAccount-content>p a,.flavor-ui .woocommerce .lost_password a,.flavor-ui .woocommerce-info a:not(.button){text-decoration:underline;text-underline-offset:4px}
+
+/* Prompt 59: the designed orders empty state (Customer_UI::orders_empty) renders
+   immediately before the native Woo "No order has been made yet" notice. Both
+   visible would repeat one message twice, so the native block hides whenever the
+   designed state precedes it; the Persian-translated native block stays as the
+   no-CSS fallback. */
+.flavor-ui-account .flavor-ui-empty~.woocommerce-Message--info{display:none}

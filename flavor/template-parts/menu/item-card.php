@@ -22,7 +22,14 @@ $image = $product->get_image_id() ? wp_get_attachment_image_url( $product->get_i
 		</article>
 		<?php endforeach; ?>
 	</div>
-	<?php if ( ! $products ) :
-?><div class="flavor-ui-empty" id="flavor-menu-empty"><?php \Flavor\UI::icon( 'menu', 38 ); ?><h2><?php esc_html_e( 'منو هنوز آماده نیست.', 'flavor' ); ?></h2><p><?php esc_html_e( 'هنوز محصولی برای نمایش منتشر نشده است. برای اطلاع از منو با مجموعه تماس بگیرید.', 'flavor' ); ?></p></div><?php endif; ?>
+	<?php
+	/* Prompt 59: the designed empty state is ALWAYS in the DOM. Without JS it
+	   shows exactly when no product is published; with JS, menu.js toggles it
+	   from the live branch catalogue, so a branch whose live availability is
+	   empty gets the same designed state (icon + title + description + CTA)
+	   instead of a bare status line. */
+	$flavor_menu_empty_attr = $products ? ' hidden' : '';
+	?>
+	<div class="flavor-ui-empty" id="flavor-menu-empty"<?php echo esc_attr( $flavor_menu_empty_attr ); ?>><?php \Flavor\UI::icon( 'menu', 38 ); ?><h2><?php esc_html_e( 'منو هنوز آماده نیست.', 'flavor' ); ?></h2><p><?php esc_html_e( 'هنوز محصولی برای نمایش منتشر نشده است. برای اطلاع از منو با مجموعه تماس بگیرید.', 'flavor' ); ?></p><a class="flavor-btn flavor-btn--outline" href="<?php echo esc_url( \Flavor\UI::url( 'contact' ) ); ?>"><?php esc_html_e( 'راه‌های تماس', 'flavor' ); ?></a></div>
 	<noscript><p class="flavor-menu-static-note"><?php esc_html_e( 'برای سفارش سریع و بررسی موجودی شعبه، JavaScript را فعال کنید. در این حالت جزئیات منتشرشدهٔ محصول از ووکامرس قابل مشاهده است.', 'flavor' ); ?></p></noscript>
 </section>

@@ -35,6 +35,9 @@
 .flavor-ui .flavor-ui-empty p{color:var(--ui-muted);font-size:13px;max-width:480px;margin:0 auto 22px;line-height:2}
 .flavor-ui .flavor-ui-empty .flavor-btn{margin:4px}
 .flavor-ui .flavor-ui-error,.flavor-ui .flavor-checkout__err{padding:13px 16px;border:1px solid #e7b8af;border-radius:10px;background:#fff2ee;color:#852f24;font-size:12px;line-height:1.9}
+/* Prompt 59: every network-error host (cart drawer, reservation form, order
+   tracking) is followed by a server-rendered retry button, one step below. */
+.flavor-ui #flavor-cart-retry,.flavor-ui #flavor-res-retry,.flavor-ui [data-ui-track-retry]{margin-top:12px}
 .flavor-ui .flavor-ui-success{padding:13px 16px;border:1px solid #b1cbb6;border-radius:10px;background:#edf7ef;color:#254c31;font-size:12px;line-height:1.9}
 .flavor-ui .flavor-ui-note{display:flex;align-items:start;gap:10px;font-size:12px;color:var(--ui-muted);line-height:1.9}
 .flavor-ui .flavor-ui-note svg{flex-shrink:0;margin-top:3px}

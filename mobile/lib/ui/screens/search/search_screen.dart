@@ -8,6 +8,7 @@ import '../../../state/config_state.dart';
 import '../../../state/favorites_state.dart';
 import '../../common/dish_card.dart';
 import '../../common/empty_state.dart';
+import '../../common/error_view.dart';
 import '../../common/flavor_text_field.dart';
 
 /// Smart Search Screen with Autocomplete suggestions and Dietary facets.
@@ -28,6 +29,8 @@ class _SearchScreenState extends State<SearchScreen> {
   String? _selectedDietary;
   bool _isLoading = false;
   bool _hasSearched = false;
+  bool _hasError = false;
+  String _lastQuery = '';
 
   @override
   void initState() {
@@ -47,6 +50,8 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() {
       _isLoading = true;
       _hasSearched = true;
+      _hasError = false;
+      _lastQuery = query.trim();
     });
 
     try {
@@ -60,7 +65,12 @@ class _SearchScreenState extends State<SearchScreen> {
         _isLoading = false;
       });
     } catch (_) {
-      setState(() => _isLoading = false);
+      // Prompt 59: a network failure must not masquerade as "no results";
+      // the error view offers one press that repeats the same query.
+      setState(() {
+        _isLoading = false;
+        _hasError = true;
+      });
     }
   }
 
@@ -161,13 +171,21 @@ class _SearchScreenState extends State<SearchScreen> {
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
-                  : _results.isEmpty
-                      ? const EmptyState(
-                          title: 'نتیجه‌ای یافت نشد',
-                          description: 'لطفاً عبارت دیگری را جستجو کنید.',
-                          icon: Icons.search_off,
+                  : _hasError
+                      ? ErrorView(
+                          message: 'جست‌وجو ناموفق بود. اتصال شبکه را بررسی کنید.',
+                          onRetry: () => _handleSearch(_lastQuery),
                         )
-                      : ListView.builder(
+                      : _results.isEmpty
+                          ? EmptyState(
+                              title: 'نتیجه‌ای یافت نشد',
+                              description: 'لطفاً عبارت دیگری را جستجو کنید.',
+                              icon: Icons.search_off,
+                              buttonText: 'دیدن منوی کامل',
+                              onButtonPressed: () =>
+                                  Navigator.pushNamed(context, AppRoutes.menu),
+                            )
+                          : ListView.builder(
                           padding: const EdgeInsets.all(16),
                           itemCount: _results.length,
                           itemBuilder: (context, index) {

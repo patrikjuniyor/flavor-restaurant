@@ -51,6 +51,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<div class="flavor-search__panel" id="flavor-search-panel" hidden>
 		<p class="flavor-search__status" id="flavor-search-status" role="status" aria-live="polite"></p>
+		<p class="flavor-search__retry" id="flavor-search-retry-row" hidden><button type="button" class="flavor-btn flavor-btn--outline flavor-btn--sm" id="flavor-search-retry"><?php esc_html_e( 'تلاش دوباره', 'flavor' ); ?></button></p>
 		<ul class="flavor-search__results" id="flavor-search-results" role="listbox"
 			aria-label="<?php esc_attr_e( 'نتایج جست‌وجو', 'flavor' ); ?>"></ul>
 	</div>
