@@ -4,13 +4,13 @@
 
 | وضعیت | تعداد |
 |---|---:|
-| ✅ انجام‌شده | 63 |
+| ✅ انجام‌شده | 64 |
 | 🟨 بخشی انجام‌شده | 0 |
 | ⛔ مسدود (نیاز به محیط/تصمیم مالک) | 0 |
-| ⬜ انجام‌نشده | 45 |
+| ⬜ انجام‌نشده | 44 |
 | **مجموع** | **108** |
 
-درصد پیشرفت کامل: **58%** (63/108)
+درصد پیشرفت کامل: **59%** (64/108)
 
 این فایل با `python3 dev-tools/build-progress.py` از روی `progress-status.json` بازتولید می‌شود؛ ویرایش دستی را از دست می‌دهد.
 
@@ -122,7 +122,7 @@
 
 | پرامپت | وضعیت | خلاصه | یادداشت / کامیت |
 |---:|---|---|---|
-| 64 | ⬜ انجام‌نشده | flutter analyze را بدون هشدار کن: هر warning/info باقی‌مانده در |  |
+| 64 | ✅ انجام شد | flutter analyze را بدون هشدار کن: هر warning/info باقی‌مانده در | پرامپت ۶۴ (صفرکردن flutter analyze): قرارداد تحلیل در عمل غیرفعال بود — mobile/ هیچ analysis_options.yaml نداشت و flutter_lints با اینکه در dev_dependencies بود include نشده بود؛ پس flutter analyze فقط تشخیص‌های پیش‌فرض را می‌دید و سبزی CI وجود infoهای lint را پنهان می‌کرد. analysis_options.yaml با include بستهٔ استاندارد package:flutter_lints/flutter.yaml ساخته شد (صفر exclusion — اصلاح در کد نه در تنظیم). با --fatal-infos سی‌وهشت info در ۲۱ فایل نمایان شد: dangling_library_doc_comments ×۷ (افزودن library; بعد از doc comment مدل‌ها)، prefer_const_constructors ×۸، prefer_interpolation_to_compose_strings ×۲ (persian_number)، prefer_const_literals_to_create_immutables ×۲، prefer_const_declarations ×۲ (تست jalali)، avoid_print ×۷ (pure_dart_verify به stdout.writeln + import dart:io — خروجی دقیقاً همان؛ رانر همچنان ۶/۶ سبز) و use_build_context_synchronously ×۱۰ (cart/checkout/dish_detail/orders/edit_profile/reservation_history/reservation با گاردهای استاندارد: State.mounted بعد از await در متدهای State؛ context.mounted در بست‌های itemBuilder که mountedِ State «unrelated» بود؛ ctx.mounted برای بست دیالوگ + mounted برای ScaffoldMessenger بیرونی؛ در reservation_screen گارد به جلوی if منتقل شد تا شاخهٔ else هم محافظت شود). ۱۸ مورد با dart fix --apply خودکار و بقیه دستی. بدون تغییر رفتار: flutter test سبز ۴۳/۴۳. گیت: flutter analyze در CI به --fatal-infos ارتقا یافت (run-baseline.sh هم همسان) — دو خرابکاری زنده: افزودن import بلااستفاده → exit ۱؛ حذف گارد mounted در cart_screen → exit ۱ (info مربوطه گیر افتاد)؛ بازگردانی → exit ۰ و No issues found. باتری کامل سبز: theme ۵۴/۰، pure ۲۲۶، e2e ۸۱، lint ۳۴۸، phpcs ۰، i18n ✓ (بدون رشتهٔ تازه)، responsive 108/108، a11y ۴۷/۰، keyboard ۴۶/۰، digits ۳۰، motion ۱۱، elementor-visual ✓. — `commit 9c32c2f` |
 | 65 | ⬜ انجام‌نشده | مدل‌ها و سریالایز: mobile/lib/models/*.dart را با پاسخ‌های واقعی REST |  |
 | 66 | ⬜ انجام‌نشده | حالت آفلاین و خطا در اپ: هر صفحه (home، menu، cart، checkout، orders، |  |
 | 67 | ⬜ انجام‌نشده | مسیر checkout در اپ (checkout_screen.dart و cart_state.dart) را با |  |
