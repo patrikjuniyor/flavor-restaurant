@@ -378,5 +378,11 @@
     "date": "2026-10-14",
     "commit": "bf350b4",
     "note": "سئو پایه و متاتگ‌ها: تولید title و meta description یکتا (سقف ۱۶۰ کاراکتر با flavor_substr) با اولویت افزونه‌های سئو شخص ثالث (Yoast/RankMath/AIOSEO/SEOPress)؛ تولید canonical تمیز با حذف پارامترهای نویز فیلتر فروشگاه (cat/view/sort/dietary/order_mode)؛ تگ‌های کامل Open Graph و Twitter Card با خلاصه تصویر بزرگ؛ غنی‌سازی Schema.org با پشتیبانی از Restaurant، Menu، BreadcrumbList و MenuItem برای محصولات تکی؛ فیلتر نقشه سایت sitemaps_post_types برای گنجاندن شعبه‌ها. سوئیت تست ماشینی tests/theme/test-seo-schema.php با ۲۹ بررسی و سه اثبات sabotage زنده"
+  },
+  "76": {
+    "state": "done",
+    "date": "2026-10-14",
+    "commit": "83b5868",
+    "note": "داده‌های ساختاریافته پیشرفته (Structured Data): بازبینی کلاس Schema_Output؛ مشخصات رستوران (نام، نشانی، شهر، تلفن و مختصات) کاملاً پویا از تنظیمات شعبه یا تم‌ماد خوانده می‌شوند نه هاردکد؛ ساعت کاری دقیق از جدول flavor_branch_hours استخراج و به فرمت استاندارد OpeningHoursSpecification نگاشت می‌شود؛ گره منو تنها در صورت وجود محصولات منتشرشده در پایگاه داده صادر می‌شود؛ AggregateRating برای رستوران و محصولات تکی کاملاً صادقانه است و تنها در صورت وجود نظرات و امتیازهای واقعی تأییدشده محاسبه و درج می‌شود (ادعای دروغین حذف شد). سوئیت تست واحد tests/theme/test-structured-data.php (۱۸ بررسی) به همراه ۳ سناریوی اثبات sabotage زنده پیاده‌سازی و تثبیت شد."
   }
 }
