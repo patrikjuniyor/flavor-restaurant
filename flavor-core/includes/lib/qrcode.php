@@ -5,7 +5,13 @@
  */
 defined( 'ABSPATH' ) || exit;
 
-if ( class_exists( 'QRCode', false ) ) {
+/* prompt 62: the guard used to key off class_exists('QRCode'), but PHP
+ * early-binds unconditional top-level classes at compile time — before any
+ * runtime statement of this include runs — so the guard always fired and
+ * every define()/helper class below it never loaded (QR_ERROR_CORRECT_LEVEL_M
+ * was an undefined constant at every call site). Key off a runtime constant
+ * instead: it only exists once this file body has actually executed. */
+if ( defined( 'QR_ERROR_CORRECT_LEVEL_M' ) ) {
 	return;
 }
 

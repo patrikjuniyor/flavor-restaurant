@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-13 05:08+00:00\n"
+"POT-Creation-Date: 2026-10-14 03:14+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
@@ -142,7 +142,7 @@ msgstr ""
 msgid "ارزش هر امتیاز (تومان)"
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:77 flavor-core/includes/Order/PhoneOrderAdmin.php:144 flavor-core/includes/PostTypes/BranchPostType.php:136 flavor-core/includes/Receipt/ReceiptRenderer.php:110
+#: flavor-core/admin/views/kitchen-dashboard.php:77 flavor-core/includes/Order/PhoneOrderAdmin.php:144 flavor-core/includes/PostTypes/BranchPostType.php:136 flavor-core/includes/Receipt/ReceiptRenderer.php:182
 msgid "ارسال"
 msgstr ""
 
@@ -188,6 +188,10 @@ msgstr ""
 
 #: flavor-core/includes/PostTypes/BranchPostType.php:150
 msgid "استان"
+msgstr ""
+
+#: flavor-core/includes/Receipt/ReceiptRenderer.php:124
+msgid "اسکن برای منوی میز %s"
 msgstr ""
 
 #: flavor-core/includes/Table/TableAdmin.php:303
@@ -502,7 +506,7 @@ msgstr ""
 msgid "به‌روزرسانی رکورد بیلد با خطا مواجه شد."
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:76 flavor-core/includes/Order/PhoneOrderAdmin.php:145 flavor-core/includes/PostTypes/BranchPostType.php:135 flavor-core/includes/Receipt/ReceiptRenderer.php:109
+#: flavor-core/admin/views/kitchen-dashboard.php:76 flavor-core/includes/Order/PhoneOrderAdmin.php:145 flavor-core/includes/PostTypes/BranchPostType.php:135 flavor-core/includes/Receipt/ReceiptRenderer.php:181
 msgid "بیرون‌بر"
 msgstr ""
 
@@ -560,6 +564,10 @@ msgstr ""
 
 #: flavor-core/includes/API/OrderController.php:270
 msgid "تحویل داده شد"
+msgstr ""
+
+#: flavor-core/includes/Receipt/ReceiptRenderer.php:112
+msgid "تخفیف"
 msgstr ""
 
 #: flavor-core/admin/views/executive-dashboard.php:80
@@ -714,7 +722,7 @@ msgstr ""
 msgid "تکمیل شده"
 msgstr ""
 
-#: flavor-core/includes/API/RestController.php:221 flavor-core/includes/API/RestStore.php:313 flavor-core/includes/Receipt/ReceiptRenderer.php:29
+#: flavor-core/includes/API/RestController.php:221 flavor-core/includes/API/RestStore.php:313 flavor-core/includes/Receipt/ReceiptRenderer.php:41
 msgid "تیکت پیدا نشد."
 msgstr ""
 
@@ -760,6 +768,10 @@ msgstr ""
 
 #: flavor-core/includes/Loyalty/LoyaltyAdmin.php:81 flavor-core/includes/Order/PhoneOrderAdmin.php:116
 msgid "جستجوی مشتری"
+msgstr ""
+
+#: flavor-core/includes/Receipt/ReceiptRenderer.php:110
+msgid "جمع جزئی"
 msgstr ""
 
 #: flavor-core/includes/Order/PhoneOrderAdmin.php:142
@@ -1110,7 +1122,7 @@ msgstr ""
 msgid "ساعت رزرو نامعتبر است."
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:75 flavor-core/includes/Order/PhoneOrderAdmin.php:146 flavor-core/includes/PostTypes/BranchPostType.php:134 flavor-core/includes/Receipt/ReceiptRenderer.php:108 flavor-core/includes/Reservation/ReservationAdmin.php:84 flavor-core/includes/Table/TableAdmin.php:78
+#: flavor-core/admin/views/kitchen-dashboard.php:75 flavor-core/includes/Order/PhoneOrderAdmin.php:146 flavor-core/includes/PostTypes/BranchPostType.php:134 flavor-core/includes/Receipt/ReceiptRenderer.php:180 flavor-core/includes/Reservation/ReservationAdmin.php:84 flavor-core/includes/Table/TableAdmin.php:78
 msgid "سالن"
 msgstr ""
 
@@ -1502,6 +1514,10 @@ msgstr ""
 msgid "فقط ۵۰ ردیفِ نخست در پیش‌نمایش نمایش داده می‌شود؛ خروجیِ CSV کامل است."
 msgstr ""
 
+#: flavor-core/includes/Receipt/ReceiptRenderer.php:117
+msgid "قابل پرداخت"
+msgstr ""
+
 #: flavor-core/includes/Mobile/BuildManager.php:229
 msgid "قالب امضای وب‌هوک نامعتبر است."
 msgstr ""
@@ -1718,7 +1734,7 @@ msgstr ""
 msgid "میانگین سفارش (AOV): %s"
 msgstr ""
 
-#: flavor-core/includes/Receipt/ReceiptRenderer.php:66 flavor-core/includes/Table/TableAdmin.php:302
+#: flavor-core/includes/Receipt/ReceiptRenderer.php:75 flavor-core/includes/Table/TableAdmin.php:302
 msgid "میز %s"
 msgstr ""
 
@@ -1864,6 +1880,10 @@ msgstr ""
 
 #: flavor-core/includes/Delivery/ZoneAdmin.php:76
 msgid "هزینه ارسال (واحد ذخیره)"
+msgstr ""
+
+#: flavor-core/includes/Receipt/ReceiptRenderer.php:115
+msgid "هزینهٔ ارسال"
 msgstr ""
 
 #: flavor-core/admin/views/kitchen-dashboard.php:74
@@ -2042,7 +2062,7 @@ msgstr ""
 msgid "پیکربندی شده"
 msgstr ""
 
-#: flavor-core/includes/Receipt/ReceiptRenderer.php:60
+#: flavor-core/includes/Receipt/ReceiptRenderer.php:69
 msgid "چاپ"
 msgstr ""
 

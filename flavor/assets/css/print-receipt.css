@@ -1,3 +1,12 @@
+/* Thermal receipt print sheet (prompt 62).
+ *
+ * Consumed by FlavorCore\Receipt\ReceiptRenderer, which inlines this sheet
+ * into the standalone 80mm receipt document (kitchen + cashier tickets).
+ * Ink policy: zero background declarations anywhere — every rule draws with
+ * text color, borders or the QR modules only, so the receipt stays fully
+ * legible on a plain paper save (print-color-adjust: economy).
+ */
+
 @page {
 	size: 80mm auto;
 	margin: 4mm;
@@ -5,6 +14,7 @@
 
 body.flavor-receipt {
 	width: 72mm;
+	margin: 0 auto;
 	font-family: Vazirmatn, Tahoma, sans-serif;
 	font-size: 12px;
 	direction: rtl;
@@ -14,15 +24,80 @@ body.flavor-receipt {
 .flavor-receipt__brand {
 	text-align: center;
 	font-weight: 700;
+	font-size: 15px;
+	margin: 0 0 6px;
+}
+
+.flavor-receipt__meta {
+	text-align: center;
+	font-size: 11px;
+	margin: 0 0 8px;
+}
+
+.flavor-receipt hr {
+	border: 0;
+	border-top: 1px dashed #000;
+	margin: 6px 0;
 }
 
 .flavor-receipt table {
 	width: 100%;
 	border-collapse: collapse;
+	/* prompt 62: fixed tracks + break-word keep a long dish name or a long
+	   zero-width-non-joiner string inside the 72mm column instead of
+	   widening the paper. */
+	table-layout: fixed;
 }
 
 .flavor-receipt th,
 .flavor-receipt td {
 	text-align: right;
 	padding: 2px 0;
+	vertical-align: top;
+	overflow-wrap: break-word;
+}
+
+.flavor-receipt__items .qty {
+	width: 12mm;
+	white-space: nowrap;
+}
+
+.flavor-receipt .mod {
+	color: #333;
+	font-size: 11px;
+}
+
+.flavor-receipt .note {
+	font-weight: 700;
+}
+
+.flavor-receipt__totals .tot {
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.flavor-receipt__qr {
+	text-align: center;
+	margin-top: 8px;
+}
+
+.flavor-receipt__qr svg {
+	width: 28mm;
+	height: 28mm;
+}
+
+.flavor-receipt__qr-cap {
+	font-size: 11px;
+	margin-top: 2px;
+}
+
+.no-print {
+	text-align: center;
+	margin: 10px 0;
+}
+
+@media print {
+	.no-print {
+		display: none;
+	}
 }

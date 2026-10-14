@@ -208,12 +208,10 @@ $refsrc = '';
 foreach ( array_merge( $prod_php, array_filter( $files, static fn( $f ) => preg_match( '#\.(json|xml)$#', $f ) ) ) as $f ) $refsrc .= file_get_contents( "$root/$f" );
 $bad = array();
 foreach ( $assets as $a ) {
-	// Documented intentional orphan: the receipt print stylesheet ships ahead of
-	// its wiring (open prompt #62 in docs/prompts/... wires ReceiptRenderer +
-	// print-receipt.css against a live order sample). Trashing it now would make
-	// #62 a rewrite; keeping costs 4KB. The exception is explicit so it CANNOT
-	// silently absorb new orphans.
-	if ( 'flavor/assets/css/print-receipt.css' === $a ) continue;
+	// Prompt 62 wired the receipt print sheet: ReceiptRenderer::print_css()
+	// inlines flavor/assets/css/print-receipt.css into the standalone 80mm
+	// document, so the reference scan below sees it like any other asset and
+	// the pre-wiring exception is gone.
 	$b = basename( $a );
 	$stem = preg_replace( '#\.(css|js|png|jpg|jpeg|svg|webp|avif|gif|ico|json|xml|webmanifest)$#', '', $b );
 	if ( false === strpos( $refsrc, $b ) && false === strpos( $refsrc, $stem ) ) $bad[] = $a;

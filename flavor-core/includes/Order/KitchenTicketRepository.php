@@ -332,6 +332,12 @@ class KitchenTicketRepository {
 			'customer_mobile' => (string) $ticket['customer_mobile'],
 			'total_formatted' => Currency::format( (int) $ticket['total'] ),
 			'total'           => (int) $ticket['total'],
+			/* prompt 62: the cashier receipt prints the totals breakdown
+			   (subtotal / discount / delivery / payable) straight from the
+			   ticket row, so the card carries the three parts too. */
+			'subtotal'        => (int) $ticket['subtotal'],
+			'discount_total'  => (int) $ticket['discount_total'],
+			'delivery_fee'    => (int) $ticket['delivery_fee'],
 			'source'          => (string) $ticket['source'],
 			'placed_at'       => (string) $ticket['placed_at'],
 			'age_seconds'     => $age,
