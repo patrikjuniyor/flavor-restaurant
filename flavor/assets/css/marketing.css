@@ -435,6 +435,23 @@
 	}
 }
 
+/* prompt 61: the global .flavor-btn white-space:nowrap makes the banner CTA an
+   unbreakable 255px box; at 320px no banner padding leaves that much content
+   width, so let this one CTA wrap and fill the narrowed banner instead. */
+@media (max-width: 480px) {
+	.flavor-res-banner {
+		padding: 28px 20px;
+		gap: 28px;
+	}
+
+	.flavor-res-banner__action .flavor-btn {
+		white-space: normal;
+		width: 100%;
+		justify-content: center;
+		text-align: center;
+	}
+}
+
 .flavor-res-banner__tag {
 	color: var(--flavor-primary);
 	font-size: 13px;

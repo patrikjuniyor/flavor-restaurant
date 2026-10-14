@@ -334,6 +334,10 @@
 
 .flavor-price-list {
 	display: grid;
+	/* prompt 61: an implicit auto track sizes to max-content, so one long
+	   unbreakable dish name made every row wider than a 320px phone and the
+	   page-shell <main> clipped the prices out of sight. */
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--flavor-space-3, 12px);
 	max-width: 760px;
 	margin: 0;
@@ -351,6 +355,11 @@
 
 .flavor-price-list__name {
 	flex: 1 1 auto;
+	/* prompt 61: without min-width 0 the flex item's min-content (one long
+	   unbreakable dish name) pushed the nowrap price ~97px off a 320px
+	   viewport, where the page-shell <main> clipped it out of sight. */
+	min-width: 0;
+	overflow-wrap: break-word;
 	color: var(--flavor-ink, #201c19);
 	font-weight: 600;
 }

@@ -113,6 +113,7 @@ body.flavor-kitchen-kiosk {
 
 .flavor-kitchen__filters {
 	display: flex;
+	flex-wrap: wrap; /* prompt 61: at 320px the four filter buttons used to run 13px off the kiosk viewport */
 	gap: 6px;
 	padding: 4px;
 	background: rgba(0, 0, 0, 0.25);
@@ -248,6 +249,7 @@ body.flavor-kitchen-kiosk {
 	border-radius: 13px;
 	padding: 12px 14px;
 	margin-bottom: 10px;
+	overflow-wrap: break-word; /* prompt 61: long item names wrap inside the ticket instead of widening the lane */
 	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 	animation: kd-card-in 0.35s var(--kd-ease) both;
 	transition: transform 0.2s var(--kd-ease), box-shadow 0.2s var(--kd-ease);
@@ -421,7 +423,10 @@ body.flavor-kitchen-kiosk {
 
 @media (max-width: 900px) {
 	.flavor-kitchen__lanes {
-		grid-template-columns: 1fr;
+		/* prompt 61: a bare 1fr is minmax(auto, 1fr) — one long unbreakable
+		   dish name then pushed the single lane ~109px past a 320px screen.
+		   minmax(0, 1fr) lets the track shrink and the card text wrap. */
+		grid-template-columns: minmax(0, 1fr);
 	}
 
 	.flavor-kitchen__lanes section {

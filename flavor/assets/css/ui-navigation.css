@@ -46,4 +46,7 @@ body.flavor-header-minimal .flavor-header .flavor-header__inner{min-height:64px;
 .flavor-mobile-nav .flavor-mobile-nav__amount{display:block;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;line-height:1.5;font-weight:500}
 /* Long real restaurant names must still leave a 44px menu control at 320px.
    The contextual bottom action is the mobile ordering entry, not a duplicate CTA. */
-@media(max-width:420px){body.flavor-ui .flavor-header .flavor-header__actions>.flavor-btn{display:none}body.flavor-ui .flavor-header .flavor-header__inner{gap:14px}}
+/* prompt 61: the front page carries no body.flavor-ui (UI::inner() is false there) but does
+   render the mobile bottom nav, so the <=420 CTA hide must key off that nav too or the
+   307px action row overflows the 256px header container at 320px. */
+@media(max-width:420px){body.flavor-ui .flavor-header .flavor-header__actions>.flavor-btn,body:has(.flavor-mobile-nav) .flavor-header .flavor-header__actions>.flavor-btn{display:none}body.flavor-ui .flavor-header .flavor-header__inner,body:has(.flavor-mobile-nav) .flavor-header .flavor-header__inner{gap:14px}}
