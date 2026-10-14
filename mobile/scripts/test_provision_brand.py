@@ -237,6 +237,28 @@ class GoodPayloadTests(unittest.TestCase):
         self._check_project("com.flavor.nayeb", "رستوران نائب ساعی", "3.1.0", 310,
                             "nayeb_grand", "https://nayeb.flavor.restaurant/wp-json/flavor/v2")
 
+    def test_brand_alborz_new_test_brand(self):
+        """Prompt 71: Verify custom experimental brand (brand_alborz.json)
+        provisions package name, app label, colors, API URL, and assets cleanly."""
+        cfg = os.path.join(BRANDING_DIR, "brand_alborz.json")
+        code, out = run_provision(self.project, cfg)
+        self.assertEqual(code, 0, out)
+        self._check_project("com.flavor.alborz", "رستوران البرز", "2.1.0", 210,
+                            "alborz_chelo", "https://alborz.flavor.restaurant/wp-json/flavor/v2")
+
+        # Verify colors and token generation for Alborz brand
+        dart = read(self.project, os.path.join("lib", "core", "constants", "brand_tokens.g.dart"))
+        self.assertIn("primaryColor = Color(0xFFD32F2F)", dart)
+        self.assertIn("secondaryColor = Color(0xFF1976D2)", dart)
+        self.assertIn("accentColor = Color(0xFFFBC02D)", dart)
+        self.assertIn("logoUrl = 'https://alborz.flavor.restaurant/assets/logo.png'", dart)
+        self.assertIn("iconUrl = 'https://alborz.flavor.restaurant/assets/icon.png'", dart)
+        self.assertIn("splashUrl = 'https://alborz.flavor.restaurant/assets/splash.png'", dart)
+
+        # Verify adaptive launcher icon background color was updated to brand primary
+        bg_xml = read(self.project, os.path.join("android", "app", "src", "main", "res", "values", "ic_launcher_background.xml"))
+        self.assertIn("<color name=\"ic_launcher_background\">#D32F2F</color>", bg_xml)
+
     def test_server_generated_payload(self):
         """Payload exported from the real PHP
         MobileConfigManager::get_ci_provision_payload() must provision cleanly."""

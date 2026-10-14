@@ -524,6 +524,25 @@ def update_android_branding(mobile_dir: str, cfg: dict):
             f.write(m_content)
         print(f"[+] Updated Android Manifest app label: {cfg['app_name']}")
 
+    # Adaptive launcher icon background color (#RRGGBB).
+    launcher_bg_path = os.path.join(
+        mobile_dir, "android", "app", "src", "main", "res", "values", "ic_launcher_background.xml"
+    )
+    if os.path.exists(launcher_bg_path):
+        bg_color = cfg.get("branding", {}).get("primary_color", "#C62828")
+        with open(launcher_bg_path, "r", encoding="utf-8") as f:
+            bg_content = f.read()
+        bg_content, n = re.subn(
+            r'<color name="ic_launcher_background">[^<]*</color>',
+            f'<color name="ic_launcher_background">{bg_color}</color>',
+            bg_content,
+            count=1,
+        )
+        if n == 1:
+            with open(launcher_bg_path, "w", encoding="utf-8") as f:
+                f.write(bg_content)
+            print(f"[+] Updated Android launcher icon background color: {bg_color}")
+
 
 def update_ios_branding(mobile_dir: str, cfg: dict):
     app_id = cfg["app_identifier"]  # validated; XML-safe identifier

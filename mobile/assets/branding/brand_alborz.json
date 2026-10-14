@@ -1,0 +1,31 @@
+{
+  "$schema": "flavor-mobile-branding@1",
+  "app_name": "رستوران البرز",
+  "app_identifier": "com.flavor.alborz",
+  "tenant_id": "alborz_chelo",
+  "version_name": "2.1.0",
+  "version_code": 210,
+  "api_base_url": "https://alborz.flavor.restaurant/wp-json/flavor/v2",
+  "default_branch_id": 3,
+  "assets": {
+    "logo_url": "https://alborz.flavor.restaurant/assets/logo.png",
+    "icon_url": "https://alborz.flavor.restaurant/assets/icon.png",
+    "splash_url": "https://alborz.flavor.restaurant/assets/splash.png"
+  },
+  "branding": {
+    "primary_color": "#D32F2F",
+    "secondary_color": "#1976D2",
+    "accent_color": "#FBC02D",
+    "font_family": "Vazirmatn",
+    "border_radius": 14.0
+  },
+  "contact": {
+    "phone": "021-88776655",
+    "email": "support@alborz.flavor.restaurant",
+    "website": "https://alborz.flavor.restaurant"
+  },
+  "legal": {
+    "privacy_policy": "https://alborz.flavor.restaurant/privacy",
+    "terms": "https://alborz.flavor.restaurant/terms"
+  }
+}

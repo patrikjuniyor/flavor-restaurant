@@ -229,6 +229,7 @@ jobs:
 
       - name: Test White-Label Provisioning Script
         run: |
+          python3 mobile/scripts/test_provision_brand.py
           python3 mobile/scripts/provision_brand.py --mobile-root mobile
 
       - name: Install Dependencies
