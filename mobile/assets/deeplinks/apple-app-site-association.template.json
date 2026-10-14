@@ -4,9 +4,11 @@
       {
         "appID": "{{TEAM_ID}}.{{BUNDLE_ID}}",
         "paths": [
-          "/product/*", "/dish/*", "/order/*", "/menu*",
-          "/reservation*", "/reservations/*", "/cart*",
-          "/checkout*", "/profile*", "/qr*"
+          "/product/*", "/dish/*", "/order/*", "/orders*", "/menu*",
+          "/search*", "/reservation*", "/reservations/*", "/cart*",
+          "/checkout*", "/profile*", "/favorites*", "/restaurant-info*",
+          "/notifications*", "/qr*", "/table*", "/login*", "/otp-verify*",
+          "/home*"
         ]
       }
     ]

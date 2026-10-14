@@ -22,17 +22,25 @@ class OrderTrackingScreen extends StatefulWidget {
 }
 
 class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
+  // Prompt 68: dispose() must never look up ancestors — during teardown the
+  // element is deactivated and context.read throws ("Looking up a deactivated
+  // widget's ancestor is unsafe"), which the deep link widget tests caught
+  // when a Universal Link opened (and later closed) this screen. The provider
+  // is captured while the widget is still active and reused in dispose.
+  OrderProvider? _orders;
+
   @override
   void initState() {
     super.initState();
+    _orders = context.read<OrderProvider>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<OrderProvider>().startTracking(widget.orderId, guestToken: widget.guestToken);
+      _orders?.startTracking(widget.orderId, guestToken: widget.guestToken);
     });
   }
 
   @override
   void dispose() {
-    context.read<OrderProvider>().stopTracking();
+    _orders?.stopTracking();
     super.dispose();
   }
 

@@ -82,8 +82,31 @@ class DeepLinkService {
         final query = uri.queryParameters;
 
         switch (pathHead) {
+          case 'home':
+            return const DeepLinkDestination(route: AppRoutes.home);
+
+          case 'search':
+            return const DeepLinkDestination(route: AppRoutes.search);
+
+          case 'login':
+            return const DeepLinkDestination(route: AppRoutes.login);
+
+          // Prompt 68: every route listed in routes.dart must open from a
+          // URI. otp-verify carries its mobile argument so an SMS/web
+          // continuation lands on the code form with the number filled.
+          case 'otp-verify':
+          case 'otp':
+            return DeepLinkDestination(
+              route: AppRoutes.otpVerify,
+              args: query['mobile'] ?? '',
+            );
+
           case 'menu':
-            final catId = int.tryParse(query['category'] ?? (pathSegments.length > 1 ? pathSegments[1] : '')) ?? 0;
+            // Prompt 68: in the flavor:// scheme the head ('menu') is the
+            // HOST, so the category rides in pathSegments.first — the old
+            // [1] index silently dropped flavor://menu/7 (https keeps its
+            // own [1] indexing below, where 'menu' is a path segment).
+            final catId = int.tryParse(query['category'] ?? (pathSegments.isNotEmpty ? pathSegments.first : '')) ?? 0;
             return DeepLinkDestination(route: AppRoutes.menu, args: catId > 0 ? catId : null);
 
           case 'dish':
@@ -184,7 +207,69 @@ class DeepLinkService {
           return const DeepLinkDestination(route: AppRoutes.cart);
         }
 
+        // Prompt 68: full parity with routes.dart — every customer route
+        // opens from an https Universal Link too, with its arguments. The
+        // AASA template's paths list (assets/deeplinks/) mirrors these
+        // segments; deep_link_test pins the two sides to each other.
+        if (first == 'home') {
+          return const DeepLinkDestination(route: AppRoutes.home);
+        }
+
+        if (first == 'search') {
+          return const DeepLinkDestination(route: AppRoutes.search);
+        }
+
+        if (first == 'orders') {
+          return const DeepLinkDestination(route: AppRoutes.orders, requiresAuth: true);
+        }
+
+        if (first == 'checkout') {
+          return const DeepLinkDestination(route: AppRoutes.checkout);
+        }
+
+        if (first == 'favorites') {
+          return const DeepLinkDestination(route: AppRoutes.favorites);
+        }
+
+        if (first == 'restaurant-info') {
+          return const DeepLinkDestination(route: AppRoutes.restaurantInfo);
+        }
+
+        if (first == 'notifications') {
+          return const DeepLinkDestination(route: AppRoutes.notifications);
+        }
+
+        if (first == 'login') {
+          return const DeepLinkDestination(route: AppRoutes.login);
+        }
+
+        if (first == 'otp-verify') {
+          return DeepLinkDestination(
+            route: AppRoutes.otpVerify,
+            args: query['mobile'] ?? '',
+          );
+        }
+
+        if (first == 'qr' || first == 'table') {
+          final tableNum = query['table_number'] ?? query['table'] ?? '';
+          final branchId = int.tryParse(query['branch_id'] ?? '') ?? 0;
+          return DeepLinkDestination(
+            route: AppRoutes.menu,
+            args: {'table_number': tableNum, 'branch_id': branchId},
+          );
+        }
+
         if (first == 'profile' || first == 'my-account') {
+          final sub = pathSegments.length > 1 ? pathSegments[1] : '';
+          if (sub == 'edit') {
+            return const DeepLinkDestination(route: AppRoutes.editProfile, requiresAuth: true);
+          }
+          if (sub == 'addresses') {
+            return const DeepLinkDestination(route: AppRoutes.addresses, requiresAuth: true);
+          }
+          if (sub == 'favorites') {
+            return const DeepLinkDestination(route: AppRoutes.favorites);
+          }
           return const DeepLinkDestination(route: AppRoutes.profile, requiresAuth: true);
         }
       }
