@@ -1,5 +1,10 @@
 /// Shopping Cart domain models.
+///
+/// Mirrors CartController::build_cart_payload() + CartSession::payload() —
+/// see test/fixtures/cart.json and test/fixtures/cart_update_item.json.
 library;
+
+import 'json_fields.dart';
 
 class CartItemModifier {
   final String id;
@@ -18,11 +23,11 @@ class CartItemModifier {
 
   factory CartItemModifier.fromJson(Map<String, dynamic> json) {
     return CartItemModifier(
-      id: json['id']?.toString() ?? '',
-      name: json['name']?.toString() ?? '',
-      type: json['type']?.toString() ?? 'topping',
-      typeLabel: json['type_label']?.toString() ?? (json['type']?.toString() ?? 'مخلفات'),
-      price: int.tryParse(json['price']?.toString() ?? '0') ?? 0,
+      id: strField(json['id']),
+      name: strField(json['name']),
+      type: strField(json['type'], 'topping'),
+      typeLabel: strField(json['type_label'], strField(json['type'], 'مخلفات')),
+      price: intField(json['price']),
     );
   }
 
@@ -42,8 +47,26 @@ class CartItem {
   final int productId;
   final String name;
   final int quantity;
+
+  /// Catalog-unit amounts as PHP floats (`unit_price_raw`/`line_total_raw`).
+  /// They already include modifier extras: the server re-prices the line's
+  /// product object before serializing.
+  final double unitPriceRaw;
+  final double lineTotalRaw;
+
+  /// Authoritative storage-unit integers (`unit_price`/`line_total`) plus
+  /// their pre-formatted Persian labels.
+  final int unitPrice;
+  final int lineTotal;
+  final String unitPriceHtml;
+  final String lineTotalHtml;
+
+  /// Legacy display strings; kept because older payloads label them
+  /// price_html/line_html.
   final String priceHtml;
   final String lineHtml;
+
+  /// Can be PHP `false` (no thumbnail) — strField maps that to ''.
   final String image;
   final List<CartItemModifier> modifiers;
   final String instructions;
@@ -53,6 +76,12 @@ class CartItem {
     required this.productId,
     required this.name,
     required this.quantity,
+    this.unitPriceRaw = 0,
+    this.lineTotalRaw = 0,
+    this.unitPrice = 0,
+    this.lineTotal = 0,
+    this.unitPriceHtml = '',
+    this.lineTotalHtml = '',
     required this.priceHtml,
     required this.lineHtml,
     this.image = '',
@@ -61,21 +90,33 @@ class CartItem {
   });
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
-    final mods = (json['modifiers'] as List?)
-            ?.map((e) => CartItemModifier.fromJson(e as Map<String, dynamic>))
-            .toList() ??
-        [];
+    final rawModifiers = json['modifiers'];
+    // The legacy mock/old-client shape {'ids': [...]} carries no display rows;
+    // the real API stores the sanitized selection list (rows with
+    // id/type/type_label/name/price).
+    final mods = rawModifiers is List
+        ? rawModifiers
+            .whereType<Map<String, dynamic>>()
+            .map(CartItemModifier.fromJson)
+            .toList()
+        : <CartItemModifier>[];
 
     return CartItem(
-      key: json['key']?.toString() ?? '',
-      productId: int.tryParse(json['product_id']?.toString() ?? '0') ?? 0,
-      name: json['name']?.toString() ?? '',
-      quantity: int.tryParse(json['quantity']?.toString() ?? '1') ?? 1,
-      priceHtml: json['price_html']?.toString() ?? '',
-      lineHtml: json['line_html']?.toString() ?? '',
-      image: json['image']?.toString() ?? '',
+      key: strField(json['key']),
+      productId: intField(json['product_id']),
+      name: strField(json['name']),
+      quantity: intField(json['quantity'], 1),
+      unitPriceRaw: doubleField(json['unit_price_raw']),
+      lineTotalRaw: doubleField(json['line_total_raw']),
+      unitPrice: intField(json['unit_price']),
+      lineTotal: intField(json['line_total']),
+      unitPriceHtml: strField(json['unit_price_html']),
+      lineTotalHtml: strField(json['line_total_html']),
+      priceHtml: strField(json['price_html']),
+      lineHtml: strField(json['line_html']),
+      image: strField(json['image']),
       modifiers: mods,
-      instructions: json['instructions']?.toString() ?? '',
+      instructions: strField(json['instructions']),
     );
   }
 
@@ -85,6 +126,12 @@ class CartItem {
       'product_id': productId,
       'name': name,
       'quantity': quantity,
+      'unit_price_raw': unitPriceRaw,
+      'line_total_raw': lineTotalRaw,
+      'unit_price': unitPrice,
+      'line_total': lineTotal,
+      'unit_price_html': unitPriceHtml,
+      'line_total_html': lineTotalHtml,
       'price_html': priceHtml,
       'line_html': lineHtml,
       'image': image,
@@ -101,10 +148,26 @@ class CartModel {
   final String subtotalHtml;
   final int total;
   final String totalHtml;
+
+  /// Totals breakdown, storage-unit integers + Persian labels, exactly as
+  /// build_cart_payload() emits them.
+  final int discountTotal;
+  final String discountHtml;
+  final int taxTotal;
+  final String taxHtml;
+  final int shippingTotal;
+  final String shippingHtml;
+
+  /// Fee rows stay raw maps: {name, total, html, amount_stored, amount_html}.
   final List<Map<String, dynamic>> fees;
   final List<String> coupons;
   final int pointsToEarn;
   final bool needsPayment;
+
+  /// Additive capability flag from build_cart_payload(). An older core that
+  /// predates line editing omits the key entirely, so "absent" must mean
+  /// NOT supported (whenNull: false) — the edit UI stays hidden there.
+  final bool supportsItemEdit;
 
   const CartModel({
     this.items = const [],
@@ -113,20 +176,28 @@ class CartModel {
     this.subtotalHtml = '',
     this.total = 0,
     this.totalHtml = '',
+    this.discountTotal = 0,
+    this.discountHtml = '',
+    this.taxTotal = 0,
+    this.taxHtml = '',
+    this.shippingTotal = 0,
+    this.shippingHtml = '',
     this.fees = const [],
     this.coupons = const [],
     this.pointsToEarn = 0,
     this.needsPayment = true,
+    this.supportsItemEdit = false,
   });
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
     final itemsList = (json['items'] as List?)
-            ?.map((e) => CartItem.fromJson(e as Map<String, dynamic>))
+            ?.whereType<Map<String, dynamic>>()
+            .map(CartItem.fromJson)
             .toList() ??
         [];
 
     final feeList = (json['fees'] as List?)
-            ?.map((e) => e as Map<String, dynamic>)
+            ?.whereType<Map<String, dynamic>>()
             .toList() ??
         [];
 
@@ -134,15 +205,22 @@ class CartModel {
 
     return CartModel(
       items: itemsList,
-      count: int.tryParse(json['count']?.toString() ?? '0') ?? itemsList.length,
-      subtotal: int.tryParse(json['subtotal']?.toString() ?? '0') ?? 0,
-      subtotalHtml: json['subtotal_html']?.toString() ?? '',
-      total: int.tryParse(json['total']?.toString() ?? '0') ?? 0,
-      totalHtml: json['total_html']?.toString() ?? '',
+      count: intField(json['count'], itemsList.length),
+      subtotal: intField(json['subtotal']),
+      subtotalHtml: strField(json['subtotal_html']),
+      total: intField(json['total']),
+      totalHtml: strField(json['total_html']),
+      discountTotal: intField(json['discount_total']),
+      discountHtml: strField(json['discount_html']),
+      taxTotal: intField(json['tax_total']),
+      taxHtml: strField(json['tax_html']),
+      shippingTotal: intField(json['shipping_total']),
+      shippingHtml: strField(json['shipping_html']),
       fees: feeList,
       coupons: couponList,
-      pointsToEarn: int.tryParse(json['points_to_earn']?.toString() ?? '0') ?? 0,
-      needsPayment: json['needs_payment'] != false,
+      pointsToEarn: intField(json['points_to_earn']),
+      needsPayment: boolField(json['needs_payment'], whenNull: true),
+      supportsItemEdit: boolField(json['supports_item_edit']),
     );
   }
 

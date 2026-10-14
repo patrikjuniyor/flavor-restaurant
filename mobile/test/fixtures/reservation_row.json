@@ -1,0 +1,36 @@
+{
+    "success": true,
+    "data": {
+        "id": 1,
+        "branch_id": 1,
+        "table_id": null,
+        "section": "indoor",
+        "reservation_date": "2026-10-28",
+        "reservation_time": "20:30:00",
+        "duration_minutes": 90,
+        "party_size": 4,
+        "customer_id": 303,
+        "customer_name": "مهدی کمالی",
+        "customer_mobile": "09127776655",
+        "guest_token": "2941b2b8206d5a34605c399d5b904afb19ac227993bf1962bb8b4c38e3310580",
+        "status": "pending",
+        "special_requests": "میز نزدیک پنجره",
+        "source": "online",
+        "reminder_sent_at": null,
+        "created_at": "2026-10-14 09:19:57",
+        "updated_at": "2026-10-14 09:19:57",
+        "jalali": {
+            "y": 1405,
+            "m": 8,
+            "d": 6,
+            "iso": "1405-08-06",
+            "label": "6 آبان 1405"
+        },
+        "jalali_label": "چهارشنبه ۶ آبان ۱۴۰۵"
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57"
+    },
+    "errors": []
+}

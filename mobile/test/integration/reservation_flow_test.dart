@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -8,6 +9,7 @@ import 'package:flavor_mobile/core/api/api_client.dart';
 import 'package:flavor_mobile/core/storage/secure_storage_service.dart';
 import 'package:flavor_mobile/core/utils/jalali_date.dart';
 import 'package:flavor_mobile/repositories/reservation_repository.dart';
+import 'package:flavor_mobile/models/reservation_model.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -19,18 +21,13 @@ void main() {
       final mockHttpClient = MockClient((request) async {
         final path = request.url.path;
 
+        // Real payloads captured from the live PHP controllers
+        // (flavor-core/tests generator -> test/fixtures/, prompt 65): the
+        // hand-rolled mocks used to invent a 'remaining_capacity' key the
+        // API never sent (the real slot shape is {time,time_sql,available,free}).
         if (path.contains('/reservations/slots')) {
           return http.Response(
-            jsonEncode({
-              'success': true,
-              'data': {
-                'slots': [
-                  {'time': '19:30', 'available': true, 'remaining_capacity': 12},
-                  {'time': '20:30', 'available': true, 'remaining_capacity': 8},
-                  {'time': '21:30', 'available': false, 'remaining_capacity': 0},
-                ]
-              }
-            }),
+            File('test/fixtures/reservation_slots.json').readAsStringSync(),
             200,
             headers: {'content-type': 'application/json; charset=utf-8'},
           );
@@ -38,19 +35,7 @@ void main() {
 
         if (path.contains('/reservations') && request.method == 'POST') {
           return http.Response(
-            jsonEncode({
-              'success': true,
-              'data': {
-                'ok': true,
-                'id': 305,
-                'status': 'confirmed',
-                'branch_id': 101,
-                'reservation_date': '2026-09-18',
-                'reservation_time': '20:30',
-                'party_size': 4,
-                'guest_token': 'guest_res_tok_sec_991'
-              }
-            }),
+            File('test/fixtures/reservation_book.json').readAsStringSync(),
             200,
             headers: {'content-type': 'application/json; charset=utf-8'},
           );
@@ -74,8 +59,11 @@ void main() {
         section: 'indoor',
       );
       expect(slots, isA<List>());
-      expect(slots.length, 3);
-      expect(slots[0].time, '19:30');
+      expect(slots, isNotEmpty);
+      expect(slots.first.time, '12:00');
+      expect(slots.first.timeSql, '12:00:00');
+      expect(slots.first.available, isTrue);
+      expect(slots.first.free, greaterThan(0));
 
       // 2. Book Table
       final booking = await resRepo.bookTable(
@@ -90,8 +78,13 @@ void main() {
       );
 
       expect(booking['ok'], true);
-      expect(booking['id'], 305);
-      expect(booking['status'], 'confirmed');
+      expect(booking['id'], 1);
+      expect(booking['status'], 'pending');
+      expect((booking['guest_token'] as String).length, 64);
+      // The model parses the same fixture the repository just returned.
+      final reservation = ReservationModel.fromJson(Map<String, dynamic>.from(booking));
+      expect(reservation.reservationDate, '2026-10-28');
+      expect(reservation.jalaliLabel, isNotEmpty);
     });
   });
 }

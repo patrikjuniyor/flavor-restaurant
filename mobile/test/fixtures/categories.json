@@ -1,0 +1,38 @@
+{
+    "success": true,
+    "data": [
+        {
+            "id": 1,
+            "name": "کباب و گریل",
+            "slug": "kabab",
+            "description": "انواع کباب‌های تازه",
+            "count": 8,
+            "image": "",
+            "icon": ""
+        },
+        {
+            "id": 2,
+            "name": "خورشت‌های سنتی",
+            "slug": "khoresht",
+            "description": "خورشت‌های جاافتاده",
+            "count": 6,
+            "image": "",
+            "icon": ""
+        },
+        {
+            "id": 3,
+            "name": "پیش‌غذا و سالاد",
+            "slug": "appetizer",
+            "description": "سالادها و ماست‌های محلی",
+            "count": 5,
+            "image": "",
+            "icon": ""
+        }
+    ],
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57",
+        "count": 3
+    },
+    "errors": []
+}

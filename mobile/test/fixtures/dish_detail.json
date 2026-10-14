@@ -1,0 +1,90 @@
+{
+    "success": true,
+    "data": {
+        "id": 1,
+        "name": "چلو کباب کوبیده مخصوص زعفرانی",
+        "slug": "dish-1",
+        "short_desc": "تهیه شده از بهترین مواد اولیه ایرانی",
+        "price": 2800000,
+        "price_html": "۲۸۰,۰۰۰ تومان",
+        "regular_price": 2800000,
+        "on_sale": false,
+        "discount_pct": 0,
+        "image": "https://restaurant.example.com/assets/images/sample-dish.jpg",
+        "prep_time": 0,
+        "calories": 0,
+        "dietary": [],
+        "allergens": [],
+        "rating_avg": 4.9,
+        "rating_count": 120,
+        "available": true,
+        "in_schedule": false,
+        "available_at": "",
+        "categories": [
+            {
+                "id": 1,
+                "name": "کباب‌ها",
+                "slug": "kabab"
+            }
+        ],
+        "has_modifiers": true,
+        "permalink": "https://restaurant.example.com/dish/1",
+        "description": "<p>توضیحات کامل غذای اصیل و خوش‌طعم</p>\n",
+        "gallery": [],
+        "modifier_groups": [
+            {
+                "type": "size",
+                "title": "اندازه",
+                "required": true,
+                "multi": false,
+                "options": [
+                    {
+                        "id": "size-large",
+                        "name": "بزرگ",
+                        "price": 50000,
+                        "price_html": "+۵,۰۰۰ تومان",
+                        "is_default": false
+                    }
+                ]
+            },
+            {
+                "type": "topping",
+                "title": "تاپینگ",
+                "required": false,
+                "multi": true,
+                "options": [
+                    {
+                        "id": "extra_rice",
+                        "name": "برنج اضافه",
+                        "price": 25000,
+                        "price_html": "+۲,۵۰۰ تومان",
+                        "is_default": false
+                    }
+                ]
+            },
+            {
+                "type": "removal",
+                "title": "بدون",
+                "required": false,
+                "multi": false,
+                "options": [
+                    {
+                        "id": "no-pickle",
+                        "name": "بدون ترشی",
+                        "price": 0,
+                        "price_html": "رایگان",
+                        "is_default": false
+                    }
+                ]
+            }
+        ],
+        "schedules": [],
+        "sku": "DISH-1"
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57",
+        "branch_id": 1
+    },
+    "errors": []
+}

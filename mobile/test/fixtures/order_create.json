@@ -1,0 +1,17 @@
+{
+    "success": true,
+    "data": {
+        "ok": true,
+        "order_id": 1001,
+        "order_number": "1001",
+        "redirect": "https://restaurant.example.com/order-received",
+        "payment": "flavor_pay_at_counter",
+        "mode": "dine_in"
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57",
+        "message": "سفارش با موفقیت ثبت شد."
+    },
+    "errors": []
+}

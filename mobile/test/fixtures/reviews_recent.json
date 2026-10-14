@@ -1,0 +1,23 @@
+{
+    "success": true,
+    "data": [
+        {
+            "id": 1,
+            "product_id": 1,
+            "author_name": "علی رضایی",
+            "rating": 5,
+            "comment": "کباب فوق‌العاده‌ای بود، برنج زعفرانی عالی.",
+            "is_verified": false,
+            "date": "2026-10-14 09:19:57",
+            "jalali_date": "۲۲ مهر ۱۴۰۵ - ۰۹:۱۹",
+            "dish_name": "چلو کباب کوبیده مخصوص زعفرانی",
+            "dish_image": "https://restaurant.example.com/assets/images/sample-dish.jpg"
+        }
+    ],
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57",
+        "count": 1
+    },
+    "errors": []
+}

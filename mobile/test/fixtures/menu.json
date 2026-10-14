@@ -1,0 +1,116 @@
+{
+    "success": true,
+    "data": [
+        {
+            "id": 1,
+            "name": "چلو کباب کوبیده مخصوص زعفرانی",
+            "slug": "dish-1",
+            "short_desc": "تهیه شده از بهترین مواد اولیه ایرانی",
+            "price": 2800000,
+            "price_html": "۲۸۰,۰۰۰ تومان",
+            "regular_price": 2800000,
+            "on_sale": false,
+            "discount_pct": 0,
+            "image": "https://restaurant.example.com/assets/images/sample-dish.jpg",
+            "prep_time": 0,
+            "calories": 0,
+            "dietary": [],
+            "allergens": [],
+            "rating_avg": 4.9,
+            "rating_count": 120,
+            "available": true,
+            "in_schedule": false,
+            "available_at": "",
+            "categories": [
+                {
+                    "id": 1,
+                    "name": "کباب‌ها",
+                    "slug": "kabab"
+                }
+            ],
+            "has_modifiers": true,
+            "permalink": "https://restaurant.example.com/dish/1"
+        },
+        {
+            "id": 2,
+            "name": "چلو جوجه کباب فیله زعفرانی",
+            "slug": "dish-2",
+            "short_desc": "تهیه شده از بهترین مواد اولیه ایرانی",
+            "price": 2600000,
+            "price_html": "۲۶۰,۰۰۰ تومان",
+            "regular_price": 2600000,
+            "on_sale": false,
+            "discount_pct": 0,
+            "image": "https://restaurant.example.com/assets/images/sample-dish.jpg",
+            "prep_time": 0,
+            "calories": 0,
+            "dietary": [],
+            "allergens": [],
+            "rating_avg": 4.9,
+            "rating_count": 120,
+            "available": true,
+            "in_schedule": false,
+            "available_at": "",
+            "categories": [
+                {
+                    "id": 1,
+                    "name": "کباب‌ها",
+                    "slug": "kabab"
+                }
+            ],
+            "has_modifiers": true,
+            "permalink": "https://restaurant.example.com/dish/2"
+        },
+        {
+            "id": 3,
+            "name": "زرشک پلو با مرغ مجلسی",
+            "slug": "dish-3",
+            "short_desc": "تهیه شده از بهترین مواد اولیه ایرانی",
+            "price": 1950000,
+            "price_html": "۱۹۵,۰۰۰ تومان",
+            "regular_price": 1950000,
+            "on_sale": false,
+            "discount_pct": 0,
+            "image": "https://restaurant.example.com/assets/images/sample-dish.jpg",
+            "prep_time": 0,
+            "calories": 0,
+            "dietary": [],
+            "allergens": [],
+            "rating_avg": 4.9,
+            "rating_count": 120,
+            "available": true,
+            "in_schedule": false,
+            "available_at": "",
+            "categories": [
+                {
+                    "id": 1,
+                    "name": "کباب‌ها",
+                    "slug": "kabab"
+                }
+            ],
+            "has_modifiers": false,
+            "permalink": "https://restaurant.example.com/dish/3"
+        }
+    ],
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57",
+        "pagination": {
+            "total": 3,
+            "count": 3,
+            "per_page": 1,
+            "current_page": 1,
+            "total_pages": 3,
+            "has_next": true,
+            "has_prev": false
+        },
+        "branch_id": 1,
+        "menu_version": 1,
+        "currency": {
+            "storage": "irr",
+            "display": "irt",
+            "label": "تومان"
+        }
+    },
+    "errors": []
+}

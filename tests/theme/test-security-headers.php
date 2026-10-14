@@ -37,7 +37,8 @@ use FlavorCore\Support\SecurityHeaders;
 
 if ( ! function_exists( 'is_admin' ) ) {
 	/**
-	 * Mock environment has no is_admin(); tests toggle $GLOBALS['_test_is_admin'].
+	 * Standalone-run fallback. The mock environment defines is_admin() itself
+	 * and honours $GLOBALS['_test_is_admin'] exactly like this polyfill.
 	 *
 	 * @return bool
 	 */

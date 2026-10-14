@@ -1,0 +1,63 @@
+{
+    "success": true,
+    "data": {
+        "supports_item_edit": true,
+        "items": [
+            {
+                "key": "8ff5923715e8e54469bc4a7b36e2be70",
+                "product_id": 1,
+                "name": "چلو کباب کوبیده مخصوص زعفرانی",
+                "quantity": 2,
+                "unit_price_raw": 287500,
+                "line_total_raw": 575000,
+                "price_html": "287,500 تومان",
+                "line_html": "575,000 تومان",
+                "modifiers": [
+                    {
+                        "id": "size-large",
+                        "type": "size",
+                        "type_label": "اندازه",
+                        "name": "بزرگ",
+                        "price": 50000
+                    },
+                    {
+                        "id": "extra_rice",
+                        "type": "topping",
+                        "type_label": "تاپینگ",
+                        "name": "برنج اضافه",
+                        "price": 25000
+                    }
+                ],
+                "instructions": "لطفاً سماق قرمز جداگانه ارسال شود.",
+                "image": "https://restaurant.example.com/assets/images/sample-dish.jpg",
+                "unit_price": 2875000,
+                "line_total": 5750000,
+                "unit_price_html": "۲۸۷,۵۰۰ تومان",
+                "line_total_html": "۵۷۵,۰۰۰ تومان"
+            }
+        ],
+        "count": 2,
+        "subtotal": 5750000,
+        "subtotal_html": "۵۷۵,۰۰۰ تومان",
+        "total": 5750000,
+        "total_html": "۵۷۵,۰۰۰ تومان",
+        "fees": [],
+        "discount_total": 0,
+        "discount_html": "۰ تومان",
+        "tax_total": 0,
+        "tax_html": "۰ تومان",
+        "shipping_total": 0,
+        "shipping_html": "۰ تومان",
+        "coupons": [],
+        "points_to_earn": 57,
+        "needs_payment": true,
+        "last_key": "8ff5923715e8e54469bc4a7b36e2be70",
+        "cart_token": "fcart_26fbe5e90cdaef87fa9da920d8df63acf61183de4244ea32"
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57",
+        "message": "آیتم به سبد اضافه شد."
+    },
+    "errors": []
+}

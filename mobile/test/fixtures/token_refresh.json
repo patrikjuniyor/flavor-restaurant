@@ -1,0 +1,16 @@
+{
+    "success": true,
+    "data": {
+        "token_type": "Bearer",
+        "access_token": "c3a4f326538dc98be1bf2769edfca2280f829b0e4cfed0efaed7d1ea3998d3d3",
+        "refresh_token": "2c5e76ce1d24a04b26f6acb018cfe115ec02b1c0c26388fbc76aea7561c4d907",
+        "expires_in": 7200,
+        "expires_at": "2026-10-14 11:19:57",
+        "user_id": 101
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57"
+    },
+    "errors": []
+}

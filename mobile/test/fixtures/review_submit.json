@@ -1,0 +1,14 @@
+{
+    "success": true,
+    "data": {
+        "id": 1,
+        "is_verified": false
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57",
+        "message": "دیدگاه شما با موفقیت ثبت شد.",
+        "status": 201
+    },
+    "errors": []
+}

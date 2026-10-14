@@ -272,6 +272,10 @@ return $this->name; }
 return 'dish-' . $this->id; }
 	public function get_price(): int {
 return $this->price; }
+	/** Real WC_Product mutates its price in-request (modifier recalculation). */
+	public function set_price( $price ): void {
+		$this->price = (int) round( (float) $price );
+	}
 	public function get_regular_price(): int {
 return $this->price; }
 	public function is_purchasable(): bool {
@@ -300,6 +304,14 @@ return home_url( '/product/dish-' . $this->id . '/' ); }
 return number_format( $this->price ) . ' تومان'; }
 	public function is_in_stock(): bool {
 return true; }
+	public function get_stock_managed_by_id(): int {
+return $this->id; }
+	public function has_enough_stock( $qty ): bool {
+		unset( $qty );
+		return true;
+	}
+	public function is_sold_individually(): bool {
+return false; }
 }
 
 /**
@@ -586,6 +598,18 @@ class MockWPDB {
 				reminder_sent_at DATETIME NULL,
 				created_at DATETIME NOT NULL,
 				updated_at DATETIME NOT NULL
+			);
+
+			CREATE TABLE wp_flavor_reviews (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				product_id INTEGER NOT NULL,
+				user_id INTEGER NULL,
+				author_name TEXT NOT NULL,
+				rating INTEGER NOT NULL DEFAULT 5,
+				comment TEXT NOT NULL,
+				is_verified INTEGER NOT NULL DEFAULT 0,
+				is_approved INTEGER NOT NULL DEFAULT 1,
+				created_at DATETIME NOT NULL
 			);
 
 			CREATE TABLE wp_flavor_tables (
@@ -1698,6 +1722,19 @@ function is_wp_error( $thing ): bool {
 	return $thing instanceof WP_Error;
 }
 
+/**
+ * Real WP admin-context flag. The doubled REST/CLI context is never the
+ * admin, but hooked plugin code (ProductModifiers::recalculate) guards on
+ * it, so it must exist once real hook chains run (prompt 65).
+ */
+function is_admin(): bool {
+	// Honour the $_test_is_admin seam: tests/theme/test-security-headers.php
+	// has toggled it to simulate wp-admin context since before the mock
+	// defined is_admin() at all. Default (unset) stays false for the cart /
+	// checkout flows, which is what ProductModifiers::recalculate expects.
+	return ! empty( $GLOBALS['_test_is_admin'] );
+}
+
 // Mock WP_REST_Request & Response
 class WP_REST_Request {
 	public string $method;
@@ -1766,38 +1803,59 @@ return $response;
 
 // Mock WooCommerce Cart & Order Objects
 class MockWCCart {
+	/**
+	 * Canonical cart store. Named exactly like the real WC_Cart property because
+	 * CartSession::update_selection() writes through $cart->cart_contents
+	 * directly (prompt 65: the item-edit path had never been dispatched against
+	 * this double before, so the property never needed to exist).
+	 *
+	 * @var array<string, array<string, mixed>>
+	 */
+	public array $cart_contents = array();
+	/**
+	 * Legacy simple-lines seam: tests/theme/test-mock-fidelity.php populates
+	 * $items/$fees directly (the pre-prompt-65 cart shape). The cart surfaces
+	 * these whenever the WC-faithful store is empty, so both contracts hold.
+	 *
+	 * @var array<int, array<string, mixed>>
+	 */
 	public array $items = array();
 	public array $coupons = array();
 	public array $fees = array();
+	private array $totals_snapshot = array();
 
 	public function is_empty(): bool {
-return empty( $this->items ); }
+return empty( $this->cart_contents ) && empty( $this->items ); }
 	public function empty_cart() {
+$this->cart_contents = array();
 $this->items = array();
 $this->coupons = array();
 $this->fees = array(); }
 	public function get_cart_contents_count(): int {
 		$sum = 0;
-		foreach ( $this->items as $i ) {
+		foreach ( $this->cart_contents ?: $this->items as $i ) {
 $sum += (int) ( $i['quantity'] ?? 1 );
 		}
 		return $sum;
 	}
 	public function get_cart(): array {
-return $this->items; }
+return $this->cart_contents ?: $this->items; }
 	public function get_cart_item( string $key ) {
-return $this->items[ $key ] ?? null; }
+return $this->cart_contents[ $key ] ?? null; }
 	public function set_quantity( string $key, int $qty ) {
-if ( isset( $this->items[ $key ] ) ) {
-$this->items[ $key ]['quantity'] = $qty;
+if ( isset( $this->cart_contents[ $key ] ) ) {
+$this->cart_contents[ $key ]['quantity'] = $qty;
+			// Real WC_Cart::set_quantity recalculates totals; the doubled cart
+			// used to keep a stale line_total after quantity/selection edits.
+			$this->calculate_totals();
 	} }
 	public function remove_cart_item( string $key ) {
-unset( $this->items[ $key ] ); }
+unset( $this->cart_contents[ $key ] ); }
 	public function get_subtotal(): float {
 		// Real WC sums the actual line totals — the old count * 150000
 		// constant ignored every real product price in the catalog.
 		$sum = 0.0;
-		foreach ( $this->items as $item ) {
+		foreach ( $this->cart_contents ?: $this->items as $item ) {
 			$sum += (float) ( $item['line_total'] ?? 0 );
 		}
 		return $sum;
@@ -1810,6 +1868,17 @@ unset( $this->items[ $key ] ); }
 		}
 		return $total;
 	}
+	/** Totals snapshot for update_selection()'s rollback path. */
+	public function get_totals(): array {
+		return $this->totals_snapshot ?: array(
+			'subtotal' => $this->get_subtotal(),
+			'total'    => $this->get_total(),
+		);
+	}
+	public function set_totals( array $totals ) {
+		$this->totals_snapshot = $totals;
+	}
+	public function set_session() {}
 	public function get_fees(): array {
 return $this->fees; }
 	public function add_fee( string $name, float $amount, bool $taxable = false ) {
@@ -1828,19 +1897,50 @@ return true; }
 	public function remove_coupon( string $code ): bool {
 $this->coupons = array_diff( $this->coupons, array( $code ) );
 return true; }
-	public function calculate_totals() {}
-	public function add_to_cart( int $product_id, int $qty = 1 ): string {
-		$key = 'mock_item_key_' . $product_id;
+	public function calculate_totals() {
+		// Mirror real WC_Cart::calculate_totals(): fire the hook chain (where
+		// ProductModifiers::recalculate prices modifier extras into the line's
+		// product object) and then re-price every line from that object.
+		do_action( 'woocommerce_before_calculate_totals', $this );
+		foreach ( $this->cart_contents as $key => $item ) {
+			$prod = $item['data'] ?? null;
+			if ( $prod && is_object( $prod ) ) {
+				$this->cart_contents[ $key ]['line_total'] = (int) ( $item['quantity'] ?? 1 ) * (float) $prod->get_price();
+			}
+		}
+	}
+	/**
+	 * Real-WC-compatible cart id: the same product + selection always maps to
+	 * the same key, and a different selection must NOT collide with it (that
+	 * collision is exactly what CartSession::update_selection guards against).
+	 */
+	public function generate_cart_id( $product_id, $variation_id = 0, $variation = array(), $cart_item_data = array() ): string {
+		return md5( wp_json_encode( array( $product_id, $variation_id, $variation, $cart_item_data ) ) );
+	}
+	public function add_to_cart( int $product_id, int $qty = 1, int $variation_id = 0, array $variation = array(), array $cart_item_data = array() ): string {
+		unset( $variation_id, $variation );
+		// Real WC runs the selection through this filter chain — with no hook
+		// registered (every suite before prompt 65) the data stays empty and
+		// the legacy mock_item_key_N behaviour is preserved byte for byte.
+		$cart_item_data = apply_filters( 'woocommerce_add_cart_item_data', $cart_item_data, $product_id, 0 );
+		if ( ! empty( $cart_item_data ) ) {
+			$key = $this->generate_cart_id( $product_id, 0, array(), $cart_item_data );
+		} else {
+			$key = 'mock_item_key_' . $product_id;
+		}
 		$prod = wc_get_product( $product_id );
-		$this->items[ $key ] = array(
+		$this->cart_contents[ $key ] = array(
 			'key'                 => $key,
 			'product_id'          => $product_id,
 			'quantity'            => $qty,
 			'data'                => $prod,
 			'line_total'          => $qty * ( $prod ? $prod->get_price() : 150000 ),
-			'flavor_modifiers'    => array( 'ids' => array() ),
-			'flavor_instructions' => '',
+			'flavor_modifiers'    => $cart_item_data['flavor_modifiers'] ?? array( 'ids' => array() ),
+			'flavor_instructions' => (string) ( $cart_item_data['flavor_instructions'] ?? '' ),
+			'flavor_extra'        => (int) ( $cart_item_data['flavor_extra'] ?? 0 ),
 		);
+		// Real WC_Cart::add_to_cart recalculates totals before returning.
+		$this->calculate_totals();
 		return $key;
 	}
 }
@@ -1960,7 +2060,12 @@ $GLOBALS['_mock_wc_products'] = array(
 );
 
 function wc_get_product( int $id ) {
-	return $GLOBALS['_mock_wc_products'][ $id ] ?? new WC_Product( $id, 'غذای ویژه', 150000 );
+	// Real WC reads a fresh row per call. The doubled catalog used to hand out
+	// the SAME instance every time, so any in-request price mutation (the
+	// ProductModifiers::recalculate hook) leaked into later "catalog" reads
+	// and compounded. Clone = pristine catalog semantics.
+	$seeded = $GLOBALS['_mock_wc_products'][ $id ] ?? null;
+	return $seeded ? clone $seeded : new WC_Product( $id, 'غذای ویژه', 150000 );
 }
 /**
  * Fetch products, honoring `paginate` the way WooCommerce does.

@@ -1,0 +1,114 @@
+{
+    "success": true,
+    "data": {
+        "app": {
+            "name": "رستوران سنتی شاندیز",
+            "description": "لذیذترین غذاهای اصیل ایرانی",
+            "logo": "",
+            "phone": "021-12345678",
+            "instagram": "",
+            "maintenance_mode": false,
+            "min_app_version": "1.0.0",
+            "current_version": "1.5.1"
+        },
+        "design": {
+            "preset": "modern_restaurant",
+            "primary_color": "#c8102e",
+            "accent_color": "#d97706",
+            "font_family": "iransans",
+            "border_radius": "0.75rem"
+        },
+        "currency": {
+            "storage_unit": "irr",
+            "display_unit": "irt",
+            "label": "تومان",
+            "symbol": "تومان",
+            "decimals": 0
+        },
+        "ordering": {
+            "modes": [
+                {
+                    "id": "dine_in",
+                    "label": "سفارش سر میز (سالن)",
+                    "icon": "utensils"
+                },
+                {
+                    "id": "takeaway",
+                    "label": "بیرون‌بر / تحویل حضوری",
+                    "icon": "shopping-bag"
+                },
+                {
+                    "id": "delivery",
+                    "label": "ارسال با پیک اختصاصی",
+                    "icon": "motorcycle"
+                }
+            ],
+            "guest_checkout": true
+        },
+        "auth": {
+            "otp_length": 5,
+            "otp_resend_sec": 120
+        },
+        "branches": [
+            {
+                "id": 1,
+                "name": "شعبه مرکزی شاندیز",
+                "slug": "central-branch",
+                "phone": "",
+                "address": "",
+                "province": "",
+                "city": "",
+                "neighborhood": "",
+                "lat": "",
+                "lng": "",
+                "timezone": "Asia/Tehran",
+                "order_modes": [
+                    "dine_in",
+                    "takeaway",
+                    "delivery"
+                ],
+                "is_default": false,
+                "menu_version": 1,
+                "permalink": "https://restaurant.example.com/dish/1"
+            },
+            {
+                "id": 2,
+                "name": "شعبه مرکزی شاندیز",
+                "slug": "central-branch",
+                "phone": "",
+                "address": "",
+                "province": "",
+                "city": "",
+                "neighborhood": "",
+                "lat": "",
+                "lng": "",
+                "timezone": "Asia/Tehran",
+                "order_modes": [
+                    "dine_in",
+                    "takeaway",
+                    "delivery"
+                ],
+                "is_default": false,
+                "menu_version": 1,
+                "permalink": "https://restaurant.example.com/dish/2"
+            }
+        ],
+        "default_branch_id": 1,
+        "calendar": {
+            "gregorian_today": "2026-10-14",
+            "jalali_today": {
+                "y": 1405,
+                "m": 7,
+                "d": 22,
+                "iso": "1405-07-22",
+                "label": "22 مهر 1405"
+            },
+            "jalali_label": "چهارشنبه ۲۲ مهر ۱۴۰۵"
+        }
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57"
+    },
+    "errors": []
+}

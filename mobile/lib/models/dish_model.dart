@@ -1,6 +1,11 @@
 /// Food Dish and Customization Modifier domain models.
+///
+/// Mirrors MenuController::serialize_dish()/serialize_dish_detail() — see
+/// test/fixtures/menu.json and test/fixtures/dish_detail.json.
 library;
+
 import 'category_model.dart';
+import 'json_fields.dart';
 
 class ModifierOption {
   final String id;
@@ -19,11 +24,11 @@ class ModifierOption {
 
   factory ModifierOption.fromJson(Map<String, dynamic> json) {
     return ModifierOption(
-      id: json['id']?.toString() ?? '',
-      name: json['name']?.toString() ?? '',
-      price: int.tryParse(json['price']?.toString() ?? '0') ?? 0,
-      priceHtml: json['price_html']?.toString() ?? '',
-      isDefault: json['is_default'] == true,
+      id: strField(json['id']),
+      name: strField(json['name']),
+      price: intField(json['price']),
+      priceHtml: strField(json['price_html']),
+      isDefault: boolField(json['is_default']),
     );
   }
 
@@ -60,10 +65,10 @@ class ModifierGroup {
         [];
 
     return ModifierGroup(
-      type: json['type']?.toString() ?? 'topping',
-      title: json['title']?.toString() ?? 'مخلفات',
-      required: json['required'] == true,
-      multi: json['multi'] == true,
+      type: strField(json['type'], 'topping'),
+      title: strField(json['title'], 'مخلفات'),
+      required: boolField(json['required']),
+      multi: boolField(json['multi']),
       options: opts,
     );
   }
@@ -95,6 +100,9 @@ class DishModel {
   final int prepTime;
   final int calories;
   final List<String> dietary;
+
+  /// Sanitized allergen keys (`_flavor_allergens` meta) — card payload.
+  final List<String> allergens;
   final double ratingAvg;
   final int ratingCount;
   final bool available;
@@ -102,8 +110,15 @@ class DishModel {
   final String availableAt;
   final List<CategoryModel> categories;
   final List<ModifierGroup> modifierGroups;
+
+  /// Per-day serving schedule rows (`_flavor_schedule` meta) — detail payload;
+  /// shape is free-form server data, kept raw on purpose.
+  final List<dynamic> schedules;
   final bool hasModifiers;
   final String permalink;
+
+  /// Stock keeping unit — detail payload only.
+  final String sku;
 
   const DishModel({
     required this.id,
@@ -121,6 +136,7 @@ class DishModel {
     this.prepTime = 0,
     this.calories = 0,
     this.dietary = const [],
+    this.allergens = const [],
     this.ratingAvg = 5.0,
     this.ratingCount = 0,
     this.available = true,
@@ -128,8 +144,10 @@ class DishModel {
     this.availableAt = '',
     this.categories = const [],
     this.modifierGroups = const [],
+    this.schedules = const [],
     this.hasModifiers = false,
     this.permalink = '',
+    this.sku = '',
   });
 
   factory DishModel.fromJson(Map<String, dynamic> json) {
@@ -145,32 +163,38 @@ class DishModel {
 
     final gal = (json['gallery'] as List?)?.map((e) => e.toString()).toList() ?? [];
     final diets = (json['dietary'] as List?)?.map((e) => e.toString()).toList() ?? [];
+    final allergenList = (json['allergens'] as List?)?.map((e) => e.toString()).toList() ?? [];
+    final scheduleList = (json['schedules'] as List?)?.toList() ?? [];
 
     return DishModel(
-      id: int.tryParse(json['id']?.toString() ?? '0') ?? 0,
-      name: json['name']?.toString() ?? '',
-      slug: json['slug']?.toString() ?? '',
-      shortDesc: json['short_desc']?.toString() ?? (json['short']?.toString() ?? ''),
-      description: json['description']?.toString() ?? '',
-      price: int.tryParse(json['price']?.toString() ?? '0') ?? 0,
-      priceHtml: json['price_html']?.toString() ?? '',
-      regularPrice: int.tryParse(json['regular_price']?.toString() ?? '0') ?? 0,
-      onSale: json['on_sale'] == true,
-      discountPct: int.tryParse(json['discount_pct']?.toString() ?? '0') ?? 0,
-      image: json['image']?.toString() ?? '',
+      id: intField(json['id']),
+      name: strField(json['name']),
+      slug: strField(json['slug']),
+      shortDesc: strField(json['short_desc'], strField(json['short'])),
+      description: strField(json['description']),
+      price: intField(json['price']),
+      priceHtml: strField(json['price_html']),
+      regularPrice: intField(json['regular_price']),
+      onSale: boolField(json['on_sale']),
+      discountPct: intField(json['discount_pct']),
+      image: strField(json['image']),
       gallery: gal,
-      prepTime: int.tryParse(json['prep_time']?.toString() ?? '0') ?? 0,
-      calories: int.tryParse(json['calories']?.toString() ?? '0') ?? 0,
+      prepTime: intField(json['prep_time']),
+      calories: intField(json['calories']),
       dietary: diets,
-      ratingAvg: double.tryParse(json['rating_avg']?.toString() ?? '5.0') ?? 5.0,
-      ratingCount: int.tryParse(json['rating_count']?.toString() ?? '0') ?? 0,
-      available: json['available'] != false,
-      inSchedule: json['in_schedule'] != false,
-      availableAt: json['available_at']?.toString() ?? '',
+      allergens: allergenList,
+      // rating_avg is a PHP float (0.0 when the dish has no reviews yet).
+      ratingAvg: doubleField(json['rating_avg'], 5.0),
+      ratingCount: intField(json['rating_count']),
+      available: boolField(json['available'], whenNull: true),
+      inSchedule: boolField(json['in_schedule'], whenNull: true),
+      availableAt: strField(json['available_at']),
       categories: cats,
       modifierGroups: groups,
-      hasModifiers: json['has_modifiers'] == true || groups.isNotEmpty,
-      permalink: json['permalink']?.toString() ?? '',
+      schedules: scheduleList,
+      hasModifiers: boolField(json['has_modifiers']) || groups.isNotEmpty,
+      permalink: strField(json['permalink']),
+      sku: strField(json['sku']),
     );
   }
 
@@ -191,6 +215,7 @@ class DishModel {
       'prep_time': prepTime,
       'calories': calories,
       'dietary': dietary,
+      'allergens': allergens,
       'rating_avg': ratingAvg,
       'rating_count': ratingCount,
       'available': available,
@@ -198,8 +223,10 @@ class DishModel {
       'available_at': availableAt,
       'categories': categories.map((e) => e.toJson()).toList(),
       'modifier_groups': modifierGroups.map((e) => e.toJson()).toList(),
+      'schedules': schedules,
       'has_modifiers': hasModifiers,
       'permalink': permalink,
+      'sku': sku,
     };
   }
 }

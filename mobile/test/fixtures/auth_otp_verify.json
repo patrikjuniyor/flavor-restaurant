@@ -1,0 +1,40 @@
+{
+    "success": true,
+    "data": {
+        "user": {
+            "id": 302,
+            "display_name": "علی رضایی",
+            "email": "",
+            "mobile": "09125554433",
+            "avatar_url": "https://secure.gravatar.com/avatar/sample",
+            "loyalty": {
+                "points": 0,
+                "stamps": 0,
+                "stamp_target": 10,
+                "stamp_cycle": 0,
+                "free_item": false
+            },
+            "dietary_preferences": [],
+            "saved_addresses": [],
+            "capabilities": {
+                "is_admin": false,
+                "is_kitchen_staff": false,
+                "is_driver": false
+            }
+        },
+        "tokens": {
+            "token_type": "Bearer",
+            "access_token": "6ee6a7571138917dc5c0a5f3759c21fb946c3b76084a49f191406845d90052a4",
+            "refresh_token": "a1933d75d1a520831f1f97780ae4d4c75da01ddb32db6d2299f18afcef839e28",
+            "expires_in": 7200,
+            "expires_at": "2026-10-14 11:19:57",
+            "user_id": 302
+        },
+        "is_new_user": true
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57"
+    },
+    "errors": []
+}

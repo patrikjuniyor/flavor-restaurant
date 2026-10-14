@@ -1,0 +1,75 @@
+{
+    "success": true,
+    "data": {
+        "id": 1001,
+        "order_number": "1001",
+        "status": "pending",
+        "status_label": "در انتظار پرداخت",
+        "order_mode": "dine_in",
+        "items_summary": "چلو کباب کوبیده مخصوص زعفرانی (2)، چلو جوجه کباب فیله زعفرانی (1)",
+        "items_count": 2,
+        "total": 8350000,
+        "total_html": "۸۳۵,۰۰۰ تومان",
+        "date": "2026-10-14 09:19:57",
+        "jalali_date": "۲۲ مهر ۱۴۰۵ - ۰۹:۱۹",
+        "branch_id": 1,
+        "items": [
+            {
+                "id": 1,
+                "product_id": 1,
+                "name": "چلو کباب کوبیده مخصوص زعفرانی",
+                "quantity": 2,
+                "total": 575000,
+                "total_html": "575,000 تومان",
+                "line_total_display": "۵۷۵,۰۰۰ تومان",
+                "modifiers": [
+                    {
+                        "id": "size-large",
+                        "type": "size",
+                        "type_label": "اندازه",
+                        "name": "بزرگ",
+                        "price": 50000
+                    },
+                    {
+                        "id": "extra_rice",
+                        "type": "topping",
+                        "type_label": "تاپینگ",
+                        "name": "برنج اضافه",
+                        "price": 25000
+                    }
+                ],
+                "instructions": "کباب‌ها یکی‌شده ارسال نشوند.",
+                "image": "https://restaurant.example.com/assets/images/sample-dish.jpg"
+            },
+            {
+                "id": 1,
+                "product_id": 2,
+                "name": "چلو جوجه کباب فیله زعفرانی",
+                "quantity": 1,
+                "total": 260000,
+                "total_html": "260,000 تومان",
+                "line_total_display": "۲۶۰,۰۰۰ تومان",
+                "modifiers": [],
+                "instructions": "",
+                "image": "https://restaurant.example.com/assets/images/sample-dish.jpg"
+            }
+        ],
+        "payment_method": "پرداخت در محل / حضوری",
+        "billing_address": {
+            "name": "علی رضایی ",
+            "phone": "09123456789",
+            "address": "",
+            "city": "",
+            "province": ""
+        },
+        "kitchen_status": "new",
+        "kitchen_status_known": true,
+        "table_number": "T-04",
+        "notes": "تحویل بدون تماس درب واحد"
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57"
+    },
+    "errors": []
+}

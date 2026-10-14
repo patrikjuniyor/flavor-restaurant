@@ -1,0 +1,142 @@
+{
+    "success": true,
+    "data": {
+        "branch_id": 1,
+        "date": "2026-10-28",
+        "jalali": {
+            "y": 1405,
+            "m": 8,
+            "d": 6,
+            "iso": "1405-08-06",
+            "label": "6 آبان 1405"
+        },
+        "jalali_label": "چهارشنبه ۶ آبان ۱۴۰۵",
+        "slots": [
+            {
+                "time": "12:00",
+                "time_sql": "12:00:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "12:30",
+                "time_sql": "12:30:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "13:00",
+                "time_sql": "13:00:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "13:30",
+                "time_sql": "13:30:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "14:00",
+                "time_sql": "14:00:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "14:30",
+                "time_sql": "14:30:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "15:00",
+                "time_sql": "15:00:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "15:30",
+                "time_sql": "15:30:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "16:00",
+                "time_sql": "16:00:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "16:30",
+                "time_sql": "16:30:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "17:00",
+                "time_sql": "17:00:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "17:30",
+                "time_sql": "17:30:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "18:00",
+                "time_sql": "18:00:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "18:30",
+                "time_sql": "18:30:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "19:00",
+                "time_sql": "19:00:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "19:30",
+                "time_sql": "19:30:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "20:00",
+                "time_sql": "20:00:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "20:30",
+                "time_sql": "20:30:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "21:00",
+                "time_sql": "21:00:00",
+                "available": true,
+                "free": 18
+            },
+            {
+                "time": "21:30",
+                "time_sql": "21:30:00",
+                "available": true,
+                "free": 18
+            }
+        ]
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57"
+    },
+    "errors": []
+}

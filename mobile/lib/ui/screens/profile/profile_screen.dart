@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../config/routes.dart';
-import '../../../core/utils/currency_formatter.dart';
 import '../../../core/utils/persian_number.dart';
 import '../../../state/auth_state.dart';
 import '../../../state/config_state.dart';
@@ -88,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Text(
-                                  'سطح ${user.loyalty.tier}',
+                                  'تمبرها ${PersianNumber.toPersian(user.loyalty.stamps)}/${PersianNumber.toPersian(user.loyalty.stampTarget)}',
                                   style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
                                 ),
                               ),
@@ -96,7 +95,8 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'موجودی شما: ${PersianNumber.toPersian(user.loyalty.balance)} امتیاز (معادل ${CurrencyFormatter.format(user.loyalty.discountEquivalent)})',
+                            'امتیازهای شما: ${PersianNumber.toPersian(user.loyalty.points)}'
+                                '${user.loyalty.hasFreeItemReward ? ' · یک آیتم رایگان قابل دریافت است' : ''}',
                             style: const TextStyle(fontSize: 12, color: Colors.grey),
                           ),
                         ],

@@ -1,0 +1,26 @@
+{
+    "success": true,
+    "data": {
+        "ok": true,
+        "id": 1,
+        "status": "pending",
+        "guest_token": "2941b2b8206d5a34605c399d5b904afb19ac227993bf1962bb8b4c38e3310580",
+        "date": "2026-10-28",
+        "jalali": {
+            "y": 1405,
+            "m": 8,
+            "d": 6,
+            "iso": "1405-08-06",
+            "label": "6 آبان 1405"
+        },
+        "jalali_label": "چهارشنبه ۶ آبان ۱۴۰۵",
+        "time": "20:30",
+        "no_shows": 0
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57",
+        "message": "درخواست رزرو میز شما با موفقیت ثبت شد."
+    },
+    "errors": []
+}

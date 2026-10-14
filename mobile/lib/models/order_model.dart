@@ -1,5 +1,14 @@
 /// Order, Order History, and Live Tracking domain models.
+///
+/// Mirrors OrderController::format_order_summary()/format_order_detail()/
+/// track_order() — see test/fixtures/orders_list.json, order_detail.json and
+/// order_track.json. The same OrderModel parses all three shapes: the list
+/// summary, the full detail and the tracking payload (which identifies the
+/// order via `order_id`/`current_status` instead of `id`/`status`).
 library;
+
+import 'cart_model.dart' show CartItemModifier;
+import 'json_fields.dart';
 
 class OrderTrackingStep {
   final String step;
@@ -16,10 +25,10 @@ class OrderTrackingStep {
 
   factory OrderTrackingStep.fromJson(Map<String, dynamic> json) {
     return OrderTrackingStep(
-      step: json['step']?.toString() ?? '',
-      title: json['title']?.toString() ?? '',
-      completed: json['completed'] == true,
-      time: json['time']?.toString() ?? '',
+      step: strField(json['step']),
+      title: strField(json['title']),
+      completed: boolField(json['completed']),
+      time: strField(json['time']),
     );
   }
 
@@ -33,6 +42,44 @@ class OrderTrackingStep {
   }
 }
 
+/// Billing/delivery contact block from format_order_detail().
+class OrderBillingAddress {
+  final String name;
+  final String phone;
+  final String address;
+  final String city;
+  final String province;
+
+  const OrderBillingAddress({
+    this.name = '',
+    this.phone = '',
+    this.address = '',
+    this.city = '',
+    this.province = '',
+  });
+
+  factory OrderBillingAddress.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return const OrderBillingAddress();
+    return OrderBillingAddress(
+      name: strField(json['name']),
+      phone: strField(json['phone']),
+      address: strField(json['address']),
+      city: strField(json['city']),
+      province: strField(json['province']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'phone': phone,
+      'address': address,
+      'city': city,
+      'province': province,
+    };
+  }
+}
+
 class OrderLineItem {
   final int id;
   final int productId;
@@ -40,6 +87,15 @@ class OrderLineItem {
   final int quantity;
   final int total;
   final String totalHtml;
+
+  /// Storage-unit formatted label from format_order_detail().
+  final String lineTotalDisplay;
+
+  /// Sanitized modifier selection rows persisted on the order line
+  /// (`_flavor_modifiers` item meta) — same shape as cart item modifiers.
+  final List<CartItemModifier> modifiers;
+
+  /// Can be PHP `false` (no thumbnail) — strField maps that to ''.
   final String image;
   final String instructions;
 
@@ -50,21 +106,48 @@ class OrderLineItem {
     required this.quantity,
     required this.total,
     required this.totalHtml,
+    this.lineTotalDisplay = '',
+    this.modifiers = const [],
     this.image = '',
     this.instructions = '',
   });
 
   factory OrderLineItem.fromJson(Map<String, dynamic> json) {
+    final rawModifiers = json['modifiers'];
+    final mods = rawModifiers is List
+        ? rawModifiers
+            .whereType<Map<String, dynamic>>()
+            .map(CartItemModifier.fromJson)
+            .toList()
+        : <CartItemModifier>[];
+
     return OrderLineItem(
-      id: int.tryParse(json['id']?.toString() ?? '0') ?? 0,
-      productId: int.tryParse(json['product_id']?.toString() ?? '0') ?? 0,
-      name: json['name']?.toString() ?? '',
-      quantity: int.tryParse(json['quantity']?.toString() ?? '1') ?? 1,
-      total: int.tryParse(json['total']?.toString() ?? '0') ?? 0,
-      totalHtml: json['total_html']?.toString() ?? '',
-      image: json['image']?.toString() ?? '',
-      instructions: json['instructions']?.toString() ?? '',
+      id: intField(json['id']),
+      productId: intField(json['product_id']),
+      name: strField(json['name']),
+      quantity: intField(json['quantity'], 1),
+      total: intField(json['total']),
+      totalHtml: strField(json['total_html']),
+      lineTotalDisplay: strField(json['line_total_display']),
+      modifiers: mods,
+      image: strField(json['image']),
+      instructions: strField(json['instructions']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'product_id': productId,
+      'name': name,
+      'quantity': quantity,
+      'total': total,
+      'total_html': totalHtml,
+      'line_total_display': lineTotalDisplay,
+      'modifiers': modifiers.map((e) => e.toJson()).toList(),
+      'image': image,
+      'instructions': instructions,
+    };
   }
 }
 
@@ -89,6 +172,14 @@ class OrderModel {
   final String estimatedTime;
   final bool isCancelled;
 
+  /// Detail payload only.
+  final OrderBillingAddress billingAddress;
+
+  /// Kitchen ticket status ('new' when no ticket exists yet) and whether the
+  /// ticket was actually found — detail payload only.
+  final String kitchenStatus;
+  final bool kitchenStatusKnown;
+
   const OrderModel({
     required this.id,
     required this.orderNumber,
@@ -109,39 +200,50 @@ class OrderModel {
     this.steps = const [],
     this.estimatedTime = '۳۰ الی ۴۵ دقیقه',
     this.isCancelled = false,
+    this.billingAddress = const OrderBillingAddress(),
+    this.kitchenStatus = 'new',
+    this.kitchenStatusKnown = false,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     final lines = (json['items'] as List?)
-            ?.map((e) => OrderLineItem.fromJson(e as Map<String, dynamic>))
+            ?.whereType<Map<String, dynamic>>()
+            .map(OrderLineItem.fromJson)
             .toList() ??
         [];
 
     final trackingSteps = (json['steps'] as List?)
-            ?.map((e) => OrderTrackingStep.fromJson(e as Map<String, dynamic>))
+            ?.whereType<Map<String, dynamic>>()
+            .map(OrderTrackingStep.fromJson)
             .toList() ??
         [];
 
+    final status = strField(json['status'], strField(json['current_status'], 'pending'));
+
     return OrderModel(
-      id: int.tryParse(json['id']?.toString() ?? json['order_id']?.toString() ?? '0') ?? 0,
-      orderNumber: json['order_number']?.toString() ?? '#0',
-      status: json['status']?.toString() ?? (json['current_status']?.toString() ?? 'pending'),
-      statusLabel: json['status_label']?.toString() ?? 'در حال پردازش',
-      orderMode: json['order_mode']?.toString() ?? 'takeaway',
-      itemsSummary: json['items_summary']?.toString() ?? '',
-      itemsCount: int.tryParse(json['items_count']?.toString() ?? '1') ?? 1,
-      total: int.tryParse(json['total']?.toString() ?? '0') ?? 0,
-      totalHtml: json['total_html']?.toString() ?? '',
-      date: json['date']?.toString() ?? '',
-      jalaliDate: json['jalali_date']?.toString() ?? '',
-      branchId: int.tryParse(json['branch_id']?.toString() ?? '0') ?? 0,
-      paymentMethod: json['payment_method']?.toString() ?? '',
-      tableNumber: json['table_number']?.toString() ?? '',
-      notes: json['notes']?.toString() ?? '',
+      id: intField(json['id'], intField(json['order_id'])),
+      orderNumber: strField(json['order_number'], '#0'),
+      status: status,
+      statusLabel: strField(json['status_label'], 'در حال پردازش'),
+      orderMode: strField(json['order_mode'], 'takeaway'),
+      itemsSummary: strField(json['items_summary']),
+      itemsCount: intField(json['items_count'], 1),
+      total: intField(json['total']),
+      totalHtml: strField(json['total_html']),
+      date: strField(json['date']),
+      jalaliDate: strField(json['jalali_date']),
+      branchId: intField(json['branch_id']),
+      paymentMethod: strField(json['payment_method']),
+      tableNumber: strField(json['table_number']),
+      notes: strField(json['notes']),
       items: lines,
       steps: trackingSteps,
-      estimatedTime: json['estimated_time']?.toString() ?? '۳۰ الی ۴۵ دقیقه',
-      isCancelled: json['is_cancelled'] == true || json['status'] == 'cancelled',
+      estimatedTime: strField(json['estimated_time'], '۳۰ الی ۴۵ دقیقه'),
+      isCancelled: boolField(json['is_cancelled']) || status == 'cancelled',
+      billingAddress:
+          OrderBillingAddress.fromJson(json['billing_address'] as Map<String, dynamic>?),
+      kitchenStatus: strField(json['kitchen_status'], 'new'),
+      kitchenStatusKnown: boolField(json['kitchen_status_known']),
     );
   }
 }

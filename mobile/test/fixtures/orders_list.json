@@ -1,0 +1,33 @@
+{
+    "success": true,
+    "data": [
+        {
+            "id": 1001,
+            "order_number": "1001",
+            "status": "pending",
+            "status_label": "در انتظار پرداخت",
+            "order_mode": "dine_in",
+            "items_summary": "چلو کباب کوبیده مخصوص زعفرانی (2)، چلو جوجه کباب فیله زعفرانی (1)",
+            "items_count": 2,
+            "total": 8350000,
+            "total_html": "۸۳۵,۰۰۰ تومان",
+            "date": "2026-10-14 09:19:57",
+            "jalali_date": "۲۲ مهر ۱۴۰۵ - ۰۹:۱۹",
+            "branch_id": 1
+        }
+    ],
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57",
+        "pagination": {
+            "total": 1,
+            "count": 1,
+            "per_page": 1,
+            "current_page": 1,
+            "total_pages": 1,
+            "has_next": false,
+            "has_prev": false
+        }
+    },
+    "errors": []
+}

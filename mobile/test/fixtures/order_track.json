@@ -1,0 +1,43 @@
+{
+    "success": true,
+    "data": {
+        "order_id": 1001,
+        "order_number": "1001",
+        "current_status": "new",
+        "order_mode": "dine_in",
+        "steps": [
+            {
+                "step": "received",
+                "title": "دریافت سفارش",
+                "completed": true,
+                "time": "09:19"
+            },
+            {
+                "step": "preparing",
+                "title": "در حال آماده‌سازی در آشپزخانه",
+                "completed": false,
+                "time": ""
+            },
+            {
+                "step": "ready",
+                "title": "آماده تحویل / سرو",
+                "completed": false,
+                "time": ""
+            },
+            {
+                "step": "completed",
+                "title": "تحویل داده شد",
+                "completed": false,
+                "time": ""
+            }
+        ],
+        "is_cancelled": false,
+        "branch_id": 1,
+        "estimated_time": "30 - 45 دقیقه"
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57"
+    },
+    "errors": []
+}

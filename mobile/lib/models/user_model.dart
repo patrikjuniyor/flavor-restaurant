@@ -1,42 +1,52 @@
 /// User Profile and Loyalty domain models.
+///
+/// Mirrors AuthController::format_user_profile() + PointsManager::summary() —
+/// see test/fixtures/user_profile.json and auth_otp_verify.json.
 library;
 
+import 'json_fields.dart';
+
+/// Loyalty stamp-card summary. The API contract is PointsManager::summary():
+/// {points, stamps, stamp_target, stamp_cycle, free_item}. (An earlier model
+/// invented balance/tier/discount_equivalent keys the backend never sent —
+/// prompt 65 aligned it with the real payload.)
 class LoyaltySummary {
-  final int balance;
-  final String balanceFormatted;
-  final String tier;
-  final int discountEquivalent;
+  final int points;
+  final int stamps;
+  final int stampTarget;
+  final int stampCycle;
+  final bool freeItem;
 
   const LoyaltySummary({
-    required this.balance,
-    required this.balanceFormatted,
-    required this.tier,
-    required this.discountEquivalent,
+    this.points = 0,
+    this.stamps = 0,
+    this.stampTarget = 10,
+    this.stampCycle = 0,
+    this.freeItem = false,
   });
 
   factory LoyaltySummary.fromJson(Map<String, dynamic>? json) {
-    if (json == null) {
-      return const LoyaltySummary(
-        balance: 0,
-        balanceFormatted: '۰ امتیاز',
-        tier: 'برنزی',
-        discountEquivalent: 0,
-      );
-    }
+    if (json == null) return const LoyaltySummary();
     return LoyaltySummary(
-      balance: int.tryParse(json['balance']?.toString() ?? '0') ?? 0,
-      balanceFormatted: json['balance_formatted']?.toString() ?? '۰ امتیاز',
-      tier: json['tier']?.toString() ?? 'برنزی',
-      discountEquivalent: int.tryParse(json['discount_equivalent']?.toString() ?? '0') ?? 0,
+      points: intField(json['points']),
+      stamps: intField(json['stamps']),
+      stampTarget: intField(json['stamp_target'], 10),
+      stampCycle: intField(json['stamp_cycle']),
+      freeItem: boolField(json['free_item']),
     );
   }
 
+  /// A free item is redeemable when the flag is set or a full stamp cycle
+  /// has been completed.
+  bool get hasFreeItemReward => freeItem || (stampTarget > 0 && stamps >= stampTarget);
+
   Map<String, dynamic> toJson() {
     return {
-      'balance': balance,
-      'balance_formatted': balanceFormatted,
-      'tier': tier,
-      'discount_equivalent': discountEquivalent,
+      'points': points,
+      'stamps': stamps,
+      'stamp_target': stampTarget,
+      'stamp_cycle': stampCycle,
+      'free_item': freeItem,
     };
   }
 }
@@ -46,6 +56,9 @@ class SavedAddress {
   final String title;
   final String address;
   final String province;
+
+  /// Coordinates are PHP floats or explicit nulls when the address was
+  /// saved without a map pin.
   final double? lat;
   final double? lng;
   final String unit;
@@ -64,14 +77,14 @@ class SavedAddress {
 
   factory SavedAddress.fromJson(Map<String, dynamic> json) {
     return SavedAddress(
-      id: json['id']?.toString() ?? '',
-      title: json['title']?.toString() ?? 'آدرس من',
-      address: json['address']?.toString() ?? '',
-      province: json['province']?.toString() ?? 'تهران',
-      lat: json['lat'] != null ? double.tryParse(json['lat'].toString()) : null,
-      lng: json['lng'] != null ? double.tryParse(json['lng'].toString()) : null,
-      unit: json['unit']?.toString() ?? '',
-      postal: json['postal']?.toString() ?? '',
+      id: strField(json['id']),
+      title: strField(json['title'], 'آدرس من'),
+      address: strField(json['address']),
+      province: strField(json['province'], 'تهران'),
+      lat: nullableDoubleField(json['lat']),
+      lng: nullableDoubleField(json['lng']),
+      unit: strField(json['unit']),
+      postal: strField(json['postal']),
     );
   }
 
@@ -92,6 +105,9 @@ class SavedAddress {
 class UserModel {
   final int id;
   final String displayName;
+
+  /// Empty string for OTP-only accounts: the API strips the synthetic
+  /// `@otp.flavor.local` placeholder address before serializing.
   final String email;
   final String mobile;
   final String avatarUrl;
@@ -100,6 +116,7 @@ class UserModel {
   final List<SavedAddress> savedAddresses;
   final bool isKitchenStaff;
   final bool isAdmin;
+  final bool isDriver;
 
   const UserModel({
     required this.id,
@@ -112,28 +129,32 @@ class UserModel {
     this.savedAddresses = const [],
     this.isKitchenStaff = false,
     this.isAdmin = false,
+    this.isDriver = false,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     final prefs = (json['dietary_preferences'] as List?)?.map((e) => e.toString()).toList() ?? [];
     final addrs = (json['saved_addresses'] as List?)
-            ?.map((e) => SavedAddress.fromJson(e as Map<String, dynamic>))
+            ?.whereType<Map<String, dynamic>>()
+            .map(SavedAddress.fromJson)
             .toList() ??
         [];
 
-    final caps = json['capabilities'] as Map<String, dynamic>?;
+    final caps = json['capabilities'];
+    final capsMap = caps is Map<String, dynamic> ? caps : const <String, dynamic>{};
 
     return UserModel(
-      id: int.tryParse(json['id']?.toString() ?? '0') ?? 0,
-      displayName: json['display_name']?.toString() ?? 'مشتری گرامی',
-      email: json['email']?.toString() ?? '',
-      mobile: json['mobile']?.toString() ?? '',
-      avatarUrl: json['avatar_url']?.toString() ?? '',
+      id: intField(json['id']),
+      displayName: strField(json['display_name'], 'مشتری گرامی'),
+      email: strField(json['email']),
+      mobile: strField(json['mobile']),
+      avatarUrl: strField(json['avatar_url']),
       loyalty: LoyaltySummary.fromJson(json['loyalty'] as Map<String, dynamic>?),
       dietaryPreferences: prefs,
       savedAddresses: addrs,
-      isKitchenStaff: caps?['is_kitchen_staff'] == true,
-      isAdmin: caps?['is_admin'] == true,
+      isKitchenStaff: boolField(capsMap['is_kitchen_staff']),
+      isAdmin: boolField(capsMap['is_admin']),
+      isDriver: boolField(capsMap['is_driver']),
     );
   }
 
@@ -150,6 +171,7 @@ class UserModel {
       'capabilities': {
         'is_kitchen_staff': isKitchenStaff,
         'is_admin': isAdmin,
+        'is_driver': isDriver,
       },
     };
   }

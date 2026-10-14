@@ -1,0 +1,32 @@
+{
+    "success": true,
+    "data": {
+        "logged_in": true,
+        "user": {
+            "id": 101,
+            "display_name": "علی رضایی",
+            "email": "ali@example.com",
+            "mobile": "09123456789",
+            "avatar_url": "https://secure.gravatar.com/avatar/sample",
+            "loyalty": {
+                "points": 0,
+                "stamps": 0,
+                "stamp_target": 10,
+                "stamp_cycle": 0,
+                "free_item": false
+            },
+            "dietary_preferences": [],
+            "saved_addresses": [],
+            "capabilities": {
+                "is_admin": false,
+                "is_kitchen_staff": false,
+                "is_driver": false
+            }
+        }
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57"
+    },
+    "errors": []
+}

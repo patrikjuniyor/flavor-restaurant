@@ -1,0 +1,55 @@
+{
+    "success": true,
+    "data": {
+        "supports_item_edit": true,
+        "items": [
+            {
+                "key": "b200fab250a3a84602ada3d3bcac2b20",
+                "product_id": 1,
+                "name": "چلو کباب کوبیده مخصوص زعفرانی",
+                "quantity": 3,
+                "unit_price_raw": 285000,
+                "line_total_raw": 855000,
+                "price_html": "285,000 تومان",
+                "line_html": "855,000 تومان",
+                "modifiers": [
+                    {
+                        "id": "size-large",
+                        "type": "size",
+                        "type_label": "اندازه",
+                        "name": "بزرگ",
+                        "price": 50000
+                    }
+                ],
+                "instructions": "لطفاً سماق قرمز جداگانه ارسال شود.",
+                "image": "https://restaurant.example.com/assets/images/sample-dish.jpg",
+                "unit_price": 2850000,
+                "line_total": 8550000,
+                "unit_price_html": "۲۸۵,۰۰۰ تومان",
+                "line_total_html": "۸۵۵,۰۰۰ تومان"
+            }
+        ],
+        "count": 3,
+        "subtotal": 8550000,
+        "subtotal_html": "۸۵۵,۰۰۰ تومان",
+        "total": 8550000,
+        "total_html": "۸۵۵,۰۰۰ تومان",
+        "fees": [],
+        "discount_total": 0,
+        "discount_html": "۰ تومان",
+        "tax_total": 0,
+        "tax_html": "۰ تومان",
+        "shipping_total": 0,
+        "shipping_html": "۰ تومان",
+        "coupons": [],
+        "points_to_earn": 85,
+        "needs_payment": true,
+        "last_key": "b200fab250a3a84602ada3d3bcac2b20",
+        "cart_token": "fcart_26fbe5e90cdaef87fa9da920d8df63acf61183de4244ea32"
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57"
+    },
+    "errors": []
+}

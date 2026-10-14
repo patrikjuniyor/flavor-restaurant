@@ -1,5 +1,10 @@
 /// Branch, Dining Table, and Delivery Zone domain models.
+///
+/// Mirrors BranchController + BranchPostType::to_array() — see
+/// test/fixtures/branches.json, branch_detail.json, tables.json, zones.json.
 library;
+
+import 'json_fields.dart';
 
 class DiningTable {
   final int id;
@@ -22,13 +27,13 @@ class DiningTable {
 
   factory DiningTable.fromJson(Map<String, dynamic> json) {
     return DiningTable(
-      id: int.tryParse(json['id']?.toString() ?? '0') ?? 0,
-      tableNumber: json['table_number']?.toString() ?? '',
-      label: json['label']?.toString() ?? '',
-      capacity: int.tryParse(json['capacity']?.toString() ?? '4') ?? 4,
-      section: json['section']?.toString() ?? 'indoor',
-      qrToken: json['qr_token']?.toString() ?? '',
-      qrUrl: json['qr_url']?.toString() ?? '',
+      id: intField(json['id']),
+      tableNumber: strField(json['table_number']),
+      label: strField(json['label']),
+      capacity: intField(json['capacity'], 4),
+      section: strField(json['section'], 'indoor'),
+      qrToken: strField(json['qr_token']),
+      qrUrl: strField(json['qr_url']),
     );
   }
 
@@ -49,6 +54,10 @@ class DeliveryZone {
   final int id;
   final String name;
   final String zoneType;
+
+  /// Radius zones only; the API sends an explicit `null` for neighborhood
+  /// zones (fixtures/zones.json), so this stays nullable.
+  final double? radiusKm;
   final int deliveryFee;
   final String deliveryFeeHtml;
   final int minOrder;
@@ -60,6 +69,7 @@ class DeliveryZone {
     required this.id,
     required this.name,
     required this.zoneType,
+    this.radiusKm,
     required this.deliveryFee,
     required this.deliveryFeeHtml,
     required this.minOrder,
@@ -71,14 +81,15 @@ class DeliveryZone {
   factory DeliveryZone.fromJson(Map<String, dynamic> json) {
     final hoods = (json['neighborhoods'] as List?)?.map((e) => e.toString()).toList() ?? [];
     return DeliveryZone(
-      id: int.tryParse(json['id']?.toString() ?? '0') ?? 0,
-      name: json['name']?.toString() ?? '',
-      zoneType: json['zone_type']?.toString() ?? 'neighborhoods',
-      deliveryFee: int.tryParse(json['delivery_fee']?.toString() ?? '0') ?? 0,
-      deliveryFeeHtml: json['delivery_fee_html']?.toString() ?? '',
-      minOrder: int.tryParse(json['min_order']?.toString() ?? '0') ?? 0,
-      minOrderHtml: json['min_order_html']?.toString() ?? '',
-      estimatedMinutes: int.tryParse(json['estimated_minutes']?.toString() ?? '45') ?? 45,
+      id: intField(json['id']),
+      name: strField(json['name']),
+      zoneType: strField(json['zone_type'], 'neighborhoods'),
+      radiusKm: nullableDoubleField(json['radius_km']),
+      deliveryFee: intField(json['delivery_fee']),
+      deliveryFeeHtml: strField(json['delivery_fee_html']),
+      minOrder: intField(json['min_order']),
+      minOrderHtml: strField(json['min_order_html']),
+      estimatedMinutes: intField(json['estimated_minutes'], 45),
       neighborhoods: hoods,
     );
   }
@@ -88,6 +99,7 @@ class DeliveryZone {
       'id': id,
       'name': name,
       'zone_type': zoneType,
+      'radius_km': radiusKm,
       'delivery_fee': deliveryFee,
       'delivery_fee_html': deliveryFeeHtml,
       'min_order': minOrder,
@@ -109,11 +121,13 @@ class BranchModel {
   final String neighborhood;
   final String? lat;
   final String? lng;
+  final String timezone;
   final List<String> orderModes;
   final bool isDefault;
   final bool isOpen;
   final String thumbnail;
   final int menuVersion;
+  final String permalink;
 
   const BranchModel({
     required this.id,
@@ -126,11 +140,13 @@ class BranchModel {
     this.neighborhood = '',
     this.lat,
     this.lng,
+    this.timezone = 'Asia/Tehran',
     this.orderModes = const ['dine_in', 'takeaway', 'delivery'],
     this.isDefault = false,
     this.isOpen = true,
     this.thumbnail = '',
     this.menuVersion = 1,
+    this.permalink = '',
   });
 
   factory BranchModel.fromJson(Map<String, dynamic> json) {
@@ -138,21 +154,25 @@ class BranchModel {
         ['dine_in', 'takeaway', 'delivery'];
 
     return BranchModel(
-      id: int.tryParse(json['id']?.toString() ?? '0') ?? 0,
-      name: json['name']?.toString() ?? 'شعبه اصلی',
-      slug: json['slug']?.toString() ?? '',
-      phone: json['phone']?.toString() ?? '',
-      address: json['address']?.toString() ?? '',
-      province: json['province']?.toString() ?? 'تهران',
-      city: json['city']?.toString() ?? 'تهران',
-      neighborhood: json['neighborhood']?.toString() ?? '',
-      lat: json['lat']?.toString(),
-      lng: json['lng']?.toString(),
+      id: intField(json['id']),
+      name: strField(json['name'], 'شعبه اصلی'),
+      slug: strField(json['slug']),
+      phone: strField(json['phone']),
+      address: strField(json['address']),
+      province: strField(json['province'], 'تهران'),
+      city: strField(json['city'], 'تهران'),
+      neighborhood: strField(json['neighborhood']),
+      // to_array() casts coordinates to string, so "unset" arrives as '' —
+      // keep null only for a genuinely absent key.
+      lat: json['lat'] == null ? null : strField(json['lat']),
+      lng: json['lng'] == null ? null : strField(json['lng']),
+      timezone: strField(json['timezone'], 'Asia/Tehran'),
       orderModes: modes,
-      isDefault: json['is_default'] == true,
-      isOpen: json['is_open'] != false,
-      thumbnail: json['thumbnail']?.toString() ?? '',
-      menuVersion: int.tryParse(json['menu_version']?.toString() ?? '1') ?? 1,
+      isDefault: boolField(json['is_default']),
+      isOpen: boolField(json['is_open'], whenNull: true),
+      thumbnail: strField(json['thumbnail']),
+      menuVersion: intField(json['menu_version'], 1),
+      permalink: strField(json['permalink']),
     );
   }
 
@@ -168,11 +188,13 @@ class BranchModel {
       'neighborhood': neighborhood,
       'lat': lat,
       'lng': lng,
+      'timezone': timezone,
       'order_modes': orderModes,
       'is_default': isDefault,
       'is_open': isOpen,
       'thumbnail': thumbnail,
       'menu_version': menuVersion,
+      'permalink': permalink,
     };
   }
 }

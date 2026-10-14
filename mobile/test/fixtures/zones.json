@@ -1,0 +1,28 @@
+{
+    "success": true,
+    "data": [
+        {
+            "id": 1,
+            "name": "منطقه ونک و مرکز تهران",
+            "zone_type": "neighborhoods",
+            "radius_km": null,
+            "neighborhoods": [
+                "تهران",
+                "ونک",
+                "ملاصدرا"
+            ],
+            "delivery_fee": 25000,
+            "delivery_fee_html": "۲,۵۰۰ تومان",
+            "min_order": 100000,
+            "min_order_html": "۱۰,۰۰۰ تومان",
+            "estimated_minutes": 35
+        }
+    ],
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57",
+        "branch_id": 1,
+        "count": 1
+    },
+    "errors": []
+}

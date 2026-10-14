@@ -1,0 +1,48 @@
+{
+    "success": true,
+    "data": [
+        {
+            "id": 1,
+            "table_number": "T-01",
+            "label": "میز پنجره ۱",
+            "capacity": 4,
+            "section": "window",
+            "qr_token": "qr_token_1",
+            "qr_url": "https://restaurant.example.com/branch/central-branch/table/T-01/"
+        },
+        {
+            "id": 2,
+            "table_number": "T-02",
+            "label": "میز خانوادگی",
+            "capacity": 6,
+            "section": "indoor",
+            "qr_token": "qr_token_2",
+            "qr_url": "https://restaurant.example.com/branch/central-branch/table/T-02/"
+        },
+        {
+            "id": 3,
+            "table_number": "T-03",
+            "label": "میز حیاط",
+            "capacity": 4,
+            "section": "outdoor",
+            "qr_token": "qr_token_3",
+            "qr_url": "https://restaurant.example.com/branch/central-branch/table/T-03/"
+        },
+        {
+            "id": 4,
+            "table_number": "T-04",
+            "label": "میز سالن",
+            "capacity": 4,
+            "section": "indoor",
+            "qr_token": "qr_token_4",
+            "qr_url": "https://restaurant.example.com/branch/central-branch/table/T-04/"
+        }
+    ],
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57",
+        "branch_id": 1,
+        "count": 4
+    },
+    "errors": []
+}

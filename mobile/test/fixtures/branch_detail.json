@@ -1,0 +1,38 @@
+{
+    "success": true,
+    "data": {
+        "id": 1,
+        "name": "شعبه مرکزی شاندیز",
+        "slug": "central-branch",
+        "phone": "",
+        "address": "",
+        "province": "",
+        "city": "",
+        "neighborhood": "",
+        "lat": "",
+        "lng": "",
+        "timezone": "Asia/Tehran",
+        "order_modes": [
+            "dine_in",
+            "takeaway",
+            "delivery"
+        ],
+        "is_default": false,
+        "menu_version": 1,
+        "permalink": "https://restaurant.example.com/dish/1",
+        "thumbnail": "",
+        "is_open": true,
+        "description": "<p>شعبه مرکزی شاندیز</p>\n",
+        "zones_count": 1,
+        "opening_hours": {
+            "regular": "11:30 - 23:30",
+            "weekend": "12:00 - 00:00"
+        }
+    },
+    "meta": {
+        "timestamp": 1791956997,
+        "server_time": "2026-10-14 09:19:57",
+        "menu_version": 1
+    },
+    "errors": []
+}
