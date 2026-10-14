@@ -271,3 +271,28 @@
 		height: 44px;
 	}
 }
+
+/* Prompt 60: skeleton result rows while a live query is in flight. The list
+   carries aria-busy and every skeleton row is aria-hidden, so the listbox
+   semantics never expose the placeholders. */
+.flavor-search__row.is-skeleton {
+	pointer-events: none;
+	cursor: default;
+}
+
+.flavor-search__row.is-skeleton:hover {
+	background: transparent;
+}
+
+.flavor-search__row.is-skeleton .flavor-search__body {
+	gap: 8px;
+}
+
+.flavor-search__row.is-skeleton .flavor-search__thumb-ph.flavor-skel {
+	border-radius: 12px;
+}
+
+.flavor-skel--price {
+	width: 52px;
+	flex: 0 0 auto;
+}

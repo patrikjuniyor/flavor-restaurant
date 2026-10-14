@@ -225,6 +225,9 @@
 		if (sheet) sheet.querySelectorAll('[data-q]').forEach(function (button) { button.disabled = busy || (button.dataset.q === '-1' && qty <= 1) || (button.dataset.q === '1' && qty >= 20); });
 		sheetBody.querySelectorAll('input,textarea').forEach(function (field) { field.disabled = busy; });
 		sheetAdd.disabled = busy || current.available === false || !sheetSelectionValid();
+		/* prompt 60: the sheet's add/save button announces its own in-flight
+		   state, matching every other sending button on the web side. */
+		if (busy) { sheetAdd.setAttribute('aria-busy', 'true'); } else { sheetAdd.removeAttribute('aria-busy'); }
 		sheetAdd.textContent = busy ? t('saving') : current.available === false ? t('choice_unavailable') : (editing ? t('save_changes') : t('add_to_cart')) + ' · ' + fill('unit_count', fa(qty));
 		if (!sheetSelectionValid()) setSheetError(qty > 20 ? t('max_qty') : t('need_required'));
 	}
@@ -432,10 +435,43 @@
 	window.addEventListener('hashchange', openFragment);
 	window.FlavorMenuUI = { openProduct:function (id, trigger) { var item = catalog.find(function (dish) { return Number(dish.id) === Number(id); }); var details = item ? dishDetail(item) : api('dishes/' + Number(id)).then(function (dish) { return normalizeDish(dish, true); }); details.then(function (dish) { history.replaceState(null, '', '#item-' + Number(id)); resolvedFragment = location.hash; openSheet(dish, trigger); }).catch(showError); } };
 
+	/* prompt 60: purely decorative loading placeholders — every one is
+	   aria-hidden, so assistive tech follows the aria-busy status line
+	   instead of the skeletons. */
+	function skeletonCards() {
+		var one = '<article class="flavor-card flavor-food-card is-skeleton" aria-hidden="true">' +
+			'<span class="flavor-food-card__media flavor-skel"></span>' +
+			'<span class="flavor-food-card__body">' +
+			'<span class="flavor-skel flavor-skel--w60 flavor-skel--h16"></span>' +
+			'<span class="flavor-skel flavor-skel--w92 flavor-skel--h12"></span>' +
+			'<span class="flavor-skel flavor-skel--w70 flavor-skel--h12"></span>' +
+			'<span class="flavor-skel flavor-skel--w40 flavor-skel--h18"></span>' +
+			'</span></article>';
+		var html = '';
+		for (var i = 0; i < 6; i++) { html += one; }
+		return html;
+	}
+	function skeletonChips() {
+		var html = '';
+		for (var i = 0; i < 5; i++) { html += '<span class="flavor-cat-skel flavor-skel" aria-hidden="true"></span>'; }
+		return html;
+	}
+	function clearCatSkeleton() {
+		var catsNav = document.getElementById('flavor-cats-nav');
+		if (catsNav && catsEl && catsEl.querySelector('.flavor-cat-skel')) { catsEl.innerHTML = ''; catsNav.hidden = true; }
+	}
+
 	function loadMenu() {
 		if (statusEl) statusEl.textContent = (cfg.i18n && cfg.i18n.loading) || '';
 		grid.setAttribute('aria-busy', 'true');
 		var retry = document.getElementById('flavor-menu-retry'); if (retry) retry.hidden = true;
+		/* prompt 60: while the live catalogue is in flight the grid shows
+		   skeleton cards (the web twin of mobile's LoadingShimmer.dishGrid) —
+		   but only when there is no server-rendered fallback to keep; real
+		   cards stay on screen under the aria-busy sweep instead. */
+		if (!grid.querySelector('.flavor-food-card:not(.is-skeleton)')) grid.innerHTML = skeletonCards();
+		var catsNav = document.getElementById('flavor-cats-nav');
+		if (catsEl && catsNav && !catsEl.children.length) { catsEl.innerHTML = skeletonChips(); catsNav.hidden = false; }
 		api('menu?per_page=100&branch_id=' + encodeURIComponent(cfg.branchId || 0)).then(function (data) {
 			var canonical = Array.isArray(data);
 			catalog = (canonical ? data : data.items || []).map(function (dish) { return normalizeDish(dish, canonical); });
@@ -453,9 +489,14 @@
 				renderCats(rows);
 				var requested = new URL(window.location.href).searchParams.get('cat');
 				if (requested && Array.from(catsEl.querySelectorAll('button')).some(function (button) { return button.dataset.cat === requested; })) filterCat(requested);
-			}).catch(showError);
+			}).catch(function (error) { clearCatSkeleton(); showError(error); });
 			openFragment();
 		}).catch(function (error) {
+			/* prompt 60: a failed load must not leave skeletons behind — the
+			   grid falls back to whatever it had (server cards or nothing) and
+			   the category bar hides until a retry succeeds. */
+			grid.querySelectorAll('.flavor-food-card.is-skeleton').forEach(function (el) { el.remove(); });
+			clearCatSkeleton();
 			grid.removeAttribute('aria-busy'); if (retry) retry.hidden = false;
 			if (statusEl) statusEl.textContent = t('load_failed');
 			showError(error);
@@ -604,13 +645,16 @@
 		var pay = form.querySelector('input[name="pay"]:checked'); if (!pay) { failure(t('pay_required')); return; }
 		var table = document.getElementById('flavor-table'); var option = table && table.options[table.selectedIndex];
 		placing = true; form.setAttribute('aria-busy','true'); readyCheckout();
-		var button = document.getElementById('flavor-place'); if (button) button.textContent = t('placing');
+		/* prompt 60: the sending button itself carries aria-busy and stays
+		   disabled through readyCheckout() so a double click cannot fire two
+		   orders (server-side idempotency remains the backstop). */
+		var button = document.getElementById('flavor-place'); if (button) { button.setAttribute('aria-busy', 'true'); button.textContent = t('placing'); }
 		var token = ''; try { token = sessionStorage.getItem('flavorCartToken') || ''; } catch (ignore) {}
 		api('checkout', { method:'POST', headers:headers(true), body:JSON.stringify({ order_mode:mode, branch_id:ctx.branch_id || cfg.branchId || 0, name:document.getElementById('flavor-name').value || '', mobile:ui ? ui.latin(mobile.value.trim()) : mobile.value, payment_method:pay.value, table_id:mode === 'dine_in' && table ? Number(table.value) : 0, table_number:mode === 'dine_in' && option ? option.dataset.num || '' : '', cart_token:token, address:{ city:city ? city.value.trim() : '', neighborhood:hood ? hood.value.trim() : '', line:document.getElementById('flavor-line').value.trim() } }) }).then(function (result) {
 			if (result.redirect) { var url; try { url = new URL(result.redirect, location.href); } catch (ignore) {} if (!url || !['https:','http:'].includes(url.protocol)) throw new Error(t('bad_redirect')); window.location.href = url.href; return; }
 			if (window.flavorToast) window.flavorToast(fill('order_placed', result.order_number || result.order_id || ''), 'success');
 			drawCart({ items:[],count:0,total_html:'' });
-		}).catch(function (error) { failure(error.message); /* Keep the cart and customer fields for recovery. */ }).finally(function () { placing = false; form.removeAttribute('aria-busy'); if (button) button.textContent = t('place_order'); readyCheckout(); });
+		}).catch(function (error) { failure(error.message); /* Keep the cart and customer fields for recovery. */ }).finally(function () { placing = false; form.removeAttribute('aria-busy'); if (button) { button.removeAttribute('aria-busy'); button.textContent = t('place_order'); } readyCheckout(); });
 	});
 
 	function bootCart() {

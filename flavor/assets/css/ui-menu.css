@@ -173,3 +173,26 @@
 		transform: none;
 	}
 }
+
+/* Prompt 60: skeleton dish cards and category chips while the live branch
+   catalogue is in flight — the web twin of mobile's LoadingShimmer.dishGrid.
+   The blocks themselves are .flavor-skel (ui.css); these rules size them to
+   the real card anatomy so the swap to live data does not jump the layout. */
+.flavor-ui .flavor-food-card.is-skeleton {
+	pointer-events: none;
+}
+
+.flavor-ui .flavor-food-card.is-skeleton .flavor-food-card__media.flavor-skel {
+	border-radius: 0;
+}
+
+.flavor-ui .flavor-food-card.is-skeleton .flavor-food-card__body {
+	gap: 12px;
+}
+
+.flavor-ui .flavor-cats .flavor-cat-skel {
+	flex: 0 0 auto;
+	width: 96px;
+	min-height: 44px;
+	border-radius: var(--flavor-btn-radius);
+}

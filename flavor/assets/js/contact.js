@@ -56,6 +56,8 @@
 		if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { invalid(fields.email, t('email_invalid')); return; }
 
 		submit.disabled = true;
+		/* prompt 60: the sending button carries aria-busy alongside disabled. */
+		submit.setAttribute('aria-busy', 'true');
 		form.setAttribute('aria-busy', 'true');
 		if (ui) { ui.announce(t('sending')); }
 		ui.request('contact', {
@@ -78,6 +80,7 @@
 			err.focus({ preventScroll: true });
 		}).finally(function () {
 			submit.disabled = false;
+			submit.removeAttribute('aria-busy');
 			form.removeAttribute('aria-busy');
 		});
 	});

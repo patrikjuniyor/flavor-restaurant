@@ -13,7 +13,7 @@
   result.hidden=true;result.innerHTML='';error.hidden=true;if(retry)retry.hidden=true;
   if(!Number.isSafeInteger(orderId)||orderId<1){error.hidden=false;error.textContent='شناسهٔ سفارش معتبر وارد کنید.';id.focus();return;}
   if(secret&&!/^[A-Za-z0-9_-]{20,128}$/.test(secret)){error.hidden=false;error.textContent='کد پیگیری را دقیقاً از رسید وارد کنید.';token.focus();return;}
-  button.disabled=true;form.setAttribute('aria-busy','true');
+  button.disabled=true;button.setAttribute('aria-busy','true');form.setAttribute('aria-busy','true');/* prompt 60: the sending button announces its own in-flight state. */
   ui.request('orders/'+orderId,{headers:secret?{'X-Guest-Token':secret}:{},cache:'no-store'}).then(function(order){
    var html='<div class="flavor-order-receipt__head"><div><span class="flavor-ui-overline">اطلاعات سفارش</span><h2 id="flavor-tracking-result-title">سفارش '+ui.esc(ui.digits(order.order_number||order.id))+'</h2></div><span class="flavor-ui-tag">'+ui.esc(statuses[order.status]||order.status_label||order.status)+'</span></div><div class="flavor-order-receipt__meta"><div><span>مبلغ سفارش</span><strong>'+ui.esc(order.total_html)+'</strong></div><div><span>زمان ثبت</span><strong>'+ui.esc(order.jalali_date||order.date||'—')+'</strong></div></div><div class="flavor-tracking-items">';
    (order.items||[]).forEach(function(item){html+='<div><span>'+ui.esc(item.name)+' × '+ui.esc(ui.digits(item.quantity))+'</span><strong>'+ui.esc(String(item.line_total_display||item.total_html||'').replace(/<[^>]*>/g,''))+'</strong></div>';});
@@ -23,7 +23,7 @@
     html+='<ol class="flavor-order-timeline" aria-label="وضعیت ثبت‌شده در آشپزخانه">'+stepNames.map(function(label,index){return '<li class="'+(index<=current?'is-reached':'')+'"'+(index===current?' aria-current="step"':'')+'><span aria-hidden="true">'+ui.digits(index+1)+'</span><strong>'+label+'</strong></li>';}).join('')+'</ol><p class="flavor-ui-note">آمادهٔ تحویل بودن به معنی تحویل به پیک یا رسیدن به مقصد نیست.</p>';
    }else html+='<p class="flavor-ui-note">مرحلهٔ تأییدشدهٔ آماده‌سازی برای این سفارش نمایش داده نمی‌شود؛ وضعیت پرداخت و سفارش را در بالا ببینید.</p>';
    result.innerHTML=html;result.hidden=false;result.focus({preventScroll:true});result.scrollIntoView({block:'nearest',behavior:'instant'});
-  }).catch(function(problem){result.hidden=true;result.innerHTML='';error.hidden=false;error.textContent=problem.message;if(retry)retry.hidden=false;/* prompt 59: a network failure offers one press to try the same lookup again. */}).finally(function(){button.disabled=false;form.removeAttribute('aria-busy');});
+  }).catch(function(problem){result.hidden=true;result.innerHTML='';error.hidden=false;error.textContent=problem.message;if(retry)retry.hidden=false;/* prompt 59: a network failure offers one press to try the same lookup again. */}).finally(function(){button.disabled=false;button.removeAttribute('aria-busy');form.removeAttribute('aria-busy');});
  });
  if(retry)retry.addEventListener('click',function(){form.requestSubmit();});
  form.hidden=false;

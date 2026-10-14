@@ -271,6 +271,40 @@
 			spinner.hidden = !on;
 		}
 		root.classList.toggle('is-busy', !!on);
+		/* prompt 60: while a query is in flight the results list shows
+		   skeleton rows mirroring the row anatomy — but only when it would
+		   otherwise stand empty (a first, uncached query). Previous results
+		   stay on screen under the spinner instead of flickering away. */
+		if (on) {
+			if (!list.children.length) {
+				list.innerHTML = skeletonRows();
+				panel.hidden = false;
+				input.setAttribute('aria-expanded', 'true');
+			}
+			list.setAttribute('aria-busy', 'true');
+		} else {
+			list.removeAttribute('aria-busy');
+		}
+	}
+
+	/* prompt 60: purely decorative placeholders — every skeleton row is
+	   aria-hidden and the listbox itself only carries aria-busy, so assistive
+	   tech never meets the skeletons as options. */
+	function skeletonRows() {
+		var one =
+			'<li class="flavor-search__row is-skeleton" aria-hidden="true">' +
+			'<span class="flavor-search__thumb"><span class="flavor-search__thumb-ph flavor-skel"></span></span>' +
+			'<span class="flavor-search__body">' +
+			'<span class="flavor-skel flavor-skel--w60 flavor-skel--h16"></span>' +
+			'<span class="flavor-skel flavor-skel--w92 flavor-skel--h12"></span>' +
+			'</span>' +
+			'<span class="flavor-skel flavor-skel--price flavor-skel--h16"></span>' +
+			'</li>';
+		var html = '';
+		for (var i = 0; i < 4; i++) {
+			html += one;
+		}
+		return html;
 	}
 
 	/* -------------------------------------------------------------- query */

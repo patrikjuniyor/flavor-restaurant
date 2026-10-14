@@ -101,3 +101,20 @@ body.flavor-ui:not(.flavor-bespoke) .flavor-footer__contact-item a{color:var(--f
 /* Toast entrance. */
 @keyframes flavor-toast-in{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
 .flavor-ui-toast{animation:flavor-toast-in .35s var(--flavor-ease)}
+
+/* ---------- Loading skeletons (prompt 60) ---------- */
+/* Opt-in placeholder blocks mirroring the mobile LoadingShimmer: a muted base
+   with a soft highlight sweeping across. JS pairs them with aria-hidden and an
+   aria-busy host, so assistive tech never sees the decoration. The explicit
+   reduced-motion stop covers skeletons that render outside .flavor-ui (the
+   blanket rule above only reaches inside that scope). */
+@keyframes flavor-skel-shimmer{0%{background-position:150% 0}100%{background-position:-50% 0}}
+.flavor-skel{display:block;background:linear-gradient(110deg,var(--flavor-surface-alt) 25%,color-mix(in srgb,var(--flavor-line) 55%,var(--flavor-surface-alt)) 45%,var(--flavor-surface-alt) 65%);background-size:200% 100%;animation:flavor-skel-shimmer 1.4s linear infinite;border-radius:calc(var(--flavor-radius) / 2)}
+.flavor-skel--w40{width:40%}
+.flavor-skel--w60{width:60%}
+.flavor-skel--w70{width:70%}
+.flavor-skel--w92{width:92%}
+.flavor-skel--h12{height:12px}
+.flavor-skel--h16{height:16px}
+.flavor-skel--h18{height:18px}
+@media(prefers-reduced-motion:reduce){.flavor-skel{animation:none;background:var(--flavor-surface-alt)}}

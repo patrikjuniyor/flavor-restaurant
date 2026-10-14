@@ -81,6 +81,12 @@
 			data.append('nonce', cfg.nonce || '');
 			data.append('email', email);
 
+			/* prompt 60: the subscribe button locks while its request is in
+			   flight — a double click must not fire two POSTs (server-side
+			   idempotency remains the backstop). */
+			var button = form.querySelector('[type="submit"]');
+			if (button) { button.disabled = true; button.setAttribute('aria-busy', 'true'); }
+
 			say(t('loading'));
 
 			fetch(cfg.ajax, { method: 'POST', credentials: 'same-origin', body: data })
@@ -97,7 +103,8 @@
 					if (field) { field.value = ''; }
 					if (onSuccess) { onSuccess(); }
 				})
-				.catch(function () { say(t('failed'), true); });
+				.catch(function () { say(t('failed'), true); })
+				.finally(function () { if (button) { button.disabled = false; button.removeAttribute('aria-busy'); } });
 		});
 	}
 

@@ -283,7 +283,10 @@
 
 			var branch = document.getElementById('flavor-res-branch');
 			var submit = form.querySelector('[type="submit"]');
-			if (submit) submit.disabled = true;
+			/* prompt 60: the sending button carries aria-busy alongside its
+			   disabled state, so the in-flight submit is announced on the
+			   button itself, not only on the form. */
+			if (submit) { submit.disabled = true; submit.setAttribute('aria-busy', 'true'); }
 			form.setAttribute('aria-busy', 'true');
 			if (ui) ui.announce(t('sending'));
 			api('reservations', {
@@ -314,7 +317,7 @@
 						err.textContent = ex.message;
 						err.focus({ preventScroll: true });
 					}
-				}).finally(function () { if (submit) submit.disabled = false; form.removeAttribute('aria-busy'); });
+				}).finally(function () { if (submit) { submit.disabled = false; submit.removeAttribute('aria-busy'); } form.removeAttribute('aria-busy'); });
 		});
 	}
 })();

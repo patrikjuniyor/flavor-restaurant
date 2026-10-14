@@ -42,7 +42,7 @@
 			event.preventDefault();
 			var button = coverage.querySelector('[type="submit"]');
 			var result = coverage.querySelector('[data-fd-coverage-result]');
-			button.disabled = true; result.textContent = t('zone_checking'); result.dataset.available = 'pending';
+			button.disabled = true; button.setAttribute('aria-busy', 'true'); result.textContent = t('zone_checking'); result.dataset.available = 'pending';/* prompt 60: sending button announces its own in-flight state. */
 			fetch(cfg.rest + 'zones/check', {
 				method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json', 'X-WP-Nonce': cfg.nonce || '' },
 				body: JSON.stringify({ branch_id: Number(cfg.branchId) || 0, neighborhood: coverage.elements.neighborhood.value, city: coverage.elements.city.value })
@@ -58,7 +58,7 @@
 				result.dataset.available = zone.ok ? 'yes' : 'no';
 				result.textContent = zone.ok ? fmt3('zone_summary', zone.name, String(zone.delivery_fee_html || '').replace(/<[^>]*>/g, ''), zone.estimated_minutes) : (zone.message || t('zone_out'));
 			}).catch(function (error) { result.dataset.available = 'error'; result.textContent = error.message; })
-			.finally(function () { button.disabled = false; });
+			.finally(function () { button.disabled = false; button.removeAttribute('aria-busy'); });
 		});
 	}
 

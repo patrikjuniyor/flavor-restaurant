@@ -21,21 +21,21 @@
   function request(){
    if(busy||wait>0)return;
    var value=phone();if(!value){message('',false);ui.fieldError(mobile,t('mobile_invalid_otp'));mobile.focus();return;}
-   busy=true;send.disabled=true;message(t('code_requesting'),false);
-   ui.request('auth/otp/request',{method:'POST',body:JSON.stringify({mobile:value})}).then(function(){if(value!==phone()){message(t('phone_changed'),true);return;}requested=true;box.hidden=false;code.disabled=false;code.required=true;code.value='';message(t('code_requested'),false);code.focus();coolDown();}).catch(function(error){message(error.message,true);}).finally(function(){busy=false;if(wait<=0)send.disabled=false;});
+   busy=true;send.disabled=true;send.setAttribute('aria-busy','true');message(t('code_requesting'),false);/* prompt 60: sending buttons carry aria-busy while in flight. */
+   ui.request('auth/otp/request',{method:'POST',body:JSON.stringify({mobile:value})}).then(function(){if(value!==phone()){message(t('phone_changed'),true);return;}requested=true;box.hidden=false;code.disabled=false;code.required=true;code.value='';message(t('code_requested'),false);code.focus();coolDown();}).catch(function(error){message(error.message,true);}).finally(function(){busy=false;send.removeAttribute('aria-busy');if(wait<=0)send.disabled=false;});
   }
   function confirm(){
    if(busy||!requested)return;
    var value=phone(),entered=ui.latin(code.value).trim();
    if(!value){message(t('phone_changed'),true);ui.fieldClear(code);mobile.focus();return;}
    if(!/^\d{4,6}$/.test(entered)){message('',false);ui.fieldError(code,t('check_code'));code.focus();return;}
-   busy=true;verify.disabled=true;message(t('code_verifying'),false);
+   busy=true;verify.disabled=true;verify.setAttribute('aria-busy','true');message(t('code_verifying'),false);
    ui.request('auth/otp/verify',{method:'POST',body:JSON.stringify({mobile:value,code:entered,name:name?name.value:'',device_name:'Flavor website'})}).then(function(){
     // Core sets its HttpOnly WP cookie. Ignore Bearer/refresh tokens; do not
     // write auth credentials to local/session storage or URLs.
     if(root.dataset.authContext==='account'){location.reload();return;}
     return ui.refreshNonce().then(function(){box.hidden=true;requested=false;code.value='';code.disabled=true;code.required=false;send.hidden=true;ui.fieldClear(mobile);ui.fieldClear(code);message(t('verified'),false);});
-   }).catch(function(error){message(error.message,true);}).finally(function(){busy=false;verify.disabled=false;});
+   }).catch(function(error){message(error.message,true);}).finally(function(){busy=false;verify.removeAttribute('aria-busy');verify.disabled=false;});
   }
   send.addEventListener('click',request);verify.addEventListener('click',confirm);
   if(root.tagName==='FORM')root.addEventListener('submit',function(event){event.preventDefault();if(requested)confirm();else request();});
