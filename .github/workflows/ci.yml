@@ -527,6 +527,11 @@ jobs:
       - name: Install zip
         run: sudo apt-get update -qq && sudo apt-get install -y -qq zip
 
+      - name: Verify demo images are optimized
+        run: |
+          python3 -m pip install --upgrade Pillow
+          python3 dev-tools/optimize-demo-images.py --check
+
       - name: Build the sellable theme and the separate demo pack
         run: ./dev-tools/build-distribution.sh
 
