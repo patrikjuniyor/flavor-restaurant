@@ -372,5 +372,11 @@
     "state": "done",
     "note": "پرامپت ۷۴ (بارگذاری دارایی و پرفورمنس): (۱) دارایی‌های عمومی بازبینی شدند و شرطی بودن آن‌ها در class-enqueue.php تضمین شد؛ (۲) تمامی اسکریپت‌های عمومی با افزودن استراتژی defer به flavor-pwa-register دارای strategy=defer شدند (۱۸ از ۱۸ اسکریپت عمومی فرانت‌اند)؛ (۳) منطق فیلتر keep_hero_eager در class-enqueue.php تکمیل شد تا تصاویر hero به هیچ وجه لودینگ lazy نگیرند و در template-tags.php پاس دادن ویژگی‌های fetchpriority=high و loading=eager به خروجی تصاویر واکنش‌گرا تضمین شد؛ (۴) پیش‌بارگذاری گزینشی فونت‌های فارسی (Vazirmatn همواره، و Estedad برای پوسته‌های متناظر) همراه با font-display: swap در تمام فونت‌های fonts.css تأیید و تثبیت شد. تست ماشینی گارد tests/theme/test-asset-loading.php ساخته شد (۱۶/۱۶ پاس). ۴ سناریوی خرابکاری زنده اثبات و بازگردانی شدند. باتری کامل سبز: ۵۷ تست قالب، ۲۲۶ تست pure، ۸۲ تست e2e، ۲۷ تست پایتون، ۱۶۶ تست فلاتر (analyze صفر خطا)، i18n سبز.",
     "commit": "77bda7f"
+  },
+  "75": {
+    "state": "done",
+    "date": "2026-10-14",
+    "commit": "bf350b4",
+    "note": "سئو پایه و متاتگ‌ها: تولید title و meta description یکتا (سقف ۱۶۰ کاراکتر با flavor_substr) با اولویت افزونه‌های سئو شخص ثالث (Yoast/RankMath/AIOSEO/SEOPress)؛ تولید canonical تمیز با حذف پارامترهای نویز فیلتر فروشگاه (cat/view/sort/dietary/order_mode)؛ تگ‌های کامل Open Graph و Twitter Card با خلاصه تصویر بزرگ؛ غنی‌سازی Schema.org با پشتیبانی از Restaurant، Menu، BreadcrumbList و MenuItem برای محصولات تکی؛ فیلتر نقشه سایت sitemaps_post_types برای گنجاندن شعبه‌ها. سوئیت تست ماشینی tests/theme/test-seo-schema.php با ۲۹ بررسی و سه اثبات sabotage زنده"
   }
 }
