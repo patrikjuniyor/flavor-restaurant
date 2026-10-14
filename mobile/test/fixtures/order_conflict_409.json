@@ -1,0 +1,13 @@
+{
+    "success": false,
+    "data": null,
+    "meta": {
+        "timestamp": 1791968281
+    },
+    "errors": [
+        {
+            "code": "flavor_idempotency_conflict",
+            "message": "این سفارش قبلاً با نشانی دیگری ثبت شده است."
+        }
+    ]
+}

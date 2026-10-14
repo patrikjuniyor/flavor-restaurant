@@ -1,0 +1,19 @@
+{
+    "success": true,
+    "data": {
+        "ok": true,
+        "replay": true,
+        "order_id": 1001,
+        "order_number": "1001",
+        "redirect": "https://restaurant.example.com/order-received",
+        "payment": "flavor_pay_at_counter",
+        "mode": "dine_in",
+        "guest_token": "8e2cb054808ff9e927bcd070bd95ec8ea3ff815a2aae67100c3e3165dbf4d232"
+    },
+    "meta": {
+        "timestamp": 1791968281,
+        "server_time": "2026-10-14 12:28:01",
+        "message": "سفارش با موفقیت ثبت شد."
+    },
+    "errors": []
+}

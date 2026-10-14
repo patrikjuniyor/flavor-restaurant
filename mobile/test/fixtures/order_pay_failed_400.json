@@ -1,0 +1,17 @@
+{
+    "success": false,
+    "data": null,
+    "meta": {
+        "timestamp": 1791968281
+    },
+    "errors": [
+        {
+            "code": "flavor_pay_failed",
+            "message": "تراکنش توسط بانک رد شد.",
+            "details": {
+                "recoverable": true,
+                "order_id": 1002
+            }
+        }
+    ]
+}

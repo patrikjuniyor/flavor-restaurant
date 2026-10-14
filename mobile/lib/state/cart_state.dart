@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import '../models/cart_model.dart';
 import '../models/dish_model.dart';
@@ -19,6 +21,25 @@ class CartProvider extends ChangeNotifier {
   int get subtotal => _cart.subtotal;
   bool get isEmpty => _cart.isEmpty;
   bool get isNotEmpty => _cart.isNotEmpty;
+
+  /// Prompt 67: canonical fingerprint of the current cart contents, used to
+  /// derive the checkout idempotency key. Same cart -> same signature (server
+  /// replays the original order on retry); any line, modifier, coupon or
+  /// total change -> new signature (a genuinely new order gets a new key).
+  String get signature {
+    final lines = _cart.items.map((i) {
+      final mods = i.modifiers.map((m) => m.id).toList()..sort();
+      return '${i.productId}:${i.quantity}:${mods.join(',')}:${i.instructions}';
+    }).toList()
+      ..sort();
+    final coupons = _cart.coupons.toList()..sort();
+    return jsonEncode({
+      'lines': lines,
+      'coupons': coupons,
+      'subtotal': _cart.subtotal,
+      'total': _cart.total,
+    });
+  }
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 

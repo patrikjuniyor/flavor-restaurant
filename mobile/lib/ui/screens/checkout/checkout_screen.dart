@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../config/routes.dart';
 import '../../../core/utils/currency_formatter.dart';
+import '../../../core/utils/idempotency.dart';
 import '../../../models/branch_model.dart';
 import '../../../models/user_model.dart';
 import '../../../repositories/branch_repository.dart';
@@ -106,6 +107,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       return;
     }
 
+    // Prompt 67: derived (not random) idempotency key — the same submission
+    // always carries the same key, so a double tap, a timeout retry or a
+    // resubmit after app restart replays the original order server-side
+    // instead of minting a duplicate. Editing the cart/table/address rotates
+    // the key, which is exactly what a genuinely new order needs.
+    final idempotencyKey = checkoutIdempotencyKey(
+      cartSignature: cart.signature,
+      orderMode: _orderMode,
+      branchId: branchId,
+      tableId: _selectedTableId,
+      tableNumber: _tableController.text.trim(),
+      address: _selectedAddress?.toJson(),
+      paymentMethod: _paymentMethod,
+      notes: _notesController.text.trim(),
+      mobile: _mobileController.text.trim(),
+    );
+
     final res = await orderProvider.submitOrder(
       orderMode: _orderMode,
       branchId: branchId,
@@ -116,10 +134,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       address: _selectedAddress?.toJson(),
       paymentMethod: _paymentMethod,
       notes: _notesController.text.trim(),
+      idempotencyKey: idempotencyKey,
     );
 
-    if (res != null && res['ok'] == true) {
-      final orderId = int.tryParse(res['order_id']?.toString() ?? '0') ?? 0;
+    // Prompt 67: a replayed duplicate (data.replay=true) carries the ORIGINAL
+    // order_id — including the recoverable unpaid replay after a failed online
+    // payment, where ok is false but the order row exists. In every one of
+    // those cases the customer must land on THAT order, never on an error that
+    // invites yet another duplicate attempt. 409 identity conflicts keep the
+    // Persian server message via orderProvider.errorMessage.
+    final orderId =
+        res == null ? 0 : int.tryParse(res['order_id']?.toString() ?? '0') ?? 0;
+    final accepted =
+        res != null && orderId > 0 && (res['ok'] == true || res['replay'] == true);
+
+    if (accepted) {
       await cart.clearCart();
 
       if (mounted) {

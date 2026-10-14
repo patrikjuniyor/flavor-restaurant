@@ -14,12 +14,18 @@ class OrderProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
 
+  /// Prompt 67: the typed exception behind [_errorMessage] so callers can
+  /// branch on ApiException.code/statusCode (e.g. the 409 idempotency
+  /// conflict) while the SnackBar keeps showing the Persian [errorMessage].
+  Object? _lastException;
+
   OrderProvider({OrderRepository? orderRepo}) : _orderRepo = orderRepo ?? OrderRepository();
 
   List<OrderModel> get orders => _orders;
   OrderModel? get trackedOrder => _trackedOrder;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+  Object? get lastException => _lastException;
 
   /// Loads customer order history.
   Future<void> loadOrders({int page = 1}) async {
@@ -48,9 +54,11 @@ class OrderProvider extends ChangeNotifier {
     Map<String, dynamic>? address,
     String paymentMethod = 'flavor_pay_at_counter',
     String? notes,
+    String? idempotencyKey,
   }) async {
     _isLoading = true;
     _errorMessage = null;
+    _lastException = null;
     notifyListeners();
 
     try {
@@ -64,9 +72,13 @@ class OrderProvider extends ChangeNotifier {
         address: address,
         paymentMethod: paymentMethod,
         notes: notes,
+        idempotencyKey: idempotencyKey,
       );
       return res;
     } catch (e) {
+      _lastException = e;
+      // ApiException.toString() is the Persian server message itself, so the
+      // raw exception text never reaches the UI (prompt 67).
       _errorMessage = e.toString();
       return null;
     } finally {

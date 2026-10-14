@@ -1,0 +1,21 @@
+{
+    "success": true,
+    "data": {
+        "ok": false,
+        "replay": true,
+        "order_id": 1002,
+        "order_number": "1002",
+        "redirect": "",
+        "payment": "flavor_zarinpal_fail",
+        "mode": "dine_in",
+        "payment_status": "failed",
+        "recoverable": true,
+        "guest_token": "be037f4f5d52328321f765d0a0bba36a9fc9783c7ee05075c4ccab025f8a4d8b"
+    },
+    "meta": {
+        "timestamp": 1791968281,
+        "server_time": "2026-10-14 12:28:01",
+        "message": "سفارش با موفقیت ثبت شد."
+    },
+    "errors": []
+}

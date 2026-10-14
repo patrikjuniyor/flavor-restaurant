@@ -20,6 +20,7 @@ class OrderRepository {
     Map<String, dynamic>? address,
     String paymentMethod = 'flavor_pay_at_counter',
     String? notes,
+    String? idempotencyKey,
   }) async {
     final body = <String, dynamic>{
       'order_mode': orderMode,
@@ -32,6 +33,12 @@ class OrderRepository {
     if (tableNumber != null && tableNumber.isNotEmpty) body['table_number'] = tableNumber;
     if (address != null) body['address'] = address;
     if (notes != null && notes.isNotEmpty) body['notes'] = notes;
+    // Prompt 67: CheckoutService::place() dedupes by this key; a replayed
+    // duplicate comes back as 201 with data.replay=true and the ORIGINAL
+    // order_id instead of creating a second order.
+    if (idempotencyKey != null && idempotencyKey.isNotEmpty) {
+      body['idempotency_key'] = idempotencyKey;
+    }
 
     final res = await _apiClient.post(AppConstants.epOrders, body: body);
     return res['data'] as Map<String, dynamic>;
