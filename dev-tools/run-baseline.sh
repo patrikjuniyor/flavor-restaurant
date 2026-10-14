@@ -118,7 +118,7 @@ if have flutter; then
 	echo "the app resolves against the toolchain CI pins (3.24.x); the" >>"$report"
 	echo "intl constraint in mobile/pubspec.yaml is what decides that." >>"$report"
 	( cd mobile && record "flutter pub get" flutter pub get )
-	( cd mobile && record "flutter analyze" flutter analyze )
+	( cd mobile && record "flutter analyze --fatal-infos" flutter analyze --fatal-infos )
 	( cd mobile && record "flutter test" flutter test )
 fi
 

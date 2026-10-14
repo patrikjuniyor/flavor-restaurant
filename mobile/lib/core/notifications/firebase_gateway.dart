@@ -128,14 +128,14 @@ class FlutterLocalNotificationsPresenter implements LocalNotificationPresenter {
   @override
   Future<void> show({required String title, required String body, String? payload}) async {
     await initialize();
-    final details = NotificationDetails(
+    const details = NotificationDetails(
       android: AndroidNotificationDetails(
         flavorNotificationChannelId,
         flavorNotificationChannelName,
         importance: Importance.high,
         priority: Priority.high,
       ),
-      iOS: const DarwinNotificationDetails(),
+      iOS: DarwinNotificationDetails(),
     );
     await _plugin.show(
       (title.hashCode ^ body.hashCode) & 0x7fffffff,

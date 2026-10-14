@@ -45,16 +45,16 @@ class LoadingShimmer extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: count,
-      itemBuilder: (_, __) => Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
+      itemBuilder: (_, __) => const Padding(
+        padding: EdgeInsets.only(bottom: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const LoadingShimmer(width: double.infinity, height: 160, borderRadius: 12),
-            const SizedBox(height: 10),
-            const LoadingShimmer(width: 140, height: 16),
-            const SizedBox(height: 6),
-            const LoadingShimmer(width: 220, height: 12),
+            LoadingShimmer(width: double.infinity, height: 160, borderRadius: 12),
+            SizedBox(height: 10),
+            LoadingShimmer(width: 140, height: 16),
+            SizedBox(height: 6),
+            LoadingShimmer(width: 220, height: 12),
           ],
         ),
       ),

@@ -237,7 +237,7 @@ jobs:
 
       - name: Flutter Static Analysis
         working-directory: mobile
-        run: flutter analyze
+        run: flutter analyze --fatal-infos
 
       - name: Run Flutter Unit & Widget Tests
         working-directory: mobile

@@ -35,6 +35,7 @@ class _CartScreenState extends State<CartScreen> {
 
     final cart = context.read<CartProvider>();
     final success = await cart.applyCoupon(code);
+    if (!mounted) return;
 
     if (success) {
       _couponController.clear();

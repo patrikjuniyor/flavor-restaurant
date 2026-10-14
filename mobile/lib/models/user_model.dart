@@ -1,4 +1,5 @@
 /// User Profile and Loyalty domain models.
+library;
 
 class LoyaltySummary {
   final int balance;

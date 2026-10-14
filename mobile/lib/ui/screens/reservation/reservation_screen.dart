@@ -92,7 +92,9 @@ class _ReservationScreenState extends State<ReservationScreen> {
       requests: _requestsController.text.trim(),
     );
 
-    if (success && mounted) {
+    if (!mounted) return;
+
+    if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('درخواست رزرو شما با موفقیت ثبت شد و پیامک تأیید ارسال گردید.')),
       );

@@ -13,7 +13,7 @@ void main() {
     });
 
     test('Converts Jalali to Gregorian DateTime reversibly', () {
-      final j = const JalaliDate(1405, 6, 27);
+      const j = JalaliDate(1405, 6, 27);
       final dt = j.toDateTime();
 
       expect(dt.year, 2026);
@@ -22,7 +22,7 @@ void main() {
     });
 
     test('Formats full date in Persian with weekday', () {
-      final j = const JalaliDate(1405, 6, 27);
+      const j = JalaliDate(1405, 6, 27);
       final formatted = j.formatFull();
 
       expect(formatted, contains('شهریور'));

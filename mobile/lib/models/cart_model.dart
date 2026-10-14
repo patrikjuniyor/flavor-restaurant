@@ -1,4 +1,5 @@
 /// Shopping Cart domain models.
+library;
 
 class CartItemModifier {
   final String id;

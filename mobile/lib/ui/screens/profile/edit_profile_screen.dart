@@ -56,7 +56,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   displayName: _nameController.text.trim(),
                   email: _emailController.text.trim(),
                 );
-                if (ok && mounted) {
+                if (ok && context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('پروفایل با موفقیت بروزرسانی شد.')),
                   );

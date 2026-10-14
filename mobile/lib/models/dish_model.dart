@@ -1,4 +1,5 @@
 /// Food Dish and Customization Modifier domain models.
+library;
 import 'category_model.dart';
 
 class ModifierOption {

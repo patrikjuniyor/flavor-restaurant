@@ -1,4 +1,5 @@
 /// Table Reservation domain models.
+library;
 
 class ReservationSlot {
   final String time;

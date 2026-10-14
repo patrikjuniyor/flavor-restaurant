@@ -1,4 +1,5 @@
 /// Order, Order History, and Live Tracking domain models.
+library;
 
 class OrderTrackingStep {
   final String step;

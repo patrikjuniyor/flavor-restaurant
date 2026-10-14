@@ -1,5 +1,7 @@
 // Pure Dart verification runner without external flutter_test dependency.
 
+import 'dart:io';
+
 class DeepLinkDestination {
   final String route;
   final dynamic args;
@@ -114,17 +116,17 @@ void main() {
   void assertTest(bool condition, String message) {
     if (condition) {
       passed++;
-      print('  [PASS] $message');
+      stdout.writeln('  [PASS] $message');
     } else {
       failed++;
-      print('  [FAIL] $message');
+      stdout.writeln('  [FAIL] $message');
     }
   }
 
-  print('=== Running Pure Dart Verification ===\n');
+  stdout.writeln('=== Running Pure Dart Verification ===\n');
 
   // 1. Deep Link Custom Scheme
-  print('--- 1. Deep Link Parsing ---');
+  stdout.writeln('--- 1. Deep Link Parsing ---');
   final d1 = DeepLinkParser.parseUri('flavor://menu?category=5');
   assertTest(d1 != null && d1.route == '/menu' && d1.args == 5, 'flavor://menu?category=5 -> /menu with cat 5');
 
@@ -143,9 +145,9 @@ void main() {
   final d6 = DeepLinkParser.parseUri('flavor://table?branch_id=3&table_number=12');
   assertTest(d6 != null && (d6.args as Map)['branch_id'] == 3 && (d6.args as Map)['table_number'] == '12', 'Table QR link parsed');
 
-  print('\n=======================================');
-  print('Dart Verification: $passed Passed, $failed Failed');
-  print('=======================================');
+  stdout.writeln('\n=======================================');
+  stdout.writeln('Dart Verification: $passed Passed, $failed Failed');
+  stdout.writeln('=======================================');
 
   if (failed > 0) {
     throw Exception('Verification failed');

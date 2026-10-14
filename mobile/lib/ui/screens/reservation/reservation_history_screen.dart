@@ -140,7 +140,7 @@ class _ReservationHistoryScreenState extends State<ReservationHistoryScreen> {
                                   style: TextButton.styleFrom(foregroundColor: Colors.red),
                                   onPressed: () async {
                                     final ok = await res.cancelReservation(item.id);
-                                    if (ok && mounted) {
+                                    if (ok && context.mounted) {
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(content: Text('رزرو لغو شد.')),
                                       );

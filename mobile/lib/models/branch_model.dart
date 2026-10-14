@@ -1,4 +1,5 @@
 /// Branch, Dining Table, and Delivery Zone domain models.
+library;
 
 class DiningTable {
   final int id;

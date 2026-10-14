@@ -60,9 +60,9 @@ class PersianNumber {
   static String cleanMobile(String raw) {
     String clean = toLatin(raw).replaceAll(RegExp(r'\D'), '');
     if (clean.startsWith('98') && clean.length == 12) {
-      clean = '0' + clean.substring(2);
+      clean = '0${clean.substring(2)}';
     } else if (clean.startsWith('9') && clean.length == 10) {
-      clean = '0' + clean;
+      clean = '0$clean';
     }
     return clean;
   }

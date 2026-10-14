@@ -1,4 +1,5 @@
 /// Customer Review and Testimonial domain models.
+library;
 
 class ReviewModel {
   final int id;

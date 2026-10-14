@@ -75,17 +75,17 @@ class RestaurantInfoScreen extends StatelessWidget {
                     ],
                   ),
                   const Divider(height: 20),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text('شنبه تا چهارشنبه:'),
                       Text('۱۱:۳۰ الی ۲۳:۳۰', style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                   const SizedBox(height: 8),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text('پنج‌شنبه و جمعه:'),
                       Text('۱۲:۰۰ الی ۰۰:۰۰', style: TextStyle(fontWeight: FontWeight.bold)),
                     ],

@@ -1,0 +1,9 @@
+# Static-analysis contract for the Flavor mobile client.
+#
+# Prompt 64 made `flutter analyze` a zero-issue gate. Including the standard
+# Flutter lint set turns on the rules the codebase is expected to satisfy
+# (const constructors, no unused imports, final fields, …); CI runs
+# `flutter analyze --fatal-infos` so infos can never regress silently.
+#
+# Keep this list empty of exclusions: fixes belong in the code, not here.
+include: package:flutter_lints/flutter.yaml

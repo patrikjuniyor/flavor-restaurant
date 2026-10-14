@@ -109,7 +109,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           arguments: orderId,
         );
       }
-    } else {
+    } else if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(orderProvider.errorMessage ?? 'ثبت سفارش با خطا مواجه شد.')),
       );

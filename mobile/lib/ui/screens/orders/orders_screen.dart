@@ -167,7 +167,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                     label: const Text('سفارش مجدد'),
                                     onPressed: () async {
                                       final ok = await orderProvider.reorder(order.id);
-                                      if (ok && mounted) {
+                                      if (ok && context.mounted) {
                                         Navigator.pushNamed(context, AppRoutes.cart);
                                       }
                                     },

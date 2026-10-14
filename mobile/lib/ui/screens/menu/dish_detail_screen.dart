@@ -153,8 +153,10 @@ class _DishDetailScreenState extends State<DishDetailScreen> {
                   rating: rating,
                   comment: commentCtrl.text.trim(),
                 );
+                if (!ctx.mounted) return;
                 Navigator.pop(ctx);
                 _loadDishDetails();
+                if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('دیدگاه شما با موفقیت ثبت شد.')),
                 );
