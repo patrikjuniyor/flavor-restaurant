@@ -293,7 +293,7 @@ class Schema_Output {
 	 *
 	 * @return array<string, mixed>|null
 	 */
-	private static function single_product_menu_item(): ?array {
+	public static function single_product_menu_item(): ?array {
 		if ( ! function_exists( 'wc_get_product' ) ) {
 			return null;
 		}
@@ -323,6 +323,17 @@ class Schema_Output {
 			}
 		}
 
+		// Prompt 76: AggregateRating ONLY when real ratings exist (no fake rating claims)
+		$rating_count = (int) $product->get_rating_count();
+		$rating_avg   = (float) $product->get_average_rating();
+		if ( $rating_count > 0 && $rating_avg > 0 ) {
+			$schema['aggregateRating'] = array(
+				'@type'       => 'AggregateRating',
+				'ratingValue' => $rating_avg,
+				'reviewCount' => $rating_count,
+			);
+		}
+
 		return apply_filters( 'flavor_schema_menu_item', $schema, $product );
 	}
 
@@ -331,54 +342,165 @@ class Schema_Output {
 	 *
 	 * @return array<string, mixed>
 	 */
-	private static function restaurant(): array {
-		$schema = array(
-			'@type' => array( 'Restaurant', 'FoodEstablishment' ),
-			'@id'   => home_url( '/#restaurant' ),
-			'name'  => get_bloginfo( 'name' ),
-			'url'   => home_url( '/' ),
-		);
-		if ( class_exists( '\\FlavorCore\\PostTypes\\BranchPostType' ) ) {
+	public static function restaurant(): array {
+		$name    = (string) get_theme_mod( 'flavor_hero_title', get_bloginfo( 'name' ) );
+		$phone   = (string) get_theme_mod( 'flavor_phone', '' );
+		$address = (string) get_theme_mod( 'flavor_address', '' );
+		$city    = (string) get_theme_mod( 'flavor_city', '' );
+
+		$lat     = '';
+		$lng     = '';
+		$hours_specs = array();
+
+		if ( class_exists( '\FlavorCore\PostTypes\BranchPostType' ) ) {
 			$branch_id = \FlavorCore\PostTypes\BranchPostType::default_id();
 			$data      = $branch_id ? \FlavorCore\PostTypes\BranchPostType::to_array( $branch_id ) : null;
 			if ( $data ) {
-				$schema['name']      = $data['name'] ?: $schema['name'];
-				$schema['telephone'] = $data['phone'];
-				$schema['address']   = array(
-					'@type'           => 'PostalAddress',
-					'streetAddress'   => $data['address'],
-					'addressLocality' => $data['city'],
-					'addressRegion'   => $data['province'],
-					'addressCountry'  => 'IR',
-				);
-				if ( $data['lat'] && $data['lng'] ) {
-					$schema['geo'] = array(
-						'@type'     => 'GeoCoordinates',
-						'latitude'  => $data['lat'],
-						'longitude' => $data['lng'],
-					);
+				$name    = ! empty( $data['name'] ) ? $data['name'] : $name;
+				$phone   = ! empty( $data['phone'] ) ? $data['phone'] : $phone;
+				$address = ! empty( $data['address'] ) ? $data['address'] : $address;
+				$city    = ! empty( $data['city'] ) ? $data['city'] : $city;
+				$lat     = ! empty( $data['lat'] ) ? $data['lat'] : $lat;
+				$lng     = ! empty( $data['lng'] ) ? $data['lng'] : $lng;
+
+				if ( class_exists( '\FlavorCore\Reservation\SlotCalculator' ) && class_exists( '\FlavorCore\Database\Schema' ) ) {
+					global $wpdb;
+					$table = \FlavorCore\Database\Schema::table( 'flavor_branch_hours' );
+					if ( $wpdb && $table ) {
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+						$rows = $wpdb->get_results(
+							$wpdb->prepare(
+								"SELECT day_of_week, open_time, close_time, is_closed FROM {$table} WHERE branch_id = %d AND is_closed = 0",
+								$branch_id
+							),
+							ARRAY_A
+						);
+						if ( ! empty( $rows ) ) {
+							$dow_map = array(
+								0 => 'Saturday',
+								1 => 'Sunday',
+								2 => 'Monday',
+								3 => 'Tuesday',
+								4 => 'Wednesday',
+								5 => 'Thursday',
+								6 => 'Friday',
+								);
+							foreach ( $rows as $row ) {
+								$dow_num  = (int) ( $row['day_of_week'] ?? 0 );
+								$day_name = $dow_map[ $dow_num ] ?? null;
+								if ( $day_name && ! empty( $row['open_time'] ) && ! empty( $row['close_time'] ) ) {
+									$hours_specs[] = array(
+										'@type'     => 'OpeningHoursSpecification',
+										'dayOfWeek' => $day_name,
+										'opens'     => substr( (string) $row['open_time'], 0, 5 ),
+										'closes'    => substr( (string) $row['close_time'], 0, 5 ),
+									);
+								}
+							}
+						}
+					}
 				}
-				$schema['servesCuisine'] = 'Persian';
-				$schema['currenciesAccepted'] = 'IRR';
-				$schema['openingHoursSpecification'] = array(
-					array(
-						'@type'     => 'OpeningHoursSpecification',
-						'dayOfWeek' => array( 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday' ),
-						'opens'     => '12:00',
-						'closes'    => '23:00',
-					),
-				);
 			}
 		}
+
+		$schema = array(
+			'@type' => array( 'Restaurant', 'FoodEstablishment' ),
+			'@id'   => home_url( '/#restaurant' ),
+			'name'  => $name,
+			'url'   => home_url( '/' ),
+		);
+
+		if ( '' !== $phone ) {
+			$schema['telephone'] = $phone;
+		}
+
+		if ( '' !== $address || '' !== $city ) {
+			$schema['address'] = array(
+				'@type'           => 'PostalAddress',
+				'streetAddress'   => $address,
+				'addressLocality' => $city,
+				'addressCountry'  => 'IR',
+			);
+		}
+
+		if ( '' !== $lat && '' !== $lng ) {
+			$schema['geo'] = array(
+				'@type'     => 'GeoCoordinates',
+				'latitude'  => $lat,
+				'longitude' => $lng,
+			);
+		}
+
+		$schema['servesCuisine']      = 'Persian';
+		$schema['currenciesAccepted'] = function_exists( 'get_woocommerce_currency' ) ? get_woocommerce_currency() : 'IRR';
+
+		if ( ! empty( $hours_specs ) ) {
+			$schema['openingHoursSpecification'] = $hours_specs;
+		}
+
+		// Prompt 76: AggregateRating ONLY when real approved comments exist (no fake rating claims)
+		$rating_data = self::get_site_aggregate_rating();
+		if ( null !== $rating_data ) {
+			$schema['aggregateRating'] = array(
+				'@type'       => 'AggregateRating',
+				'ratingValue' => $rating_data['ratingValue'],
+				'reviewCount' => $rating_data['reviewCount'],
+			);
+		}
+
 		return apply_filters( 'flavor_schema_restaurant', $schema );
 	}
+
+	/**
+	 * Compute aggregate rating for restaurant ONLY if real comments/reviews exist.
+	 *
+	 * @return array{ratingValue: float, reviewCount: int}|null
+	 */
+	public static function get_site_aggregate_rating(): ?array {
+		if ( ! function_exists( 'get_comments' ) ) {
+			return null;
+		}
+
+		$comments = get_comments(
+			array(
+				'status' => 'approve',
+				'type'   => 'review',
+				'number' => 50,
+			)
+		);
+
+		if ( empty( $comments ) ) {
+			return null;
+		}
+
+		$total_score = 0;
+		$counted     = 0;
+
+		foreach ( $comments as $comment ) {
+			$rating = get_comment_meta( $comment->comment_ID, 'rating', true );
+			if ( is_numeric( $rating ) && (float) $rating > 0 ) {
+				$total_score += (float) $rating;
+				++$counted;
+			}
+		}
+
+		if ( 0 === $counted ) {
+			return null;
+		}
+
+		return array(
+			'ratingValue' => round( $total_score / $counted, 1 ),
+			'reviewCount' => $counted,
+		);
+	}
+
 
 	/**
 	 * Menu with up to 20 items (menu page / front only).
 	 *
 	 * @return array<string, mixed>|null
 	 */
-	private static function menu(): ?array {
+	public static function menu(): ?array {
 		if ( ! function_exists( 'wc_get_products' ) ) {
 			return null;
 		}

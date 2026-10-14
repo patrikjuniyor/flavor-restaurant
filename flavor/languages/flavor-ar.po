@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flavor\n"
 "Report-Msgid-Bugs-To: https://github.com/patrikjuniyor/flavor-restaurant/issues\n"
-"PO-Revision-Date: 2026-10-14 19:04+0000\n"
+"PO-Revision-Date: 2026-10-14 19:23+0000\n"
 "Last-Translator: Flavor Translations\n"
 "Language-Team: Flavor Translations\n"
 "Language: ar\n"
@@ -2158,7 +2158,7 @@ msgstr "اتركوه فارغاً ليُقرأ العد التنازلي للم�
 msgid "خاموش کردنش جای بیشتری برای محتوا روی گوشی می‌گذارد."
 msgstr "إيقافه يوفر مساحة أكبر للمحتوى على الهاتف."
 
-#: flavor/inc/class-onboarding.php:847 flavor/inc/class-schema-output.php:431 flavor/inc/class-ui-pages.php:112 flavor/inc/template-tags.php:183 flavor/page-templates/template-menu.php:13 flavor/page-templates/template-order-tracking.php:9 flavor/template-parts/ui/mobile-nav.php:23
+#: flavor/inc/class-onboarding.php:847 flavor/inc/class-schema-output.php:553 flavor/inc/class-ui-pages.php:112 flavor/inc/template-tags.php:183 flavor/page-templates/template-menu.php:13 flavor/page-templates/template-order-tracking.php:9 flavor/template-parts/ui/mobile-nav.php:23
 msgid "خانه"
 msgstr "الرئيسية"
 
@@ -4534,7 +4534,7 @@ msgstr "لم تُضبط منطقة توصيل مفعّلة. لترتيب است�
 msgid "منظورتان این بود؟"
 msgstr "هل قصدتم هذا؟"
 
-#: flavor/inc/class-builder.php:315 flavor/inc/class-builder.php:357 flavor/inc/class-builder.php:386 flavor/inc/class-demo-importer.php:325 flavor/inc/class-schema-output.php:414 flavor/page-templates/template-menu.php:13 flavor/template-parts/ui/mobile-nav.php:25
+#: flavor/inc/class-builder.php:315 flavor/inc/class-builder.php:357 flavor/inc/class-builder.php:386 flavor/inc/class-demo-importer.php:325 flavor/inc/class-schema-output.php:536 flavor/page-templates/template-menu.php:13 flavor/template-parts/ui/mobile-nav.php:25
 msgid "منو"
 msgstr "القائمة"
 

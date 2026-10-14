@@ -93,3 +93,45 @@ if ( ! function_exists( 'post_type_exists' ) ) {
 		return in_array( $post_type, array( 'post', 'page', 'product', 'branch' ), true );
 	}
 }
+
+if ( ! function_exists( 'set_theme_mod' ) ) {
+	function set_theme_mod( string $key, $value ): void {
+		$GLOBALS['_mock_theme_mods'][ $key ] = $value;
+	}
+}
+
+if ( ! function_exists( 'get_theme_mod' ) ) {
+	function get_theme_mod( string $key, $default = false ) {
+		return $GLOBALS['_mock_theme_mods'][ $key ] ?? $default;
+	}
+}
+
+if ( ! function_exists( 'get_queried_object_id' ) ) {
+	function get_queried_object_id(): int {
+		return $GLOBALS['_mock_queried_object_id'] ?? 1;
+	}
+}
+
+if ( ! function_exists( 'get_comments' ) ) {
+	function get_comments( $args = array() ) {
+		return $GLOBALS['_mock_approved_reviews'] ?? array();
+	}
+}
+
+if ( ! function_exists( 'get_comment_meta' ) ) {
+	function get_comment_meta( $comment_id, $key = '', $single = false ) {
+		return $GLOBALS['_mock_comment_meta'][ $comment_id ][ $key ] ?? '';
+	}
+}
+
+if ( ! function_exists( 'has_post_thumbnail' ) ) {
+	function has_post_thumbnail( $post = null ): bool {
+		return false;
+	}
+}
+
+if ( ! function_exists( 'get_the_post_thumbnail_url' ) ) {
+	function get_the_post_thumbnail_url( $post = null, $size = 'post-thumbnail' ) {
+		return false;
+	}
+}
