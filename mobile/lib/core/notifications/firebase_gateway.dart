@@ -12,23 +12,61 @@ import 'notification_service.dart';
 const String flavorNotificationChannelId = 'flavor_channel';
 const String flavorNotificationChannelName = 'Flavor Notifications';
 
-/// Background message entry point. Required to be a top-level function.
-/// Data-only background messages are surfaced as local notifications so the
-/// payload (order / reservation deep link) remains tappable.
-@pragma('vm:entry-point')
-Future<void> flavorFirebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-
-  final notification = message.notification;
-  if (notification == null) {
-    final presenter = FlutterLocalNotificationsPresenter();
-    await presenter.show(
-      title: message.data['title']?.toString() ?? '',
-      body: message.data['body']?.toString() ?? '',
-      payload: NotificationPayloadParser.resolveDeepLink(message.data),
-    );
+/// Initializes Firebase only when the current brand/build actually ships the
+/// Firebase configuration (google-services.json on Android,
+/// GoogleService-Info.plist on iOS — provisioned by CI, never committed).
+///
+/// Returns `false` — silently, never throwing — when that configuration is
+/// absent, so the app can boot with push degraded to a no-op (Prompt 69).
+/// [init] is injectable for tests; it defaults to the real
+/// `Firebase.initializeApp`.
+Future<bool> initializeFirebaseIfProvisioned([Future<void> Function()? init]) async {
+  try {
+    final initializer = init ?? Firebase.initializeApp;
+    await initializer();
+    return true;
+  } catch (_) {
+    // No google-services.json / GoogleService-Info.plist for this brand:
+    // push degrades silently; app startup must never be blocked.
+    return false;
   }
+}
+
+/// Background message entry point. Required to be a top-level function.
+/// Delegates to [handleBackgroundMessage], which is injectable and unit-tested.
+@pragma('vm:entry-point')
+Future<void> flavorFirebaseMessagingBackgroundHandler(RemoteMessage message) =>
+    handleBackgroundMessage(message);
+
+/// Testable core of the background handler.
+///
+/// Data-only background messages are surfaced as local notifications so the
+/// payload (order / reservation deep link) remains tappable; messages carrying
+/// a notification block are displayed by the OS itself and are NOT duplicated.
+/// Every failure mode (missing Firebase configuration, missing local
+/// notifications plugin) degrades silently: a background isolate must never
+/// take the app down.
+Future<void> handleBackgroundMessage(
+  RemoteMessage message, {
+  Future<void> Function()? firebaseInit,
+  LocalNotificationPresenter? presenter,
+}) async {
+  final provisioned = await initializeFirebaseIfProvisioned(firebaseInit);
+  if (!provisioned) return;
+
   // Notification payloads are displayed by the OS automatically in background.
+  if (message.notification != null) return;
+
+  final data = message.data;
+  try {
+    await (presenter ?? FlutterLocalNotificationsPresenter()).show(
+      title: data['title']?.toString() ?? '',
+      body: data['body']?.toString() ?? '',
+      payload: NotificationPayloadParser.resolveDeepLink(data),
+    );
+  } catch (_) {
+    // Local-notifications plugin unavailable: degrade to a no-op, not a crash.
+  }
 }
 
 /// Concrete [PushMessagingGateway] bridging to Firebase Cloud Messaging.

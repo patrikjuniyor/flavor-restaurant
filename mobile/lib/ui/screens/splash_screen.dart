@@ -28,7 +28,15 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _fadeAnim = CurvedAnimation(parent: _animController, curve: Curves.easeIn);
     _animController.forward();
 
-    _initializeApp();
+    // Prompt 69 fix: the bootstrap providers (loadConfig/checkAuth/loadCart/
+    // loadFavorites) notify listeners synchronously to set their loading
+    // state. Calling them directly from initState fires notifyListeners
+    // DURING the build phase ("setState during build" — a debug-mode crash
+    // and a framework violation in release). Deferring to the first frame
+    // callback mirrors the pattern HomeScreen already uses.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _initializeApp();
+    });
   }
 
   Future<void> _initializeApp() async {

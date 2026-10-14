@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flavor_mobile/core/navigation/deep_link_service.dart';
+import 'package:flavor_mobile/core/notifications/firebase_gateway.dart';
 import 'package:flavor_mobile/core/notifications/notification_service.dart';
 
 /// In-memory fake gateway — no platform channels, no Firebase import.
@@ -14,11 +18,16 @@ class FakeMessagingGateway implements PushMessagingGateway {
 
   String? nextToken;
   bool permissionRequested = false;
+  bool permissionThrows = false;
   int tokenCalls = 0;
+  Map<String, dynamic>? initialMessage;
 
   @override
   Future<void> requestPermission() async {
     permissionRequested = true;
+    if (permissionThrows) {
+      throw StateError('permission dialog unavailable (degraded build)');
+    }
   }
 
   @override
@@ -40,7 +49,34 @@ class FakeMessagingGateway implements PushMessagingGateway {
   Stream<Map<String, dynamic>> get onMessageTap => taps.stream;
 
   @override
-  Future<Map<String, dynamic>?> getInitialMessage() async => null;
+  Future<Map<String, dynamic>?> getInitialMessage() async => initialMessage;
+}
+
+/// In-memory fake local-notifications presenter — records show() calls.
+class FakePresenter implements LocalNotificationPresenter {
+  FakePresenter(this.shown, {this.throws = false});
+
+  final List<Map<String, Object?>> shown;
+  final bool throws;
+
+  @override
+  Future<void> show({required String title, required String body, String? payload}) async {
+    if (throws) {
+      throw StateError('local notifications plugin unavailable');
+    }
+    shown.add({'title': title, 'body': body, 'payload': payload});
+  }
+}
+
+/// Loads the shared push contract fixture. The SAME file is asserted by the
+/// PHP e2e suite (run-e2e-integration.php) against the real FCM messages:send
+/// body emitted by PushNotificationService::dispatch_order_status() — so the
+/// server wire format and this parser can never drift apart silently.
+Map<String, dynamic> loadPushContractFixture() {
+  final file = File('test/fixtures/push_payload_contract.json');
+  expect(file.existsSync(), isTrue,
+      reason: 'contract fixture must be read from the mobile/ package root');
+  return jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
 }
 
 void main() {
@@ -243,6 +279,230 @@ void main() {
       expect(failing.registeredToken, isNull); // Safe to retry later.
       await failing.dispose();
       await service.dispose();
+    });
+  });
+
+  group('wire contract fixture — server PushNotificationService sync', () {
+    late Map<String, dynamic> fixture;
+    late List<dynamic> payloads;
+
+    setUpAll(() {
+      fixture = loadPushContractFixture();
+      payloads = fixture['payloads'] as List<dynamic>;
+    });
+
+    test('fixture pins flavor-mobile-push@1 and the server status vocabulary', () {
+      expect(fixture['contract'], 'flavor-mobile-push@1');
+      expect(fixture['status_vocabulary'],
+          ['preparing', 'ready', 'completed', 'cancelled']);
+      // One pinned wire payload per server status, in vocabulary order.
+      expect(payloads.map((p) => (p['wire_data'] as Map)['status']).toList(),
+          fixture['status_vocabulary']);
+    });
+
+    test('every wire payload: all-string data, click_action mirrors order_id, resolves to the pinned route + args', () {
+      for (final entry in payloads) {
+        final name = entry['name'] as String;
+        final wire = (entry['wire_data'] as Map).cast<String, dynamic>();
+        final expected = entry['expected'] as Map;
+
+        // send_fcm() coerces every data value to string on the wire.
+        expect(wire.values.every((v) => v is String), isTrue, reason: name);
+        // Contract format: click_action == flavor://order/<order_id>.
+        expect(wire['click_action'], 'flavor://order/${wire['order_id']}',
+            reason: name);
+
+        final link = NotificationPayloadParser.resolveDeepLink(wire);
+        expect(link, expected['deep_link'], reason: name);
+
+        final dest = DeepLinkService.instance.parseUri(link!);
+        expect(dest, isNotNull, reason: name);
+        expect(dest!.route, expected['route'], reason: name);
+        final args = dest.args as Map;
+        expect(args['order_id'], (expected['args'] as Map)['order_id'],
+            reason: name);
+        expect(args['guest_token'], (expected['args'] as Map)['guest_token'],
+            reason: name);
+        // Order tracking stays reachable for guests: the server link carries
+        // the order id, auth is NOT required to open the tracking screen.
+        expect(dest.requiresAuth, isFalse, reason: name);
+      }
+    });
+
+    test('transport settings mirror what send_fcm()/send_apns() emit', () {
+      final transport = fixture['transport'] as Map;
+      expect((transport['android'] as Map)['priority'], 'HIGH');
+      expect((transport['android'] as Map)['sound'], 'default');
+      expect((transport['apns'] as Map)['priority'], '10');
+      expect((transport['apns'] as Map)['sound'], 'default');
+    });
+  });
+
+  group('NotificationService — payload routing', () {
+    late FakeMessagingGateway gateway;
+    late List<String> routed;
+    late List<bool> routedAuth;
+
+    setUp(() {
+      gateway = FakeMessagingGateway();
+      routed = [];
+      routedAuth = [];
+    });
+
+    NotificationService buildService({
+      LocalNotificationPresenter? presenter,
+      bool Function()? auth,
+    }) =>
+        NotificationService(
+          messaging: gateway,
+          registerDeviceToken:
+              (token, {required platform, required appVersion}) async {},
+          unregisterDeviceToken: (token) async {},
+          localNotifications: presenter,
+          isAuthenticatedResolver: auth,
+          dispatchDeepLink: (url, {required isAuthenticated}) {
+            routed.add(url);
+            routedAuth.add(isAuthenticated);
+            return true;
+          },
+        );
+
+    test('notification tap routes the resolved deep link with the current auth flag', () async {
+      final service = buildService(auth: () => true);
+      await service.init();
+      gateway.taps.add({
+        'type': 'order_status',
+        'order_id': '1001',
+        'status': 'ready',
+        'click_action': 'flavor://order/1001',
+      });
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      expect(routed, ['flavor://order/1001']);
+      expect(routedAuth, [true]);
+      await service.dispose();
+    });
+
+    test('taps without a routable destination never reach the dispatcher', () async {
+      final service = buildService();
+      await service.init();
+      gateway.taps.add({'type': 'unknown'});
+      gateway.taps.add({'click_action': 'https://attacker.example/p'});
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      expect(routed, isEmpty);
+      await service.dispose();
+    });
+
+    test('cold start: the message that launched the app routes during init', () async {
+      gateway.initialMessage = {
+        'type': 'order_status',
+        'order_id': '1003',
+        'click_action': 'flavor://order/1003',
+      };
+      final service = buildService(auth: () => false);
+      await service.init();
+      expect(routed, ['flavor://order/1003']);
+      expect(routedAuth, [false]);
+      await service.dispose();
+    });
+
+    test('foreground message surfaces via the local presenter with the deep link as payload', () async {
+      final shown = <Map<String, Object?>>[];
+      final service = buildService(presenter: FakePresenter(shown));
+      await service.init();
+      gateway.foreground.add({
+        'title': 'سفارش شما آماده است',
+        'body': 'سفارش #1002 آماده سرو / تحویل به پیک اختصاصی شد.',
+        'type': 'order_status',
+        'order_id': '1002',
+        'status': 'ready',
+        'click_action': 'flavor://order/1002',
+      });
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      expect(shown, hasLength(1));
+      expect(shown.single['title'], 'سفارش شما آماده است');
+      expect(shown.single['payload'], 'flavor://order/1002');
+      await service.dispose();
+    });
+
+    test('presenter failures degrade silently (no unhandled async error)', () async {
+      final service = buildService(presenter: FakePresenter([], throws: true));
+      await service.init();
+      gateway.foreground
+          .add({'title': 't', 'body': 'b', 'type': 'order_status', 'order_id': '9'});
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      // Reaching this point IS the assertion: the throw was contained.
+      await service.dispose();
+    });
+
+    test('permission denial never blocks stream subscriptions', () async {
+      gateway.permissionThrows = true;
+      final service = buildService();
+      await service.init();
+      gateway.taps.add(
+          {'type': 'order_status', 'order_id': '55', 'click_action': 'flavor://order/55'});
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      expect(routed, ['flavor://order/55']);
+      await service.dispose();
+    });
+  });
+
+  group('background handler — local display + silent degrade', () {
+    Map<String, dynamic> dataOnlyWire() => {
+          'title': 'سفارش شما در حال آماده‌سازی است',
+          'body': 'آشپزخانه رستوران سفارش #1001 را تایید کرد و در حال پخت است.',
+          'type': 'order_status',
+          'order_id': '1001',
+          'status': 'preparing',
+          'click_action': 'flavor://order/1001',
+        };
+
+    test('data-only message surfaces as a local notification carrying the deep link', () async {
+      final shown = <Map<String, Object?>>[];
+      final message = RemoteMessage.fromMap({'data': dataOnlyWire()});
+      await handleBackgroundMessage(
+        message,
+        firebaseInit: () async {},
+        presenter: FakePresenter(shown),
+      );
+      expect(shown, hasLength(1));
+      expect(shown.single['title'], 'سفارش شما در حال آماده‌سازی است');
+      expect(shown.single['payload'], 'flavor://order/1001');
+    });
+
+    test('messages with a notification block are left to the OS (no duplicate)', () async {
+      final shown = <Map<String, Object?>>[];
+      final message = RemoteMessage.fromMap({
+        'data': dataOnlyWire(),
+        'notification': {'title': 'سفارش شما آماده است', 'body': 'بدنه'},
+      });
+      await handleBackgroundMessage(
+        message,
+        firebaseInit: () async {},
+        presenter: FakePresenter(shown),
+      );
+      expect(shown, isEmpty);
+    });
+
+    test('no google-services.json (Firebase init fails) exits silently — presenter untouched', () async {
+      final shown = <Map<String, Object?>>[];
+      final message = RemoteMessage.fromMap({'data': dataOnlyWire()});
+      await handleBackgroundMessage(
+        message,
+        firebaseInit: () async =>
+            throw StateError('[core/no-options] google-services.json missing'),
+        presenter: FakePresenter(shown),
+      );
+      expect(shown, isEmpty);
+    });
+
+    test('presenter failure inside the background isolate degrades silently', () async {
+      final message = RemoteMessage.fromMap({'data': dataOnlyWire()});
+      await handleBackgroundMessage(
+        message,
+        firebaseInit: () async {},
+        presenter: FakePresenter([], throws: true),
+      );
+      // Reaching this point IS the assertion: the isolate never crashed.
     });
   });
 }

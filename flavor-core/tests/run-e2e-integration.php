@@ -783,6 +783,125 @@ run_test( 'Order Status Push & Multi-Channel Dispatch delivers through FCM when 
 	return is_array( $dispatched ) && isset( $dispatched['push'] ) && $dispatched['push'] === true && $delivered;
 } );
 
+run_test( 'Order status push wire payload matches the shared mobile contract fixture', function () {
+	global $_mock_http_requests, $_mock_http_responder;
+
+	// Prompt 69: the canonical flavor-mobile-push@1 payloads are pinned in a
+	// SINGLE fixture asserted from both sides — this test decodes the real FCM
+	// messages:send body emitted by dispatch_order_status() and compares it
+	// byte-for-byte, while the Flutter notification_payload_test feeds the
+	// same fixture through NotificationPayloadParser + the route table.
+	// Drift on either side turns red.
+	$fixture_path = __DIR__ . '/../../mobile/test/fixtures/push_payload_contract.json';
+	if ( ! is_readable( $fixture_path ) ) {
+		return false;
+	}
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+	$fixture = json_decode( (string) file_get_contents( $fixture_path ), true );
+	if ( ! is_array( $fixture ) || 'flavor-mobile-push@1' !== ( $fixture['contract'] ?? '' ) ) {
+		return false;
+	}
+
+	$expected = null;
+	foreach ( (array) ( $fixture['payloads'] ?? array() ) as $payload ) {
+		if ( 'order_status_preparing' === ( $payload['name'] ?? '' ) ) {
+			$expected = $payload;
+		}
+	}
+	if ( ! is_array( $expected ) || empty( $expected['wire_data']['order_id'] ) ) {
+		return false;
+	}
+
+	// Fake, test-generated credentials (never real secrets).
+	PushNotificationService::register_device( 101, 'fcm_contract_fixture_token', 'android', '1.0.0' );
+	$key = openssl_pkey_new( array(
+		'private_key_type' => OPENSSL_KEYTYPE_RSA,
+		'private_key_bits' => 2048,
+	) );
+	$pem = '';
+	openssl_pkey_export( $key, $pem );
+	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON=' . wp_json_encode( array(
+		'project_id'   => 'flavor-ci-test',
+		'client_email' => 'flavor-push@flavor-ci-test.iam.gserviceaccount.com',
+		'private_key'  => $pem,
+		'token_uri'    => 'https://oauth2.googleapis.com/token',
+	) ) );
+	$_mock_http_responder = function ( string $url ) {
+		if ( strpos( $url, 'oauth2.googleapis.com/token' ) !== false ) {
+			return array(
+				'code' => 200,
+				'body' => wp_json_encode( array(
+					'access_token' => 'test-fake-oauth-token',
+					'expires_in'   => 3600,
+				) ),
+			);
+		}
+		return array(
+			'code' => 200,
+			'body' => wp_json_encode( array( 'name' => 'projects/flavor-ci-test/messages/9' ) ),
+		);
+	};
+	delete_transient( 'flavor_fcm_oauth_' . md5( 'flavor-push@flavor-ci-test.iam.gserviceaccount.com' ) );
+	$_mock_http_requests = array();
+
+	// Dispatch EXACTLY the order/status the fixture pins.
+	$wire_order_id = (int) $expected['wire_data']['order_id'];
+	$wire_status   = (string) $expected['wire_data']['status'];
+	$dispatched    = PushNotificationService::dispatch_order_status( $wire_order_id, $wire_status, 101, '09121234567' );
+
+	$body = null;
+	foreach ( $_mock_http_requests as $req ) {
+		if ( strpos( $req['url'], 'messages:send' ) !== false ) {
+			$decoded = json_decode( (string) ( $req['args']['body'] ?? '' ), true );
+			$body    = is_array( $decoded ) && isset( $decoded['message'] ) && is_array( $decoded['message'] ) ? $decoded['message'] : null;
+		}
+	}
+
+	$_mock_http_responder = null;
+	putenv( 'FLAVOR_FCM_SERVICE_ACCOUNT_JSON' );
+	PushNotificationService::unregister_device( 'fcm_contract_fixture_token' );
+
+	if ( ! is_array( $body ) || ! is_array( $dispatched ) || empty( $dispatched['push'] ) ) {
+		return false;
+	}
+
+	// 1. The data dictionary must equal the fixture's wire_data exactly
+	//    (same keys, same string values — send_fcm coerces everything).
+	$data = isset( $body['data'] ) && is_array( $body['data'] ) ? $body['data'] : array();
+	// phpcs:ignore WordPress.PHP.StrictComparisons -- loose == compares key/value pairs order-independently.
+	if ( $data != $expected['wire_data'] ) {
+		return false;
+	}
+	foreach ( $data as $value ) {
+		if ( ! is_string( $value ) ) {
+			return false;
+		}
+	}
+
+	// 2. Notification block present (title/body come from the server strings).
+	if ( '' === (string) ( $body['notification']['title'] ?? '' ) || '' === (string) ( $body['notification']['body'] ?? '' ) ) {
+		return false;
+	}
+
+	// 3. Transport settings pinned by the fixture (HIGH priority, default sound).
+	$transport = (array) ( $fixture['transport'] ?? array() );
+	if ( ( $body['android']['priority'] ?? '' ) !== ( $transport['android']['priority'] ?? '?' ) ) {
+		return false;
+	}
+	if ( ( $body['android']['notification']['sound'] ?? '' ) !== ( $transport['android']['sound'] ?? '?' ) ) {
+		return false;
+	}
+	if ( ( $body['apns']['headers']['apns-priority'] ?? '' ) !== ( $transport['apns']['priority'] ?? '?' ) ) {
+		return false;
+	}
+	if ( ( $body['apns']['payload']['aps']['sound'] ?? '' ) !== ( $transport['apns']['sound'] ?? '?' ) ) {
+		return false;
+	}
+
+	// 4. Delivered to the registered device token.
+	return 'fcm_contract_fixture_token' === ( $body['token'] ?? '' );
+} );
+
 run_test( 'Deactivate / Revoke devices on customer logout', function () {
 	$user_id = 101;
 	PushNotificationService::revoke_user_devices( $user_id );

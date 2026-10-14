@@ -90,6 +90,26 @@ wins; otherwise the link is synthesized from typed fields; non-`flavor`
 schemes are rejected. Navigation goes through `DeepLinkService` with the
 existing auth-guard (`AuthBridge` provides the current auth state).
 
+**Fixture pinning (prompt 69).** The canonical wire payloads live in
+`mobile/test/fixtures/push_payload_contract.json` — one entry per server
+status (`preparing`/`ready`/`completed`/`cancelled`) plus the transport
+settings `send_fcm()`/`send_apns()` emit (HIGH priority, default sound) and
+the all-string data coercion rule. BOTH sides are asserted against that one
+file: the PHP e2e decodes the real FCM `messages:send` body produced by
+`dispatch_order_status()` and compares it key-for-key; the Flutter
+`notification_payload_test` feeds the same fixture through the parser and
+the route table. Drift on either side turns a suite red.
+
+**Silent degradation (prompt 69).** When a brand build ships without
+`google-services.json` / `GoogleService-Info.plist`, startup must never be
+blocked: `initializeFirebaseIfProvisioned()` (firebase_gateway.dart) returns
+`false` instead of throwing, `initializePushNotifications()` (main.dart)
+exits quietly leaving `NotificationService.instance == null` (every consumer
+is null-safe), and the background handler exits silently too. Verified by
+`mobile/test/widget/firebase_degrade_test.dart`, which boots the REAL app
+widget in a Firebase-less environment and proves splash → home plus
+deep-link navigation all keep working with push absent.
+
 ## Token rotation & logout cleanup
 
 - Registration is an **upsert** (`REPLACE`) keyed by `(device_token, platform)`;
@@ -108,7 +128,14 @@ existing auth-guard (`AuthBridge` provides the current auth state).
 - PHP: `php flavor-core/tests/run-e2e-integration.php` — suite 13 covers
   auth enforcement, re-binding, IDOR, real FCM/APNs delivery paths with
   ephemeral test credentials, stale-token deactivation, missing-credential
-  degradation, logout cleanup, and the observability hook contract.
+  degradation, logout cleanup, the observability hook contract, and the
+  wire-payload comparison against the shared mobile contract fixture.
 - Flutter: `flutter test mobile/test/unit/notification_payload_test.dart`
   — payload parsing (incl. hostile strings), order/reservation navigation
-  destinations, token rotation, logout idempotence, failure tolerance.
+  destinations, token rotation, logout idempotence, failure tolerance, the
+  fixture-pinned wire contract (all-string data, `click_action` format,
+  route + args per status), tap/cold-start/foreground routing through an
+  injected dispatcher, and the background handler's silent degradation.
+- Flutter (widget): `flutter test mobile/test/widget/firebase_degrade_test.dart`
+  — the app boots without Firebase: the production bootstrap degrades to a
+  no-op, splash → home renders, and deep links keep navigating.

@@ -6,10 +6,20 @@ import '../navigation/deep_link_service.dart';
 /// ---------------------------------------------------------------------------
 /// Push payload contract (flavor-mobile-push@1)
 ///
-/// The server (flavor-core PushNotificationService) sends data payloads with:
+/// Single source of truth: `PushNotificationService::dispatch_order_status()`
+/// in flavor-core (server). The canonical wire payloads are pinned in
+/// `test/fixtures/push_payload_contract.json` and asserted on BOTH sides:
+///   - PHP e2e (run-e2e-integration.php) compares the captured FCM
+///     `messages:send` body against the fixture;
+///   - this file's contract test (notification_payload_test.dart) feeds the
+///     same fixture through [NotificationPayloadParser] + the route table.
+/// Docs: docs/PUSH-NOTIFICATIONS.md.
+///
+/// The server sends data payloads with (all values coerced to strings):
 ///   - `click_action`: a flavor:// deep link (takes precedence when present).
 ///   - `type`: order_status | reservation_status | promo.
 ///   - order_status:      `order_id`, `status`
+///     (status vocabulary: preparing | ready | completed | cancelled)
 ///   - reservation_status:`reservation_id`, `status`
 ///   - promo:             `dish_id`
 /// Legacy keys (`id`) are still accepted for backward compatibility.
@@ -100,6 +110,10 @@ class NotificationService {
   final Future<void> Function(String token) _unregister;
   final bool Function()? _isAuthenticatedResolver;
 
+  /// Deep-link dispatcher seam. Defaults to [DeepLinkService.instance.dispatch];
+  /// injectable so routing can be unit-tested without a widget tree.
+  final bool Function(String url, {required bool isAuthenticated})? _dispatchDeepLink;
+
   final List<StreamSubscription<dynamic>> _subscriptions = [];
 
   String? _registeredToken;
@@ -110,11 +124,13 @@ class NotificationService {
     required Future<void> Function(String token) unregisterDeviceToken,
     LocalNotificationPresenter? localNotifications,
     bool Function()? isAuthenticatedResolver,
+    bool Function(String url, {required bool isAuthenticated})? dispatchDeepLink,
   })  : _messaging = messaging,
         _register = registerDeviceToken,
         _unregister = unregisterDeviceToken,
         _localNotifications = localNotifications,
-        _isAuthenticatedResolver = isAuthenticatedResolver;
+        _isAuthenticatedResolver = isAuthenticatedResolver,
+        _dispatchDeepLink = dispatchDeepLink;
 
   String? get registeredToken => _registeredToken;
 
@@ -134,11 +150,7 @@ class NotificationService {
 
     _subscriptions.add(
       _messaging.onForegroundMessage.listen((data) {
-        unawaited(_localNotifications?.show(
-          title: data['title']?.toString() ?? '',
-          body: data['body']?.toString() ?? '',
-          payload: NotificationPayloadParser.resolveDeepLink(data),
-        ));
+        unawaited(_presentForeground(data));
       }),
     );
 
@@ -202,10 +214,28 @@ class NotificationService {
     } catch (_) {}
   }
 
+  /// Shows a foreground message as a local notification. Presentation failures
+  /// (plugin missing on an unprovisioned build) degrade silently — a missed
+  /// banner must never surface as an unhandled async error.
+  Future<void> _presentForeground(Map<String, dynamic> data) async {
+    final presenter = _localNotifications;
+    if (presenter == null) return;
+    try {
+      await presenter.show(
+        title: data['title']?.toString() ?? '',
+        body: data['body']?.toString() ?? '',
+        payload: NotificationPayloadParser.resolveDeepLink(data),
+      );
+    } catch (_) {
+      // Silent degrade: push stays best-effort.
+    }
+  }
+
   void _routeToPayload(Map<String, dynamic> data) {
     final deepLink = NotificationPayloadParser.resolveDeepLink(data);
     if (deepLink == null) return;
-    DeepLinkService.instance.dispatch(
+    final dispatch = _dispatchDeepLink ?? DeepLinkService.instance.dispatch;
+    dispatch(
       deepLink,
       isAuthenticated: _isAuthenticatedResolver?.call() ?? false,
     );

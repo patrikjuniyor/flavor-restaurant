@@ -1,0 +1,73 @@
+{
+  "contract": "flavor-mobile-push@1",
+  "server_source": "flavor-core/includes/Notification/PushNotificationService.php :: dispatch_order_status()",
+  "docs": "docs/PUSH-NOTIFICATIONS.md",
+  "rules": {
+    "data_values_are_strings": true,
+    "click_action_format": "flavor://order/<order_id>",
+    "note": "send_fcm() coerces every data value to string; send_apns() merges the same data dict alongside aps. Both test suites assert against this file: PHP e2e compares the captured FCM messages:send body, Flutter notification_payload_test feeds wire_data into NotificationPayloadParser + the route table. Drift on either side turns red."
+  },
+  "transport": {
+    "android": { "priority": "HIGH", "sound": "default" },
+    "apns": { "priority": "10", "sound": "default" }
+  },
+  "status_vocabulary": ["preparing", "ready", "completed", "cancelled"],
+  "payloads": [
+    {
+      "name": "order_status_preparing",
+      "wire_data": {
+        "type": "order_status",
+        "order_id": "1001",
+        "status": "preparing",
+        "click_action": "flavor://order/1001"
+      },
+      "expected": {
+        "deep_link": "flavor://order/1001",
+        "route": "/order-tracking",
+        "args": { "order_id": 1001, "guest_token": null }
+      }
+    },
+    {
+      "name": "order_status_ready",
+      "wire_data": {
+        "type": "order_status",
+        "order_id": "1002",
+        "status": "ready",
+        "click_action": "flavor://order/1002"
+      },
+      "expected": {
+        "deep_link": "flavor://order/1002",
+        "route": "/order-tracking",
+        "args": { "order_id": 1002, "guest_token": null }
+      }
+    },
+    {
+      "name": "order_status_completed",
+      "wire_data": {
+        "type": "order_status",
+        "order_id": "1003",
+        "status": "completed",
+        "click_action": "flavor://order/1003"
+      },
+      "expected": {
+        "deep_link": "flavor://order/1003",
+        "route": "/order-tracking",
+        "args": { "order_id": 1003, "guest_token": null }
+      }
+    },
+    {
+      "name": "order_status_cancelled",
+      "wire_data": {
+        "type": "order_status",
+        "order_id": "1004",
+        "status": "cancelled",
+        "click_action": "flavor://order/1004"
+      },
+      "expected": {
+        "deep_link": "flavor://order/1004",
+        "route": "/order-tracking",
+        "args": { "order_id": 1004, "guest_token": null }
+      }
+    }
+  ]
+}

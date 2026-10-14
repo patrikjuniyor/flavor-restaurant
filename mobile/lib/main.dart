@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -36,7 +35,7 @@ void main() async {
     enableLogging: false,
   );
 
-  await _initializePushNotifications();
+  await initializePushNotifications();
 
   runApp(const FlavorMobileApp());
 }
@@ -47,12 +46,18 @@ void main() async {
 /// (google-services.json on Android, GoogleService-Info.plist on iOS — see
 /// docs/PUSH-NOTIFICATIONS.md); both are added by CI / brand provisioning and
 /// are NEVER committed to the repo. When they are absent the app must still
-/// start: push simply degrades to a no-op.
-Future<void> _initializePushNotifications() async {
-  try {
-    await Firebase.initializeApp();
-  } catch (_) {
-    return; // Firebase not provisioned for this brand/build flavor.
+/// start: push simply degrades to a no-op (Prompt 69 — verified by
+/// test/widget/firebase_degrade_test.dart, which calls this exact function
+/// with [firebaseProvisioned] injected, because the real Firebase platform
+/// channels do not answer at all under flutter_test).
+@visibleForTesting
+Future<void> initializePushNotifications({
+  Future<bool> Function()? firebaseProvisioned,
+}) async {
+  final check = firebaseProvisioned ?? initializeFirebaseIfProvisioned;
+  final provisioned = await check();
+  if (!provisioned) {
+    return; // Firebase not provisioned for this brand/build flavor: silent no-op.
   }
 
   FirebaseMessaging.onBackgroundMessage(flavorFirebaseMessagingBackgroundHandler);
