@@ -11,7 +11,8 @@
     "test:preview": "node preview.mjs",
     "test:elementor-visual": "node elementor-visual.mjs",
     "test:a11y": "node a11y.mjs",
-    "test:keyboard": "node keyboard.mjs"
+    "test:keyboard": "node keyboard.mjs",
+    "test:kitchen-kds": "node kitchen-kds.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",

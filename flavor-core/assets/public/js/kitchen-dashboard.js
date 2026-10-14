@@ -15,7 +15,10 @@
 
 	var rest = root.getAttribute('data-rest');
 	var nonce = root.getAttribute('data-nonce');
-	var poll = parseInt(root.getAttribute('data-poll') || '15', 10) * 1000;
+	var basePoll = parseInt(root.getAttribute('data-poll') || '15', 10) * 1000;
+	var currentPoll = basePoll;
+	var maxPoll = 60000;
+	var pollTimer = null;
 	var soundOn = root.getAttribute('data-sound') === '1';
 	var home = root.getAttribute('data-home') || '/';
 	var known = {};
@@ -33,17 +36,25 @@
 		if (!soundOn) return;
 		try {
 			audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-			var o = audioCtx.createOscillator();
-			var g = audioCtx.createGain();
-			o.type = 'sine';
-			o.frequency.value = 880;
-			g.gain.value = 0.08;
-			o.connect(g);
-			g.connect(audioCtx.destination);
-			o.start();
-			setTimeout(function () {
-				o.stop();
-			}, 180);
+			if (audioCtx.state === 'suspended') {
+				audioCtx.resume();
+			}
+			var now = audioCtx.currentTime;
+			var playTone = function (freq, start, duration) {
+				var o = audioCtx.createOscillator();
+				var g = audioCtx.createGain();
+				o.type = 'sine';
+				o.frequency.setValueAtTime(freq, start);
+				g.gain.setValueAtTime(0.12, start);
+				g.gain.exponentialRampToValueAtTime(0.001, start + duration);
+				o.connect(g);
+				g.connect(audioCtx.destination);
+				o.start(start);
+				o.stop(start + duration);
+			};
+			/* Pleasant dual-tone bell chime for kitchen attention */
+			playTone(784, now, 0.25);        /* G5 */
+			playTone(1046.5, now + 0.15, 0.35); /* C6 */
 		} catch (e) {}
 	}
 
@@ -206,7 +217,18 @@
 		if (dot) dot.classList.toggle('is-offline', !online);
 	}
 
+	function scheduleNext(delay) {
+		if (pollTimer) {
+			clearTimeout(pollTimer);
+		}
+		pollTimer = setTimeout(tick, delay);
+	}
+
 	function tick() {
+		if (pollTimer) {
+			clearTimeout(pollTimer);
+			pollTimer = null;
+		}
 		var branch = document.getElementById('flavor-kitchen-branch');
 		var id = branch ? branch.value : root.getAttribute('data-branch');
 		fetch(rest + '?branch_id=' + encodeURIComponent(id), {
@@ -214,16 +236,25 @@
 			headers: { 'X-WP-Nonce': nonce }
 		})
 			.then(function (r) {
+				if (!r.ok) {
+					throw new Error('HTTP ' + r.status);
+				}
 				return r.json();
 			})
 			.then(function (payload) {
 				setConn(true);
+				/* Success: reset exponential backoff to base interval */
+				currentPoll = basePoll;
 				/* Standard envelope since prompt 46; the raw fallback keeps
 				   boards alive against cached pre-envelope responses. */
 				render(payload && payload.success === true && payload.data ? payload.data : payload);
+				scheduleNext(currentPoll);
 			})
 			.catch(function () {
 				setConn(false);
+				/* Backoff on network failure: double the interval up to maxPoll */
+				currentPoll = Math.min(currentPoll * 1.5, maxPoll);
+				scheduleNext(currentPoll);
 			});
 	}
 
@@ -332,5 +363,4 @@
 	}
 
 	tick();
-	setInterval(tick, poll);
 })();

@@ -88,12 +88,16 @@ body.flavor-kitchen-kiosk {
 .flavor-kitchen__bar select,
 .flavor-kitchen__bar button {
 	font: inherit;
-	font-size: 0.85rem;
-	border-radius: 10px;
+	font-size: 1rem;
+	border-radius: 12px;
 	border: 1px solid var(--kd-line);
 	background: #232b34;
 	color: var(--kd-ink);
-	padding: 9px 12px;
+	padding: 10px 16px;
+	min-height: 48px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	cursor: pointer;
 	transition: background-color 0.2s var(--kd-ease), border-color 0.2s var(--kd-ease), transform 0.2s var(--kd-ease);
 }
@@ -125,9 +129,14 @@ body.flavor-kitchen-kiosk {
 	border: 0;
 	background: transparent;
 	color: var(--kd-muted);
-	padding: 7px 14px;
-	border-radius: 9px;
-	font-weight: 600;
+	padding: 10px 18px;
+	min-height: 48px;
+	border-radius: 10px;
+	font-size: 1rem;
+	font-weight: 700;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .flavor-kitchen__filters button:hover {
@@ -280,18 +289,19 @@ body.flavor-kitchen-kiosk {
 	display: flex;
 	justify-content: space-between;
 	gap: 10px;
-	font-weight: 800;
-	font-size: 1.02rem;
+	font-weight: 900;
+	font-size: 1.35rem;
 }
 
 .flavor-kcard__meta {
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	gap: 10px;
 	flex-wrap: wrap;
-	font-size: 0.85rem;
+	font-size: 1.05rem;
+	font-weight: 600;
 	color: #5b6472;
-	margin: 6px 0 10px;
+	margin: 8px 0 12px;
 }
 
 /* Age chip, injected by kitchen-dashboard.js around the elapsed text. */
@@ -338,12 +348,23 @@ body.flavor-kitchen-kiosk {
 }
 
 .flavor-kcard li {
-	padding: 3px 0;
-	font-size: 0.95rem;
-	line-height: 1.7;
+	padding: 8px 10px;
+	min-height: 48px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	font-size: 1.15rem;
+	line-height: 1.6;
 	cursor: pointer;
-	border-radius: 6px;
-	transition: opacity 0.2s var(--kd-ease);
+	border-radius: 8px;
+	margin-bottom: 4px;
+	background: rgba(0, 0, 0, 0.02);
+	border: 1px solid rgba(0, 0, 0, 0.04);
+	transition: opacity 0.2s var(--kd-ease), background-color 0.2s var(--kd-ease);
+}
+
+.flavor-kcard li:hover {
+	background: rgba(0, 0, 0, 0.05);
 }
 
 .flavor-kcard .mod {
@@ -382,11 +403,15 @@ body.flavor-kitchen-kiosk {
 .flavor-kcard__actions button,
 .flavor-kcard__actions a {
 	font: inherit;
-	font-size: 0.85rem;
+	font-size: 1.05rem;
 	font-weight: 700;
 	border: 0;
-	border-radius: 999px;
-	padding: 9px 14px;
+	border-radius: 12px;
+	padding: 12px 20px;
+	min-height: 48px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	background: #2b2118;
 	color: #fff;
 	text-decoration: none;
