@@ -357,5 +357,10 @@
     "state": "done",
     "commit": "f57bc9a",
     "note": "پرامپت ۷۱ (پکیج‌بندی برند scripts/provision_brand.py + test_provision_brand.py): اطمینان از جایگزینی صحیح نام بسته (applicationId و bundle identifier)، عنوان برنامه (AndroidManifest و Info.plist)، آیکون‌ها و رنگ پس‌زمینه آیکون تطبیقی (ic_launcher_background.xml بر اساس primary_color)، نشانی API و توکن‌های دارت (BrandTokens در brand_tokens.g.dart) از فایل‌های JSON برندینگ. اجرای تست‌های سوئیت پایتون (test_provision_brand.py) به پایپ‌لاین CI گیت‌هاب در گام Test White-Label Provisioning Script اضافه شد. نمونه برند جدید آزمایشی «رستوران البرز» (mobile/assets/branding/brand_alborz.json) با پکیج com.flavor.alborz، نسخه 2.1.0+210، رنگ‌های اختصاصی و آدرس‌های لوگو/آیکون/اسپلش ساخته شد. تست واحد اختصاصی test_brand_alborz_new_test_brand به test_provision_brand.py افزوده شد و تمام ۲۷ آزمون پایتون با موفقیت پاس شدند (۲۷/۲۷ OK). ۴ خرابکاری زنده اثبات و بازگردانی شدند. باتری کامل سبز: flutter analyze صفر، flutter test ۱۶۶/۱۶۶، pure ۲۲۶، e2e ۸۲، theme ۵۴، lint ۳۴۸، i18n ✓."
+  },
+  "72": {
+    "state": "done",
+    "commit": "1bde96f",
+    "note": "پرامپت ۷۲ (خشک‌کردن workflow موبایل build-mobile.yml و پایان فاز ۸): گارد ماشینی در بخش iOS افزوده شد تا از عدم تولید و کامیت نشدن flutter_export_environment.sh (پرامپت ۱۵) با دستور git ls-files اطمینان حاصل شود؛ وب‌هوک‌های بازگشتی با هدر امضای امنیتی X-Flavor-Signature و الگوریتم HMAC-SHA256 بر اساس FLAVOR_WEBHOOK_SECRET تضمین شدند؛ در صورت شکست یا انصراف هر کدام از مراحل اندروید یا آی‌او‌اس، وضعیت صریح failed به همراه آرایه خالی آرتیفکت به وردپرس گزارش می‌شود. تست dry-run جامع و گیت‌کننده در tests/theme/test-build-mobile-workflow.php افزوده شد (۲۴/۲۴ پاس شد). ۴ سناریوی خرابکاری زنده اثبات و بازگردانی شدند. پایان کامل فاز ۸ اپلیکیشن موبایل (۹ از ۹ پرامپت فاز ۸ تکمیل شد)."
   }
 }
