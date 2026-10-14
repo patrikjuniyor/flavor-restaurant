@@ -201,18 +201,24 @@ jobs:
         working-directory: mobile
         run: flutter create . --project-name flavor_mobile --platforms=ios
 
-      - name: Restore Branded Launcher Assets
+      - name: Restore Branded Launcher Assets & Guard Against Untracked Artifacts
         # `flutter create` regenerates the iOS template, which would replace the
         # branded AppIcon / LaunchImage catalog with the stock Flutter icons and
         # ship an unbranded app. Re-apply the committed assets and fail loudly
         # if anything is still dirty.
+        # Also ensure flutter_export_environment.sh (prompt 15) is never tracked or committed.
         run: |
           git checkout -- mobile/ios/Runner/Assets.xcassets mobile/android/app/src/main/res
           if ! git diff --quiet -- mobile/ios/Runner/Assets.xcassets mobile/android/app/src/main/res; then
             echo "::error::Branded launcher assets could not be restored; refusing to build an unbranded app."
             exit 1
           fi
-          echo "::notice::Branded Android + iOS launcher assets applied."
+          # Prompt 15/72: flutter_export_environment.sh must never be tracked or committed to git.
+          if git ls-files --error-unmatch mobile/ios/Flutter/flutter_export_environment.sh >/dev/null 2>&1; then
+            echo "::error::mobile/ios/Flutter/flutter_export_environment.sh is tracked in git. It must never be committed."
+            exit 1
+          fi
+          echo "::notice::Branded Android + iOS launcher assets applied, flutter_export_environment.sh uncommitted guard verified."
 
       - name: Provision Brand Configuration
         run: |
@@ -309,11 +315,12 @@ jobs:
       - name: Determine Status & Post Callback
         run: |
           STATUS="success"
-          if [ "${{ needs.build-android.result }}" == "failure" ] || [ "${{ needs.build-ios.result }}" == "failure" ]; then
+          if [ "${{ needs.build-android.result }}" == "failure" ] || [ "${{ needs.build-ios.result }}" == "failure" ] || [ "${{ needs.build-android.result }}" == "cancelled" ] || [ "${{ needs.build-ios.result }}" == "cancelled" ]; then
             STATUS="failed"
           fi
 
-          PAYLOAD=$(cat <<EOF
+          if [ "$STATUS" = "success" ]; then
+            PAYLOAD=$(cat <<EOF
           {
             "build_uuid": "${{ inputs.build_uuid }}",
             "status": "$STATUS",
@@ -339,7 +346,19 @@ jobs:
             ]
           }
           EOF
-          )
+            )
+          else
+            PAYLOAD=$(cat <<EOF
+          {
+            "build_uuid": "${{ inputs.build_uuid }}",
+            "status": "$STATUS",
+            "timestamp": $(date +%s),
+            "logs": "Build workflow completed with status: $STATUS on GitHub Actions run ${{ github.run_id }}",
+            "artifacts": []
+          }
+          EOF
+            )
+          fi
           SIG=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$FLAVOR_WEBHOOK_SECRET" | sed 's/^.* //')
           # -fsS: callback delivery failure (e.g. HMAC rejection) fails the workflow visibly.
           curl -fsS -X POST "${{ inputs.callback_url }}" \
