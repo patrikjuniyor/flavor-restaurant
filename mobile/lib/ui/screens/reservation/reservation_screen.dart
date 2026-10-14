@@ -6,6 +6,7 @@ import '../../../models/branch_model.dart';
 import '../../../state/auth_state.dart';
 import '../../../state/config_state.dart';
 import '../../../state/reservation_state.dart';
+import '../../common/error_view.dart';
 import '../../common/flavor_button.dart';
 import '../../common/flavor_card.dart';
 import '../../common/flavor_text_field.dart';
@@ -101,7 +102,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
       Navigator.pushNamed(context, AppRoutes.reservationHistory);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(res.errorMessage ?? 'ثبت رزرو با خطا مواجه شد.')),
+        SnackBar(content: Text(res.bookingError ?? 'ثبت رزرو با خطا مواجه شد.')),
       );
     }
   }
@@ -249,6 +250,16 @@ class _ReservationScreenState extends State<ReservationScreen> {
             const SizedBox(height: 10),
             if (res.isLoading)
               const Center(child: CircularProgressIndicator())
+            // Prompt 66: a failed slot load used to read as "no slots exist",
+            // which blames the restaurant for a dead network. Failed loads now
+            // get the error view with retry; the empty text stays for genuinely
+            // fully-booked dates.
+            else if (res.errorMessage != null)
+              ErrorView(
+                message: res.errorMessage!,
+                icon: Icons.calendar_month,
+                onRetry: () => res.loadSlots(branchId),
+              )
             else if (res.availableSlots.isEmpty)
               const Text('اسلات زمانی در این تاریخ در دسترس نیست.', style: TextStyle(color: Colors.grey))
             else

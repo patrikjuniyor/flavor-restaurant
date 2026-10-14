@@ -77,13 +77,22 @@ class FlavorButton extends StatelessWidget {
             Icon(icon, size: 18, color: fg),
             const SizedBox(width: 8),
           ],
-          Text(
-            text,
-            style: TextStyle(
-              fontFamily: theme.textTheme.labelLarge?.fontFamily,
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: fg,
+          // Prompt 66: fixed-width buttons (ErrorView retry is 160px) used to
+          // overflow when the label or the accessibility font scale grew —
+          // the label now flexes and ellipsises inside the button instead of
+          // painting outside its box.
+          Flexible(
+            child: Text(
+              text,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: theme.textTheme.labelLarge?.fontFamily,
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: fg,
+              ),
             ),
           ),
         ],

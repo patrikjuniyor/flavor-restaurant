@@ -118,6 +118,13 @@ class ApiClient {
         // ignore: avoid_print
         print('📥 [API Response] ${response.statusCode} $uri\nBody: ${response.body}');
       }
+    } on http.ClientException {
+      // Prompt 66: on a real device package:http wraps the underlying
+      // SocketException (flight mode, DNS failure, refused connection) in a
+      // ClientException, so this is the case that actually fires offline —
+      // map it to the clean Persian network error instead of the generic
+      // "خطا در برقراری ارتباط با سرور" wrapper below.
+      throw ApiException.networkError();
     } on SocketException {
       throw ApiException.networkError();
     } on TimeoutException {

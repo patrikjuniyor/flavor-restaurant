@@ -12,6 +12,7 @@ import '../../common/dish_card.dart';
 import '../../common/empty_state.dart';
 import '../../common/error_view.dart';
 import '../../common/loading_shimmer.dart';
+import '../../common/offline_banner.dart';
 
 /// Full Menu Screen with Category tabs, Shift filter, and Floating Cart.
 class MenuScreen extends StatefulWidget {
@@ -72,6 +73,8 @@ class _MenuScreenState extends State<MenuScreen> {
           : null,
       body: Column(
         children: [
+          // Prompt 66: cached-feed indicator (network failed, cache served).
+          if (menu.isOfflineData) const OfflineBanner(),
           // Category horizontal scroll bar
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10),

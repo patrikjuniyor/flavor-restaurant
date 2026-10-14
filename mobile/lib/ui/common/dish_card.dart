@@ -36,9 +36,17 @@ class DishCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        // Prompt 66: min + loose-flex is the only combination that works both
+        // in unbounded lists (shrink-wrap) and in the fixed-height home offers
+        // strip (image compresses instead of overflowing).
+        mainAxisSize: MainAxisSize.min,
         children: [
           // Dish Image + Badges
-          Stack(
+          // Prompt 66: flexible so fixed-height contexts (the home offers
+          // strip) compress the image instead of overflowing the card when
+          // the font scale (or a long description) grows the info section.
+          Flexible(
+          child: Stack(
             children: [
               ClipRRect(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
@@ -122,6 +130,7 @@ class DishCard extends StatelessWidget {
                 ),
             ],
           ),
+          ),
 
           // Dish Info & Actions
           Padding(
@@ -169,28 +178,36 @@ class DishCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Price
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (dish.onSale && dish.regularPrice > 0)
+                    // Price — Prompt 66: flexes and ellipsises next to the
+                    // fixed-size add button so narrow cards (220px carousels)
+                    // never overflow at large font scales.
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (dish.onSale && dish.regularPrice > 0)
+                            Text(
+                              CurrencyFormatter.format(dish.regularPrice),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
                           Text(
-                            CurrencyFormatter.format(dish.regularPrice),
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                              decoration: TextDecoration.lineThrough,
+                            CurrencyFormatter.format(dish.price),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: primary,
                             ),
                           ),
-                        Text(
-                          CurrencyFormatter.format(dish.price),
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: primary,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
 
                     // Add button

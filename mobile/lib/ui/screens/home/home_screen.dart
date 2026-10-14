@@ -7,8 +7,10 @@ import '../../../state/config_state.dart';
 import '../../../state/favorites_state.dart';
 import '../../../state/menu_state.dart';
 import '../../common/dish_card.dart';
+import '../../common/error_view.dart';
 import '../../common/flavor_card.dart';
 import '../../common/loading_shimmer.dart';
+import '../../common/offline_banner.dart';
 import '../../common/section_header.dart';
 import '../menu/menu_screen.dart';
 import '../orders/orders_screen.dart';
@@ -144,6 +146,17 @@ class _HomeFeedViewState extends State<_HomeFeedView> {
     final favs = context.watch<FavoritesProvider>();
     final cart = context.watch<CartProvider>();
 
+    // Prompt 66: a failed feed load with nothing cached (and nothing on
+    // screen) must not masquerade as an empty restaurant — it gets the
+    // error view with one-press retry. With a cache hit the feed renders
+    // normally under the offline banner instead.
+    final branchId = config.activeBranch?.id ?? config.bootstrap?.defaultBranchId ?? 0;
+    final feedFailed = menu.errorMessage != null &&
+        !menu.isLoading &&
+        menu.categories.isEmpty &&
+        menu.dishes.isEmpty &&
+        menu.featuredDishes.isEmpty;
+
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 16,
@@ -201,9 +214,13 @@ class _HomeFeedViewState extends State<_HomeFeedView> {
           ),
         ],
       ),
-      body: RefreshIndicator(
+      body: feedFailed
+          ? ErrorView(
+              message: menu.errorMessage!,
+              onRetry: () => menu.loadInitial(branchId),
+            )
+          : RefreshIndicator(
         onRefresh: () async {
-          final branchId = config.activeBranch?.id ?? 0;
           await menu.loadInitial(branchId);
         },
         child: SingleChildScrollView(
@@ -211,6 +228,8 @@ class _HomeFeedViewState extends State<_HomeFeedView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Prompt 66: cached-feed indicator above everything else.
+              if (menu.isOfflineData) const OfflineBanner(),
               // Hero Promotional Banner
               Container(
                 margin: const EdgeInsets.all(16),

@@ -16,6 +16,11 @@ class ReservationProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
 
+  /// Prompt 66: booking failures are kept apart from slot-load failures —
+  /// a failed submit must surface as a SnackBar without replacing the slot
+  /// grid with the slot error view (and vice versa).
+  String? _bookingError;
+
   ReservationProvider({ReservationRepository? resRepo})
       : _resRepo = resRepo ?? ReservationRepository();
 
@@ -26,6 +31,7 @@ class ReservationProvider extends ChangeNotifier {
   String get section => _section;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+  String? get bookingError => _bookingError;
 
   /// Sets selected reservation date.
   void setDate(JalaliDate date, int branchId) {
@@ -95,7 +101,7 @@ class ReservationProvider extends ChangeNotifier {
     String requests = '',
   }) async {
     _isLoading = true;
-    _errorMessage = null;
+    _bookingError = null;
     notifyListeners();
 
     try {
@@ -112,7 +118,9 @@ class ReservationProvider extends ChangeNotifier {
       await loadMyReservations();
       return true;
     } catch (e) {
-      _errorMessage = e.toString();
+      // Prompt 66: a failed submit must not hijack the slot grid's error
+      // state — the screen shows this as a SnackBar and keeps the form.
+      _bookingError = e.toString();
       return false;
     } finally {
       _isLoading = false;

@@ -10,6 +10,7 @@ import '../../../repositories/review_repository.dart';
 import '../../../state/cart_state.dart';
 import '../../../state/config_state.dart';
 import '../../../state/favorites_state.dart';
+import '../../common/error_view.dart';
 import '../../common/flavor_button.dart';
 import '../../common/flavor_card.dart';
 import '../../common/flavor_text_field.dart';
@@ -18,15 +19,24 @@ import '../../common/flavor_text_field.dart';
 class DishDetailScreen extends StatefulWidget {
   final int dishId;
 
-  const DishDetailScreen({super.key, required this.dishId});
+  /// Injectable for widget tests; production uses the default repositories.
+  final MenuRepository? menuRepo;
+  final ReviewRepository? reviewRepo;
+
+  const DishDetailScreen({
+    super.key,
+    required this.dishId,
+    this.menuRepo,
+    this.reviewRepo,
+  });
 
   @override
   State<DishDetailScreen> createState() => _DishDetailScreenState();
 }
 
 class _DishDetailScreenState extends State<DishDetailScreen> {
-  final _menuRepo = MenuRepository();
-  final _reviewRepo = ReviewRepository();
+  late final MenuRepository _menuRepo = widget.menuRepo ?? MenuRepository();
+  late final ReviewRepository _reviewRepo = widget.reviewRepo ?? ReviewRepository();
 
   DishModel? _dish;
   List<ReviewModel> _reviews = [];
@@ -186,7 +196,19 @@ class _DishDetailScreenState extends State<DishDetailScreen> {
     if (_dish == null) {
       return Scaffold(
         appBar: AppBar(),
-        body: Center(child: Text(_errorMessage ?? 'غذای مورد نظر یافت نشد.')),
+        // Prompt 66: a failed dish load gets the retry affordance like every
+        // other screen — one press refetches instead of a dead-end sentence.
+        body: ErrorView(
+          message: _errorMessage ?? 'غذای مورد نظر یافت نشد.',
+          icon: Icons.restaurant_menu,
+          onRetry: () {
+            setState(() {
+              _errorMessage = null;
+              _isLoading = true;
+            });
+            _loadDishDetails();
+          },
+        ),
       );
     }
 
@@ -259,6 +281,16 @@ class _DishDetailScreenState extends State<DishDetailScreen> {
                   ? CachedNetworkImage(
                       imageUrl: dish.image,
                       fit: BoxFit.cover,
+                      // Prompt 66: offline (or any failed) image loads must
+                      // degrade to the same neutral plate the empty-URL branch
+                      // shows — never a red error box over the hero.
+                      placeholder: (_, __) => Container(
+                        color: isDark ? const Color(0xFF2B2B2B) : const Color(0xFFE5E7EB),
+                      ),
+                      errorWidget: (_, __, ___) => Container(
+                        color: isDark ? const Color(0xFF2B2B2B) : const Color(0xFFE5E7EB),
+                        child: const Icon(Icons.restaurant, size: 64, color: Colors.grey),
+                      ),
                     )
                   : Container(
                       color: isDark ? const Color(0xFF2B2B2B) : const Color(0xFFE5E7EB),

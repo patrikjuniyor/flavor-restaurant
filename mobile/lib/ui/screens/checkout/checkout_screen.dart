@@ -9,20 +9,24 @@ import '../../../state/auth_state.dart';
 import '../../../state/cart_state.dart';
 import '../../../state/config_state.dart';
 import '../../../state/order_state.dart';
+import '../../common/error_view.dart';
 import '../../common/flavor_button.dart';
 import '../../common/flavor_card.dart';
 import '../../common/flavor_text_field.dart';
 
 /// Checkout Screen: Order Mode Selection, Dining Table / Delivery Address, Payment & Order Submission.
 class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({super.key});
+  /// Injectable for widget tests; production uses the default repository.
+  final BranchRepository? branchRepo;
+
+  const CheckoutScreen({super.key, this.branchRepo});
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  final _branchRepo = BranchRepository();
+  late final BranchRepository _branchRepo = widget.branchRepo ?? BranchRepository();
 
   String _orderMode = 'delivery'; // dine_in, takeaway, delivery
   final _nameController = TextEditingController();
@@ -31,6 +35,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final _notesController = TextEditingController();
 
   List<DiningTable> _tables = [];
+  // Prompt 66: a failed table load used to be swallowed (catch (_) {}), which
+  // silently degraded dine-in guests to the manual-number field with no way
+  // to retry. It now surfaces an ErrorView inside the dine-in section.
+  String? _tablesError;
+  bool _isLoadingTables = false;
   int? _selectedTableId;
   SavedAddress? _selectedAddress;
   String _paymentMethod = 'flavor_pay_at_counter';
@@ -58,10 +67,22 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Future<void> _loadTables(int branchId) async {
+    _isLoadingTables = true;
+    _tablesError = null;
     try {
       final tables = await _branchRepo.getTables(branchId);
-      setState(() => _tables = tables);
-    } catch (_) {}
+      if (!mounted) return;
+      setState(() {
+        _tables = tables;
+        _isLoadingTables = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _tablesError = e.toString();
+        _isLoadingTables = false;
+      });
+    }
   }
 
   Future<void> _handleSubmitOrder() async {
@@ -123,6 +144,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final cart = context.watch<CartProvider>();
     final auth = context.watch<AuthProvider>();
     final orderProvider = context.watch<OrderProvider>();
+    final branchId = context.watch<ConfigProvider>().activeBranch?.id ?? 0;
 
     return Scaffold(
       appBar: AppBar(title: const Text('انتخاب نحوه تحویل و پرداخت')),
@@ -247,7 +269,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              if (_tables.isNotEmpty)
+              if (_isLoadingTables)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 24),
+                  child: Center(child: CircularProgressIndicator()),
+                )
+              else if (_tablesError != null)
+                ErrorView(
+                  message: _tablesError!,
+                  icon: Icons.table_restaurant,
+                  onRetry: () => _loadTables(branchId),
+                )
+              else if (_tables.isNotEmpty)
                 DropdownButtonFormField<int>(
                   decoration: const InputDecoration(labelText: 'انتخاب میز'),
                   value: _selectedTableId,
