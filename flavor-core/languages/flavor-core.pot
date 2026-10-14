@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-14 15:51+00:00\n"
+"POT-Creation-Date: 2026-10-14 19:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
@@ -326,7 +326,7 @@ msgstr ""
 msgid "اگر افزونه پاک شود، جدول‌ها و CPT شعبه حذف شوند. پیش‌فرض خاموش است."
 msgstr ""
 
-#: flavor-core/includes/Support/CacheHints.php:67
+#: flavor-core/includes/Support/CacheHints.php:245
 msgid "اگر افزونه کش دارید، این مسیرها را از کش تمام‌صفحه خارج کنید: /kitchen-dashboard/، /kitchen-receipt/، /wp-json/flavor/، کوکی flavor_ctx"
 msgstr ""
 
