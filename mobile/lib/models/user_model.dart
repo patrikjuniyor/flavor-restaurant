@@ -56,6 +56,7 @@ class SavedAddress {
   final String title;
   final String address;
   final String province;
+  final String city;
 
   /// Coordinates are PHP floats or explicit nulls when the address was
   /// saved without a map pin.
@@ -69,6 +70,7 @@ class SavedAddress {
     required this.title,
     required this.address,
     this.province = 'تهران',
+    this.city = 'تهران',
     this.lat,
     this.lng,
     this.unit = '',
@@ -81,6 +83,7 @@ class SavedAddress {
       title: strField(json['title'], 'آدرس من'),
       address: strField(json['address']),
       province: strField(json['province'], 'تهران'),
+      city: strField(json['city'], 'تهران'),
       lat: nullableDoubleField(json['lat']),
       lng: nullableDoubleField(json['lng']),
       unit: strField(json['unit']),
@@ -94,6 +97,7 @@ class SavedAddress {
       'title': title,
       'address': address,
       'province': province,
+      'city': city,
       'lat': lat,
       'lng': lng,
       'unit': unit,
@@ -110,6 +114,7 @@ class UserModel {
   /// `@otp.flavor.local` placeholder address before serializing.
   final String email;
   final String mobile;
+  final String birthdate;
   final String avatarUrl;
   final LoyaltySummary loyalty;
   final List<String> dietaryPreferences;
@@ -123,6 +128,7 @@ class UserModel {
     required this.displayName,
     required this.email,
     required this.mobile,
+    this.birthdate = '',
     required this.avatarUrl,
     required this.loyalty,
     this.dietaryPreferences = const [],
@@ -148,6 +154,7 @@ class UserModel {
       displayName: strField(json['display_name'], 'مشتری گرامی'),
       email: strField(json['email']),
       mobile: strField(json['mobile']),
+      birthdate: strField(json['birthdate']),
       avatarUrl: strField(json['avatar_url']),
       loyalty: LoyaltySummary.fromJson(json['loyalty'] as Map<String, dynamic>?),
       dietaryPreferences: prefs,
@@ -164,6 +171,7 @@ class UserModel {
       'display_name': displayName,
       'email': email,
       'mobile': mobile,
+      'birthdate': birthdate,
       'avatar_url': avatarUrl,
       'loyalty': loyalty.toJson(),
       'dietary_preferences': dietaryPreferences,

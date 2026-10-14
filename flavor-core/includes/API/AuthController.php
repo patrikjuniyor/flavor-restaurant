@@ -309,6 +309,54 @@ class AuthController extends BaseApiController {
 		$body = $request->get_json_params() ?: array();
 		$uid  = $user->ID;
 
+		// Prompt 70: validate the gated fields BEFORE applying anything, so a
+		// bad mobile/birthdate rejects the whole request with a precise error
+		// instead of half-applying the update.
+		$new_mobile = null;
+		if ( isset( $body['mobile'] ) ) {
+			// Same normalizer as OTP login: 09xxxxxxxxx or nothing. Persian /
+			// Arabic digits and +98 / 0098 / 98 prefixes are handled.
+			$new_mobile = Iran::normalize_mobile( (string) $body['mobile'] );
+			if ( '' === $new_mobile ) {
+				return $this->respond_error( 'flavor_bad_mobile', __( 'شماره موبایل معتبر نیست. قالب: 09xxxxxxxxx', 'flavor-core' ), 400 );
+			}
+			$current_mobile = (string) get_user_meta( $uid, OtpAuth::META_MOBILE, true );
+			if ( $new_mobile !== $current_mobile ) {
+				// The mobile is the OTP login identity: it must stay unique.
+				$taken = get_users(
+					array(
+						'meta_key'   => OtpAuth::META_MOBILE, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+						'meta_value' => $new_mobile, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+						'exclude'    => array( $uid ),
+						'fields'     => 'ID',
+						'number'     => 1,
+					)
+				);
+				if ( ! empty( $taken ) ) {
+					return $this->respond_error( 'flavor_mobile_conflict', __( 'این شماره موبایل به حساب دیگری ثبت شده است.', 'flavor-core' ), 409 );
+				}
+			}
+		}
+
+		$new_birthdate = null;
+		if ( isset( $body['birthdate'] ) ) {
+			$raw_birthdate = trim( (string) $body['birthdate'] );
+			if ( '' === $raw_birthdate ) {
+				$new_birthdate = ''; // Explicit clear.
+			} elseif (
+				preg_match( '/^(\d{4})-(\d{2})-(\d{2})$/', $raw_birthdate, $bd_parts )
+				&& checkdate( (int) $bd_parts[2], (int) $bd_parts[3], (int) $bd_parts[1] )
+				&& (int) $bd_parts[1] >= 1900
+				&& (int) $bd_parts[1] <= (int) gmdate( 'Y' )
+			) {
+				// Stored as ISO Gregorian; the mobile app presents it through
+				// the Jalali calendar (jalali_date.dart, prompt 70).
+				$new_birthdate = $raw_birthdate;
+			} else {
+				return $this->respond_error( 'flavor_bad_birthdate', __( 'تاریخ تولد نامعتبر است.', 'flavor-core' ), 400 );
+			}
+		}
+
 		$update_data = array( 'ID' => $uid );
 		if ( isset( $body['display_name'] ) && is_string( $body['display_name'] ) ) {
 			$name = sanitize_text_field( $body['display_name'] );
@@ -341,6 +389,7 @@ class AuthController extends BaseApiController {
 						'title'    => sanitize_text_field( (string) ( $addr['title'] ?? 'آدرس من' ) ),
 						'address'  => sanitize_text_field( (string) $addr['address'] ),
 						'province' => sanitize_text_field( (string) ( $addr['province'] ?? 'تهران' ) ),
+						'city'     => sanitize_text_field( (string) ( $addr['city'] ?? '' ) ),
 						'lat'      => isset( $addr['lat'] ) ? (float) $addr['lat'] : null,
 						'lng'      => isset( $addr['lng'] ) ? (float) $addr['lng'] : null,
 						'unit'     => sanitize_text_field( (string) ( $addr['unit'] ?? '' ) ),
@@ -349,6 +398,13 @@ class AuthController extends BaseApiController {
 				}
 			}
 			update_user_meta( $uid, '_flavor_saved_addresses', $clean_addresses );
+		}
+
+		if ( null !== $new_mobile ) {
+			update_user_meta( $uid, OtpAuth::META_MOBILE, $new_mobile );
+		}
+		if ( null !== $new_birthdate ) {
+			update_user_meta( $uid, '_flavor_birthdate', $new_birthdate );
 		}
 
 		$fresh_user = get_userdata( $uid );
@@ -441,14 +497,16 @@ class AuthController extends BaseApiController {
 		$uid     = $user->ID;
 		$mobile  = (string) get_user_meta( $uid, OtpAuth::META_MOBILE, true );
 		$loyalty = PointsManager::summary( $uid );
-		$pref    = get_user_meta( $uid, '_flavor_dietary_preferences', true ) ?: array();
-		$addrs   = get_user_meta( $uid, '_flavor_saved_addresses', true ) ?: array();
+		$pref      = get_user_meta( $uid, '_flavor_dietary_preferences', true ) ?: array();
+		$addrs     = get_user_meta( $uid, '_flavor_saved_addresses', true ) ?: array();
+		$birthdate = (string) get_user_meta( $uid, '_flavor_birthdate', true );
 
 		return array(
 			'id'                  => $uid,
 			'display_name'        => $user->display_name,
 			'email'               => str_ends_with( $user->user_email, '@otp.flavor.local' ) ? '' : $user->user_email,
 			'mobile'              => $mobile,
+			'birthdate'           => $birthdate,
 			'avatar_url'          => get_avatar_url( $uid, array( 'size' => 128 ) ),
 			'loyalty'             => $loyalty,
 			'dietary_preferences' => (array) $pref,

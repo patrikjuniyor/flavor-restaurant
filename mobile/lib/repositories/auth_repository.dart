@@ -96,12 +96,16 @@ class AuthRepository {
   Future<UserModel> updateProfile({
     String? displayName,
     String? email,
+    String? mobile,
+    String? birthdate,
     List<String>? dietaryPreferences,
     List<SavedAddress>? savedAddresses,
   }) async {
     final body = <String, dynamic>{};
     if (displayName != null) body['display_name'] = displayName;
     if (email != null) body['email'] = email;
+    if (mobile != null) body['mobile'] = mobile;
+    if (birthdate != null) body['birthdate'] = birthdate;
     if (dietaryPreferences != null) body['dietary_preferences'] = dietaryPreferences;
     if (savedAddresses != null) {
       body['saved_addresses'] = savedAddresses.map((e) => e.toJson()).toList();

@@ -183,6 +183,44 @@ class JalaliDate {
     }
   }
 
+  /// Parses an ISO Gregorian date string (e.g. "2026-09-18") to [JalaliDate].
+  /// Returns null if format is invalid.
+  static JalaliDate? tryParseIsoGregorian(String? iso) {
+    if (iso == null || iso.trim().isEmpty) return null;
+    final trimmed = iso.trim();
+    final parts = trimmed.split('-');
+    if (parts.length != 3) return null;
+    final y = int.tryParse(parts[0]);
+    final m = int.tryParse(parts[1]);
+    final d = int.tryParse(parts[2]);
+    if (y == null || m == null || d == null) return null;
+    try {
+      final dt = DateTime(y, m, d);
+      // Guard against DateTime overflow roll (e.g. month=13, day=32)
+      if (dt.year != y || dt.month != m || dt.day != d) return null;
+      return JalaliDate.fromDateTime(dt);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Parses a Persian/Latin Jalali date string (e.g. "1405/06/27" or "۱۴۰۵/۰۶/۲۷").
+  /// Returns null if format is invalid.
+  static JalaliDate? tryParseJalali(String? raw) {
+    if (raw == null || raw.trim().isEmpty) return null;
+    final latin = PersianNumber.toLatin(raw.trim());
+    final parts = latin.split(RegExp(r'[/.-]'));
+    if (parts.length != 3) return null;
+    final jy = int.tryParse(parts[0]);
+    final jm = int.tryParse(parts[1]);
+    final jd = int.tryParse(parts[2]);
+    if (jy == null || jm == null || jd == null) return null;
+    if (jm < 1 || jm > 12) return null;
+    final maxDays = monthLength(jy, jm);
+    if (jd < 1 || jd > maxDays) return null;
+    return JalaliDate(jy, jm, jd);
+  }
+
   /// Total days in this Jalali month.
   static int monthLength(int jy, int jm) {
     if (jm <= 6) return 31;
@@ -191,8 +229,33 @@ class JalaliDate {
   }
 
   /// Checks whether a Jalali year is a leap year.
+  ///
+  /// Port of jalaali-js `isLeapJalaliYear()` matching backend
+  /// `FlavorCore\Support\Jalali::is_leap()` algorithm.
   static bool isLeapYear(int jy) {
-    final rem = ((jy - (jy > 0 ? 474 : 473)) % 2820 + 474 + 38) * 682 % 2816;
-    return rem < 682;
+    const breaks = [
+      -61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210, 1635, 2060, 2097, 2192, 2262,
+      2324, 2394, 2456, 3178
+    ];
+    final bl = breaks.length;
+    int jp = breaks[0];
+    int jump = 0;
+    for (int i = 1; i < bl; i++) {
+      final jm = breaks[i];
+      jump = jm - jp;
+      if (jy < jm) {
+        break;
+      }
+      jp = jm;
+    }
+    int n = jy - jp;
+    if (jump - n < 6) {
+      n = n - jump + ((jump + 4) ~/ 33) * 33;
+    }
+    int leap = (((n + 1) % 33) - 1) % 4;
+    if (leap == -1) {
+      leap = 4;
+    }
+    return leap == 0;
   }
 }

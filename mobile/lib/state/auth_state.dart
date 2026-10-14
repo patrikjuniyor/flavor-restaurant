@@ -121,6 +121,8 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> updateProfile({
     String? displayName,
     String? email,
+    String? mobile,
+    String? birthdate,
     List<String>? dietaryPreferences,
   }) async {
     _isLoading = true;
@@ -131,6 +133,8 @@ class AuthProvider extends ChangeNotifier {
       _user = await _authRepo.updateProfile(
         displayName: displayName,
         email: email,
+        mobile: mobile,
+        birthdate: birthdate,
         dietaryPreferences: dietaryPreferences,
       );
       return true;

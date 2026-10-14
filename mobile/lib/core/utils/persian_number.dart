@@ -59,9 +59,12 @@ class PersianNumber {
   /// Cleans and formats Iranian mobile numbers: 09xxxxxxxxx.
   static String cleanMobile(String raw) {
     String clean = toLatin(raw).replaceAll(RegExp(r'\D'), '');
-    if (clean.startsWith('98') && clean.length == 12) {
-      clean = '0${clean.substring(2)}';
-    } else if (clean.startsWith('9') && clean.length == 10) {
+    if (clean.startsWith('0098') && clean.length == 14) {
+      clean = clean.substring(4);
+    } else if (clean.startsWith('98') && clean.length == 12) {
+      clean = clean.substring(2);
+    }
+    if (clean.startsWith('9') && clean.length == 10) {
       clean = '0$clean';
     }
     return clean;

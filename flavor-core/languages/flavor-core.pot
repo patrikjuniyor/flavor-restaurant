@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-14 03:14+00:00\n"
+"POT-Creation-Date: 2026-10-14 15:51+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
@@ -378,6 +378,10 @@ msgstr ""
 msgid "این شعبه در دسترس شما نیست."
 msgstr ""
 
+#: flavor-core/includes/API/AuthController.php:336
+msgid "این شماره موبایل به حساب دیگری ثبت شده است."
+msgstr ""
+
 #: flavor-core/includes/WooCommerce/CartSession.php:113
 msgid "این محصول دیگر قابل سفارش نیست؛ انتخاب قبلی شما حذف نشده است."
 msgstr ""
@@ -532,6 +536,10 @@ msgstr ""
 
 #: flavor-core/includes/Reporting/ReportQuery.php:92
 msgid "تاریخ باید با قالب سال-ماه-روز باشد."
+msgstr ""
+
+#: flavor-core/includes/API/AuthController.php:356
+msgid "تاریخ تولد نامعتبر است."
 msgstr ""
 
 #: flavor-core/includes/Reservation/ReservationService.php:46
@@ -710,7 +718,7 @@ msgstr ""
 msgid "توکن بازنشانی نامعتبر است."
 msgstr ""
 
-#: flavor-core/includes/API/AuthController.php:376
+#: flavor-core/includes/API/AuthController.php:432
 msgid "توکن دستگاه الزامی است."
 msgstr ""
 
@@ -726,7 +734,7 @@ msgstr ""
 msgid "تیکت پیدا نشد."
 msgstr ""
 
-#: flavor-core/includes/API/AuthController.php:393
+#: flavor-core/includes/API/AuthController.php:449
 msgid "ثبت دستگاه با خطا مواجه شد. لطفاً دوباره تلاش کنید."
 msgstr ""
 
@@ -818,7 +826,7 @@ msgstr ""
 msgid "حذف داده هنگام Uninstall"
 msgstr ""
 
-#: flavor-core/includes/API/AuthController.php:427
+#: flavor-core/includes/API/AuthController.php:483
 msgid "حذف دستگاه با خطا مواجه شد."
 msgstr ""
 
@@ -958,7 +966,7 @@ msgstr ""
 msgid "دسترسی ندارید."
 msgstr ""
 
-#: flavor-core/includes/API/AuthController.php:422
+#: flavor-core/includes/API/AuthController.php:478
 msgid "دستگاه مورد نظر یافت نشد."
 msgstr ""
 
@@ -1334,7 +1342,7 @@ msgstr ""
 msgid "شماره موبایل برای پیگیری سفارش لازم است."
 msgstr ""
 
-#: flavor-core/includes/Customer/OtpAuth.php:33
+#: flavor-core/includes/API/AuthController.php:321 flavor-core/includes/Customer/OtpAuth.php:33
 msgid "شماره موبایل معتبر نیست. قالب: 09xxxxxxxxx"
 msgstr ""
 
@@ -2010,7 +2018,7 @@ msgstr ""
 msgid "پرسنل آشپزخانه (Kitchen Staff)"
 msgstr ""
 
-#: flavor-core/includes/API/AuthController.php:358
+#: flavor-core/includes/API/AuthController.php:414
 msgid "پروفایل با موفقیت بروزرسانی شد."
 msgstr ""
 
@@ -2078,7 +2086,7 @@ msgstr ""
 msgid "چک‌لیست الزامات انتشار"
 msgstr ""
 
-#: flavor-core/includes/API/AuthController.php:248 flavor-core/includes/API/AuthController.php:382 flavor-core/includes/API/AuthController.php:411
+#: flavor-core/includes/API/AuthController.php:248 flavor-core/includes/API/AuthController.php:438 flavor-core/includes/API/AuthController.php:467
 msgid "کاربر احراز هویت نشده است."
 msgstr ""
 
