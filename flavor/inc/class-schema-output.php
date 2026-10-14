@@ -1,6 +1,6 @@
 <?php
 /**
- * Schema.org JSON-LD: Restaurant, Menu, BreadcrumbList.
+ * Schema.org JSON-LD, SEO Meta Descriptions, Canonical URLs, and Open Graph.
  *
  * @package Flavor
  */
@@ -20,6 +20,159 @@ class Schema_Output {
 	public static function init(): void {
 		add_action( 'wp_head', array( self::class, 'print_jsonld' ), 30 );
 		add_action( 'wp_head', array( self::class, 'open_graph' ), 5 );
+		add_action( 'wp_head', array( self::class, 'meta_description' ), 1 );
+		add_action( 'wp_head', array( self::class, 'canonical_url' ), 2 );
+		add_filter( 'wp_sitemaps_post_types', array( self::class, 'sitemaps_post_types' ) );
+	}
+
+	/**
+	 * Determine if a known 3rd-party SEO plugin is active.
+	 *
+	 * @return bool
+	 */
+	public static function has_third_party_seo_plugin(): bool {
+		return defined( 'WPSEO_VERSION' ) // Yoast SEO
+			|| defined( 'RANK_MATH_VERSION' ) // Rank Math
+			|| defined( 'AIOSEO_VERSION' ) // All in One SEO
+			|| defined( 'SEOPRESS_VERSION' ); // SEOPress
+	}
+
+	/**
+	 * Get unique meta description for current view (capped at 160 characters).
+	 *
+	 * @return string
+	 */
+	public static function get_meta_description(): string {
+		$desc = '';
+
+		if ( is_front_page() || is_home() ) {
+			$desc = get_bloginfo( 'description' );
+			if ( empty( $desc ) ) {
+				$desc = get_bloginfo( 'name' );
+			}
+		} elseif ( is_singular() ) {
+			$post_id = get_queried_object_id();
+			$post = get_post( $post_id );
+			if ( $post ) {
+				if ( ! empty( $post->post_excerpt ) ) {
+					$desc = $post->post_excerpt;
+				} else {
+					$desc = $post->post_content;
+				}
+			}
+		} elseif ( is_category() || is_tag() || is_tax() ) {
+			$term_desc = term_description();
+			if ( ! empty( $term_desc ) ) {
+				$desc = $term_desc;
+			} else {
+				$single_term = single_term_title( '', false );
+				$desc = sprintf(
+					/* translators: %s: Term title */
+					__( 'مشاهده و سفارش محصولات دسته %s', 'flavor' ),
+					$single_term
+				);
+			}
+		} elseif ( is_search() ) {
+			$query = get_search_query();
+			$desc  = sprintf(
+				/* translators: %s: Search query */
+				__( 'نتایج جست‌وجو برای %s در منوی رستوران', 'flavor' ),
+				$query
+			);
+		} elseif ( is_post_type_archive() ) {
+			$post_type = get_query_var( 'post_type' );
+			$desc      = sprintf(
+				/* translators: %s: Post type archive name */
+				__( 'آرشیو %s رستوران', 'flavor' ),
+				post_type_archive_title( '', false )
+			);
+		}
+
+		$desc = wp_strip_all_tags( (string) $desc );
+		$desc = preg_replace( '/\s+/', ' ', $desc );
+		$desc = trim( $desc );
+
+		if ( function_exists( 'mb_strlen' ) ? mb_strlen( $desc, 'UTF-8' ) > 160 : strlen( $desc ) > 160 ) {
+			$desc = function_exists( 'flavor_substr' ) ? flavor_substr( $desc, 0, 157 ) . '...' : substr( $desc, 0, 157 ) . '...';
+		}
+
+		return apply_filters( 'flavor_meta_description', $desc );
+	}
+
+	/**
+	 * Print meta description tag if no third-party SEO plugin is handling it.
+	 */
+	public static function meta_description(): void {
+		if ( self::has_third_party_seo_plugin() ) {
+			return;
+		}
+
+		$description = self::get_meta_description();
+		if ( '' !== $description ) {
+			printf( '<meta name="description" content="%s" />' . "\n", esc_attr( $description ) );
+		}
+	}
+
+	/**
+	 * Strip noisy storefront query arguments from a URL.
+	 *
+	 * @param string $url URL to clean.
+	 * @return string
+	 */
+	public static function clean_canonical_url( string $url ): string {
+		$noisy_params = array(
+			'cat',
+			'view',
+			'sort',
+			'dietary',
+			'order_mode',
+			'flavor_nonce',
+			'preview',
+			'add-to-cart',
+			'removed_item',
+		);
+		return remove_query_arg( $noisy_params, $url );
+	}
+
+	/**
+	 * Get canonical URL for current request, stripping noisy storefront filter query params.
+	 *
+	 * @return string
+	 */
+	public static function get_canonical_url(): string {
+		if ( is_front_page() ) {
+			$canonical = home_url( '/' );
+		} elseif ( is_singular() ) {
+			$canonical = get_permalink();
+		} elseif ( is_category() || is_tag() || is_tax() ) {
+			$term = get_queried_object();
+			$canonical = $term ? get_term_link( $term ) : home_url( '/' );
+			if ( is_wp_error( $canonical ) ) {
+				$canonical = home_url( '/' );
+			}
+		} elseif ( is_post_type_archive() ) {
+			$canonical = get_post_type_archive_link( get_query_var( 'post_type' ) ) ?: home_url( '/' );
+		} else {
+			$canonical = home_url( add_query_arg( array(), $GLOBALS['wp']->request ?? '' ) );
+		}
+
+		$canonical = self::clean_canonical_url( $canonical );
+
+		return apply_filters( 'flavor_canonical_url', $canonical );
+	}
+
+	/**
+	 * Print clean canonical URL tag.
+	 */
+	public static function canonical_url(): void {
+		if ( self::has_third_party_seo_plugin() ) {
+			return;
+		}
+
+		$canonical = self::get_canonical_url();
+		if ( '' !== $canonical ) {
+			printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( $canonical ) );
+		}
 	}
 
 	/**
@@ -33,6 +186,15 @@ class Schema_Output {
 				$graph[] = $menu;
 			}
 		}
+
+		// If viewing a single product, also output MenuItem rich result
+		if ( function_exists( 'is_product' ) && is_product() ) {
+			$single_menu_item = self::single_product_menu_item();
+			if ( $single_menu_item ) {
+				$graph[] = $single_menu_item;
+			}
+		}
+
 		$graph = array_values( array_filter( $graph ) );
 
 		/**
@@ -50,29 +212,118 @@ class Schema_Output {
 	}
 
 	/**
-	 * Open Graph / Twitter.
+	 * Open Graph / Twitter Card markup.
 	 */
 	public static function open_graph(): void {
+		if ( self::has_third_party_seo_plugin() ) {
+			return;
+		}
+
 		$title = wp_get_document_title();
-		$desc  = get_bloginfo( 'description' );
-		$url   = is_singular() ? get_permalink() : home_url( '/' );
+		$desc  = self::get_meta_description();
+		$url   = self::get_canonical_url();
 		$img   = '';
+
 		if ( is_singular() && has_post_thumbnail() ) {
 			$img = get_the_post_thumbnail_url( get_queried_object_id(), 'large' );
 		}
 		if ( ! $img ) {
-			// The demo pack ships separately, so this file may not exist.
-			// asset() degrades to a placeholder; a dead og:image here would
-			// be worse than a plain one, since it is fetched by crawlers.
 			$img = \Flavor\Bespoke_Demos::asset( 'hero.jpg' );
 		}
-		printf( '<meta property="og:type" content="%s" />' . "\n", is_front_page() ? 'restaurant' : 'website' );
+
+		$og_type = 'website';
+		if ( is_front_page() ) {
+			$og_type = 'restaurant';
+		} elseif ( function_exists( 'is_product' ) && is_product() ) {
+			$og_type = 'product';
+		} elseif ( is_singular( 'post' ) ) {
+			$og_type = 'article';
+		}
+
+		printf( '<meta property="og:type" content="%s" />' . "\n", esc_attr( $og_type ) );
 		printf( '<meta property="og:title" content="%s" />' . "\n", esc_attr( $title ) );
 		printf( '<meta property="og:description" content="%s" />' . "\n", esc_attr( $desc ) );
 		printf( '<meta property="og:url" content="%s" />' . "\n", esc_url( $url ) );
-		printf( '<meta property="og:image" content="%s" />' . "\n", esc_url( $img ) );
+		printf( '<meta property="og:site_name" content="%s" />' . "\n", esc_attr( get_bloginfo( 'name' ) ) );
+		if ( ! empty( $img ) ) {
+			printf( '<meta property="og:image" content="%s" />' . "\n", esc_url( $img ) );
+		}
+
+		// Product-specific Open Graph tags
+		if ( function_exists( 'is_product' ) && is_product() && function_exists( 'wc_get_product' ) ) {
+			$product = wc_get_product( get_queried_object_id() );
+			if ( $product ) {
+				printf( '<meta property="product:price:amount" content="%s" />' . "\n", esc_attr( (string) $product->get_price() ) );
+				printf( '<meta property="product:price:currency" content="%s" />' . "\n", esc_attr( function_exists( 'get_woocommerce_currency' ) ? get_woocommerce_currency() : 'IRR' ) );
+			}
+		}
+
+		// Article published time
+		if ( is_singular( 'post' ) ) {
+			$post = get_post( get_queried_object_id() );
+			if ( $post ) {
+				printf( '<meta property="article:published_time" content="%s" />' . "\n", esc_attr( get_the_date( 'c', $post ) ) );
+			}
+		}
+
+		// Twitter Cards
 		printf( '<meta name="twitter:card" content="summary_large_image" />' . "\n" );
 		printf( '<meta name="twitter:title" content="%s" />' . "\n", esc_attr( $title ) );
+		printf( '<meta name="twitter:description" content="%s" />' . "\n", esc_attr( $desc ) );
+		if ( ! empty( $img ) ) {
+			printf( '<meta name="twitter:image" content="%s" />' . "\n", esc_url( $img ) );
+		}
+	}
+
+	/**
+	 * Core XML Sitemaps filter - ensure custom post types are included.
+	 *
+	 * @param array<string, mixed> $post_types Post types for sitemap.
+	 * @return array<string, mixed>
+	 */
+	public static function sitemaps_post_types( array $post_types ): array {
+		if ( post_type_exists( 'branch' ) ) {
+			$post_types['branch'] = true;
+		}
+		return $post_types;
+	}
+
+	/**
+	 * Single product MenuItem schema.
+	 *
+	 * @return array<string, mixed>|null
+	 */
+	private static function single_product_menu_item(): ?array {
+		if ( ! function_exists( 'wc_get_product' ) ) {
+			return null;
+		}
+		$product = wc_get_product( get_queried_object_id() );
+		if ( ! $product ) {
+			return null;
+		}
+
+		$schema = array(
+			'@type'       => 'MenuItem',
+			'@id'         => get_permalink( $product->get_id() ) . '#menuitem',
+			'name'        => $product->get_name(),
+			'description' => wp_strip_all_tags( $product->get_short_description() ?: $product->get_description() ),
+			'offers'      => array(
+				'@type'         => 'Offer',
+				'price'         => $product->get_price(),
+				'priceCurrency' => function_exists( 'get_woocommerce_currency' ) ? get_woocommerce_currency() : 'IRR',
+				'availability'  => $product->is_in_stock() ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+				'url'           => get_permalink( $product->get_id() ),
+			),
+		);
+
+		if ( has_post_thumbnail( $product->get_id() ) ) {
+			$image_url = get_the_post_thumbnail_url( $product->get_id(), 'large' );
+			if ( $image_url ) {
+				$schema['image'] = $image_url;
+			}
+		}
+
+		return apply_filters( 'flavor_schema_menu_item', $schema, $product );
 	}
 
 	/**
