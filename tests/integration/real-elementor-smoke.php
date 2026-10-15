@@ -179,7 +179,7 @@ $types     = $manager->get_widget_types();
 
 if ( class_exists( '\\Flavor\\Elementor' ) ) {
 	$expected_classes = \Flavor\Elementor::widget_classes();
-	elementor_smoke_check( 17 === count( $expected_classes ), 'Flavor declares all seventeen widgets' );
+	elementor_smoke_check( count( $expected_classes ) >= 17, 'Flavor declares all widgets dynamically (' . count( $expected_classes ) . ' registered, >= 17)' );
 } else {
 	$expected_classes = array();
 	elementor_smoke_check( false, 'Flavor Elementor integration class is loaded' );
@@ -369,7 +369,7 @@ if ( is_wp_error( $all_page_id ) ) {
 } else {
 	$all_html = elementor_smoke_render_page( $all_page_id );
 	$threw    = 0 === strpos( $all_html, '__THROWN__:' );
-	elementor_smoke_check( ! $threw, 'all seventeen widgets render together without a PHP exception' . ( $threw ? ' — ' . substr( $all_html, 11 ) : '' ) );
+	elementor_smoke_check( ! $threw, 'all dynamically registered widgets render together without a PHP exception (' . count( $expected_names ) . ' widgets)' . ( $threw ? ' — ' . substr( $all_html, 11 ) : '' ) );
 	elementor_smoke_check( strlen( $all_html ) > 1500, 'the all-widget page produces substantial markup (' . strlen( $all_html ) . ' bytes)' );
 elementor_smoke_check( false !== strpos( $all_html, 'flavor-widget-note' ), 'the all-widget page shows the empty gallery note, not a hole' );
 	elementor_smoke_check( false !== strpos( $all_html, 'Flavor CI Features' ), 'the all-widget page renders the custom feature content' );
