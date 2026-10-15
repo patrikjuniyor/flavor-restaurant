@@ -426,5 +426,11 @@
     "date": "2026-10-15",
     "commit": "b533ead",
     "note": "پوشش تست موبایل در CI با آستانه ۶۰٪ و آرشیو Artifact: (۱) گسترش گام flutter-mobile-ci در .github/workflows/ci.yml برای محاسبه درصد پوشش خطوط با flutter test --coverage و اعمال آستانه حداقل ۶۰٪ با اسکریپت dev-tools/check-mobile-coverage.py؛ (۲) آرشیو دایرکتوری پوشش mobile/coverage/ و فایل خلاصه مارک‌داون .cache/coverage-summary/ به عنوان آرتفکت CI با نام mobile-test-coverage؛ (۳) ایجاد سوئیت آزمون قرارداد tests/theme/test-mobile-ci-coverage.php با ۱۲ بررسی اعتبارسنجی؛ (۴) اثبات کارکرد با ۳ سناریوی تخریب و خرابکاری زنده."
+  },
+  "84": {
+    "state": "done",
+    "date": "2026-10-15",
+    "commit": "6cff949",
+    "note": "سخت‌گیری و ایمن‌سازی گردش‌کارهای CI/CD در تمام ورک‌فلوها (ci.yml، build-mobile.yml، publish-release.yml و nightly-ui.yml): (۱) پین کردن تمامی اکشن‌های شخص‌ثالث (third-party actions) به SHA چهل‌کاراکتری تغییرناپذیر کدهای کامیت به‌همراه توضیح تگ نسخه؛ (۲) اعمال مجوزهای حداقلی در بالاترین سطح گردش‌کار (permissions: contents: read) و اعطای اختیارات تکمیلی فقط به صورت ایزوله روی جاب‌های مقصد (مانند انتشار گیت‌هاب پیجز)؛ (۳) کنترل همزمانی (concurrency) با قابلیت لغو خودکار اجراهای منسوخ (cancel-in-progress) در CI و nightly؛ (۴) فعال‌سازی لایه‌های کش (Caching) برای وابستگی‌های Composer، پکیج‌های npm و SDK فلاتر؛ (۵) آزمون گیت tests/theme/test-workflow-hardening.php با ۲۰ بررسی خودکار و ۳ سناریوی تخریب و خرابکاری زنده."
   }
 }
