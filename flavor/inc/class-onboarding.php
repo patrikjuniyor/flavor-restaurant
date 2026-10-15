@@ -29,6 +29,8 @@ class Onboarding {
 		add_action( 'admin_post_flavor_save_wizard', array( self::class, 'handle_submit' ) );
 		add_action( 'wp_ajax_flavor_save_wizard_draft', array( self::class, 'ajax_save_draft' ) );
 		add_action( 'admin_notices', array( self::class, 'setup_notice' ) );
+		add_action( 'after_switch_theme', array( self::class, 'activation_redirect' ) );
+		add_action( 'admin_init', array( self::class, 'do_activation_redirect' ) );
 	}
 
 	/**
@@ -47,6 +49,47 @@ class Onboarding {
 	/**
 	 * Welcome notice for fresh installations.
 	 */
+	/**
+	 * Flag theme activation to redirect admin to setup wizard on next page load.
+	 */
+	public static function activation_redirect(): void {
+		if ( ! get_option( 'flavor_setup_completed', false ) ) {
+			update_option( 'flavor_activation_redirect', true );
+		}
+	}
+
+	/**
+	 * Perform safe redirect on admin_init after theme switch.
+	 */
+	public static function do_activation_redirect(): void {
+		if ( ! get_option( 'flavor_activation_redirect', false ) ) {
+			return;
+		}
+		delete_option( 'flavor_activation_redirect' );
+
+		// Only redirect in admin, for capable users, outside AJAX/cron/CLI/network-admin.
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return;
+		}
+		if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+			return;
+		}
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			return;
+		}
+		if ( is_network_admin() || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['page'] ) && ( 'flavor-setup' === $_GET['page'] || 'flavor-launch' === $_GET['page'] ) ) {
+			return;
+		}
+
+		wp_safe_redirect( admin_url( 'themes.php?page=flavor-setup' ) );
+		exit;
+	}
+
 	public static function setup_notice(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;

@@ -167,10 +167,29 @@ class Launch_Center {
 		);
 
 		$product_count = 0;
-		if ( post_type_exists( 'product' ) ) {
-			$counts       = wp_count_posts( 'product' );
+		if ( function_exists( 'wp_count_posts' ) && \post_type_exists( 'product' ) ) {
+			$counts       = \wp_count_posts( 'product' );
 			$product_count = isset( $counts->publish ) ? (int) $counts->publish : 0;
 		}
+		$tables_ok = false;
+		if ( class_exists( '\\FlavorCore\\Database\\Schema' ) ) {
+			global $wpdb;
+			$tables_table = \FlavorCore\Database\Schema::table( 'flavor_tables' );
+			$table_exists = $tables_table === $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $tables_table ) ) );
+			if ( $table_exists ) {
+				$tables_ok = (bool) $wpdb->get_var( "SELECT COUNT(*) FROM {$tables_table} WHERE is_active = 1" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			}
+		}
+		$checks[] = self::check(
+			'tables_qr',
+			__( 'میزها و بارکد QR ساخته شده‌اند', 'flavor' ),
+			$tables_ok,
+			$tables_ok ? __( 'میزهای سالن فعال و بارکدهای QR برای سفارش آنلاین و چاپ کارت آماده‌اند.', 'flavor' ) : __( 'میزهای سالن و بارکدهای QR را برای سفارش پای میز تعریف کنید.', 'flavor' ),
+			__( 'مدیریت میزها و QR', 'flavor' ),
+			admin_url( 'admin.php?page=flavor-tables' ),
+			false
+		);
+
 		$checks[] = self::check(
 			'menu_items',
 			__( 'حداقل یک آیتم منوی منتشر وجود دارد', 'flavor' ),
@@ -241,8 +260,8 @@ class Launch_Center {
 		$checks[] = self::check(
 			'ssl',
 			__( 'اتصال امن HTTPS است', 'flavor' ),
-			is_ssl(),
-			is_ssl() ? __( 'فرم ورود، OTP و پرداخت روی اتصال امن اجرا می‌شوند.', 'flavor' ) : __( 'برای سایت واقعی SSL را فعال کنید؛ محیط localhost می‌تواند این مورد را نادیده بگیرد.', 'flavor' ),
+			\is_ssl(),
+			\is_ssl() ? __( 'فرم ورود، OTP و پرداخت روی اتصال امن اجرا می‌شوند.', 'flavor' ) : __( 'برای سایت واقعی SSL را فعال کنید؛ محیط localhost می‌تواند این مورد را نادیده بگیرد.', 'flavor' ),
 			__( 'تنظیمات عمومی', 'flavor' ),
 			admin_url( 'options-general.php' ),
 			false
