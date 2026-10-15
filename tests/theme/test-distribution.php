@@ -355,6 +355,39 @@ check(
 	'phpcs ruleset carries no reference to the sniff removed in WPCS 3 (would abort the report job)'
 );
 
+
+echo "\n--- 8. Clean distribution package guarantees (پرامپت ۹۹) ---\n";
+
+/*
+ * Ensure build-distribution.sh strips internal dev notes, dev-tools/, tests/,
+ * and internal planning docs from customer-facing zip packages.
+ */
+check( false !== strpos( $script, 'flavor-core.zip' ), 'build-distribution.sh packages flavor-core.zip' );
+check( false !== strpos( $script, 'flavor-child.zip' ), 'build-distribution.sh packages flavor-child.zip' );
+check( false !== strpos( $script, 'verify artifact hygiene' ), 'build-distribution.sh verifies artifact hygiene' );
+
+$dist_dir = dirname( FLAVOR_DIR ) . '/dist';
+if ( is_dir( $dist_dir ) ) {
+	$zips = (array) glob( $dist_dir . '/*.zip' );
+	check( count( $zips ) >= 3, 'at least 3 distribution zip packages exist in dist/' );
+
+	$leaked_entries = array();
+	foreach ( $zips as $zip_path ) {
+		$zip = new \ZipArchive();
+		if ( true === $zip->open( $zip_path ) ) {
+			for ( $i = 0; $i < $zip->numFiles; $i++ ) {
+				$entry = $zip->getNameIndex( $i );
+				if ( preg_match( '#(dev-tools/|tests/|\.git|PHASE|PREMIUM-MISSION-LIST|QA-|IMPLEMENTATION-AUDIT)#i', $entry ) ) {
+					$leaked_entries[] = basename( $zip_path ) . ':' . $entry;
+				}
+			}
+			$zip->close();
+		}
+	}
+
+	check( empty( $leaked_entries ), 'no internal dev-tools, tests, or internal audit docs leaked into distribution zips' );
+}
+
 echo "\n=======================================================\n";
 echo "Results: {$passed} Passed, {$failed} Failed\n";
 echo "=======================================================\n";
