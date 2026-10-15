@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" dir="rtl">
+  <defs>
+    <linearGradient id="mainBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#181B22"/>
+      <stop offset="100%" stop-color="#0F1116"/>
+    </linearGradient>
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#262C38"/>
+      <stop offset="100%" stop-color="#1D212B"/>
+    </linearGradient>
+    <linearGradient id="accentOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E05624"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#mainBg)"/>
+
+  <!-- Header Banner -->
+  <rect x="60" y="40" width="1080" height="120" rx="16" fill="url(#cardBg)" stroke="#E05624" stroke-width="2"/>
+  <text x="1100" y="95" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-weight="900" font-size="34" fill="#FFFFFF">رستوران مستقیم — نقشه ویژگی‌های تجاری و عملیاتی</text>
+  <text x="1100" y="130" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-weight="500" font-size="18" fill="#F59E0B">پلتفرم یکپارچه سفارش سالن با QR، بیرون‌بر، داشبورد آشپزخانه و رزرو شمسی</text>
+  <rect x="90" y="70" width="180" height="60" rx="10" fill="url(#accentOrange)"/>
+  <text x="180" y="107" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="20" fill="#FFFFFF">FLAVOR v1.6.2</text>
+
+  <!-- 6 Grid Feature Cards (2 Rows of 3 Cards) -->
+  
+  <!-- Row 1, Card 1: QR & Table Ordering -->
+  <g transform="translate(800, 190)">
+    <rect width="340" height="200" rx="14" fill="url(#cardBg)" stroke="#374151" stroke-width="1.5"/>
+    <rect x="250" y="20" width="70" height="40" rx="8" fill="#E05624"/>
+    <text x="285" y="46" text-anchor="middle" font-size="20" fill="#FFFFFF">QR</text>
+    <text x="230" y="48" font-family="Vazirmatn, Tahoma, sans-serif" font-weight="bold" font-size="20" fill="#FFFFFF">سفارش سر میز با QR</text>
+    <text x="315" y="90" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• توکن اختصاصی برای هر میز سالن</text>
+    <text x="315" y="120" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• ورود خودکار مهمان بدون نیاز به نصب اپ</text>
+    <text x="315" y="150" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• انتخاب مدیفایرها و ارسال مستقیم به مطبخ</text>
+  </g>
+
+  <!-- Row 1, Card 2: Kitchen KDS -->
+  <g transform="translate(430, 190)">
+    <rect width="340" height="200" rx="14" fill="url(#cardBg)" stroke="#374151" stroke-width="1.5"/>
+    <rect x="250" y="20" width="70" height="40" rx="8" fill="#10B981"/>
+    <text x="285" y="46" text-anchor="middle" font-size="20" fill="#FFFFFF">KDS</text>
+    <text x="230" y="48" font-family="Vazirmatn, Tahoma, sans-serif" font-weight="bold" font-size="20" fill="#FFFFFF">داشبورد آشپزخانه لمسی</text>
+    <text x="315" y="90" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• بهینه‌شده برای تبلت و تاچ ۴۸ پیکسلی</text>
+    <text x="315" y="120" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• آلارم صوتی سفارش جدید و تم دارک خوانا</text>
+    <text x="315" y="150" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• چاپ خودکار فیش حرارتی سالن و پیک</text>
+  </g>
+
+  <!-- Row 1, Card 3: Jalali Calendar Reservations -->
+  <g transform="translate(60, 190)">
+    <rect width="340" height="200" rx="14" fill="url(#cardBg)" stroke="#374151" stroke-width="1.5"/>
+    <rect x="250" y="20" width="70" height="40" rx="8" fill="#6366F1"/>
+    <text x="285" y="46" text-anchor="middle" font-size="20" fill="#FFFFFF">شمسی</text>
+    <text x="230" y="48" font-family="Vazirmatn, Tahoma, sans-serif" font-weight="bold" font-size="20" fill="#FFFFFF">رزرو میز شمسی و جلالی</text>
+    <text x="315" y="90" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• تقویم جلالی بدون وابستگی به اسکریپت خارجی</text>
+    <text x="315" y="120" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• ظرفیت‌سنجی هوشمند بر اساس اسلات زمانی</text>
+    <text x="315" y="150" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• پیامک خودکار تایید و یادآوری نوبت رزرو</text>
+  </g>
+
+  <!-- Row 2, Card 4: Architecture & Decoupling -->
+  <g transform="translate(800, 420)">
+    <rect width="340" height="200" rx="14" fill="url(#cardBg)" stroke="#374151" stroke-width="1.5"/>
+    <rect x="250" y="20" width="70" height="40" rx="8" fill="#EC4899"/>
+    <text x="285" y="46" text-anchor="middle" font-size="18" fill="#FFFFFF">معماری</text>
+    <text x="230" y="48" font-family="Vazirmatn, Tahoma, sans-serif" font-weight="bold" font-size="20" fill="#FFFFFF">تفکیک پوسته و افزونه</text>
+    <text x="315" y="90" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• داده‌های رستوران در افزونهٔ هسته محفوظ است</text>
+    <text x="315" y="120" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• تغییر پوسته بدون از دست رفتن حتی ۱ سفارش</text>
+    <text x="315" y="150" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• بدون دستکاری قالب‌های هسته ووکامرس</text>
+  </g>
+
+  <!-- Row 2, Card 5: Mobile App & REST API -->
+  <g transform="translate(430, 420)">
+    <rect width="340" height="200" rx="14" fill="url(#cardBg)" stroke="#374151" stroke-width="1.5"/>
+    <rect x="250" y="20" width="70" height="40" rx="8" fill="#0EA5E9"/>
+    <text x="285" y="46" text-anchor="middle" font-size="18" fill="#FFFFFF">اپ بومی</text>
+    <text x="230" y="48" font-family="Vazirmatn, Tahoma, sans-serif" font-weight="bold" font-size="20" fill="#FFFFFF">اپلیکیشن فلاتر و API v2</text>
+    <text x="315" y="90" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• کدهای آماده فلاتر در دایرکتوری mobile/</text>
+    <text x="315" y="120" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• کش آفلاین منو و مدیریت سبد مهمان</text>
+    <text x="315" y="150" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• پوش نوتیفیکیشن FCM و انتخابگر شهرهای ایران</text>
+  </g>
+
+  <!-- Row 2, Card 6: Commerce, HPOS & Security -->
+  <g transform="translate(60, 420)">
+    <rect width="340" height="200" rx="14" fill="url(#cardBg)" stroke="#374151" stroke-width="1.5"/>
+    <rect x="250" y="20" width="70" height="40" rx="8" fill="#F59E0B"/>
+    <text x="285" y="46" text-anchor="middle" font-size="18" fill="#FFFFFF">امنیت</text>
+    <text x="230" y="48" font-family="Vazirmatn, Tahoma, sans-serif" font-weight="bold" font-size="20" fill="#FFFFFF">ووکامرس HPOS و امنیت</text>
+    <text x="315" y="90" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• پشتیبانی رسمی از High-Performance Storage</text>
+    <text x="315" y="120" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• به‌روزرسانی امضاشده با کلید Ed25519</text>
+    <text x="315" y="150" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-size="15" fill="#D1D5DB">• پشتیبان‌گیری اتمیک خودکار پیش از به‌روزرسانی</text>
+  </g>
+
+  <!-- Bottom Badges Strip -->
+  <rect x="60" y="650" width="1080" height="190" rx="16" fill="url(#cardBg)" stroke="#374151" stroke-width="1.5"/>
+  <text x="1100" y="700" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-weight="bold" font-size="24" fill="#FFFFFF">سازگاری و فناوری‌های پشتیبانی‌شده</text>
+  
+  <g transform="translate(80, 730)">
+    <rect x="800" y="0" width="200" height="60" rx="30" fill="#1F2937" stroke="#4B5563" stroke-width="1"/>
+    <text x="900" y="37" text-anchor="middle" font-size="16" fill="#F3F4F6">۱۲ دموی کامل آماده</text>
+
+    <rect x="540" y="0" width="230" height="60" rx="30" fill="#1F2937" stroke="#4B5563" stroke-width="1"/>
+    <text x="655" y="37" text-anchor="middle" font-size="16" fill="#F3F4F6">۱۷ ویجت اختصاصی المنتور</text>
+
+    <rect x="280" y="0" width="230" height="60" rx="30" fill="#1F2937" stroke="#4B5563" stroke-width="1"/>
+    <text x="395" y="37" text-anchor="middle" font-size="16" fill="#F3F4F6">۱۰۰٪ راست‌چین و بدون تحریم</text>
+
+    <rect x="20" y="0" width="230" height="60" rx="30" fill="#1F2937" stroke="#4B5563" stroke-width="1"/>
+    <text x="135" y="37" text-anchor="middle" font-size="16" fill="#F3F4F6">کنتراست استاندارد WCAG AA</text>
+  </g>
+</svg>

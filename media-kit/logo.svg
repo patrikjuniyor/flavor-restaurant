@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" width="600" height="160" dir="rtl">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E232E"/>
+      <stop offset="100%" stop-color="#12151B"/>
+    </linearGradient>
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E05624"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Container -->
+  <rect width="600" height="160" rx="20" fill="url(#bgGrad)" filter="url(#shadow)"/>
+  <rect x="1" y="1" width="598" height="158" rx="19" fill="none" stroke="#E05624" stroke-opacity="0.3" stroke-width="2"/>
+
+  <!-- Brand Symbol / Emblem: Cloche & Fork -->
+  <g transform="translate(480, 40)">
+    <circle cx="40" cy="40" r="38" fill="url(#primaryGrad)"/>
+    <path d="M 22 48 C 22 28, 58 28, 58 48 Z" fill="#FFFFFF"/>
+    <circle cx="40" cy="24" r="5" fill="#FFFFFF"/>
+    <rect x="16" y="52" width="48" height="5" rx="2.5" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Main Typography Persian -->
+  <text x="450" y="78" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-weight="900" font-size="44" fill="#FFFFFF" letter-spacing="0">رستوران مستقیم</text>
+  
+  <!-- Subtitle Persian & English tag -->
+  <text x="450" y="116" text-anchor="end" font-family="Vazirmatn, Tahoma, sans-serif" font-weight="500" font-size="18" fill="#F59E0B">قالب و افزونه تخصصی سفارش‌گیری کافه و رستوران</text>
+  <text x="50" y="90" font-family="sans-serif" font-weight="700" font-size="20" fill="#9CA3AF" letter-spacing="2">FLAVOR PLATFORM</text>
+  <text x="50" y="114" font-family="sans-serif" font-weight="500" font-size="14" fill="#E05624">WordPress &amp; WooCommerce</text>
+</svg>
