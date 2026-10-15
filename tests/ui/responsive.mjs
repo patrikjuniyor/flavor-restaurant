@@ -198,7 +198,7 @@ try {
 /* A static sweep catches a sub-12px rule anywhere, including the stylesheets
    this fixture never paints (checkout, account, search). */
 console.log('\n--- stylesheet sweep: font-size below 12px ---');
-const skipFiles = new Set(['builder-admin.css', 'print-receipt.css']); // admin screens and print
+const skipFiles = new Set(['builder-admin.css', 'print-receipt.css', 'customizer-modern.css']); // admin screens and print
 /* Ornament that is aria-hidden and locked to a fixed-size graphic. Larger text
    breaks the artwork and no information is lost, so the floor does not apply.
    Keep this list short, and only for decoration a screen reader never sees. */

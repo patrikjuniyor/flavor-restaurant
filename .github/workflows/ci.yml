@@ -622,6 +622,11 @@ jobs:
           wp plugin activate flavor-core --allow-root
           wp rewrite structure '/%postname%/' --allow-root
 
+      - name: Import Default Demo Content
+        run: |
+          cd "$RUNNER_TEMP/wordpress"
+          wp eval 'require_once get_template_directory() . "/inc/demo-catalog.php"; $catalog = flavor_demo_catalog(); \Flavor\Demo_Importer::import($catalog["modern-restaurant"]);' --allow-root
+
       - name: Provision E2E Storefront Pages & Fixtures
         run: |
           export WP_PATH="$RUNNER_TEMP/wordpress"
