@@ -257,6 +257,23 @@ jobs:
         working-directory: mobile
         run: flutter test --coverage
 
+      - name: Verify Flutter Coverage Threshold (>= 60%)
+        run: |
+          python3 dev-tools/check-mobile-coverage.py \
+            --lcov mobile/coverage/lcov.info \
+            --threshold 60.0 \
+            --summary-file .cache/coverage-summary/mobile-coverage.md
+
+      - name: Upload Mobile Test Coverage Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-test-coverage
+          path: |
+            mobile/coverage/
+            .cache/coverage-summary/
+          if-no-files-found: ignore
+
   security-scan:
     name: Security & IDOR Regression Guard
     runs-on: ubuntu-latest
