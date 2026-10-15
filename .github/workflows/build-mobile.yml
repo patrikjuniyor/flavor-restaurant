@@ -34,6 +34,13 @@ on:
           - staging
           - dev
 
+permissions:
+  contents: read
+
+concurrency:
+  group: mobile-build-${{ github.event.inputs.build_uuid || github.ref }}
+  cancel-in-progress: false
+
 jobs:
   notify-start:
     name: Notify Build Started
@@ -71,23 +78,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Set up Java JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12 # v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@f2c4f6686ca8e8d6e6d0f28410eeef506ed66aff # v2
         with:
           flutter-version: '3.24.x'
           channel: 'stable'
           cache: true
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
         with:
           python-version: '3.x'
 
@@ -165,13 +172,13 @@ jobs:
           echo "aab_sha=$(sha256sum $AAB_PATH | awk '{print $1}')" >> $GITHUB_OUTPUT
 
       - name: Upload Android APK Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
         with:
           name: flavor-android-apk-${{ inputs.build_uuid }}
           path: mobile/build/app/outputs/flutter-apk/app-release.apk
 
       - name: Upload Android AAB Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
         with:
           name: flavor-android-aab-${{ inputs.build_uuid }}
           path: mobile/build/app/outputs/bundle/release/app-release.aab
@@ -183,17 +190,17 @@ jobs:
     runs-on: macos-14
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@f2c4f6686ca8e8d6e6d0f28410eeef506ed66aff # v2
         with:
           flutter-version: '3.24.x'
           channel: 'stable'
           cache: true
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
         with:
           python-version: '3.x'
 
@@ -292,7 +299,7 @@ jobs:
           echo "::notice::IPA ready for App Store Connect upload (method app-store)."
 
       - name: Upload iOS IPA Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
         with:
           name: flavor-ios-ipa-${{ inputs.build_uuid }}
           path: mobile/build/ios/ipa/*.ipa

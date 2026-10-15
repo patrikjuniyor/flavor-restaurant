@@ -13,6 +13,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: nightly-ui-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   nightly-demos-matrix:
     name: Nightly 12-Skin & Demo E2E Playwright Sweep
@@ -33,19 +37,21 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Set up PHP Environment
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
           php-version: '8.2'
           extensions: mysqli, mbstring, intl, zip, gd
           coverage: none
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: tests/ui/package-lock.json
 
       - name: Install Playwright and Chromium Browser
         run: |
@@ -131,7 +137,7 @@ jobs:
 
       - name: Upload Nightly Artifacts on Failure
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
         with:
           name: nightly-ui-artifacts
           path: .cache/
