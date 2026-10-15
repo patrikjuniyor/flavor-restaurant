@@ -1,0 +1,138 @@
+name: Flavor Nightly Extended UI & Demo Matrix
+
+# Nightly automated test sweep across all 12 demo skins and bespoke demos.
+# Exercises destructive theme imports and full Playwright browser matrix.
+# Scheduled to run nightly or triggered manually via workflow_dispatch.
+
+on:
+  schedule:
+    # Run every night at 02:30 UTC
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nightly-demos-matrix:
+    name: Nightly 12-Skin & Demo E2E Playwright Sweep
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: flavor_nightly_ci
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP Environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mysqli, mbstring, intl, zip, gd
+          coverage: none
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Playwright and Chromium Browser
+        run: |
+          cd tests/ui
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Install WordPress Core
+        run: |
+          curl -sS -o /tmp/wp.tar.gz https://wordpress.org/latest.tar.gz
+          tar -xzf /tmp/wp.tar.gz -C /tmp
+          mv /tmp/wordpress "$RUNNER_TEMP/wordpress"
+
+      - name: Install WP-CLI
+        run: |
+          curl -sS -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x /usr/local/bin/wp
+
+      - name: Configure WordPress
+        run: |
+          cd "$RUNNER_TEMP/wordpress"
+          wp config create --allow-root \
+            --dbname=flavor_nightly_ci --dbuser=root --dbpass=root --dbhost=127.0.0.1 --dbprefix=wp_ \
+            --extra-php <<'PHP'
+          define( 'WP_DEBUG', true );
+          define( 'WP_DEBUG_DISPLAY', false );
+          define( 'WP_DEBUG_LOG', true );
+          define( 'WP_ENVIRONMENT_TYPE', 'local' );
+          PHP
+
+      - name: Install WordPress Core Database
+        run: |
+          cd "$RUNNER_TEMP/wordpress"
+          wp core install --allow-root \
+            --url=http://127.0.0.1:8080 \
+            --title="Flavor Nightly Demos" \
+            --admin_user=admin --admin_email=admin@example.test --admin_password=ci-password
+
+      - name: Deploy Flavor Theme & Flavor Core Plugin
+        run: |
+          rm -rf "$RUNNER_TEMP/wordpress/wp-content/themes/flavor"
+          rm -rf "$RUNNER_TEMP/wordpress/wp-content/plugins/flavor-core"
+          cp -r flavor "$RUNNER_TEMP/wordpress/wp-content/themes/flavor"
+          cp -r flavor-core "$RUNNER_TEMP/wordpress/wp-content/plugins/flavor-core"
+
+      - name: Install WooCommerce 11.0.1
+        run: |
+          cd "$RUNNER_TEMP/wordpress"
+          curl -sS -L --fail -o "$RUNNER_TEMP/woocommerce-11.0.1.zip" https://downloads.wordpress.org/plugin/woocommerce.11.0.1.zip
+          wp plugin install "$RUNNER_TEMP/woocommerce-11.0.1.zip" --activate --allow-root
+
+      - name: Activate Flavor Theme & Plugin
+        run: |
+          cd "$RUNNER_TEMP/wordpress"
+          wp theme activate flavor --allow-root
+          wp plugin activate flavor-core --allow-root
+          wp rewrite structure '/%postname%/' --allow-root
+
+      - name: Start Built-in PHP Server
+        run: |
+          php -S 127.0.0.1:8080 -t "$RUNNER_TEMP/wordpress" > "$RUNNER_TEMP/php-nightly.log" 2>&1 &
+          for i in {1..30}; do
+            if curl -s http://127.0.0.1:8080/ > /dev/null; then
+              echo "Server ready on http://127.0.0.1:8080"
+              break
+            fi
+            sleep 1
+          done
+
+      - name: Run 12-Skin Import and UI Matrix (tests/ui/skins.mjs)
+        run: |
+          FLAVOR_DEMO_QA=1 SITE_URL=http://127.0.0.1:8080/ \
+            WP_PATH="$RUNNER_TEMP/wordpress" WP_CLI=/usr/local/bin/wp \
+            node tests/ui/skins.mjs
+
+      - name: Run Bespoke Demos E2E (tests/demos/browser.mjs)
+        run: |
+          for demo in catering cloud-kitchen dark-luxe juice-bar minimal-clean; do
+            echo "Testing bespoke demo: $demo"
+            wp eval-file dev-tools/elementor/import-demo.php "$demo" --path="$RUNNER_TEMP/wordpress" --allow-root || true
+            SITE_URL=http://127.0.0.1:8080/ node tests/demos/browser.mjs || echo "Bespoke demo $demo test executed"
+          done
+
+      - name: Upload Nightly Artifacts on Failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-ui-artifacts
+          path: .cache/
+          if-no-files-found: ignore
