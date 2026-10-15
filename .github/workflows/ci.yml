@@ -648,9 +648,9 @@ jobs:
             sleep 1
           done
 
-      - name: Run Storefront Playwright UI Suite (tests/ui/browser.mjs stage 6)
+      - name: Run Customer & Storefront Playwright UI Suite (tests/ui/browser.mjs stage 4)
         run: |
-          FLAVOR_DEMO_QA=1 SITE_URL=http://127.0.0.1:8080/ UI_STAGE=6 node tests/ui/browser.mjs
+          FLAVOR_DEMO_QA=1 SITE_URL=http://127.0.0.1:8080/ UI_STAGE=4 node tests/ui/browser.mjs
 
       - name: Upload Storefront UI Artifacts on Failure
         if: failure()
