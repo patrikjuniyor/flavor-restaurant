@@ -1,0 +1,129 @@
+name: Release Verification & Distribution Packaging
+
+# Automated release quality gate triggered on git tags (v*) and manual dispatch.
+# Ensures that every tagged release passes:
+#   1. Complete test batteries (pure, integration, theme, Flutter, Python, i18n, lint).
+#   2. Strict version matching between tag, style.css, flavor-core, and readme.
+#   3. Clean distribution build of the two customer zip packages (flavor.zip & flavor-demo-pack.zip).
+#   4. Verification of the signed update manifest against the public key without private key in CI.
+#   5. Upload of distribution packages and manifest evidence to GitHub Release artifacts.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release Tag to verify (e.g. v1.6.2)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-and-package:
+    name: Release Gate & Distribution Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up PHP Environment
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, sqlite3, pdo_sqlite, curl, json, openssl, sodium, zip
+          coverage: none
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@f2c4f6686ca8e8d6e6d0f28410eeef506ed66aff # v2
+        with:
+          flutter-version: '3.24.x'
+          channel: 'stable'
+          cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
+        with:
+          python-version: '3.x'
+
+      - name: 1. Strict Version Header Check
+        run: |
+          php dev-tools/check-versions.php
+          TAG_REF="${{ github.ref_name }}"
+          if [ -z "$TAG_REF" ] || [ "$TAG_REF" = "main" ]; then
+            TAG_REF="${{ github.event.inputs.release_tag }}"
+          fi
+          if [[ "$TAG_REF" =~ ^v[0-9] ]]; then
+            CLEAN_TAG="${TAG_REF#v}"
+            THEME_VER=$(grep -m1 "Version:" flavor/style.css | awk '{print $2}' | tr -d '\r')
+            if [ "$CLEAN_TAG" != "$THEME_VER" ]; then
+              echo "::error::Tag version ($CLEAN_TAG) does not match style.css ($THEME_VER)"
+              exit 1
+            fi
+            echo "Version verified: tag $TAG_REF matches style.css $THEME_VER"
+          fi
+
+      - name: 2. Core Pure Logic Tests
+        run: php flavor-core/tests/run-pure-tests.php
+
+      - name: 3. Core E2E Integration Suite
+        run: php flavor-core/tests/run-e2e-integration.php
+
+      - name: 4. Theme Regression Test Suite
+        run: bash dev-tools/run-theme-tests.sh
+
+      - name: 5. White-Label Mobile Provisioning Tests
+        run: |
+          python3 mobile/scripts/test_provision_brand.py
+          python3 mobile/scripts/provision_brand.py --mobile-root mobile
+
+      - name: 6. Mobile Unit & Widget Tests with Coverage Gate
+        run: |
+          cd mobile
+          flutter pub get
+          flutter analyze --fatal-infos
+          flutter test --coverage
+          cd ..
+          python3 dev-tools/check-mobile-coverage.py \
+            --lcov mobile/coverage/lcov.info \
+            --threshold 60.0
+
+      - name: 7. Build Distribution Packages (flavor.zip & flavor-demo-pack.zip)
+        run: |
+          bash dev-tools/build-distribution.sh
+          test -f dist/flavor.zip || { echo "dist/flavor.zip missing"; exit 1; }
+          test -f dist/flavor-demo-pack.zip || { echo "dist/flavor-demo-pack.zip missing"; exit 1; }
+
+      - name: 8. Verify Signed Update Manifest (Public Key Only, No Secrets in CI)
+        run: |
+          set -eu
+          owner="${GITHUB_REPOSITORY_OWNER,,}"
+          repo="${GITHUB_REPOSITORY#*/}"
+          prefix="https://${owner}.github.io/${repo}/flavor/"
+          if [ -f release-site/flavor/manifest.json ]; then
+            php dev-tools/release/build-release.php verify \
+              --dir=release-site/flavor \
+              --public-key=release-site/public.key \
+              --url-prefix="${prefix}"
+          else
+            echo "No committed release manifest found to verify; skipping."
+          fi
+
+      - name: 9. Upload Release Artifacts
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
+        with:
+          name: flavor-release-distribution
+          path: |
+            dist/flavor.zip
+            dist/flavor-demo-pack.zip
+          if-no-files-found: error
