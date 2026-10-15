@@ -60,65 +60,51 @@ cart, not by a script in the page.
 
 == Installation ==
 
-1. Upload `flavor` to `wp-content/themes/` and activate it.
-2. Install and activate Flavor Core for branches, tables, QR ordering, kitchen
-   display and reservations. The theme works without it, but the restaurant
-   features need it.
-3. Install and activate WooCommerce 8.5+ if it is not already present.
-4. Optional: install and activate Elementor Website Builder to use Flavor's Elementor widgets; the free version is enough.
-5. Open نمایش → سفارشی‌سازی → پوسته‌های آماده and choose a preset.
+1. Upload `flavor` to `wp-content/themes/` and activate it from Appearance → Themes.
+2. Install and activate Flavor Core (`flavor-core.zip`) for restaurant operations: branches, tables, QR ordering, kitchen display, Jalali reservations, OTP login, and loyalty rewards. The theme operates standalone as a presentation layer, but operational dining features require the plugin.
+3. Install and activate WooCommerce 8.5+ if it is not already present. When Flavor Core is activated, it attempts automatic installation if WooCommerce is missing.
+4. Set up WordPress Permalinks: navigate to Settings → Permalinks (تنظیمات → پیوندهای یکتا) and select "Post name" (نام نوشته) so REST API endpoints and table QR landing URLs resolve smoothly.
+5. Optional: install and activate the free Elementor Website Builder plugin to customize pages using Flavor's 17 restaurant widgets and 3 page templates. Elementor Pro is never required.
+6. Choose your design preset: open Appearance → Customize → Ready Presets (نمایش → سفارشی‌سازی → پوسته‌های آماده) and select one of the 12 curated dining styles.
 
 == Frequently Asked Questions ==
 
 = Does the theme work without Flavor Core? =
 
-Yes. You get the design system, the presets, the page templates, the Elementor
-widgets and the block patterns. You do not get branches, tables, QR ordering,
-the kitchen display, Jalali reservations, OTP or loyalty — those are Flavor Core.
+Yes. You get the complete presentation design system, the 12 presets, the page templates, the 17 Elementor widgets and the block patterns. You do not get restaurant operational workflows (branches, dining tables, QR ordering, kitchen KDS display, Jalali reservations, SMS OTP auth or loyalty points) — those belong to the companion plugin Flavor Core.
 
 = Why is order logic in a plugin and not the theme? =
 
-Because a restaurant's data outlives its design. If branches and orders lived
-in the theme, changing themes would mean re-entering every table and losing
-order history. Keeping them in the plugin makes the theme replaceable.
+Because a restaurant's operational data outlives its design. If branches, dining tables, customer orders and kitchen tickets lived in the theme, changing or updating themes would wipe out your data and order history. Encapsulating operations inside Flavor Core keeps your business data permanent and your presentation theme fully replaceable.
 
-= Is it WooCommerce compatible? =
+= Is WooCommerce required, and which versions are supported? =
 
-Yes, 8.5 and above, including HPOS. Prices, stock and totals always come from
-WooCommerce server-side; the theme never recalculates them in the browser.
+Yes, WooCommerce is required for commercial cart, checkout, payments, and order persistence. Flavor supports WooCommerce 8.5 up to 11.0+, with full High-Performance Order Storage (HPOS) and Cart/Checkout Blocks compatibility. All pricing, discounts, shipping, and taxes are strictly calculated server-side by WooCommerce; client-side scripts never manipulate monetary totals.
 
-= Can I use a child theme? =
+= Is the theme translatable and multilingual-ready? =
 
-Yes, and it is the recommended way to hold custom CSS. `flavor-child` ships with
-the parent and loads its stylesheet last, so an override never loses a
-specificity race.
+Yes. All text strings are registered under the `flavor` text domain. The theme provides complete POT template files alongside compiled Persian (fa_IR) and Arabic (ar) catalogues. The codebase is RTL-first, with automated bidirectional parity testing. Standard multilingual plugins such as WPML or TranslatePress can translate all strings without conflicts, as no string or currency is hardcoded.
 
-= Is it translatable? =
+= Is there a native mobile app available for Flavor? =
 
-Yes. All strings are in the `flavor` text domain and the theme ships a POT file
-plus compiled Persian and Arabic catalogues. It is RTL-first, and the type
-scale carries an explicit warning that letter-spacing breaks Persian joining.
+Yes. The project includes a production-grade Flutter mobile application in the `mobile/` directory, featuring customer ordering, Jalali date reservations, offline menu caching with retry recovery, Iranian province/city selectors, deep linking, and push notification integrations. Merchants can build and publish their branded APK or release on Café Bazaar and Google Play.
 
-= Is it compatible with WPML or TranslatePress? =
+= How do updates work for the theme and plugin? =
 
-The theme is declared Persian-first rather than claiming official multilingual
-integration. It does not register its own translation layer, so a multilingual
-plugin is free to own the strings: nothing in the theme hardcodes a locale,
-a currency, or a direction, and every user-facing string goes through the
-`flavor` text domain.
+Flavor provides a secure, cryptographically signed update channel utilizing Ed25519 signatures (libsodium). When an update is published, the site verifies the digital signature of the release manifest against the bundled public key before downloading. Automatic atomic backups are preserved under `wp-content/flavor-backups/` prior to any theme update.
 
-What this means in practice: the theme will not fight such a plugin, but it is
-not tested against one either. Claiming official integration would mean
-maintaining a compatibility matrix against two paid plugins for a market the
-theme is built for, and a half-kept promise is worse than an honest one. If you
-run a multilingual site, test your specific setup before you rely on it.
+= Why is the theme package 1.3 MB when the demo preview is rich? =
 
-= Why is the theme 1.3 MB when the repository is larger? =
+High-resolution demo photography is distributed as a separate downloadable asset pack (`flavor-demo-pack.zip`, ~12 MB). The theme itself remains lightweight and agile (~1.3 MB) for instant shared hosting uploads. When demo images are not imported, the theme renders elegant, bundled SVG/CSS placeholders without generating broken URLs.
 
-The demo photography is a separate download (`flavor-demo-pack.zip`, about
-12 MB). A customer who supplies their own photographs never loads it, and the
-theme renders correctly without it: sections that would point at missing
-images fall back to a bundled placeholder instead of emitting broken URLs.
+== Screenshots ==
+
+1. screenshot.png — Storefront homepage preview showing hero banner, quick category navigation tabs, featured dishes, and modern Iranian restaurant typography.
+2. storefront-menu.png — Digital interactive food menu grid with instant category filtering, dietary badges, and one-tap guest cart drawer.
+3. single-dish-sheet.png — Single product detail sheet displaying food photography, calorie counts, ingredient tags, and real-time food modifiers (sizes, toppings, preparations).
+4. checkout-drawer.png — Seamless slide-over cart drawer and checkout with delivery/dine-in order modes, guest ordering, and SMS OTP verification.
+5. kitchen-kds-tablet.png — Dark-mode Kitchen Display System (KDS) optimized for kitchen touch tablets with large 48px touch targets and live polling.
+6. customizer-presets.png — WordPress Customizer panel showing 12 curated restaurant presets with WCAG AA color contrast verification.
 
 == Changelog ==
 

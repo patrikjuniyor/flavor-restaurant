@@ -47,7 +47,7 @@ check( strpos( $ci_content, 'flutter-mobile-ci:' ) !== false, 'flutter-mobile-ci
 check( strpos( $ci_content, 'flutter test --coverage' ) !== false, 'runs flutter test with --coverage flag' );
 check( strpos( $ci_content, 'check-mobile-coverage.py' ) !== false, 'ci.yml invokes check-mobile-coverage.py' );
 check( strpos( $ci_content, '--threshold 60' ) !== false || strpos( $ci_content, '--threshold=60' ) !== false || strpos( $ci_content, '60.0' ) !== false, 'ci.yml enforces 60% coverage threshold' );
-check( strpos( $ci_content, 'actions/upload-artifact@v4' ) !== false, 'ci.yml uses upload-artifact@v4' );
+check( (bool) preg_match( '/actions\/upload-artifact@(?:v4|[a-f0-9]+[ \t]*#.*v4)/i', $ci_content ), 'ci.yml uses upload-artifact@v4' );
 check( strpos( $ci_content, 'mobile-test-coverage' ) !== false, 'ci.yml archives mobile-test-coverage artifact' );
 
 // 2. Check coverage checker tool
