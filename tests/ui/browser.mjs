@@ -50,7 +50,7 @@ try {
  await page.locator('[data-ui-view="grid"]').click();
  const cat = page.locator('#flavor-cats [data-cat]').nth(1);
  await cat.click();
- assert.equal(await cat.getAttribute('aria-pressed'),'true');
+ assert.equal(await cat.getAttribute('aria-selected'),'true');
  assert.equal(await page.locator('#flavor-menu-grid .flavor-card:visible').count(),2);
  await page.locator('#flavor-cats [data-cat="0"]').click();
  const trigger = page.locator('#flavor-menu-grid [data-add]').first();
