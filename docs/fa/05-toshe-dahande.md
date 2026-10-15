@@ -22,11 +22,11 @@ add_filter( 'flavor_core_sms_providers', function ( $list ) {
 
 ## بازنویسی قالب
 
-کپی کنید به چایلدتم:
+کپی کنید به پوستهٔ فرزند (Child Theme) با حفظ ساختار مسیر:
 
-- `template-parts/menu/*`
-- `template-parts/marketing/*`
-- `page-templates/template-menu.php`
+- `flavor/template-parts/menu/*` (شیت‌های منو، جست‌وجو و کارت‌های غذا)
+- `flavor/template-parts/marketing/*` (بخش‌های هیرو، درباره ما، گالری و نظرات)
+- `flavor/page-templates/template-menu.php` (برگهٔ اصلی سفارش آنلاین)
 
 داشبورد آشپزخانه را با فیلتر عوض کنید (فقط پوسته، نه داده):
 
@@ -38,15 +38,22 @@ add_filter( 'flavor_core_kitchen_view', fn() => get_stylesheet_directory() . '/k
 
 یک قالب خالی با `Template: flavor` بسازید. توکن‌ها از کاستومایزر می‌آیند؛ SCSS لازم نیست.
 
-## تست
+## آزمون‌ها و ارزیابی خودکار
 
-```
-cd flavor-core
-# WP_TESTS_DIR را به wordpress-tests-lib بدهید
-vendor/bin/phpunit
+آزمون‌های لاجیک هسته و یکپارچگی نیازی به وابستگی خارجی سنگین ندارند و با اسکریپت‌های توکار اجرا می‌شوند:
+
+```bash
+# آزمون‌های لاجیک خالص هسته (۲۲۶ تست)
+php flavor-core/tests/run-pure-tests.php
+
+# آزمون‌های یکپارچگی سرتاسری و سناریوهای سفارش/رزرو (۸۲ تست)
+php flavor-core/tests/run-e2e-integration.php
+
+# آزمون‌های جامع قالب وردپرس (۶۸ سوئیت)
+bash dev-tools/run-theme-tests.sh
 ```
 
-تست‌های موجود: قیمت/ارز، منطقه ارسال، جلالی، همپوشانی اسلات.
+تست‌های موجود: قیمت/ارز، مناطق ارسال، تاریخ جلالی، عدم همپوشانی اسلات رزرو، کش، تیکت آشپزخانه و سناریوهای پرداخت.
 
 ## امنیت
 
