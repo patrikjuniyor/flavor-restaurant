@@ -420,5 +420,11 @@
     "date": "2026-10-15",
     "commit": "41cb369",
     "note": "تثبیت گام Elementor واقعی در CI و دیسکاوری داینامیک ویجت‌ها: (۱) تطبیق نسخه Elementor 4.3.4 در CI با هدر سازگاری «WC tested up to: 11.0» و مستندات فنی docs/fa/11-elementor.md؛ (۲) داینامیک‌سازی تست tests/integration/real-elementor-smoke.php برای خواندن و ثبت خودکار کلاس‌های ویجت از \\Flavor\\Elementor::widget_classes() بدون قفل شدن روی عدد هاردکد ۱۷، و رندر خودکار همه ویجت‌های ثبت‌شده در صفحه رگرسیون؛ (۳) ایجاد سوئیت تست گیت tests/theme/test-elementor-ci-stability.php با ۲۷ بررسی خودکار از انطباق نسخه‌ها، سازگاری هدرها، لود ویجت‌ها و فایل‌های دیسک؛ (۴) اثبات کارکرد با ۳ سناریوی تخریب و خرابکاری زنده (هاردکد ۱۷، دستکاری WC tested up to و تغییر نسخه المنتور در CI)."
+  },
+  "83": {
+    "state": "done",
+    "date": "2026-10-15",
+    "commit": "b533ead",
+    "note": "پوشش تست موبایل در CI با آستانه ۶۰٪ و آرشیو Artifact: (۱) گسترش گام flutter-mobile-ci در .github/workflows/ci.yml برای محاسبه درصد پوشش خطوط با flutter test --coverage و اعمال آستانه حداقل ۶۰٪ با اسکریپت dev-tools/check-mobile-coverage.py؛ (۲) آرشیو دایرکتوری پوشش mobile/coverage/ و فایل خلاصه مارک‌داون .cache/coverage-summary/ به عنوان آرتفکت CI با نام mobile-test-coverage؛ (۳) ایجاد سوئیت آزمون قرارداد tests/theme/test-mobile-ci-coverage.php با ۱۲ بررسی اعتبارسنجی؛ (۴) اثبات کارکرد با ۳ سناریوی تخریب و خرابکاری زنده."
   }
 }
