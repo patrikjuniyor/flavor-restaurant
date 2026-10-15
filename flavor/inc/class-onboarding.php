@@ -81,8 +81,8 @@ class Onboarding {
 			return;
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( isset( $_GET['page'] ) && ( 'flavor-setup' === $_GET['page'] || 'flavor-launch' === $_GET['page'] ) ) {
+		global $pagenow;
+		if ( 'themes.php' === $pagenow && isset( $GLOBALS['hook_suffix'] ) && str_contains( (string) $GLOBALS['hook_suffix'], 'flavor' ) ) {
 			return;
 		}
 

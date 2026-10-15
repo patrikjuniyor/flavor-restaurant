@@ -1,0 +1,19 @@
+GNU GENERAL PUBLIC LICENSE
+Version 2, June 1991
+
+Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+Everyone is permitted to copy and distribute verbatim copies
+of this license document, but changing it is not allowed.
+
+This product ("Flavor" theme and "Flavor Core" plugin, commercially
+known as رستوران مستقیم) is released under the GNU General Public
+License, version 2 or later, as required by the WordPress ecosystem
+and the Raastichin marketplace.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+Bundled third-party assets:
+- Vazirmatn font — SIL Open Font License 1.1
+  https://github.com/rastikerdar/vazirmatn
