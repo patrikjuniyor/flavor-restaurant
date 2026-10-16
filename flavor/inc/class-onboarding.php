@@ -151,35 +151,21 @@ class Onboarding {
 		$completed        = isset( $_GET['completed'] ) && '1' === sanitize_key( wp_unslash( $_GET['completed'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$launch_checks    = class_exists( self::class ) && class_exists( Launch_Center::class ) ? Launch_Center::checks() : array();
 		?>
-		<div class="wrap flavor-wizard-wrap">
-			<style>
-				.flavor-wizard-wrap { max-width: 900px; margin: 30px auto; font-family: Tahoma, Vazirmatn, sans-serif; }
-				.flavor-wizard-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 36px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
-				.flavor-wizard-header { text-align: center; margin-bottom: 32px; }
-				.flavor-wizard-header h1 { font-size: 26px; color: #1e293b; margin: 0 0 8px; }
-				.flavor-wizard-header p { color: #64748b; font-size: 15px; margin: 0; }
-				.flavor-steps-bar { display: flex; justify-content: space-between; position: relative; margin-bottom: 40px; padding: 0 10px; }
-				.flavor-steps-bar::before { content: ''; position: absolute; top: 18px; right: 20px; left: 20px; height: 3px; background: #e2e8f0; z-index: 1; }
-				.flavor-step-node { position: relative; z-index: 2; background: #fff; width: 38px; height: 38px; border-radius: 50%; border: 2px solid #cbd5e1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #64748b; font-size: 14px; cursor: pointer; transition: all 0.2s; }
-				.flavor-step-node.is-active { border-color: #8a5a2b; background: #8a5a2b; color: #fff; box-shadow: 0 0 0 4px rgba(138,90,43,0.2); }
-				.flavor-step-node.is-done { border-color: #16a34a; background: #16a34a; color: #fff; }
-				.flavor-step-pane { display: none; }
-				.flavor-step-pane.is-active { display: block; animation: flavorFadeIn 0.3s ease; }
-				@keyframes flavorFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-				.flavor-form-row { margin-bottom: 20px; }
-				.flavor-form-row label { display: block; font-weight: 600; color: #334155; margin-bottom: 6px; font-size: 14px; }
-				.flavor-form-row input[type="text"], .flavor-form-row input[type="number"], .flavor-form-row input[type="url"], .flavor-form-row textarea, .flavor-form-row select { width: 100%; max-width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 14px; font-size: 14px; }
-				.flavor-presets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; max-height: 400px; overflow-y: auto; padding: 4px; }
-				.flavor-preset-card { border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; text-align: right; }
-				.flavor-preset-card:hover { border-color: #cbd5e1; transform: translateY(-2px); }
-				.flavor-preset-card.is-selected { border-color: #8a5a2b; background: #fdfaf6; box-shadow: 0 4px 14px rgba(138,90,43,0.15); }
-				.flavor-preset-card h4 { margin: 0 0 6px; color: #1e293b; font-size: 15px; }
-				.flavor-preset-card p { margin: 0; font-size: 12px; color: #64748b; line-height: 1.5; }
-				.flavor-wizard-nav { display: flex; justify-content: space-between; margin-top: 36px; padding-top: 24px; border-top: 1px solid #e2e8f0; }
-				.flavor-btn-step { background: #8a5a2b; color: #fff; border: 0; padding: 12px 28px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
-				.flavor-btn-step:hover { background: #71471f; color: #fff; }
-				.flavor-btn-prev { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
-			</style>
+		<div class="wrap flavor-admin-ui flavor-wizard-wrap">
+			<?php $fau_hero = class_exists( Admin_UI::class ) ? Admin_UI::hero_style( 'hero-kitchen' ) : ''; ?>
+			<div class="fau-hero"<?php echo '' !== $fau_hero ? ' style="' . esc_attr( $fau_hero ) . '"' : ''; ?>>
+				<div class="fau-hero__body">
+					<span class="fau-hero__eyebrow"><span class="dashicons dashicons-admin-generic" aria-hidden="true"></span><?php esc_html_e( '۱۰ گام تا آنلاین شدن', 'flavor' ); ?></span>
+					<h1 class="fau-hero__title"><?php esc_html_e( 'راه‌اندازی سریع رستوران', 'flavor' ); ?></h1>
+					<p class="fau-hero__lead"><?php esc_html_e( 'نام، لوگو، منو و شیوهٔ سفارش را در چند دقیقه تنظیم کنید. پیشرفت در هر گام ذخیره می‌شود و هر زمان می‌توانید ادامه دهید.', 'flavor' ); ?></p>
+					<div class="fau-progress" style="--fau-progress: <?php echo esc_attr( (string) ( $draft_step * 10 ) ); ?>%;" aria-hidden="true"><span></span></div>
+				</div>
+				<div class="fau-hero__score">
+					<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into browser output. ?>
+					<strong><?php echo esc_html( sprintf( __( '%s از ۱۰', 'flavor' ), (string) $draft_step ) ); ?></strong>
+					<span><?php esc_html_e( 'گام جاری', 'flavor' ); ?></span>
+				</div>
+			</div>
 
 			<div class="flavor-wizard-card">
 				<?php if ( $completed ) : ?>

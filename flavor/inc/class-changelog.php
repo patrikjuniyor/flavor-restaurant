@@ -164,8 +164,19 @@ class Changelog {
 		$missing  = ! is_readable( self::readme_path() );
 
 		?>
-		<div class="wrap flavor-changelog">
-			<h1><?php esc_html_e( 'تغییرات Flavor', 'flavor' ); ?></h1>
+		<div class="wrap flavor-admin-ui flavor-changelog">
+			<?php $fau_hero = class_exists( Admin_UI::class ) ? Admin_UI::hero_style( 'hero-coffee' ) : ''; ?>
+			<div class="fau-hero"<?php echo '' !== $fau_hero ? ' style="' . esc_attr( $fau_hero ) . '"' : ''; ?>>
+				<div class="fau-hero__body">
+					<span class="fau-hero__eyebrow"><span class="dashicons dashicons-backup" aria-hidden="true"></span><?php esc_html_e( 'سابقهٔ انتشار', 'flavor' ); ?></span>
+					<h1 class="fau-hero__title"><?php esc_html_e( 'تغییرات Flavor', 'flavor' ); ?></h1>
+					<p class="fau-hero__lead"><?php esc_html_e( 'هرچه نسخه به نسخه تغییر کرده، همراه با نکات مهاجرت. این فهرست از همان readme.txt خوانده می‌شود که مارکت‌پلیس می‌بیند.', 'flavor' ); ?></p>
+				</div>
+				<div class="fau-hero__score">
+					<strong><?php echo esc_html( $current ); ?></strong>
+					<span><?php esc_html_e( 'نسخهٔ نصب‌شده', 'flavor' ); ?></span>
+				</div>
+			</div>
 
 			<p class="description">
 				<?php esc_html_e( 'این فهرست مستقیماً از readme.txtِ قالب خوانده می‌شود، بنابراین با همان فایلی که مارکت‌پلیس می‌خواند همگام است.', 'flavor' ); ?>
@@ -194,8 +205,8 @@ class Changelog {
 
 				<?php foreach ( $releases as $index => $release ) : ?>
 					<?php $is_current = ( 0 === $index && $release['version'] === $current ); ?>
-					<div class="flavor-changelog__release" style="background:#fff;border:1px solid #dcdcde;border-radius:8px;padding:16px 20px;margin:0 0 16px;max-width:760px;">
-						<h2 style="margin-top:0;font-size:1.1em;">
+					<div class="flavor-changelog__release">
+						<h2>
 							<?php
 							printf(
 								/* translators: %s is a version number such as 1.6.1. */
@@ -204,7 +215,7 @@ class Changelog {
 							);
 							?>
 							<?php if ( $is_current ) : ?>
-								<span class="flavor-changelog__badge" style="background:#0a7d32;color:#fff;border-radius:10px;padding:2px 10px;font-size:.75em;vertical-align:middle;">
+								<span class="flavor-changelog__badge is-current">
 									<?php esc_html_e( 'نصب‌شده', 'flavor' ); ?>
 								</span>
 							<?php endif; ?>
@@ -213,7 +224,7 @@ class Changelog {
 						<?php if ( empty( $release['entries'] ) ) : ?>
 							<p class="description"><?php esc_html_e( 'برای این نسخه یادداشتی ثبت نشده است.', 'flavor' ); ?></p>
 						<?php else : ?>
-							<ul style="list-style:disc;padding-right:20px;">
+							<ul>
 								<?php foreach ( $release['entries'] as $entry ) : ?>
 									<li><?php echo esc_html( $entry ); ?></li>
 								<?php endforeach; ?>

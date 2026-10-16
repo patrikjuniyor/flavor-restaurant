@@ -57,8 +57,19 @@ class Demo_Importer {
 		$state        = self::state();
 		$archives     = self::archives();
 		?>
-		<div class="wrap">
-			<h1><?php esc_html_e( 'دموهای نصب یک‌کلیکی Flavor', 'flavor' ); ?></h1>
+		<div class="wrap flavor-admin-ui flavor-demos">
+			<?php $fau_hero = class_exists( Admin_UI::class ) ? Admin_UI::hero_style( 'hero-kitchen' ) : ''; ?>
+			<div class="fau-hero"<?php echo '' !== $fau_hero ? ' style="' . esc_attr( $fau_hero ) . '"' : ''; ?>>
+				<div class="fau-hero__body">
+					<span class="fau-hero__eyebrow"><span class="dashicons dashicons-images-alt2" aria-hidden="true"></span><?php esc_html_e( 'راه‌اندازی یک‌کلیکی', 'flavor' ); ?></span>
+					<h1 class="fau-hero__title"><?php esc_html_e( 'دموهای آمادهٔ Flavor', 'flavor' ); ?></h1>
+					<p class="fau-hero__lead"><?php esc_html_e( 'یک بستهٔ کامل — صفحه‌ها، منو، تصاویر و تنظیمات — را با یک کلیک نصب کنید. پیش از هر تغییر، وضعیت فعلی در یک آرشیو قابل بازگشت ذخیره می‌شود.', 'flavor' ); ?></p>
+				</div>
+				<div class="fau-hero__score">
+					<strong><?php echo esc_html( (string) count( $catalog ) ); ?></strong>
+					<span><?php esc_html_e( 'بستهٔ آماده', 'flavor' ); ?></span>
+				</div>
+			</div>
 			<?php if ( $notice && isset( $catalog[ $notice ] ) ) : ?>
 				<div class="notice notice-success"><p>
 					<?php echo esc_html( sprintf( /* translators: demo */ __( 'دمو «%s» درون‌ریزی شد. صفحه نخست را بررسی کنید. آرشیو بازگشت هم ساخته شد.', 'flavor' ), $catalog[ $notice ]['title'] ) ); ?>
@@ -80,9 +91,9 @@ class Demo_Importer {
 			<p><?php esc_html_e( 'پیش از تغییر، تنظیمات، پوسته و محتوای دموی قبلی در یک آرشیو قابل بازگشت ذخیره می‌شود. محتوای خارج از مالکیت دموی Flavor دست‌نخورده می‌ماند.', 'flavor' ); ?></p>
 			<?php if ( $preview_slug && isset( $catalog[ $preview_slug ] ) ) : ?>
 				<?php $preview = self::preview( $catalog[ $preview_slug ] ); ?>
-				<div class="notice notice-info" style="padding:12px 16px;">
+				<div class="fau-preview">
 					<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into browser output. ?>
-					<h2 style="margin-top:0;"><?php echo esc_html( sprintf( __( 'پیش‌نمایش بستهٔ «%s»', 'flavor' ), $catalog[ $preview_slug ]['title'] ) ); ?></h2>
+					<h2><?php echo esc_html( sprintf( __( 'پیش‌نمایش بستهٔ «%s»', 'flavor' ), $catalog[ $preview_slug ]['title'] ) ); ?></h2>
 					<p><?php echo esc_html( $catalog[ $preview_slug ]['tagline'] ); ?></p>
 					<ul>
 						<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into browser output. ?>
@@ -95,10 +106,10 @@ class Demo_Importer {
 				</div>
 			<?php endif; ?>
 			<?php if ( ! empty( $archives ) ) : ?>
-				<div style="background:#fff;border:1px solid #dcdcde;border-radius:8px;padding:12px 16px;margin:16px 0;">
+				<div class="flavor-archives">
 					<strong><?php esc_html_e( 'آرشیوهای قابل بازگشت', 'flavor' ); ?></strong>
 					<?php foreach ( array_slice( $archives, 0, 5 ) as $archive ) : ?>
-						<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline-block;margin:8px 0 0 12px;">
+						<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="fau-inline-form">
 							<?php wp_nonce_field( 'flavor_demo_rollback_' . $archive['id'] ); ?>
 							<input type="hidden" name="action" value="flavor_demo_rollback" />
 							<input type="hidden" name="archive_id" value="<?php echo esc_attr( $archive['id'] ); ?>" />
@@ -108,7 +119,7 @@ class Demo_Importer {
 					<?php endforeach; ?>
 				</div>
 			<?php endif; ?>
-			<div class="flavor-demo-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
+			<div class="fau-demo-grid">
 				<?php
 				$active_skin = (string) get_theme_mod( 'flavor_skin', 'modern-restaurant' );
 				foreach ( $catalog as $slug => $demo ) :
@@ -118,24 +129,24 @@ class Demo_Importer {
 						: \Flavor\Bespoke_Demos::placeholder();
 					$customizer_url = admin_url( 'customize.php?autofocus[control]=flavor_skin&flavor_try_demo=' . rawurlencode( $slug ) . '&return=' . rawurlencode( admin_url( 'themes.php?page=flavor-demos' ) ) );
 				?>
-					<article style="border:1px solid <?php echo $is_active ? '#a44c2a' : '#ddd'; ?>;border-radius:12px;overflow:hidden;background:#fff;position:relative;box-shadow:<?php echo $is_active ? '0 8px 24px rgba(164,76,42,0.15)' : 'none'; ?>;">
-						<div style="position:relative;">
-							<img src="<?php echo esc_url( $hero ); ?>" alt="" style="width:100%;height:140px;object-fit:cover;" />
+					<article class="fau-demo-card<?php echo $is_active ? ' is-active' : ''; ?>">
+						<div class="fau-demo-card__media">
+							<img src="<?php echo esc_url( $hero ); ?>" alt="" />
 							<?php if ( $is_active ) : ?>
-								<span style="position:absolute;inset-inline-start:10px;inset-block-start:10px;padding:4px 10px;border-radius:999px;background:#a44c2a;color:#fff;font-size:11px;font-weight:600;"><?php esc_html_e( 'دموی فعال', 'flavor' ); ?></span>
+								<span class="fau-demo-card__badge"><?php esc_html_e( 'دموی فعال', 'flavor' ); ?></span>
 							<?php endif; ?>
 						</div>
-						<div style="padding:12px 14px 16px;">
-							<h2 style="margin:0 0 6px;font-size:1.1rem;"><?php echo esc_html( $demo['title'] ); ?></h2>
-							<p style="color:#555;min-height:3em;"><?php echo esc_html( $demo['tagline'] ); ?></p>
-							<p><?php echo esc_html( sprintf( /* translators: count */ __( '%d آیتم منو', 'flavor' ), count( $demo['items'] ) ) ); ?></p>
-							<div style="display:flex;flex-wrap:wrap;gap:6px;">
+						<div class="fau-demo-card__body">
+							<h3><?php echo esc_html( $demo['title'] ); ?></h3>
+							<p class="fau-demo-card__lead"><?php echo esc_html( $demo['tagline'] ); ?></p>
+							<p class="fau-demo-card__meta"><?php echo esc_html( sprintf( /* translators: count */ __( '%d آیتم منو', 'flavor' ), count( $demo['items'] ) ) ); ?></p>
+							<div class="flavor-demo-card__footer">
 								<a class="button" target="_blank" rel="noopener" href="<?php echo esc_url( $customizer_url ); ?>"><?php esc_html_e( 'پیش‌نمایش در سفارشی‌ساز (بدون ذخیره)', 'flavor' ); ?></a>
 								<a class="button" href="<?php echo esc_url( add_query_arg( array(
 	'page' => 'flavor-demos',
 	'preview' => $slug,
 ), admin_url( 'themes.php' ) ) ); ?>"><?php esc_html_e( 'بررسی تغییرات درون‌ریزی', 'flavor' ); ?></a>
-								<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline-block;">
+								<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="fau-inline-form">
 									<?php wp_nonce_field( 'flavor_import_demo' ); ?>
 									<input type="hidden" name="action" value="flavor_import_demo" />
 									<input type="hidden" name="demo" value="<?php echo esc_attr( $slug ); ?>" />
