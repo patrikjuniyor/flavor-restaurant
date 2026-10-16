@@ -108,7 +108,21 @@ Accessible in WordPress admin under **Appearance → 🚀 راه‌اندازی 
 
 ---
 
-## 6. Accessibility & Performance Benchmarks
+## 6. Admin Panel Design Layer (پوستهٔ مدیریت)
+
+پنج صفحهٔ مدیریتی پوسته (راه‌اندازی سریع، مرکز اجرا، واردکنندهٔ دمو، تغییرات نسخه و انتقال تنظیمات) همگی داخل یک پوستهٔ مشترک رندر می‌شوند:
+
+- **کلاس `Flavor\Admin_UI`** (`flavor/inc/class-admin-ui.php`) تنها روی همین پنج صفحه (`appearance_page_flavor-*`) استایل را بار می‌کند و در بقیهٔ wp-admin هیچ چیزی تزریق نمی‌کند. نسخهٔ فایل با `filemtime` به‌عنوان cache-buster بسته می‌شود.
+- **`flavor/assets/css/admin-ui.css`** تمام استایل‌های پنل را در یک‌جا نگه می‌دارد؛ هیچ صفحه‌ای دیگر بلوک `<style>` درون‌خطی ندارد.
+- **کلاس‌های مشترک:** `flavor-admin-ui` (ریشه)، `fau-hero` / `fau-hero__body` / `fau-hero__eyebrow` / `fau-hero__title` / `fau-hero__lead` / `fau-hero__score` (بنر بالای صفحه)، `fau-progress`، `fau-btn`، `fau-card`، `fau-actions`، `fau-grid`.
+- **تصویر بنر:** `Admin_UI::hero_style()` مسیر تصویر CC0 را به‌صورت `background-image: url(...)` برمی‌گرداند. اگر فایل موجود نباشد رشتهٔ خالی برمی‌گردد و صفحه فقط گرادیان سه‌مرحله‌ای را نشان می‌دهد (هیچ URL مرده‌ای چاپ نمی‌شود).
+- **راست‌چین منطقی:** در تمام شیت از خصوصیات منطقی (`padding-inline-start`، `border-inline-start`، `inset-inline`) استفاده می‌شود تا چیدمان در RTL و LTR یکسان بماند.
+- **دسترس‌پذیری:** هیچ قاعده‌ای زیر ۱۲px نمی‌رود، فوکوس `:focus-visible` دارد و همهٔ گذارها تحت `prefers-reduced-motion` خاموش می‌شوند.
+- **دروازهٔ تست:** `tests/theme/test-admin-ui.php` این قرارداد را تثبیت می‌کند (فقط پنج صفحهٔ مالکیت‌دار استایل می‌گیرند، شیت متوازن است، هیچ خصوصیت فیزیکی برنمی‌گردد، هیرو به‌درستی تنزل می‌کند و هیچ صفحه‌ای دوباره بلوک `<style>` نمی‌سازد).
+
+---
+
+## 7. Accessibility & Performance Benchmarks
 
 1. **RTL & Typography**:
    - Bundled Vazirmatn font with `font-display: swap` and critical WOFF2 preloading in `<head>`.
