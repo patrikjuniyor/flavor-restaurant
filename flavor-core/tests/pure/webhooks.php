@@ -57,8 +57,8 @@ assert_test( WebhookManager::is_terminal( false, 5 ), 'failure at the attempt bu
 
 echo "\n--- P47. Webhook event allowlist (validate_events) ---\n";
 
-$names = WebhookManager::allowed_event_names();
-assert_test( 8 === count( $names ) && in_array( 'order.created', $names, true ) && in_array( 'loyalty.points_awarded', $names, true ), 'the allowlist is the eight dot-names the application actually emits' );
+$event_names = WebhookManager::allowed_event_names();
+assert_test( 8 === count( $event_names ) && in_array( 'order.created', $event_names, true ) && in_array( 'loyalty.points_awarded', $event_names, true ), 'the allowlist is the eight dot-names the application actually emits' );
 $bad = WebhookManager::validate_events( array() );
 assert_test( is_wp_error( $bad ) && 400 === ( $bad->get_error_data()['status'] ?? 0 ), 'an empty subscription is a 400, never an empty webhook' );
 assert_test( array( '*' ) === WebhookManager::validate_events( array( '*', 'order.created' ) ), 'a wildcard collapses the subscription to just "*"' );

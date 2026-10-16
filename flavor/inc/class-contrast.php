@@ -81,8 +81,8 @@ class Contrast {
 				'min'   => self::AA_NORMAL,
 				'large' => false,
 			),
-			/* Prompt 54: links are body text in the brand colour — the same
-			   4.5:1 bar applies wherever a merchant can set the primary. */
+			// Prompt 54: links are body text in the brand colour — the same
+			// 4.5:1 bar applies wherever a merchant can set the primary.
 			'link_on_bg'         => array(
 				'fg'    => 'primary',
 				'bg'    => 'bg',
