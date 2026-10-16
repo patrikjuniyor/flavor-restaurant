@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-15 09:44+00:00\n"
+"POT-Creation-Date: 2026-10-16 08:39+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor\n"
@@ -56,7 +56,7 @@ msgstr[1] ""
 msgid "%d آیتم منو"
 msgstr ""
 
-#: flavor/template-parts/marketing/testimonials.php:35
+#: flavor/template-parts/marketing/testimonials.php:37
 msgid "%d ستاره از ۵"
 msgstr ""
 
@@ -2147,7 +2147,7 @@ msgstr ""
 msgid "خاموش کردنش جای بیشتری برای محتوا روی گوشی می‌گذارد."
 msgstr ""
 
-#: flavor/inc/class-onboarding.php:890 flavor/inc/class-schema-output.php:553 flavor/inc/class-ui-pages.php:112 flavor/inc/template-tags.php:183 flavor/page-templates/template-menu.php:13 flavor/page-templates/template-order-tracking.php:9 flavor/template-parts/ui/mobile-nav.php:23
+#: flavor/inc/class-onboarding.php:890 flavor/inc/class-schema-output.php:554 flavor/inc/class-ui-pages.php:112 flavor/inc/template-tags.php:183 flavor/page-templates/template-menu.php:13 flavor/page-templates/template-order-tracking.php:9 flavor/template-parts/ui/mobile-nav.php:23
 msgid "خانه"
 msgstr ""
 
@@ -4527,7 +4527,7 @@ msgstr ""
 msgid "منظورتان این بود؟"
 msgstr ""
 
-#: flavor/inc/class-builder.php:315 flavor/inc/class-builder.php:357 flavor/inc/class-builder.php:386 flavor/inc/class-demo-importer.php:325 flavor/inc/class-schema-output.php:536 flavor/page-templates/template-menu.php:13 flavor/template-parts/ui/mobile-nav.php:25
+#: flavor/inc/class-builder.php:315 flavor/inc/class-builder.php:357 flavor/inc/class-builder.php:386 flavor/inc/class-demo-importer.php:325 flavor/inc/class-schema-output.php:537 flavor/page-templates/template-menu.php:13 flavor/template-parts/ui/mobile-nav.php:25
 msgid "منو"
 msgstr ""
 
@@ -4615,7 +4615,7 @@ msgstr ""
 msgid "مهرهای ثبت‌شده"
 msgstr ""
 
-#: flavor/inc/class-repeater.php:69 flavor/template-parts/marketing/testimonials.php:47
+#: flavor/inc/class-repeater.php:69 flavor/template-parts/marketing/testimonials.php:49
 msgid "مهمان رستوران"
 msgstr ""
 

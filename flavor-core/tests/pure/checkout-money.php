@@ -98,17 +98,36 @@ assert_test( 64 === strlen( $sanitize->invoke( null, str_repeat( 'k', 500 ) ) ),
 assert_test( '' === $sanitize->invoke( null, '😀🔥' ), 'a purely non-ASCII key sanitises to empty — which flips the attempt to the auto-fingerprint path' );
 
 $lines_a = array(
-	array( 'product_id' => 7, 'quantity' => 2, 'flavor_modifiers' => array( 'ids' => array( 11, 12 ) ) ),
-	array( 'product_id' => 3, 'quantity' => 1 ),
+	array(
+		'product_id' => 7,
+		'quantity' => 2,
+		'flavor_modifiers' => array( 'ids' => array( 11, 12 ) ),
+	),
+	array(
+		'product_id' => 3,
+		'quantity' => 1,
+	),
 );
 $lines_b = array(
-	array( 'product_id' => 3, 'quantity' => 1 ),
-	array( 'product_id' => 7, 'quantity' => 2, 'flavor_modifiers' => array( 'ids' => array( 12, 11 ) ) ),
+	array(
+		'product_id' => 3,
+		'quantity' => 1,
+	),
+	array(
+		'product_id' => 7,
+		'quantity' => 2,
+		'flavor_modifiers' => array( 'ids' => array( 12, 11 ) ),
+	),
 );
 $fp_a  = $fingerprint->invoke( null, new PureSuiteMockCart( $lines_a ), 'tok-1', 'dine_in', 5, 9 );
 $fp_a2 = $fingerprint->invoke( null, new PureSuiteMockCart( $lines_b ), 'tok-1', 'dine_in', 5, 9 );
 assert_test( $fp_a === $fp_a2 && 64 === strlen( $fp_a ), 'line order and modifier order do not change the fingerprint (double-tap sends identical carts in arbitrary order)' );
-$fp_qty = $fingerprint->invoke( null, new PureSuiteMockCart( array( array( 'product_id' => 7, 'quantity' => 3 ) ) ), 'tok-1', 'dine_in', 5, 9 );
+$fp_qty = $fingerprint->invoke( null, new PureSuiteMockCart( array(
+	array(
+		'product_id' => 7,
+		'quantity' => 3,
+	),
+) ), 'tok-1', 'dine_in', 5, 9 );
 assert_test( $fp_a !== $fp_qty, 'a different quantity is a different attempt' );
 $fp_tok = $fingerprint->invoke( null, new PureSuiteMockCart( $lines_a ), 'tok-2', 'dine_in', 5, 9 );
 assert_test( $fp_a !== $fp_tok, 'a different cart token is a different attempt' );

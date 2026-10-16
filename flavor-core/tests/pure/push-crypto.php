@@ -29,15 +29,15 @@ $build_jwt->setAccessible( true );
 
 // Vector 1 — the exact 70-byte boundary: both limbs 32 bytes, no padding.
 $r   = str_repeat( "\x11", 32 );
-$s   = str_repeat( "\x22", 32 );
-$der = "\x30\x44\x02\x20" . $r . "\x02\x20" . $s;
+$sig   = str_repeat( "\x22", 32 );
+$der = "\x30\x44\x02\x20" . $r . "\x02\x20" . $sig;
 assert_test( 70 === strlen( $der ), 'vector 1 sits exactly on the 70-byte minimum' );
-assert_test( $r . $s === $der_to_raw->invoke( null, $der ), 'two clean 32-byte limbs concatenate to the 64-byte JWS form' );
+assert_test( $r . $sig === $der_to_raw->invoke( null, $der ), 'two clean 32-byte limbs concatenate to the 64-byte JWS form' );
 
 // Vector 2 — DER sign padding: a limb whose high bit is set carries a
 // leading 0x00 that must be stripped, not kept.
 $r33 = "\x00\x80" . str_repeat( "\x11", 31 );
-$der = "\x30" . chr( 2 + 33 + 2 + 32 ) . "\x02" . chr( 33 ) . $r33 . "\x02" . chr( 32 ) . $s;
+$der = "\x30" . chr( 2 + 33 + 2 + 32 ) . "\x02" . chr( 33 ) . $r33 . "\x02" . chr( 32 ) . $sig;
 $raw = $der_to_raw->invoke( null, $der );
 assert_test( 64 === strlen( $raw ) && "\x80" === $raw[0], 'the sign-padding zero is stripped and the high-bit limb survives intact' );
 
@@ -52,10 +52,10 @@ assert_test( 64 === strlen( $raw ) && "\x00\x7f" === substr( $raw, 0, 2 ), 'a sh
 // Malformed inputs must fail closed to '' (build_jwt turns that into a
 // signing_failed WP_Error rather than sending a broken token).
 assert_test( '' === $der_to_raw->invoke( null, str_repeat( "\x30\x02", 35 ) ), 'a 70-byte buffer of the right length but garbage layout is rejected (markers, not just size)' );
-assert_test( '' === $der_to_raw->invoke( null, substr( "\x30\x44\x02\x20" . $r . "\x02\x20" . $s, 0, 69 ) ), 'a 69-byte truncation is rejected' );
-$bad_marker = "\x31\x44\x02\x20" . $r . "\x02\x20" . $s;
+assert_test( '' === $der_to_raw->invoke( null, substr( "\x30\x44\x02\x20" . $r . "\x02\x20" . $sig, 0, 69 ) ), 'a 69-byte truncation is rejected' );
+$bad_marker = "\x31\x44\x02\x20" . $r . "\x02\x20" . $sig;
 assert_test( '' === $der_to_raw->invoke( null, $bad_marker ), 'a non-SEQUENCE first byte is rejected' );
-$bad_s = "\x30\x44\x02\x20" . $r . "\x03\x20" . $s;
+$bad_s = "\x30\x44\x02\x20" . $r . "\x03\x20" . $sig;
 assert_test( '' === $der_to_raw->invoke( null, $bad_s ), 'a malformed S INTEGER marker is rejected' );
 
 echo "\n--- P47. JWT builder (build_jwt, reflected, throwaway keys) ---\n";
@@ -76,8 +76,14 @@ assert_test( false !== $ec && '' !== $ec_pem, 'a P-256 test key generates (ES256
 
 $jwt = $build_jwt->invoke(
 	null,
-	array( 'alg' => 'ES256', 'typ' => 'JWT' ),
-	array( 'iss' => 'pure-suite', 'iat' => 1760000000 ),
+	array(
+		'alg' => 'ES256',
+		'typ' => 'JWT',
+	),
+	array(
+		'iss' => 'pure-suite',
+		'iat' => 1760000000,
+	),
 	$ec_pem,
 	OPENSSL_ALGO_SHA256
 );

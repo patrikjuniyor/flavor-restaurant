@@ -5,11 +5,16 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 assert.equal(process.env.FLAVOR_DEMO_QA, '1', 'Disposable import matrix requires FLAVOR_DEMO_QA=1.');
 assert.ok(process.env.WP_PATH && process.env.WP_CLI, 'Specify WP_PATH and WP_CLI for the disposable site.');
 const base = process.env.SITE_URL || 'http://localhost:8080/';
-const root = path.resolve('../..'), output = path.resolve(process.env.QA_OUTPUT_DIR || '../../.cache/ui-qa/skins');
+const here = path.dirname(fileURLToPath(import.meta.url));
+// Resolve against this file, not the CWD: CI runs `node tests/ui/skins.mjs` from the
+// repo root, where a CWD-relative '../..' escapes the checkout (and tests/demos/import.php
+// then does not exist). Every other runner in this directory already anchors on import.meta.url.
+const root = path.resolve(here, '../..'), output = path.resolve(process.env.QA_OUTPUT_DIR || path.join(root, '.cache/ui-qa/skins'));
 const skins = ['modern-restaurant', 'luxury-dining', 'persian-traditional', 'fast-food', 'cafe-bistro', 'pizza-italian', 'bakery-pastry', 'juice-bar', 'dark-luxe', 'minimal-clean', 'cloud-kitchen', 'catering'];
 await fs.mkdir(output, { recursive: true });
 function importDemo(skin) {

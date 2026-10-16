@@ -72,7 +72,13 @@ class Flavor_Smart_Search_Test extends WP_UnitTestCase {
 				'prep_time'    => 25,
 				'calories'     => 680,
 				'dietary'      => array( 'حلال' ),
-				'categories'   => array( array( 'id' => 10, 'name' => 'کباب سنتی', 'slug' => 'kebab' ) ),
+				'categories'   => array(
+					array(
+						'id' => 10,
+						'name' => 'کباب سنتی',
+						'slug' => 'kebab',
+					),
+				),
 				'available'    => true,
 				'in_schedule'  => true,
 				'available_at' => '',
@@ -96,7 +102,13 @@ class Flavor_Smart_Search_Test extends WP_UnitTestCase {
 				'prep_time'    => 20,
 				'calories'     => 540,
 				'dietary'      => array( 'حلال' ),
-				'categories'   => array( array( 'id' => 10, 'name' => 'کباب سنتی', 'slug' => 'kebab' ) ),
+				'categories'   => array(
+					array(
+						'id' => 10,
+						'name' => 'کباب سنتی',
+						'slug' => 'kebab',
+					),
+				),
 				'available'    => true,
 				'in_schedule'  => true,
 				'available_at' => '',
@@ -120,7 +132,13 @@ class Flavor_Smart_Search_Test extends WP_UnitTestCase {
 				'prep_time'    => 15,
 				'calories'     => 490,
 				'dietary'      => array( 'حلال' ),
-				'categories'   => array( array( 'id' => 20, 'name' => 'خورش ایرانی', 'slug' => 'khoresht' ) ),
+				'categories'   => array(
+					array(
+						'id' => 20,
+						'name' => 'خورش ایرانی',
+						'slug' => 'khoresht',
+					),
+				),
 				'available'    => true,
 				'in_schedule'  => true,
 				'available_at' => '',
@@ -144,7 +162,13 @@ class Flavor_Smart_Search_Test extends WP_UnitTestCase {
 				'prep_time'    => 18,
 				'calories'     => 620,
 				'dietary'      => array( 'حلال' ),
-				'categories'   => array( array( 'id' => 30, 'name' => 'پلو', 'slug' => 'polo' ) ),
+				'categories'   => array(
+					array(
+						'id' => 30,
+						'name' => 'پلو',
+						'slug' => 'polo',
+					),
+				),
 				'available'    => true,
 				'in_schedule'  => true,
 				'available_at' => '',
@@ -260,13 +284,19 @@ class Flavor_Smart_Search_Test extends WP_UnitTestCase {
 		set_transient( 'flavor_search_idx_1', $docs, 3600 );
 
 		// Request 100 items — must be clamped to 30
-		$res_large = SmartSearch::search( '', array( 'branch_id' => 1, 'limit' => 100 ) );
+		$res_large = SmartSearch::search( '', array(
+			'branch_id' => 1,
+			'limit' => 100,
+		) );
 		$this->assertSame( 40, $res_large['total'] );
 		$this->assertSame( 30, count( $res_large['results'] ) );
 		$this->assertLessThanOrEqual( 30, count( $res_large['results'] ) );
 
 		// Minimum limit floor is 1
-		$res_small = SmartSearch::search( '', array( 'branch_id' => 1, 'limit' => 0 ) );
+		$res_small = SmartSearch::search( '', array(
+			'branch_id' => 1,
+			'limit' => 0,
+		) );
 		$this->assertSame( 1, count( $res_small['results'] ) );
 	}
 

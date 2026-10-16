@@ -81,6 +81,6 @@ assert_test(
 	'points earning keeps its double-award dedupe guard (already_earned)'
 );
 assert_test(
-	(bool) preg_match( "/loyalty_toman_per_point/", $pm_src . file_get_contents( __DIR__ . '/../../includes/Activator.php' ) ),
+	(bool) preg_match( '/loyalty_toman_per_point/', $pm_src . file_get_contents( __DIR__ . '/../../includes/Activator.php' ) ),
 	'the redemption price is read from the loyalty_toman_per_point setting, not hardcoded in a method body'
 );

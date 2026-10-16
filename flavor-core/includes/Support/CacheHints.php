@@ -85,7 +85,7 @@ class CacheHints {
 		}
 
 		if ( '' === $uri && isset( $_SERVER['REQUEST_URI'] ) ) {
-			$uri = (string) $_SERVER['REQUEST_URI'];
+			$uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		}
 
 		if ( '' !== $uri ) {
@@ -149,7 +149,7 @@ class CacheHints {
 	public static function compute_cache_control( array $context = array() ): string {
 		$is_admin       = (bool) ( $context['is_admin'] ?? ( function_exists( 'is_admin' ) ? is_admin() : false ) );
 		$is_logged_in   = (bool) ( $context['is_logged_in'] ?? ( function_exists( 'is_user_logged_in' ) ? is_user_logged_in() : false ) );
-		$uri            = (string) ( $context['uri'] ?? ( $_SERVER['REQUEST_URI'] ?? '' ) );
+		$uri            = (string) ( $context['uri'] ?? ( isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '' ) );
 		$is_customer    = (bool) ( $context['is_customer'] ?? self::is_customer_page( $uri ) );
 		$is_immutable   = (bool) ( $context['is_immutable'] ?? self::is_immutable_asset( $uri ) );
 
@@ -221,7 +221,7 @@ class CacheHints {
 			return;
 		}
 
-		$uri = (string) ( $_SERVER['REQUEST_URI'] ?? '' );
+		$uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 		if ( self::is_immutable_asset( $uri ) ) {
 			$policy = self::compute_cache_control( array( 'is_immutable' => true ) );
 			header( "Cache-Control: {$policy}" );

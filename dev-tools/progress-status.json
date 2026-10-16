@@ -136,7 +136,7 @@
   },
   "_meta": {
     "source": "dev-tools/annotate-prompts.py writes the stamps in docs/prompts/flavor-restaurant-fix-prompts.txt",
-    "updated": "2026-10-14"
+    "updated": "2026-10-15"
   },
   "28": {
     "commit": "864f7f0",

@@ -77,8 +77,8 @@ class Contact_Form {
 			$params = $request->get_params();
 		}
 
-		/* Honeypot: a filled "website" field means a bot — report success
-		   without sending anything, so the bot gets no signal to adapt to. */
+		// Honeypot: a filled "website" field means a bot — report success
+		// without sending anything, so the bot gets no signal to adapt to.
 		if ( '' !== trim( (string) ( $params['website'] ?? '' ) ) ) {
 			return self::respond( true, self::sent_message() );
 		}
@@ -89,7 +89,7 @@ class Contact_Form {
 		}
 
 		// Rate limit: three delivered messages per IP hash per ten minutes.
-		$ip   = isset( $_SERVER['REMOTE_ADDR'] ) ? (string) $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
+		$ip   = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '0.0.0.0';
 		$key  = 'flavor_contact_' . md5( $ip . wp_salt( 'nonce' ) );
 		$hits = (int) get_transient( $key );
 		if ( $hits >= 3 ) {
