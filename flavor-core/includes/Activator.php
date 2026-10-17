@@ -94,6 +94,8 @@ class Activator {
 			'loyalty_points_per_unit' => 1,
 			'loyalty_toman_per_point' => 1000,
 			'loyalty_stamp_target'    => 10,
+			'preferred_gateway'        => '',
+			'hide_offline_when_online' => 'no',
 		);
 	}
 

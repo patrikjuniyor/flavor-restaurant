@@ -17,6 +17,7 @@ use FlavorCore\SMS\SmsManager;
 use FlavorCore\Support\Settings;
 use FlavorCore\Table\TableAdmin;
 use FlavorCore\WooCommerce\Currency;
+use FlavorCore\WooCommerce\Gateways\IranianGateways;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -203,6 +204,13 @@ class AdminMenus {
 		$allowed_sms                     = array( 'dev', 'melipayamak', 'faraz', 'kavenegar' );
 		$current['sms_provider']         = in_array( $input['sms_provider'] ?? '', $allowed_sms, true ) ? $input['sms_provider'] : 'dev';
 
+		// Iranian payment gateway preference. The catalog is the allow-list, so
+		// an unknown or hand-edited key can never reach the checkout filter.
+		$gateway_keys                     = class_exists( IranianGateways::class ) ? IranianGateways::keys() : array();
+		$requested_gateway                = isset( $input['preferred_gateway'] ) ? sanitize_key( (string) $input['preferred_gateway'] ) : '';
+		$current['preferred_gateway']     = in_array( $requested_gateway, $gateway_keys, true ) ? $requested_gateway : '';
+		$current['hide_offline_when_online'] = ! empty( $input['hide_offline_when_online'] ) ? 'yes' : 'no';
+
 		return $current;
 	}
 
@@ -272,6 +280,40 @@ class AdminMenus {
 			<form method="post" action="options.php">
 				<?php settings_fields( 'flavor_core' ); ?>
 				<table class="form-table" role="presentation">
+					<tr>
+						<th><?php esc_html_e( 'درگاه پرداخت آنلاین', 'flavor-core' ); ?></th>
+						<td>
+							<a class="button button-primary" href="<?php echo esc_url( admin_url( 'admin.php?page=flavor-payments' ) ); ?>">
+								<?php esc_html_e( 'مدیریت درگاه‌های ایرانی', 'flavor-core' ); ?>
+							</a>
+							<p class="description"><?php esc_html_e( 'نصب، فعال‌سازی و اتصال زرین‌پال، زیبال، آی‌دی‌پی، پی‌پینگ، درگاه‌های بانکی و بسته‌های چنددرگاهی از یک صفحه.', 'flavor-core' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'درگاه پیش‌فرض', 'flavor-core' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( Settings::OPTION ); ?>[preferred_gateway]">
+								<option value=""><?php esc_html_e( 'بدون اولویت (ترتیب ووکامرس)', 'flavor-core' ); ?></option>
+								<?php if ( class_exists( IranianGateways::class ) ) : ?>
+									<?php foreach ( IranianGateways::catalog() as $gateway_key => $gateway ) : ?>
+										<option value="<?php echo esc_attr( (string) $gateway_key ); ?>" <?php selected( $s['preferred_gateway'] ?? '', (string) $gateway_key ); ?>>
+											<?php echo esc_html( (string) $gateway['name'] . ' — ' . (string) $gateway['latin'] ); ?>
+										</option>
+									<?php endforeach; ?>
+								<?php endif; ?>
+							</select>
+							<p class="description"><?php esc_html_e( 'این درگاه در صفحهٔ تسویه‌حساب و اپ موبایل اول از همه پیشنهاد می‌شود.', 'flavor-core' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'پنهان‌کردن پرداخت در محل', 'flavor-core' ); ?></th>
+						<td>
+							<label>
+								<input type="checkbox" name="<?php echo esc_attr( Settings::OPTION ); ?>[hide_offline_when_online]" value="1" <?php checked( $s['hide_offline_when_online'] ?? 'no', 'yes' ); ?> />
+								<?php esc_html_e( 'وقتی درگاه آنلاین فعال است، پرداخت نقدی/پای صندوق نمایش داده نشود.', 'flavor-core' ); ?>
+							</label>
+						</td>
+					</tr>
 					<tr>
 						<th><?php esc_html_e( 'واحد ذخیره', 'flavor-core' ); ?></th>
 						<td>

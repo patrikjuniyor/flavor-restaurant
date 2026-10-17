@@ -34,6 +34,7 @@ use FlavorCore\Table\TableAdmin;
 use FlavorCore\Webhooks\WebhookManager;
 use FlavorCore\WooCommerce\Currency;
 use FlavorCore\WooCommerce\GatewayRegistrar;
+use FlavorCore\WooCommerce\Gateways\IranianGatewayManager;
 use FlavorCore\WooCommerce\ProductModifiers;
 
 defined( 'ABSPATH' ) || exit;
@@ -112,6 +113,7 @@ final class Plugin {
 		( new Currency() )->hooks();
 		( new ProductModifiers() )->hooks();
 		( new GatewayRegistrar() )->hooks();
+		( new IranianGatewayManager() )->hooks();
 		( new OrderModes() )->hooks();
 		( new KitchenTicketSync() )->hooks();
 		( new SmsManager() )->hooks();
@@ -121,6 +123,7 @@ final class Plugin {
 		( new RestSearch() )->hooks();
 		( new SearchIndex() )->hooks();
 		( new Admin\AdminMenus() )->hooks();
+		( new Admin\PaymentGatewaysAdmin() )->hooks();
 		( new MobileAppAdmin() )->hooks();
 		( new Support\Rewrites() )->hooks();
 		( new Support\Privacy() )->hooks();
