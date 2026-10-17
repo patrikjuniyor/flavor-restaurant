@@ -57,6 +57,7 @@ class Preset_Control extends \WP_Customize_Control {
 	public static function card( string $slug, array $skin, bool $is_on ): string {
 		$swatch = Design::skin_swatch( $slug );
 		$chips  = '';
+		$thumb  = self::thumbnail( $slug );
 
 		foreach ( $swatch as $token => $color ) {
 			// skin_swatch() already guarantees a hex string or an empty one;
@@ -75,6 +76,7 @@ class Preset_Control extends \WP_Customize_Control {
 		return sprintf(
 			'<label class="flavor-preset__card%5$s" for="flavor-preset-%1$s">' .
 				'<input type="radio" id="flavor-preset-%1$s" name="flavor-preset-choice" value="%2$s"%6$s />' .
+				'%7$s' .
 				'<span class="flavor-preset__swatch" aria-hidden="true">%3$s</span>' .
 				'<span class="flavor-preset__title">%4$s</span>' .
 			'</label>',
@@ -83,7 +85,35 @@ class Preset_Control extends \WP_Customize_Control {
 			$chips, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each chip is escaped above.
 			esc_html( $title ),
 			$is_on ? ' is-active' : '',
-			checked( $is_on, true, false ) . sprintf( ' data-desc="%s"', esc_attr( $desc ) )
+			checked( $is_on, true, false ) . sprintf( ' data-desc="%s"', esc_attr( $desc ) ),
+			$thumb // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- thumbnail() escapes its URL.
+		);
+	}
+
+	/**
+	 * Real screenshot of a demo's home page, shipped with the theme.
+	 *
+	 * A colour strip says nothing about a layout: two presets can share the same
+	 * palette and look nothing alike. The image is a captured render of each
+	 * skin (flavor/assets/img/skins/<slug>.jpg). When a file is missing the
+	 * card falls back to the colour strip alone, so a stripped build still works.
+	 *
+	 * @param string $slug Preset slug.
+	 * @return string Markup, or '' when no image ships for this skin.
+	 */
+	public static function thumbnail( string $slug ): string {
+		if ( ! defined( 'FLAVOR_DIR' ) || ! defined( 'FLAVOR_URI' ) ) {
+			return '';
+		}
+
+		$file = sanitize_file_name( $slug ) . '.jpg';
+		if ( '' === $file || ! is_readable( FLAVOR_DIR . '/assets/img/skins/' . $file ) ) {
+			return '';
+		}
+
+		return sprintf(
+			'<span class="flavor-preset__thumb"><img src="%1$s" alt="" width="720" height="450" loading="lazy" decoding="async" /></span>',
+			esc_url( FLAVOR_URI . '/assets/img/skins/' . $file )
 		);
 	}
 

@@ -221,6 +221,21 @@ class AdminMenus {
 			array(),
 			FLAVOR_CORE_VERSION
 		);
+
+		/*
+		 * The kitchen view used to enqueue its stylesheet from inside the page
+		 * body, after wp-admin had already printed <head>. WordPress then never
+		 * emitted the link tag, so the kitchen screen in wp-admin rendered with
+		 * no styling at all. Enqueue it here, while the head is still open.
+		 */
+		if ( false !== strpos( $hook, 'flavor-kitchen' ) ) {
+			wp_enqueue_style(
+				'flavor-kitchen',
+				FLAVOR_CORE_URL . 'assets/public/css/kitchen-dashboard.css',
+				array(),
+				FLAVOR_CORE_VERSION
+			);
+		}
 	}
 
 	/**

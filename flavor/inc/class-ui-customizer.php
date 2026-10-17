@@ -226,9 +226,10 @@ remove_filter( $hook, $setting->$property, 10 ); }
 return in_array( $value, array( true, 1, '1', 'yes', 'on' ), true ); }
 
 	public static function preview_assets(): void {
+		// Depends only on what the preview frame actually registers. flavor-ui-js
+		// is not enqueued in this frame on every page, and naming an unregistered
+		// handle makes WordPress log "_doing_it_wrong" on each preview load.
 		$deps = array( 'customize-preview', 'flavor-main-js' );
-		if ( UI::inner() ) {
-$deps[] = 'flavor-ui-js'; }
 		wp_enqueue_script( 'flavor-customizer-preview', FLAVOR_URI . '/assets/js/customizer-preview.js', $deps, (string) filemtime( FLAVOR_DIR . '/assets/js/customizer-preview.js' ), true );
 		$schema = array();
 		foreach ( UI::schema() as $key => $definition ) {

@@ -411,6 +411,18 @@ html[dir="ltr"] .flavor-drawer {
 	transform: translateX(-100%);
 }
 
+/* WordPress omits dir on LTR sites, so the rule above never matches there and
+   the parked drawer slid 340px into view on every page. Any document that is
+   not explicitly RTL parks the drawer off the start edge. */
+html:not([dir="rtl"]) .flavor-drawer {
+	transform: translateX(-100%);
+}
+
+/* The open state has to win over the parked rule above, which is more specific. */
+html:not([dir="rtl"]) .flavor-drawer.is-active {
+	transform: translateX(0);
+}
+
 .flavor-drawer.is-active {
 	transform: translateX(0);
 }

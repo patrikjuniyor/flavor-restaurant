@@ -44,8 +44,8 @@ if ( ! $is_admin_wrap ) {
 	<body class="flavor-kitchen-kiosk">
 	<?php
 } else {
-	echo '<div class="wrap">';
-	wp_enqueue_style( 'flavor-kitchen', FLAVOR_CORE_URL . 'assets/public/css/kitchen-dashboard.css', array(), FLAVOR_CORE_VERSION );
+	// The stylesheet is enqueued by AdminMenus::assets(), before <head> prints.
+	echo '<div class="wrap flavor-admin">';
 }
 ?>
 <div

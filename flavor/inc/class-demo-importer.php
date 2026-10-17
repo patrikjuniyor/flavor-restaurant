@@ -57,7 +57,7 @@ class Demo_Importer {
 		$state        = self::state();
 		$archives     = self::archives();
 		?>
-		<div class="wrap">
+		<div class="wrap flavor-admin">
 			<h1><?php esc_html_e( 'دموهای نصب یک‌کلیکی Flavor', 'flavor' ); ?></h1>
 			<?php if ( $notice && isset( $catalog[ $notice ] ) ) : ?>
 				<div class="notice notice-success"><p>
