@@ -121,6 +121,78 @@ $branches_summary = AnalyticsManager::get_branches_summary( $start_date, $end_da
 		</div>
 	</div>
 
+	<?php
+	$flavor_gateway_summary = class_exists( '\FlavorCore\WooCommerce\Gateways\IranianGateways' )
+		? \FlavorCore\WooCommerce\Gateways\IranianGateways::summary()
+		: null;
+	if ( is_array( $flavor_gateway_summary ) ) :
+		if ( $flavor_gateway_summary['ready'] > 0 ) {
+			$flavor_gateway_tone  = 'success';
+			$flavor_gateway_state = __( 'آمادهٔ دریافت پرداخت آنلاین', 'flavor-core' );
+		} elseif ( $flavor_gateway_summary['enabled'] > 0 ) {
+			$flavor_gateway_tone  = 'warning';
+			$flavor_gateway_state = __( 'درگاه روشن است اما مرچنت کد ناقص است', 'flavor-core' );
+		} else {
+			$flavor_gateway_tone  = 'error';
+			$flavor_gateway_state = __( 'هنوز درگاه آنلاینی فعال نیست', 'flavor-core' );
+		}
+		?>
+		<div class="flavor-section-box flavor-payments-strip" id="flavor-payments-overview">
+			<h3 class="flavor-section-box__title">
+				<span class="dashicons dashicons-money-alt" aria-hidden="true"></span>
+				<?php esc_html_e( 'پرداخت آنلاین و درگاه‌های ایرانی', 'flavor-core' ); ?>
+				<span class="flavor-badge flavor-badge--<?php echo esc_attr( $flavor_gateway_tone ); ?>"><?php echo esc_html( $flavor_gateway_state ); ?></span>
+			</h3>
+			<div class="flavor-payments-strip__body">
+				<div class="flavor-payments-strip__facts">
+					<div>
+						<span><?php esc_html_e( 'درگاه‌های آماده', 'flavor-core' ); ?></span>
+						<strong><?php echo esc_html( number_format_i18n( (int) $flavor_gateway_summary['ready'] ) . ' از ' . number_format_i18n( (int) $flavor_gateway_summary['total'] ) ); ?></strong>
+					</div>
+					<div>
+						<span><?php esc_html_e( 'درگاه پیش‌فرض', 'flavor-core' ); ?></span>
+						<strong><?php echo esc_html( '' !== $flavor_gateway_summary['preferred_name'] ? $flavor_gateway_summary['preferred_name'] : __( 'تعیین نشده', 'flavor-core' ) ); ?></strong>
+					</div>
+					<div>
+						<span><?php esc_html_e( 'واحد پول فروشگاه', 'flavor-core' ); ?></span>
+						<strong>
+							<?php echo esc_html( '' !== $flavor_gateway_summary['currency'] ? $flavor_gateway_summary['currency'] : '—' ); ?>
+							<?php if ( ! $flavor_gateway_summary['currency_ok'] ) : ?>
+								<span class="flavor-badge flavor-badge--warning"><?php esc_html_e( 'ریال/تومان نیست', 'flavor-core' ); ?></span>
+							<?php endif; ?>
+						</strong>
+					</div>
+				</div>
+				<p class="description">
+					<?php
+					if ( array() !== $flavor_gateway_summary['ready_names'] ) {
+						/* translators: %s: gateway names. */
+						echo esc_html( sprintf( __( 'پرداخت آنلاین از طریق %s فعال است.', 'flavor-core' ), implode( '، ', $flavor_gateway_summary['ready_names'] ) ) );
+					} else {
+						esc_html_e( 'زرین‌پال، زیبال، آی‌دی‌پی، پی‌پینگ، درگاه‌های بانکی و بسته‌های چنددرگاهی از همین پیشخوان نصب و متصل می‌شوند.', 'flavor-core' );
+					}
+					?>
+				</p>
+				<p class="flavor-payments-strip__actions">
+					<a class="button button-primary" href="<?php echo esc_url( admin_url( 'admin.php?page=flavor-payments' ) ); ?>">
+						<?php esc_html_e( 'مدیریت درگاه‌های پرداخت', 'flavor-core' ); ?>
+					</a>
+					<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout' ) ); ?>">
+						<?php esc_html_e( 'روش‌های پرداخت ووکامرس', 'flavor-core' ); ?>
+					</a>
+					<?php if ( 0 === (int) $flavor_gateway_summary['installed'] ) : ?>
+						<?php $flavor_zarinpal_install = \FlavorCore\WooCommerce\Gateways\IranianGateways::install_url( 'zarinpal-woocommerce-payment-gateway' ); ?>
+						<?php if ( '' !== $flavor_zarinpal_install ) : ?>
+							<a class="button" href="<?php echo esc_url( $flavor_zarinpal_install ); ?>" target="_blank" rel="noopener">
+								<?php esc_html_e( 'نصب سریع زرین‌پال', 'flavor-core' ); ?>
+							</a>
+						<?php endif; ?>
+					<?php endif; ?>
+				</p>
+			</div>
+		</div>
+	<?php endif; ?>
+
 	<!-- Section: Order Modes Breakdown & Peak Hours -->
 	<div class="flavor-dashboard-row">
 		<!-- Order Modes Box -->

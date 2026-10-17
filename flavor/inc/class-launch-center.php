@@ -72,7 +72,7 @@ class Launch_Center {
 			admin_url( 'themes.php' )
 		);
 
-		$core_active = defined( 'FLAVOR_CORE_VERSION' ) || class_exists( '\\FlavorCore\\Plugin' );
+		$core_active = defined( 'FLAVOR_CORE_VERSION' ) || class_exists( '\FlavorCore\Plugin' );
 		$checks[] = self::check(
 			'core',
 			__( 'Flavor Core فعال است', 'flavor' ),
@@ -149,7 +149,7 @@ class Launch_Center {
 		);
 
 		$hours_ok = false;
-		if ( $branch_id && class_exists( '\\FlavorCore\\Database\\Schema' ) ) {
+		if ( $branch_id && class_exists( '\FlavorCore\Database\Schema' ) ) {
 			global $wpdb;
 			$hours_table = \FlavorCore\Database\Schema::table( 'flavor_branch_hours' );
 			$table_exists = $hours_table === $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $hours_table ) ) );
@@ -172,7 +172,7 @@ class Launch_Center {
 			$product_count = isset( $counts->publish ) ? (int) $counts->publish : 0;
 		}
 		$tables_ok = false;
-		if ( class_exists( '\\FlavorCore\\Database\\Schema' ) ) {
+		if ( class_exists( '\FlavorCore\Database\Schema' ) ) {
 			global $wpdb;
 			$tables_table = \FlavorCore\Database\Schema::table( 'flavor_tables' );
 			$table_exists = $tables_table === $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $tables_table ) ) );
@@ -201,7 +201,7 @@ class Launch_Center {
 		);
 
 		$currency_ok = false;
-		if ( class_exists( '\\FlavorCore\\Support\\Settings' ) ) {
+		if ( class_exists( '\FlavorCore\Support\Settings' ) ) {
 			$currency_ok = 'irt' === (string) \FlavorCore\Support\Settings::get( 'currency_display', 'irt' );
 		}
 		$checks[] = self::check(
@@ -219,14 +219,44 @@ class Launch_Center {
 			$gateways   = \WC_Payment_Gateways::instance()->get_available_payment_gateways();
 			$gateway_ok = is_array( $gateways ) && ! empty( $gateways );
 		}
+		$gateway_page   = admin_url( 'admin.php?page=flavor-payments' );
+		$gateway_exists = class_exists( '\FlavorCore\WooCommerce\Gateways\IranianGateways' );
 		$checks[] = self::check(
 			'gateway',
 			__( 'حداقل یک روش پرداخت فعال است', 'flavor' ),
 			$gateway_ok,
-			$gateway_ok ? __( 'WooCommerce حداقل یک درگاه/روش پرداخت فعال دارد.', 'flavor' ) : __( 'درگاه بانکی یا روش پرداخت محلی را در WooCommerce فعال کنید.', 'flavor' ),
-			__( 'روش‌های پرداخت', 'flavor' ),
-			admin_url( 'admin.php?page=wc-settings&tab=checkout' )
+			$gateway_ok
+				? ( $gateway_exists ? __( 'حداقل یک روش پرداخت فعال است؛ برای پرداخت آنلاین، وضعیت درگاه ایرانی را در صفحهٔ درگاه پرداخت ببینید.', 'flavor' ) : __( 'WooCommerce حداقل یک درگاه/روش پرداخت فعال دارد.', 'flavor' ) )
+				: __( 'درگاه بانکی یا روش پرداخت محلی را در WooCommerce فعال کنید.', 'flavor' ),
+			$gateway_exists ? __( 'درگاه‌های پرداخت', 'flavor' ) : __( 'روش‌های پرداخت', 'flavor' ),
+			$gateway_exists ? $gateway_page : admin_url( 'admin.php?page=wc-settings&tab=checkout' )
 		);
+
+		if ( $gateway_exists ) {
+			$gateway_summary = \FlavorCore\WooCommerce\Gateways\IranianGateways::summary();
+			$online_ok       = (int) $gateway_summary['ready'] > 0;
+
+			if ( $online_ok ) {
+				/* translators: %s: gateway names. */
+				$online_description = sprintf( __( 'پرداخت آنلاین از طریق %s فعال است.', 'flavor' ), implode( '، ', $gateway_summary['ready_names'] ) );
+			} elseif ( (int) $gateway_summary['enabled'] > 0 ) {
+				$online_description = __( 'درگاه روشن است اما مرچنت کد/کلید API آن خالی است؛ تا تکمیل نشود پرداخت آنلاین قابل اعتماد نیست.', 'flavor' );
+			} elseif ( (int) $gateway_summary['installed'] > 0 ) {
+				$online_description = __( 'افزونهٔ درگاه نصب است اما پرداخت آنلاین فعال نشده؛ از صفحهٔ درگاه پرداخت اتصال را کامل کنید.', 'flavor' );
+			} else {
+				$online_description = __( 'زرین‌پال، زیبال، آی‌دی‌پی، پی‌پینگ یا درگاه بانکی را از صفحهٔ درگاه پرداخت نصب و متصل کنید.', 'flavor' );
+			}
+
+			$checks[] = self::check(
+				'iranian_gateway',
+				__( 'درگاه پرداخت آنلاین ایرانی متصل است', 'flavor' ),
+				$online_ok,
+				$online_description,
+				__( 'اتصال درگاه پرداخت', 'flavor' ),
+				$gateway_page,
+				false
+			);
+		}
 
 		$email_ok = is_email( (string) get_option( 'admin_email', '' ) );
 		$checks[] = self::check(
@@ -241,7 +271,7 @@ class Launch_Center {
 
 		$sms_ok = true;
 		$sms_description = __( 'حالت توسعه فعال است؛ OTP در لاگ محلی ثبت می‌شود و پیامک واقعی ارسال نمی‌شود.', 'flavor' );
-		if ( class_exists( '\\FlavorCore\\Support\\Settings' ) ) {
+		if ( class_exists( '\FlavorCore\Support\Settings' ) ) {
 			$provider = (string) \FlavorCore\Support\Settings::get( 'sms_provider', 'dev' );
 			$sms_ok   = 'dev' !== $provider;
 			/* translators: %s values. */
@@ -458,7 +488,7 @@ class Launch_Center {
 		check_admin_referer( self::KIT_NONCE, self::KIT_FIELD );
 
 		$force  = ! empty( $_POST['force'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified above.
-		$result = class_exists( '\\Flavor\\Elementor\\Kit_Sync' )
+		$result = class_exists( '\Flavor\Elementor\Kit_Sync' )
 			? \Flavor\Elementor\Kit_Sync::sync( $force )
 			: array( 'status' => 'elementor_inactive' );
 
@@ -503,7 +533,7 @@ class Launch_Center {
 	public static function kit_section(): void {
 		$labels = self::kit_labels();
 		$report = self::kit_sync_report( self::kit_sync_result() );
-		$live   = class_exists( '\\Flavor\\Elementor\\Kit_Sync' ) && \Flavor\Elementor\Kit_Sync::available();
+		$live   = class_exists( '\Flavor\Elementor\Kit_Sync' ) && \Flavor\Elementor\Kit_Sync::available();
 		$notice = isset( $_GET['kit'] ) && is_scalar( $_GET['kit'] ) ? sanitize_key( wp_unslash( (string) $_GET['kit'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- a report key, read-only.
 		$fresh  = '' !== $notice && $notice === $report['status'];
 		?>
@@ -573,6 +603,7 @@ return 'pass' === $check['status'];
 			</div>
 			<div class="flavor-launch-actions">
 				<a class="button button-primary" href="<?php echo esc_url( admin_url( 'themes.php?page=flavor-setup' ) ); ?>"><?php esc_html_e( 'راه‌اندازی سریع', 'flavor' ); ?></a>
+				<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=flavor-payments' ) ); ?>"><?php esc_html_e( 'درگاه پرداخت', 'flavor' ); ?></a>
 				<a class="button" href="<?php echo esc_url( admin_url( 'themes.php?page=flavor-demos' ) ); ?>"><?php esc_html_e( 'درون‌ریزی دمو', 'flavor' ); ?></a>
 				<a class="button" href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>"><?php esc_html_e( 'سفارشی‌سازی ظاهر', 'flavor' ); ?></a>
 				<a class="button" href="<?php echo esc_url( admin_url( 'themes.php?page=flavor-transfer' ) ); ?>"><?php esc_html_e( 'پشتیبان تنظیمات', 'flavor' ); ?></a>
@@ -600,7 +631,7 @@ return 'pass' === $check['status'];
 	 * Resolve the current default branch without requiring the core class.
 	 */
 	private static function branch_id(): int {
-		if ( class_exists( '\\FlavorCore\\PostTypes\\BranchPostType' ) ) {
+		if ( class_exists( '\FlavorCore\PostTypes\BranchPostType' ) ) {
 			$default_id = (int) \FlavorCore\PostTypes\BranchPostType::default_id();
 			if ( $default_id ) {
 				return $default_id;

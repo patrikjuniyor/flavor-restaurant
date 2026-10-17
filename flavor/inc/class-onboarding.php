@@ -1,6 +1,6 @@
 <?php
 /**
- * 10-Step Restaurant Setup & Onboarding Wizard.
+ * 11-Step Restaurant Setup & Onboarding Wizard.
  *
  * Provides a guided "Install -> Choose Design -> Setup Restaurant -> Launch" experience.
  *
@@ -108,7 +108,7 @@ class Onboarding {
 				<strong><?php esc_html_e( 'به پلتفرم رستوران مستقیم Flavor خوش آمدید!', 'flavor' ); ?></strong>
 				<?php esc_html_e( 'برای راه‌اندازی هویت بصری، منو، رزرو و شعب رستوران در کمتر از ۲ دقیقه، ویزارد راه‌اندازی سریع را اجرا کنید.', 'flavor' ); ?>
 				<a class="button button-primary" href="<?php echo esc_url( $url ); ?>" style="margin-right: 10px; background: #8a5a2b; border-color: #6f441c;">
-					<?php esc_html_e( 'شروع راه‌اندازی ۱۰ مرحله‌ای', 'flavor' ); ?>
+					<?php esc_html_e( 'شروع راه‌اندازی ۱۱ مرحله‌ای', 'flavor' ); ?>
 				</a>
 			</p>
 		</div>
@@ -147,9 +147,41 @@ class Onboarding {
 		$first_item_price = absint( $draft['first_item_price'] ?? 285000 );
 		$first_item_cat   = (string) ( $draft['first_item_cat'] ?? 'کباب و خوراک' );
 		$modes            = (array) ( $draft['modes'] ?? array( 'dine_in', 'takeaway', 'delivery' ) );
-		$draft_step       = min( 10, max( 1, absint( $draft['step'] ?? 1 ) ) );
+		$draft_step       = min( 11, max( 1, absint( $draft['step'] ?? 1 ) ) );
 		$completed        = isset( $_GET['completed'] ) && '1' === sanitize_key( wp_unslash( $_GET['completed'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$launch_checks    = class_exists( self::class ) && class_exists( Launch_Center::class ) ? Launch_Center::checks() : array();
+
+		/*
+		 * Iranian payment gateways. The catalog lives in Flavor Core; when the
+		 * plugin is off the step still renders, with an honest explanation
+		 * instead of a dead form.
+		 */
+		$gateway_catalog = array();
+		$gateway_summary = array();
+		$gateway_keys    = array();
+		if ( class_exists( '\FlavorCore\WooCommerce\Gateways\IranianGateways' ) ) {
+			$gateway_catalog = \FlavorCore\WooCommerce\Gateways\IranianGateways::status();
+			$gateway_summary = \FlavorCore\WooCommerce\Gateways\IranianGateways::summary();
+			$gateway_keys    = array_keys( $gateway_catalog );
+		}
+
+		$gateway_provider = isset( $draft['gateway_provider'] ) ? sanitize_key( (string) $draft['gateway_provider'] ) : '';
+		if ( '' === $gateway_provider && class_exists( '\FlavorCore\WooCommerce\Gateways\IranianGateways' ) ) {
+			$gateway_provider = \FlavorCore\WooCommerce\Gateways\IranianGateways::preferred_key();
+		}
+		if ( '' === $gateway_provider && array() !== $gateway_keys ) {
+			foreach ( $gateway_catalog as $gateway_key => $gateway_state ) {
+				if ( ! empty( $gateway_state['ready'] ) ) {
+					$gateway_provider = (string) $gateway_key;
+					break;
+				}
+			}
+		}
+		if ( isset( $draft['payment_online'] ) ) {
+			$payment_online = 'yes' === (string) $draft['payment_online'] ? 'yes' : 'no';
+		} else {
+			$payment_online = ! empty( $gateway_summary['installed'] ) ? 'yes' : 'no';
+		}
 		?>
 		<div class="wrap flavor-wizard-wrap">
 			<style>
@@ -179,6 +211,29 @@ class Onboarding {
 				.flavor-btn-step { background: #8a5a2b; color: #fff; border: 0; padding: 12px 28px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
 				.flavor-btn-step:hover { background: #71471f; color: #fff; }
 				.flavor-btn-prev { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+				.flavor-gateway-toggle { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 10px; background: #f8fafc; margin-bottom: 16px; cursor: pointer; }
+				.flavor-gateway-toggle input { margin-top: 4px; }
+				.flavor-gateway-toggle > span { display: flex; flex-direction: column; gap: 3px; }
+				.flavor-gateway-toggle small { color: #64748b; font-size: 12px; line-height: 1.8; font-weight: normal; }
+				.flavor-gateway-options { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; max-height: 380px; overflow-y: auto; padding: 4px; transition: opacity 0.2s; }
+				.flavor-gateway-options.is-dimmed { opacity: 0.55; }
+				.flavor-gateway-option { border: 2px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; background: #fff; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; text-align: right; }
+				.flavor-gateway-option:hover { border-color: #cbd5e1; }
+				.flavor-gateway-option.is-selected { border-color: #8a5a2b; background: #fdfaf6; box-shadow: 0 4px 14px rgba(138,90,43,0.14); }
+				.flavor-gateway-option__label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+				.flavor-gateway-option__label input { margin-top: 4px; }
+				.flavor-gateway-option__body { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+				.flavor-gateway-option__head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+				.flavor-gateway-option__head strong { color: #1e293b; font-size: 14px; }
+				.flavor-gateway-option__head code { background: #f1f5f9; color: #64748b; border-radius: 6px; padding: 1px 6px; font-size: 11px; }
+				.flavor-gateway-option__body small { color: #64748b; font-size: 11.5px; line-height: 1.8; }
+				.flavor-gateway-option__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; font-size: 11.5px; }
+				.flavor-gateway-option__meta a { color: #8a5a2b; text-decoration: none; font-weight: 600; }
+				.flavor-gateway-option__meta a:hover { text-decoration: underline; }
+				.flavor-gateway-flag { display: inline-flex; align-items: center; border-radius: 999px; padding: 1px 8px; background: #f1f5f9; color: #475569; font-size: 10.5px; font-style: normal; font-weight: 700; }
+				.flavor-gateway-flag.is-ok { background: #dcfce7; color: #166534; }
+				.flavor-gateway-flag.is-warn { background: #fef3c7; color: #92400e; }
+				.flavor-gateway-flag.is-brand { background: #f6e8d8; color: #8a5a2b; }
 			</style>
 
 			<div class="flavor-wizard-card">
@@ -186,12 +241,12 @@ class Onboarding {
 					<div class="notice notice-success inline"><p><?php esc_html_e( 'راه‌اندازی ذخیره شد. مرکز آمادگی انتشار را برای بررسی درگاه، شعبه، منو و سفارش آزمایشی باز کنید.', 'flavor' ); ?> <a href="<?php echo esc_url( admin_url( 'themes.php?page=flavor-launch' ) ); ?>"><?php esc_html_e( 'باز کردن مرکز آمادگی انتشار', 'flavor' ); ?></a> <span aria-hidden="true">·</span> <a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'مشاهدهٔ سایت', 'flavor' ); ?></a></p></div>
 				<?php endif; ?>
 				<div class="flavor-wizard-header">
-					<h1><?php esc_html_e( 'راه‌اندازی سریع رستوران در ۱۰ گام ساده', 'flavor' ); ?></h1>
+					<h1><?php esc_html_e( 'راه‌اندازی سریع رستوران در ۱۱ گام ساده', 'flavor' ); ?></h1>
 					<p><?php esc_html_e( 'اطلاعات اولیه رستوران را تکمیل کنید تا سایت و سیستم سفارش آنلاین شما آماده بهره‌برداری شود. پیشرفت فرم به‌صورت خودکار ذخیره می‌شود.', 'flavor' ); ?></p>
 				</div>
 
 				<div class="flavor-steps-bar">
-					<?php for ( $i = 1; $i <= 10; $i++ ) : ?>
+					<?php for ( $i = 1; $i <= 11; $i++ ) : ?>
 						<div class="flavor-step-node <?php echo 1 === $i ? 'is-active' : ''; ?>" data-step="<?php echo esc_attr( (string) $i ); ?>">
 							<?php echo esc_html( (string) $i ); ?>
 						</div>
@@ -317,9 +372,89 @@ class Onboarding {
 						</div>
 					</div>
 
-					<!-- Step 9: First Menu Item -->
+					<!-- Step 9: Iranian Payment Gateway -->
 					<div class="flavor-step-pane" data-pane="9">
-						<h3><?php esc_html_e( 'گام ۹: افزودن اولین آیتم منوی غذا', 'flavor' ); ?></h3>
+						<h3><?php esc_html_e( 'گام ۹: اتصال درگاه پرداخت آنلاین', 'flavor' ); ?></h3>
+						<p class="description" style="margin-top:-4px;margin-bottom:16px;line-height:1.9;">
+							<?php esc_html_e( 'اگر می‌خواهید مشتری مبلغ سفارش را آنلاین پرداخت کند، درگاه ایرانی خود را انتخاب کنید. نصب و فعال‌سازی افزونه از همین‌جا انجام می‌شود؛ مرچنت کد را بعداً در تنظیمات همان درگاه وارد می‌کنید.', 'flavor' ); ?>
+						</p>
+
+						<?php if ( empty( $gateway_catalog ) ) : ?>
+							<div class="notice notice-warning inline" style="margin:0 0 18px;">
+								<p>
+									<?php esc_html_e( 'برای اتصال درگاه، افزونهٔ Flavor Core باید نصب و فعال باشد.', 'flavor' ); ?>
+									<a href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>"><?php esc_html_e( 'مدیریت افزونه‌ها', 'flavor' ); ?></a>
+								</p>
+							</div>
+						<?php else : ?>
+							<label class="flavor-gateway-toggle" for="flavor_payment_online">
+								<input type="checkbox" name="payment_online" value="1" id="flavor_payment_online" <?php checked( $payment_online, 'yes' ); ?> />
+								<span>
+									<strong><?php esc_html_e( 'پرداخت آنلاین را فعال کن', 'flavor' ); ?></strong>
+									<small>
+										<?php esc_html_e( 'اگر خاموش باشد فقط پرداخت در محل و پای صندوق نمایش داده می‌شود و می‌توانید بعداً از پیشخوان فعال کنید.', 'flavor' ); ?>
+										<?php if ( isset( $gateway_summary['installed'] ) ) : ?>
+											<?php
+											/* translators: 1: installed count, 2: enabled count. */
+											echo esc_html( sprintf( __( 'هم‌اکنون %1$d درگاه نصب و %2$d درگاه فعال دارید.', 'flavor' ), (int) $gateway_summary['installed'], (int) $gateway_summary['enabled'] ) );
+											?>
+										<?php endif; ?>
+									</small>
+								</span>
+							</label>
+
+							<div class="flavor-gateway-options<?php echo 'yes' === $payment_online ? '' : ' is-dimmed'; ?>" id="flavor-gateway-options">
+								<?php foreach ( $gateway_catalog as $gateway_key => $gateway_state ) : ?>
+									<div class="flavor-gateway-option<?php echo $gateway_key === $gateway_provider ? ' is-selected' : ''; ?>" data-gateway="<?php echo esc_attr( (string) $gateway_key ); ?>">
+										<label class="flavor-gateway-option__label">
+											<input type="radio" name="gateway_provider" value="<?php echo esc_attr( (string) $gateway_key ); ?>" <?php checked( $gateway_provider, (string) $gateway_key ); ?> />
+											<span class="flavor-gateway-option__body">
+												<span class="flavor-gateway-option__head">
+													<strong><?php echo esc_html( (string) $gateway_state['name'] ); ?></strong>
+													<code><?php echo esc_html( (string) $gateway_state['latin'] ); ?></code>
+													<?php if ( $gateway_state['preferred'] ) : ?>
+														<em class="flavor-gateway-flag is-brand"><?php esc_html_e( 'انتخاب فعلی', 'flavor' ); ?></em>
+													<?php endif; ?>
+													<?php if ( $gateway_state['ready'] ) : ?>
+														<em class="flavor-gateway-flag is-ok"><?php esc_html_e( 'آماده', 'flavor' ); ?></em>
+													<?php endif; ?>
+												</span>
+												<small><?php echo esc_html( (string) $gateway_state['description'] ); ?></small>
+											</span>
+										</label>
+										<span class="flavor-gateway-option__meta">
+											<?php if ( $gateway_state['installed'] ) : ?>
+												<em class="flavor-gateway-flag <?php echo $gateway_state['active'] ? 'is-ok' : 'is-warn'; ?>">
+													<?php echo $gateway_state['active'] ? esc_html__( 'افزونه فعال', 'flavor' ) : esc_html__( 'افزونه غیرفعال', 'flavor' ); ?>
+												</em>
+											<?php else : ?>
+												<em class="flavor-gateway-flag"><?php esc_html_e( 'نصب نشده', 'flavor' ); ?></em>
+											<?php endif; ?>
+
+											<?php if ( '' !== $gateway_state['install_url'] ) : ?>
+												<a href="<?php echo esc_url( $gateway_state['install_url'] ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'نصب افزونه', 'flavor' ); ?> ↗</a>
+											<?php elseif ( '' !== $gateway_state['activate_url'] ) : ?>
+												<a href="<?php echo esc_url( $gateway_state['activate_url'] ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'فعال‌سازی افزونه', 'flavor' ); ?> ↗</a>
+											<?php elseif ( '' !== $gateway_state['settings_url'] ) : ?>
+												<a href="<?php echo esc_url( $gateway_state['settings_url'] ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'تنظیمات درگاه', 'flavor' ); ?> ↗</a>
+											<?php else : ?>
+												<a href="<?php echo esc_url( $gateway_state['search_url'] ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'جستجوی افزونه', 'flavor' ); ?> ↗</a>
+											<?php endif; ?>
+										</span>
+									</div>
+								<?php endforeach; ?>
+							</div>
+
+							<p class="description" style="margin-top:14px;line-height:1.9;">
+								<?php esc_html_e( 'پس از انتخاب، مرچنت کد (یا کلید API) را در تنظیمات همان درگاه در ووکامرس وارد کنید؛ Flavor به‌محض ذخیرهٔ کد، پرداخت آنلاین را خودکار فعال می‌کند.', 'flavor' ); ?>
+								<a href="<?php echo esc_url( admin_url( 'admin.php?page=flavor-payments' ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'مدیریت کامل درگاه‌ها', 'flavor' ); ?></a>
+							</p>
+						<?php endif; ?>
+					</div>
+
+					<!-- Step 10: First Menu Item -->
+					<div class="flavor-step-pane" data-pane="10">
+						<h3><?php esc_html_e( 'گام ۱۰: افزودن اولین آیتم منوی غذا', 'flavor' ); ?></h3>
 						<div class="flavor-form-row">
 							<label><?php esc_html_e( 'نام غذا / نوشیدنی', 'flavor' ); ?></label>
 							<input type="text" name="first_item_name" value="<?php echo esc_attr( $first_item_name ); ?>" />
@@ -336,8 +471,8 @@ class Onboarding {
 						</div>
 					</div>
 
-					<!-- Step 10: Publish & Launch -->
-					<div class="flavor-step-pane" data-pane="10">
+					<!-- Step 11: Publish & Launch -->
+					<div class="flavor-step-pane" data-pane="11">
 						<div style="text-align: center; padding: 20px 0;">
 							<div style="font-size: 54px; margin-bottom: 12px;">🎉</div>
 							<h2><?php esc_html_e( 'همه چیز آماده راه‌اندازی است!', 'flavor' ); ?></h2>
@@ -372,7 +507,7 @@ class Onboarding {
 			<script>
 				(function() {
 					var currentStep = <?php echo esc_js( (string) $draft_step ); ?>;
-					var totalSteps = 10;
+					var totalSteps = 11;
 					var form = document.getElementById('flavor-wizard-form');
 					var nextBtn = document.getElementById('flavor-next-btn');
 					var prevBtn = document.getElementById('flavor-prev-btn');
@@ -406,6 +541,14 @@ class Onboarding {
 						if (currentStep === 6 && !pane.querySelector('input[name^="mode_"]:checked')) {
 							window.alert('حداقل یکی از حالت‌های سفارش‌گیری را انتخاب کنید.');
 							return false;
+						}
+						if (currentStep === 9) {
+							var online = pane.querySelector('input[name="payment_online"]');
+							var providers = pane.querySelectorAll('input[name="gateway_provider"]');
+							if (online && online.checked && providers.length && !pane.querySelector('input[name="gateway_provider"]:checked')) {
+								window.alert('یک درگاه پرداخت انتخاب کنید یا پرداخت آنلاین را خاموش کنید.');
+								return false;
+							}
 						}
 						return true;
 					}
@@ -461,6 +604,28 @@ class Onboarding {
 							document.getElementById('flavor_skin_val').value = this.getAttribute('data-skin');
 						});
 					});
+
+					// Payment gateway cards (step 9)
+					var gatewayOptions = document.querySelectorAll('.flavor-gateway-option');
+					function refreshGatewayOptions() {
+						gatewayOptions.forEach(function(option) {
+							option.classList.toggle('is-selected', !!option.querySelector('input[type="radio"]:checked'));
+						});
+					}
+					gatewayOptions.forEach(function(option) {
+						option.addEventListener('click', function(event) {
+							if (event.target.closest('a')) return;
+							var radio = option.querySelector('input[type="radio"]');
+							if (radio) { radio.checked = true; refreshGatewayOptions(); scheduleDraft(); }
+						});
+					});
+					var paymentToggle = document.getElementById('flavor_payment_online');
+					var gatewayBox = document.getElementById('flavor-gateway-options');
+					if (paymentToggle && gatewayBox) {
+						paymentToggle.addEventListener('change', function() {
+							gatewayBox.classList.toggle('is-dimmed', !this.checked);
+						});
+					}
 
 					// Logo Media Uploader
 					var logoBtn = document.getElementById('flavor_upload_logo_btn');
@@ -532,7 +697,7 @@ class Onboarding {
 		check_ajax_referer( 'flavor_save_wizard_action', 'nonce' );
 
 		$data         = self::sanitize_submission( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified above.
-		$data['step'] = isset( $_POST['step'] ) ? min( 10, max( 1, absint( $_POST['step'] ) ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$data['step'] = isset( $_POST['step'] ) ? min( 11, max( 1, absint( $_POST['step'] ) ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$draft        = array_merge( self::draft(), $data );
 		update_user_meta( get_current_user_id(), self::DRAFT_META, $draft );
 
@@ -621,6 +786,8 @@ class Onboarding {
 			'first_item_price'   => absint( $value( 'first_item_price', '0' ) ),
 			'first_item_cat'     => sanitize_text_field( $value( 'first_item_cat', 'اصلی' ) ),
 			'modes'             => $modes,
+			'payment_online'    => ! empty( $source['payment_online'] ) ? 'yes' : 'no',
+			'gateway_provider'  => sanitize_key( $value( 'gateway_provider' ) ),
 		);
 	}
 
@@ -669,7 +836,34 @@ class Onboarding {
 				$settings['cash_on_delivery'] = 'yes';
 				$settings['card_on_delivery'] = 'yes';
 			}
+
+			/*
+			 * Store the wizard's gateway choice only when it is a real catalog
+			 * key; the catalog doubles as the allow-list.
+			 */
+			$gateway_key = isset( $data['gateway_provider'] ) ? (string) $data['gateway_provider'] : '';
+			if ( '' !== $gateway_key
+				&& class_exists( '\FlavorCore\WooCommerce\Gateways\IranianGateways' )
+				&& null !== \FlavorCore\WooCommerce\Gateways\IranianGateways::get( $gateway_key ) ) {
+				$settings['preferred_gateway'] = $gateway_key;
+				if ( 'yes' === ( $data['payment_online'] ?? 'no' ) ) {
+					$settings['hide_offline_when_online'] = 'yes';
+				}
+			}
+
 			\FlavorCore\Support\Settings::update( $settings );
+		}
+
+		/*
+		 * "Connect" runs after the settings are stored because it reads the
+		 * preference back. It enables the gateway only when merchant
+		 * credentials already exist; otherwise it is remembered as pending
+		 * and completed automatically on a later admin request.
+		 */
+		if ( 'yes' === ( $data['payment_online'] ?? 'no' )
+			&& '' !== ( $data['gateway_provider'] ?? '' )
+			&& class_exists( '\FlavorCore\WooCommerce\Gateways\IranianGatewayManager' ) ) {
+			\FlavorCore\WooCommerce\Gateways\IranianGatewayManager::connect( (string) $data['gateway_provider'] );
 		}
 
 		if ( function_exists( 'wc_get_product' ) ) {
