@@ -370,7 +370,7 @@ class Schema_Output {
 						// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 						$rows = $wpdb->get_results(
 							$wpdb->prepare(
-								"SELECT day_of_week, open_time, close_time, is_closed FROM {$table} WHERE branch_id = %d AND is_closed = 0",
+								"SELECT day_of_week, open_time, close_time, is_closed FROM {$table} WHERE branch_id = %d AND is_closed = 0", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name comes from Schema::table() constants; the branch id is placeholder-bound.
 								$branch_id
 							),
 							ARRAY_A
@@ -384,7 +384,7 @@ class Schema_Output {
 								4 => 'Wednesday',
 								5 => 'Thursday',
 								6 => 'Friday',
-								);
+							);
 							foreach ( $rows as $row ) {
 								$dow_num  = (int) ( $row['day_of_week'] ?? 0 );
 								$day_name = $dow_map[ $dow_num ] ?? null;

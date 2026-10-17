@@ -275,11 +275,13 @@ $payload['reservationBranchIds'][] = (int) $branch_id; }
 			)
 		);
 
-		/* The nav disclosure CSS (premium.css) collapses submenu panels only
-		   once this marker sits on <html>: a shop whose scripts never run
-		   would otherwise hide panels no code could reopen. Inline and
-		   before every deferred script, so the class lands before first
-		   paint and no panel ever flashes hidden-then-visible. */
+		/*
+		The nav disclosure CSS (premium.css) collapses submenu panels only
+			once this marker sits on <html>: a shop whose scripts never run
+			would otherwise hide panels no code could reopen. Inline and
+			before every deferred script, so the class lands before first
+			paint and no panel ever flashes hidden-then-visible.
+			*/
 		wp_add_inline_script( 'flavor-digits', "document.documentElement.classList.add( 'flavor-js' );", 'before' );
 
 		// Enqueue global theme script

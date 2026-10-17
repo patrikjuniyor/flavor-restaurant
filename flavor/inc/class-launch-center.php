@@ -558,15 +558,13 @@ return 'pass' === $check['status'];
 		$total    = count( $required );
 		$percent  = $total ? (int) round( ( $passed / $total ) * 100 ) : 0;
 		?>
-		<div class="wrap flavor-launch-center" dir="rtl">
-			<style>
-				.flavor-launch-center{max-width:1060px}.flavor-launch-hero{display:flex;justify-content:space-between;gap:24px;align-items:center;margin:24px 0;padding:28px;border-radius:18px;background:linear-gradient(135deg,#253e55,#8a5a2b);color:#fff}.flavor-launch-hero h1{margin:0 0 8px;color:#fff}.flavor-launch-hero p{margin:0;opacity:.88}.flavor-launch-score{min-width:120px;text-align:center}.flavor-launch-score strong{display:block;font-size:38px;line-height:1}.flavor-launch-actions{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.flavor-launch-actions a{background:#fff!important;color:#253e55!important;border-color:#fff!important}.flavor-launch-table{background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden}.flavor-launch-table td,.flavor-launch-table th{padding:14px 16px;vertical-align:top}.flavor-launch-table tr+tr td{border-top:1px solid #edf0f4}.flavor-launch-status{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;white-space:nowrap}.flavor-launch-status--pass{background:#dcfce7;color:#166534}.flavor-launch-status--warning{background:#fef3c7;color:#92400e}.flavor-launch-status--fail{background:#fee2e2;color:#991b1b}.flavor-launch-status--info{background:#e0f2fe;color:#075985}.flavor-launch-description{color:#5f6b78}.flavor-launch-action{white-space:nowrap}.flavor-launch-bar{height:8px;background:rgba(255,255,255,.22);border-radius:999px;margin-top:16px;overflow:hidden}.flavor-launch-bar span{display:block;height:100%;background:#fff;border-radius:inherit;width:<?php echo esc_attr( (string) $percent ); ?>%}.flavor-kit-sync{margin:0 0 18px;padding:18px 20px;background:#fff;border:1px solid #e2e8f0;border-radius:14px}.flavor-kit-sync h2{margin:0 0 6px;font-size:15px}.flavor-kit-sync__help,.flavor-kit-sync__last{margin:0 0 12px;color:#5f6b78;font-size:13px;line-height:1.9}.flavor-kit-sync__list{margin:0 0 12px;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px 18px}.flavor-kit-sync__list-title{font-weight:700}.flavor-kit-sync__force{margin-inline-start:12px;color:#5f6b78}@media(max-width:760px){.flavor-launch-hero{display:block}.flavor-launch-score{text-align:right;margin-top:20px}.flavor-launch-table th:nth-child(2),.flavor-launch-table td:nth-child(2){display:none}}
-			</style>
-			<div class="flavor-launch-hero">
+		<div class="wrap flavor-admin-ui flavor-launch-center" dir="rtl">
+			<?php $fau_hero = class_exists( Admin_UI::class ) ? Admin_UI::hero_style( 'hero-dining' ) : ''; ?>
+			<div class="flavor-launch-hero"<?php echo '' !== $fau_hero ? ' style="' . esc_attr( $fau_hero ) . '"' : ''; ?>>
 				<div>
 					<h1><?php esc_html_e( 'مرکز آمادگی انتشار Flavor', 'flavor' ); ?></h1>
 					<p><?php esc_html_e( 'قبل از تبلیغ سایت، وابستگی‌ها، منو، شعبه، پرداخت و مسیر سفارش را بررسی کنید.', 'flavor' ); ?></p>
-					<div class="flavor-launch-bar" aria-label="<?php esc_attr_e( 'درصد آمادگی', 'flavor' ); ?>"><span></span></div>
+					<div class="flavor-launch-bar" style="--fau-progress: <?php echo esc_attr( (string) $percent ); ?>%;" aria-label="<?php esc_attr_e( 'درصد آمادگی', 'flavor' ); ?>"><span></span></div>
 				</div>
 				<?php // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment -- inline-HTML template line; a comment row above would leak into browser output. ?>
 				<div class="flavor-launch-score"><strong><?php echo esc_html( (string) $percent ); ?>٪</strong><span><?php echo esc_html( sprintf( __( '%1$d از %2$d مورد اصلی', 'flavor' ), $passed, $total ) ); ?></span></div>

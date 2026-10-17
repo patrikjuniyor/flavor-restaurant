@@ -51,8 +51,19 @@ class Transfer {
 		}
 		$notice = isset( $_GET['transfer'] ) ? sanitize_key( wp_unslash( $_GET['transfer'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		?>
-		<div class="wrap" dir="rtl">
-			<h1><?php esc_html_e( 'انتقال امن تنظیمات Flavor', 'flavor' ); ?></h1>
+		<div class="wrap flavor-admin-ui flavor-transfer" dir="rtl">
+			<?php $fau_hero = class_exists( Admin_UI::class ) ? Admin_UI::hero_style( 'hero-dining' ) : ''; ?>
+			<div class="fau-hero"<?php echo '' !== $fau_hero ? ' style="' . esc_attr( $fau_hero ) . '"' : ''; ?>>
+				<div class="fau-hero__body">
+					<span class="fau-hero__eyebrow"><span class="dashicons dashicons-migrate" aria-hidden="true"></span><?php esc_html_e( 'انتقال بین سایت‌ها', 'flavor' ); ?></span>
+					<h1 class="fau-hero__title"><?php esc_html_e( 'انتقال امن تنظیمات Flavor', 'flavor' ); ?></h1>
+					<p class="fau-hero__lead"><?php esc_html_e( 'ظاهر و تنظیمات سایت را به یک نسخهٔ پشتیبان یا نصب دیگر منتقل کنید. سفارش‌ها، مشتریان و کلیدهای API هرگز داخل این فایل قرار نمی‌گیرند.', 'flavor' ); ?></p>
+				</div>
+				<div class="fau-hero__score">
+					<span class="dashicons dashicons-shield-alt" aria-hidden="true"></span>
+					<span><?php esc_html_e( 'بدون داده حساس', 'flavor' ); ?></span>
+				</div>
+			</div>
 			<?php if ( 'imported' === $notice ) : ?>
 				<div class="notice notice-success"><p><?php esc_html_e( 'تنظیمات با موفقیت وارد شد.', 'flavor' ); ?></p></div>
 			<?php elseif ( 'exported' === $notice ) : ?>
@@ -60,26 +71,42 @@ class Transfer {
 			<?php elseif ( 'error' === $notice ) : ?>
 				<div class="notice notice-error"><p><?php esc_html_e( 'فایل تنظیمات معتبر نبود یا عملیات انجام نشد.', 'flavor' ); ?></p></div>
 			<?php endif; ?>
-			<div style="max-width:860px;background:#fff;border:1px solid #dcdcde;border-radius:12px;padding:22px;">
-				<h2><?php esc_html_e( 'چه چیزی منتقل می‌شود؟', 'flavor' ); ?></h2>
-				<p><?php esc_html_e( 'پوسته، رنگ‌ها، تایپوگرافی، چیدمان، تنظیمات هیرو، شبکه‌های اجتماعی و تنظیمات غیرحساس Flavor Core منتقل می‌شوند. سفارش‌ها، مشتریان، محصولات، رسانه‌ها، کاربران و کلیدهای API هرگز داخل این فایل قرار نمی‌گیرند.', 'flavor' ); ?></p>
-				<div style="display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 26px;">
-					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-						<?php wp_nonce_field( 'flavor_export_settings' ); ?>
-						<input type="hidden" name="action" value="flavor_export_settings" />
-						<button class="button button-primary"><?php esc_html_e( 'دریافت فایل JSON تنظیمات', 'flavor' ); ?></button>
-					</form>
-					<a class="button" href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>"><?php esc_html_e( 'باز کردن سفارشی‌ساز', 'flavor' ); ?></a>
+
+			<div class="fau-split">
+				<div class="fau-panel">
+					<h2 class="fau-panel__title"><span class="dashicons dashicons-upload" aria-hidden="true"></span><?php esc_html_e( 'دریافت پشتیبان', 'flavor' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'پوسته، رنگ‌ها، تایپوگرافی، چیدمان، تنظیمات هیرو، شبکه‌های اجتماعی و تنظیمات غیرحساس Flavor Core در یک فایل JSON ذخیره می‌شوند.', 'flavor' ); ?></p>
+					<?php if ( ! class_exists( 'FlavorCore\\Support\\Settings' ) ) : ?>
+						<div class="notice notice-warning inline"><p><?php esc_html_e( 'Flavor Core فعال نیست؛ فقط تنظیمات پوسته صادر می‌شود.', 'flavor' ); ?></p></div>
+					<?php endif; ?>
+					<div class="fau-actions fau-actions--tight">
+						<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+							<?php wp_nonce_field( 'flavor_export_settings' ); ?>
+							<input type="hidden" name="action" value="flavor_export_settings" />
+							<button class="button button-primary"><?php esc_html_e( 'دریافت فایل JSON تنظیمات', 'flavor' ); ?></button>
+						</form>
+						<a class="button" href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>"><?php esc_html_e( 'باز کردن سفارشی‌ساز', 'flavor' ); ?></a>
+					</div>
 				</div>
-				<hr />
-				<h2><?php esc_html_e( 'وارد کردن تنظیمات', 'flavor' ); ?></h2>
-				<p class="description"><?php esc_html_e( 'فقط فایل JSON صادرشده از Flavor را انتخاب کنید. وارد کردن، قیمت، سفارش یا محتوای سایت را تغییر نمی‌دهد.', 'flavor' ); ?></p>
-				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data">
-					<?php wp_nonce_field( 'flavor_import_settings' ); ?>
-					<input type="hidden" name="action" value="flavor_import_settings" />
-					<input type="file" name="flavor_settings_file" accept="application/json,.json" required />
-					<button class="button button-secondary"><?php esc_html_e( 'بررسی و وارد کردن JSON', 'flavor' ); ?></button>
-				</form>
+
+				<div class="fau-panel">
+					<h2 class="fau-panel__title"><span class="dashicons dashicons-download" aria-hidden="true"></span><?php esc_html_e( 'وارد کردن تنظیمات', 'flavor' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'فقط فایل JSON صادرشده از Flavor را انتخاب کنید. وارد کردن، قیمت، سفارش یا محتوای سایت را تغییر نمی‌دهد.', 'flavor' ); ?></p>
+					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data">
+						<?php wp_nonce_field( 'flavor_import_settings' ); ?>
+						<input type="hidden" name="action" value="flavor_import_settings" />
+						<div class="flavor-form-row">
+							<label for="flavor_settings_file"><?php esc_html_e( 'فایل پشتیبان', 'flavor' ); ?></label>
+							<input type="file" id="flavor_settings_file" name="flavor_settings_file" accept="application/json,.json" required />
+						</div>
+						<button class="button button-secondary"><?php esc_html_e( 'بررسی و وارد کردن JSON', 'flavor' ); ?></button>
+					</form>
+					<ul class="fau-checklist">
+						<li><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span><?php esc_html_e( 'قبل از اعمال، ساختار فایل بررسی می‌شود.', 'flavor' ); ?></li>
+						<li><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span><?php esc_html_e( 'فقط کلیدهای flavor_ مجاز وارد می‌شوند.', 'flavor' ); ?></li>
+						<li><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span><?php esc_html_e( 'سفارش‌ها، مشتریان و رسانه‌ها دست‌نخورده می‌مانند.', 'flavor' ); ?></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<?php
