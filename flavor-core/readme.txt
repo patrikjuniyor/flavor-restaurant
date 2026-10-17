@@ -62,6 +62,10 @@ Yes. Flavor Core includes a flexible SMS gateway abstraction supporting leading 
 
 Yes. Flavor Core provides dedicated REST API v2 endpoints tailored for the Flutter mobile application, including mobile cart token bridging (`X-Cart-Token`), idempotency replay protection, FCM push notification dispatch, and Iranian province/city selectors.
 
+= Which Iranian payment gateways are supported? =
+
+Flavor Core ships a live catalog of fifteen Iranian gateways: ZarinPal, Zibal, IDPay, PayPing, Pay.ir, NextPay, DigiPay, Snapp Pay, Bank Mellat, Bank Parsian, Sadad, Saman (SEP), Asan Pardakht, Gateland and ParsiGate. The "درگاه پرداخت" screen under رستوران مستقیم detects what is installed, installs a plugin from WordPress.org, activates it, enables its WooCommerce payment method, and opens that gateway's own settings page for the merchant ID. A gateway is never switched on before merchant credentials exist, so checkout cannot accept an order that will fail at the bank. Additional gateways can be registered with the `flavor_core_iranian_gateways` filter.
+
 == Screenshots ==
 
 1. kitchen-kds.png — Real-time Kitchen Display System (KDS) showing active orders, ticket age, item modifiers, and status transition buttons.
