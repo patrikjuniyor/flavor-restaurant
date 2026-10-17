@@ -43,13 +43,13 @@ assert_test( ! Jalali::is_leap( 1406 ) && ! Jalali::is_leap( 1405 ), 'no back-to
 echo "\n--- P48. Month lengths: the 31/30/29-30 structure ---\n";
 
 $lens = array();
-for ( $m = 1; $m <= 6; $m++ ) {
-	$lens[] = Jalali::month_length( 1404, $m );
+for ( $month = 1; $month <= 6; $month++ ) {
+	$lens[] = Jalali::month_length( 1404, $month );
 }
 assert_test( array( 31, 31, 31, 31, 31, 31 ) === $lens, 'months 1–6 are 31 days' );
 $lens = array();
-for ( $m = 7; $m <= 11; $m++ ) {
-	$lens[] = Jalali::month_length( 1404, $m );
+for ( $month = 7; $month <= 11; $month++ ) {
+	$lens[] = Jalali::month_length( 1404, $month );
 }
 assert_test( array( 30, 30, 30, 30, 30 ) === $lens, 'months 7–11 are 30 days (the 29/30 boundary of the prompt)' );
 assert_test( 30 === Jalali::month_length( 1403, 12 ) && 30 === Jalali::month_length( 1408, 12 ), 'Esfand is 30 days in leap years (1403, 1408)' );

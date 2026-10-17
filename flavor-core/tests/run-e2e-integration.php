@@ -587,8 +587,8 @@ run_test( 'Branch Staff Isolation: Staff from Branch 1 cannot access Branch 2 Ki
 	// and success===false in the body.
 	return $res instanceof \WP_REST_Response
 		&& $res->get_status() === 403
-		&& ($res->get_data()['success'] ?? null) === false
-		&& ($res->get_data()['errors'][0]['code'] ?? '') === 'flavor_forbidden';
+		&& ( $res->get_data()['success'] ?? null ) === false
+		&& ( $res->get_data()['errors'][0]['code'] ?? '' ) === 'flavor_forbidden';
 } );
 
 run_test( 'Admin Access: Administrator can view and manage all orders and branches', function () use ( $order_ctrl, $user_b_order_id ) {

@@ -33,8 +33,8 @@ use FlavorCore\Support\GuestToken;
 use FlavorCore\Support\RateLimit;
 use FlavorCore\Customer\TokenService;
 use FlavorCore\Customer\OtpAuth;
-use \WP_REST_Request;
-use \ReflectionMethod;
+use WP_REST_Request;
+use ReflectionMethod;
 
 $passed = 0;
 $failed = 0;

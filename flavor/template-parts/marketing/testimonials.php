@@ -29,9 +29,14 @@ $items = $args['items'] ?? \Flavor\Repeater::items( 'testimonials' );
 		<div class="flavor-testimonials__grid">
 			<?php foreach ( $items as $item ) : ?>
 				<blockquote class="flavor-review-card">
-					<?php /* role="img" makes the star row a single labelled image: aria-label on a role-less
-					       div is prohibited (axe aria-prohibited-attr), and the label is generated from the
-					       item's actual rating instead of claiming a hard "۵ ستاره" for every card. */ ?>
+					<?php
+					/*
+					Role="img" makes the star row a single labelled image: aria-label on a
+					role-less div is prohibited (axe aria-prohibited-attr), and the label is
+					generated from the item's actual rating instead of claiming a hard
+					"۵ ستاره" for every card.
+					*/
+					?>
 					<div class="flavor-review-card__stars" role="img" aria-label="<?php echo esc_attr( sprintf( /* translators: %d — star rating out of five. */ __( '%d ستاره از ۵', 'flavor' ), (int) ( $item['rating'] ?? 5 ) ) ); ?>">
 						<?php for ( $fz_s = 0; $fz_s < (int) ( $item['rating'] ?? 5 ); $fz_s++ ) : ?>
 							<svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
