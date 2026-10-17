@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-14 19:33+00:00\n"
+"POT-Creation-Date: 2026-10-17 10:55+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Flavor build-pot.php\n"
 "X-Domain: flavor-core\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "%d قلم غذا به سبد خرید افزوده شد."
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:230
+#: flavor-core/admin/views/executive-dashboard.php:302
 msgid "AOV"
 msgstr ""
 
@@ -82,7 +82,7 @@ msgstr ""
 msgid "آدرس مقصد وب‌هوک مجاز نیست؛ فقط https عمومی پذیرفته می‌شود."
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:62 flavor-core/includes/Admin/AdminMenus.php:98 flavor-core/includes/Admin/AdminMenus.php:99
+#: flavor-core/admin/views/kitchen-dashboard.php:62 flavor-core/includes/Admin/AdminMenus.php:99 flavor-core/includes/Admin/AdminMenus.php:100
 msgid "آشپزخانه"
 msgstr ""
 
@@ -90,7 +90,7 @@ msgstr ""
 msgid "آشپزخانه رستوران سفارش #%d را تایید کرد و در حال پخت است."
 msgstr ""
 
-#: flavor-core/admin/views/kitchen-dashboard.php:91
+#: flavor-core/admin/views/kitchen-dashboard.php:91 flavor-core/admin/views/payment-gateways.php:438
 msgid "آماده"
 msgstr ""
 
@@ -100,6 +100,14 @@ msgstr ""
 
 #: flavor-core/includes/API/OrderController.php:264
 msgid "آماده تحویل / سرو"
+msgstr ""
+
+#: flavor-core/admin/views/executive-dashboard.php:131
+msgid "آمادهٔ دریافت پرداخت آنلاین"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:277
+msgid "آمادهٔ پرداخت"
 msgstr ""
 
 #: flavor-core/includes/Menu/AvailabilityAdmin.php:65 flavor-core/includes/Order/PhoneOrderAdmin.php:166
@@ -134,7 +142,19 @@ msgstr ""
 msgid "ابتدا یک شعبه را انتخاب کنید؛ گزارش سراسری مخصوص مدیر کل است."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:305
+#: flavor-core/admin/views/payment-gateways.php:349
+msgid "اتصال درگاه"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:200
+msgid "اتصال زرین‌پال، زیبال، آی‌دی‌پی، پی‌پینگ، درگاه‌های بانکی و بسته‌های چنددرگاهی به ووکامرس — در چهار گام، بدون دست‌زدن به کد."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:36
+msgid "اتصال کامل شد. درگاه فعال است و آمادهٔ دریافت پرداخت آنلاین است."
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:362
 msgid "ارائه‌دهنده پیامک"
 msgstr ""
 
@@ -146,7 +166,7 @@ msgstr ""
 msgid "ارسال"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:155
+#: flavor-core/admin/views/executive-dashboard.php:227
 msgid "ارسال با پیک (Delivery)"
 msgstr ""
 
@@ -166,7 +186,7 @@ msgstr ""
 msgid "ارسال کاوه‌نگار ناموفق بود."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:280
+#: flavor-core/includes/Admin/AdminMenus.php:337
 msgid "ارقام"
 msgstr ""
 
@@ -184,6 +204,10 @@ msgstr ""
 
 #: flavor-core/includes/Menu/MenuScheduler.php:162
 msgid "از ساعت %2$s (%1$s)"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:261
+msgid "از میان درگاه‌های پشتیبانی‌شده"
 msgstr ""
 
 #: flavor-core/includes/PostTypes/BranchPostType.php:150
@@ -204,6 +228,10 @@ msgstr ""
 
 #: flavor-core/includes/PostTypes/BranchPostType.php:99
 msgid "اطلاعات شعبه"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:172
+msgid "اطلاعات پذیرندگی در تنظیمات درگاه ذخیره شده است."
 msgstr ""
 
 #: flavor-core/includes/Loyalty/LoyaltyAdmin.php:99
@@ -238,20 +266,56 @@ msgstr ""
 msgid "افزودن میز"
 msgstr ""
 
-#: flavor-core/includes/Plugin.php:155
+#: flavor-core/includes/Plugin.php:158
 msgid "افزونه Flavor Core برای اجرا به ووکامرس ۸.۵ یا بالاتر نیاز دارد."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:161
+msgid "افزونه روی سایت وجود دارد."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:392
+msgid "افزونه غیرفعال"
 msgstr ""
 
 #: flavor-core/includes/SMS/Providers/FarazProvider.php:65
 msgid "افزونه فراز اس‌ام‌اس فعال نیست."
 msgstr ""
 
+#: flavor-core/admin/views/payment-gateways.php:392
+msgid "افزونه فعال"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:166
+msgid "افزونه فعال است و کلاس درگاه ثبت شده."
+msgstr ""
+
 #: flavor-core/includes/SMS/Providers/MelipayamakProvider.php:73
 msgid "افزونه ملی پیامک فعال نیست."
 msgstr ""
 
+#: flavor-core/includes/Admin/PaymentGatewaysAdmin.php:212
+msgid "افزونه نصب و فعال است؛ فقط مرچنت کد/کلید API را در تنظیمات درگاه وارد کنید تا پرداخت آنلاین خودکار روشن شود."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:467
+msgid "افزونهٔ «ووکامرس فارسی» شهرها، تاریخ شمسی و برخی درگاه‌ها (زیبال و پی‌آی‌آر) را یک‌جا می‌آورد و با این صفحه سازگار است."
+msgstr ""
+
+#: flavor-core/includes/Admin/PaymentGatewaysAdmin.php:213
+msgid "افزونهٔ درگاه هنوز نصب یا فعال نشده است. با دکمهٔ زیر نصب را کامل کنید."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:161
+msgid "افزونهٔ رسمی را از مخزن وردپرس نصب کنید."
+msgstr ""
+
 #: flavor-core/includes/SMS/Providers/KavenegarProvider.php:65
 msgid "افزونه کاوه‌نگار فعال نیست."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:257
+msgid "افزونه‌های نصب‌شده"
 msgstr ""
 
 #: flavor-core/includes/Loyalty/LoyaltyAdmin.php:90
@@ -306,6 +370,10 @@ msgstr ""
 msgid "انتخاب خودکار یا انتخاب توسط کاربر"
 msgstr ""
 
+#: flavor-core/admin/views/payment-gateways.php:37
+msgid "انتخاب شما ذخیره شد. برای فعال شدن، افزونه را نصب/فعال و مرچنت کد را در تنظیمات درگاه وارد کنید؛ اتصال خودکار تکمیل می‌شود."
+msgstr ""
+
 #: flavor-core/includes/WooCommerce/ProductModifiers.php:97 flavor-core/includes/WooCommerce/ProductModifiers.php:438
 msgid "اندازه"
 msgstr ""
@@ -318,11 +386,15 @@ msgstr ""
 msgid "انقضا شمسی"
 msgstr ""
 
+#: flavor-core/admin/views/payment-gateways.php:38
+msgid "اولویت درگاه پاک شد. روش پرداخت در تنظیمات ووکامرس دست‌نخورده باقی مانده است."
+msgstr ""
+
 #: flavor-core/includes/Admin/MobileAppAdmin.php:35 flavor-core/includes/Admin/MobileAppAdmin.php:36
 msgid "اپلیکیشن موبایل"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:338
+#: flavor-core/includes/Admin/AdminMenus.php:395
 msgid "اگر افزونه پاک شود، جدول‌ها و CPT شعبه حذف شوند. پیش‌فرض خاموش است."
 msgstr ""
 
@@ -334,7 +406,7 @@ msgstr ""
 msgid "اگر برای یک slug در شعبه ردیف بگذارید، جایگزین سراسری می‌شود. آیتم‌هایی که وعده زمانی ندارند همیشه نمایش داده می‌شوند."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:314
+#: flavor-core/includes/Admin/AdminMenus.php:371
 msgid "اگر درگاهی نصب نباشد، کد OTP در حالت توسعه فقط لاگ می‌شود."
 msgstr ""
 
@@ -364,6 +436,10 @@ msgstr ""
 
 #: flavor-core/includes/WooCommerce/DependencyInstaller.php:57
 msgid "این حساب اجازهٔ نصب افزونه‌ها را ندارد. لطفاً WooCommerce را از بخش «افزونه‌ها ← افزودن» نصب و فعال کنید."
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:305
+msgid "این درگاه در صفحهٔ تسویه‌حساب و اپ موبایل اول از همه پیشنهاد می‌شود."
 msgstr ""
 
 #: flavor-core/includes/Reservation/ReservationService.php:60
@@ -414,11 +490,15 @@ msgstr ""
 msgid "با ثبت این درخواست، تنظیمات و لوگوهای برندینگ شما از طریق وب‌هوک رمزنگاری شده HMAC به خط لوله CI/CD (GitHub Actions / Fastlane) ارسال شده و فرآیند کامپایل آغاز می‌شود."
 msgstr ""
 
+#: flavor-core/admin/views/payment-gateways.php:181
+msgid "با دکمهٔ «اتصال درگاه» در کارت پایین، پرداخت را روشن کنید."
+msgstr ""
+
 #: flavor-core/includes/Reservation/ReservationAdmin.php:87 flavor-core/includes/Table/TableAdmin.php:80
 msgid "بار"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:330
+#: flavor-core/includes/Admin/AdminMenus.php:387
 msgid "بازه نظرسنجی آشپزخانه (ثانیه)"
 msgstr ""
 
@@ -430,11 +510,15 @@ msgstr ""
 msgid "بازهٔ گزارش محدود شده است؛ برای دریافتِ کامل بازه را کوتاه‌تر کنید."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:143 flavor-core/includes/Admin/AdminMenus.php:144 flavor-core/includes/Loyalty/LoyaltyAdmin.php:57 flavor-core/includes/Reporting/ReportAdmin.php:92 flavor-core/includes/Reporting/ScheduledReport.php:338
+#: flavor-core/admin/views/payment-gateways.php:313
+msgid "باز کردن تنظیمات درگاه"
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:144 flavor-core/includes/Admin/AdminMenus.php:145 flavor-core/includes/Loyalty/LoyaltyAdmin.php:57 flavor-core/includes/Reporting/ReportAdmin.php:92 flavor-core/includes/Reporting/ScheduledReport.php:338
 msgid "باشگاه مشتریان"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:318
+#: flavor-core/includes/Admin/AdminMenus.php:375
 msgid "بافر رزرو (دقیقه)"
 msgstr ""
 
@@ -448,6 +532,10 @@ msgstr ""
 
 #: flavor-core/includes/WooCommerce/ProductModifiers.php:441
 msgid "بدون"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:435 flavor-core/includes/Admin/AdminMenus.php:296
+msgid "بدون اولویت (ترتیب ووکامرس)"
 msgstr ""
 
 #: flavor-core/includes/WooCommerce/ProductModifiers.php:87
@@ -474,8 +562,16 @@ msgstr ""
 msgid "برای انجام این عملیات باید وارد حساب کاربری خود شوید."
 msgstr ""
 
+#: flavor-core/admin/views/payment-gateways.php:466
+msgid "برای تست، حالت sandbox همان درگاه را روشن کنید و یک سفارش کم‌مبلغ تا انتهای مسیر پرداخت ببیرید."
+msgstr ""
+
 #: flavor-core/includes/WooCommerce/CheckoutService.php:244
 msgid "برای ثبت سفارش وارد شوید."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:463
+msgid "برای زرین‌پال، زیبال و بیشتر واسط‌ها فقط «مرچنت کد» (یا API Key) لازم است؛ آن را در تنظیمات همان درگاه در ووکامرس وارد کنید."
 msgstr ""
 
 #: flavor-core/includes/WooCommerce/CheckoutService.php:131
@@ -506,8 +602,16 @@ msgstr ""
 msgid "برچسب رژیمی"
 msgstr ""
 
+#: flavor-core/admin/views/payment-gateways.php:166
+msgid "بعد از نصب، افزونه را از صفحهٔ افزونه‌ها فعال کنید."
+msgstr ""
+
 #: flavor-core/includes/Mobile/BuildManager.php:362
 msgid "به‌روزرسانی رکورد بیلد با خطا مواجه شد."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:239
+msgid "به‌محض نصب و فعال‌سازی افزونه و ذخیرهٔ مرچنت کد، پرداخت آنلاین به‌صورت خودکار روشن می‌شود. تا آن زمان هیچ پرداختی از این درگاه گرفته نمی‌شود."
 msgstr ""
 
 #: flavor-core/admin/views/kitchen-dashboard.php:76 flavor-core/includes/Order/PhoneOrderAdmin.php:145 flavor-core/includes/PostTypes/BranchPostType.php:135 flavor-core/includes/Receipt/ReceiptRenderer.php:181
@@ -518,7 +622,7 @@ msgstr ""
 msgid "بیرون‌بر / تحویل حضوری"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:144
+#: flavor-core/admin/views/executive-dashboard.php:216
 msgid "بیرون‌بر و تحویل حضوری (Takeaway)"
 msgstr ""
 
@@ -618,11 +722,11 @@ msgstr ""
 msgid "تعداد ردیف‌ها: %d"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:204
+#: flavor-core/admin/views/executive-dashboard.php:276
 msgid "تعداد سفارش"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:205
+#: flavor-core/admin/views/executive-dashboard.php:277
 msgid "تعداد فاکتور"
 msgstr ""
 
@@ -634,11 +738,19 @@ msgstr ""
 msgid "تعداد کل سفارش‌ها"
 msgstr ""
 
+#: flavor-core/admin/views/executive-dashboard.php:154
+msgid "تعیین نشده"
+msgstr ""
+
 #: flavor-core/includes/WooCommerce/ProductModifiers.php:145
 msgid "تغییر قیمت"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:128
+#: flavor-core/admin/views/payment-gateways.php:224
+msgid "تغییر واحد پول"
+msgstr ""
+
+#: flavor-core/admin/views/executive-dashboard.php:200
 msgid "تفکیک کانال‌های سفارش"
 msgstr ""
 
@@ -666,7 +778,7 @@ msgstr ""
 msgid "تند"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:71 flavor-core/includes/Admin/AdminMenus.php:72
+#: flavor-core/includes/Admin/AdminMenus.php:72 flavor-core/includes/Admin/AdminMenus.php:73
 msgid "تنظیمات"
 msgstr ""
 
@@ -682,15 +794,31 @@ msgstr ""
 msgid "تنظیمات برندینگ اپلیکیشن با موفقیت ذخیره شد."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:256
+#: flavor-core/admin/views/payment-gateways.php:342
+msgid "تنظیمات درگاه"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:175
+msgid "تنظیمات درگاه هنوز خالی است؛ مرچنت کد را از پنل درگاه بگیرید."
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:279
 msgid "تنظیمات رستوران مستقیم"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:39
+msgid "تنظیمات پرداخت ذخیره شد."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:425
+msgid "تنظیمات پرداخت رستوران"
 msgstr ""
 
 #: flavor-core/includes/Branch/BranchSeeder.php:68 flavor-core/includes/Branch/BranchSeeder.php:69
 msgid "تهران"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:188
+#: flavor-core/admin/views/executive-dashboard.php:260
 msgid "توزیع ۲۴ ساعته سفارش‌ها (جهت برنامه‌ریزی شیفت پرسنل و آماده‌سازی مواد اولیه)"
 msgstr ""
 
@@ -706,7 +834,7 @@ msgstr ""
 msgid "تولید نهایی (Production / Release Store)"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:265 flavor-core/includes/Admin/AdminMenus.php:274 flavor-core/includes/WooCommerce/Currency.php:58 flavor-core/includes/WooCommerce/Currency.php:132
+#: flavor-core/includes/Admin/AdminMenus.php:322 flavor-core/includes/Admin/AdminMenus.php:331 flavor-core/includes/WooCommerce/Currency.php:58 flavor-core/includes/WooCommerce/Currency.php:132
 msgid "تومان"
 msgstr ""
 
@@ -724,6 +852,14 @@ msgstr ""
 
 #: flavor-core/includes/Customer/TokenService.php:153 flavor-core/includes/Customer/TokenService.php:171
 msgid "توکن منقضی یا نامعتبر شده است. لطفاً مجدداً وارد شوید."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:313
+msgid "تکمیل اتصال این درگاه"
+msgstr ""
+
+#: flavor-core/includes/Admin/PaymentGatewaysAdmin.php:221
+msgid "تکمیل اتصال درگاه"
 msgstr ""
 
 #: flavor-core/admin/views/mobile-app-dashboard.php:102
@@ -770,6 +906,14 @@ msgstr ""
 msgid "جستجو"
 msgstr ""
 
+#: flavor-core/admin/views/payment-gateways.php:333
+msgid "جستجو در مخزن"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:335
+msgid "جستجوی افزونه"
+msgstr ""
+
 #: flavor-core/includes/PostTypes/BranchPostType.php:64
 msgid "جستجوی شعبه"
 msgstr ""
@@ -784,6 +928,10 @@ msgstr ""
 
 #: flavor-core/includes/Order/PhoneOrderAdmin.php:142
 msgid "حالت"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:410
+msgid "حالت تست"
 msgstr ""
 
 #: flavor-core/includes/SMS/Providers/DevProvider.php:24
@@ -822,7 +970,7 @@ msgstr ""
 msgid "حذف"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:334
+#: flavor-core/includes/Admin/AdminMenus.php:391
 msgid "حذف داده هنگام Uninstall"
 msgstr ""
 
@@ -846,12 +994,20 @@ msgstr ""
 msgid "خارج از محدوده ارسال."
 msgstr ""
 
+#: flavor-core/admin/views/payment-gateways.php:354
+msgid "خاموش کردن"
+msgstr ""
+
 #: flavor-core/includes/Reporting/ReportAdmin.php:48 flavor-core/includes/Reporting/ReportAdmin.php:97
 msgid "خروجی گزارش"
 msgstr ""
 
 #: flavor-core/includes/Reporting/ReportAdmin.php:47
 msgid "خروجی گزارش (CSV)"
+msgstr ""
+
+#: flavor-core/includes/WooCommerce/Gateways/IranianGateways.php:304
+msgid "خرید اعتباری"
 msgstr ""
 
 #: flavor-core/includes/Customer/TokenService.php:188
@@ -866,7 +1022,7 @@ msgstr ""
 msgid "خطا در صدور توکن. لطفاً دوباره تلاش کنید."
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:198
+#: flavor-core/admin/views/executive-dashboard.php:270
 msgid "داده‌ای برای بازه انتخابی ثبت نشده است."
 msgstr ""
 
@@ -918,6 +1074,10 @@ msgstr ""
 msgid "درخواست رزرو میز شما با موفقیت ثبت شد."
 msgstr ""
 
+#: flavor-core/admin/views/payment-gateways.php:40
+msgid "درخواست معتبر نبود؛ دوباره تلاش کنید."
+msgstr ""
+
 #: flavor-core/includes/PostTypes/BranchPostType.php:66
 msgid "در زباله‌دان شعبه‌ای نیست."
 msgstr ""
@@ -930,8 +1090,84 @@ msgstr ""
 msgid "در طراحی امنیتی سامانه وایت‌لیبل Flavor، هیچ‌گونه کلید حساس امضای اندروید (Keystore/JKS)، گواهی‌نامه اپل (iOS Distribution Certificate / Provisioning Profile) یا توکن‌های محرمانه استورها در دیتابیس وردپرس یا کدهای فرانت‌اند ذخیره نمی‌گردد."
 msgstr ""
 
+#: flavor-core/admin/views/payment-gateways.php:236
+msgid "درگاه «%s» در انتظار تکمیل است."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:205
+msgid "درگاه آمادهٔ دریافت پرداخت"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:442
+msgid "درگاه انتخابی در فهرست روش‌های پرداخت (وب و اپ موبایل) اول نمایش داده می‌شود. برای اینکه مشتری بتواند انتخاب کند، بقیهٔ روش‌ها هم می‌مانند."
+msgstr ""
+
+#: flavor-core/includes/WooCommerce/Gateways/IranianGateways.php:303
+msgid "درگاه بانکی"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:181
+msgid "درگاه در فهرست روش‌های پرداخت فعال است."
+msgstr ""
+
+#: flavor-core/admin/views/executive-dashboard.php:134
+msgid "درگاه روشن است اما مرچنت کد ناقص است"
+msgstr ""
+
+#: flavor-core/includes/WooCommerce/Gateways/IranianGateways.php:302
+msgid "درگاه واسط"
+msgstr ""
+
+#: flavor-core/includes/Admin/PaymentGatewaysAdmin.php:52
+msgid "درگاه پرداخت"
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:284
+msgid "درگاه پرداخت آنلاین"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:34
+msgid "درگاه پرداخت خاموش شد و از صفحهٔ تسویه‌حساب حذف می‌شود."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:33
+msgid "درگاه پرداخت فعال شد؛ از این پس به مشتریان نمایش داده می‌شود."
+msgstr ""
+
 #: flavor-core/includes/WooCommerce/CheckoutService.php:217
 msgid "درگاه پرداخت پیدا نشد."
+msgstr ""
+
+#: flavor-core/admin/views/executive-dashboard.php:153 flavor-core/admin/views/payment-gateways.php:432 flavor-core/includes/Admin/AdminMenus.php:293
+msgid "درگاه پیش‌فرض"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:35
+msgid "درگاه پیش‌فرض ذخیره شد؛ در فهرست روش‌های پرداخت اول می‌آید."
+msgstr ""
+
+#: flavor-core/admin/views/executive-dashboard.php:149
+msgid "درگاه‌های آماده"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:464
+msgid "درگاه‌های بانکی مستقیم (ملت، پارسیان، سداد، سامان) علاوه بر ترمینال، به فایل کلید و تنظیم IP سرور در پنل بانک نیاز دارند."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:266
+msgid "درگاه‌های روشن"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:248
+msgid "درگاه‌های شناخته‌شده"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:198 flavor-core/includes/Admin/PaymentGatewaysAdmin.php:51
+msgid "درگاه‌های پرداخت ایرانی"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:320
+msgid "درگاه‌های پشتیبانی‌شده"
 msgstr ""
 
 #: flavor-core/includes/WooCommerce/CartSession.php:130
@@ -962,7 +1198,7 @@ msgstr ""
 msgid "دسترسی به گزارش این شعبه مجاز نیست."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:251 flavor-core/includes/API/RestController.php:224 flavor-core/includes/API/RestStore.php:316 flavor-core/includes/API/RestStore.php:344 flavor-core/includes/Delivery/ZoneAdmin.php:33 flavor-core/includes/Delivery/ZoneAdmin.php:148 flavor-core/includes/Loyalty/LoyaltyAdmin.php:33 flavor-core/includes/Loyalty/LoyaltyAdmin.php:113 flavor-core/includes/Menu/AvailabilityAdmin.php:32 flavor-core/includes/Menu/AvailabilityAdmin.php:101 flavor-core/includes/Menu/ScheduleAdmin.php:31 flavor-core/includes/Menu/ScheduleAdmin.php:96 flavor-core/includes/Order/PhoneOrderAdmin.php:64 flavor-core/includes/Order/PhoneOrderAdmin.php:203 flavor-core/includes/Reservation/ReservationAdmin.php:33 flavor-core/includes/Reservation/ReservationAdmin.php:151 flavor-core/includes/Table/TableAdmin.php:34 flavor-core/includes/Table/TableAdmin.php:317
+#: flavor-core/includes/Admin/AdminMenus.php:274 flavor-core/includes/Admin/PaymentGatewaysAdmin.php:80 flavor-core/includes/Admin/PaymentGatewaysAdmin.php:107 flavor-core/includes/API/RestController.php:224 flavor-core/includes/API/RestStore.php:316 flavor-core/includes/API/RestStore.php:344 flavor-core/includes/Delivery/ZoneAdmin.php:33 flavor-core/includes/Delivery/ZoneAdmin.php:148 flavor-core/includes/Loyalty/LoyaltyAdmin.php:33 flavor-core/includes/Loyalty/LoyaltyAdmin.php:113 flavor-core/includes/Menu/AvailabilityAdmin.php:32 flavor-core/includes/Menu/AvailabilityAdmin.php:101 flavor-core/includes/Menu/ScheduleAdmin.php:31 flavor-core/includes/Menu/ScheduleAdmin.php:96 flavor-core/includes/Order/PhoneOrderAdmin.php:64 flavor-core/includes/Order/PhoneOrderAdmin.php:203 flavor-core/includes/Reservation/ReservationAdmin.php:33 flavor-core/includes/Reservation/ReservationAdmin.php:151 flavor-core/includes/Table/TableAdmin.php:34 flavor-core/includes/Table/TableAdmin.php:317
 msgid "دسترسی ندارید."
 msgstr ""
 
@@ -976,6 +1212,10 @@ msgstr ""
 
 #: flavor-core/includes/Reporting/ScheduledReport.php:95
 msgid "دورهٔ ارسال باید روزانه، هفتگی یا ماهانه باشد."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:315
+msgid "دیدن کارت درگاه"
 msgstr ""
 
 #: flavor-core/includes/API/ReviewController.php:203
@@ -996,6 +1236,14 @@ msgstr ""
 
 #: flavor-core/includes/Loyalty/LoyaltyAdmin.php:78
 msgid "ذخیره تنظیمات وفاداری"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:456
+msgid "ذخیرهٔ تنظیمات پرداخت"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:461
+msgid "راهنمای اتصال"
 msgstr ""
 
 #: flavor-core/includes/API/MenuController.php:465
@@ -1022,7 +1270,7 @@ msgstr ""
 msgid "رزرو مورد نظر پیدا نشد."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:107 flavor-core/includes/Admin/AdminMenus.php:108 flavor-core/includes/Reservation/ReservationAdmin.php:53
+#: flavor-core/includes/Admin/AdminMenus.php:108 flavor-core/includes/Admin/AdminMenus.php:109 flavor-core/includes/Reservation/ReservationAdmin.php:53
 msgid "رزرو میز"
 msgstr ""
 
@@ -1042,7 +1290,7 @@ msgstr ""
 msgid "رزروی در این روز نیست."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:42 flavor-core/includes/Admin/AdminMenus.php:43 flavor-core/includes/Support/Privacy.php:34 flavor-core/includes/Support/Privacy.php:46 flavor-core/includes/Support/Privacy.php:76
+#: flavor-core/includes/Admin/AdminMenus.php:43 flavor-core/includes/Admin/AdminMenus.php:44 flavor-core/includes/Support/Privacy.php:34 flavor-core/includes/Support/Privacy.php:46 flavor-core/includes/Support/Privacy.php:76
 msgid "رستوران مستقیم"
 msgstr ""
 
@@ -1074,16 +1322,28 @@ msgstr ""
 msgid "روش پرداخت برای این حالت سفارش مجاز نیست."
 msgstr ""
 
+#: flavor-core/admin/views/executive-dashboard.php:181 flavor-core/admin/views/payment-gateways.php:471
+msgid "روش‌های پرداخت ووکامرس"
+msgstr ""
+
 #: flavor-core/includes/Webhooks/WebhookManager.php:128
 msgid "رویداد «%s» پشتیبانی نمی‌شود."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:264 flavor-core/includes/Admin/AdminMenus.php:275 flavor-core/includes/WooCommerce/Currency.php:61 flavor-core/includes/WooCommerce/Currency.php:133
+#: flavor-core/includes/Admin/AdminMenus.php:321 flavor-core/includes/Admin/AdminMenus.php:332 flavor-core/includes/WooCommerce/Currency.php:61 flavor-core/includes/WooCommerce/Currency.php:133
 msgid "ریال"
+msgstr ""
+
+#: flavor-core/admin/views/executive-dashboard.php:161
+msgid "ریال/تومان نیست"
 msgstr ""
 
 #: flavor-core/includes/WooCommerce/Currency.php:44
 msgid "ریال ایران"
+msgstr ""
+
+#: flavor-core/admin/views/executive-dashboard.php:172
+msgid "زرین‌پال، زیبال، آی‌دی‌پی، پی‌پینگ، درگاه‌های بانکی و بسته‌های چنددرگاهی از همین پیشخوان نصب و متصل می‌شوند."
 msgstr ""
 
 #: flavor-core/includes/WooCommerce/ProductModifiers.php:108
@@ -1094,7 +1354,7 @@ msgstr ""
 msgid "زمان تقریبی (دقیقه)"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:125 flavor-core/includes/Admin/AdminMenus.php:126 flavor-core/includes/Menu/ScheduleAdmin.php:44
+#: flavor-core/includes/Admin/AdminMenus.php:126 flavor-core/includes/Admin/AdminMenus.php:127 flavor-core/includes/Menu/ScheduleAdmin.php:44
 msgid "زمان‌بندی منو"
 msgstr ""
 
@@ -1114,7 +1374,7 @@ msgstr ""
 msgid "ساخت گروهی"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:167
+#: flavor-core/admin/views/executive-dashboard.php:239
 msgid "ساعات اوج شلوغی و سفارش (Peak Hours Heatmap)"
 msgstr ""
 
@@ -1122,7 +1382,7 @@ msgstr ""
 msgid "ساعت"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:180
+#: flavor-core/admin/views/executive-dashboard.php:252
 msgid "ساعت %1$s: %2$d سفارش"
 msgstr ""
 
@@ -1132,6 +1392,10 @@ msgstr ""
 
 #: flavor-core/admin/views/kitchen-dashboard.php:75 flavor-core/includes/Order/PhoneOrderAdmin.php:146 flavor-core/includes/PostTypes/BranchPostType.php:134 flavor-core/includes/Receipt/ReceiptRenderer.php:180 flavor-core/includes/Reservation/ReservationAdmin.php:84 flavor-core/includes/Table/TableAdmin.php:78
 msgid "سالن"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:363
+msgid "سایت رسمی"
 msgstr ""
 
 #: flavor-core/includes/WooCommerce/CheckoutService.php:92
@@ -1170,7 +1434,7 @@ msgstr ""
 msgid "سفارش {order_number} الان «{status}» است."
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:228
+#: flavor-core/admin/views/executive-dashboard.php:300
 msgid "سفارشات"
 msgstr ""
 
@@ -1190,7 +1454,7 @@ msgstr ""
 msgid "سفارش تحویل/تکمیل شد (order.completed)"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:116 flavor-core/includes/Admin/AdminMenus.php:117 flavor-core/includes/Order/PhoneOrderAdmin.php:107
+#: flavor-core/includes/Admin/AdminMenus.php:117 flavor-core/includes/Admin/AdminMenus.php:118 flavor-core/includes/Order/PhoneOrderAdmin.php:107
 msgid "سفارش تلفنی"
 msgstr ""
 
@@ -1414,11 +1678,11 @@ msgstr ""
 msgid "صبحانه"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:301
+#: flavor-core/includes/Admin/AdminMenus.php:358
 msgid "صدای سفارش جدید"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:133
+#: flavor-core/admin/views/executive-dashboard.php:205
 msgid "صرف در سالن (Dine-in)"
 msgstr ""
 
@@ -1466,7 +1730,7 @@ msgstr ""
 msgid "غیرفعال"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:283
+#: flavor-core/includes/Admin/AdminMenus.php:340
 msgid "فارسی (۲۵٬۰۰۰)"
 msgstr ""
 
@@ -1494,7 +1758,7 @@ msgstr ""
 msgid "فروش ناخالص کل"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:229
+#: flavor-core/admin/views/executive-dashboard.php:301
 msgid "فروش کل"
 msgstr ""
 
@@ -1502,8 +1766,16 @@ msgstr ""
 msgid "فضای باز"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:290 flavor-core/includes/Admin/AdminMenus.php:294 flavor-core/includes/Admin/AdminMenus.php:298 flavor-core/includes/Admin/AdminMenus.php:302 flavor-core/includes/Admin/AdminMenus.php:327 flavor-core/includes/Menu/ScheduleAdmin.php:64 flavor-core/includes/Table/TableAdmin.php:117 flavor-core/includes/Table/TableAdmin.php:148
+#: flavor-core/includes/Admin/AdminMenus.php:347 flavor-core/includes/Admin/AdminMenus.php:351 flavor-core/includes/Admin/AdminMenus.php:355 flavor-core/includes/Admin/AdminMenus.php:359 flavor-core/includes/Admin/AdminMenus.php:384 flavor-core/includes/Menu/ScheduleAdmin.php:64 flavor-core/includes/Table/TableAdmin.php:117 flavor-core/includes/Table/TableAdmin.php:148
 msgid "فعال"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:179
+msgid "فعال شدن پرداخت آنلاین"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:164 flavor-core/admin/views/payment-gateways.php:338
+msgid "فعال‌سازی افزونه"
 msgstr ""
 
 #: flavor-core/admin/views/mobile-app-dashboard.php:251
@@ -1538,7 +1810,7 @@ msgstr ""
 msgid "قیمت «%s» معتبر نیست؛ سبد را به‌روزرسانی کنید."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:284
+#: flavor-core/includes/Admin/AdminMenus.php:341
 msgid "لاتین (25,000)"
 msgstr ""
 
@@ -1550,12 +1822,20 @@ msgstr ""
 msgid "لطفاً متن نظر خود را وارد کنید."
 msgstr ""
 
+#: flavor-core/admin/views/payment-gateways.php:240
+msgid "لغو این انتخاب"
+msgstr ""
+
 #: flavor-core/admin/views/mobile-app-dashboard.php:340 flavor-core/includes/Mobile/BuildManager.php:491
 msgid "لغو شده"
 msgstr ""
 
 #: flavor-core/includes/API/OrderController.php:322
 msgid "لغو شده توسط مشتری از طریق اپلیکیشن."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:359
+msgid "لغو پیش‌فرض"
 msgstr ""
 
 #: flavor-core/includes/Delivery/ZoneAdmin.php:93
@@ -1594,7 +1874,7 @@ msgstr ""
 msgid "مجموع %d میهمان پذیرش شده"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:196
+#: flavor-core/admin/views/executive-dashboard.php:268
 msgid "محبوب‌ترین آیتم‌های منو (Top 10)"
 msgstr ""
 
@@ -1626,7 +1906,7 @@ msgstr ""
 msgid "محیط بیلد (Environment)"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:322
+#: flavor-core/includes/Admin/AdminMenus.php:379
 msgid "مدت رزرو (دقیقه)"
 msgstr ""
 
@@ -1636,6 +1916,14 @@ msgstr ""
 
 #: flavor-core/includes/Support/Roles.php:91
 msgid "مدیر کل رستوران (General Manager)"
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:287
+msgid "مدیریت درگاه‌های ایرانی"
+msgstr ""
+
+#: flavor-core/admin/views/executive-dashboard.php:178
+msgid "مدیریت درگاه‌های پرداخت"
 msgstr ""
 
 #: flavor-core/admin/views/mobile-app-dashboard.php:27
@@ -1648,6 +1936,18 @@ msgstr ""
 
 #: flavor-core/admin/views/mobile-app-dashboard.php:260
 msgid "مرحله‌ای (Staging / Internal Test)"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:407
+msgid "مرچنت کد خالی"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:282
+msgid "مرچنت کد را وارد کنید یا درگاه را روشن کنید"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:293
+msgid "مسیر اتصال %s"
 msgstr ""
 
 #: flavor-core/includes/PostTypes/BranchPostType.php:63
@@ -1666,7 +1966,7 @@ msgstr ""
 msgid "معماری امنیتی و مدیریت گواهی‌های امضا (Zero-Trust Secret Handling)"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:223
+#: flavor-core/admin/views/executive-dashboard.php:295
 msgid "مقایسه عملکرد و فروش شعب"
 msgstr ""
 
@@ -1674,7 +1974,11 @@ msgstr ""
 msgid "ملی پیامک"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:89 flavor-core/includes/Admin/AdminMenus.php:90 flavor-core/includes/Delivery/ZoneAdmin.php:47
+#: flavor-core/admin/views/payment-gateways.php:452
+msgid "مناسب سفارش‌های پیش‌پرداخت. اگر رستوران هنوز پرداخت حضوری هم می‌پذیرد، این گزینه را خاموش بگذارید."
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:90 flavor-core/includes/Admin/AdminMenus.php:91 flavor-core/includes/Delivery/ZoneAdmin.php:47
 msgid "مناطق ارسال"
 msgstr ""
 
@@ -1726,7 +2030,7 @@ msgstr ""
 msgid "موجودی امتیاز شما کافی نیست."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:134 flavor-core/includes/Admin/AdminMenus.php:135 flavor-core/includes/Menu/AvailabilityAdmin.php:51
+#: flavor-core/includes/Admin/AdminMenus.php:135 flavor-core/includes/Admin/AdminMenus.php:136 flavor-core/includes/Menu/AvailabilityAdmin.php:51
 msgid "موجودی لحظه‌ای"
 msgstr ""
 
@@ -1750,7 +2054,7 @@ msgstr ""
 msgid "میز تکی"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:80 flavor-core/includes/Admin/AdminMenus.php:81 flavor-core/includes/Table/TableAdmin.php:49
+#: flavor-core/includes/Admin/AdminMenus.php:81 flavor-core/includes/Admin/AdminMenus.php:82 flavor-core/includes/Table/TableAdmin.php:49
 msgid "میزها و QR"
 msgstr ""
 
@@ -1770,11 +2074,11 @@ msgstr ""
 msgid "نام اپلیکیشن (App Name)"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:227
+#: flavor-core/admin/views/executive-dashboard.php:299
 msgid "نام شعبه"
 msgstr ""
 
-#: flavor-core/admin/views/executive-dashboard.php:203
+#: flavor-core/admin/views/executive-dashboard.php:275
 msgid "نام غذا / نوشیدنی"
 msgstr ""
 
@@ -1822,16 +2126,40 @@ msgstr ""
 msgid "نشانی ایمیل معتبر نیست."
 msgstr ""
 
-#: flavor-core/includes/Plugin.php:165
+#: flavor-core/includes/Plugin.php:168
 msgid "نصب WooCommerce"
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:289
+msgid "نصب، فعال‌سازی و اتصال زرین‌پال، زیبال، آی‌دی‌پی، پی‌پینگ، درگاه‌های بانکی و بسته‌های چنددرگاهی از یک صفحه."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:331
+msgid "نصب افزونه"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:159
+msgid "نصب افزونهٔ درگاه"
 msgstr ""
 
 #: flavor-core/includes/WooCommerce/DependencyInstaller.php:111
 msgid "نصب خودکار WooCommerce کامل نشد. ممکن است سرور اجازهٔ نوشتن فایل‌ها یا اتصال به WordPress.org را ندهد."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:310
+#: flavor-core/admin/views/executive-dashboard.php:187
+msgid "نصب سریع زرین‌پال"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:384 flavor-core/includes/Admin/AdminMenus.php:367
 msgid "نصب نشده"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:470
+msgid "نصب ووکامرس فارسی"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:384
+msgid "نصب‌شده"
 msgstr ""
 
 #: flavor-core/includes/Reservation/ReservationAdmin.php:102
@@ -1910,20 +2238,48 @@ msgstr ""
 msgid "همهٔ تاریخ‌ها بر پایهٔ منطقهٔ زمانیِ سایت (%s) هستند."
 msgstr ""
 
+#: flavor-core/admin/views/executive-dashboard.php:137
+msgid "هنوز درگاه آنلاینی فعال نیست"
+msgstr ""
+
 #: flavor-core/admin/views/mobile-app-dashboard.php:304
 msgid "هنوز هیچ بیلد فعالی ثبت نشده است. از تب «سفارش بیلد» اولین پکیج را درخواست دهید."
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:261
+#: flavor-core/admin/views/payment-gateways.php:271
+msgid "هنوز هیچ درگاهی فعال نیست"
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:318
 msgid "واحد ذخیره"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:271
+#: flavor-core/admin/views/payment-gateways.php:222
+msgid "واحد فعلی: %s. درگاه‌های ایرانی مبلغ را به ریال یا تومان می‌فرستند؛ واحد را در تنظیمات ووکامرس به IRR یا IRT تغییر دهید."
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:328
 msgid "واحد نمایش"
+msgstr ""
+
+#: flavor-core/admin/views/executive-dashboard.php:157
+msgid "واحد پول فروشگاه"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:219
+msgid "واحد پول فروشگاه با درگاه‌های ایرانی هم‌خوان نیست."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:465
+msgid "واحد پول فروشگاه باید ریال یا تومان باشد؛ وگرنه مبلغ اشتباه به بانک ارسال می‌شود."
 msgstr ""
 
 #: flavor-core/includes/API/CartController.php:377 flavor-core/includes/API/OrderController.php:173 flavor-core/includes/API/ReservationController.php:275
 msgid "وارد حساب شوید."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:252
+msgid "واسط، بانکی، اعتباری و چنددرگاهی"
 msgstr ""
 
 #: flavor-core/includes/API/WebhookController.php:173
@@ -1940,6 +2296,10 @@ msgstr ""
 
 #: flavor-core/includes/Reservation/ReservationAdmin.php:71
 msgid "ورود حضوری / تلفنی"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:169
+msgid "ورود مرچنت کد / کلید API"
 msgstr ""
 
 #: flavor-core/admin/views/mobile-app-dashboard.php:314 flavor-core/includes/Menu/AvailabilityAdmin.php:66 flavor-core/includes/Reservation/ReservationAdmin.php:103
@@ -1970,8 +2330,20 @@ msgstr ""
 msgid "وضعیت سفارش تغییر کرد (order.updated)"
 msgstr ""
 
+#: flavor-core/admin/views/payment-gateways.php:174
+msgid "وضعیت مرچنت کد از تنظیمات قابل تشخیص نیست؛ یک بار صفحهٔ تنظیمات درگاه را باز کنید."
+msgstr ""
+
 #: flavor-core/includes/WooCommerce/ProductModifiers.php:127
 msgid "وعده زمانی"
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:313
+msgid "وقتی درگاه آنلاین فعال است، پرداخت نقدی/پای صندوق نمایش داده نشود."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:450
+msgid "وقتی یک درگاه آنلاین فعال است، پرداخت در محل و پای صندوق را نشان نده."
 msgstr ""
 
 #: flavor-core/includes/WooCommerce/ProductModifiers.php:84
@@ -2002,16 +2374,40 @@ msgstr ""
 msgid "پرداخت آفلاین رستوران مستقیم."
 msgstr ""
 
+#: flavor-core/includes/Admin/PaymentGatewaysAdmin.php:218
+msgid "پرداخت آنلاین «%s» هنوز آماده نیست."
+msgstr ""
+
+#: flavor-core/admin/views/executive-dashboard.php:170
+msgid "پرداخت آنلاین از طریق %s فعال است."
+msgstr ""
+
+#: flavor-core/admin/views/executive-dashboard.php:143
+msgid "پرداخت آنلاین و درگاه‌های ایرانی"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:401
+msgid "پرداخت خاموش"
+msgstr ""
+
 #: flavor-core/includes/WooCommerce/Gateways/CashOnDelivery.php:29
 msgid "پرداخت در محل (نقد)"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:293
+#: flavor-core/admin/views/payment-gateways.php:401
+msgid "پرداخت روشن"
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:350
 msgid "پرداخت هنگام تحویل"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:289 flavor-core/includes/WooCommerce/Gateways/PayAtCounter.php:29
+#: flavor-core/includes/Admin/AdminMenus.php:346 flavor-core/includes/WooCommerce/Gateways/PayAtCounter.php:29
 msgid "پرداخت پای صندوق"
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:344
+msgid "پرداخت‌های ووکامرس"
 msgstr ""
 
 #: flavor-core/includes/Support/Roles.php:148
@@ -2034,11 +2430,15 @@ msgstr ""
 msgid "پنجره"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:326
+#: flavor-core/includes/Admin/AdminMenus.php:383
 msgid "پنهان کردن آیتم خارج از وعده"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:53 flavor-core/includes/Admin/AdminMenus.php:54
+#: flavor-core/admin/views/payment-gateways.php:446 flavor-core/includes/Admin/AdminMenus.php:309
+msgid "پنهان‌کردن پرداخت در محل"
+msgstr ""
+
+#: flavor-core/includes/Admin/AdminMenus.php:54 flavor-core/includes/Admin/AdminMenus.php:55
 msgid "پیشخوان عملیات و آمار"
 msgstr ""
 
@@ -2046,12 +2446,16 @@ msgstr ""
 msgid "پیشخوان هوشمند عملیات و تحلیل کسب‌وکار رستوران"
 msgstr ""
 
-#: flavor-core/includes/PostTypes/BranchPostType.php:278 flavor-core/includes/WooCommerce/ProductModifiers.php:146
+#: flavor-core/admin/views/payment-gateways.php:374 flavor-core/includes/PostTypes/BranchPostType.php:278 flavor-core/includes/WooCommerce/ProductModifiers.php:146
 msgid "پیش‌فرض"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:267
+#: flavor-core/includes/Admin/AdminMenus.php:324
 msgid "پیش‌فرض ریال است تا با درگاه‌های ایرانی هماهنگ بماند."
+msgstr ""
+
+#: flavor-core/admin/views/payment-gateways.php:352
+msgid "پیش‌فرض کن"
 msgstr ""
 
 #: flavor-core/includes/Reporting/ReportAdmin.php:159
@@ -2082,6 +2486,10 @@ msgstr ""
 msgid "چاپ کارت‌های A6"
 msgstr ""
 
+#: flavor-core/includes/WooCommerce/Gateways/IranianGateways.php:305
+msgid "چند درگاهی"
+msgstr ""
+
 #: flavor-core/admin/views/mobile-app-dashboard.php:95
 msgid "چک‌لیست الزامات انتشار"
 msgstr ""
@@ -2098,11 +2506,15 @@ msgstr ""
 msgid "کارت QR میز"
 msgstr ""
 
+#: flavor-core/admin/views/payment-gateways.php:322
+msgid "کارت هر درگاه وضعیت واقعی همین لحظه را نشان می‌دهد: نصب افزونه، فعال بودن، روشن بودن روش پرداخت و ذخیرهٔ مرچنت کد. هر درگاهی که نصب نیست، از همین صفحه نصب می‌شود."
+msgstr ""
+
 #: flavor-core/includes/Order/PhoneOrderAdmin.php:152
 msgid "کارت‌خوان"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:297 flavor-core/includes/WooCommerce/Gateways/CardOnDelivery.php:29
+#: flavor-core/includes/Admin/AdminMenus.php:354 flavor-core/includes/WooCommerce/Gateways/CardOnDelivery.php:29
 msgid "کارت‌خوان دم در"
 msgstr ""
 
@@ -2170,7 +2582,7 @@ msgstr ""
 msgid "گزارش %1$s — %2$s تا %3$s"
 msgstr ""
 
-#: flavor-core/includes/Admin/AdminMenus.php:62 flavor-core/includes/Admin/AdminMenus.php:63
+#: flavor-core/includes/Admin/AdminMenus.php:63 flavor-core/includes/Admin/AdminMenus.php:64
 msgid "گزارشات و تحلیل (KPIs)"
 msgstr ""
 

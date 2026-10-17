@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flavor\n"
 "Report-Msgid-Bugs-To: https://github.com/patrikjuniyor/flavor-restaurant/issues\n"
-"PO-Revision-Date: 2026-10-15 09:45+0000\n"
+"PO-Revision-Date: 2026-10-17 10:56+0000\n"
 "Last-Translator: Flavor Translations\n"
 "Language-Team: Flavor Translations\n"
 "Language: ar\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5);\n"
 "X-Generator: Flavor build-po.py\n"
 
-#: flavor/inc/class-launch-center.php:572
+#: flavor/inc/class-launch-center.php:602
 msgid "%1$d از %2$d مورد اصلی"
 msgstr "%1$d من %2$d عنصراً أساسياً"
 
@@ -29,7 +29,7 @@ msgstr "%1$d من %2$d عنصراً أساسياً"
 msgid "%1$d صفحه و %2$d آیتم منو ایجاد می‌شود."
 msgstr "سيتم إنشاء %1$d صفحة و%2$d عنصر في القائمة."
 
-#: flavor/inc/class-launch-center.php:322
+#: flavor/inc/class-launch-center.php:352
 msgid "%1$d کلید نوشته شد و %2$d کلید دست‌نخورده ماند."
 msgstr "كُتب %1$d من المفاتيح وبقي %2$d كما هو."
 
@@ -119,11 +119,11 @@ msgstr "(اختيار إلزامي)"
 msgid "(ضروری)"
 msgstr "(مطلوب)"
 
-#: flavor/inc/class-launch-center.php:313
+#: flavor/inc/class-launch-center.php:343
 msgid "Elementor فعال نیست، پس کیتی برای همگام‌سازی وجود ندارد. بقیهٔ سایت بدون المنتور هم درست کار می‌کند."
 msgstr "Elementor غير مفعّل، فلا توجد مجموعة لتزامنها. بقيّة الموقع تعمل تمامًا بدونه."
 
-#: flavor/inc/class-launch-center.php:324
+#: flavor/inc/class-launch-center.php:354
 msgid "Elementor فعال نیست؛ چیزی نوشته نشد."
 msgstr "Elementor غير مفعّل؛ لم يُكتب شيء."
 
@@ -135,7 +135,7 @@ msgstr "Flavor Core مفعّل"
 msgid "Flavor Core فعال نیست؛ صفحات و رنگ‌ها وارد می‌شوند اما محصول و شعبه ساخته نمی‌شود."
 msgstr "Flavor Core غير مفعّل؛ تُستورد الصفحات والألوان، لكن لا يُنشأ المنتج والفرع."
 
-#: flavor/inc/class-launch-center.php:226
+#: flavor/inc/class-launch-center.php:229
 msgid "WooCommerce حداقل یک درگاه/روش پرداخت فعال دارد."
 msgstr "لدى WooCommerce بوابة دفع أو طريقة دفع مفعّلة واحدة على الأقل."
 
@@ -159,7 +159,7 @@ msgstr "،"
 msgid "آبمیوه، اسموتی و بار سلامت"
 msgstr "عصائر وسموذي وبار الصحة"
 
-#: flavor/inc/class-launch-center.php:328
+#: flavor/inc/class-launch-center.php:358
 msgid "آخرین اجرای دستی: %1$s — %2$s"
 msgstr "آخر تشغيل يدوي: %1$s — %2$s"
 
@@ -171,7 +171,7 @@ msgstr "آخر فحص ناجح: %s"
 msgid "آخرین سفارش‌های شما"
 msgstr "آخر طلباتكم"
 
-#: flavor/inc/class-onboarding.php:310
+#: flavor/inc/class-onboarding.php:365
 msgid "آدرس اینستاگرام"
 msgstr "رابط إنستغرام"
 
@@ -207,7 +207,7 @@ msgstr "مطبخ مفتوح"
 msgid "آغاز"
 msgstr "البداية"
 
-#: flavor/inc/class-launch-center.php:624
+#: flavor/inc/class-launch-center.php:655 flavor/inc/class-onboarding.php:419
 msgid "آماده"
 msgstr "جاهز"
 
@@ -271,9 +271,13 @@ msgstr "أدوات البيع"
 msgid "ابعاد دکمه‌ها"
 msgstr "أبعاد الأزرار"
 
-#: flavor/inc/class-launch-center.php:262
+#: flavor/inc/class-launch-center.php:292
 msgid "اتصال امن HTTPS است"
 msgstr "اتصال HTTPS آمن"
+
+#: flavor/inc/class-launch-center.php:255
+msgid "اتصال درگاه پرداخت"
+msgstr "ربط بوابة الدفع"
 
 #: flavor/template-parts/menu/cart-drawer.php:37
 msgid "ادامه؛ اطلاعات و پرداخت"
@@ -283,7 +287,7 @@ msgstr "متابعة؛ البيانات والدفع"
 msgid "ادامه با نشست امن سایت"
 msgstr "المتابعة بجلسة آمنة على الموقع"
 
-#: flavor/inc/class-launch-center.php:248
+#: flavor/inc/class-launch-center.php:278
 msgid "ارائه‌دهندهٔ پیامک «%s» انتخاب شده است."
 msgstr "تم اختيار مزوّد الرسائل النصية «%s»."
 
@@ -338,7 +342,7 @@ msgstr "الشحن المسجّل في السلة"
 msgid "ارسال درخواست رزرو"
 msgstr "إرسال طلب الحجز"
 
-#: flavor/inc/class-onboarding.php:284
+#: flavor/inc/class-onboarding.php:339
 msgid "ارسال سریع با پیک"
 msgstr "توصيل سريع بالمندوب"
 
@@ -438,7 +442,7 @@ msgstr "نمط الترويسة وترتيبها"
 msgid "استعداد"
 msgstr "الجاهزية"
 
-#: flavor/inc/class-onboarding.php:190
+#: flavor/inc/class-onboarding.php:245
 msgid "اطلاعات اولیه رستوران را تکمیل کنید تا سایت و سیستم سفارش آنلاین شما آماده بهره‌برداری شود. پیشرفت فرم به‌صورت خودکار ذخیره می‌شود."
 msgstr "أكملوا المعلومات الأساسية للمطعم حتى يصبح الموقع ونظام الطلب الإلكتروني جاهزين للتشغيل. يُحفظ تقدّم النموذج تلقائياً."
 
@@ -539,9 +543,21 @@ msgstr "الإضافات"
 msgid "افزونه Flavor Core فعال نیست. منو از ووکامرس خوانده نمی‌شود."
 msgstr "الإضافة Flavor Core غير مفعّلة. لا تُقرأ القائمة من WooCommerce."
 
+#: flavor/inc/class-onboarding.php:428
+msgid "افزونه غیرفعال"
+msgstr "الإضافة معطّلة"
+
+#: flavor/inc/class-onboarding.php:428
+msgid "افزونه فعال"
+msgstr "الإضافة مفعّلة"
+
 #: flavor/elementor/widgets/class-branch-info-widget.php:111
 msgid "افزونهٔ Flavor Core برای نمایش اطلاعات شعبه لازم است."
 msgstr "يلزم تفعيل إضافة Flavor Core لعرض بيانات الفرع."
+
+#: flavor/inc/class-launch-center.php:245
+msgid "افزونهٔ درگاه نصب است اما پرداخت آنلاین فعال نشده؛ از صفحهٔ درگاه پرداخت اتصال را کامل کنید."
+msgstr "إضافة البوابة مثبّتة لكن الدفع الإلكتروني غير مفعّل؛ أكمل الربط من صفحة بوابات الدفع."
 
 #: flavor/inc/class-launch-center.php:81 flavor/inc/class-launch-center.php:91
 msgid "افزونه‌ها"
@@ -555,7 +571,7 @@ msgstr "أفقي 3 إلى 2 أو مربع؛ لا تتغير الصورة الأ�
 msgid "افقی — ۳ به ۲"
 msgstr "أفقي — 3 إلى 2"
 
-#: flavor/inc/class-launch-center.php:582
+#: flavor/inc/class-launch-center.php:613
 msgid "اقدام"
 msgstr "الإجراء"
 
@@ -599,7 +615,7 @@ msgstr "اختر %s"
 msgid "انتخاب از میان بهترین غذاهای اصلی، پیش‌غذا، نوشیدنی‌ها و دسرهای لذیذ"
 msgstr "اختيار من بين أفضل الأطباق الرئيسية والمقبّلات والمشروبات والحلويات الشهية"
 
-#: flavor/inc/class-onboarding.php:239
+#: flavor/inc/class-onboarding.php:294
 msgid "انتخاب از گالری رسانه"
 msgstr "اختيار من مكتبة الوسائط"
 
@@ -620,6 +636,10 @@ msgstr "اختر الطبق"
 msgid "انتخاب غذا و روش دریافت"
 msgstr "اختيار الطعام وطريقة الاستلام"
 
+#: flavor/inc/class-onboarding.php:416
+msgid "انتخاب فعلی"
+msgstr "الاختيار الحالي"
+
 #: flavor/inc/class-enqueue.php:497
 msgid "انتخاب فعلی این ردیف را ویرایش می‌کنید؛ تا زدن «ذخیرهٔ تغییرات» چیزی در سبد عوض نمی‌شود."
 msgstr "تعدّل الاختيار الحالي لهذا السطر؛ لن يتغيّر شيء في السلة قبل الضغط على «حفظ التغييرات»."
@@ -636,7 +656,7 @@ msgstr "اختيار مميّز"
 msgid "انتخاب پوسته رستوران"
 msgstr "اختيار قالب المطعم"
 
-#: flavor/inc/class-onboarding.php:225
+#: flavor/inc/class-onboarding.php:280
 msgid "انتخاب یا آپلود لوگو از رسانه"
 msgstr "اختيار الشعار أو رفعه من الوسائط"
 
@@ -753,6 +773,10 @@ msgstr "إذا تُرك فارغاً يُعرض اسم الفرع كعنوان."
 msgid "اگر خالی بود، از قانون ارسال رایگان ووکامرس خوانده شود"
 msgstr "إذا كان فارغاً، يُقرأ من قاعدة الشحن المجاني في WooCommerce"
 
+#: flavor/inc/class-onboarding.php:395
+msgid "اگر خاموش باشد فقط پرداخت در محل و پای صندوق نمایش داده می‌شود و می‌توانید بعداً از پیشخوان فعال کنید."
+msgstr "إن كانت مغلقة لن يظهر سوى الدفع عند الاستلام وفي الصندوق، ويمكنك تفعيلها لاحقًا من لوحة التحكم."
+
 #: flavor/inc/class-chrome-builder.php:177
 msgid "اگر خاموشش کنید، منوی اصلی در موبایل همیشه نمایش داده می‌شود تا ناوبری گم نشود."
 msgstr "إذا أوقفتموه، تظهر القائمة الرئيسية على الجوال دائماً حتى لا يضيع التنقل."
@@ -764,6 +788,10 @@ msgstr "إذا تركت الحد صفرًا، تُقرأ القيمة من قا�
 #: flavor/inc/class-chrome-builder.php:213
 msgid "اگر منوی «پاورقی» را در نمایش ← منوها بسازید، همان جای فهرست ثابت می‌آید."
 msgstr "إذا أنشأتم قائمة «التذييل» من المظهر ← القوائم، ستظهر في مكان القائمة الثابتة نفسه."
+
+#: flavor/inc/class-onboarding.php:379
+msgid "اگر می‌خواهید مشتری مبلغ سفارش را آنلاین پرداخت کند، درگاه ایرانی خود را انتخاب کنید. نصب و فعال‌سازی افزونه از همین‌جا انجام می‌شود؛ مرچنت کد را بعداً در تنظیمات همان درگاه وارد می‌کنید."
+msgstr "إذا أردت أن يدفع العميل قيمة الطلب إلكترونيًا فاختر بوابتك الإيرانية. يتم تثبيت الإضافة وتفعيلها من هنا، وتُدخل رمز التاجر لاحقًا في إعدادات البوابة نفسها."
 
 #: flavor/inc/class-ui-customizer.php:93
 msgid "ایران‌سنس — فقط با فایل دارای مجوز؛ در غیر این صورت وزیرمتن"
@@ -789,11 +817,11 @@ msgstr "بريدكم الإلكتروني"
 msgid "ایمیل مجموعه"
 msgstr "البريد الإلكتروني للمجموعة"
 
-#: flavor/inc/class-launch-center.php:236
+#: flavor/inc/class-launch-center.php:266
 msgid "ایمیل مدیر را در تنظیمات عمومی اصلاح کنید."
 msgstr "صحّحوا بريد المدير في الإعدادات العامة."
 
-#: flavor/inc/class-launch-center.php:234
+#: flavor/inc/class-launch-center.php:264
 msgid "ایمیل مدیر معتبر است"
 msgstr "بريد المدير صالح"
 
@@ -801,7 +829,7 @@ msgstr "بريد المدير صالح"
 msgid "ایمیل معتبر وارد کنید."
 msgstr "أدخل بريداً إلكترونياً صحيحاً."
 
-#: flavor/inc/class-launch-center.php:274
+#: flavor/inc/class-launch-center.php:304
 msgid "این check عمداً خودکار مبلغ‌گذاری یا سفارش واقعی نمی‌سازد؛ یک سفارش staging را دستی از QR تا آشپزخانه بررسی کنید."
 msgstr "هذا الفحص لا ينشئ عمداً تسعيراً أو طلباً فعلياً؛ راجعوا طلب staging يدوياً من رمز QR حتى المطبخ."
 
@@ -861,7 +889,7 @@ msgstr "تُطبَّق هذه القيمة على حجم الشاشة هذا ف�
 msgid "این وضعیت از سفارش ثبت‌شده خوانده می‌شود؛ رسیدن به این صفحه به‌تنهایی به معنی پرداخت موفق یا تحویل غذا نیست."
 msgstr "تُقرأ هذه الحالة من الطلب المسجَّل؛ الوصول إلى هذه الصفحة وحده لا يعني نجاح الدفع أو تسليم الطعام."
 
-#: flavor/inc/class-preset-control.php:116
+#: flavor/inc/class-preset-control.php:146
 msgid "این پوسته را رنگ‌های دستی شما پوشانده است."
 msgstr "ألوانكم اليدوية تتجاوز ألوان هذا القالب."
 
@@ -910,7 +938,7 @@ msgstr "مفتوح (1.3)"
 msgid "با زدن قلب روی هر غذا، اینجا نگه‌داری می‌شود."
 msgstr "عند النقر على القلب في أي طبق يُحفظ هنا."
 
-#: flavor/inc/class-launch-center.php:312
+#: flavor/inc/class-launch-center.php:342
 msgid "بازنویسی اجباری؛ انتخاب‌های دستیِ المنتور هم بازنویسی می‌شود"
 msgstr "إعادة الكتابة قسرًا؛ تُستبدل الاختيارات اليدوية في Elementor أيضًا"
 
@@ -918,11 +946,11 @@ msgstr "إعادة الكتابة قسرًا؛ تُستبدل الاختيارا
 msgid "باز کردن سفارشی‌ساز"
 msgstr "فتح أداة التخصيص"
 
-#: flavor/inc/class-onboarding.php:186
+#: flavor/inc/class-onboarding.php:241
 msgid "باز کردن مرکز آمادگی انتشار"
 msgstr "فتح مركز جاهزية النشر"
 
-#: flavor/inc/class-chrome-builder.php:803 flavor/inc/class-launch-center.php:275
+#: flavor/inc/class-chrome-builder.php:803 flavor/inc/class-launch-center.php:305
 msgid "باز کردن منو"
 msgstr "فتح القائمة"
 
@@ -1006,7 +1034,7 @@ msgstr "بإدخال كود الخصم أدناه في سلّة الشراء، �
 msgid "با ووکامرس فعال، تعداد را در بج نشان می‌دهد."
 msgstr "مع تفعيل WooCommerce يُعرض العدد في الشارة."
 
-#: flavor/inc/class-onboarding.php:345
+#: flavor/inc/class-onboarding.php:480
 msgid "با کلیک روی دکمه زیر، اطلاعات ذخیره شده، صفحات اصلی، شعبه و اولین آیتم منو آماده می‌شوند. پس از آن مرکز آمادگی انتشار مواردی مثل درگاه و سفارش آزمایشی را بررسی می‌کند."
 msgstr "بالنقر على الزر أدناه تُجهَّز المعلومات المحفوظة والصفحات الرئيسية والفرع وأول عنصر في القائمة. بعد ذلك يفحص مركز الجاهزية عناصر مثل بوابة الدفع والطلب التجريبي."
 
@@ -1102,11 +1130,15 @@ msgstr "يُحسب حسب المسافة بينكم وبين الفرع، ويظ
 msgid "برای QR، ساعت کاری، رزرو و محدودهٔ ارسال یک شعبه با نشانی کامل بسازید."
 msgstr "أنشئوا فرعاً بعنوان كامل لرمز QR وساعات العمل والحجز ونطاق التوصيل."
 
+#: flavor/inc/class-onboarding.php:385
+msgid "برای اتصال درگاه، افزونهٔ Flavor Core باید نصب و فعال باشد."
+msgstr "لربط بوابة الدفع، يجب تثبيت إضافة Flavor Core وتفعيلها."
+
 #: flavor/inc/class-enqueue.php:494
 msgid "برای ادامه، انتخاب‌های ضروری این غذا را مشخص کنید."
 msgstr "لتتابع، حدّد خيارات هذا الطبق الإلزامية."
 
-#: flavor/inc/class-launch-center.php:236
+#: flavor/inc/class-launch-center.php:266
 msgid "برای اعلان‌های رزرو و سفارش یک آدرس معتبر ثبت شده است."
 msgstr "سُجّل عنوان صالح لإشعارات الحجز والطلب."
 
@@ -1171,7 +1203,7 @@ msgstr "لإعداد الهوية البصرية والقائمة والحجز �
 msgid "برای ساخت منو و سفارش آنلاین، WooCommerce را فعال کنید."
 msgstr "لإنشاء القائمة والطلب الإلكتروني، فعّلوا WooCommerce."
 
-#: flavor/inc/class-launch-center.php:264
+#: flavor/inc/class-launch-center.php:294
 msgid "برای سایت واقعی SSL را فعال کنید؛ محیط localhost می‌تواند این مورد را نادیده بگیرد."
 msgstr "فعّلوا SSL للموقع الفعلي؛ يمكن لبيئة localhost تجاهل هذا البند."
 
@@ -1231,7 +1263,7 @@ msgstr "احجز مكانك لأمسية جميلة."
 msgid "برجسته — ۱.۳۳۳ (چهارم درست)"
 msgstr "بارز — 1.333 (الرابع الصحيح)"
 
-#: flavor/inc/class-launch-center.php:582
+#: flavor/inc/class-launch-center.php:613
 msgid "بررسی"
 msgstr "مراجعة"
 
@@ -1247,7 +1279,7 @@ msgstr "الاستعلام بالرمز للضيف يحتاج إلى JavaScript.
 msgid "بررسی تغییرات درون‌ریزی"
 msgstr "مراجعة تغييرات الاستيراد"
 
-#: flavor/inc/class-launch-center.php:627 flavor/inc/class-update-channel.php:398
+#: flavor/inc/class-launch-center.php:658 flavor/inc/class-update-channel.php:398
 msgid "بررسی دستی"
 msgstr "فحص يدوي"
 
@@ -1420,7 +1452,7 @@ msgstr "تاريخ النشر: %s"
 msgid "تاریخ و ساعت را از تقویم و فهرست ساعت‌ها انتخاب کنید."
 msgstr "اختر التاريخ والساعة من التقويم وقائمة الساعات."
 
-#: flavor/inc/class-preset-control.php:131
+#: flavor/inc/class-preset-control.php:161
 msgid "تا وقتی تغییرات را منتشر نکنید، چیزی در سایت تغییر نمی‌کند و با لغوِ تغییرات همه‌چیز برمی‌گردد."
 msgstr "ما دمتم لم تنشروا التغييرات فلن يتغير شيء في الموقع، وبإلغاء التغييرات تعود الأمور كما كانت."
 
@@ -1516,7 +1548,7 @@ msgstr "صورة قسم الواجهة"
 msgid "تصویر بنر رزرو"
 msgstr "صورة بانر الحجز"
 
-#: flavor/inc/class-onboarding.php:235
+#: flavor/inc/class-onboarding.php:290
 msgid "تصویر جذاب و باکیفیت از فضای رستوران یا غذاهای شاخص"
 msgstr "صورة جذابة وعالية الجودة لأجواء المطعم أو أطباقه المميزة"
 
@@ -1688,7 +1720,7 @@ msgstr "هاتف الدعم والطلب الهاتفي:"
 msgid "تلگرام"
 msgstr "تيليغرام"
 
-#: flavor/inc/class-demo-importer.php:341 flavor/inc/class-onboarding.php:915 flavor/page-templates/template-contact.php:15 flavor/template-parts/ui/mobile-nav.php:11
+#: flavor/inc/class-demo-importer.php:341 flavor/inc/class-onboarding.php:1109 flavor/page-templates/template-contact.php:15 flavor/template-parts/ui/mobile-nav.php:11
 msgid "تماس"
 msgstr "اتصال"
 
@@ -1752,11 +1784,15 @@ msgstr "حار"
 msgid "تنظیمات با موفقیت وارد شد."
 msgstr "تم استيراد الإعدادات بنجاح."
 
-#: flavor/inc/class-launch-center.php:212 flavor/inc/class-launch-center.php:255
+#: flavor/inc/class-onboarding.php:439
+msgid "تنظیمات درگاه"
+msgstr "إعدادات البوابة"
+
+#: flavor/inc/class-launch-center.php:212 flavor/inc/class-launch-center.php:285
 msgid "تنظیمات رستوران"
 msgstr "إعدادات المطعم"
 
-#: flavor/inc/class-launch-center.php:237 flavor/inc/class-launch-center.php:265
+#: flavor/inc/class-launch-center.php:267 flavor/inc/class-launch-center.php:295
 msgid "تنظیمات عمومی"
 msgstr "الإعدادات العامة"
 
@@ -1772,7 +1808,7 @@ msgstr "إعدادات الروابط الدائمة"
 msgid "تنظیمات کانال"
 msgstr "إعدادات القناة"
 
-#: flavor/inc/class-preset-control.php:120
+#: flavor/inc/class-preset-control.php:150
 msgid "تنظیم زیر از پوسته پیروی نمی‌کند:"
 msgid_plural "تنظیمات زیر از پوسته پیروی نمی‌کنند:"
 msgstr[0] "الإعدادات التالية لا تتبع القالب:"
@@ -1798,7 +1834,7 @@ msgstr "طهران، شارع وليعصر"
 msgid "تهیه روزانه گوشت گرم، سبزیجات تازه و برنج خالص ایرانی بدون افزودنی‌های غیرمجاز."
 msgstr "تحضير يومي للحم طازج وخضروات طازجة وأرز إيراني خالص دون إضافات غير مصرّح بها."
 
-#: flavor/elementor/widgets/class-features-widget.php:47 flavor/elementor/widgets/class-offers-widget.php:47 flavor/elementor/widgets/class-order-cta-widget.php:47 flavor/elementor/widgets/class-process-widget.php:47 flavor/elementor/widgets/class-reservation-widget.php:48 flavor/inc/class-builder.php:224 flavor/inc/class-builder.php:395 flavor/inc/class-launch-center.php:582
+#: flavor/elementor/widgets/class-features-widget.php:47 flavor/elementor/widgets/class-offers-widget.php:47 flavor/elementor/widgets/class-order-cta-widget.php:47 flavor/elementor/widgets/class-process-widget.php:47 flavor/elementor/widgets/class-reservation-widget.php:48 flavor/inc/class-builder.php:224 flavor/inc/class-builder.php:395 flavor/inc/class-launch-center.php:613
 msgid "توضیح"
 msgstr "الوصف"
 
@@ -1959,6 +1995,10 @@ msgstr "تفاصيل المنتج"
 msgid "جزئیات هر انتخاب را پیش از سفارش بخوانید."
 msgstr "اقرؤوا تفاصيل كل اختيار قبل الطلب."
 
+#: flavor/inc/class-onboarding.php:441
+msgid "جستجوی افزونه"
+msgstr "البحث عن إضافة"
+
 #: flavor/inc/class-chrome-builder.php:180 flavor/inc/class-chrome-builder.php:824 flavor/inc/class-chrome-builder.php:901 flavor/search.php:7
 msgid "جست‌وجو"
 msgstr "بحث"
@@ -2019,7 +2059,7 @@ msgstr "الهامش الأفقي لسطح المكتب"
 msgid "حاشیهٔ افقی موبایل"
 msgstr "الهامش الأفقي للجوال"
 
-#: flavor/inc/class-launch-center.php:243
+#: flavor/inc/class-launch-center.php:273
 msgid "حالت توسعه فعال است؛ OTP در لاگ محلی ثبت می‌شود و پیامک واقعی ارسال نمی‌شود."
 msgstr "وضع التطوير مفعّل؛ يُسجَّل رمز OTP في السجل المحلي ولا تُرسل رسالة فعلية."
 
@@ -2055,7 +2095,7 @@ msgstr "الوضع الذي يراه الزائر عند أول دخول؛ «ت�
 msgid "حالت‌های سفارش‌گیری شعبه ثبت شده‌اند"
 msgstr "تم تسجيل أوضاع استقبال الطلبات للفرع"
 
-#: flavor/inc/class-onboarding.php:281
+#: flavor/inc/class-onboarding.php:336
 msgid "حالت‌های فعال سفارش‌گیری"
 msgstr "أوضاع استقبال الطلبات المفعّلة"
 
@@ -2075,9 +2115,13 @@ msgstr "يوجد عنصر منشور واحد على الأقل في القائ�
 msgid "حداقل یک حالت سالن، بیرون‌بر یا ارسال را برای شعبه انتخاب کنید."
 msgstr "اختاروا وضعاً واحداً على الأقل للفرع: الصالة أو الاستلام أو التوصيل."
 
-#: flavor/inc/class-launch-center.php:224
+#: flavor/inc/class-launch-center.php:226
 msgid "حداقل یک روش پرداخت فعال است"
 msgstr "توجد طريقة دفع مفعّلة واحدة على الأقل"
+
+#: flavor/inc/class-launch-center.php:229
+msgid "حداقل یک روش پرداخت فعال است؛ برای پرداخت آنلاین، وضعیت درگاه ایرانی را در صفحهٔ درگاه پرداخت ببینید."
+msgstr "هناك طريقة دفع واحدة مفعّلة على الأقل؛ وللدفع الإلكتروني راجع حالة البوابة الإيرانية في صفحة بوابات الدفع."
 
 #: flavor/inc/class-wishlist.php:185
 msgid "حداکثر %d مورد قابل ذخیره است."
@@ -2158,7 +2202,7 @@ msgstr "اتركوه فارغاً ليُقرأ العد التنازلي للم�
 msgid "خاموش کردنش جای بیشتری برای محتوا روی گوشی می‌گذارد."
 msgstr "إيقافه يوفر مساحة أكبر للمحتوى على الهاتف."
 
-#: flavor/inc/class-onboarding.php:890 flavor/inc/class-schema-output.php:553 flavor/inc/class-ui-pages.php:112 flavor/inc/template-tags.php:183 flavor/page-templates/template-menu.php:13 flavor/page-templates/template-order-tracking.php:9 flavor/template-parts/ui/mobile-nav.php:23
+#: flavor/inc/class-onboarding.php:1084 flavor/inc/class-schema-output.php:553 flavor/inc/class-ui-pages.php:112 flavor/inc/template-tags.php:183 flavor/page-templates/template-menu.php:13 flavor/page-templates/template-order-tracking.php:9 flavor/template-parts/ui/mobile-nav.php:23
 msgid "خانه"
 msgstr "الرئيسية"
 
@@ -2262,7 +2306,7 @@ msgstr "حول"
 msgid "درباره رستوران"
 msgstr "حول المطعم"
 
-#: flavor/inc/class-demo-importer.php:337 flavor/inc/class-onboarding.php:910 flavor/template-parts/marketing/about.php:57
+#: flavor/inc/class-demo-importer.php:337 flavor/inc/class-onboarding.php:1104 flavor/template-parts/marketing/about.php:57
 msgid "درباره ما"
 msgstr "من نحن"
 
@@ -2372,7 +2416,7 @@ msgstr "عريض (700)"
 msgid "درشت (700) — پیش‌فرض"
 msgstr "عريض (700) — الافتراضي"
 
-#: flavor/inc/class-launch-center.php:569
+#: flavor/inc/class-launch-center.php:599
 msgid "درصد آمادگی"
 msgstr "نسبة الجاهزية"
 
@@ -2388,7 +2432,7 @@ msgstr "الاستيراد «%s» يستبدل المحتوى الحالي له�
 msgid "درون‌ریزی با پشتیبان"
 msgstr "استيراد مع نسخة احتياطية"
 
-#: flavor/inc/class-launch-center.php:576
+#: flavor/inc/class-launch-center.php:607
 msgid "درون‌ریزی دمو"
 msgstr "استيراد العرض التجريبي"
 
@@ -2408,9 +2452,25 @@ msgstr "اكتمل الاستيراد"
 msgid "درون‌ریزی کامل نشد. محتوای پیشین از آرشیو محافظت می‌شود؛ از بخش بازگشت استفاده کنید."
 msgstr "لم يكتمل الاستيراد. المحتوى السابق محفوظ في الأرشيف؛ استخدموا قسم الاستعادة."
 
-#: flavor/inc/class-launch-center.php:226
+#: flavor/inc/class-launch-center.php:230
 msgid "درگاه بانکی یا روش پرداخت محلی را در WooCommerce فعال کنید."
 msgstr "فعّلوا بوابة بنكية أو طريقة دفع محلية في WooCommerce."
+
+#: flavor/inc/class-launch-center.php:243
+msgid "درگاه روشن است اما مرچنت کد/کلید API آن خالی است؛ تا تکمیل نشود پرداخت آنلاین قابل اعتماد نیست."
+msgstr "البوابة مفعّلة لكن رمز التاجر/مفتاح API فارغ؛ لا يمكن الاعتماد على الدفع الإلكتروني قبل إكماله."
+
+#: flavor/inc/class-launch-center.php:606
+msgid "درگاه پرداخت"
+msgstr "بوابة الدفع"
+
+#: flavor/inc/class-launch-center.php:252
+msgid "درگاه پرداخت آنلاین ایرانی متصل است"
+msgstr "تم ربط بوابة دفع إيرانية إلكترونية"
+
+#: flavor/inc/class-launch-center.php:231
+msgid "درگاه‌های پرداخت"
+msgstr "بوابات الدفع"
 
 #: flavor/inc/class-enqueue.php:454
 #. %s values. */
@@ -2458,11 +2518,11 @@ msgstr "الوصول السريع"
 msgid "دسترسی سریع موبایل"
 msgstr "وصول سريع من الهاتف"
 
-#: flavor/inc/class-demo-importer.php:51 flavor/inc/class-demo-importer.php:159 flavor/inc/class-demo-importer.php:208 flavor/inc/class-launch-center.php:456 flavor/inc/class-launch-center.php:549 flavor/inc/class-onboarding.php:123 flavor/inc/class-onboarding.php:530 flavor/inc/class-onboarding.php:554 flavor/inc/class-transfer.php:50 flavor/inc/class-transfer.php:245 flavor/inc/class-update-channel.php:525
+#: flavor/inc/class-demo-importer.php:51 flavor/inc/class-demo-importer.php:159 flavor/inc/class-demo-importer.php:208 flavor/inc/class-launch-center.php:486 flavor/inc/class-launch-center.php:579 flavor/inc/class-onboarding.php:123 flavor/inc/class-onboarding.php:695 flavor/inc/class-onboarding.php:719 flavor/inc/class-transfer.php:50 flavor/inc/class-transfer.php:245 flavor/inc/class-update-channel.php:525
 msgid "دسترسی ندارید."
 msgstr "ليست لديكم صلاحية الوصول."
 
-#: flavor/inc/class-onboarding.php:333
+#: flavor/inc/class-onboarding.php:468
 msgid "دسته‌بندی"
 msgstr "التصنيف"
 
@@ -2622,7 +2682,7 @@ msgstr "حفظ التغييرات"
 msgid "ذخیرهٔ تنظیمات"
 msgstr "حفظ الإعدادات"
 
-#: flavor/inc/class-launch-center.php:326
+#: flavor/inc/class-launch-center.php:356
 msgid "ذخیرهٔ کیت مجاز نبود؛ تنظیمات قالب دست‌نخورده ماند."
 msgstr "لم يُسمَح بحفظ المجموعة؛ بقيت إعدادات القالب كما هي."
 
@@ -2634,11 +2694,11 @@ msgstr "مريح ومفتوح"
 msgid "راست"
 msgstr "يمين"
 
-#: flavor/inc/class-onboarding.php:186
+#: flavor/inc/class-onboarding.php:241
 msgid "راه‌اندازی ذخیره شد. مرکز آمادگی انتشار را برای بررسی درگاه، شعبه، منو و سفارش آزمایشی باز کنید."
 msgstr "تم حفظ الإعداد. افتحوا مركز جاهزية النشر لمراجعة البوابة والفرع والقائمة والطلب التجريبي."
 
-#: flavor/inc/class-launch-center.php:124 flavor/inc/class-launch-center.php:165 flavor/inc/class-launch-center.php:575
+#: flavor/inc/class-launch-center.php:124 flavor/inc/class-launch-center.php:165 flavor/inc/class-launch-center.php:605
 msgid "راه‌اندازی سریع"
 msgstr "الإعداد السريع"
 
@@ -2646,9 +2706,9 @@ msgstr "الإعداد السريع"
 msgid "راه‌اندازی سریع رستوران"
 msgstr "الإعداد السريع للمطعم"
 
-#: flavor/inc/class-onboarding.php:189
-msgid "راه‌اندازی سریع رستوران در ۱۰ گام ساده"
-msgstr "الإعداد السريع للمطعم في 10 خطوات بسيطة"
+#: flavor/inc/class-onboarding.php:244
+msgid "راه‌اندازی سریع رستوران در ۱۱ گام ساده"
+msgstr "الإعداد السريع للمطعم في 11 خطوة بسيطة"
 
 #: flavor/page-templates/template-contact.php:17
 msgid "راه‌های ارتباطی"
@@ -2698,7 +2758,7 @@ msgstr "يُنصح بالحجز للمجموعات التي تزيد عن أرب
 msgid "رزرو سالن"
 msgstr "حجز القاعة"
 
-#: flavor/elementor/widgets/class-reservation-widget.php:59 flavor/elementor/widgets/class-reservation-widget.php:90 flavor/inc/class-block-patterns.php:169 flavor/inc/class-block-patterns.php:247 flavor/inc/class-builder.php:384 flavor/inc/class-builder.php:407 flavor/inc/class-customizer.php:842 flavor/inc/class-onboarding.php:900 flavor/inc/template-tags.php:190 flavor/template-parts/ui/mobile-nav.php:9
+#: flavor/elementor/widgets/class-reservation-widget.php:59 flavor/elementor/widgets/class-reservation-widget.php:90 flavor/inc/class-block-patterns.php:169 flavor/inc/class-block-patterns.php:247 flavor/inc/class-builder.php:384 flavor/inc/class-builder.php:407 flavor/inc/class-customizer.php:842 flavor/inc/class-onboarding.php:1094 flavor/inc/template-tags.php:190 flavor/template-parts/ui/mobile-nav.php:9
 msgid "رزرو میز"
 msgstr "حجز طاولة"
 
@@ -2758,7 +2818,7 @@ msgstr "الانتقال إلى القائمة"
 msgid "رنگ اصلی"
 msgstr "اللون الأساسي"
 
-#: flavor/inc/class-onboarding.php:249
+#: flavor/inc/class-onboarding.php:304
 msgid "رنگ اصلی برند"
 msgstr "اللون الأساسي للعلامة"
 
@@ -2778,7 +2838,7 @@ msgstr "لون التمييز والشارات (Accent)"
 msgid "رنگ ثانویه (Secondary)"
 msgstr "اللون الثانوي (Secondary)"
 
-#: flavor/inc/class-onboarding.php:253
+#: flavor/inc/class-onboarding.php:308
 msgid "رنگ ثانویه / تاکیدی"
 msgstr "اللون الثانوي / التمييزي"
 
@@ -2862,7 +2922,7 @@ msgstr "لون نص التذييل"
 msgid "رنگ متن کم‌رنگ"
 msgstr "لون النص الباهت"
 
-#: flavor/inc/class-launch-center.php:307
+#: flavor/inc/class-launch-center.php:337
 msgid "رنگ و فونت با کیت Elementor هماهنگ است"
 msgstr "الألوان والخطوط متزامنة مع مجموعة Elementor"
 
@@ -2878,7 +2938,7 @@ msgstr "لون خلفية القسم"
 msgid "رنگ پس‌زمینهٔ صفحه"
 msgstr "لون خلفية الصفحة"
 
-#: flavor/inc/class-launch-center.php:317
+#: flavor/inc/class-launch-center.php:347
 msgid "رنگ‌های Flavor"
 msgstr "ألوان Flavor"
 
@@ -2886,7 +2946,7 @@ msgstr "ألوان Flavor"
 msgid "رنگ‌های برند"
 msgstr "ألوان العلامة التجارية"
 
-#: flavor/inc/class-launch-center.php:316
+#: flavor/inc/class-launch-center.php:346
 msgid "رنگ‌های سیستمی"
 msgstr "الألوان النظامية"
 
@@ -2954,7 +3014,7 @@ msgstr "طرق الطلب"
 msgid "روش‌های سفارش، نشانی و اطلاعات تماس هر شعبه را ببینید. پیش از مراجعه، ساعات و شرایط همان روز را هماهنگ کنید."
 msgstr "اطّلع على طرق الطلب وعنوان كل فرع وبيانات الاتصال به. قبل الحضور، نسّق مواعيد ذلك اليوم وظروفه."
 
-#: flavor/inc/class-launch-center.php:227
+#: flavor/inc/class-launch-center.php:231
 msgid "روش‌های پرداخت"
 msgstr "طرق الدفع"
 
@@ -2977,6 +3037,10 @@ msgstr "النظام الغذائي:"
 #: flavor/inc/class-ui.php:61
 msgid "زاویه‌دار"
 msgstr "زاوي"
+
+#: flavor/inc/class-launch-center.php:247
+msgid "زرین‌پال، زیبال، آی‌دی‌پی، پی‌پینگ یا درگاه بانکی را از صفحهٔ درگاه پرداخت نصب و متصل کنید."
+msgstr "ثبّت زرينبال أو زيبل أو آيديبي أو بايبينغ أو بوابة مصرفية واربطها من صفحة بوابات الدفع."
 
 #: flavor/inc/class-enqueue.php:496
 msgid "زمان آماده‌سازی برآورد است، نه زمان تضمین‌شدهٔ رسیدن سفارش."
@@ -3090,7 +3154,7 @@ msgstr "ساعات الضيافة والتوصيل"
 msgid "ساعات کاری"
 msgstr "ساعات العمل"
 
-#: flavor/inc/class-onboarding.php:277
+#: flavor/inc/class-onboarding.php:332
 msgid "ساعات کاری رستوران"
 msgstr "ساعات عمل المطعم"
 
@@ -3262,7 +3326,7 @@ msgstr "سُجّل الطلب %s."
 msgid "سفارش، شعبه، رزرو، QR و آشپزخانه قابل استفاده‌اند."
 msgstr "الطلب والفرع والحجز وQR والمطبخ جاهزة للاستخدام."
 
-#: flavor/inc/class-launch-center.php:272
+#: flavor/inc/class-launch-center.php:302
 msgid "سفارش آزمایشی ثبت شده است"
 msgstr "تم تسجيل طلب تجريبي"
 
@@ -3294,7 +3358,7 @@ msgstr "طلب عبر الإنترنت بخصم"
 msgid "سفارش ارسال"
 msgstr "طلب التوصيل"
 
-#: flavor/inc/class-block-patterns.php:342 flavor/inc/class-onboarding.php:283
+#: flavor/inc/class-block-patterns.php:342 flavor/inc/class-onboarding.php:338
 msgid "سفارش بیرون‌بر"
 msgstr "طلب الاستلام الخارجي"
 
@@ -3310,7 +3374,7 @@ msgstr "قدّم طلبك بالدفع الإلكتروني أو في المكا
 msgid "سفارش سالن (QR)"
 msgstr "طلب الصالة (رمز QR)"
 
-#: flavor/inc/class-onboarding.php:282
+#: flavor/inc/class-onboarding.php:337
 msgid "سفارش سر میز سالن (QR)"
 msgstr "الطلب من الطاولة في القاعة (QR)"
 
@@ -3330,7 +3394,7 @@ msgstr "يُجهَّز طلبك في أقصر وقت."
 msgid "سفارش مهمان لزوماً در تاریخچهٔ حساب نمایش داده نمی‌شود؛ از رسید یا مسیر پیگیری آن استفاده کنید."
 msgstr "طلب الضيف لا يظهر بالضرورة في سجل الحساب؛ استخدموا الإيصال أو مسار المتابعة الخاص به."
 
-#: flavor/inc/class-launch-center.php:577
+#: flavor/inc/class-launch-center.php:608
 msgid "سفارشی‌سازی ظاهر"
 msgstr "تخصيص المظهر"
 
@@ -3407,14 +3471,14 @@ msgid "شبکه‌های اجتماعی"
 msgstr "شبكات التواصل الاجتماعي"
 
 #: flavor/inc/class-onboarding.php:111
-msgid "شروع راه‌اندازی ۱۰ مرحله‌ای"
-msgstr "بدء الإعداد من 10 مراحل"
+msgid "شروع راه‌اندازی ۱۱ مرحله‌ای"
+msgstr "بدء الإعداد من 11 مرحلة"
 
 #: flavor/inc/class-builder.php:241
 msgid "شروع سفارش"
 msgstr "بدء الطلب"
 
-#: flavor/inc/class-onboarding.php:213
+#: flavor/inc/class-onboarding.php:268
 msgid "شعار یا زمینه فعالیت"
 msgstr "الشعار أو مجال النشاط"
 
@@ -3442,7 +3506,7 @@ msgstr "الفرع الرئيسي مفعّل مع العنوان والمدين�
 msgid "شعبهٔ پیش‌فرض: %s"
 msgstr "الفرع الافتراضي: %s"
 
-#: flavor/inc/class-demo-importer.php:333 flavor/inc/class-launch-center.php:136 flavor/inc/class-onboarding.php:905 flavor/inc/template-tags.php:194 flavor/template-parts/branch/branch-selector.php:18
+#: flavor/inc/class-demo-importer.php:333 flavor/inc/class-launch-center.php:136 flavor/inc/class-onboarding.php:1099 flavor/inc/template-tags.php:194 flavor/template-parts/branch/branch-selector.php:18
 #. %s values. */
 msgid "شعبه‌ها"
 msgstr "الفروع"
@@ -3475,7 +3539,7 @@ msgstr "تغيّر الرقم؛ اطلب رمزًا للرقم الجديد."
 msgid "شماره تلفن تماس / سفارش"
 msgstr "رقم الاتصال / الطلب"
 
-#: flavor/inc/class-onboarding.php:305
+#: flavor/inc/class-onboarding.php:360
 msgid "شماره تلفن رستوران (جهت تماس و سفارش تلفنی)"
 msgstr "رقم هاتف المطعم (للاتصال والطلب الهاتفي)"
 
@@ -3519,7 +3583,7 @@ msgstr "من السبت إلى الخميس"
 msgid "شنبه تا چهارشنبه:"
 msgstr "السبت إلى الأربعاء:"
 
-#: flavor/elementor/widgets/class-branch-info-widget.php:138 flavor/inc/class-onboarding.php:292 flavor/template-parts/menu/cart-drawer.php:28
+#: flavor/elementor/widgets/class-branch-info-widget.php:138 flavor/inc/class-onboarding.php:347 flavor/template-parts/menu/cart-drawer.php:28
 msgid "شهر"
 msgstr "المدينة"
 
@@ -3828,7 +3892,7 @@ msgstr "ملف الإعدادات غير صالح أو لم تُنفَّذ ال�
 msgid "فراخوان اقدام"
 msgstr "دعوة إلى الإجراء"
 
-#: flavor/inc/class-launch-center.php:264
+#: flavor/inc/class-launch-center.php:294
 msgid "فرم ورود، OTP و پرداخت روی اتصال امن اجرا می‌شوند."
 msgstr "تُنفَّذ نماذج الدخول ورمز OTP والدفع عبر اتصال آمن."
 
@@ -3904,6 +3968,10 @@ msgstr "تفعيل نموذج الاشتراك في النشرة"
 msgid "فعال‌بودن مگامنو در منوی اصلی"
 msgstr "تفعيل القائمة الضخمة في القائمة الرئيسية"
 
+#: flavor/inc/class-onboarding.php:437
+msgid "فعال‌سازی افزونه"
+msgstr "تفعيل الإضافة"
+
 #: flavor/inc/class-builder.php:652
 msgid "فعال‌سازی صفحه‌ساز برای این صفحه"
 msgstr "تفعيل منشئ الصفحات لهذه الصفحة"
@@ -3977,7 +4045,7 @@ msgstr "خط العناوين"
 msgid "فونت متن و فرم‌ها"
 msgstr "خط النص والنماذج"
 
-#: flavor/inc/class-launch-center.php:318
+#: flavor/inc/class-launch-center.php:348
 msgid "فونت‌ها"
 msgstr "الخطوط"
 
@@ -4037,7 +4105,7 @@ msgstr "قالب القسم الرئيسي: ملء الشاشة، أو عمود�
 msgid "قبل از انتخاب"
 msgstr "قبل الاختيار"
 
-#: flavor/inc/class-launch-center.php:568
+#: flavor/inc/class-launch-center.php:598
 msgid "قبل از تبلیغ سایت، وابستگی‌ها، منو، شعبه، پرداخت و مسیر سفارش را بررسی کنید."
 msgstr "قبل الترويج للموقع، راجعوا الاعتماديات والقائمة والفرع والدفع ومسار الطلب."
 
@@ -4053,7 +4121,7 @@ msgstr "مدعوم بمنصة مطعم Flavor المباشرة"
 msgid "قنادی و نانوایی فرانسوی"
 msgstr "حلويات ومخبز فرنسي"
 
-#: flavor/inc/class-onboarding.php:329
+#: flavor/inc/class-onboarding.php:464
 msgid "قیمت (تومان)"
 msgstr "السعر (تومان)"
 
@@ -4101,7 +4169,7 @@ msgstr "الشعار والتعريف القصير"
 msgid "لوگو و منو وسط‌چین"
 msgstr "الشعار والقائمة في المنتصف"
 
-#: flavor/inc/class-onboarding.php:222
+#: flavor/inc/class-onboarding.php:277
 msgid "لوگوی باکیفیت (PNG با پس‌زمینه شفاف پیشنهاد می‌شود)"
 msgstr "شعار عالي الجودة (يُنصح بملف PNG بخلفية شفافة)"
 
@@ -4306,7 +4374,7 @@ msgstr "معتدل (500)"
 msgid "مثال: ارسال رایگان سفارش‌های بالای ۳۰۰ هزار تومان در سراسر منطقه"
 msgstr "مثال: توصيل مجاني للطلبات فوق 300 ألف تومان في كامل المنطقة"
 
-#: flavor/inc/class-onboarding.php:214
+#: flavor/inc/class-onboarding.php:269
 msgid "مثال: طعم اصیل کباب و نان داغ در محیطی آرام"
 msgstr "مثال: نكهة أصيلة من الكباب والخبز الساخن في أجواء هادئة"
 
@@ -4366,6 +4434,10 @@ msgstr "لم يُعثر على منتج للعرض. ثبّت ووكومرس وا
 msgid "محله"
 msgstr "الحي"
 
+#: flavor/inc/class-onboarding.php:386
+msgid "مدیریت افزونه‌ها"
+msgstr "إدارة الإضافات"
+
 #: flavor/inc/class-launch-center.php:188
 msgid "مدیریت میزها و QR"
 msgstr "إدارة الطاولات ورموز QR"
@@ -4377,6 +4449,10 @@ msgstr "إدارة العنوان وبيانات الاستلام"
 #: flavor/inc/class-customizer.php:859
 msgid "مدیریت و فعال‌سازی ۱۵ سکشن کاربردی صفحه اصلی"
 msgstr "إدارة وتفعيل 15 قسماً مفيداً للصفحة الرئيسية"
+
+#: flavor/inc/class-onboarding.php:450
+msgid "مدیریت کامل درگاه‌ها"
+msgstr "إدارة كل البوابات"
 
 #: flavor/elementor/widgets/class-process-widget.php:54
 msgid "مراحل"
@@ -4406,7 +4482,7 @@ msgstr "حد أسفل الترويسة: خط رفيع، ظل ناعم، كلاه
 msgid "مرکز آمادگی انتشار"
 msgstr "مركز جاهزية النشر"
 
-#: flavor/inc/class-launch-center.php:567
+#: flavor/inc/class-launch-center.php:597
 msgid "مرکز آمادگی انتشار Flavor"
 msgstr "مركز جاهزية نشر Flavor"
 
@@ -4458,7 +4534,7 @@ msgstr "عرض وطلب %s"
 msgid "مشاهده و سفارش محصولات دسته %s"
 msgstr "عرض وطلب منتجات فئة %s"
 
-#: flavor/inc/class-onboarding.php:186
+#: flavor/inc/class-onboarding.php:241
 msgid "مشاهدهٔ سایت"
 msgstr "عرض الموقع"
 
@@ -4594,7 +4670,7 @@ msgstr "قائمة المطعم"
 msgid "منوی سفارش آنلاین"
 msgstr "قائمة الطلب الإلكتروني"
 
-#: flavor/inc/class-onboarding.php:895 flavor/inc/template-tags.php:186
+#: flavor/inc/class-onboarding.php:1089 flavor/inc/template-tags.php:186
 msgid "منوی غذا"
 msgstr "قائمة الطعام"
 
@@ -4650,7 +4726,7 @@ msgstr "مكوّنات طازجة وعضوية"
 msgid "مواد تازه و روزانه"
 msgstr "مكوّنات طازجة يومياً"
 
-#: flavor/inc/class-launch-center.php:319
+#: flavor/inc/class-launch-center.php:349
 msgid "موارد دیگر"
 msgstr "عناصر أخرى"
 
@@ -4666,7 +4742,7 @@ msgstr "الجوال: %s"
 msgid "موجودی، هزینهٔ ارسال و مبلغ نهایی هنگام ثبت، در سرور دوباره بررسی می‌شوند. ثبت سفارش فقط با دکمهٔ نهایی انجام می‌شود."
 msgstr "يُعاد التحقّق من التوفّر وتكلفة التوصيل والمبلغ النهائي في الخادم عند التسجيل. ولا يُسجَّل الطلب إلا بالزر النهائي."
 
-#: flavor/inc/class-launch-center.php:587
+#: flavor/inc/class-launch-center.php:618
 msgid "مورد اصلی انتشار"
 msgstr "عنصر النشر الأساسي"
 
@@ -4758,7 +4834,7 @@ msgstr "أدخل اسمك؛ فبدون اسم لا يمكن متابعة الر�
 msgid "نام خود را وارد کنید تا پیام قابل پیگیری باشد."
 msgstr "أدخل اسمك حتى تكون الرسالة قابلة للمتابعة."
 
-#: flavor/inc/class-onboarding.php:209
+#: flavor/inc/class-onboarding.php:264
 msgid "نام رستوران / کافه"
 msgstr "اسم المطعم / المقهى"
 
@@ -4766,7 +4842,7 @@ msgstr "اسم المطعم / المقهى"
 msgid "نام شعبه یا شهر…"
 msgstr "اسم الفرع أو المدينة…"
 
-#: flavor/inc/class-onboarding.php:324
+#: flavor/inc/class-onboarding.php:459
 msgid "نام غذا / نوشیدنی"
 msgstr "اسم الطعام / المشروب"
 
@@ -4860,7 +4936,7 @@ msgstr "العنوان المسجّل"
 msgid "نشانی خارج از محدودهٔ ارسال است."
 msgstr "العنوان خارج نطاق التوصيل."
 
-#: flavor/inc/class-onboarding.php:296
+#: flavor/inc/class-onboarding.php:351
 msgid "نشانی دقیق شعبه اصلی"
 msgstr "العنوان الدقيق للفرع الرئيسي"
 
@@ -4923,6 +4999,14 @@ msgstr "تُعرض الشارات إضافة إلى قائمة التذييل ت
 #: flavor/inc/class-engagement.php:325
 msgid "نشست منقضی شده است؛ صفحه را دوباره باز کنید."
 msgstr "انتهت الجلسة؛ أعد فتح الصفحة."
+
+#: flavor/inc/class-onboarding.php:435
+msgid "نصب افزونه"
+msgstr "تثبيت الإضافة"
+
+#: flavor/inc/class-onboarding.php:431
+msgid "نصب نشده"
+msgstr "غير مثبّتة"
 
 #: flavor/inc/class-changelog.php:208
 msgid "نصب‌شده"
@@ -5201,7 +5285,7 @@ msgstr "نسّقوا الاحتياجات الغذائية والحساسية ق
 msgid "نیاز غذایی یا توضیح تکمیلی"
 msgstr "احتياج غذائي أو إيضاح إضافي"
 
-#: flavor/inc/class-launch-center.php:625
+#: flavor/inc/class-launch-center.php:656
 msgid "نیازمند اقدام"
 msgstr "يحتاج إلى إجراء"
 
@@ -5293,7 +5377,7 @@ msgstr "تُضاف كلفة الاختيارات الإضافية إلى الف�
 msgid "هزینهٔ منطقه جداگانه نمایش داده شده و در مبلغ فعلی سبد منظور نشده است؛ سرور مبلغ نهایی را هنگام ثبت بررسی می‌کند."
 msgstr "تُعرض تكلفة المنطقة بشكل منفصل وليست مشمولة بالمبلغ الحالي للسلة؛ يتحقق الخادم من المبلغ النهائي عند التأكيد."
 
-#: flavor/inc/class-launch-center.php:626
+#: flavor/inc/class-launch-center.php:657
 msgid "هشدار"
 msgstr "تنبيه"
 
@@ -5357,25 +5441,29 @@ msgstr "جميع المدن"
 msgid "همهٔ منو"
 msgstr "كل القائمة"
 
-#: flavor/inc/class-onboarding.php:343
+#: flavor/inc/class-onboarding.php:478
 msgid "همه چیز آماده راه‌اندازی است!"
 msgstr "كل شيء جاهز للإطلاق!"
 
-#: flavor/inc/class-launch-center.php:311
+#: flavor/inc/class-launch-center.php:341
 msgid "همگام‌سازی با Elementor"
 msgstr "المزامنة مع Elementor"
 
-#: flavor/inc/class-launch-center.php:308
+#: flavor/inc/class-launch-center.php:338
 msgid "همگام‌سازی دستی کیت"
 msgstr "مزامنة المجموعة يدويًا"
 
-#: flavor/inc/class-launch-center.php:309
+#: flavor/inc/class-launch-center.php:339
 msgid "همگام‌سازی کیت Elementor"
 msgstr "مزامنة مجموعة Elementor"
 
 #: flavor/inc/class-builder.php:239
 msgid "همین حالا سفارش دهید"
 msgstr "اطلب الآن"
+
+#: flavor/inc/class-onboarding.php:399
+msgid "هم‌اکنون %1$d درگاه نصب و %2$d درگاه فعال دارید."
+msgstr "لديك الآن %1$d بوابة مثبّتة و%2$d بوابة مفعّلة."
 
 #: flavor/template-parts/marketing/hours.php:24
 msgid "هم‌اکنون باز است"
@@ -5397,7 +5485,7 @@ msgstr "لم تختر شيئاً بعد"
 msgid "هنوز تصویری برای این گالری انتخاب نشده است؛ در تنظیماتِ ویجت چند تصویر از رسانه انتخاب کنید."
 msgstr "لم يُختَر أي صورة لهذا المعرض بعد؛ اختر بضع صور من الوسائط داخل إعدادات الأداة."
 
-#: flavor/inc/class-launch-center.php:320
+#: flavor/inc/class-launch-center.php:350
 msgid "هنوز دستی اجرا نشده است؛ بعد از هر ذخیرهٔ Customizer خودش اجرا می‌شود."
 msgstr "لم تُجرَ أي مزامنة يدوية بعد؛ تُنفَّذ تلقائيًا بعد كل حفظ من شاشة «تخصيص»."
 
@@ -5529,7 +5617,7 @@ msgstr "الوسط"
 msgid "وسط‌چین در دسکتاپ اعمال می‌شود؛ در موبایل چینش خوانا و دکمهٔ منو حفظ می‌شود. هدر شیشه‌ای روی متن صفحه قرار نمی‌گیرد."
 msgstr "يُطبَّق التوسيط على سطح المكتب؛ وعلى الجوال يُحافظ على تخطيط واضح وزر القائمة. لا تُوضع الترويسة الزجاجية فوق نص الصفحة."
 
-#: flavor/inc/class-launch-center.php:582 flavor/inc/class-update-channel.php:368
+#: flavor/inc/class-launch-center.php:613 flavor/inc/class-update-channel.php:368
 msgid "وضعیت"
 msgstr "الحالة"
 
@@ -5622,7 +5710,7 @@ msgstr "مسح البحث"
 msgid "پاک کردن فهرست"
 msgstr "مسح القائمة"
 
-#: flavor/inc/class-preset-control.php:130
+#: flavor/inc/class-preset-control.php:160
 msgid "پاک‌کردنِ رنگ‌های دستی و پیروی از پوسته"
 msgstr "حذف الألوان اليدوية والاتباع للقالب"
 
@@ -5666,6 +5754,14 @@ msgstr "استقبال مستمر"
 msgid "پرجست‌وجوها"
 msgstr "الأكثر بحثاً"
 
+#: flavor/inc/class-launch-center.php:241
+msgid "پرداخت آنلاین از طریق %s فعال است."
+msgstr "الدفع الإلكتروني مفعّل عبر %s."
+
+#: flavor/inc/class-onboarding.php:393
+msgid "پرداخت آنلاین را فعال کن"
+msgstr "فعّل الدفع الإلكتروني"
+
 #: flavor/inc/class-block-patterns.php:410
 msgid "پرداخت آنلاین یا در محل، همراه با پیگیری لحظه‌ای."
 msgstr "دفع إلكتروني أو عند المكان، مع متابعة فورية."
@@ -5706,6 +5802,10 @@ msgstr "تجنّب:"
 msgid "پرهیز از حساسیت‌ها"
 msgstr "تجنّب مسبّبات الحساسية"
 
+#: flavor/inc/class-onboarding.php:449
+msgid "پس از انتخاب، مرچنت کد (یا کلید API) را در تنظیمات همان درگاه در ووکامرس وارد کنید؛ Flavor به‌محض ذخیرهٔ کد، پرداخت آنلاین را خودکار فعال می‌کند."
+msgstr "بعد الاختيار، أدخل رمز التاجر (أو مفتاح API) في إعدادات البوابة نفسها في ووكومرس؛ ويفعّل Flavor الدفع الإلكتروني تلقائيًا بمجرد حفظ الرمز."
+
 #: flavor/inc/class-premium-customizer.php:205
 msgid "پس از عضویت نمایش داده می‌شود؛ فقط پیامِ اطلاع‌رسانی است و کوپنِ واقعی در ووکامرس نمی‌سازد."
 msgstr "يُعرض بعد الاشتراك؛ رسالة إعلامية فقط ولا يُنشئ قسيمة فعلية في WooCommerce."
@@ -5742,7 +5842,7 @@ msgstr "خلفية البطاقة"
 msgid "پشت هر انتخاب، یک داستان."
 msgstr "خلف كل اختيار قصة."
 
-#: flavor/inc/class-launch-center.php:578 flavor/inc/class-transfer.php:38
+#: flavor/inc/class-launch-center.php:609 flavor/inc/class-transfer.php:38
 msgid "پشتیبان تنظیمات"
 msgstr "نسخة إعدادات احتياطية"
 
@@ -5810,7 +5910,7 @@ msgstr "أُرسلت رسالتك؛ وسنردّ عبر الوسيلة التي 
 msgid "پیام ویژه"
 msgstr "رسالة خاصة"
 
-#: flavor/inc/class-launch-center.php:252
+#: flavor/inc/class-launch-center.php:282
 msgid "پیامک واقعی پیکربندی شده است"
 msgstr "رسائل SMS الفعلية مُعدّة"
 
@@ -5935,7 +6035,7 @@ msgstr "المتابعة الأساسية في WooCommerce بالبريد الإ
 msgid "پیگیری سریع فعلاً فعال نیست. از رسید سفارش یا حساب مشتری استفاده کنید."
 msgstr "المتابعة السريعة غير مفعّلة حالياً. استخدموا إيصال الطلب أو حساب العميل."
 
-#: flavor/inc/class-onboarding.php:920 flavor/page-templates/template-order-tracking.php:9
+#: flavor/inc/class-onboarding.php:1114 flavor/page-templates/template-order-tracking.php:9
 msgid "پیگیری سفارش"
 msgstr "متابعة الطلب"
 
@@ -5999,7 +6099,7 @@ msgstr "التنسيق المقترح"
 msgid "چیزی با این عبارت پیدا نشد."
 msgstr "لم يُعثر على شيء بهذه العبارة."
 
-#: flavor/inc/class-launch-center.php:323
+#: flavor/inc/class-launch-center.php:353
 #. %1$d, %2$d values. */
 msgid "چیزی برای نوشتن نبود؛ کیت از پیش با توکن‌های قالب هماهنگ بود."
 msgstr "لم يكن هناك ما يُكتب؛ كانت المجموعة متزامنة مع رموز القالب سلفًا."
@@ -6056,7 +6156,7 @@ msgstr "كامل مع الرئيسية، أو مختصر بدونها؛ وتُخ
 msgid "کامل و متناسب با صفحه"
 msgstr "كامل ومتناسب مع الصفحة"
 
-#: flavor/inc/class-onboarding.php:314
+#: flavor/inc/class-onboarding.php:369
 msgid "کانال تلگرام"
 msgstr "قناة تيليغرام"
 
@@ -6168,11 +6268,11 @@ msgstr "زر الوضع الليلي والنهاري"
 msgid "کلید عمومی امضا (base64)"
 msgstr "المفتاح العام للتوقيع (base64)"
 
-#: flavor/inc/class-launch-center.php:315
+#: flavor/inc/class-launch-center.php:345
 msgid "کلیدهایی که حفظ شد"
 msgstr "المفاتيح التي بقيت كما هي"
 
-#: flavor/inc/class-launch-center.php:314
+#: flavor/inc/class-launch-center.php:344
 msgid "کلیدهایی که نوشته شد"
 msgstr "المفاتيح التي كُتبت"
 
@@ -6256,11 +6356,11 @@ msgstr "نسخ الرمز"
 msgid "کیان رضایی"
 msgstr "كيان رضائي"
 
-#: flavor/inc/class-launch-center.php:325
+#: flavor/inc/class-launch-center.php:355
 msgid "کیت فعالی در المنتور پیدا نشد؛ ابتدا یک Kit در تنظیمات سایت بسازید."
 msgstr "لم تُعثر على مجموعة نشطة في Elementor؛ أنشئ مجموعة (Kit) في إعدادات الموقع أولًا."
 
-#: flavor/inc/class-launch-center.php:310
+#: flavor/inc/class-launch-center.php:340
 msgid "کیتِ فعالِ المنتور از توکن‌های همین قالب نوشته می‌شود. اگر کلیدی را دستی در المنتور عوض کرده باشید، Flavor آن را بازنویسی نمی‌کند و در گزارش «حفظ‌شده» می‌آید."
 msgstr "تُكتب المجموعة النشطة في Elementor من رموز هذا القالب. وإذا كنت قد غيّرت مفتاحًا بنفسك في Elementor فإن Flavor لا يعيد كتابته، بل يورده في التقرير تحت بند «بقي كما هو»."
 
@@ -6284,45 +6384,49 @@ msgstr "معرض صور المطعم"
 msgid "گالری غذا"
 msgstr "معرض الطعام"
 
-#: flavor/inc/class-onboarding.php:366
+#: flavor/inc/class-onboarding.php:501
 msgid "گام بعدی →"
 msgstr "الخطوة التالية →"
 
-#: flavor/inc/class-onboarding.php:207
+#: flavor/inc/class-onboarding.php:262
 msgid "گام ۱: نام و شعار رستوران"
 msgstr "الخطوة 1: اسم المطعم وشعاره"
 
-#: flavor/inc/class-onboarding.php:220
+#: flavor/inc/class-onboarding.php:457
+msgid "گام ۱۰: افزودن اولین آیتم منوی غذا"
+msgstr "الخطوة 10: إضافة أول عنصر في قائمة الطعام"
+
+#: flavor/inc/class-onboarding.php:275
 msgid "گام ۲: نشان و لوگوی رستوران"
 msgstr "الخطوة 2: علامة المطعم وشعاره"
 
-#: flavor/inc/class-onboarding.php:233
+#: flavor/inc/class-onboarding.php:288
 msgid "گام ۳: تصویر اصلی هیرو (کاور)"
 msgstr "الخطوة 3: الصورة الرئيسية للواجهة (الغلاف)"
 
-#: flavor/inc/class-onboarding.php:246
+#: flavor/inc/class-onboarding.php:301
 msgid "گام ۴: رنگ‌های سازمانی برند"
 msgstr "الخطوة 4: ألوان العلامة المؤسسية"
 
-#: flavor/inc/class-onboarding.php:261
+#: flavor/inc/class-onboarding.php:316
 msgid "گام ۵: انتخاب سبک و پوسته طراحی"
 msgstr "الخطوة 5: اختيار النمط والقالب التصميمي"
 
-#: flavor/inc/class-onboarding.php:275
+#: flavor/inc/class-onboarding.php:330
 msgid "گام ۶: ساعات کاری و حالت‌های سفارش"
 msgstr "الخطوة 6: ساعات العمل وأوضاع الطلب"
 
-#: flavor/inc/class-onboarding.php:290
+#: flavor/inc/class-onboarding.php:345
 msgid "گام ۷: نشانی و موقعیت جغرافیایی"
 msgstr "الخطوة 7: العنوان والموقع الجغرافي"
 
-#: flavor/inc/class-onboarding.php:303
+#: flavor/inc/class-onboarding.php:358
 msgid "گام ۸: تلفن و شبکه‌های اجتماعی"
 msgstr "الخطوة 8: الهاتف وشبكات التواصل الاجتماعي"
 
-#: flavor/inc/class-onboarding.php:322
-msgid "گام ۹: افزودن اولین آیتم منوی غذا"
-msgstr "الخطوة 9: إضافة أول عنصر في قائمة الطعام"
+#: flavor/inc/class-onboarding.php:377
+msgid "گام ۹: اتصال درگاه پرداخت آنلاین"
+msgstr "الخطوة 9: ربط بوابة الدفع الإلكتروني"
 
 #: flavor/elementor/widgets/class-menu-widget.php:69 flavor/template-parts/menu/filters.php:32
 msgid "گران‌ترین"
@@ -6499,7 +6603,7 @@ msgstr "9. ساعات العمل والموقع على الخريطة"
 msgid "— سفارش آنلاین و پذیرش سالن فعال است"
 msgstr "— الطلب عبر الإنترنت واستقبال الصالة مفعّلان"
 
-#: flavor/inc/class-onboarding.php:363
+#: flavor/inc/class-onboarding.php:498
 msgid "← گام قبلی"
 msgstr "← الخطوة السابقة"
 
@@ -6507,7 +6611,7 @@ msgstr "← الخطوة السابقة"
 msgid "✅ آمادگی انتشار"
 msgstr "✅ جاهزية النشر"
 
-#: flavor/inc/class-onboarding.php:355
+#: flavor/inc/class-onboarding.php:490
 msgid "🚀 انتشار و مشاهده وبسایت رستوران"
 msgstr "🚀 نشر الموقع ومشاهدته"
 
